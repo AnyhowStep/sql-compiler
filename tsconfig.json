@@ -1,0 +1,10 @@
+{
+    "compilerOptions" : {
+        "strictNullChecks": true
+    },
+    "references" : [
+        { "path" : "src/diagnostic" },
+        { "path" : "src/scanner" },
+    ],
+    "files" : []
+}

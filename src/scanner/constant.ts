@@ -1,0 +1,2 @@
+export const MAX_IDENTIFIER_LENGTH = 64;
+export const MAX_DECIMAL_PRECISION = 65;

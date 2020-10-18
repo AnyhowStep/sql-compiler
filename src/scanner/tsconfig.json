@@ -1,0 +1,14 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/scanner",
+        "declarationDir": "../../dist/scanner",
+        "types": []
+    },
+    "references" : [
+        { "path": "../diagnostic" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}
