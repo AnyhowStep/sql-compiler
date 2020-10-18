@@ -1,3 +1,4 @@
+export * from "./character-code";
 export * from "./reverse-token-kind";
 export * from "./scanner";
 export * from "./token-kind.generated";

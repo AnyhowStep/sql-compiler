@@ -12,8 +12,6 @@
         "warnOnUnsupportedTypeScriptVersion": true
     },
     "rules": {
-        "local/polyfilled-bigint": ["error"],
-
         "semi": "off",
         "@typescript-eslint/semi": ["error"],
 

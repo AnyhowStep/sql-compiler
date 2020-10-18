@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "ts-node ./src/scanner-generator/token-kind-generator",
+    "generate": "ts-node ./src/scanner-generator/token-kind-generator && ts-node ./src/parser-node-generator/syntax-kind-generator && ts-node -P ./src/parser-node-generator/tsconfig.json ./src/parser-node-generator/is-syntax-kind-generator",
     "build": "tsc -b"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-local": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^1.13.0",
+    "@typescript-eslint/parser": "^1.13.0",
     "@types/node": "^14.11.10",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"

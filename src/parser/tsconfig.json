@@ -1,0 +1,16 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/parser",
+        "declarationDir": "../../dist/parser",
+        "types": []
+    },
+    "references" : [
+        { "path": "../diagnostic" },
+        { "path": "../parser-node" },
+        { "path": "../scanner" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}
