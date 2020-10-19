@@ -1,0 +1,6 @@
+DECLARE FUNCTION foo () RETURNS INT;
+
+-----
+
+-----
+[]

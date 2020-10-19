@@ -22,6 +22,7 @@ export function emitStatement (statement : Statement) : StringBuilder {
             }
         ))*/
         .case(SyntaxKind.DelimiterStatement, emitDelimiterStatement)
+        .case(SyntaxKind.DeclareFunctionStatement, () => new StringBuilder())
         .case(SyntaxKind.UnknownStatement, () => new StringBuilder())
         .default(() => new StringBuilder().append("UNKNOWN_STATEMENT"));
 }
