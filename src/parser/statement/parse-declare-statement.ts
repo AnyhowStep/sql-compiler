@@ -8,7 +8,7 @@ export function parseDeclareStatement (state : ParserState) {
     tryConsumeToken(state, TokenKind.DECLARE, true);
     const start = state.scanner.getTokenIndex();
 
-    const token = state.scanner.next();
+    const token = state.scanner.clone().next();
     switch (token) {
         case TokenKind.FUNCTION:
             return parseDeclareFunctionStatement(state, start);

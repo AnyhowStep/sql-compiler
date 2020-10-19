@@ -1,0 +1,15 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/test",
+        "declarationDir": "../../dist/test",
+        "types": ["@types/node", "@types/mocha"]
+    },
+    "references" : [
+        { "path": "../scanner" },
+        { "path": "../parser" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

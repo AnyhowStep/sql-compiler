@@ -5,7 +5,8 @@
     "references" : [
         { "path" : "src/diagnostic" },
         { "path" : "src/scanner" },
-        { "path" : "src/parser" }
+        { "path" : "src/parser" },
+        { "path" : "src/test" }
     ],
     "files" : []
 }
