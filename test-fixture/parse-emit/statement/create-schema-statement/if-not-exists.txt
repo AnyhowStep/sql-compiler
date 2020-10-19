@@ -1,0 +1,7 @@
+CREATE SCHEMA IF NOT EXISTS `A`;
+
+-----
+CREATE SCHEMA IF NOT EXISTS `A`;
+
+-----
+[]

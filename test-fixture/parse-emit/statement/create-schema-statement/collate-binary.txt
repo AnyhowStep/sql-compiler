@@ -1,0 +1,14 @@
+CREATE SCHEMA `A` COLLATE BInarY;
+
+-----
+CREATE SCHEMA `A` CHARACTER SET `binary` COLLATE `binary`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword BInarY as identifier; escape it with backticks",
+        "start": 26,
+        "length": 6
+    }
+]

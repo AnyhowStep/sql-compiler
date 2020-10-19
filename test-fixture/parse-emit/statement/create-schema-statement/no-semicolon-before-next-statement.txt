@@ -1,0 +1,16 @@
+CREATE SCHEMA `A`
+
+CREATE SCHEMA `B`;
+
+-----
+CREATE SCHEMA `A`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected COLLATE|CHARACTER",
+        "start": 19,
+        "length": 6
+    }
+]

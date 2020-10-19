@@ -1,0 +1,10 @@
+CREATE SCHEMA `A`;
+CREATE SCHEMA `B`;
+
+-----
+CREATE SCHEMA `A`;
+
+CREATE SCHEMA `B`;
+
+-----
+[]

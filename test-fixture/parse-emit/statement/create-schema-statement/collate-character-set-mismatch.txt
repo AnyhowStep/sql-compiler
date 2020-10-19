@@ -1,0 +1,14 @@
+CREATE SCHEMA `A` COLLATE uTf8mB4_UnIcOdE_cI CHARACTER SET latin1;
+
+-----
+CREATE SCHEMA `A` CHARACTER SET `utf8mb4` COLLATE `utf8mb4_unicode_ci`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Conflicting declarations CHARACTER SET utf8mb4, CHARACTER SET latin1",
+        "start": 59,
+        "length": 6
+    }
+]

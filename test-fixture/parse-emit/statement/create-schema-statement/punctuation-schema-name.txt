@@ -1,0 +1,13 @@
+CREATE SCHEMA (;
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected Identifier",
+        "start": 14,
+        "length": 0
+    }
+]

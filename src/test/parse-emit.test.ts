@@ -1,16 +1,17 @@
 import * as assert from "assert";
+import {emitSourceFile} from "../emitter";
 import {parse} from "../parser";
 import {Scanner} from "../scanner";
 import {testRecursive} from "./test-recursive";
 
-const root = `${__dirname}/../../test-fixture/parse`;
-suite('Should parse as expected', () => {
+const root = `${__dirname}/../../test-fixture/parse-emit`;
+suite('Should parse-emit as expected', () => {
     testRecursive(root, ({
         fileName,
         curPath,
         raw,
     }) => {
-        const [input, syntacticErrors] = raw.split("\n-----\n");
+        const [input, output, syntacticErrors] = raw.split("\n-----\n");
 
         const preprocessed = input;//preprocess(input, {});
         const scanner = new Scanner(preprocessed);
@@ -24,6 +25,10 @@ suite('Should parse as expected', () => {
         errorMessage += (
             "\n" + curPath
         );
+
+        //removeUnnecessaryParenthesesRecursively(file);
+
+        assert.strictEqual(emitSourceFile(file).build(), output, errorMessage);
 
         assert.strictEqual(
             JSON.stringify(

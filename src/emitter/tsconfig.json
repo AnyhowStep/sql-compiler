@@ -1,0 +1,14 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/emitter",
+        "declarationDir": "../../dist/emitter",
+        "types": []
+    },
+    "references" : [
+        { "path": "../parser-node" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

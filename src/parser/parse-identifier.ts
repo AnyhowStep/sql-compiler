@@ -2,7 +2,7 @@ import {DiagnosticMessages} from "./diagnostic-messages";
 import {Identifier} from "../parser-node";
 import {ReverseSyntaxKind, SyntaxKind} from "../parser-node";
 import {ParserState} from "./parser-state";
-import {pushSyntacticError} from "./util";
+import {pushSyntacticError, pushSyntacticErrorAtPeek} from "./util";
 import {isNonReserved, isReserved, TokenKind} from "../scanner";
 
 export function parseIdentifierString (state : ParserState, allowReserved = false) : undefined|string {
@@ -36,15 +36,15 @@ export function tryParseIdentifierString (state : ParserState, allowReserved = f
     }
 
     if (isReserved(token)) {
+        state.scanner.next();
         if (!allowReserved) {
             pushSyntacticError(state, DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, identifier);
         }
-        state.scanner.next();
         return identifier;
     }
 
     if (reportError) {
-        pushSyntacticError(state, DiagnosticMessages.ExpectedSyntaxKind, ReverseSyntaxKind[SyntaxKind.Identifier]);
+        pushSyntacticErrorAtPeek(state, DiagnosticMessages.ExpectedSyntaxKind, ReverseSyntaxKind[SyntaxKind.Identifier]);
     }
     return undefined;
 }

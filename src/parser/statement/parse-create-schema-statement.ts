@@ -53,12 +53,20 @@ export function parseCreateSchemaStatement (state : ParserState, start : number)
             if (collate == undefined) {
                 collate = newCollate;
 
-                const characterSetEnd = collate.identifier.indexOf("_");
+                /**
+                 * The binary character set only has one collation,
+                 * the binary collation.
+                 */
+                const characterSetEnd = (
+                    collate.identifier == "binary" ?
+                    collate.identifier.length :
+                    collate.identifier.indexOf("_")
+                );
                 if (characterSetEnd >= 0) {
-                    const newCharacterSet = collate.identifier.substring(0, collate.identifier.indexOf("_"));
+                    const newCharacterSet = collate.identifier.substring(0, characterSetEnd);
                     if (characterSet == undefined) {
                         characterSet = {
-                            start,
+                            start : collate.start,
                             end : collate.start + characterSetEnd,
                             syntaxKind : SyntaxKind.Identifier,
                             identifier : newCharacterSet,
@@ -78,8 +86,8 @@ export function parseCreateSchemaStatement (state : ParserState, start : number)
                     pushSyntacticError(state, DiagnosticMessages.UnknownCollation, collate.identifier);
                 }
             } else {
-                if (collate != newCollate) {
-                    pushSyntacticError(state, DiagnosticMessages.ConflictingDeclarations, `COLLATE ${collate}`, `COLLATE ${newCollate}`);
+                if (collate.identifier != newCollate.identifier) {
+                    pushSyntacticError(state, DiagnosticMessages.ConflictingDeclarations, `COLLATE ${collate.identifier}`, `COLLATE ${newCollate.identifier}`);
                 }
             }
         } else {
@@ -101,8 +109,8 @@ export function parseCreateSchemaStatement (state : ParserState, start : number)
                     pushSyntacticError(
                         state,
                         DiagnosticMessages.ConflictingDeclarations,
-                        `CHARACTER SET ${characterSet}`,
-                        `CHARACTER SET ${newCharacterSet}`
+                        `CHARACTER SET ${characterSet.identifier}`,
+                        `CHARACTER SET ${newCharacterSet.identifier}`
                     );
                 }
             }

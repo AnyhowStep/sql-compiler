@@ -1,0 +1,14 @@
+CREATE SCHEMA A (;
+
+-----
+CREATE SCHEMA `A`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected COLLATE|CHARACTER",
+        "start": 16,
+        "length": 1
+    }
+]

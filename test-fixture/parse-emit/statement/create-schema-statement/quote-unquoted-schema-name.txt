@@ -1,0 +1,7 @@
+CREATE SCHEMA A;
+
+-----
+CREATE SCHEMA `A`;
+
+-----
+[]
