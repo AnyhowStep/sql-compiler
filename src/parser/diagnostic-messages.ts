@@ -5,6 +5,42 @@ import {DiagnosticCategory, makeDiagnosticMessage} from "../diagnostic";
  */
 export const DiagnosticMessages = {
 
+    InvalidDeclareStatementType : makeDiagnosticMessage({
+        key : "Can only DECLARE FUNCTION",
+        category : DiagnosticCategory.Error,
+        code : 200000,
+    }),
+    DecimalPrecisionTooHigh : makeDiagnosticMessage({
+        key : "Max DECIMAL precision is 65",
+        category : DiagnosticCategory.Error,
+        code : 200001,
+    }),
+    DecimalScaleTooHigh : makeDiagnosticMessage({
+        key : "Max DECIMAL({0}) scale is {1}",
+        category : DiagnosticCategory.Error,
+        code : 200002,
+    }),
+    DataTypeMaxLengthTooHigh : makeDiagnosticMessage({
+        key : "Highest {0} max length is {1}",
+        category : DiagnosticCategory.Error,
+        code : 200003,
+    }),
+    CannotSpecifyCharacterSet : makeDiagnosticMessage({
+        key : "CHARACTER SET not allowed here",
+        category : DiagnosticCategory.Error,
+        code : 200004,
+    }),
+    InvalidDataTypeFractionalSecondPrecision : makeDiagnosticMessage({
+        key : "{0} fractional second precision must be one of 0, 1, 2, 3, 4, 5, 6",
+        category : DiagnosticCategory.Error,
+        code : 200005,
+    }),
+    ExpectedDataType : makeDiagnosticMessage({
+        key : "Expected data type",
+        category : DiagnosticCategory.Error,
+        code : 200006,
+    }),
+
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",
         category : DiagnosticCategory.Error,

@@ -1,10 +1,10 @@
-import {DiagnosticMessages} from "./diagnostic-messages";
-import {CreateSchemaStatement, Identifier, UnknownStatement} from "../parser-node";
-import {SyntaxKind} from "../parser-node";
-import {tryParseIdentifier} from "./parse-identifier";
-import {ParserState} from "./parser-state";
-import {parseUnknownStatement, pushSyntacticError, tryConsumeToken, tryConsumeTokenOneOf, tryConsumeTokens} from "./util";
-import {TokenKind} from "../scanner";
+import {DiagnosticMessages} from "../diagnostic-messages";
+import {CreateSchemaStatement, Identifier, UnknownStatement} from "../../parser-node";
+import {SyntaxKind} from "../../parser-node";
+import {tryParseIdentifier} from "../parse-identifier";
+import {ParserState} from "../parser-state";
+import {parseUnknownStatement, pushSyntacticError, tryConsumeToken, tryConsumeTokenOneOf, tryConsumeTokens} from "../util";
+import {TokenKind} from "../../scanner";
 
 /**
  * https://dev.mysql.com/doc/refman/5.7/en/create-database.html
@@ -29,7 +29,7 @@ export function parseCreateSchemaStatement (state : ParserState, start : number)
         );
     }
     while (!shouldEnd()) {
-        tryConsumeToken(state, TokenKind.DEFAULT);
+        tryConsumeToken(state, TokenKind.DEFAULT, false);
 
         if (!tryConsumeTokenOneOf(state, true, TokenKind.COLLATE, TokenKind.CHARACTER)) {
             parseUnknownStatement(state, state.scanner.getIndex());
@@ -39,7 +39,7 @@ export function parseCreateSchemaStatement (state : ParserState, start : number)
         const token = state.scanner.current();
 
         if (token == TokenKind.COLLATE) {
-            tryConsumeToken(state, TokenKind.Equal);
+            tryConsumeToken(state, TokenKind.Equal, false);
             let newCollate = tryParseIdentifier(state, false, true);
             if (newCollate == undefined) {
                 parseUnknownStatement(state, start);
@@ -84,7 +84,7 @@ export function parseCreateSchemaStatement (state : ParserState, start : number)
             }
         } else {
             tryConsumeToken(state, TokenKind.SET, true);
-            tryConsumeToken(state, TokenKind.Equal);
+            tryConsumeToken(state, TokenKind.Equal, false);
             let newCharacterSet = tryParseIdentifier(state, false, true);
             if (newCharacterSet == undefined) {
                 parseUnknownStatement(state, start);

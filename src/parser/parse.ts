@@ -1,6 +1,6 @@
 import {SourceFile} from "../parser-node";
 import {Scanner} from "../scanner";
-import {parseSourceElementList} from "./parse-source-element-list";
+import {parseSourceElementList} from "./statement";
 import {ParserSettings} from "./parser-settings";
 import {makeParserState} from "./parser-state";
 

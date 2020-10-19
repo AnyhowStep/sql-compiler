@@ -4,6 +4,26 @@ export const syntaxKinds = [
     "UnknownStatement",
     "UnknownExpression",
 
+    "BooleanDataType",
+    "IntegerDataType",
+    "DecimalDataType",
+    "RealDataType",
+
+    "JsonDataType",
+
+    "CharacterDataType",
+    "TextDataType",
+    "BinaryDataType",
+    "BlobDataType",
+
+    "DateTimeDataType",
+
+    "GeometryDataType",
+    "GeometryCollectionDataType",
+
+    "UnionDataType",
+    "UnknownDataType",
+
     /**
      * Top-Level nodes
      */
@@ -23,12 +43,9 @@ export const syntaxKinds = [
 
     "CreateTableStatement",
     "Column",
-    "DataType",
 
     "SetStatement",
     "Assignment",
-
-    "CreateMacroStatement",
 
     "SelectStatement",
     "SelectExpression",
@@ -44,6 +61,14 @@ export const syntaxKinds = [
     "OrderByClause",
     "OrderItem",
     "LimitClause",
+
+    /**
+     * Custom statements
+     */
+    "DeclareFunctionStatement",
+    "DeclareFunctionParameter",
+
+    "CreateMacroStatement",
 
     /**
      * May be escaped or unescaped with backticks, or double quotes
@@ -84,6 +109,8 @@ export const syntaxKinds = [
     "DecimalLiteral",
     "RealLiteral",
 
+    "DataTypeList",
+    "DeclareFunctionParameterList",
     "ArgumentList",
     "AssignmentList",
     "CaseBranchList",

@@ -1,6 +1,6 @@
 import {ParserState} from "./parser-state";
 import {Diagnostic, DiagnosticMessage} from "../diagnostic";
-import {NodeArray, UnknownExpression} from "../parser-node";
+import {NodeArray, UnknownDataType, UnknownExpression} from "../parser-node";
 import {SyntaxKind, UnknownStatement} from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {DiagnosticMessages} from "./diagnostic-messages";
@@ -51,12 +51,35 @@ export function pushSyntacticError (
     state.syntacticErrors.push(makeDiagnostic(state, diagnosticMessage, ...args));
 }
 
+export function pushSyntacticErrorAtPeek (
+    state : ParserState,
+    diagnosticMessage : DiagnosticMessage,
+    ...args : (string|number)[]
+) {
+    const peeker = state.scanner.clone();
+    peeker.next();
+    state.syntacticErrors.push(makeDiagnosticAt(
+        peeker.getTokenIndex(),
+        peeker.getTokenIndex(),
+        diagnosticMessage,
+        ...args
+    ));
+}
+
 export function makeNodeArray<T> (syntaxKind : SyntaxKind, start : number, end : number) : NodeArray<T> {
     const result = [] as unknown as NodeArray<T>;
     result.syntaxKind = syntaxKind;
     result.start = start;
     result.end = end;
     return result;
+}
+
+export function makeUnknownDataType (start : number) : UnknownDataType {
+    return {
+        start,
+        end : start,
+        syntaxKind : SyntaxKind.UnknownDataType,
+    };
 }
 
 export function parseUnknownStatement (state : ParserState, start : number) : UnknownStatement {
@@ -78,6 +101,9 @@ export function parseUnknownStatement (state : ParserState, start : number) : Un
     };
 }
 
+/**
+ * @deprecated
+ */
 export function consumeToken (state : ParserState, token : TokenKind) : boolean {
     if (state.scanner.next() == token) {
         return true;
@@ -98,7 +124,7 @@ export function consumeTokens (state : ParserState, ...tokens : readonly SyntaxK
 }
 */
 
-export function tryConsumeToken (state : ParserState, token : TokenKind, reportError = false) : boolean {
+export function tryConsumeToken (state : ParserState, token : TokenKind, reportError : boolean) : boolean {
     const copy = state.scanner.clone();
     if (copy.next() == token) {
         state.scanner.next();

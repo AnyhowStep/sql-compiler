@@ -34,21 +34,26 @@ export const tokenKinds = [
     /**
      * Punctuation
      */
-    "Equal",
     "Plus",
     "Minus",
+    "Asterisk",
+    "Percent",
+    "Slash",
+
     "Dot",
     "SemiColon",
-    "Slash",
     "Comma",
+
+    "ColonEqual",
     "AtAt",
     "AtAtGlobalDot",
     "AtAtSessionDot",
-    "Asterisk",
-    "Caret",
-    "ColonEqual",
-    "Percent",
+
     "Tilde",
+    "Caret",
+    "Bar",
+
+    "Equal",
     "LessEqualGreater",
     "GreaterEqual",
     "Greater",

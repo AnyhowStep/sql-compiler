@@ -1,10 +1,10 @@
-import {DiagnosticMessages} from "./diagnostic-messages";
+import {DiagnosticMessages} from "../diagnostic-messages";
 //import {parseCreateMacroStatement} from "./parse-create-macro-statement";
 import {parseCreateSchemaStatement} from "./parse-create-schema-statement";
 //import {parseCreateTableStatement} from "./parse-create-table-statement";
-import {ParserState} from "./parser-state";
-import {parseUnknownStatement, pushSyntacticError, tryConsumeToken} from "./util";
-import {TokenKind} from "../scanner";
+import {ParserState} from "../parser-state";
+import {parseUnknownStatement, pushSyntacticError, tryConsumeToken} from "../util";
+import {TokenKind} from "../../scanner";
 
 export function parseCreateStatement (state : ParserState) {
     tryConsumeToken(state, TokenKind.CREATE, true);

@@ -9,8 +9,7 @@ const characterCodeToTokenKind : Record<number, TokenKind> = {
     [CharacterCodes.minus] : TokenKind.Minus,
     [CharacterCodes.plus] : TokenKind.Plus,
     [CharacterCodes.comma] : TokenKind.Comma,
-    //TODO Remove
-    [CharacterCodes.equals] : TokenKind.Equal,
+    [CharacterCodes.bar] : TokenKind.Bar,
     [CharacterCodes.semicolon] : TokenKind.SemiColon,
     [CharacterCodes.dot] : TokenKind.Dot,
 };
