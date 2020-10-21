@@ -65,4 +65,6 @@ export const tokenKinds = [
 
     "OpenParentheses",
     "CloseParentheses",
+
+    "HackedDelimiterKeyword",
 ] as const;

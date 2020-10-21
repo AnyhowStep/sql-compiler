@@ -658,6 +658,7 @@ export enum TokenKind {
     GreaterGreater = 656,
     OpenParentheses = 657,
     CloseParentheses = 658,
+    HackedDelimiterKeyword = 659,
 }
 
 /**
@@ -1360,5 +1361,7 @@ export const tokenKinds = [
 
     "OpenParentheses",
     "CloseParentheses",
+
+    "HackedDelimiterKeyword",
 ] as const;
 

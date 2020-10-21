@@ -6,21 +6,26 @@
   "scripts": {
     "test": "mocha dist/test -u tdd --recursive",
     "coverage": "nyc --reporter=html --reporter=text mocha dist/test -u tdd --recursive",
-    "generate": "ts-node ./src/scanner-generator/token-kind-generator && ts-node ./src/parser-node-generator/syntax-kind-generator && ts-node -P ./src/parser-node-generator/tsconfig.json ./src/parser-node-generator/is-syntax-kind-generator",
+    "scanner-generator": "ts-node ./src/scanner-generator/generator",
+    "parser-node-generator": "cd ./src/parser-node-generator && ts-node -P ./tsconfig.json ./generator",
+    "generate": "npm run scanner-generator && npm run parser-node-generator",
+    "generate-parser": "cd ./src/nearley-prototype && ts-node -P ./tsconfig.json ./my-grammar-generator  && ts-node -P ./tsconfig.json ./my.ts && nearleyc ./my.generated.ne -o ./my.generated.ts",
     "build": "tsc -b"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-plugin-local": "^1.0.0",
+    "@types/mocha": "^8.0.3",
+    "@types/nearley": "^2.11.1",
+    "@types/node": "^14.11.10",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
-    "@types/node": "^14.11.10",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.3",
+    "eslint": "^6.8.0",
+    "eslint-plugin-local": "^1.0.0",
     "mocha": "^8.1.3",
+    "nearley": "^2.19.7",
     "nyc": "^15.1.0",
-    "@types/mocha": "^8.0.3"
+    "ts-node": "^9.0.0",
+    "typescript": "^4.1.0-dev.20201021"
   }
 }

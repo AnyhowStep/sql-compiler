@@ -42,7 +42,13 @@ export const syntaxKinds = [
     "CreateSchemaStatement",
 
     "CreateTableStatement",
-    "Column",
+    "ColumnDefinition",
+    "GeneratedDefinition",
+    "ForeignKeyReferenceDefinition",
+    "IndexDefinition",
+    "PrimaryKeyDefinition",
+    "ForeignKeyDefinition",
+    "CheckDefinition",
 
     "SetStatement",
     "Assignment",

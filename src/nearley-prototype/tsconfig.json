@@ -1,0 +1,15 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/nearley-prototype",
+        "declarationDir": "../../dist/nearley-prototype",
+        "types": ["@types/node"]
+    },
+    "references" : [
+        { "path": "../scanner" },
+        { "path": "../parser-node" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

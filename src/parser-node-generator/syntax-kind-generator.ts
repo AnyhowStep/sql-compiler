@@ -2,7 +2,7 @@ import * as fs from "fs";
 import {syntaxKinds} from "./syntax-kind";
 
 const enumElements = syntaxKinds
-    .map((key, index) => `${key} = ${index},`);
+    .map((key, index) => `${key} = ${index + 1000},`);
 
 const syntaxKindsStr = fs
     .readFileSync(
