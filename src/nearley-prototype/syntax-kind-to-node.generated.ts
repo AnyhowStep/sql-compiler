@@ -29,6 +29,7 @@ import {
     ForeignKeyDefinition,
     ForeignKeyReferenceDefinition,
     GeneratedDefinition,
+    IndexPart,
     IndexDefinition,
     PrimaryKeyDefinition,
     CreateTableStatement,
@@ -67,6 +68,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.ForeignKeyDefinition] : ForeignKeyDefinition;
     [SyntaxKind.ForeignKeyReferenceDefinition] : ForeignKeyReferenceDefinition;
     [SyntaxKind.GeneratedDefinition] : GeneratedDefinition;
+    [SyntaxKind.IndexPart] : IndexPart;
     [SyntaxKind.IndexDefinition] : IndexDefinition;
     [SyntaxKind.PrimaryKeyDefinition] : PrimaryKeyDefinition;
     [SyntaxKind.CreateTableStatement] : CreateTableStatement;

@@ -1394,6 +1394,30 @@ CreateTableStatement ->
     };
 } %}
 
+IndexDefinition ->
+    Constraint %UNIQUE (%INDEX | %KEY) Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
+    const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
+    const indexOption = (indexType == undefined ?
+        rawIndexOption :
+        rawIndexOption.indexType == undefined ?
+            {
+                ...rawIndexOption,
+                indexType: indexType.indexType,
+            } :
+            rawIndexOption);
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
+        constraintName: ("syntaxKind" in constraintName ?
+            constraintName :
+            undefined),
+        indexClass: parser_node_1.IndexClass.UNIQUE,
+        indexName: indexName ?? undefined,
+        indexParts,
+        ...indexOption,
+    };
+} %}
+
 ColumnDefinition ->
     ColumnIdentifier DataType ColumnModifier {% (data) => {
     const [columnIdentifier, dataType, modifier] = data;
@@ -1421,6 +1445,55 @@ ColumnModifierElement ->
     return {
         ...parse_util_1.getTextRange(data),
         data: data[0][0],
+    };
+} %}
+
+IndexDefinition ->
+    (%INDEX | %KEY) Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
+    const [, indexName, indexType, indexParts, rawIndexOption] = data;
+    const indexOption = (indexType == undefined ?
+        rawIndexOption :
+        rawIndexOption.indexType == undefined ?
+            {
+                ...rawIndexOption,
+                indexType: indexType.indexType,
+            } :
+            rawIndexOption);
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
+        constraintName: undefined,
+        indexClass: parser_node_1.IndexClass.INDEX,
+        indexName: indexName ?? undefined,
+        indexParts,
+        ...indexOption,
+    };
+} %}
+
+IndexOption ->
+    IndexOptionElement:* {% (data) => {
+    let indexOption = parse_util_1.createDefaultIndexOption();
+    for (const ele of data[0]) {
+        indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
+    }
+    return indexOption;
+} %}
+
+IndexOptionElement ->
+    ((%KEY_BLOCK_SIZE %Equal:? IntegerLiteral) | IndexType | (%WITH %PARSER Identifier) | Comment) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        data: data[0][0],
+    };
+} %}
+
+IndexType ->
+    %USING (%BTREE | %HASH) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
+            parser_node_1.IndexType.BTREE :
+            parser_node_1.IndexType.HASH),
     };
 } %}
 
@@ -1456,7 +1529,7 @@ GeneratedColumnModifier ->
     GeneratedColumnModifierElement:* {% (data) => {
     let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
     for (const ele of data[0]) {
-        parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+        columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
     }
     return columnDefinitionModifier;
 } %}
@@ -1466,6 +1539,69 @@ GeneratedColumnModifierElement ->
     return {
         ...parse_util_1.getTextRange(data),
         data: data[0][0],
+    };
+} %}
+
+IndexDefinition ->
+    (%FULLTEXT | %SPATIAL) (%INDEX | %KEY):? Identifier:? IndexPartList FullTextOrSpatialIndexOption {% function (data) {
+    const [indexClass, , indexName, indexParts, indexOption] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
+        constraintName: undefined,
+        indexClass: (indexClass[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
+            parser_node_1.IndexClass.FULLTEXT :
+            parser_node_1.IndexClass.SPATIAL),
+        indexName: indexName ?? undefined,
+        indexParts,
+        ...indexOption,
+    };
+} %}
+
+FullTextOrSpatialIndexOption ->
+    FullTextOrSpatialIndexOptionElement:* {% (data) => {
+    let indexOption = parse_util_1.createDefaultIndexOption();
+    for (const ele of data[0]) {
+        indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
+    }
+    return indexOption;
+} %}
+
+FullTextOrSpatialIndexOptionElement ->
+    ((%KEY_BLOCK_SIZE %Equal:? IntegerLiteral) | (%WITH %PARSER Identifier) | Comment) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        data: data[0][0],
+    };
+} %}
+
+IndexPartList ->
+    %OpenParentheses IndexPart (%Comma IndexPart):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        //@ts-ignore
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IndexPartList, parse_util_1.getTextRange(data));
+} %}
+
+IndexPart ->
+    Identifier (%OpenParentheses IntegerLiteral %CloseParentheses):? (%ASC | %DESC):? {% (data) => {
+    const [columnName, indexLength, sortDirection] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IndexPart,
+        columnName,
+        indexLength: (indexLength == undefined ?
+            undefined :
+            indexLength[1]),
+        sortDirection: (sortDirection == undefined ?
+            parser_node_1.SortDirection.ASC :
+            sortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                parser_node_1.SortDirection.ASC :
+                parser_node_1.SortDirection.DESC),
     };
 } %}
 
@@ -1482,7 +1618,7 @@ CreateTableDefinitionList ->
 } %}
 
 CreateTableDefinition ->
-    (ColumnDefinition) {% (data) => data[0][0] %}
+    (ColumnDefinition | IndexDefinition) {% (data) => data[0][0] %}
 
 CreateSchemaStatement ->
     %CREATE %SCHEMA Identifier CreateSchemaStatementModifier {% (data) => {
@@ -1526,6 +1662,16 @@ CreateSchemaStatementModifier ->
         }
     }
     return characterDataTypeModifier;
+} %}
+
+Constraint ->
+    %CONSTRAINT Identifier:? {% (data) => {
+    return data[1] ?? parse_util_1.getTextRange(data);
+} %}
+
+Comment ->
+    %COMMENT StringLiteral {% (data) => {
+    return data[1];
 } %}
 
 TableIdentifier ->

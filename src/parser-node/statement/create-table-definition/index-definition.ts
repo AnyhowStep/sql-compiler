@@ -19,6 +19,8 @@ export enum IndexType {
 }
 
 export interface IndexPart extends Node {
+    syntaxKind : SyntaxKind.IndexPart;
+
     columnName : Identifier;
     indexLength : IntegerLiteral|undefined;
     /**
@@ -31,11 +33,16 @@ export interface IndexPart extends Node {
 export interface IndexDefinition extends CreateTableDefinition {
     syntaxKind : SyntaxKind.IndexDefinition;
 
+    constraintName : Identifier|undefined;
+
     indexClass : IndexClass;
-    indexName : Identifier;
+    indexName : Identifier|undefined;
     indexParts : NodeArray<IndexPart>;
 
-    indexType : IndexType;
+    /**
+     * BTREE is the default
+     */
+    indexType : IndexType|undefined;
     keyBlockSize : IntegerLiteral|undefined;
     comment : StringLiteral|undefined;
     withParser : Identifier|undefined;

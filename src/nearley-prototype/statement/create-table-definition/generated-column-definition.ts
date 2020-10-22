@@ -44,7 +44,7 @@ const GeneratedColumnModifierRule = makeCustomRule<ColumnDefinitionModifier>("Ge
             let columnDefinitionModifier = createDefaultColumnDefinitionModifier();
 
             for (const ele of data[0]) {
-                processColumnDefinitionModifier(
+                columnDefinitionModifier = processColumnDefinitionModifier(
                     columnDefinitionModifier,
                     ele.data
                 );

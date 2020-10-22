@@ -6,6 +6,7 @@ export * from "./is-syntax-kind.generated";
 export * from "./node-array";
 export * from "./node";
 export * from "./reverse-syntax-kind";
+export * from "./sort-direction";
 export * from "./source-file";
 export * from "./syntax-kind.generated";
 export * from "./walk";

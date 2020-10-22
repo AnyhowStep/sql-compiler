@@ -29,6 +29,7 @@ function readRecursive (path : string)  {
 readRecursive(`${__dirname}/data-type`);
 readRecursive(`${__dirname}/expression`);
 readRecursive(`${__dirname}/identifier`);
+readRecursive(`${__dirname}/misc`);
 readRecursive(`${__dirname}/statement`);
 
 const output = [...importPaths, lastImport]

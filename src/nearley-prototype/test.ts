@@ -25,6 +25,10 @@ const scanner = new Scanner(`
     );
     CREATE TABLE KEY (X BOOL);
     CREATE TABLE test.KEY (X BOOL);
+    CREATE TABLE test.KEY (
+        X BOOL,
+        CONSTRAINT lol UNIQUE INDEX USING HASH (X(34) DESC) COMMENT 'lulz'
+    );
 `);
 const sourceFile = parse(
     "file-0",

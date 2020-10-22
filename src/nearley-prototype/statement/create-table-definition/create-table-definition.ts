@@ -11,6 +11,7 @@ export const CreateTableDefinitionRule = makeCustomRule<CreateTableDefinition>("
     .addSubstitution(
         [union(
             SyntaxKind.ColumnDefinition,
+            SyntaxKind.IndexDefinition,
         )] as const,
         (data) : CreateTableDefinition => data[0][0]
     );

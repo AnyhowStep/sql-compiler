@@ -8,6 +8,8 @@ import {IndexPart, IndexType} from "./index-definition";
 export interface PrimaryKeyDefinition extends CreateTableDefinition {
     syntaxKind : SyntaxKind.PrimaryKeyDefinition;
 
+    constraintName : Identifier|undefined;
+
     indexParts : NodeArray<IndexPart>;
 
     indexType : IndexType;

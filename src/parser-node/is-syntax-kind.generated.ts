@@ -28,6 +28,7 @@ import {ColumnDefinition} from "./statement/create-table-definition/column-defin
 import {ForeignKeyDefinition} from "./statement/create-table-definition/foreign-key-definition";
 import {ForeignKeyReferenceDefinition} from "./statement/create-table-definition/foreign-key-reference-definition";
 import {GeneratedDefinition} from "./statement/create-table-definition/generated-definition";
+import {IndexPart} from "./statement/create-table-definition/index-definition";
 import {IndexDefinition} from "./statement/create-table-definition/index-definition";
 import {PrimaryKeyDefinition} from "./statement/create-table-definition/primary-key-definition";
 import {CreateTableStatement} from "./statement/create-table-statement";
@@ -64,6 +65,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnDefinit
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ForeignKeyDefinition) : node is ForeignKeyDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ForeignKeyReferenceDefinition) : node is ForeignKeyReferenceDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.GeneratedDefinition) : node is GeneratedDefinition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IndexPart) : node is IndexPart;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IndexDefinition) : node is IndexDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PrimaryKeyDefinition) : node is PrimaryKeyDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableStatement) : node is CreateTableStatement;
@@ -109,6 +111,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.ForeignKeyDefinition, callback : (node : ForeignKeyDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ForeignKeyReferenceDefinition, callback : (node : ForeignKeyReferenceDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.GeneratedDefinition, callback : (node : GeneratedDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.IndexPart, callback : (node : IndexPart) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.IndexDefinition, callback : (node : IndexDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.PrimaryKeyDefinition, callback : (node : PrimaryKeyDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableStatement, callback : (node : CreateTableStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

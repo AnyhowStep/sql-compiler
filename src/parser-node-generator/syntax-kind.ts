@@ -47,6 +47,7 @@ export const syntaxKinds = [
     "GeneratedDefinition",
     "ForeignKeyReferenceDefinition",
     "IndexDefinition",
+    "IndexPart",
     "PrimaryKeyDefinition",
     "ForeignKeyDefinition",
     "CheckDefinition",
@@ -129,5 +130,6 @@ export const syntaxKinds = [
     "SourceElementList",
     "ColumnIdentifierList",
     "OrderItemList",
+    "IndexPartList",
 
 ] as const;

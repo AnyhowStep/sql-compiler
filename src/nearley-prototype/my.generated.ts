@@ -1421,6 +1421,34 @@ export var ParserRules: NearleyRule[] = [
                 createTableDefinitions,
             };
         } },
+    {"name": "IndexDefinition$subexpression$1", "symbols": [INDEX]},
+    {"name": "IndexDefinition$subexpression$1", "symbols": [KEY]},
+    {"name": "IndexDefinition$ebnf$1", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition$ebnf$2", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition", "symbols": ["Constraint", UNIQUE, "IndexDefinition$subexpression$1", "IndexDefinition$ebnf$1", "IndexDefinition$ebnf$2", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+            const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
+            const indexOption = (indexType == undefined ?
+                rawIndexOption :
+                rawIndexOption.indexType == undefined ?
+                    {
+                        ...rawIndexOption,
+                        indexType: indexType.indexType,
+                    } :
+                    rawIndexOption);
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
+                constraintName: ("syntaxKind" in constraintName ?
+                    constraintName :
+                    undefined),
+                indexClass: parser_node_1.IndexClass.UNIQUE,
+                indexName: indexName ?? undefined,
+                indexParts,
+                ...indexOption,
+            };
+        } },
     {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "ColumnModifier"], "postprocess":  (data) => {
             const [columnIdentifier, dataType, modifier] = data;
             return {
@@ -1472,6 +1500,65 @@ export var ParserRules: NearleyRule[] = [
                 data: data[0][0],
             };
         } },
+    {"name": "IndexDefinition$subexpression$2", "symbols": [INDEX]},
+    {"name": "IndexDefinition$subexpression$2", "symbols": [KEY]},
+    {"name": "IndexDefinition$ebnf$3", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition$ebnf$4", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$2", "IndexDefinition$ebnf$3", "IndexDefinition$ebnf$4", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+            const [, indexName, indexType, indexParts, rawIndexOption] = data;
+            const indexOption = (indexType == undefined ?
+                rawIndexOption :
+                rawIndexOption.indexType == undefined ?
+                    {
+                        ...rawIndexOption,
+                        indexType: indexType.indexType,
+                    } :
+                    rawIndexOption);
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
+                constraintName: undefined,
+                indexClass: parser_node_1.IndexClass.INDEX,
+                indexName: indexName ?? undefined,
+                indexParts,
+                ...indexOption,
+            };
+        } },
+    {"name": "IndexOption$ebnf$1", "symbols": []},
+    {"name": "IndexOption$ebnf$1", "symbols": ["IndexOption$ebnf$1", "IndexOptionElement"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IndexOption", "symbols": ["IndexOption$ebnf$1"], "postprocess":  (data) => {
+            let indexOption = parse_util_1.createDefaultIndexOption();
+            for (const ele of data[0]) {
+                indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
+            }
+            return indexOption;
+        } },
+    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IndexOptionElement$subexpression$1$subexpression$1", "symbols": [KEY_BLOCK_SIZE, "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "IntegerLiteral"]},
+    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$1"]},
+    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexType"]},
+    {"name": "IndexOptionElement$subexpression$1$subexpression$2", "symbols": [WITH, PARSER, "Identifier"]},
+    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$2"]},
+    {"name": "IndexOptionElement$subexpression$1", "symbols": ["Comment"]},
+    {"name": "IndexOptionElement", "symbols": ["IndexOptionElement$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                data: data[0][0],
+            };
+        } },
+    {"name": "IndexType$subexpression$1", "symbols": [BTREE]},
+    {"name": "IndexType$subexpression$1", "symbols": [HASH]},
+    {"name": "IndexType", "symbols": [USING, "IndexType$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
+                    parser_node_1.IndexType.BTREE :
+                    parser_node_1.IndexType.HASH),
+            };
+        } },
     {"name": "GeneratedDefinition$ebnf$1$subexpression$1", "symbols": [GENERATED, ALWAYS]},
     {"name": "GeneratedDefinition$ebnf$1", "symbols": ["GeneratedDefinition$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "GeneratedDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -1508,7 +1595,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "GeneratedColumnModifier", "symbols": ["GeneratedColumnModifier$ebnf$1"], "postprocess":  (data) => {
             let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
             for (const ele of data[0]) {
-                parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+                columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
             }
             return columnDefinitionModifier;
         } },
@@ -1531,6 +1618,86 @@ export var ParserRules: NearleyRule[] = [
                 data: data[0][0],
             };
         } },
+    {"name": "IndexDefinition$subexpression$3", "symbols": [FULLTEXT]},
+    {"name": "IndexDefinition$subexpression$3", "symbols": [SPATIAL]},
+    {"name": "IndexDefinition$ebnf$5$subexpression$1", "symbols": [INDEX]},
+    {"name": "IndexDefinition$ebnf$5$subexpression$1", "symbols": [KEY]},
+    {"name": "IndexDefinition$ebnf$5", "symbols": ["IndexDefinition$ebnf$5$subexpression$1"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition$ebnf$6", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$3", "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "FullTextOrSpatialIndexOption"], "postprocess":  function (data) {
+            const [indexClass, , indexName, indexParts, indexOption] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
+                constraintName: undefined,
+                indexClass: (indexClass[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
+                    parser_node_1.IndexClass.FULLTEXT :
+                    parser_node_1.IndexClass.SPATIAL),
+                indexName: indexName ?? undefined,
+                indexParts,
+                ...indexOption,
+            };
+        } },
+    {"name": "FullTextOrSpatialIndexOption$ebnf$1", "symbols": []},
+    {"name": "FullTextOrSpatialIndexOption$ebnf$1", "symbols": ["FullTextOrSpatialIndexOption$ebnf$1", "FullTextOrSpatialIndexOptionElement"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "FullTextOrSpatialIndexOption", "symbols": ["FullTextOrSpatialIndexOption$ebnf$1"], "postprocess":  (data) => {
+            let indexOption = parse_util_1.createDefaultIndexOption();
+            for (const ele of data[0]) {
+                indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
+            }
+            return indexOption;
+        } },
+    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1", "symbols": [KEY_BLOCK_SIZE, "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "IntegerLiteral"]},
+    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1", "symbols": ["FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1"]},
+    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$2", "symbols": [WITH, PARSER, "Identifier"]},
+    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1", "symbols": ["FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$2"]},
+    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1", "symbols": ["Comment"]},
+    {"name": "FullTextOrSpatialIndexOptionElement", "symbols": ["FullTextOrSpatialIndexOptionElement$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                data: data[0][0],
+            };
+        } },
+    {"name": "IndexPartList$ebnf$1", "symbols": []},
+    {"name": "IndexPartList$ebnf$1$subexpression$1", "symbols": [Comma, "IndexPart"]},
+    {"name": "IndexPartList$ebnf$1", "symbols": ["IndexPartList$ebnf$1", "IndexPartList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IndexPartList", "symbols": [OpenParentheses, "IndexPart", "IndexPartList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                //@ts-ignore
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IndexPartList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "IndexPart$ebnf$1$subexpression$1", "symbols": [OpenParentheses, "IntegerLiteral", CloseParentheses]},
+    {"name": "IndexPart$ebnf$1", "symbols": ["IndexPart$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "IndexPart$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IndexPart$ebnf$2$subexpression$1", "symbols": [ASC]},
+    {"name": "IndexPart$ebnf$2$subexpression$1", "symbols": [DESC]},
+    {"name": "IndexPart$ebnf$2", "symbols": ["IndexPart$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "IndexPart$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "IndexPart", "symbols": ["Identifier", "IndexPart$ebnf$1", "IndexPart$ebnf$2"], "postprocess":  (data) => {
+            const [columnName, indexLength, sortDirection] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IndexPart,
+                columnName,
+                indexLength: (indexLength == undefined ?
+                    undefined :
+                    indexLength[1]),
+                sortDirection: (sortDirection == undefined ?
+                    parser_node_1.SortDirection.ASC :
+                    sortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                        parser_node_1.SortDirection.ASC :
+                        parser_node_1.SortDirection.DESC),
+            };
+        } },
     {"name": "CreateTableDefinitionList$ebnf$1", "symbols": []},
     {"name": "CreateTableDefinitionList$ebnf$1$subexpression$1", "symbols": [Comma, "CreateTableDefinition"]},
     {"name": "CreateTableDefinitionList$ebnf$1", "symbols": ["CreateTableDefinitionList$ebnf$1", "CreateTableDefinitionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
@@ -1545,6 +1712,7 @@ export var ParserRules: NearleyRule[] = [
             return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, parse_util_1.getTextRange(data));
         } },
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["ColumnDefinition"]},
+    {"name": "CreateTableDefinition$subexpression$1", "symbols": ["IndexDefinition"]},
     {"name": "CreateTableDefinition", "symbols": ["CreateTableDefinition$subexpression$1"], "postprocess": (data) => data[0][0]},
     {"name": "CreateSchemaStatement", "symbols": [CREATE, SCHEMA, "Identifier", "CreateSchemaStatementModifier"], "postprocess":  (data) => {
             const [, , identifier, modifier] = data;
@@ -1595,6 +1763,14 @@ export var ParserRules: NearleyRule[] = [
                 }
             }
             return characterDataTypeModifier;
+        } },
+    {"name": "Constraint$ebnf$1", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "Constraint$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "Constraint", "symbols": [CONSTRAINT, "Constraint$ebnf$1"], "postprocess":  (data) => {
+            return data[1] ?? parse_util_1.getTextRange(data);
+        } },
+    {"name": "Comment", "symbols": [COMMENT, "StringLiteral"], "postprocess":  (data) => {
+            return data[1];
         } },
     {"name": "TableIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
     {"name": "TableIdentifier$ebnf$1", "symbols": ["TableIdentifier$ebnf$1$subexpression$1"], "postprocess": id},

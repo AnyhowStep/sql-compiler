@@ -1,39 +1,31 @@
 import {IndexClass, IndexDefinition, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {makeRule, union, optional} from "../../nearley-util";
-import {IndexTypeRule} from "./index-type";
 import {IndexPartListRule} from "./index-part";
-import {IndexOptionRule} from "./index-option";
+import {FullTextOrSpatialIndexOptionRule} from "./full-text-or-spatial-index-option";
 import {getTextRange} from "../../parse-util";
 
 makeRule(SyntaxKind.IndexDefinition)
     .addSubstitution(
         [
-            union(TokenKind.INDEX, TokenKind.KEY),
+            union(TokenKind.FULLTEXT, TokenKind.SPATIAL),
+            optional(union(TokenKind.INDEX, TokenKind.KEY)),
             optional(SyntaxKind.Identifier),
-            optional(IndexTypeRule),
             IndexPartListRule,
-            IndexOptionRule,
+            FullTextOrSpatialIndexOptionRule,
         ] as const,
         function (data) : IndexDefinition {
-            const [, indexName, indexType, indexParts, rawIndexOption] = data;
-
-            const indexOption = (
-                indexType == undefined ?
-                rawIndexOption :
-                rawIndexOption.indexType == undefined ?
-                {
-                    ...rawIndexOption,
-                    indexType : indexType.indexType,
-                } :
-                rawIndexOption
-            );
+            const [indexClass, , indexName, indexParts, indexOption] = data;
 
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.IndexDefinition,
                 constraintName : undefined,
-                indexClass : IndexClass.INDEX,
+                indexClass : (
+                    indexClass[0].tokenKind == TokenKind.FULLTEXT ?
+                    IndexClass.FULLTEXT :
+                    IndexClass.SPATIAL
+                ),
                 indexName : indexName ?? undefined,
                 indexParts,
                 ...indexOption,

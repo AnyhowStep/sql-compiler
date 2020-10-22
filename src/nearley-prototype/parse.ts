@@ -32,6 +32,10 @@ export function parse (
     }));
     parser.feed(tokens as any);
 
+    if (parser.results.length > 1) {
+        throw new Error(`Multiple parse results`);
+    }
+
     const sourceFileLite : SourceFileLite|undefined = (
         parser.results == undefined ?
         undefined :

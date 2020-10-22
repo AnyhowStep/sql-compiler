@@ -5,10 +5,13 @@ import {IndexTypeRule} from "./index-type";
 import {IndexPartListRule} from "./index-part";
 import {IndexOptionRule} from "./index-option";
 import {getTextRange} from "../../parse-util";
+import {ConstraintRule} from "../../misc/constraint";
 
 makeRule(SyntaxKind.IndexDefinition)
     .addSubstitution(
         [
+            ConstraintRule,
+            TokenKind.UNIQUE,
             union(TokenKind.INDEX, TokenKind.KEY),
             optional(SyntaxKind.Identifier),
             optional(IndexTypeRule),
@@ -16,7 +19,7 @@ makeRule(SyntaxKind.IndexDefinition)
             IndexOptionRule,
         ] as const,
         function (data) : IndexDefinition {
-            const [, indexName, indexType, indexParts, rawIndexOption] = data;
+            const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
 
             const indexOption = (
                 indexType == undefined ?
@@ -32,8 +35,12 @@ makeRule(SyntaxKind.IndexDefinition)
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.IndexDefinition,
-                constraintName : undefined,
-                indexClass : IndexClass.INDEX,
+                constraintName : (
+                    "syntaxKind" in constraintName ?
+                    constraintName :
+                    undefined
+                ),
+                indexClass : IndexClass.UNIQUE,
                 indexName : indexName ?? undefined,
                 indexParts,
                 ...indexOption,
