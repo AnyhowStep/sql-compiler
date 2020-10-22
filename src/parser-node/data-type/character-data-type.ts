@@ -12,6 +12,7 @@ import {SyntaxKind} from "../syntax-kind.generated";
 export interface CharacterDataType extends Node {
     syntaxKind : SyntaxKind.CharacterDataType;
 
+    nationalCharacterSet : Identifier|undefined;
     variableLength : boolean;
     maxLength : number;
 

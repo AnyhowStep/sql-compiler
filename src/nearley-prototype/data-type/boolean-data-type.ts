@@ -1,26 +1,20 @@
 import {SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {
+    getTextRange,
     makeRule,
+    union,
 } from "../nearley-util";
 
 makeRule(SyntaxKind.BooleanDataType)
     .addSubstitution(
-        [TokenKind.BOOL] as const,
-        ([token]) => {
+        [union(
+            TokenKind.BOOL,
+            TokenKind.BOOLEAN,
+        )] as const,
+        (data) => {
             return {
-                start : token.start,
-                end : token.end,
-                syntaxKind : SyntaxKind.BooleanDataType,
-            };
-        }
-    )
-    .addSubstitution(
-        [TokenKind.BOOLEAN] as const,
-        ([token]) => {
-            return {
-                start : token.start,
-                end : token.end,
+                ...getTextRange(data),
                 syntaxKind : SyntaxKind.BooleanDataType,
             };
         }

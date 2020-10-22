@@ -1,5 +1,15 @@
+import "./data-type/binary-data-type";
+import "./data-type/blob-data-type";
 import "./data-type/boolean-data-type";
+import "./data-type/character-data-type-modifier";
+import "./data-type/character-data-type";
+import "./data-type/data-type";
+import "./identifier/column-identifier";
 import "./identifier/identifier";
+import "./identifier/table-identifier";
 import "./statement/create-schema-statement";
+import "./statement/create-table-definition/column-definition";
+import "./statement/create-table-definition/create-table-definition";
+import "./statement/create-table-statement";
 import "./statement/delimiter-statement";
 import "./statement/source-file";

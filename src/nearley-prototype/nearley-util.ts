@@ -1,5 +1,5 @@
 import {ReverseTokenKind, TokenKind} from "../scanner";
-import {Node, NodeArray, ReverseSyntaxKind, SyntaxKind} from "../parser-node";
+import {Node, NodeArray, ReverseSyntaxKind, SyntaxKind, TextRange} from "../parser-node";
 import {SyntaxKindToNode} from "./syntax-kind-to-node.generated";
 
 export interface TokenObj<TokenKindT extends TokenKind> {
@@ -23,12 +23,27 @@ export interface QuantifiedSubstitution<
     quantifier : QuantifierT,
 }
 
+export interface UnionSubstitution<
+    ArrT extends readonly Substitution[]
+> {
+    union : ArrT
+}
+
+export function union<ArrT extends readonly Substitution[]> (
+    ...arr : ArrT
+) : UnionSubstitution<readonly (ArrT[number])[]> {
+    return {
+        union : arr,
+    };
+}
+
 export type Substitution =
     | null
     | SyntaxKind
     | TokenKind
     | QuantifiedSubstitution
-    | UnionRule<unknown>
+    | CustomRule<TextRange>
+    | UnionSubstitution<readonly Substitution[]>
     | readonly Substitution[]
 ;
 
@@ -43,7 +58,7 @@ export type SubstitutionToData<
     TokenObj<SubstitutionT> :
     SubstitutionT extends SyntaxKind ?
     SyntaxKindToNode[SubstitutionT] :
-    SubstitutionT extends UnionRule<infer ReturnT> ?
+    SubstitutionT extends CustomRule<infer ReturnT> ?
     ReturnT :
     SubstitutionT extends null ?
     null :
@@ -53,8 +68,63 @@ export type SubstitutionToData<
         null|SubstitutionToData<SubSubstitutionT> :
         SubstitutionToData<SubSubstitutionT>[]
     ) :
+    SubstitutionT extends UnionSubstitution<infer ArrT> ?
+    [SubstitutionToData<ArrT[number]>] :
     "Cannot infer"
 ;
+
+export type Data =
+    | TokenObj<TokenKind>
+    | Node
+    | TextRange
+    | null
+    | readonly Data[]
+;
+
+export function getStart (
+    data : Data
+) : number {
+    if (data == null) {
+        return -1;
+    }
+    if (data instanceof Array) {
+        for (let i=0; i<data.length; ++i) {
+            const start = getStart(data[i]);
+            if (start >= 0) {
+                return start;
+            }
+        }
+        return -1;
+    }
+
+    return data.start;
+}
+
+export function getEnd (
+    data : Data
+) : number {
+    if (data == null) {
+        return -1;
+    }
+    if (data instanceof Array) {
+        for (let i=data.length-1; i>=0; --i) {
+            const end = getEnd(data[i]);
+            if (end >= 0) {
+                return end;
+            }
+        }
+        return -1;
+    }
+
+    return data.end;
+}
+
+export function getTextRange (data : Data) : TextRange {
+    return {
+        start : getStart(data),
+        end : getEnd(data),
+    };
+}
 
 export function substitutionToString (sub : Substitution) : string {
     if (sub instanceof Array) {
@@ -74,6 +144,15 @@ export function substitutionToString (sub : Substitution) : string {
     }
     if ("variable" in sub) {
         return sub.variable;
+    }
+    if ("union" in sub) {
+        return (
+            "(" +
+            sub.union
+                .map(ele => substitutionToString(ele))
+                .join(" | ") +
+            ")"
+        );
     }
     return substitutionToString(sub.substitution)+ ":" + sub.quantifier;
 }
@@ -146,12 +225,12 @@ export interface Rule<VariableT extends SyntaxKind> {
     generateNearlyGrammar () : string;
 }
 
-export function makeUnionRule (variable : string) : UnionRule<never> {
+export function makeCustomRule<InitialT extends TextRange=never> (variable : string) : CustomRule<InitialT> {
     const substitutions : {
         substitution : readonly Substitution[],
         func : (...args : any) => unknown,
     }[] = [];
-    const result : UnionRule<never> = {
+    const result : CustomRule<InitialT> = {
         variable,
         addSubstitution (
             substitution,
@@ -191,15 +270,15 @@ export function makeUnionRule (variable : string) : UnionRule<never> {
     return result;
 }
 
-export interface UnionRule<ReturnT> {
+export interface CustomRule<ReturnT extends TextRange> {
     variable : string,
     addSubstitution<
         SubstitutionT extends readonly Substitution[],
-        NewReturnT
+        NewReturnT extends TextRange
     > (
         substitution : SubstitutionT,
         func : (data : SubstitutionToData<SubstitutionT>) => NewReturnT
-    ) : UnionRule<ReturnT|NewReturnT>;
+    ) : CustomRule<ReturnT|NewReturnT>;
 
     generateNearlyGrammar () : string;
 }
@@ -231,11 +310,9 @@ export function oneOrMore<SubstitutionT extends Substitution> (
     };
 }
 
-export function toNodeArray<T extends Node> (arr : readonly T[], syntaxKind : SyntaxKind, start : number) : NodeArray<T> {
-    const end = arr[arr.length-1]?.end ?? start;
-
-    (arr as NodeArray<T>).start = start;
-    (arr as NodeArray<T>).end = end;
+export function toNodeArray<T extends Node> (arr : readonly T[], syntaxKind : SyntaxKind, textRange : TextRange) : NodeArray<T> {
+    (arr as NodeArray<T>).start = textRange.start;
+    (arr as NodeArray<T>).end = textRange.end;
     (arr as NodeArray<T>).syntaxKind = syntaxKind;
 
     return arr as NodeArray<T>;

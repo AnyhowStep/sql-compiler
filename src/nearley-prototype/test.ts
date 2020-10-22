@@ -1,7 +1,7 @@
 import {CharacterCodes, ReverseTokenKind, Scanner, TokenKind} from "../scanner";
 import * as util from "util";
 import * as nearley from "nearley";
-import grammar from "./my.generated";
+import * as grammar from "./my.generated";
 
 const parser = new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 /*
@@ -19,6 +19,7 @@ const scanner = new Scanner(`
     DELIMITER ;
     CREATE SCHEMA \`Test\`;
     CREATE SCHEMA \`Test2\`;
+    CREATE TABLE T (X BOOL);
 `);
 const arr : any[] = [];
 while (true) {

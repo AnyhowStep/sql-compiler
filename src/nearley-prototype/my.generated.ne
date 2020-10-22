@@ -4,6 +4,7 @@
 import {TokenKind} from "../scanner";
 //import * as util from "util";
 //import {SyntaxKind, Node, NodeArray} from "../parser-node";
+const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
 const nearley_util_1 = require("./nearley-util");
 
@@ -1337,7 +1338,7 @@ const HackedDelimiterKeyword : Tester = { test: x => x.tokenKind == TokenKind.Ha
 SourceFile ->
     LeadingStatement:* TrailingStatement {% (data) => {
     const arr = data.flat(1);
-    const statements = nearley_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.SourceElementList, 0);
+    const statements = nearley_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.SourceElementList, nearley_util_1.getTextRange(data));
     return {
         start: statements.start,
         end: statements.end,
@@ -1347,18 +1348,23 @@ SourceFile ->
 } %}
 
 TrailingStatement ->
-    CreateSchemaStatement %SemiColon:? %CustomDelimiter:? {% (data) => {
+    NonDelimiterStatement %SemiColon:? %CustomDelimiter:? {% (data) => {
     data[0].customDelimiter = data[2]?.value ?? undefined;
     return data[0];
 } %}
     | DelimiterStatement {% (data) => data[0] %}
 
 LeadingStatement ->
-    CreateSchemaStatement %SemiColon %CustomDelimiter:? {% (data) => {
+    NonDelimiterStatement %SemiColon %CustomDelimiter:? {% (data) => {
     data[0].customDelimiter = data[2]?.value ?? undefined;
     return data[0];
 } %}
     | DelimiterStatement {% (data) => data[0] %}
+
+NonDelimiterStatement ->
+    (CreateSchemaStatement | CreateTableStatement) {% (data) => {
+    return data[0][0];
+} %}
 
 DelimiterStatement ->
     %HackedDelimiterKeyword %CustomDelimiter {% (data) => {
@@ -1368,6 +1374,55 @@ DelimiterStatement ->
         end: customDelimiter.end,
         syntaxKind: parser_node_1.SyntaxKind.DelimiterStatement,
         customDelimiter: customDelimiter.value,
+    };
+} %}
+
+CreateTableStatement ->
+    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList {% (data) => {
+    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions] = data;
+    return {
+        ...nearley_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
+        temporary: temporary != null,
+        ifNotExists: ifNotExists != null,
+        tableIdentifier,
+        createTableDefinitions,
+    };
+} %}
+
+CreateTableDefinitionList ->
+    %OpenParentheses CreateTableDefinition (%Comma CreateTableDefinition):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        //@ts-ignore
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return nearley_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, nearley_util_1.getTextRange(data));
+} %}
+
+CreateTableDefinition ->
+    (ColumnDefinition) {% (data) => data[0][0] %}
+
+ColumnDefinition ->
+    ColumnIdentifier DataType {% (data) => {
+    const [columnIdentifier, dataType] = data;
+    return {
+        ...nearley_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+        columnIdentifier,
+        dataType,
+        generated: undefined,
+        autoIncrement: false,
+        columnFormat: parser_node_1.ColumnFormat.DEFAULT,
+        storage: undefined,
+        defaultValue: undefined,
+        nullable: true,
+        uniqueKey: false,
+        primaryKey: false,
+        comment: undefined,
+        foreignKeyReferenceDefinition: undefined,
     };
 } %}
 
@@ -1385,6 +1440,27 @@ CreateSchemaStatement ->
     };
 } %}
 
+TableIdentifier ->
+    Identifier (%Comma Identifier):? {% (data) => {
+    const [nameA, nameB] = data;
+    if (nameB == null) {
+        return {
+            ...nearley_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.TableIdentifier,
+            schemaName: undefined,
+            tableName: nameA,
+        };
+    }
+    else {
+        return {
+            ...nearley_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.TableIdentifier,
+            schemaName: nameA,
+            tableName: nameB[1],
+        };
+    }
+} %}
+
 Identifier ->
     %Identifier {% ([identifier]) => {
     return {
@@ -1396,11 +1472,206 @@ Identifier ->
     };
 } %}
 
-BooleanDataType ->
-    %BOOL {% ([token]) => {
+ColumnIdentifier ->
+    Identifier (%Comma Identifier (%Comma Identifier):?):? {% (data) => {
+    const [nameA, nameB] = data;
+    if (nameB == null) {
+        return {
+            ...nearley_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
+            schemaName: undefined,
+            tableName: undefined,
+            columnName: nameA,
+        };
+    }
+    else {
+        const nameC = nameB[2];
+        if (nameC == null) {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
+                schemaName: undefined,
+                tableName: nameA,
+                columnName: nameB[1],
+            };
+        }
+        else {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
+                schemaName: nameA,
+                tableName: nameB[1],
+                columnName: nameC[1],
+            };
+        }
+    }
+} %}
+
+DataType ->
+    (BinaryDataType | BlobDataType | BooleanDataType | CharacterDataType) {% (data) => data[0][0] %}
+
+CharacterDataType ->
+    CharStart (%OpenParentheses %IntegerLiteral %CloseParentheses):? CharacterDataTypeModifier {% (data) => {
+    const [char, maxLengthSpecifier, modifier] = data;
     return {
-        start: token.start,
-        end: token.end,
+        ...nearley_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
+        nationalCharacterSet: char.nationalCharacterSet,
+        variableLength: false,
+        maxLength: (maxLengthSpecifier == undefined ?
+            1 :
+            parseInt(maxLengthSpecifier[1].value, 10)),
+        ...modifier,
+    };
+} %}
+    | VarCharStart %OpenParentheses %IntegerLiteral %CloseParentheses CharacterDataTypeModifier {% (data) => {
+    const [varChar, , maxLengthSpecifier, , modifier] = data;
+    return {
+        ...nearley_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
+        nationalCharacterSet: varChar.nationalCharacterSet,
+        variableLength: varChar.variableLength,
+        maxLength: parseInt(maxLengthSpecifier.value, 10),
+        ...modifier,
+    };
+} %}
+
+CharStart ->
+    %NATIONAL (%CHAR | %CHARACTER) {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
+        variableLength: false,
+        nationalCharacterSet: {
+            ...nearley_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: "utf8",
+            quoted: false,
+        },
+    };
+} %}
+    | %NCHAR {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
+        variableLength: false,
+        nationalCharacterSet: {
+            ...nearley_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: "utf8",
+            quoted: false,
+        },
+    };
+} %}
+    | (%CHAR | %CHARACTER) {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
+        variableLength: false,
+        nationalCharacterSet: undefined,
+    };
+} %}
+
+VarCharStart ->
+    %NATIONAL (%VARCHAR | %VARCHARACTER | (%CHAR %VARYING) | (%CHARACTER %VARYING)) {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
+        variableLength: true,
+        nationalCharacterSet: {
+            ...nearley_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: "utf8",
+            quoted: false,
+        },
+    };
+} %}
+    | %NCHAR %VARYING {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
+        variableLength: true,
+        nationalCharacterSet: {
+            ...nearley_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: "utf8",
+            quoted: false,
+        },
+    };
+} %}
+    | %NVARCHAR {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
+        variableLength: true,
+        nationalCharacterSet: {
+            ...nearley_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: "utf8",
+            quoted: false,
+        },
+    };
+} %}
+    | (%CHAR | %CHARACTER) %VARYING {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
+        variableLength: true,
+        nationalCharacterSet: undefined,
+    };
+} %}
+    | (%VARCHAR | %VARCHARACTER) {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
+        variableLength: true,
+        nationalCharacterSet: undefined,
+    };
+} %}
+
+CharacterDataTypeModifier ->
+    (%CHARACTER %SET Identifier):? (%COLLATE Identifier):? {% ([characterSet, collate]) => {
+    return {
+        ...nearley_util_1.getTextRange([characterSet, collate]),
+        characterSet: characterSet?.[2],
+        collate: collate?.[1],
+    };
+} %}
+
+BooleanDataType ->
+    (%BOOL | %BOOLEAN) {% (data) => {
+    return {
+        ...nearley_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.BooleanDataType,
+    };
+} %}
+
+BlobDataType ->
+    (%TINYBLOB | %BLOB | %MEDIUMBLOB | %LONGBLOB) {% (data) => {
+    const [[token]] = data;
+    return {
+        ...nearley_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
+        lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYBLOB ?
+            8 :
+            token.tokenKind == scanner_1.TokenKind.BLOB ?
+                16 :
+                token.tokenKind == scanner_1.TokenKind.MEDIUMBLOB ?
+                    24 :
+                    32),
+    };
+} %}
+
+BinaryDataType ->
+    %BINARY (%OpenParentheses %IntegerLiteral %CloseParentheses):? {% ([binary, maxLengthSpecifier]) => {
+    return {
+        start: binary.start,
+        end: maxLengthSpecifier?.[2].end ?? binary.end,
+        syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
+        variableLength: false,
+        maxLength: (maxLengthSpecifier == undefined ?
+            1 :
+            parseInt(maxLengthSpecifier[1].value, 10)),
+    };
+} %}
+    | %VARBINARY %OpenParentheses %IntegerLiteral %CloseParentheses {% ([binary, , maxLengthSpecifier, closeParentheses]) => {
+    return {
+        start: binary.start,
+        end: closeParentheses.end,
+        syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
+        variableLength: true,
+        maxLength: parseInt(maxLengthSpecifier.value, 10),
     };
 } %}

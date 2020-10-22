@@ -1,4 +1,4 @@
-// Generated automatically by nearley, version 2.19.7
+// Generated automatically by nearley, version 2.11.2
 // http://github.com/Hardmath123/nearley
 // Bypasses TS6133. Allow declared but unused functions.
 // @ts-ignore
@@ -7,6 +7,7 @@ function id(d: any[]): any { return d[0]; }
 import {TokenKind} from "../scanner";
 //import * as util from "util";
 //import {SyntaxKind, Node, NodeArray} from "../parser-node";
+const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
 const nearley_util_1 = require("./nearley-util");
 
@@ -1336,40 +1337,32 @@ const CloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.ClosePar
 const HackedDelimiterKeyword : Tester = { test: x => x.tokenKind == TokenKind.HackedDelimiterKeyword };
 
 
-interface NearleyToken {  value: any;
-  [key: string]: any;
-};
+export interface Token { value: any; [key: string]: any };
 
-interface NearleyLexer {
+export interface Lexer {
   reset: (chunk: string, info: any) => void;
-  next: () => NearleyToken | undefined;
+  next: () => Token | undefined;
   save: () => any;
-  formatError: (token: NearleyToken) => string;
-  has: (tokenType: string) => boolean;
+  formatError: (token: Token) => string;
+  has: (tokenType: string) => boolean
 };
 
-interface NearleyRule {
+export interface NearleyRule {
   name: string;
   symbols: NearleySymbol[];
-  postprocess?: (d: any[], loc?: number, reject?: {}) => any;
+  postprocess?: (d: any[], loc?: number, reject?: {}) => any
 };
 
-type NearleySymbol = string | { literal: any } | { test: (token: any) => boolean };
+export type NearleySymbol = string | { literal: any } | { test: (token: any) => boolean };
 
-interface Grammar {
-  Lexer: NearleyLexer | undefined;
-  ParserRules: NearleyRule[];
-  ParserStart: string;
-};
+export var Lexer: Lexer | undefined = undefined;
 
-const grammar: Grammar = {
-  Lexer: undefined,
-  ParserRules: [
+export var ParserRules: NearleyRule[] = [
     {"name": "SourceFile$ebnf$1", "symbols": []},
     {"name": "SourceFile$ebnf$1", "symbols": ["SourceFile$ebnf$1", "LeadingStatement"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "SourceFile", "symbols": ["SourceFile$ebnf$1", "TrailingStatement"], "postprocess":  (data) => {
             const arr = data.flat(1);
-            const statements = nearley_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.SourceElementList, 0);
+            const statements = nearley_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.SourceElementList, nearley_util_1.getTextRange(data));
             return {
                 start: statements.start,
                 end: statements.end,
@@ -1381,18 +1374,23 @@ const grammar: Grammar = {
     {"name": "TrailingStatement$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "TrailingStatement$ebnf$2", "symbols": [CustomDelimiter], "postprocess": id},
     {"name": "TrailingStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "TrailingStatement", "symbols": ["CreateSchemaStatement", "TrailingStatement$ebnf$1", "TrailingStatement$ebnf$2"], "postprocess":  (data) => {
+    {"name": "TrailingStatement", "symbols": ["NonDelimiterStatement", "TrailingStatement$ebnf$1", "TrailingStatement$ebnf$2"], "postprocess":  (data) => {
             data[0].customDelimiter = data[2]?.value ?? undefined;
             return data[0];
         } },
     {"name": "TrailingStatement", "symbols": ["DelimiterStatement"], "postprocess": (data) => data[0]},
     {"name": "LeadingStatement$ebnf$1", "symbols": [CustomDelimiter], "postprocess": id},
     {"name": "LeadingStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "LeadingStatement", "symbols": ["CreateSchemaStatement", SemiColon, "LeadingStatement$ebnf$1"], "postprocess":  (data) => {
+    {"name": "LeadingStatement", "symbols": ["NonDelimiterStatement", SemiColon, "LeadingStatement$ebnf$1"], "postprocess":  (data) => {
             data[0].customDelimiter = data[2]?.value ?? undefined;
             return data[0];
         } },
     {"name": "LeadingStatement", "symbols": ["DelimiterStatement"], "postprocess": (data) => data[0]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateSchemaStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},
+    {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
     {"name": "DelimiterStatement", "symbols": [HackedDelimiterKeyword, CustomDelimiter], "postprocess":  (data) => {
             const [identifier, customDelimiter] = data;
             return {
@@ -1400,6 +1398,56 @@ const grammar: Grammar = {
                 end: customDelimiter.end,
                 syntaxKind: parser_node_1.SyntaxKind.DelimiterStatement,
                 customDelimiter: customDelimiter.value,
+            };
+        } },
+    {"name": "CreateTableStatement$ebnf$1", "symbols": [TEMPORARY], "postprocess": id},
+    {"name": "CreateTableStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
+    {"name": "CreateTableStatement$ebnf$2", "symbols": ["CreateTableStatement$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "CreateTableStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableDefinitionList"], "postprocess":  (data) => {
+            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions] = data;
+            return {
+                ...nearley_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
+                temporary: temporary != null,
+                ifNotExists: ifNotExists != null,
+                tableIdentifier,
+                createTableDefinitions,
+            };
+        } },
+    {"name": "CreateTableDefinitionList$ebnf$1", "symbols": []},
+    {"name": "CreateTableDefinitionList$ebnf$1$subexpression$1", "symbols": [Comma, "CreateTableDefinition"]},
+    {"name": "CreateTableDefinitionList$ebnf$1", "symbols": ["CreateTableDefinitionList$ebnf$1", "CreateTableDefinitionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateTableDefinitionList", "symbols": [OpenParentheses, "CreateTableDefinition", "CreateTableDefinitionList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                //@ts-ignore
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return nearley_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, nearley_util_1.getTextRange(data));
+        } },
+    {"name": "CreateTableDefinition$subexpression$1", "symbols": ["ColumnDefinition"]},
+    {"name": "CreateTableDefinition", "symbols": ["CreateTableDefinition$subexpression$1"], "postprocess": (data) => data[0][0]},
+    {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType"], "postprocess":  (data) => {
+            const [columnIdentifier, dataType] = data;
+            return {
+                ...nearley_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+                columnIdentifier,
+                dataType,
+                generated: undefined,
+                autoIncrement: false,
+                columnFormat: parser_node_1.ColumnFormat.DEFAULT,
+                storage: undefined,
+                defaultValue: undefined,
+                nullable: true,
+                uniqueKey: false,
+                primaryKey: false,
+                comment: undefined,
+                foreignKeyReferenceDefinition: undefined,
             };
         } },
     {"name": "CreateSchemaStatement", "symbols": [CREATE, SCHEMA, "Identifier"], "postprocess":  (data) => {
@@ -1414,6 +1462,28 @@ const grammar: Grammar = {
                 characterSet: undefined,
             };
         } },
+    {"name": "TableIdentifier$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier"]},
+    {"name": "TableIdentifier$ebnf$1", "symbols": ["TableIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "TableIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "TableIdentifier", "symbols": ["Identifier", "TableIdentifier$ebnf$1"], "postprocess":  (data) => {
+            const [nameA, nameB] = data;
+            if (nameB == null) {
+                return {
+                    ...nearley_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.TableIdentifier,
+                    schemaName: undefined,
+                    tableName: nameA,
+                };
+            }
+            else {
+                return {
+                    ...nearley_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.TableIdentifier,
+                    schemaName: nameA,
+                    tableName: nameB[1],
+                };
+            }
+        } },
     {"name": "Identifier", "symbols": [Identifier], "postprocess":  ([identifier]) => {
             return {
                 start: identifier.start,
@@ -1423,15 +1493,234 @@ const grammar: Grammar = {
                 quoted: false,
             };
         } },
-    {"name": "BooleanDataType", "symbols": [BOOL], "postprocess":  ([token]) => {
+    {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier"]},
+    {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": ["ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "ColumnIdentifier$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier", "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "ColumnIdentifier$ebnf$1", "symbols": ["ColumnIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "ColumnIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "ColumnIdentifier", "symbols": ["Identifier", "ColumnIdentifier$ebnf$1"], "postprocess":  (data) => {
+            const [nameA, nameB] = data;
+            if (nameB == null) {
+                return {
+                    ...nearley_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
+                    schemaName: undefined,
+                    tableName: undefined,
+                    columnName: nameA,
+                };
+            }
+            else {
+                const nameC = nameB[2];
+                if (nameC == null) {
+                    return {
+                        ...nearley_util_1.getTextRange(data),
+                        syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
+                        schemaName: undefined,
+                        tableName: nameA,
+                        columnName: nameB[1],
+                    };
+                }
+                else {
+                    return {
+                        ...nearley_util_1.getTextRange(data),
+                        syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
+                        schemaName: nameA,
+                        tableName: nameB[1],
+                        columnName: nameC[1],
+                    };
+                }
+            }
+        } },
+    {"name": "DataType$subexpression$1", "symbols": ["BinaryDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["BlobDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["BooleanDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
+    {"name": "DataType", "symbols": ["DataType$subexpression$1"], "postprocess": (data) => data[0][0]},
+    {"name": "CharacterDataType$ebnf$1$subexpression$1", "symbols": [OpenParentheses, IntegerLiteral, CloseParentheses]},
+    {"name": "CharacterDataType$ebnf$1", "symbols": ["CharacterDataType$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CharacterDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CharacterDataType", "symbols": ["CharStart", "CharacterDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+            const [char, maxLengthSpecifier, modifier] = data;
             return {
-                start: token.start,
-                end: token.end,
+                ...nearley_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
+                nationalCharacterSet: char.nationalCharacterSet,
+                variableLength: false,
+                maxLength: (maxLengthSpecifier == undefined ?
+                    1 :
+                    parseInt(maxLengthSpecifier[1].value, 10)),
+                ...modifier,
+            };
+        } },
+    {"name": "CharacterDataType", "symbols": ["VarCharStart", OpenParentheses, IntegerLiteral, CloseParentheses, "CharacterDataTypeModifier"], "postprocess":  (data) => {
+            const [varChar, , maxLengthSpecifier, , modifier] = data;
+            return {
+                ...nearley_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
+                nationalCharacterSet: varChar.nationalCharacterSet,
+                variableLength: varChar.variableLength,
+                maxLength: parseInt(maxLengthSpecifier.value, 10),
+                ...modifier,
+            };
+        } },
+    {"name": "CharStart$subexpression$1", "symbols": [CHAR]},
+    {"name": "CharStart$subexpression$1", "symbols": [CHARACTER]},
+    {"name": "CharStart", "symbols": [NATIONAL, "CharStart$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                variableLength: false,
+                nationalCharacterSet: {
+                    ...nearley_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: "utf8",
+                    quoted: false,
+                },
+            };
+        } },
+    {"name": "CharStart", "symbols": [NCHAR], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                variableLength: false,
+                nationalCharacterSet: {
+                    ...nearley_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: "utf8",
+                    quoted: false,
+                },
+            };
+        } },
+    {"name": "CharStart$subexpression$2", "symbols": [CHAR]},
+    {"name": "CharStart$subexpression$2", "symbols": [CHARACTER]},
+    {"name": "CharStart", "symbols": ["CharStart$subexpression$2"], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                variableLength: false,
+                nationalCharacterSet: undefined,
+            };
+        } },
+    {"name": "VarCharStart$subexpression$1", "symbols": [VARCHAR]},
+    {"name": "VarCharStart$subexpression$1", "symbols": [VARCHARACTER]},
+    {"name": "VarCharStart$subexpression$1$subexpression$1", "symbols": [CHAR, VARYING]},
+    {"name": "VarCharStart$subexpression$1", "symbols": ["VarCharStart$subexpression$1$subexpression$1"]},
+    {"name": "VarCharStart$subexpression$1$subexpression$2", "symbols": [CHARACTER, VARYING]},
+    {"name": "VarCharStart$subexpression$1", "symbols": ["VarCharStart$subexpression$1$subexpression$2"]},
+    {"name": "VarCharStart", "symbols": [NATIONAL, "VarCharStart$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                variableLength: true,
+                nationalCharacterSet: {
+                    ...nearley_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: "utf8",
+                    quoted: false,
+                },
+            };
+        } },
+    {"name": "VarCharStart", "symbols": [NCHAR, VARYING], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                variableLength: true,
+                nationalCharacterSet: {
+                    ...nearley_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: "utf8",
+                    quoted: false,
+                },
+            };
+        } },
+    {"name": "VarCharStart", "symbols": [NVARCHAR], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                variableLength: true,
+                nationalCharacterSet: {
+                    ...nearley_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: "utf8",
+                    quoted: false,
+                },
+            };
+        } },
+    {"name": "VarCharStart$subexpression$2", "symbols": [CHAR]},
+    {"name": "VarCharStart$subexpression$2", "symbols": [CHARACTER]},
+    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$2", VARYING], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                variableLength: true,
+                nationalCharacterSet: undefined,
+            };
+        } },
+    {"name": "VarCharStart$subexpression$3", "symbols": [VARCHAR]},
+    {"name": "VarCharStart$subexpression$3", "symbols": [VARCHARACTER]},
+    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$3"], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
+                variableLength: true,
+                nationalCharacterSet: undefined,
+            };
+        } },
+    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1", "symbols": [CHARACTER, SET, "Identifier"]},
+    {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CharacterDataTypeModifier$ebnf$2$subexpression$1", "symbols": [COLLATE, "Identifier"]},
+    {"name": "CharacterDataTypeModifier$ebnf$2", "symbols": ["CharacterDataTypeModifier$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "CharacterDataTypeModifier$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$ebnf$1", "CharacterDataTypeModifier$ebnf$2"], "postprocess":  ([characterSet, collate]) => {
+            return {
+                ...nearley_util_1.getTextRange([characterSet, collate]),
+                characterSet: characterSet?.[2],
+                collate: collate?.[1],
+            };
+        } },
+    {"name": "BooleanDataType$subexpression$1", "symbols": [BOOL]},
+    {"name": "BooleanDataType$subexpression$1", "symbols": [BOOLEAN]},
+    {"name": "BooleanDataType", "symbols": ["BooleanDataType$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...nearley_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.BooleanDataType,
             };
+        } },
+    {"name": "BlobDataType$subexpression$1", "symbols": [TINYBLOB]},
+    {"name": "BlobDataType$subexpression$1", "symbols": [BLOB]},
+    {"name": "BlobDataType$subexpression$1", "symbols": [MEDIUMBLOB]},
+    {"name": "BlobDataType$subexpression$1", "symbols": [LONGBLOB]},
+    {"name": "BlobDataType", "symbols": ["BlobDataType$subexpression$1"], "postprocess":  (data) => {
+            const [[token]] = data;
+            return {
+                ...nearley_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
+                lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYBLOB ?
+                    8 :
+                    token.tokenKind == scanner_1.TokenKind.BLOB ?
+                        16 :
+                        token.tokenKind == scanner_1.TokenKind.MEDIUMBLOB ?
+                            24 :
+                            32),
+            };
+        } },
+    {"name": "BinaryDataType$ebnf$1$subexpression$1", "symbols": [OpenParentheses, IntegerLiteral, CloseParentheses]},
+    {"name": "BinaryDataType$ebnf$1", "symbols": ["BinaryDataType$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "BinaryDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "BinaryDataType", "symbols": [BINARY, "BinaryDataType$ebnf$1"], "postprocess":  ([binary, maxLengthSpecifier]) => {
+            return {
+                start: binary.start,
+                end: maxLengthSpecifier?.[2].end ?? binary.end,
+                syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
+                variableLength: false,
+                maxLength: (maxLengthSpecifier == undefined ?
+                    1 :
+                    parseInt(maxLengthSpecifier[1].value, 10)),
+            };
+        } },
+    {"name": "BinaryDataType", "symbols": [VARBINARY, OpenParentheses, IntegerLiteral, CloseParentheses], "postprocess":  ([binary, , maxLengthSpecifier, closeParentheses]) => {
+            return {
+                start: binary.start,
+                end: closeParentheses.end,
+                syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
+                variableLength: true,
+                maxLength: parseInt(maxLengthSpecifier.value, 10),
+            };
         } }
-  ],
-  ParserStart: "SourceFile",
-};
+];
 
-export default grammar;
+export var ParserStart: string = "SourceFile";

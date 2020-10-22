@@ -1,21 +1,34 @@
-import {SyntaxKind} from "../../parser-node";
+import {Statement, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {
     makeRule,
-    makeUnionRule,
+    makeCustomRule,
     optional,
     toNodeArray,
     zeroOrMore,
+    getTextRange,
+    union,
 } from "../nearley-util";
 
-const LeadingStatement = makeUnionRule("LeadingStatement")
+const NonDelimiterStatementRule = makeCustomRule<Statement>("NonDelimiterStatement")
+    .addSubstitution(
+        [union(
+            SyntaxKind.CreateSchemaStatement,
+            SyntaxKind.CreateTableStatement,
+        )] as const,
+        (data) : Statement => {
+            return data[0][0];
+        }
+    );
+
+const LeadingStatement = makeCustomRule<Statement>("LeadingStatement")
     .addSubstitution(
         [
-            SyntaxKind.CreateSchemaStatement,
+            NonDelimiterStatementRule,
             TokenKind.SemiColon,
             optional(TokenKind.CustomDelimiter),
         ] as const,
-        (data) => {
+        (data) : Statement => {
             data[0].customDelimiter = data[2]?.value ?? undefined
             return data[0]
         }
@@ -24,17 +37,17 @@ const LeadingStatement = makeUnionRule("LeadingStatement")
         [
             SyntaxKind.DelimiterStatement,
         ] as const,
-        (data) => data[0]
+        (data) : Statement => data[0]
     )
 
-const TrailingStatement = makeUnionRule("TrailingStatement")
+const TrailingStatement = makeCustomRule<Statement>("TrailingStatement")
     .addSubstitution(
         [
-            SyntaxKind.CreateSchemaStatement,
+            NonDelimiterStatementRule,
             optional(TokenKind.SemiColon),
             optional(TokenKind.CustomDelimiter),
         ] as const,
-        (data) => {
+        (data) : Statement => {
             data[0].customDelimiter = data[2]?.value ?? undefined
             return data[0]
         }
@@ -43,7 +56,7 @@ const TrailingStatement = makeUnionRule("TrailingStatement")
         [
             SyntaxKind.DelimiterStatement,
         ] as const,
-        (data) => data[0]
+        (data) : Statement => data[0]
     )
 
 makeRule(SyntaxKind.SourceFile)
@@ -57,7 +70,7 @@ makeRule(SyntaxKind.SourceFile)
             const statements = toNodeArray(
                 arr,
                 SyntaxKind.SourceElementList,
-                0
+                getTextRange(data)
             );
             return {
                 start : statements.start,

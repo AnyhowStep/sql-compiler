@@ -56,7 +56,7 @@ export interface ColumnDefinition extends CreateTableDefinition {
      *
      * The BLOB, TEXT, GEOMETRY, and JSON data types cannot be assigned a default value.
      */
-    defaultValue : Expression,
+    defaultValue : Expression|undefined,
 
     /**
      * These below can be specified, regardless of `generated`.

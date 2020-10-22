@@ -16,6 +16,7 @@ const output = `@preprocessor typescript
 import {TokenKind} from "../scanner";
 //import * as util from "util";
 //import {SyntaxKind, Node, NodeArray} from "../parser-node";
+const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
 const nearley_util_1 = require("./nearley-util");
 
