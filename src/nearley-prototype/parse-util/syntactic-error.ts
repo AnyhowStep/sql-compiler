@@ -1,5 +1,5 @@
 import {Diagnostic, DiagnosticMessage} from "../../diagnostic";
-import {TextRange} from "../../parser-node";
+import {SyntacticErrorContainer, TextRange} from "../../parser-node";
 import {ParserState} from "../parser-state";
 
 export function makeDiagnosticAt (
@@ -18,23 +18,27 @@ export function makeDiagnosticAt (
 }
 
 export function pushSyntacticErrorAt (
-    state : ParserState,
+    node : SyntacticErrorContainer,
     start : number,
     end : number,
     diagnosticMessage : DiagnosticMessage,
     ...args : (string|number)[]
 ) {
-    state.syntacticErrors.push(makeDiagnosticAt(start, end, diagnosticMessage, ...args));
+    if (node.syntacticErrors == undefined) {
+        node.syntacticErrors = [makeDiagnosticAt(start, end, diagnosticMessage, ...args)];
+    } else {
+        node.syntacticErrors.push(makeDiagnosticAt(start, end, diagnosticMessage, ...args));
+    }
 }
 
 export function pushSyntacticErrorAtNode (
-    state : ParserState,
-    node : TextRange,
+    _state : ParserState,
+    node : TextRange & SyntacticErrorContainer,
     diagnosticMessage : DiagnosticMessage,
     ...args : (string|number)[]
 ) {
     pushSyntacticErrorAt(
-        state,
+        node,
         node.start,
         node.end,
         diagnosticMessage,

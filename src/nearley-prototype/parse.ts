@@ -1,4 +1,4 @@
-import {SourceFile, SourceFileLite, SyntaxKind} from "../parser-node";
+import {findAllSyntacticErrors, SourceFile, SourceFileLite, SyntaxKind} from "../parser-node";
 import {Scanner} from "../scanner";
 import {ParserSettings} from "./parser-settings";
 import {scanAll} from "./scan";
@@ -13,7 +13,6 @@ export function parse (
 ) : SourceFile|undefined {
     const state : ParserState = {
         settings,
-        syntacticErrors : [],
     };
     const tokens = scanAll(scanner);
 
@@ -48,6 +47,8 @@ export function parse (
         return undefined;
     }
 
+    const syntacticErrors = findAllSyntacticErrors(sourceFileLite);
+
     return {
         start : sourceFileLite.start,
         end : sourceFileLite.end,
@@ -55,6 +56,6 @@ export function parse (
         statements : sourceFileLite.statements,
         filename,
         text : scanner.getText(),
-        syntacticErrors : state.syntacticErrors,
+        syntacticErrors,
     };
 }
