@@ -38,7 +38,7 @@ export interface ColumnDefinition extends CreateTableDefinition {
     /**
      * Defaults to `ColumnFormat.DEFAULT`
      */
-    columnFormat : ColumnFormat,
+    columnFormat : ColumnFormat|undefined,
     storage : Storage|undefined,
 
     /**

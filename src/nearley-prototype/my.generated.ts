@@ -1418,6 +1418,116 @@ export var ParserRules: NearleyRule[] = [
                 createTableDefinitions,
             };
         } },
+    {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "ColumnModifier"], "postprocess":  (data) => {
+            const [columnIdentifier, dataType, modifier] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+                columnIdentifier,
+                dataType,
+                generated: undefined,
+                ...modifier,
+            };
+        } },
+    {"name": "ColumnModifier$ebnf$1", "symbols": []},
+    {"name": "ColumnModifier$ebnf$1", "symbols": ["ColumnModifier$ebnf$1", "ColumnModifierElement"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "ColumnModifier", "symbols": ["ColumnModifier$ebnf$1"], "postprocess":  (data) => {
+            let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
+            for (const ele of data[0]) {
+                columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+            }
+            return columnDefinitionModifier;
+        } },
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": [AUTO_INCREMENT]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [FIXED]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [DYNAMIC]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [DEFAULT]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$1", "symbols": [COLUMN_FORMAT, "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1"]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$1"]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1", "symbols": [DISK]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1", "symbols": [MEMORY]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$2", "symbols": [STORAGE, "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1"]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$2"]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$3", "symbols": [DEFAULT, "Expression"]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$3"]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": [NULL]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$4", "symbols": [NOT, NULL]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$4"]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [KEY], "postprocess": id},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$5", "symbols": [UNIQUE, "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1"]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$5"]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$6$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$6$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$6", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$6$ebnf$1", KEY]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$6"]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$7", "symbols": [COMMENT, "StringLiteral"]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$7"]},
+    {"name": "ColumnModifierElement", "symbols": ["ColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                data: data[0][0],
+            };
+        } },
+    {"name": "GeneratedDefinition$ebnf$1$subexpression$1", "symbols": [GENERATED, ALWAYS]},
+    {"name": "GeneratedDefinition$ebnf$1", "symbols": ["GeneratedDefinition$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "GeneratedDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "GeneratedDefinition$ebnf$2$subexpression$1", "symbols": [VIRTUAL]},
+    {"name": "GeneratedDefinition$ebnf$2$subexpression$1", "symbols": [STORED]},
+    {"name": "GeneratedDefinition$ebnf$2", "symbols": ["GeneratedDefinition$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "GeneratedDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "GeneratedDefinition", "symbols": ["GeneratedDefinition$ebnf$1", AS, OpenParentheses, "Expression", CloseParentheses, "GeneratedDefinition$ebnf$2"], "postprocess":  (data) => {
+            const [, , , expr, , generatedType] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.GeneratedDefinition,
+                expr,
+                generatedType: (generatedType == null ?
+                    parser_node_1.GeneratedType.VIRTUAL :
+                    generatedType[0].tokenKind == scanner_1.TokenKind.STORED ?
+                        parser_node_1.GeneratedType.STORED :
+                        parser_node_1.GeneratedType.VIRTUAL),
+            };
+        } },
+    {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "GeneratedDefinition", "GeneratedColumnModifier"], "postprocess":  (data) => {
+            const [columnIdentifier, dataType, generated, modifier] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+                columnIdentifier,
+                dataType,
+                generated: generated,
+                ...modifier,
+            };
+        } },
+    {"name": "GeneratedColumnModifier$ebnf$1", "symbols": []},
+    {"name": "GeneratedColumnModifier$ebnf$1", "symbols": ["GeneratedColumnModifier$ebnf$1", "GeneratedColumnModifierElement"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "GeneratedColumnModifier", "symbols": ["GeneratedColumnModifier$ebnf$1"], "postprocess":  (data) => {
+            let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
+            for (const ele of data[0]) {
+                parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+            }
+            return columnDefinitionModifier;
+        } },
+    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": [NULL]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$1", "symbols": [NOT, NULL]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$1"]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", "symbols": [KEY], "postprocess": id},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2", "symbols": [UNIQUE, "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1"]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$2"]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$3$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$3$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$3", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$3$ebnf$1", KEY]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$3"]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$4", "symbols": [COMMENT, "StringLiteral"]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$4"]},
+    {"name": "GeneratedColumnModifierElement", "symbols": ["GeneratedColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                data: data[0][0],
+            };
+        } },
     {"name": "CreateTableDefinitionList$ebnf$1", "symbols": []},
     {"name": "CreateTableDefinitionList$ebnf$1$subexpression$1", "symbols": [Comma, "CreateTableDefinition"]},
     {"name": "CreateTableDefinitionList$ebnf$1", "symbols": ["CreateTableDefinitionList$ebnf$1", "CreateTableDefinitionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
@@ -1433,25 +1543,6 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["ColumnDefinition"]},
     {"name": "CreateTableDefinition", "symbols": ["CreateTableDefinition$subexpression$1"], "postprocess": (data) => data[0][0]},
-    {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType"], "postprocess":  (data) => {
-            const [columnIdentifier, dataType] = data;
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
-                columnIdentifier,
-                dataType,
-                generated: undefined,
-                autoIncrement: false,
-                columnFormat: parser_node_1.ColumnFormat.DEFAULT,
-                storage: undefined,
-                defaultValue: undefined,
-                nullable: true,
-                uniqueKey: false,
-                primaryKey: false,
-                comment: undefined,
-                foreignKeyReferenceDefinition: undefined,
-            };
-        } },
     {"name": "CreateSchemaStatement", "symbols": [CREATE, SCHEMA, "Identifier", "CreateSchemaStatementModifier"], "postprocess":  (data) => {
             const [, , identifier, modifier] = data;
             return {
@@ -1572,12 +1663,24 @@ export var ParserRules: NearleyRule[] = [
                 }
             }
         } },
+    {"name": "StringLiteral", "symbols": [StringLiteral], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                value: data[0].value,
+                sourceText: data[0].getTokenSourceText(),
+            };
+        } },
     {"name": "IntegerLiteral", "symbols": [IntegerLiteral], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
                 value: BigInt(data[0].value),
             };
+        } },
+    {"name": "Expression$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "Expression", "symbols": ["Expression$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
         } },
     {"name": "DataType$subexpression$1", "symbols": ["BinaryDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BlobDataType"]},

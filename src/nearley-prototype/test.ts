@@ -17,7 +17,12 @@ const scanner = new Scanner(`
     DELIMITER ;
     CREATE SCHEMA \`Test\`;
     CREATE SCHEMA \`Test2\`;
-    CREATE TABLE T (X BOOL, Y BOOL, Z CHAR(3) CHARACTER SET utf8mb4 COLLATE \`binary\`);
+    CREATE TABLE T (
+        X BOOL,
+        Y BOOL,
+        Z CHAR(3) CHARACTER SET utf8mb4 COLLATE \`binary\`,
+        W BOOL AUTO_INCREMENT KEY STORAGE DISK
+    );
 `);
 const sourceFile = parse(
     "file-0",

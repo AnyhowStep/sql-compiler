@@ -1391,6 +1391,81 @@ CreateTableStatement ->
     };
 } %}
 
+ColumnDefinition ->
+    ColumnIdentifier DataType ColumnModifier {% (data) => {
+    const [columnIdentifier, dataType, modifier] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+        columnIdentifier,
+        dataType,
+        generated: undefined,
+        ...modifier,
+    };
+} %}
+
+ColumnModifier ->
+    ColumnModifierElement:* {% (data) => {
+    let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
+    for (const ele of data[0]) {
+        columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+    }
+    return columnDefinitionModifier;
+} %}
+
+ColumnModifierElement ->
+    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | (%UNIQUE %KEY:?) | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        data: data[0][0],
+    };
+} %}
+
+GeneratedDefinition ->
+    (%GENERATED %ALWAYS):? %AS %OpenParentheses Expression %CloseParentheses (%VIRTUAL | %STORED):? {% (data) => {
+    const [, , , expr, , generatedType] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.GeneratedDefinition,
+        expr,
+        generatedType: (generatedType == null ?
+            parser_node_1.GeneratedType.VIRTUAL :
+            generatedType[0].tokenKind == scanner_1.TokenKind.STORED ?
+                parser_node_1.GeneratedType.STORED :
+                parser_node_1.GeneratedType.VIRTUAL),
+    };
+} %}
+
+ColumnDefinition ->
+    ColumnIdentifier DataType GeneratedDefinition GeneratedColumnModifier {% (data) => {
+    const [columnIdentifier, dataType, generated, modifier] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+        columnIdentifier,
+        dataType,
+        generated: generated,
+        ...modifier,
+    };
+} %}
+
+GeneratedColumnModifier ->
+    GeneratedColumnModifierElement:* {% (data) => {
+    let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
+    for (const ele of data[0]) {
+        parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+    }
+    return columnDefinitionModifier;
+} %}
+
+GeneratedColumnModifierElement ->
+    (%NULL | (%NOT %NULL) | (%UNIQUE %KEY:?) | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        data: data[0][0],
+    };
+} %}
+
 CreateTableDefinitionList ->
     %OpenParentheses CreateTableDefinition (%Comma CreateTableDefinition):* %CloseParentheses {% (data) => {
     const [, first, more] = data;
@@ -1405,27 +1480,6 @@ CreateTableDefinitionList ->
 
 CreateTableDefinition ->
     (ColumnDefinition) {% (data) => data[0][0] %}
-
-ColumnDefinition ->
-    ColumnIdentifier DataType {% (data) => {
-    const [columnIdentifier, dataType] = data;
-    return {
-        ...parse_util_1.getTextRange(data),
-        syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
-        columnIdentifier,
-        dataType,
-        generated: undefined,
-        autoIncrement: false,
-        columnFormat: parser_node_1.ColumnFormat.DEFAULT,
-        storage: undefined,
-        defaultValue: undefined,
-        nullable: true,
-        uniqueKey: false,
-        primaryKey: false,
-        comment: undefined,
-        foreignKeyReferenceDefinition: undefined,
-    };
-} %}
 
 CreateSchemaStatement ->
     %CREATE %SCHEMA Identifier CreateSchemaStatementModifier {% (data) => {
@@ -1538,6 +1592,16 @@ ColumnIdentifier ->
     }
 } %}
 
+StringLiteral ->
+    %StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+        value: data[0].value,
+        sourceText: data[0].getTokenSourceText(),
+    };
+} %}
+
 IntegerLiteral ->
     %IntegerLiteral {% (data) => {
     return {
@@ -1545,6 +1609,11 @@ IntegerLiteral ->
         syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
         value: BigInt(data[0].value),
     };
+} %}
+
+Expression ->
+    (IntegerLiteral) {% (data) => {
+    return data[0][0];
 } %}
 
 DataType ->
