@@ -1,8 +1,8 @@
 import * as assert from "assert";
 import {emitSourceFile} from "../emitter";
-import {parse} from "../parser";
 import {Scanner} from "../scanner";
 import {testRecursive} from "./test-recursive";
+import {parse} from "../nearley-prototype";
 
 const root = `${__dirname}/../../test-fixture/parse-emit`;
 suite('Should parse-emit as expected', () => {

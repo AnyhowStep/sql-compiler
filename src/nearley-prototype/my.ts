@@ -22,7 +22,11 @@ const parser_node_1 = require("../parser-node");
 const diagnostic_messages_1 = require("./diagnostic-messages");
 const parse_util_1 = require("./parse-util");
 
-const KeywordOrIdentifier : Tester = { test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind) };
+const KeywordOrIdentifier : Tester = {
+    test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind),
+    //Even though this could be a keyword, the intention is to use it as an identifier
+    type : "Identifier",
+};
 
 ${testers}
 %}

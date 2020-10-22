@@ -43,7 +43,7 @@ const CreateSchemaStatementModifierRule = makeCustomRule("CreateSchemaStatementM
             };
 
             for (const ele of arr) {
-                if (ele.kind instanceof Array) {
+                if (ele.kind[0] instanceof Array) {
                     //CHARACTER SET
                     characterDataTypeModifier = processCharacterDataTypeModifier(
                         this,
@@ -72,13 +72,19 @@ const CreateSchemaStatementModifierRule = makeCustomRule("CreateSchemaStatementM
 
 makeRule(SyntaxKind.CreateSchemaStatement)
     .addSubstitution(
-        [TokenKind.CREATE, TokenKind.SCHEMA, SyntaxKind.Identifier, CreateSchemaStatementModifierRule] as const,
+        [
+            TokenKind.CREATE,
+            union(TokenKind.SCHEMA, TokenKind.DATABASE),
+            optional([TokenKind.IF, TokenKind.NOT, TokenKind.EXISTS] as const),
+            SyntaxKind.Identifier,
+            CreateSchemaStatementModifierRule
+        ] as const,
         (data) => {
-            const [, , identifier, modifier] = data;
+            const [, , ifNotExists, identifier, modifier] = data;
             return {
                 syntaxKind : SyntaxKind.CreateSchemaStatement,
                 schemaName : identifier,
-                ifNotExists : false,
+                ifNotExists : ifNotExists != undefined,
                 ...modifier,
                 ...getTextRange(data),
             }

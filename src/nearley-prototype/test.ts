@@ -9,6 +9,14 @@ const scanner = new Scanner(`
 `);
 */
 const scanner = new Scanner(`
+CREATE SCHEMA (;
+
+CREATE SCHEMA (;
+
+CREATE SCHEMA \`A\`
+
+CREATE SCHEMA \`B\`;
+
     CREATE SCHEMA \`Test\`;
     CREATE SCHEMA \`Test2\`;
     DELIMITER $$

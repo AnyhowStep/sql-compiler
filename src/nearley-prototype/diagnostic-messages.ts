@@ -40,6 +40,21 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200006,
     }),
+    CannotParseSourceFile : makeDiagnosticMessage({
+        key : "Cannot parse source file",
+        category : DiagnosticCategory.Error,
+        code : 200007,
+    }),
+    Unexpected_Expected : makeDiagnosticMessage({
+        key : "Unexpected {0}; Expected {1}",
+        category : DiagnosticCategory.Error,
+        code : 200008,
+    }),
+    Expected : makeDiagnosticMessage({
+        key : "Expected {0}",
+        category : DiagnosticCategory.Error,
+        code : 200009,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

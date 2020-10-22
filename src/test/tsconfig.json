@@ -7,7 +7,7 @@
     },
     "references" : [
         { "path": "../scanner" },
-        { "path": "../parser" },
+        { "path": "../nearley-prototype" },
         { "path": "../emitter" }
     ],
     "include" : [

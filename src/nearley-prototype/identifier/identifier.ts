@@ -1,5 +1,5 @@
 import {Identifier, SyntaxKind} from "../../parser-node";
-import {isNonReserved, TokenKind} from "../../scanner";
+import {isNonReserved, ReverseTokenKind, TokenKind} from "../../scanner";
 import {DiagnosticMessages} from "../diagnostic-messages";
 import {
     makeCustomRule,
@@ -47,7 +47,7 @@ makeRule(SyntaxKind.Identifier)
                 this,
                 result,
                 DiagnosticMessages.CannotUseReservedKeywordAsIdentifier,
-                tokenObj.value
+                ReverseTokenKind[tokenObj.tokenKind]
             );
 
             return result;

@@ -1,7 +1,7 @@
 import * as assert from "assert";
-import {parse} from "../parser";
 import {Scanner} from "../scanner";
 import {testRecursive} from "./test-recursive";
+import {parse} from "../nearley-prototype";
 
 const root = `${__dirname}/../../test-fixture/parse`;
 suite('Should parse as expected', () => {
