@@ -1,3 +1,4 @@
+import {IntegerLiteral} from "../expression";
 import {Identifier} from "../identifier";
 import {Node} from "../node";
 import {SyntaxKind} from "../syntax-kind.generated";
@@ -14,7 +15,7 @@ export interface CharacterDataType extends Node {
 
     nationalCharacterSet : Identifier|undefined;
     variableLength : boolean;
-    maxLength : number;
+    maxLength : IntegerLiteral;
 
     readonly collate : Identifier|undefined,
     readonly characterSet : Identifier|undefined,

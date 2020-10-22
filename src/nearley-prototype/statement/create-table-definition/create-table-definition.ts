@@ -1,12 +1,11 @@
 import {CreateTableDefinition, NodeArray, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {
-    getTextRange,
     makeCustomRule,
-    toNodeArray,
     union,
     zeroOrMore,
 } from "../../nearley-util";
+import {getTextRange, toNodeArray} from "../../parse-util";
 
 export const CreateTableDefinitionRule = makeCustomRule<CreateTableDefinition>("CreateTableDefinition")
     .addSubstitution(

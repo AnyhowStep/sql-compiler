@@ -1,12 +1,14 @@
 import {ReverseTokenKind, TokenKind} from "../scanner";
-import {Node, NodeArray, ReverseSyntaxKind, SyntaxKind, TextRange} from "../parser-node";
+import {Node, ReverseSyntaxKind, SyntaxKind, TextRange} from "../parser-node";
 import {SyntaxKindToNode} from "./syntax-kind-to-node.generated";
+import {ParserState} from "./parser-state";
 
 export interface TokenObj<TokenKindT extends TokenKind> {
     start : number,
     end : number,
     tokenKind : TokenKindT;
     value : string,
+    getTokenSourceText : () => string,
 }
 
 export type Quantifier =
@@ -78,53 +80,9 @@ export type Data =
     | Node
     | TextRange
     | null
+    | undefined
     | readonly Data[]
 ;
-
-export function getStart (
-    data : Data
-) : number {
-    if (data == null) {
-        return -1;
-    }
-    if (data instanceof Array) {
-        for (let i=0; i<data.length; ++i) {
-            const start = getStart(data[i]);
-            if (start >= 0) {
-                return start;
-            }
-        }
-        return -1;
-    }
-
-    return data.start;
-}
-
-export function getEnd (
-    data : Data
-) : number {
-    if (data == null) {
-        return -1;
-    }
-    if (data instanceof Array) {
-        for (let i=data.length-1; i>=0; --i) {
-            const end = getEnd(data[i]);
-            if (end >= 0) {
-                return end;
-            }
-        }
-        return -1;
-    }
-
-    return data.end;
-}
-
-export function getTextRange (data : Data) : TextRange {
-    return {
-        start : getStart(data),
-        end : getEnd(data),
-    };
-}
 
 export function substitutionToString (sub : Substitution) : string {
     if (sub instanceof Array) {
@@ -219,7 +177,7 @@ export interface Rule<VariableT extends SyntaxKind> {
         SubstitutionT extends readonly Substitution[]
     > (
         substitution : SubstitutionT,
-        func : (data : SubstitutionToData<SubstitutionT>) => SyntaxKindToNode[VariableT]
+        func : (this : ParserState, data : SubstitutionToData<SubstitutionT>) => SyntaxKindToNode[VariableT]
     ) : this;
 
     generateNearlyGrammar () : string;
@@ -228,7 +186,7 @@ export interface Rule<VariableT extends SyntaxKind> {
 export function makeCustomRule<InitialT extends TextRange=never> (variable : string) : CustomRule<InitialT> {
     const substitutions : {
         substitution : readonly Substitution[],
-        func : (...args : any) => unknown,
+        func : (this : ParserState, ...args : any) => unknown,
     }[] = [];
     const result : CustomRule<InitialT> = {
         variable,
@@ -277,7 +235,7 @@ export interface CustomRule<ReturnT extends TextRange> {
         NewReturnT extends TextRange
     > (
         substitution : SubstitutionT,
-        func : (data : SubstitutionToData<SubstitutionT>) => NewReturnT
+        func : (this : ParserState, data : SubstitutionToData<SubstitutionT>) => NewReturnT
     ) : CustomRule<ReturnT|NewReturnT>;
 
     generateNearlyGrammar () : string;
@@ -308,14 +266,6 @@ export function oneOrMore<SubstitutionT extends Substitution> (
         substitution,
         quantifier : "+",
     };
-}
-
-export function toNodeArray<T extends Node> (arr : readonly T[], syntaxKind : SyntaxKind, textRange : TextRange) : NodeArray<T> {
-    (arr as NodeArray<T>).start = textRange.start;
-    (arr as NodeArray<T>).end = textRange.end;
-    (arr as NodeArray<T>).syntaxKind = syntaxKind;
-
-    return arr as NodeArray<T>;
 }
 
 export function emitNearleyGrammar () {

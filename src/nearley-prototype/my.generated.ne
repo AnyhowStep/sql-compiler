@@ -4,9 +4,10 @@
 import {TokenKind} from "../scanner";
 //import * as util from "util";
 //import {SyntaxKind, Node, NodeArray} from "../parser-node";
+//const nearley_util_1 = require("./nearley-util");
 const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
-const nearley_util_1 = require("./nearley-util");
+const parse_util_1 = require("./parse-util");
 
 
 interface Tester {
@@ -1335,14 +1336,14 @@ const HackedDelimiterKeyword : Tester = { test: x => x.tokenKind == TokenKind.Ha
 
 %}
 
-SourceFile ->
+SourceFileLite ->
     LeadingStatement:* TrailingStatement {% (data) => {
     const arr = data.flat(1);
-    const statements = nearley_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.SourceElementList, nearley_util_1.getTextRange(data));
+    const statements = parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.SourceElementList, parse_util_1.getTextRange(data));
     return {
         start: statements.start,
         end: statements.end,
-        syntaxKind: parser_node_1.SyntaxKind.SourceFile,
+        syntaxKind: parser_node_1.SyntaxKind.SourceFileLite,
         statements,
     };
 } %}
@@ -1381,7 +1382,7 @@ CreateTableStatement ->
     %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList {% (data) => {
     const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions] = data;
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
         temporary: temporary != null,
         ifNotExists: ifNotExists != null,
@@ -1399,7 +1400,7 @@ CreateTableDefinitionList ->
         .filter((x) => {
         return "syntaxKind" in x;
     });
-    return nearley_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, nearley_util_1.getTextRange(data));
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, parse_util_1.getTextRange(data));
 } %}
 
 CreateTableDefinition ->
@@ -1409,7 +1410,7 @@ ColumnDefinition ->
     ColumnIdentifier DataType {% (data) => {
     const [columnIdentifier, dataType] = data;
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
         columnIdentifier,
         dataType,
@@ -1427,17 +1428,47 @@ ColumnDefinition ->
 } %}
 
 CreateSchemaStatement ->
-    %CREATE %SCHEMA Identifier {% (data) => {
-    const [start, , identifier] = data;
+    %CREATE %SCHEMA Identifier CreateSchemaStatementModifier {% (data) => {
+    const [, , identifier, modifier] = data;
     return {
-        start: start.start,
-        end: identifier.end,
         syntaxKind: parser_node_1.SyntaxKind.CreateSchemaStatement,
         schemaName: identifier,
         ifNotExists: false,
-        collate: undefined,
-        characterSet: undefined,
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
     };
+} %}
+
+CreateSchemaStatementModifier ->
+    (%DEFAULT:? ((%CHARACTER %SET) | %COLLATE) %Equal:? Identifier):* {% function (data) {
+    const arr = data[0].map(([, kind, , identifier]) => {
+        return {
+            kind,
+            identifier,
+        };
+    });
+    let characterDataTypeModifier = {
+        ...parse_util_1.getTextRange(data),
+        characterSet: undefined,
+        collate: undefined,
+    };
+    for (const ele of arr) {
+        if (ele.kind instanceof Array) {
+            //CHARACTER SET
+            characterDataTypeModifier = parse_util_1.processCharacterDataTypeModifier(this, characterDataTypeModifier, {
+                characterSet: ele.identifier,
+                collate: undefined,
+            });
+        }
+        else {
+            //COLLATE
+            characterDataTypeModifier = parse_util_1.processCharacterDataTypeModifier(this, characterDataTypeModifier, {
+                characterSet: undefined,
+                collate: ele.identifier,
+            });
+        }
+    }
+    return characterDataTypeModifier;
 } %}
 
 TableIdentifier ->
@@ -1445,7 +1476,7 @@ TableIdentifier ->
     const [nameA, nameB] = data;
     if (nameB == null) {
         return {
-            ...nearley_util_1.getTextRange(data),
+            ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.TableIdentifier,
             schemaName: undefined,
             tableName: nameA,
@@ -1453,7 +1484,7 @@ TableIdentifier ->
     }
     else {
         return {
-            ...nearley_util_1.getTextRange(data),
+            ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.TableIdentifier,
             schemaName: nameA,
             tableName: nameB[1],
@@ -1477,7 +1508,7 @@ ColumnIdentifier ->
     const [nameA, nameB] = data;
     if (nameB == null) {
         return {
-            ...nearley_util_1.getTextRange(data),
+            ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
             schemaName: undefined,
             tableName: undefined,
@@ -1488,7 +1519,7 @@ ColumnIdentifier ->
         const nameC = nameB[2];
         if (nameC == null) {
             return {
-                ...nearley_util_1.getTextRange(data),
+                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
                 schemaName: undefined,
                 tableName: nameA,
@@ -1497,7 +1528,7 @@ ColumnIdentifier ->
         }
         else {
             return {
-                ...nearley_util_1.getTextRange(data),
+                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
                 schemaName: nameA,
                 tableName: nameB[1],
@@ -1507,31 +1538,45 @@ ColumnIdentifier ->
     }
 } %}
 
+IntegerLiteral ->
+    %IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+        value: BigInt(data[0].value),
+    };
+} %}
+
 DataType ->
     (BinaryDataType | BlobDataType | BooleanDataType | CharacterDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
-    CharStart (%OpenParentheses %IntegerLiteral %CloseParentheses):? CharacterDataTypeModifier {% (data) => {
-    const [char, maxLengthSpecifier, modifier] = data;
+    CharStart (%OpenParentheses IntegerLiteral %CloseParentheses):? CharacterDataTypeModifier {% (data) => {
+    const [char, maxLength, modifier] = data;
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
         nationalCharacterSet: char.nationalCharacterSet,
         variableLength: false,
-        maxLength: (maxLengthSpecifier == undefined ?
-            1 :
-            parseInt(maxLengthSpecifier[1].value, 10)),
+        maxLength: (maxLength == undefined ?
+            {
+                start: char.end,
+                end: char.end,
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value: BigInt(1),
+            } :
+            maxLength[1]),
         ...modifier,
     };
 } %}
-    | VarCharStart %OpenParentheses %IntegerLiteral %CloseParentheses CharacterDataTypeModifier {% (data) => {
-    const [varChar, , maxLengthSpecifier, , modifier] = data;
+    | VarCharStart %OpenParentheses IntegerLiteral %CloseParentheses CharacterDataTypeModifier {% (data) => {
+    const [varChar, , maxLength, , modifier] = data;
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
         nationalCharacterSet: varChar.nationalCharacterSet,
         variableLength: varChar.variableLength,
-        maxLength: parseInt(maxLengthSpecifier.value, 10),
+        maxLength,
         ...modifier,
     };
 } %}
@@ -1539,10 +1584,10 @@ CharacterDataType ->
 CharStart ->
     %NATIONAL (%CHAR | %CHARACTER) {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         variableLength: false,
         nationalCharacterSet: {
-            ...nearley_util_1.getTextRange(data),
+            ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
             identifier: "utf8",
             quoted: false,
@@ -1551,10 +1596,10 @@ CharStart ->
 } %}
     | %NCHAR {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         variableLength: false,
         nationalCharacterSet: {
-            ...nearley_util_1.getTextRange(data),
+            ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
             identifier: "utf8",
             quoted: false,
@@ -1563,7 +1608,7 @@ CharStart ->
 } %}
     | (%CHAR | %CHARACTER) {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         variableLength: false,
         nationalCharacterSet: undefined,
     };
@@ -1572,10 +1617,10 @@ CharStart ->
 VarCharStart ->
     %NATIONAL (%VARCHAR | %VARCHARACTER | (%CHAR %VARYING) | (%CHARACTER %VARYING)) {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         variableLength: true,
         nationalCharacterSet: {
-            ...nearley_util_1.getTextRange(data),
+            ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
             identifier: "utf8",
             quoted: false,
@@ -1584,10 +1629,10 @@ VarCharStart ->
 } %}
     | %NCHAR %VARYING {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         variableLength: true,
         nationalCharacterSet: {
-            ...nearley_util_1.getTextRange(data),
+            ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
             identifier: "utf8",
             quoted: false,
@@ -1596,10 +1641,10 @@ VarCharStart ->
 } %}
     | %NVARCHAR {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         variableLength: true,
         nationalCharacterSet: {
-            ...nearley_util_1.getTextRange(data),
+            ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
             identifier: "utf8",
             quoted: false,
@@ -1608,32 +1653,35 @@ VarCharStart ->
 } %}
     | (%CHAR | %CHARACTER) %VARYING {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         variableLength: true,
         nationalCharacterSet: undefined,
     };
 } %}
     | (%VARCHAR | %VARCHARACTER) {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         variableLength: true,
         nationalCharacterSet: undefined,
     };
 } %}
 
 CharacterDataTypeModifier ->
-    (%CHARACTER %SET Identifier):? (%COLLATE Identifier):? {% ([characterSet, collate]) => {
-    return {
-        ...nearley_util_1.getTextRange([characterSet, collate]),
+    (%CHARACTER %SET Identifier):? (%COLLATE Identifier):? {% function ([characterSet, collate]) {
+    return parse_util_1.processCharacterDataTypeModifier(this, {
+        ...parse_util_1.getTextRange([characterSet, collate]),
+        characterSet: undefined,
+        collate: undefined,
+    }, {
         characterSet: characterSet?.[2],
         collate: collate?.[1],
-    };
+    });
 } %}
 
 BooleanDataType ->
     (%BOOL | %BOOLEAN) {% (data) => {
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.BooleanDataType,
     };
 } %}
@@ -1642,7 +1690,7 @@ BlobDataType ->
     (%TINYBLOB | %BLOB | %MEDIUMBLOB | %LONGBLOB) {% (data) => {
     const [[token]] = data;
     return {
-        ...nearley_util_1.getTextRange(data),
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
         lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYBLOB ?
             8 :

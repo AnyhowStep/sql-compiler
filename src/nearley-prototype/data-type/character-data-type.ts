@@ -1,11 +1,11 @@
 import {Identifier, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {
-    getTextRange,
     makeCustomRule,
     makeRule, optional, union,
 } from "../nearley-util";
 import {CharacterDataTypeModifier} from "./character-data-type-modifier";
+import {getTextRange} from "../parse-util";
 
 interface CharacterDataTypePreModifier {
     start : number;
@@ -167,22 +167,27 @@ makeRule(SyntaxKind.CharacterDataType)
             CharStart,
             optional([
                 TokenKind.OpenParentheses,
-                TokenKind.IntegerLiteral,
+                SyntaxKind.IntegerLiteral,
                 TokenKind.CloseParentheses,
             ] as const),
             CharacterDataTypeModifier,
         ] as const,
         (data) => {
-            const [char, maxLengthSpecifier, modifier] = data;
+            const [char, maxLength, modifier] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.CharacterDataType,
                 nationalCharacterSet : char.nationalCharacterSet,
                 variableLength : false,
                 maxLength : (
-                    maxLengthSpecifier == undefined ?
-                    1 :
-                    parseInt(maxLengthSpecifier[1].value, 10)
+                    maxLength == undefined ?
+                    {
+                        start : char.end,
+                        end : char.end,
+                        syntaxKind : SyntaxKind.IntegerLiteral,
+                        value : BigInt(1),
+                    } :
+                    maxLength[1]
                 ),
                 ...modifier,
             };
@@ -192,18 +197,18 @@ makeRule(SyntaxKind.CharacterDataType)
         [
             VarCharStart,
             TokenKind.OpenParentheses,
-            TokenKind.IntegerLiteral,
+            SyntaxKind.IntegerLiteral,
             TokenKind.CloseParentheses,
             CharacterDataTypeModifier,
         ] as const,
         (data) => {
-            const [varChar, , maxLengthSpecifier, , modifier] = data;
+            const [varChar, , maxLength, , modifier] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.CharacterDataType,
                 nationalCharacterSet : varChar.nationalCharacterSet,
                 variableLength : varChar.variableLength,
-                maxLength : parseInt(maxLengthSpecifier.value, 10),
+                maxLength,
                 ...modifier,
             };
         }

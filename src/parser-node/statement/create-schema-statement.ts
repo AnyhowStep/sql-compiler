@@ -6,6 +6,6 @@ export interface CreateSchemaStatement extends Statement {
     readonly syntaxKind : SyntaxKind.CreateSchemaStatement,
     readonly ifNotExists : boolean,
     readonly schemaName : Identifier,
-    readonly collate : Identifier|undefined,
     readonly characterSet : Identifier|undefined,
+    readonly collate : Identifier|undefined,
 }

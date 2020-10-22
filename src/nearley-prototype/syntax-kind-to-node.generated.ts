@@ -22,6 +22,7 @@ import {
     Identifier,
     TableIdentifier,
     SourceFile,
+    SourceFileLite,
     CreateSchemaStatement,
     CheckDefinition,
     ColumnDefinition,
@@ -59,6 +60,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.Identifier] : Identifier;
     [SyntaxKind.TableIdentifier] : TableIdentifier;
     [SyntaxKind.SourceFile] : SourceFile;
+    [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.CreateSchemaStatement] : CreateSchemaStatement;
     [SyntaxKind.CheckDefinition] : CheckDefinition;
     [SyntaxKind.ColumnDefinition] : ColumnDefinition;

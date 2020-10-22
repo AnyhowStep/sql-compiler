@@ -7,6 +7,7 @@
         { "path" : "src/scanner" },
         { "path" : "src/parser" },
         { "path" : "src/emitter" },
+        { "path" : "src/nearley-prototype" },
         { "path" : "src/test" }
     ],
     "files" : []

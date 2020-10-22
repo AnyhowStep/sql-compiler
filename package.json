@@ -9,7 +9,7 @@
     "scanner-generator": "ts-node ./src/scanner-generator/generator",
     "parser-node-generator": "cd ./src/parser-node-generator && ts-node -P ./tsconfig.json ./generator",
     "generate": "npm run scanner-generator && npm run parser-node-generator",
-    "nearley-compile": "cd ./src/nearley-prototype && nearleyc ./my.generated.ne -o ./my.generated.ts",
+    "nearley-compile": "cd ./src/nearley-prototype && nearleyc ./my.generated.ne -o ./my.generated.ts && echo \"//@ts-nocheck\\n$(cat ./my.generated.ts)\" > ./my.generated.ts",
     "generate-parser": "cd ./src/nearley-prototype && ts-node -P ./tsconfig.json ./my-grammar-generator  && ts-node -P ./tsconfig.json ./my.ts && npm run nearley-compile",
     "build": "tsc -b"
   },

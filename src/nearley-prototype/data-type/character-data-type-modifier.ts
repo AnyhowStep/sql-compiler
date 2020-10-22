@@ -1,6 +1,7 @@
 import {Identifier, SyntaxKind, TextRange} from "../../parser-node";
 import {TokenKind} from "../../scanner";
-import {getTextRange, makeCustomRule, optional} from "../nearley-util";
+import {makeCustomRule, optional} from "../nearley-util";
+import {getTextRange, processCharacterDataTypeModifier} from "../parse-util";
 
 export interface CharacterDataTypeModifier extends TextRange {
     readonly characterSet : Identifier|undefined;
@@ -20,11 +21,18 @@ export const CharacterDataTypeModifier = makeCustomRule("CharacterDataTypeModifi
                 SyntaxKind.Identifier
             ] as const),
         ] as const,
-        ([characterSet, collate]) : CharacterDataTypeModifier => {
-            return {
-                ...getTextRange([characterSet, collate]),
-                characterSet : characterSet?.[2],
-                collate : collate?.[1],
-            };
+        function ([characterSet, collate]) : CharacterDataTypeModifier {
+            return processCharacterDataTypeModifier(
+                this,
+                {
+                    ...getTextRange([characterSet, collate]),
+                    characterSet : undefined,
+                    collate : undefined,
+                },
+                {
+                    characterSet : characterSet?.[2],
+                    collate : collate?.[1],
+                }
+            );
         }
     );

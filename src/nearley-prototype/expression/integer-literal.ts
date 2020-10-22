@@ -2,20 +2,17 @@ import {SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {
     makeRule,
-    union,
 } from "../nearley-util";
 import {getTextRange} from "../parse-util";
 
-makeRule(SyntaxKind.BooleanDataType)
+makeRule(SyntaxKind.IntegerLiteral)
     .addSubstitution(
-        [union(
-            TokenKind.BOOL,
-            TokenKind.BOOLEAN,
-        )] as const,
+        [TokenKind.IntegerLiteral] as const,
         (data) => {
             return {
                 ...getTextRange(data),
-                syntaxKind : SyntaxKind.BooleanDataType,
+                syntaxKind : SyntaxKind.IntegerLiteral,
+                value : BigInt(data[0].value),
             };
         }
     );

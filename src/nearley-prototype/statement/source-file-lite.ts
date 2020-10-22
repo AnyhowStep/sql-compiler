@@ -4,11 +4,10 @@ import {
     makeRule,
     makeCustomRule,
     optional,
-    toNodeArray,
     zeroOrMore,
-    getTextRange,
     union,
 } from "../nearley-util";
+import {getTextRange, toNodeArray} from "../parse-util";
 
 const NonDelimiterStatementRule = makeCustomRule<Statement>("NonDelimiterStatement")
     .addSubstitution(
@@ -59,7 +58,7 @@ const TrailingStatement = makeCustomRule<Statement>("TrailingStatement")
         (data) : Statement => data[0]
     )
 
-makeRule(SyntaxKind.SourceFile)
+makeRule(SyntaxKind.SourceFileLite)
     .addSubstitution(
         [
             zeroOrMore(LeadingStatement),
@@ -75,7 +74,7 @@ makeRule(SyntaxKind.SourceFile)
             return {
                 start : statements.start,
                 end : statements.end,
-                syntaxKind : SyntaxKind.SourceFile,
+                syntaxKind : SyntaxKind.SourceFileLite,
                 statements,
             };
         }

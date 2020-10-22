@@ -1,9 +1,9 @@
 import {ColumnFormat, SyntaxKind} from "../../../parser-node";
 import {DataTypeRule} from "../../data-type/data-type";
 import {
-    getTextRange,
     makeRule,
 } from "../../nearley-util";
+import {getTextRange} from "../../parse-util";
 
 makeRule(SyntaxKind.ColumnDefinition)
     .addSubstitution(

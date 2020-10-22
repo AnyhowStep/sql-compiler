@@ -21,6 +21,7 @@ import {ColumnIdentifier} from "./identifier/column-identifier";
 import {Identifier} from "./identifier/identifier";
 import {TableIdentifier} from "./identifier/table-identifier";
 import {SourceFile} from "./source-file";
+import {SourceFileLite} from "./source-file";
 import {CreateSchemaStatement} from "./statement/create-schema-statement";
 import {CheckDefinition} from "./statement/create-table-definition/check-definition";
 import {ColumnDefinition} from "./statement/create-table-definition/column-definition";
@@ -56,6 +57,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnIdentif
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Identifier) : node is Identifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableIdentifier) : node is TableIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateSchemaStatement) : node is CreateSchemaStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CheckDefinition) : node is CheckDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnDefinition) : node is ColumnDefinition;
@@ -100,6 +102,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.Identifier, callback : (node : Identifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TableIdentifier, callback : (node : TableIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateSchemaStatement, callback : (node : CreateSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CheckDefinition, callback : (node : CheckDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ColumnDefinition, callback : (node : ColumnDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

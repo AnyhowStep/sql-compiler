@@ -19,7 +19,7 @@ function readRecursive (path : string)  {
             .replace(".ts", "")
     );
 
-    if (importPath.endsWith("/source-file")) {
+    if (importPath.endsWith("/source-file-lite")) {
         lastImport = importPath;
     } else {
         importPaths.push(importPath);
@@ -27,6 +27,7 @@ function readRecursive (path : string)  {
 }
 
 readRecursive(`${__dirname}/data-type`);
+readRecursive(`${__dirname}/expression`);
 readRecursive(`${__dirname}/identifier`);
 readRecursive(`${__dirname}/statement`);
 

@@ -8,3 +8,4 @@ export * from "./node";
 export * from "./reverse-syntax-kind";
 export * from "./source-file";
 export * from "./syntax-kind.generated";
+export * from "./walk";

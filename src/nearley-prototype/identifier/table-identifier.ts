@@ -1,10 +1,10 @@
 import {SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {
-    getTextRange,
     makeRule,
     optional,
 } from "../nearley-util";
+import {getTextRange} from "../parse-util";
 
 makeRule(SyntaxKind.TableIdentifier)
     .addSubstitution(

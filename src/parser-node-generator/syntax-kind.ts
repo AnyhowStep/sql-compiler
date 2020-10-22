@@ -27,6 +27,7 @@ export const syntaxKinds = [
     /**
      * Top-Level nodes
      */
+    "SourceFileLite",
     "SourceFile",
     "Program",
 
