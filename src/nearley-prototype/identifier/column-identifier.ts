@@ -5,17 +5,18 @@ import {
     optional,
 } from "../nearley-util";
 import {getTextRange} from "../parse-util";
+import {IdentifierAllowReservedRule} from "./identifier";
 
 makeRule(SyntaxKind.ColumnIdentifier)
     .addSubstitution(
         [
             SyntaxKind.Identifier,
             optional([
-                TokenKind.Comma,
-                SyntaxKind.Identifier,
+                TokenKind.Dot,
+                IdentifierAllowReservedRule,
                 optional([
-                    TokenKind.Comma,
-                    SyntaxKind.Identifier,
+                    TokenKind.Dot,
+                    IdentifierAllowReservedRule,
                 ] as const),
             ] as const),
         ] as const,

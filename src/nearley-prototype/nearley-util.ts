@@ -144,6 +144,9 @@ export function makeRule<
             return this;
         },
         generateNearlyGrammar () {
+            if (substitutions.length == 0) {
+                return "";
+            }
             const arr = [
                 (
                     ReverseSyntaxKind[variable] + " ->"
@@ -201,6 +204,9 @@ export function makeCustomRule<InitialT extends TextRange=never> (variable : str
             return this;
         },
         generateNearlyGrammar () {
+            if (substitutions.length == 0) {
+                return "";
+            }
             const arr = [
                 (
                     variable + " ->"

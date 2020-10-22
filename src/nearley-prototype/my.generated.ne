@@ -1,13 +1,16 @@
 @preprocessor typescript
 
 @{%
-import {TokenKind} from "../scanner";
+import {TokenKind, isKeyword} from "../scanner";
 //import * as util from "util";
 //import {SyntaxKind, Node, NodeArray} from "../parser-node";
 //const nearley_util_1 = require("./nearley-util");
 const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
+const diagnostic_messages_1 = require("./diagnostic-messages");
 const parse_util_1 = require("./parse-util");
+
+const KeywordOrIdentifier : Tester = { test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind) };
 
 
 interface Tester {
@@ -1526,7 +1529,7 @@ CreateSchemaStatementModifier ->
 } %}
 
 TableIdentifier ->
-    Identifier (%Comma Identifier):? {% (data) => {
+    Identifier (%Dot IdentifierAllowReserved):? {% (data) => {
     const [nameA, nameB] = data;
     if (nameB == null) {
         return {
@@ -1546,19 +1549,8 @@ TableIdentifier ->
     }
 } %}
 
-Identifier ->
-    %Identifier {% ([identifier]) => {
-    return {
-        start: identifier.start,
-        end: identifier.end,
-        syntaxKind: parser_node_1.SyntaxKind.Identifier,
-        identifier: identifier.value,
-        quoted: false,
-    };
-} %}
-
 ColumnIdentifier ->
-    Identifier (%Comma Identifier (%Comma Identifier):?):? {% (data) => {
+    Identifier (%Dot IdentifierAllowReserved (%Dot IdentifierAllowReserved):?):? {% (data) => {
     const [nameA, nameB] = data;
     if (nameB == null) {
         return {
@@ -1591,6 +1583,58 @@ ColumnIdentifier ->
         }
     }
 } %}
+
+IdentifierAllowReserved ->
+    %KeywordOrIdentifier {% function (data) {
+    const [tokenObj] = data;
+    if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+        const sourceText = tokenObj.getTokenSourceText();
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.value,
+            quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+        };
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+        identifier: tokenObj.value,
+        quoted: false,
+    };
+} %}
+
+Identifier ->
+    %KeywordOrIdentifier {% function (data) {
+    const [tokenObj] = data;
+    if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+        const sourceText = tokenObj.getTokenSourceText();
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.value,
+            quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+        };
+    }
+    if (scanner_1.isNonReserved(tokenObj.tokenKind)) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.value,
+            quoted: false,
+        };
+    }
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+        identifier: tokenObj.value,
+        quoted: false,
+    };
+    parse_util_1.pushSyntacticErrorAtNode(this, result, diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, tokenObj.value);
+    return result;
+} %}
+
+
 
 StringLiteral ->
     %StringLiteral {% (data) => {

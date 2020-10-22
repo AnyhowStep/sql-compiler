@@ -14,6 +14,7 @@ import "./statement/create-schema-statement";
 import "./statement/create-table-definition/create-table-definition";
 import "./statement/create-table-definition/generated-column-definition";
 import "./statement/create-table-definition/generated-definition";
+import "./statement/create-table-definition/index-definition";
 import "./statement/create-table-definition/non-generated-column-definition";
 import "./statement/create-table-statement";
 import "./statement/delimiter-statement";

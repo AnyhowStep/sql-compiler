@@ -5,13 +5,16 @@
 // @ts-ignore
 function id(d: any[]): any { return d[0]; }
 
-import {TokenKind} from "../scanner";
+import {TokenKind, isKeyword} from "../scanner";
 //import * as util from "util";
 //import {SyntaxKind, Node, NodeArray} from "../parser-node";
 //const nearley_util_1 = require("./nearley-util");
 const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
+const diagnostic_messages_1 = require("./diagnostic-messages");
 const parse_util_1 = require("./parse-util");
+
+const KeywordOrIdentifier : Tester = { test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind) };
 
 
 interface Tester {
@@ -1593,7 +1596,7 @@ export var ParserRules: NearleyRule[] = [
             }
             return characterDataTypeModifier;
         } },
-    {"name": "TableIdentifier$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier"]},
+    {"name": "TableIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
     {"name": "TableIdentifier$ebnf$1", "symbols": ["TableIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "TableIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "TableIdentifier", "symbols": ["Identifier", "TableIdentifier$ebnf$1"], "postprocess":  (data) => {
@@ -1615,19 +1618,10 @@ export var ParserRules: NearleyRule[] = [
                 };
             }
         } },
-    {"name": "Identifier", "symbols": [Identifier], "postprocess":  ([identifier]) => {
-            return {
-                start: identifier.start,
-                end: identifier.end,
-                syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                identifier: identifier.value,
-                quoted: false,
-            };
-        } },
-    {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier"]},
+    {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
     {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": ["ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "ColumnIdentifier$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier", "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "ColumnIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved", "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1"]},
     {"name": "ColumnIdentifier$ebnf$1", "symbols": ["ColumnIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "ColumnIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "ColumnIdentifier", "symbols": ["Identifier", "ColumnIdentifier$ebnf$1"], "postprocess":  (data) => {
@@ -1662,6 +1656,52 @@ export var ParserRules: NearleyRule[] = [
                     };
                 }
             }
+        } },
+    {"name": "IdentifierAllowReserved", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
+            const [tokenObj] = data;
+            if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+                const sourceText = tokenObj.getTokenSourceText();
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: tokenObj.value,
+                    quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+                };
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                identifier: tokenObj.value,
+                quoted: false,
+            };
+        } },
+    {"name": "Identifier", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
+            const [tokenObj] = data;
+            if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+                const sourceText = tokenObj.getTokenSourceText();
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: tokenObj.value,
+                    quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+                };
+            }
+            if (scanner_1.isNonReserved(tokenObj.tokenKind)) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: tokenObj.value,
+                    quoted: false,
+                };
+            }
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                identifier: tokenObj.value,
+                quoted: false,
+            };
+            parse_util_1.pushSyntacticErrorAtNode(this, result, diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, tokenObj.value);
+            return result;
         } },
     {"name": "StringLiteral", "symbols": [StringLiteral], "postprocess":  (data) => {
             return {

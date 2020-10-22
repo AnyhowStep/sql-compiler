@@ -23,6 +23,8 @@ const scanner = new Scanner(`
         Z CHAR(3) CHARACTER SET utf8mb4 COLLATE \`binary\`,
         W BOOL AUTO_INCREMENT KEY STORAGE DISK
     );
+    CREATE TABLE KEY (X BOOL);
+    CREATE TABLE test.KEY (X BOOL);
 `);
 const sourceFile = parse(
     "file-0",
