@@ -14,6 +14,8 @@ import "./identifier/identifier";
 import "./identifier/table-identifier";
 import "./misc/comment";
 import "./misc/constraint";
+import "./misc/default-character-set";
+import "./misc/default-collate";
 import "./statement/create-schema-statement";
 import "./statement/create-table-definition/create-table-definition";
 import "./statement/create-table-definition/full-text-or-spatial-index-definition";

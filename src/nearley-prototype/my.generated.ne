@@ -1413,7 +1413,6 @@ IndexDefinition ->
             } :
             rawIndexOption);
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: ("syntaxKind" in constraintName ?
             constraintName :
@@ -1422,6 +1421,7 @@ IndexDefinition ->
         indexName: indexName ?? undefined,
         indexParts,
         ...indexOption,
+        ...parse_util_1.getTextRange(data),
     };
 } %}
 
@@ -1437,13 +1437,13 @@ IndexDefinition ->
             } :
             rawIndexOption);
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: undefined,
         indexClass: parser_node_1.IndexClass.INDEX,
         indexName: indexName ?? undefined,
         indexParts,
         ...indexOption,
+        ...parse_util_1.getTextRange(data),
     };
 } %}
 
@@ -1478,12 +1478,12 @@ ColumnDefinition ->
         parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
     }
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
         columnIdentifier,
         dataType,
         generated: generated,
         ...modifier,
+        ...parse_util_1.getTextRange(data),
     };
 } %}
 
@@ -1491,12 +1491,12 @@ ColumnDefinition ->
     ColumnIdentifier DataType ColumnModifier {% (data) => {
     const [columnIdentifier, dataType, modifier] = data;
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
         columnIdentifier,
         dataType,
         generated: undefined,
         ...modifier,
+        ...parse_util_1.getTextRange(data),
     };
 } %}
 
@@ -1521,7 +1521,6 @@ IndexDefinition ->
     (%FULLTEXT | %SPATIAL) (%INDEX | %KEY):? Identifier:? IndexPartList IndexOption {% function (data) {
     const [indexClass, , indexName, indexParts, indexOption] = data;
     const result = {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: undefined,
         indexClass: (indexClass[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
@@ -1530,6 +1529,7 @@ IndexDefinition ->
         indexName: indexName ?? undefined,
         indexParts,
         ...indexOption,
+        ...parse_util_1.getTextRange(data),
     };
     if (indexOption.indexType != undefined) {
         parse_util_1.pushSyntacticErrorAtNode(this, indexName ?? result, diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
@@ -1614,47 +1614,64 @@ CreateTableDefinition ->
     (ColumnDefinition | IndexDefinition) {% (data) => data[0][0] %}
 
 CreateSchemaStatement ->
-    %CREATE (%SCHEMA | %DATABASE) (%IF %NOT %EXISTS):? Identifier CreateSchemaStatementModifier {% (data) => {
-    const [, , ifNotExists, identifier, modifier] = data;
+    %CREATE (%SCHEMA | %DATABASE) (%IF %NOT %EXISTS):? Identifier CreateSchemaOptionList {% (data) => {
+    const [, , ifNotExists, identifier, createSchemaOptions] = data;
     return {
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateSchemaStatement,
         schemaName: identifier,
         ifNotExists: ifNotExists != undefined,
-        ...modifier,
-        ...parse_util_1.getTextRange(data),
+        createSchemaOptions,
     };
 } %}
 
-CreateSchemaStatementModifier ->
-    (%DEFAULT:? ((%CHARACTER %SET) | %COLLATE) %Equal:? Identifier):* {% function (data) {
-    const arr = data[0].map(([, kind, , identifier]) => {
-        return {
-            kind,
-            identifier,
-        };
-    });
-    let characterDataTypeModifier = {
-        ...parse_util_1.getTextRange(data),
-        characterSet: undefined,
-        collate: undefined,
+CreateSchemaOptionList ->
+    (DefaultCharacterSet | DefaultCollation):* {% (data) => {
+    return parse_util_1.toNodeArray(data.flat(2), parser_node_1.SyntaxKind.CreateSchemaOptionList, parse_util_1.getTextRange(data));
+} %}
+
+DefaultCollation ->
+    %DEFAULT:? %COLLATE %Equal:? Identifier {% (data) => {
+    let [, , , collationName] = data;
+    collationName = {
+        ...collationName,
+        identifier: collationName.identifier.toLowerCase(),
     };
-    for (const ele of arr) {
-        if (ele.kind[0] instanceof Array) {
-            //CHARACTER SET
-            characterDataTypeModifier = parse_util_1.processCharacterDataTypeModifier(this, characterDataTypeModifier, {
-                characterSet: ele.identifier,
-                collate: undefined,
-            });
-        }
-        else {
-            //COLLATE
-            characterDataTypeModifier = parse_util_1.processCharacterDataTypeModifier(this, characterDataTypeModifier, {
-                characterSet: undefined,
-                collate: ele.identifier,
-            });
-        }
-    }
-    return characterDataTypeModifier;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.DefaultCollation,
+        collationName: (collationName.quoted ?
+            collationName :
+            collationName.identifier.toUpperCase() == "DEFAULT" ?
+                undefined :
+                collationName),
+    };
+} %}
+
+DefaultCharacterSet ->
+    %DEFAULT:? %CHARACTER %SET %Equal:? Identifier {% (data) => {
+    let [, , , , characterSetName] = data;
+    characterSetName = {
+        ...characterSetName,
+        identifier: characterSetName.identifier.toLowerCase(),
+    };
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
+        characterSetName: (characterSetName.quoted ?
+            characterSetName :
+            characterSetName.identifier.toUpperCase() == "DEFAULT" ?
+                undefined :
+                //We allow `BINARY` here
+                //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
+                characterSetName.identifier.toUpperCase() == "BINARY" ?
+                    {
+                        ...characterSetName,
+                        //Hack; remove the syntactic error
+                        syntacticErrors: undefined,
+                    } :
+                    characterSetName),
+    };
 } %}
 
 Constraint ->
@@ -1815,13 +1832,13 @@ IntegerDataType ->
                         4 :
                         8);
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.IntegerDataType,
         bytes,
         displayWidth: (displayWidth == undefined ?
             undefined :
             Number(displayWidth[1].value)),
         ...modifier,
+        ...parse_util_1.getTextRange(data),
     };
 } %}
 
@@ -1841,7 +1858,6 @@ CharacterDataType ->
     CharStart (%OpenParentheses IntegerLiteral %CloseParentheses):? CharacterDataTypeModifier {% (data) => {
     const [char, maxLength, modifier] = data;
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
         nationalCharacterSet: char.nationalCharacterSet,
         variableLength: false,
@@ -1854,17 +1870,18 @@ CharacterDataType ->
             } :
             maxLength[1]),
         ...modifier,
+        ...parse_util_1.getTextRange(data),
     };
 } %}
     | VarCharStart %OpenParentheses IntegerLiteral %CloseParentheses CharacterDataTypeModifier {% (data) => {
     const [varChar, , maxLength, , modifier] = data;
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
         nationalCharacterSet: varChar.nationalCharacterSet,
         variableLength: varChar.variableLength,
         maxLength,
         ...modifier,
+        ...parse_util_1.getTextRange(data),
     };
 } %}
 
@@ -1956,9 +1973,9 @@ VarCharStart ->
 CharacterDataTypeModifier ->
     (%CHARACTER %SET Identifier):? (%COLLATE Identifier):? {% function ([characterSet, collate]) {
     return parse_util_1.processCharacterDataTypeModifier(this, {
-        ...parse_util_1.getTextRange([characterSet, collate]),
         characterSet: undefined,
         collate: undefined,
+        ...parse_util_1.getTextRange([characterSet, collate]),
     }, {
         characterSet: characterSet?.[2],
         collate: collate?.[1],
@@ -1968,8 +1985,8 @@ CharacterDataTypeModifier ->
 BooleanDataType ->
     (%BOOL | %BOOLEAN) {% (data) => {
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.BooleanDataType,
+        ...parse_util_1.getTextRange(data),
     };
 } %}
 
@@ -1977,7 +1994,6 @@ BlobDataType ->
     (%TINYBLOB | %BLOB | %MEDIUMBLOB | %LONGBLOB) {% (data) => {
     const [[token]] = data;
     return {
-        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
         lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYBLOB ?
             8 :
@@ -1986,6 +2002,7 @@ BlobDataType ->
                 token.tokenKind == scanner_1.TokenKind.MEDIUMBLOB ?
                     24 :
                     32),
+        ...parse_util_1.getTextRange(data),
     };
 } %}
 

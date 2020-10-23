@@ -1445,7 +1445,6 @@ export var ParserRules: NearleyRule[] = [
                     } :
                     rawIndexOption);
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
                 constraintName: ("syntaxKind" in constraintName ?
                     constraintName :
@@ -1454,6 +1453,7 @@ export var ParserRules: NearleyRule[] = [
                 indexName: indexName ?? undefined,
                 indexParts,
                 ...indexOption,
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "IndexDefinition$subexpression$2", "symbols": [INDEX]},
@@ -1473,13 +1473,13 @@ export var ParserRules: NearleyRule[] = [
                     } :
                     rawIndexOption);
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
                 constraintName: undefined,
                 indexClass: parser_node_1.IndexClass.INDEX,
                 indexName: indexName ?? undefined,
                 indexParts,
                 ...indexOption,
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "GeneratedDefinition$ebnf$1$subexpression$1", "symbols": [GENERATED, ALWAYS]},
@@ -1517,23 +1517,23 @@ export var ParserRules: NearleyRule[] = [
                 parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
             }
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
                 columnIdentifier,
                 dataType,
                 generated: generated,
                 ...modifier,
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "ColumnModifier"], "postprocess":  (data) => {
             const [columnIdentifier, dataType, modifier] = data;
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
                 columnIdentifier,
                 dataType,
                 generated: undefined,
                 ...modifier,
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "ColumnModifier$ebnf$1", "symbols": []},
@@ -1585,7 +1585,6 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$3", "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
             const [indexClass, , indexName, indexParts, indexOption] = data;
             const result = {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
                 constraintName: undefined,
                 indexClass: (indexClass[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
@@ -1594,6 +1593,7 @@ export var ParserRules: NearleyRule[] = [
                 indexName: indexName ?? undefined,
                 indexParts,
                 ...indexOption,
+                ...parse_util_1.getTextRange(data),
             };
             if (indexOption.indexType != undefined) {
                 parse_util_1.pushSyntacticErrorAtNode(this, indexName ?? result, diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
@@ -1694,55 +1694,70 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateSchemaStatement$ebnf$1$subexpression$1", "symbols": [IF, NOT, EXISTS]},
     {"name": "CreateSchemaStatement$ebnf$1", "symbols": ["CreateSchemaStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CreateSchemaStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CreateSchemaStatement", "symbols": [CREATE, "CreateSchemaStatement$subexpression$1", "CreateSchemaStatement$ebnf$1", "Identifier", "CreateSchemaStatementModifier"], "postprocess":  (data) => {
-            const [, , ifNotExists, identifier, modifier] = data;
+    {"name": "CreateSchemaStatement", "symbols": [CREATE, "CreateSchemaStatement$subexpression$1", "CreateSchemaStatement$ebnf$1", "Identifier", "CreateSchemaOptionList"], "postprocess":  (data) => {
+            const [, , ifNotExists, identifier, createSchemaOptions] = data;
             return {
+                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CreateSchemaStatement,
                 schemaName: identifier,
                 ifNotExists: ifNotExists != undefined,
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
+                createSchemaOptions,
             };
         } },
-    {"name": "CreateSchemaStatementModifier$ebnf$1", "symbols": []},
-    {"name": "CreateSchemaStatementModifier$ebnf$1$subexpression$1$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
-    {"name": "CreateSchemaStatementModifier$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CreateSchemaStatementModifier$ebnf$1$subexpression$1$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
-    {"name": "CreateSchemaStatementModifier$ebnf$1$subexpression$1$subexpression$1", "symbols": ["CreateSchemaStatementModifier$ebnf$1$subexpression$1$subexpression$1$subexpression$1"]},
-    {"name": "CreateSchemaStatementModifier$ebnf$1$subexpression$1$subexpression$1", "symbols": [COLLATE]},
-    {"name": "CreateSchemaStatementModifier$ebnf$1$subexpression$1$ebnf$2", "symbols": [Equal], "postprocess": id},
-    {"name": "CreateSchemaStatementModifier$ebnf$1$subexpression$1$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CreateSchemaStatementModifier$ebnf$1$subexpression$1", "symbols": ["CreateSchemaStatementModifier$ebnf$1$subexpression$1$ebnf$1", "CreateSchemaStatementModifier$ebnf$1$subexpression$1$subexpression$1", "CreateSchemaStatementModifier$ebnf$1$subexpression$1$ebnf$2", "Identifier"]},
-    {"name": "CreateSchemaStatementModifier$ebnf$1", "symbols": ["CreateSchemaStatementModifier$ebnf$1", "CreateSchemaStatementModifier$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "CreateSchemaStatementModifier", "symbols": ["CreateSchemaStatementModifier$ebnf$1"], "postprocess":  function (data) {
-            const arr = data[0].map(([, kind, , identifier]) => {
-                return {
-                    kind,
-                    identifier,
-                };
-            });
-            let characterDataTypeModifier = {
-                ...parse_util_1.getTextRange(data),
-                characterSet: undefined,
-                collate: undefined,
+    {"name": "CreateSchemaOptionList$ebnf$1", "symbols": []},
+    {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCharacterSet"]},
+    {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCollation"]},
+    {"name": "CreateSchemaOptionList$ebnf$1", "symbols": ["CreateSchemaOptionList$ebnf$1", "CreateSchemaOptionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateSchemaOptionList", "symbols": ["CreateSchemaOptionList$ebnf$1"], "postprocess":  (data) => {
+            return parse_util_1.toNodeArray(data.flat(2), parser_node_1.SyntaxKind.CreateSchemaOptionList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "DefaultCollation$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
+    {"name": "DefaultCollation$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "DefaultCollation$ebnf$2", "symbols": [Equal], "postprocess": id},
+    {"name": "DefaultCollation$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "DefaultCollation", "symbols": ["DefaultCollation$ebnf$1", COLLATE, "DefaultCollation$ebnf$2", "Identifier"], "postprocess":  (data) => {
+            let [, , , collationName] = data;
+            collationName = {
+                ...collationName,
+                identifier: collationName.identifier.toLowerCase(),
             };
-            for (const ele of arr) {
-                if (ele.kind[0] instanceof Array) {
-                    //CHARACTER SET
-                    characterDataTypeModifier = parse_util_1.processCharacterDataTypeModifier(this, characterDataTypeModifier, {
-                        characterSet: ele.identifier,
-                        collate: undefined,
-                    });
-                }
-                else {
-                    //COLLATE
-                    characterDataTypeModifier = parse_util_1.processCharacterDataTypeModifier(this, characterDataTypeModifier, {
-                        characterSet: undefined,
-                        collate: ele.identifier,
-                    });
-                }
-            }
-            return characterDataTypeModifier;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.DefaultCollation,
+                collationName: (collationName.quoted ?
+                    collationName :
+                    collationName.identifier.toUpperCase() == "DEFAULT" ?
+                        undefined :
+                        collationName),
+            };
+        } },
+    {"name": "DefaultCharacterSet$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
+    {"name": "DefaultCharacterSet$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "DefaultCharacterSet$ebnf$2", "symbols": [Equal], "postprocess": id},
+    {"name": "DefaultCharacterSet$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "DefaultCharacterSet", "symbols": ["DefaultCharacterSet$ebnf$1", CHARACTER, SET, "DefaultCharacterSet$ebnf$2", "Identifier"], "postprocess":  (data) => {
+            let [, , , , characterSetName] = data;
+            characterSetName = {
+                ...characterSetName,
+                identifier: characterSetName.identifier.toLowerCase(),
+            };
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
+                characterSetName: (characterSetName.quoted ?
+                    characterSetName :
+                    characterSetName.identifier.toUpperCase() == "DEFAULT" ?
+                        undefined :
+                        //We allow `BINARY` here
+                        //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
+                        characterSetName.identifier.toUpperCase() == "BINARY" ?
+                            {
+                                ...characterSetName,
+                                //Hack; remove the syntactic error
+                                syntacticErrors: undefined,
+                            } :
+                            characterSetName),
+            };
         } },
     {"name": "Constraint$ebnf$1", "symbols": ["Identifier"], "postprocess": id},
     {"name": "Constraint$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -1903,13 +1918,13 @@ export var ParserRules: NearleyRule[] = [
                                 4 :
                                 8);
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IntegerDataType,
                 bytes,
                 displayWidth: (displayWidth == undefined ?
                     undefined :
                     Number(displayWidth[1].value)),
                 ...modifier,
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "IntegerDataTypeModifier$ebnf$1", "symbols": []},
@@ -1936,7 +1951,6 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CharacterDataType", "symbols": ["CharStart", "CharacterDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
             const [char, maxLength, modifier] = data;
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
                 nationalCharacterSet: char.nationalCharacterSet,
                 variableLength: false,
@@ -1949,17 +1963,18 @@ export var ParserRules: NearleyRule[] = [
                     } :
                     maxLength[1]),
                 ...modifier,
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "CharacterDataType", "symbols": ["VarCharStart", OpenParentheses, "IntegerLiteral", CloseParentheses, "CharacterDataTypeModifier"], "postprocess":  (data) => {
             const [varChar, , maxLength, , modifier] = data;
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
                 nationalCharacterSet: varChar.nationalCharacterSet,
                 variableLength: varChar.variableLength,
                 maxLength,
                 ...modifier,
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "CharStart$subexpression$1", "symbols": [CHAR]},
@@ -2065,9 +2080,9 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CharacterDataTypeModifier$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$ebnf$1", "CharacterDataTypeModifier$ebnf$2"], "postprocess":  function ([characterSet, collate]) {
             return parse_util_1.processCharacterDataTypeModifier(this, {
-                ...parse_util_1.getTextRange([characterSet, collate]),
                 characterSet: undefined,
                 collate: undefined,
+                ...parse_util_1.getTextRange([characterSet, collate]),
             }, {
                 characterSet: characterSet?.[2],
                 collate: collate?.[1],
@@ -2077,8 +2092,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "BooleanDataType$subexpression$1", "symbols": [BOOLEAN]},
     {"name": "BooleanDataType", "symbols": ["BooleanDataType$subexpression$1"], "postprocess":  (data) => {
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.BooleanDataType,
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "BlobDataType$subexpression$1", "symbols": [TINYBLOB]},
@@ -2088,7 +2103,6 @@ export var ParserRules: NearleyRule[] = [
     {"name": "BlobDataType", "symbols": ["BlobDataType$subexpression$1"], "postprocess":  (data) => {
             const [[token]] = data;
             return {
-                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
                 lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYBLOB ?
                     8 :
@@ -2097,6 +2111,7 @@ export var ParserRules: NearleyRule[] = [
                         token.tokenKind == scanner_1.TokenKind.MEDIUMBLOB ?
                             24 :
                             32),
+                ...parse_util_1.getTextRange(data),
             };
         } },
     {"name": "BinaryDataType$ebnf$1$subexpression$1", "symbols": [OpenParentheses, IntegerLiteral, CloseParentheses]},

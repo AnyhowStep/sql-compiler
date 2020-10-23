@@ -1,14 +1,7 @@
 CREATE SCHEMA `A` CHARACTER SET BInarY;
 
 -----
-CREATE SCHEMA `A` CHARACTER SET `binary`;
+CREATE SCHEMA `A` DEFAULT CHARACTER SET `binary`;
 
 -----
-[
-    {
-        "category": 0,
-        "messageText": "Cannot use keyword BINARY as identifier; escape it with backticks",
-        "start": 32,
-        "length": 6
-    }
-]
+[]

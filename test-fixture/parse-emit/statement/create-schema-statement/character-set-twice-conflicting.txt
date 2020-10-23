@@ -1,14 +1,7 @@
 CREATE SCHEMA `A` CHARACTER SET UTF8MB4 CHARACTER SET blah;
 
 -----
-CREATE SCHEMA `A` CHARACTER SET `utf8mb4`;
+CREATE SCHEMA `A` DEFAULT CHARACTER SET `utf8mb4` DEFAULT CHARACTER SET `blah`;
 
 -----
-[
-    {
-        "category": 0,
-        "messageText": "Conflicting declarations CHARACTER SET utf8mb4, CHARACTER SET blah",
-        "start": 32,
-        "length": 7
-    }
-]
+[]

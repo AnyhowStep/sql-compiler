@@ -38,9 +38,16 @@ export const syntaxKinds = [
     "DelimiterStatement",
 
     /**
+     * Misc
+     */
+    "DefaultCollation",
+    "DefaultCharacterSet",
+
+    /**
      * Statements
      */
     "CreateSchemaStatement",
+    "CreateSchemaOptionList",
 
     "CreateTableStatement",
     "ColumnDefinition",

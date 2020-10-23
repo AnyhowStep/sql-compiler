@@ -1,7 +1,7 @@
 CREATE SCHEMA `A` COLLATE BInarY;
 
 -----
-CREATE SCHEMA `A` CHARACTER SET `binary` COLLATE `binary`;
+CREATE SCHEMA `A` DEFAULT COLLATE `binary`;
 
 -----
 [

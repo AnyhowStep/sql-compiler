@@ -1,5 +1,6 @@
-import {CreateSchemaStatement} from "../../parser-node";
+import {CreateSchemaStatement, SyntaxKind} from "../../parser-node";
 import {emitIdentifier} from "../identifier";
+import {emitDefaultCharacterSet, emitDefaultCollation} from "../misc";
 import {StringBuilder} from "../string-builder";
 
 export function emitCreateSchemaStatement (statement : CreateSchemaStatement) : StringBuilder {
@@ -15,14 +16,16 @@ export function emitCreateSchemaStatement (statement : CreateSchemaStatement) : 
         .append(" ")
         .appendBuilder(emitIdentifier(statement.schemaName));
 
-    if (statement.characterSet != undefined) {
-        result.append(" CHARACTER SET ");
-        result.appendBuilder(emitIdentifier(statement.characterSet));
-    }
-
-    if (statement.collate != undefined) {
-        result.append(" COLLATE ");
-        result.appendBuilder(emitIdentifier(statement.collate));
+    for (const createSchemaOption of statement.createSchemaOptions) {
+        if (createSchemaOption.syntaxKind == SyntaxKind.DefaultCharacterSet) {
+            result
+                .append(" ")
+                .appendBuilder(emitDefaultCharacterSet(createSchemaOption));
+        } else {
+            result
+                .append(" ")
+                .appendBuilder(emitDefaultCollation(createSchemaOption));
+        }
     }
 
     return result.append(";");

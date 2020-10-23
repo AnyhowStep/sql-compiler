@@ -1,72 +1,27 @@
-import {Identifier, SyntaxKind, TextRange} from "../../parser-node";
+import {CreateSchemaOptionList, CreateSchemaStatement, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
-import {CharacterDataTypeModifier} from "../data-type/character-data-type-modifier";
 import {
-    makeCustomRule,
     makeRule,
     optional,
     union,
     zeroOrMore,
 } from "../nearley-util";
-import {processCharacterDataTypeModifier, getTextRange} from "../parse-util";
+import {getTextRange, toNodeArray} from "../parse-util";
 
-interface CreateSchemaStatementModifier extends TextRange {
-    readonly characterSet : Identifier|undefined,
-    readonly collate : Identifier|undefined,
-}
-
-const CreateSchemaStatementModifierRule = makeCustomRule("CreateSchemaStatementModifier")
+makeRule(SyntaxKind.CreateSchemaOptionList)
     .addSubstitution(
         [
-            zeroOrMore([
-                optional(TokenKind.DEFAULT),
-                union(
-                    [TokenKind.CHARACTER, TokenKind.SET] as const,
-                    TokenKind.COLLATE
-                ),
-                optional(TokenKind.Equal),
-                SyntaxKind.Identifier
-            ] as const)
+            zeroOrMore(union(
+                SyntaxKind.DefaultCharacterSet,
+                SyntaxKind.DefaultCollation
+            ))
         ] as const,
-        function (data) : CreateSchemaStatementModifier {
-            const arr = data[0].map(([, kind, , identifier]) => {
-                return {
-                    kind,
-                    identifier,
-                };
-            });
-
-            let characterDataTypeModifier : CharacterDataTypeModifier = {
-                ...getTextRange(data),
-                characterSet : undefined,
-                collate : undefined,
-            };
-
-            for (const ele of arr) {
-                if (ele.kind[0] instanceof Array) {
-                    //CHARACTER SET
-                    characterDataTypeModifier = processCharacterDataTypeModifier(
-                        this,
-                        characterDataTypeModifier,
-                        {
-                            characterSet : ele.identifier,
-                            collate : undefined,
-                        }
-                    );
-                } else {
-                    //COLLATE
-                    characterDataTypeModifier = processCharacterDataTypeModifier(
-                        this,
-                        characterDataTypeModifier,
-                        {
-                            characterSet : undefined,
-                            collate : ele.identifier,
-                        }
-                    );
-                }
-            }
-
-            return characterDataTypeModifier;
+        (data) : CreateSchemaOptionList => {
+            return toNodeArray(
+                data.flat(2),
+                SyntaxKind.CreateSchemaOptionList,
+                getTextRange(data)
+            );
         }
     );
 
@@ -77,16 +32,16 @@ makeRule(SyntaxKind.CreateSchemaStatement)
             union(TokenKind.SCHEMA, TokenKind.DATABASE),
             optional([TokenKind.IF, TokenKind.NOT, TokenKind.EXISTS] as const),
             SyntaxKind.Identifier,
-            CreateSchemaStatementModifierRule
+            SyntaxKind.CreateSchemaOptionList
         ] as const,
-        (data) => {
-            const [, , ifNotExists, identifier, modifier] = data;
+        (data) : CreateSchemaStatement => {
+            const [, , ifNotExists, identifier, createSchemaOptions] = data;
             return {
+                ...getTextRange(data),
                 syntaxKind : SyntaxKind.CreateSchemaStatement,
                 schemaName : identifier,
                 ifNotExists : ifNotExists != undefined,
-                ...modifier,
-                ...getTextRange(data),
-            }
+                createSchemaOptions,
+            };
         }
     );

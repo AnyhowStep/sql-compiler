@@ -21,8 +21,11 @@ import {
     ColumnIdentifier,
     Identifier,
     TableIdentifier,
+    DefaultCharacterSet,
+    DefaultCollation,
     SourceFile,
     SourceFileLite,
+    CreateSchemaOptionList,
     CreateSchemaStatement,
     CheckDefinition,
     ColumnDefinition,
@@ -60,8 +63,11 @@ export type SyntaxKindToNode = {
     [SyntaxKind.ColumnIdentifier] : ColumnIdentifier;
     [SyntaxKind.Identifier] : Identifier;
     [SyntaxKind.TableIdentifier] : TableIdentifier;
+    [SyntaxKind.DefaultCharacterSet] : DefaultCharacterSet;
+    [SyntaxKind.DefaultCollation] : DefaultCollation;
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
+    [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;
     [SyntaxKind.CreateSchemaStatement] : CreateSchemaStatement;
     [SyntaxKind.CheckDefinition] : CheckDefinition;
     [SyntaxKind.ColumnDefinition] : ColumnDefinition;
