@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BOOL AS (1) COMMENT 'test comment'
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN GENERATED ALWAYS AS (1) VIRTUAL NULL COMMENT 'test comment'
+);
+
+-----
+[]

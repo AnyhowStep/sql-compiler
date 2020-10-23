@@ -9,7 +9,7 @@ export function emitGeneratedDefinition (def : GeneratedDefinition) : StringBuil
         .append(")")
         .append(
             def.generatedType == GeneratedType.VIRTUAL ?
-            "VIRTUAL" :
-            "STORED"
+            " VIRTUAL" :
+            " STORED"
         );
 }

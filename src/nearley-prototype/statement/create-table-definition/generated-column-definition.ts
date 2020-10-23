@@ -1,59 +1,14 @@
 import {SyntaxKind} from "../../../parser-node";
-import {TokenKind} from "../../../scanner";
 import {DataTypeRule} from "../../data-type/data-type";
+import {DiagnosticMessages} from "../../diagnostic-messages";
 import {
-    makeCustomRule,
     makeRule,
-    optional,
-    union,
-    zeroOrMore,
 } from "../../nearley-util";
 import {
-    ColumnDefinitionModifier,
-    createDefaultColumnDefinitionModifier,
     getTextRange,
-    processColumnDefinitionModifier,
+    pushSyntacticErrorAtNode,
 } from "../../parse-util";
-
-const GeneratedColumnModifierElementRule = makeCustomRule("GeneratedColumnModifierElement")
-    .addSubstitution(
-        [
-            union(
-                TokenKind.NULL,
-                [TokenKind.NOT, TokenKind.NULL] as const,
-                TokenKind.UNIQUE,
-                TokenKind.UNIQUE_KEY,
-                [optional(TokenKind.PRIMARY), TokenKind.KEY] as const,
-                [TokenKind.COMMENT, SyntaxKind.StringLiteral] as const,
-                //TODO SyntaxKind.ForeignKeyReferenceDefinition,
-            )
-        ] as const,
-        (data) => {
-            return {
-                ...getTextRange(data),
-                data : data[0][0],
-            };
-        }
-    )
-
-const GeneratedColumnModifierRule = makeCustomRule<ColumnDefinitionModifier>("GeneratedColumnModifier")
-    .addSubstitution(
-        [
-            zeroOrMore(GeneratedColumnModifierElementRule),
-        ] as const,
-        (data) : ColumnDefinitionModifier => {
-            let columnDefinitionModifier = createDefaultColumnDefinitionModifier();
-
-            for (const ele of data[0]) {
-                columnDefinitionModifier = processColumnDefinitionModifier(
-                    columnDefinitionModifier,
-                    ele.data
-                );
-            }
-
-            return columnDefinitionModifier;
-        }
-    );
+import {ColumnModifierRule} from "./non-generated-column-definition";
 
 makeRule(SyntaxKind.ColumnDefinition)
     .addSubstitution(
@@ -61,10 +16,43 @@ makeRule(SyntaxKind.ColumnDefinition)
             SyntaxKind.ColumnIdentifier,
             DataTypeRule,
             SyntaxKind.GeneratedDefinition,
-            GeneratedColumnModifierRule,
+            ColumnModifierRule,
         ] as const,
-        (data) => {
+        function (data) {
             const [columnIdentifier, dataType, generated, modifier] = data;
+
+            if (modifier.autoIncrement) {
+                pushSyntacticErrorAtNode(
+                    this,
+                    columnIdentifier,
+                    DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement
+                );
+            }
+
+            if (modifier.columnFormat != undefined) {
+                pushSyntacticErrorAtNode(
+                    this,
+                    columnIdentifier,
+                    DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat
+                );
+            }
+
+            if (modifier.storage != undefined) {
+                pushSyntacticErrorAtNode(
+                    this,
+                    columnIdentifier,
+                    DiagnosticMessages.GeneratedColumnCannotSpecifyStorage
+                );
+            }
+
+            if (modifier.defaultValue != undefined) {
+                pushSyntacticErrorAtNode(
+                    this,
+                    columnIdentifier,
+                    DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue
+                );
+            }
+
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.ColumnDefinition,

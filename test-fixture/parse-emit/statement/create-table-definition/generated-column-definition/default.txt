@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOL AS (1) DEFAULT 1
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN GENERATED ALWAYS AS (1) VIRTUAL NULL DEFAULT 1
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify default value",
+        "start": 21,
+        "length": 1
+    }
+]

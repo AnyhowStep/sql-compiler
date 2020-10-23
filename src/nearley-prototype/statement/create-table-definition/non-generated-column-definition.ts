@@ -41,7 +41,7 @@ const ColumnModifierElementRule = makeCustomRule("ColumnModifierElement")
         }
     )
 
-const ColumnModifierRule = makeCustomRule<ColumnDefinitionModifier>("ColumnModifier")
+export const ColumnModifierRule = makeCustomRule<ColumnDefinitionModifier>("ColumnModifier")
     .addSubstitution(
         [
             zeroOrMore(ColumnModifierElementRule),

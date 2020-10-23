@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOL AS (1) STORAGE DISK
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN GENERATED ALWAYS AS (1) VIRTUAL NULL STORAGE DISK
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify storage",
+        "start": 21,
+        "length": 1
+    }
+]

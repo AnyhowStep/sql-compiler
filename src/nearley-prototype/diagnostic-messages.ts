@@ -60,6 +60,26 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200010,
     }),
+    GeneratedColumnCannotSpecifyAutoIncrement : makeDiagnosticMessage({
+        key : "Generated column cannot specify auto-increment",
+        category : DiagnosticCategory.Error,
+        code : 200011,
+    }),
+    GeneratedColumnCannotSpecifyColumnFormat : makeDiagnosticMessage({
+        key : "Generated column cannot specify column format",
+        category : DiagnosticCategory.Error,
+        code : 200012,
+    }),
+    GeneratedColumnCannotSpecifyStorage : makeDiagnosticMessage({
+        key : "Generated column cannot specify storage",
+        category : DiagnosticCategory.Error,
+        code : 200013,
+    }),
+    GeneratedColumnCannotSpecifyDefaultValue : makeDiagnosticMessage({
+        key : "Generated column cannot specify default value",
+        category : DiagnosticCategory.Error,
+        code : 200014,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

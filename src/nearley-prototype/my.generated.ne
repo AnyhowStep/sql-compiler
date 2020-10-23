@@ -1425,36 +1425,6 @@ IndexDefinition ->
     };
 } %}
 
-ColumnDefinition ->
-    ColumnIdentifier DataType ColumnModifier {% (data) => {
-    const [columnIdentifier, dataType, modifier] = data;
-    return {
-        ...parse_util_1.getTextRange(data),
-        syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
-        columnIdentifier,
-        dataType,
-        generated: undefined,
-        ...modifier,
-    };
-} %}
-
-ColumnModifier ->
-    ColumnModifierElement:* {% (data) => {
-    let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
-    for (const ele of data[0]) {
-        columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
-    }
-    return columnDefinitionModifier;
-} %}
-
-ColumnModifierElement ->
-    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
-    return {
-        ...parse_util_1.getTextRange(data),
-        data: data[0][0],
-    };
-} %}
-
 IndexDefinition ->
     (%INDEX | %KEY) Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
     const [, indexName, indexType, indexParts, rawIndexOption] = data;
@@ -1520,8 +1490,20 @@ GeneratedDefinition ->
 } %}
 
 ColumnDefinition ->
-    ColumnIdentifier DataType GeneratedDefinition GeneratedColumnModifier {% (data) => {
+    ColumnIdentifier DataType GeneratedDefinition ColumnModifier {% function (data) {
     const [columnIdentifier, dataType, generated, modifier] = data;
+    if (modifier.autoIncrement) {
+        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
+    }
+    if (modifier.columnFormat != undefined) {
+        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
+    }
+    if (modifier.storage != undefined) {
+        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
+    }
+    if (modifier.defaultValue != undefined) {
+        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
+    }
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
@@ -1543,6 +1525,36 @@ GeneratedColumnModifier ->
 
 GeneratedColumnModifierElement ->
     (%NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        data: data[0][0],
+    };
+} %}
+
+ColumnDefinition ->
+    ColumnIdentifier DataType ColumnModifier {% (data) => {
+    const [columnIdentifier, dataType, modifier] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+        columnIdentifier,
+        dataType,
+        generated: undefined,
+        ...modifier,
+    };
+} %}
+
+ColumnModifier ->
+    ColumnModifierElement:* {% (data) => {
+    let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
+    for (const ele of data[0]) {
+        columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+    }
+    return columnDefinitionModifier;
+} %}
+
+ColumnModifierElement ->
+    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         data: data[0][0],

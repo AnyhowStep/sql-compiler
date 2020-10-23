@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOL AS (1) AUTO_INCREMENT
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN GENERATED ALWAYS AS (1) VIRTUAL NOT NULL AUTO_INCREMENT
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify auto-increment",
+        "start": 21,
+        "length": 1
+    }
+]
