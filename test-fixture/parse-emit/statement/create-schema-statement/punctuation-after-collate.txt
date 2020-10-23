@@ -1,13 +1,12 @@
 CREATE SCHEMA A COLLATE (;
 
 -----
-CREATE SCHEMA `A`;
 
 -----
 [
     {
         "category": 0,
-        "messageText": "Expected Identifier",
+        "messageText": "Expected Equal|Identifier",
         "start": 24,
         "length": 0
     }

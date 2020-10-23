@@ -1,14 +1,13 @@
 CREATE SCHEMA A DEFAULT ( COLLATE utf8mb4_unicode_ci;
 
 -----
-CREATE SCHEMA `A`;
 
 -----
 [
     {
         "category": 0,
-        "messageText": "Expected COLLATE|CHARACTER",
+        "messageText": "Expected CHARACTER SET|COLLATE",
         "start": 24,
-        "length": 1
+        "length": 0
     }
 ]

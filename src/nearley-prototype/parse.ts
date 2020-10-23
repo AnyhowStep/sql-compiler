@@ -58,11 +58,18 @@ export function parse (
             const expected = [
                 ...new Set(parserColumn.scannable.map(state => {
                     const expect = state.rule.symbols[state.dot];
-                    return (
-                        typeof expect == "string" ?
-                        expect :
-                        expect.type
-                    );
+                    if (typeof expect == "string") {
+                        return expect;
+                    }
+                    let expectStr = expect.type;
+                    for (let i=state.dot+1; i<state.rule.symbols.length; ++i) {
+                        const cur = state.rule.symbols[i];
+                        if (typeof cur == "string") {
+                            break;
+                        }
+                        expectStr += " " + cur.type;
+                    }
+                    return expectStr;
                 })),
             ].sort((a, b) => a.localeCompare(b));
 
@@ -148,14 +155,7 @@ export function parse (
             statements : toNodeArray([], SyntaxKind.SourceElementList, textRange),
             filename,
             text : scanner.getText(),
-            syntacticErrors : [
-                ...syntacticErrors,
-                makeDiagnosticAt(
-                    textRange.start,
-                    textRange.end,
-                    DiagnosticMessages.CannotParseSourceFile
-                ),
-            ],
+            syntacticErrors,
         };
     }
 

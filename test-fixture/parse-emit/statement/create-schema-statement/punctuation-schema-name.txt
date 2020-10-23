@@ -6,7 +6,7 @@ CREATE SCHEMA (;
 [
     {
         "category": 0,
-        "messageText": "Expected Identifier",
+        "messageText": "Expected Identifier|IF NOT EXISTS",
         "start": 14,
         "length": 0
     }

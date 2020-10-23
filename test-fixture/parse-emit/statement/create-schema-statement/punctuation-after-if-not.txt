@@ -1,20 +1,13 @@
 CREATE SCHEMA IF NOT ( A;
 
 -----
-CREATE SCHEMA `IF`;
 
 -----
 [
     {
         "category": 0,
-        "messageText": "Cannot use keyword IF as identifier; escape it with backticks",
-        "start": 14,
-        "length": 2
-    },
-    {
-        "category": 0,
-        "messageText": "Expected COLLATE|CHARACTER",
-        "start": 17,
-        "length": 3
+        "messageText": "Expected EXISTS",
+        "start": 21,
+        "length": 0
     }
 ]

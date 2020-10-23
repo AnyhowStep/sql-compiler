@@ -7,8 +7,8 @@ CREATE SCHEMA `A`;
 [
     {
         "category": 0,
-        "messageText": "Expected COLLATE|CHARACTER",
+        "messageText": "Expected CHARACTER SET|COLLATE|CustomDelimiter|DEFAULT|SemiColon",
         "start": 16,
-        "length": 1
+        "length": 0
     }
 ]
