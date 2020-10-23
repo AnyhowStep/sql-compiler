@@ -85,6 +85,11 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Warning,
         code : 200015,
     }),
+    FullTextAndSpatialIndexCannotSpecifyIndexType : makeDiagnosticMessage({
+        key : "FULLTEXT and SPATIAL index cannot specify index type",
+        category : DiagnosticCategory.Error,
+        code : 200016,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    X BOOL,
+    FULLTEXT (X) USING HASH
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    FULLTEXT INDEX (`X` ASC) USING HASH
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "FULLTEXT and SPATIAL index cannot specify index type",
+        "start": 46,
+        "length": 10
+    }
+]

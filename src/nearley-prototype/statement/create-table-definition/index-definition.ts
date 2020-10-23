@@ -30,13 +30,13 @@ makeRule(SyntaxKind.IndexDefinition)
             );
 
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.IndexDefinition,
                 constraintName : undefined,
                 indexClass : IndexClass.INDEX,
                 indexName : indexName ?? undefined,
                 indexParts,
                 ...indexOption,
+                ...getTextRange(data),
             }
         }
     )

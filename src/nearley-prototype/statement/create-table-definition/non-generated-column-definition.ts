@@ -70,13 +70,13 @@ makeRule(SyntaxKind.ColumnDefinition)
         (data) => {
             const [columnIdentifier, dataType, modifier] = data;
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.ColumnDefinition,
                 columnIdentifier,
                 dataType,
                 generated : undefined,
 
                 ...modifier,
+                ...getTextRange(data),
             };
         }
     );

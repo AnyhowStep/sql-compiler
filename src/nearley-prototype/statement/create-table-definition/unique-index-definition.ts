@@ -33,7 +33,6 @@ makeRule(SyntaxKind.IndexDefinition)
             );
 
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.IndexDefinition,
                 constraintName : (
                     "syntaxKind" in constraintName ?
@@ -44,6 +43,7 @@ makeRule(SyntaxKind.IndexDefinition)
                 indexName : indexName ?? undefined,
                 indexParts,
                 ...indexOption,
+                ...getTextRange(data),
             }
         }
     )

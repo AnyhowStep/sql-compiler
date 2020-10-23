@@ -1482,39 +1482,6 @@ export var ParserRules: NearleyRule[] = [
                 ...indexOption,
             };
         } },
-    {"name": "IndexOption$ebnf$1", "symbols": []},
-    {"name": "IndexOption$ebnf$1", "symbols": ["IndexOption$ebnf$1", "IndexOptionElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "IndexOption", "symbols": ["IndexOption$ebnf$1"], "postprocess":  (data) => {
-            let indexOption = parse_util_1.createDefaultIndexOption();
-            for (const ele of data[0]) {
-                indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
-            }
-            return indexOption;
-        } },
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [Equal], "postprocess": id},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1", "symbols": [KEY_BLOCK_SIZE, "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "IntegerLiteral"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$1"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexType"]},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$2", "symbols": [WITH, PARSER, "Identifier"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$2"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["Comment"]},
-    {"name": "IndexOptionElement", "symbols": ["IndexOptionElement$subexpression$1"], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                data: data[0][0],
-            };
-        } },
-    {"name": "IndexType$subexpression$1", "symbols": [BTREE]},
-    {"name": "IndexType$subexpression$1", "symbols": [HASH]},
-    {"name": "IndexType", "symbols": [USING, "IndexType$subexpression$1"], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
-                    parser_node_1.IndexType.BTREE :
-                    parser_node_1.IndexType.HASH),
-            };
-        } },
     {"name": "GeneratedDefinition$ebnf$1$subexpression$1", "symbols": [GENERATED, ALWAYS]},
     {"name": "GeneratedDefinition$ebnf$1", "symbols": ["GeneratedDefinition$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "GeneratedDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -1615,9 +1582,9 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IndexDefinition$ebnf$5", "symbols": [], "postprocess": () => null},
     {"name": "IndexDefinition$ebnf$6", "symbols": ["Identifier"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$6", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$3", "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "FullTextOrSpatialIndexOption"], "postprocess":  function (data) {
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$3", "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
             const [indexClass, , indexName, indexParts, indexOption] = data;
-            return {
+            const result = {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
                 constraintName: undefined,
@@ -1628,27 +1595,42 @@ export var ParserRules: NearleyRule[] = [
                 indexParts,
                 ...indexOption,
             };
+            if (indexOption.indexType != undefined) {
+                parse_util_1.pushSyntacticErrorAtNode(this, indexName ?? result, diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
+            }
+            return result;
         } },
-    {"name": "FullTextOrSpatialIndexOption$ebnf$1", "symbols": []},
-    {"name": "FullTextOrSpatialIndexOption$ebnf$1", "symbols": ["FullTextOrSpatialIndexOption$ebnf$1", "FullTextOrSpatialIndexOptionElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "FullTextOrSpatialIndexOption", "symbols": ["FullTextOrSpatialIndexOption$ebnf$1"], "postprocess":  (data) => {
+    {"name": "IndexOption$ebnf$1", "symbols": []},
+    {"name": "IndexOption$ebnf$1", "symbols": ["IndexOption$ebnf$1", "IndexOptionElement"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IndexOption", "symbols": ["IndexOption$ebnf$1"], "postprocess":  (data) => {
             let indexOption = parse_util_1.createDefaultIndexOption();
             for (const ele of data[0]) {
                 indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
             }
             return indexOption;
         } },
-    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [Equal], "postprocess": id},
-    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1", "symbols": [KEY_BLOCK_SIZE, "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "IntegerLiteral"]},
-    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1", "symbols": ["FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$1"]},
-    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$2", "symbols": [WITH, PARSER, "Identifier"]},
-    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1", "symbols": ["FullTextOrSpatialIndexOptionElement$subexpression$1$subexpression$2"]},
-    {"name": "FullTextOrSpatialIndexOptionElement$subexpression$1", "symbols": ["Comment"]},
-    {"name": "FullTextOrSpatialIndexOptionElement", "symbols": ["FullTextOrSpatialIndexOptionElement$subexpression$1"], "postprocess":  (data) => {
+    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IndexOptionElement$subexpression$1$subexpression$1", "symbols": [KEY_BLOCK_SIZE, "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "IntegerLiteral"]},
+    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$1"]},
+    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexType"]},
+    {"name": "IndexOptionElement$subexpression$1$subexpression$2", "symbols": [WITH, PARSER, "Identifier"]},
+    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$2"]},
+    {"name": "IndexOptionElement$subexpression$1", "symbols": ["Comment"]},
+    {"name": "IndexOptionElement", "symbols": ["IndexOptionElement$subexpression$1"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 data: data[0][0],
+            };
+        } },
+    {"name": "IndexType$subexpression$1", "symbols": [BTREE]},
+    {"name": "IndexType$subexpression$1", "symbols": [HASH]},
+    {"name": "IndexType", "symbols": [USING, "IndexType$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
+                    parser_node_1.IndexType.BTREE :
+                    parser_node_1.IndexType.HASH),
             };
         } },
     {"name": "IndexPartList$ebnf$1", "symbols": []},

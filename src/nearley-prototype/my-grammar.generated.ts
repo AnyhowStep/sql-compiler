@@ -17,7 +17,6 @@ import "./misc/constraint";
 import "./statement/create-schema-statement";
 import "./statement/create-table-definition/create-table-definition";
 import "./statement/create-table-definition/full-text-or-spatial-index-definition";
-import "./statement/create-table-definition/full-text-or-spatial-index-option";
 import "./statement/create-table-definition/generated-column-definition";
 import "./statement/create-table-definition/generated-definition";
 import "./statement/create-table-definition/index-definition";

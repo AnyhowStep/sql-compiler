@@ -43,7 +43,6 @@ makeRule(SyntaxKind.IntegerDataType)
                 8
             );
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.IntegerDataType,
                 bytes,
                 displayWidth : (
@@ -52,6 +51,7 @@ makeRule(SyntaxKind.IntegerDataType)
                     Number(displayWidth[1].value)
                 ),
                 ...modifier,
+                ...getTextRange(data),
             };
         }
     );

@@ -54,13 +54,13 @@ makeRule(SyntaxKind.ColumnDefinition)
             }
 
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.ColumnDefinition,
                 columnIdentifier,
                 dataType,
                 generated : generated,
 
                 ...modifier,
+                ...getTextRange(data),
             };
         }
     );

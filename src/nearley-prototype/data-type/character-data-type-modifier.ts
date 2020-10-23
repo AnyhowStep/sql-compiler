@@ -25,9 +25,9 @@ export const CharacterDataTypeModifier = makeCustomRule("CharacterDataTypeModifi
             return processCharacterDataTypeModifier(
                 this,
                 {
-                    ...getTextRange([characterSet, collate]),
                     characterSet : undefined,
                     collate : undefined,
+                    ...getTextRange([characterSet, collate]),
                 },
                 {
                     characterSet : characterSet?.[2],

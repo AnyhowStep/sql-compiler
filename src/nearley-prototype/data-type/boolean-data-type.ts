@@ -14,8 +14,8 @@ makeRule(SyntaxKind.BooleanDataType)
         )] as const,
         (data) => {
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.BooleanDataType,
+                ...getTextRange(data),
             };
         }
     );

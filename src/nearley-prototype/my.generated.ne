@@ -1447,33 +1447,6 @@ IndexDefinition ->
     };
 } %}
 
-IndexOption ->
-    IndexOptionElement:* {% (data) => {
-    let indexOption = parse_util_1.createDefaultIndexOption();
-    for (const ele of data[0]) {
-        indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
-    }
-    return indexOption;
-} %}
-
-IndexOptionElement ->
-    ((%KEY_BLOCK_SIZE %Equal:? IntegerLiteral) | IndexType | (%WITH %PARSER Identifier) | Comment) {% (data) => {
-    return {
-        ...parse_util_1.getTextRange(data),
-        data: data[0][0],
-    };
-} %}
-
-IndexType ->
-    %USING (%BTREE | %HASH) {% (data) => {
-    return {
-        ...parse_util_1.getTextRange(data),
-        indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
-            parser_node_1.IndexType.BTREE :
-            parser_node_1.IndexType.HASH),
-    };
-} %}
-
 GeneratedDefinition ->
     (%GENERATED %ALWAYS):? %AS %OpenParentheses Expression %CloseParentheses (%VIRTUAL | %STORED):? {% (data) => {
     const [, , , expr, , generatedType] = data;
@@ -1545,9 +1518,9 @@ ColumnModifierElement ->
 } %}
 
 IndexDefinition ->
-    (%FULLTEXT | %SPATIAL) (%INDEX | %KEY):? Identifier:? IndexPartList FullTextOrSpatialIndexOption {% function (data) {
+    (%FULLTEXT | %SPATIAL) (%INDEX | %KEY):? Identifier:? IndexPartList IndexOption {% function (data) {
     const [indexClass, , indexName, indexParts, indexOption] = data;
-    return {
+    const result = {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: undefined,
@@ -1558,10 +1531,14 @@ IndexDefinition ->
         indexParts,
         ...indexOption,
     };
+    if (indexOption.indexType != undefined) {
+        parse_util_1.pushSyntacticErrorAtNode(this, indexName ?? result, diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
+    }
+    return result;
 } %}
 
-FullTextOrSpatialIndexOption ->
-    FullTextOrSpatialIndexOptionElement:* {% (data) => {
+IndexOption ->
+    IndexOptionElement:* {% (data) => {
     let indexOption = parse_util_1.createDefaultIndexOption();
     for (const ele of data[0]) {
         indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
@@ -1569,11 +1546,21 @@ FullTextOrSpatialIndexOption ->
     return indexOption;
 } %}
 
-FullTextOrSpatialIndexOptionElement ->
-    ((%KEY_BLOCK_SIZE %Equal:? IntegerLiteral) | (%WITH %PARSER Identifier) | Comment) {% (data) => {
+IndexOptionElement ->
+    ((%KEY_BLOCK_SIZE %Equal:? IntegerLiteral) | IndexType | (%WITH %PARSER Identifier) | Comment) {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         data: data[0][0],
+    };
+} %}
+
+IndexType ->
+    %USING (%BTREE | %HASH) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
+            parser_node_1.IndexType.BTREE :
+            parser_node_1.IndexType.HASH),
     };
 } %}
 

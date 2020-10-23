@@ -2,8 +2,9 @@ import {IndexClass, IndexDefinition, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {makeRule, union, optional} from "../../nearley-util";
 import {IndexPartListRule} from "./index-part";
-import {FullTextOrSpatialIndexOptionRule} from "./full-text-or-spatial-index-option";
-import {getTextRange} from "../../parse-util";
+import {getTextRange, pushSyntacticErrorAtNode} from "../../parse-util";
+import {IndexOptionRule} from "./index-option";
+import {DiagnosticMessages} from "../../diagnostic-messages";
 
 makeRule(SyntaxKind.IndexDefinition)
     .addSubstitution(
@@ -12,13 +13,12 @@ makeRule(SyntaxKind.IndexDefinition)
             optional(union(TokenKind.INDEX, TokenKind.KEY)),
             optional(SyntaxKind.Identifier),
             IndexPartListRule,
-            FullTextOrSpatialIndexOptionRule,
+            IndexOptionRule,
         ] as const,
         function (data) : IndexDefinition {
             const [indexClass, , indexName, indexParts, indexOption] = data;
 
-            return {
-                ...getTextRange(data),
+            const result : IndexDefinition = {
                 syntaxKind : SyntaxKind.IndexDefinition,
                 constraintName : undefined,
                 indexClass : (
@@ -29,6 +29,16 @@ makeRule(SyntaxKind.IndexDefinition)
                 indexName : indexName ?? undefined,
                 indexParts,
                 ...indexOption,
+                ...getTextRange(data),
+            };
+            if (indexOption.indexType != undefined) {
+                pushSyntacticErrorAtNode(
+                    this,
+                    indexName ?? result,
+                    DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType
+                );
             }
+
+            return result;
         }
     )

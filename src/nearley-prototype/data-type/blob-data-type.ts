@@ -17,7 +17,6 @@ makeRule(SyntaxKind.BlobDataType)
         (data) => {
             const [[token]] = data;
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.BlobDataType,
                 lengthBytes : (
                     token.tokenKind == TokenKind.TINYBLOB ?
@@ -28,6 +27,7 @@ makeRule(SyntaxKind.BlobDataType)
                     24 :
                     32
                 ),
+                ...getTextRange(data),
             };
         }
     );

@@ -175,7 +175,6 @@ makeRule(SyntaxKind.CharacterDataType)
         (data) => {
             const [char, maxLength, modifier] = data;
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.CharacterDataType,
                 nationalCharacterSet : char.nationalCharacterSet,
                 variableLength : false,
@@ -190,6 +189,7 @@ makeRule(SyntaxKind.CharacterDataType)
                     maxLength[1]
                 ),
                 ...modifier,
+                ...getTextRange(data),
             };
         }
     )
@@ -204,12 +204,12 @@ makeRule(SyntaxKind.CharacterDataType)
         (data) => {
             const [varChar, , maxLength, , modifier] = data;
             return {
-                ...getTextRange(data),
                 syntaxKind : SyntaxKind.CharacterDataType,
                 nationalCharacterSet : varChar.nationalCharacterSet,
                 variableLength : varChar.variableLength,
                 maxLength,
                 ...modifier,
+                ...getTextRange(data),
             };
         }
     );

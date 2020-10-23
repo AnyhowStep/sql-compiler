@@ -9,8 +9,10 @@ const scanner = new Scanner(`
 `);
 */
 const scanner = new Scanner(`CREATE TABLE T (
-    X INT UNIQUE KEY
+    X BOOL,
+    FULLTEXT (X) USING HASH
 );
+
 
 `);
 const sourceFile = parse(
