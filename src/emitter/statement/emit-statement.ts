@@ -1,12 +1,13 @@
 import {Statement, switchSyntaxKind, SyntaxKind} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
+import {emitCreateTableStatement} from "./create-table-statement";
 import {emitCreateSchemaStatement} from "./emit-create-schema-statement";
 import {emitDelimiterStatement} from "./emit-delimiter-statement";
 
 export function emitStatement (statement : Statement) : StringBuilder {
     return switchSyntaxKind(statement)
         .case(SyntaxKind.CreateSchemaStatement, emitCreateSchemaStatement)
-        //.case(SyntaxKind.CreateTableStatement, emitCreateTableStatement)
+        .case(SyntaxKind.CreateTableStatement, emitCreateTableStatement)
         /**
          * We do not emit this because this is our custom syntax
          * that gets erased.
