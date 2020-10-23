@@ -1344,7 +1344,9 @@ const OpenParentheses : Tester = { test: x => x.tokenKind == TokenKind.OpenParen
 //@ts-ignore
 const CloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.CloseParentheses, type : "CloseParentheses" };
 //@ts-ignore
-const HackedDelimiterKeyword : Tester = { test: x => x.tokenKind == TokenKind.HackedDelimiterKeyword, type : "HackedDelimiterKeyword" };
+const DELIMITER_STATEMENT : Tester = { test: x => x.tokenKind == TokenKind.DELIMITER_STATEMENT, type : "DELIMITER_STATEMENT" };
+//@ts-ignore
+const UNIQUE_KEY : Tester = { test: x => x.tokenKind == TokenKind.UNIQUE_KEY, type : "UNIQUE_KEY" };
 
 
 export interface Token { value: any; [key: string]: any };
@@ -1401,7 +1403,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
-    {"name": "DelimiterStatement", "symbols": [HackedDelimiterKeyword, CustomDelimiter], "postprocess":  (data) => {
+    {"name": "DelimiterStatement", "symbols": [DELIMITER_STATEMENT, CustomDelimiter], "postprocess":  (data) => {
             const [identifier, customDelimiter] = data;
             return {
                 start: identifier.start,
@@ -1489,16 +1491,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "ColumnModifierElement$subexpression$1", "symbols": [NULL]},
     {"name": "ColumnModifierElement$subexpression$1$subexpression$4", "symbols": [NOT, NULL]},
     {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$4"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [KEY], "postprocess": id},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": [UNIQUE]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": [UNIQUE_KEY]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
     {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$5", "symbols": [UNIQUE, "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1"]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$5", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", KEY]},
     {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$5"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$6$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$6$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$6", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$6$ebnf$1", KEY]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$6", "symbols": [COMMENT, "StringLiteral"]},
     {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$6"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$7", "symbols": [COMMENT, "StringLiteral"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$7"]},
     {"name": "ColumnModifierElement", "symbols": ["ColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -1607,16 +1607,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": [NULL]},
     {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$1", "symbols": [NOT, NULL]},
     {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$1"]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", "symbols": [KEY], "postprocess": id},
+    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": [UNIQUE]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": [UNIQUE_KEY]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
     {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2", "symbols": [UNIQUE, "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1"]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", KEY]},
     {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$2"]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$3$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$3$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$3", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$3$ebnf$1", KEY]},
+    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$3", "symbols": [COMMENT, "StringLiteral"]},
     {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$3"]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$4", "symbols": [COMMENT, "StringLiteral"]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$4"]},
     {"name": "GeneratedColumnModifierElement", "symbols": ["GeneratedColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -1886,7 +1884,7 @@ export var ParserRules: NearleyRule[] = [
                 identifier: tokenObj.value,
                 quoted: false,
             };
-            parse_util_1.pushSyntacticErrorAtNode(this, result, diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, tokenObj.value);
+            parse_util_1.pushSyntacticErrorAtNode(this, result, diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
             return result;
         } },
     {"name": "StringLiteral", "symbols": [StringLiteral], "postprocess":  (data) => {
@@ -1905,13 +1903,60 @@ export var ParserRules: NearleyRule[] = [
             };
         } },
     {"name": "Expression$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "Expression", "symbols": ["Expression$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
+        } },
+    {"name": "IntegerDataType$subexpression$1", "symbols": [TINYINT]},
+    {"name": "IntegerDataType$subexpression$1", "symbols": [SMALLINT]},
+    {"name": "IntegerDataType$subexpression$1", "symbols": [MEDIUMINT]},
+    {"name": "IntegerDataType$subexpression$1", "symbols": [INT]},
+    {"name": "IntegerDataType$subexpression$1", "symbols": [INTEGER]},
+    {"name": "IntegerDataType$subexpression$1", "symbols": [BIGINT]},
+    {"name": "IntegerDataType$ebnf$1$subexpression$1", "symbols": [OpenParentheses, "IntegerLiteral", CloseParentheses]},
+    {"name": "IntegerDataType$ebnf$1", "symbols": ["IntegerDataType$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "IntegerDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IntegerDataType", "symbols": ["IntegerDataType$subexpression$1", "IntegerDataType$ebnf$1", "IntegerDataTypeModifier"], "postprocess":  (data) => {
+            const [dataType, displayWidth, modifier] = data;
+            const token = dataType[0].tokenKind;
+            const bytes = (token == scanner_1.TokenKind.TINYINT ?
+                1 :
+                token == scanner_1.TokenKind.SMALLINT ?
+                    2 :
+                    token == scanner_1.TokenKind.MEDIUMINT ?
+                        3 :
+                        token == scanner_1.TokenKind.INT ?
+                            4 :
+                            token == scanner_1.TokenKind.INTEGER ?
+                                4 :
+                                8);
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IntegerDataType,
+                bytes,
+                displayWidth: (displayWidth == undefined ?
+                    undefined :
+                    Number(displayWidth[1].value)),
+                ...modifier,
+            };
+        } },
+    {"name": "IntegerDataTypeModifier$ebnf$1", "symbols": []},
+    {"name": "IntegerDataTypeModifier$ebnf$1$subexpression$1", "symbols": [SIGNED]},
+    {"name": "IntegerDataTypeModifier$ebnf$1$subexpression$1", "symbols": [UNSIGNED]},
+    {"name": "IntegerDataTypeModifier$ebnf$1$subexpression$1", "symbols": [ZEROFILL]},
+    {"name": "IntegerDataTypeModifier$ebnf$1", "symbols": ["IntegerDataTypeModifier$ebnf$1", "IntegerDataTypeModifier$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IntegerDataTypeModifier", "symbols": ["IntegerDataTypeModifier$ebnf$1"], "postprocess":  function (data) {
+            let integerDataTypeModifier = parse_util_1.createDefaultIntegerDataTypeModifier();
+            for (const ele of data[0]) {
+                integerDataTypeModifier = parse_util_1.processIntegerDataTypeModifier(integerDataTypeModifier, ele[0]);
+            }
+            return integerDataTypeModifier;
         } },
     {"name": "DataType$subexpression$1", "symbols": ["BinaryDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BlobDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BooleanDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType", "symbols": ["DataType$subexpression$1"], "postprocess": (data) => data[0][0]},
     {"name": "CharacterDataType$ebnf$1$subexpression$1", "symbols": [OpenParentheses, "IntegerLiteral", CloseParentheses]},
     {"name": "CharacterDataType$ebnf$1", "symbols": ["CharacterDataType$ebnf$1$subexpression$1"], "postprocess": id},

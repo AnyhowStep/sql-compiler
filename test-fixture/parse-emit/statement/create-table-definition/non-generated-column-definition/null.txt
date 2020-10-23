@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BIGINT NULL
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BIGINT SIGNED NULL
+);
+
+-----
+[]

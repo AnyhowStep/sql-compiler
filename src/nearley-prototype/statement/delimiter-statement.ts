@@ -6,7 +6,7 @@ import {
 
 makeRule(SyntaxKind.DelimiterStatement)
     .addSubstitution(
-        [TokenKind.HackedDelimiterKeyword, TokenKind.CustomDelimiter] as const,
+        [TokenKind.DELIMITER_STATEMENT, TokenKind.CustomDelimiter] as const,
         (data) => {
             const [identifier, customDelimiter] = data;
             return {

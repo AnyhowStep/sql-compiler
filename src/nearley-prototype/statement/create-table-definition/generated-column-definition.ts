@@ -21,7 +21,8 @@ const GeneratedColumnModifierElementRule = makeCustomRule("GeneratedColumnModifi
             union(
                 TokenKind.NULL,
                 [TokenKind.NOT, TokenKind.NULL] as const,
-                [TokenKind.UNIQUE, optional(TokenKind.KEY)] as const,
+                TokenKind.UNIQUE,
+                TokenKind.UNIQUE_KEY,
                 [optional(TokenKind.PRIMARY), TokenKind.KEY] as const,
                 [TokenKind.COMMENT, SyntaxKind.StringLiteral] as const,
                 //TODO SyntaxKind.ForeignKeyReferenceDefinition,

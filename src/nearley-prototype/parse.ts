@@ -88,6 +88,13 @@ export function parse (
                 parser.results[0] :
                 undefined
             );
+            if (parser.results != undefined && parser.results.length > 1) {
+                parserSyntacticErrors.push(makeDiagnosticAt(
+                    tokenObj.start,
+                    tokenObj.start,
+                    DiagnosticMessages.InternalErrorGrammarIsAmbiguous
+                ));
+            }
             if (sourceFileLite != undefined) {
                 results.push(sourceFileLite)
             }
@@ -128,6 +135,13 @@ export function parse (
         parser.results[0] :
         undefined
     );
+    if (parser.results != undefined && parser.results.length > 1) {
+        parserSyntacticErrors.push(makeDiagnosticAt(
+            scanner.getText().length,
+            scanner.getText().length,
+            DiagnosticMessages.InternalErrorGrammarIsAmbiguous
+        ));
+    }
     if (sourceFileLite != undefined) {
         results.push(sourceFileLite)
     }

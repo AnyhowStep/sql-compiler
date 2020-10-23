@@ -1340,7 +1340,9 @@ const OpenParentheses : Tester = { test: x => x.tokenKind == TokenKind.OpenParen
 //@ts-ignore
 const CloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.CloseParentheses, type : "CloseParentheses" };
 //@ts-ignore
-const HackedDelimiterKeyword : Tester = { test: x => x.tokenKind == TokenKind.HackedDelimiterKeyword, type : "HackedDelimiterKeyword" };
+const DELIMITER_STATEMENT : Tester = { test: x => x.tokenKind == TokenKind.DELIMITER_STATEMENT, type : "DELIMITER_STATEMENT" };
+//@ts-ignore
+const UNIQUE_KEY : Tester = { test: x => x.tokenKind == TokenKind.UNIQUE_KEY, type : "UNIQUE_KEY" };
 
 %}
 
@@ -1376,7 +1378,7 @@ NonDelimiterStatement ->
 } %}
 
 DelimiterStatement ->
-    %HackedDelimiterKeyword %CustomDelimiter {% (data) => {
+    %DELIMITER_STATEMENT %CustomDelimiter {% (data) => {
     const [identifier, customDelimiter] = data;
     return {
         start: identifier.start,
@@ -1446,7 +1448,7 @@ ColumnModifier ->
 } %}
 
 ColumnModifierElement ->
-    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | (%UNIQUE %KEY:?) | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
+    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         data: data[0][0],
@@ -1540,7 +1542,7 @@ GeneratedColumnModifier ->
 } %}
 
 GeneratedColumnModifierElement ->
-    (%NULL | (%NOT %NULL) | (%UNIQUE %KEY:?) | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
+    (%NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         data: data[0][0],
@@ -1781,7 +1783,7 @@ Identifier ->
         identifier: tokenObj.value,
         quoted: false,
     };
-    parse_util_1.pushSyntacticErrorAtNode(this, result, diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, tokenObj.value);
+    parse_util_1.pushSyntacticErrorAtNode(this, result, diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
     return result;
 } %}
 
@@ -1807,12 +1809,47 @@ IntegerLiteral ->
 } %}
 
 Expression ->
-    (IntegerLiteral) {% (data) => {
+    (IntegerLiteral | StringLiteral) {% (data) => {
     return data[0][0];
 } %}
 
+IntegerDataType ->
+    (%TINYINT | %SMALLINT | %MEDIUMINT | %INT | %INTEGER | %BIGINT) (%OpenParentheses IntegerLiteral %CloseParentheses):? IntegerDataTypeModifier {% (data) => {
+    const [dataType, displayWidth, modifier] = data;
+    const token = dataType[0].tokenKind;
+    const bytes = (token == scanner_1.TokenKind.TINYINT ?
+        1 :
+        token == scanner_1.TokenKind.SMALLINT ?
+            2 :
+            token == scanner_1.TokenKind.MEDIUMINT ?
+                3 :
+                token == scanner_1.TokenKind.INT ?
+                    4 :
+                    token == scanner_1.TokenKind.INTEGER ?
+                        4 :
+                        8);
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IntegerDataType,
+        bytes,
+        displayWidth: (displayWidth == undefined ?
+            undefined :
+            Number(displayWidth[1].value)),
+        ...modifier,
+    };
+} %}
+
+IntegerDataTypeModifier ->
+    (%SIGNED | %UNSIGNED | %ZEROFILL):* {% function (data) {
+    let integerDataTypeModifier = parse_util_1.createDefaultIntegerDataTypeModifier();
+    for (const ele of data[0]) {
+        integerDataTypeModifier = parse_util_1.processIntegerDataTypeModifier(integerDataTypeModifier, ele[0]);
+    }
+    return integerDataTypeModifier;
+} %}
+
 DataType ->
-    (BinaryDataType | BlobDataType | BooleanDataType | CharacterDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
     CharStart (%OpenParentheses IntegerLiteral %CloseParentheses):? CharacterDataTypeModifier {% (data) => {

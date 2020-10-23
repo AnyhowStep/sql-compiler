@@ -55,6 +55,11 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200009,
     }),
+    InternalErrorGrammarIsAmbiguous : makeDiagnosticMessage({
+        key : "Internal error: grammar is ambiguous",
+        category : DiagnosticCategory.Error,
+        code : 200010,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

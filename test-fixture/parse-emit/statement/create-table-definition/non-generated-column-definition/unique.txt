@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X INT(20) UNIQUE
+);
+
+-----
+CREATE TABLE `T` (
+    `X` INT(20) SIGNED NULL UNIQUE KEY
+);
+
+-----
+[]

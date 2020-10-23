@@ -588,6 +588,32 @@ export class Scanner {
                                 }
                                 return this.tokenKind = TokenKind.Identifier;
                             } else {
+                                /**
+                                 * This resolves the ambiguous grammar,
+                                 * ```
+                                 * | "UNIQUE" "KEY":?
+                                 * | "PRIMARY":? "KEY"
+                                 * ```
+                                 * With the input,
+                                 * ```
+                                 * UNIQUE KEY
+                                 * ```
+                                 * You can interpret it as,
+                                 * ```
+                                 * ["UNIQUE", null], [null, "KEY"]
+                                 * or
+                                 * ["UNIQUE", "KEY"]
+                                 * ```
+                                 */
+                                if (tokenKind == TokenKind.UNIQUE) {
+                                    const peeker = this.clone();
+                                    if (peeker.next() == TokenKind.KEY) {
+                                        this.next();
+                                        return this.tokenKind = TokenKind.UNIQUE_KEY;
+                                    } else {
+                                        return this.tokenKind = tokenKind;
+                                    }
+                                }
                                 return this.tokenKind = tokenKind;
                             }
                         }

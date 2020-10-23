@@ -658,7 +658,8 @@ export enum TokenKind {
     GreaterGreater = 656,
     OpenParentheses = 657,
     CloseParentheses = 658,
-    HackedDelimiterKeyword = 659,
+    DELIMITER_STATEMENT = 659,
+    UNIQUE_KEY = 660,
 }
 
 /**
@@ -1362,6 +1363,13 @@ export const tokenKinds = [
     "OpenParentheses",
     "CloseParentheses",
 
-    "HackedDelimiterKeyword",
+    /**
+     * Hacked in to support DELIMITER statements
+     */
+    "DELIMITER_STATEMENT",
+    /**
+     * Hacked in to disambiguate MySQL's grammar
+     */
+    "UNIQUE_KEY",
 ] as const;
 

@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X VARBINARY(15) STORAGE DISK
+);
+
+-----
+CREATE TABLE `T` (
+    `X` VARBINARY(15) NULL STORAGE DISK
+);
+
+-----
+[]

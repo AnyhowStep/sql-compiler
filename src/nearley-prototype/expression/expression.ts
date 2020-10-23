@@ -5,6 +5,7 @@ export const ExpressionRule = makeCustomRule<Expression>("Expression")
     .addSubstitution(
         [union(
             SyntaxKind.IntegerLiteral,
+            SyntaxKind.StringLiteral,
         )] as const,
         (data) : Expression => {
             return data[0][0];

@@ -32,17 +32,17 @@ export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
             def.columnFormat == undefined ?
             undefined :
             def.columnFormat == ColumnFormat.FIXED ?
-            " FIXED" :
+            " COLUMN_FORMAT FIXED" :
             def.columnFormat == ColumnFormat.DYNAMIC ?
-            " DYNAMIC" :
-            " DEFAULT"
+            " COLUMN_FORMAT DYNAMIC" :
+            " COLUMN_FORMAT DEFAULT"
         )
         .append(
             def.storage == undefined ?
             undefined :
             def.storage == Storage.DISK ?
-            " DISK" :
-            " MEMORY"
+            " STORAGE DISK" :
+            " STORAGE MEMORY"
         )
         .scope(builder => {
             if (def.defaultValue == undefined) {

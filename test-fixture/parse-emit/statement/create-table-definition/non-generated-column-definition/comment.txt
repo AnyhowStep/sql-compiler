@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BINARY COMMENT 'lol'
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BINARY(1) NULL COMMENT 'lol'
+);
+
+-----
+[]

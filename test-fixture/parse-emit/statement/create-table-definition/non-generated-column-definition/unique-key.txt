@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TINYINT UNIQUE KEY
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TINYINT SIGNED NULL UNIQUE KEY
+);
+
+-----
+[]

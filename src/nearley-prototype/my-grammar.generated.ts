@@ -4,6 +4,8 @@ import "./data-type/boolean-data-type";
 import "./data-type/character-data-type-modifier";
 import "./data-type/character-data-type";
 import "./data-type/data-type";
+import "./data-type/integer-data-type-modifier";
+import "./data-type/integer-data-type";
 import "./expression/expression";
 import "./expression/integer-literal";
 import "./expression/string-literal";

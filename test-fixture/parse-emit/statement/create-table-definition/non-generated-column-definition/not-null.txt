@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BIGINT(20) UNSIGNED NOT NULL
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BIGINT(20) UNSIGNED NOT NULL
+);
+
+-----
+[]

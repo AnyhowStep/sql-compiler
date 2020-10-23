@@ -66,5 +66,12 @@ export const tokenKinds = [
     "OpenParentheses",
     "CloseParentheses",
 
-    "HackedDelimiterKeyword",
+    /**
+     * Hacked in to support DELIMITER statements
+     */
+    "DELIMITER_STATEMENT",
+    /**
+     * Hacked in to disambiguate MySQL's grammar
+     */
+    "UNIQUE_KEY",
 ] as const;

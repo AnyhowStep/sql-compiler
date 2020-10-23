@@ -1322,4 +1322,6 @@ const OpenParentheses : Tester = { test: x => x.tokenKind == TokenKind.OpenParen
 //@ts-ignore
 const CloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.CloseParentheses, type : "CloseParentheses" };
 //@ts-ignore
-const HackedDelimiterKeyword : Tester = { test: x => x.tokenKind == TokenKind.HackedDelimiterKeyword, type : "HackedDelimiterKeyword" };
+const DELIMITER_STATEMENT : Tester = { test: x => x.tokenKind == TokenKind.DELIMITER_STATEMENT, type : "DELIMITER_STATEMENT" };
+//@ts-ignore
+const UNIQUE_KEY : Tester = { test: x => x.tokenKind == TokenKind.UNIQUE_KEY, type : "UNIQUE_KEY" };

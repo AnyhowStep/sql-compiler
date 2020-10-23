@@ -53,7 +53,8 @@ export function processColumnDefinitionModifier (
         | readonly [TokenObj<TokenKind.DEFAULT>, Expression]
         | TokenObj<TokenKind.NULL>
         | readonly [TokenObj<TokenKind.NOT>, TokenObj<TokenKind.NULL>]
-        | readonly [TokenObj<TokenKind.UNIQUE>, TokenObj<TokenKind.KEY> | null]
+        | TokenObj<TokenKind.UNIQUE>
+        | TokenObj<TokenKind.UNIQUE_KEY>
         | readonly [TokenObj<TokenKind.PRIMARY> | null, TokenObj<TokenKind.KEY>]
         | readonly [TokenObj<TokenKind.COMMENT>, StringLiteral]
     )
@@ -71,7 +72,20 @@ export function processColumnDefinitionModifier (
 
         if (next.tokenKind == TokenKind.AUTO_INCREMENT) {
             //AUTO_INCREMENT
+            result.nullable = false;
             result.autoIncrement = true;
+            return result;
+        }
+
+        if (next.tokenKind == TokenKind.UNIQUE) {
+            //UNIQUE KEY
+            result.uniqueKey = true;
+            return result;
+        }
+
+        if (next.tokenKind == TokenKind.UNIQUE_KEY) {
+            //UNIQUE KEY
+            result.uniqueKey = true;
             return result;
         }
 
@@ -114,12 +128,6 @@ export function processColumnDefinitionModifier (
     if (next[0]?.tokenKind == TokenKind.NOT) {
         //NOT NULL
         result.nullable = false;
-        return result;
-    }
-
-    if (next[0]?.tokenKind == TokenKind.UNIQUE) {
-        //UNIQUE KEY
-        result.uniqueKey = true;
         return result;
     }
 

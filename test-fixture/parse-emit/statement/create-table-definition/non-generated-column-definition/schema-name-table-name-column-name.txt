@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    test.T.X VARBINARY(255) NOT NULL
+);
+
+-----
+CREATE TABLE `T` (
+    `X` VARBINARY(255) NOT NULL
+);
+
+-----
+[]

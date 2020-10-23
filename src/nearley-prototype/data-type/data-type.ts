@@ -11,6 +11,7 @@ export const DataTypeRule = makeCustomRule<DataType>("DataType")
             SyntaxKind.BlobDataType,
             SyntaxKind.BooleanDataType,
             SyntaxKind.CharacterDataType,
+            SyntaxKind.IntegerDataType,
         )] as const,
-        (data) => data[0][0]
+        (data) : DataType => data[0][0]
     );

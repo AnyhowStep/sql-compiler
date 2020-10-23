@@ -19,7 +19,7 @@ export function scanAll (scanner : Scanner) : TokenObj<TokenKind>[] {
             ) {
                 const customDelimiter = scanner.scanDelimiter();
                 arr.push({
-                    tokenKind : TokenKind.HackedDelimiterKeyword,
+                    tokenKind : TokenKind.DELIMITER_STATEMENT,
                     value : scanner.getTokenSourceText(),
                     start : scanner.getTokenIndex(),
                     end : scanner.getIndex(),
