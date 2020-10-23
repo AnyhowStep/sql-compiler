@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    INDEX (X(32))
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    INDEX (`X`(32) ASC)
+);
+
+-----
+[]

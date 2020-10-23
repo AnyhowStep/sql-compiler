@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    INDEX (X) KEY_BLOCK_SIZE 999
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    INDEX (`X` ASC) KEY_BLOCK_SIZE = 999
+);
+
+-----
+[]

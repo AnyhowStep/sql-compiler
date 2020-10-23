@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    INDEX (X) COMMENT 'ca va'
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    INDEX (`X` ASC) COMMENT 'ca va'
+);
+
+-----
+[]

@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    INDEX myIndex (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    INDEX `myIndex` (`X` ASC)
+);
+
+-----
+[]

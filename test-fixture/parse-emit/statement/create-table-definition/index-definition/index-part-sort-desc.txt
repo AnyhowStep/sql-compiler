@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    X BOOL,
+    INDEX (X(32) DESC)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    INDEX (`X`(32) DESC)
+);
+
+-----
+[
+    {
+        "category": 1,
+        "messageText": "Index values are always stored in ascending order; DESC is ignored",
+        "start": 46,
+        "length": 4
+    }
+]

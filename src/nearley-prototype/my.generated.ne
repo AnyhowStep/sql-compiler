@@ -1514,23 +1514,6 @@ ColumnDefinition ->
     };
 } %}
 
-GeneratedColumnModifier ->
-    GeneratedColumnModifierElement:* {% (data) => {
-    let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
-    for (const ele of data[0]) {
-        columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
-    }
-    return columnDefinitionModifier;
-} %}
-
-GeneratedColumnModifierElement ->
-    (%NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
-    return {
-        ...parse_util_1.getTextRange(data),
-        data: data[0][0],
-    };
-} %}
-
 ColumnDefinition ->
     ColumnIdentifier DataType ColumnModifier {% (data) => {
     const [columnIdentifier, dataType, modifier] = data;
@@ -1608,7 +1591,15 @@ IndexPartList ->
 
 IndexPart ->
     Identifier (%OpenParentheses IntegerLiteral %CloseParentheses):? (%ASC | %DESC):? {% (data) => {
-    const [columnName, indexLength, sortDirection] = data;
+    const [columnName, indexLength, rawSortDirection] = data;
+    const sortDirection = (rawSortDirection == undefined ?
+        parser_node_1.SortDirection.ASC :
+        rawSortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+            parser_node_1.SortDirection.ASC :
+            parser_node_1.SortDirection.DESC);
+    if (sortDirection == parser_node_1.SortDirection.DESC) {
+        parse_util_1.pushSyntacticErrorAt(columnName, parse_util_1.getStart(rawSortDirection), parse_util_1.getEnd(rawSortDirection), diagnostic_messages_1.DiagnosticMessages.IndexPartSortDirectionDescIgnored);
+    }
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.IndexPart,
@@ -1616,11 +1607,7 @@ IndexPart ->
         indexLength: (indexLength == undefined ?
             undefined :
             indexLength[1]),
-        sortDirection: (sortDirection == undefined ?
-            parser_node_1.SortDirection.ASC :
-            sortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
-                parser_node_1.SortDirection.ASC :
-                parser_node_1.SortDirection.DESC),
+        sortDirection,
     };
 } %}
 

@@ -1558,32 +1558,6 @@ export var ParserRules: NearleyRule[] = [
                 ...modifier,
             };
         } },
-    {"name": "GeneratedColumnModifier$ebnf$1", "symbols": []},
-    {"name": "GeneratedColumnModifier$ebnf$1", "symbols": ["GeneratedColumnModifier$ebnf$1", "GeneratedColumnModifierElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "GeneratedColumnModifier", "symbols": ["GeneratedColumnModifier$ebnf$1"], "postprocess":  (data) => {
-            let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
-            for (const ele of data[0]) {
-                columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
-            }
-            return columnDefinitionModifier;
-        } },
-    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": [NULL]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$1", "symbols": [NOT, NULL]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$1"]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": [UNIQUE]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": [UNIQUE_KEY]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$2", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$2$ebnf$1", KEY]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$2"]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1$subexpression$3", "symbols": [COMMENT, "StringLiteral"]},
-    {"name": "GeneratedColumnModifierElement$subexpression$1", "symbols": ["GeneratedColumnModifierElement$subexpression$1$subexpression$3"]},
-    {"name": "GeneratedColumnModifierElement", "symbols": ["GeneratedColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                data: data[0][0],
-            };
-        } },
     {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "ColumnModifier"], "postprocess":  (data) => {
             const [columnIdentifier, dataType, modifier] = data;
             return {
@@ -1698,7 +1672,15 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IndexPart$ebnf$2", "symbols": ["IndexPart$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "IndexPart$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "IndexPart", "symbols": ["Identifier", "IndexPart$ebnf$1", "IndexPart$ebnf$2"], "postprocess":  (data) => {
-            const [columnName, indexLength, sortDirection] = data;
+            const [columnName, indexLength, rawSortDirection] = data;
+            const sortDirection = (rawSortDirection == undefined ?
+                parser_node_1.SortDirection.ASC :
+                rawSortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                    parser_node_1.SortDirection.ASC :
+                    parser_node_1.SortDirection.DESC);
+            if (sortDirection == parser_node_1.SortDirection.DESC) {
+                parse_util_1.pushSyntacticErrorAt(columnName, parse_util_1.getStart(rawSortDirection), parse_util_1.getEnd(rawSortDirection), diagnostic_messages_1.DiagnosticMessages.IndexPartSortDirectionDescIgnored);
+            }
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IndexPart,
@@ -1706,11 +1688,7 @@ export var ParserRules: NearleyRule[] = [
                 indexLength: (indexLength == undefined ?
                     undefined :
                     indexLength[1]),
-                sortDirection: (sortDirection == undefined ?
-                    parser_node_1.SortDirection.ASC :
-                    sortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
-                        parser_node_1.SortDirection.ASC :
-                        parser_node_1.SortDirection.DESC),
+                sortDirection,
             };
         } },
     {"name": "CreateTableDefinitionList$ebnf$1", "symbols": []},

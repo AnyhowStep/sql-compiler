@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    INDEX USING HASH (X) USING BTREE
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    INDEX (`X` ASC) USING BTREE
+);
+
+-----
+[]
