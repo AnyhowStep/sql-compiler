@@ -26,5 +26,10 @@ export function emitCharacterDataType (dataType : CharacterDataType) : StringBui
             builder
                 .append(" COLLATE ")
                 .appendBuilder(emitIdentifier(dataType.collate));
-        });
+        })
+        .append(
+            dataType.binary == undefined ?
+            undefined :
+            " BINARY"
+        );
 }

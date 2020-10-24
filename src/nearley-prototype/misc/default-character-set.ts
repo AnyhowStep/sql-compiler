@@ -1,5 +1,6 @@
 import {DefaultCharacterSet, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
+import {CharacterSetNameRule} from "../identifier/character-set-name";
 import {makeRule, optional} from "../nearley-util";
 import {getTextRange} from "../parse-util";
 
@@ -10,14 +11,10 @@ makeRule(SyntaxKind.DefaultCharacterSet)
             TokenKind.CHARACTER,
             TokenKind.SET,
             optional(TokenKind.Equal),
-            SyntaxKind.Identifier
+            CharacterSetNameRule
         ] as const,
         (data) : DefaultCharacterSet => {
             let [, , , , characterSetName] = data;
-            characterSetName = {
-                ...characterSetName,
-                identifier : characterSetName.identifier.toLowerCase(),
-            };
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.DefaultCharacterSet,
@@ -26,14 +23,6 @@ makeRule(SyntaxKind.DefaultCharacterSet)
                     characterSetName :
                     characterSetName.identifier.toUpperCase() == "DEFAULT" ?
                     undefined :
-                    //We allow `BINARY` here
-                    //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
-                    characterSetName.identifier.toUpperCase() == "BINARY" ?
-                    {
-                        ...characterSetName,
-                        //Hack; remove the syntactic error
-                        syntacticErrors : undefined,
-                    } :
                     characterSetName
                 ),
             };

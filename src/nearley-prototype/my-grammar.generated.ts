@@ -11,6 +11,7 @@ import "./expression/expression";
 import "./expression/integer-literal";
 import "./expression/real-literal";
 import "./expression/string-literal";
+import "./identifier/character-set-name";
 import "./identifier/column-identifier";
 import "./identifier/identifier";
 import "./identifier/table-identifier";

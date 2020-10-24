@@ -19,10 +19,7 @@ export function processCharacterDataTypeModifier (
     } = current;
 
     if (next.characterSet != undefined) {
-        const newCharacterSet = {
-            ...next.characterSet,
-            identifier : next.characterSet.identifier.toLowerCase(),
-        };
+        const newCharacterSet = next.characterSet;
         if (characterSet == undefined) {
             characterSet = newCharacterSet;
         } else {

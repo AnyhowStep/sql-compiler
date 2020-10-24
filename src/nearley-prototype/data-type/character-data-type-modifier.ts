@@ -1,11 +1,19 @@
 import {Identifier, SyntaxKind, TextRange} from "../../parser-node";
 import {TokenKind} from "../../scanner";
+import {CharacterSetNameRule} from "../identifier/character-set-name";
 import {makeCustomRule, optional, union} from "../nearley-util";
 import {getTextRange, processCharacterDataTypeModifier} from "../parse-util";
 
 export interface CharacterDataTypeModifier extends TextRange {
     readonly characterSet : Identifier|undefined;
     readonly collate : Identifier|undefined;
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7138
+     *
+     * When this is set, we simply do not know what character set and collation to use
+     * unless we resolve the table's/schema's/server's/connection's character set.
+     */
+    readonly binary? : TextRange|undefined;
 }
 
 export const CharacterDataTypeModifier = makeCustomRule("CharacterDataTypeModifier")
@@ -14,7 +22,7 @@ export const CharacterDataTypeModifier = makeCustomRule("CharacterDataTypeModifi
             optional([
                 TokenKind.CHARACTER,
                 TokenKind.SET,
-                SyntaxKind.Identifier
+                CharacterSetNameRule
             ] as const),
             optional([
                 TokenKind.COLLATE,
@@ -127,6 +135,85 @@ export const CharacterDataTypeModifier = makeCustomRule("CharacterDataTypeModifi
                     ...getTextRange(data),
                     syntaxKind : SyntaxKind.Identifier,
                     identifier : this.settings.unicodeBinaryCollation,
+                    quoted : false,
+                },
+            };
+        }
+    )
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7128
+     */
+    .addSubstitution(
+        [
+            TokenKind.BYTE,
+        ] as const,
+        function (data) : CharacterDataTypeModifier {
+            return {
+                ...getTextRange(data),
+                characterSet : {
+                    ...getTextRange(data),
+                    syntaxKind : SyntaxKind.Identifier,
+                    identifier : this.settings.binaryCharacterSet,
+                    quoted : false,
+                },
+                collate : {
+                    ...getTextRange(data),
+                    syntaxKind : SyntaxKind.Identifier,
+                    identifier : this.settings.binaryCollation,
+                    quoted : false,
+                },
+            };
+        }
+    )
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7138
+     */
+    .addSubstitution(
+        [
+            TokenKind.BINARY,
+        ] as const,
+        function (data) : CharacterDataTypeModifier {
+            return {
+                ...getTextRange(data),
+                characterSet : undefined,
+                collate : undefined,
+                binary : getTextRange(data),
+            };
+        }
+    )
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7133
+     *
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7143
+     */
+    .addSubstitution(
+        [
+            union(
+                [
+                    TokenKind.BINARY,
+                    TokenKind.CHARACTER,
+                    TokenKind.SET,
+                    CharacterSetNameRule,
+                ] as const,
+                [
+                    TokenKind.CHARACTER,
+                    TokenKind.SET,
+                    CharacterSetNameRule,
+                    TokenKind.BINARY,
+                ] as const
+            )
+        ] as const,
+        function (data) : CharacterDataTypeModifier {
+            const x = data[0][0].filter((item) : item is Identifier => "syntaxKind" in item);
+            const characterSet = x[0];
+
+            return {
+                ...getTextRange(data),
+                characterSet,
+                collate : {
+                    ...getTextRange(characterSet),
+                    syntaxKind : SyntaxKind.Identifier,
+                    identifier : this.settings.characterSetToBinaryCollation(characterSet.identifier),
                     quoted : false,
                 },
             };

@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X CHAR BINARY CHARACTER SET utf8
+);
+
+-----
+CREATE TABLE `T` (
+    `X` CHAR(1) CHARACTER SET `utf8` COLLATE `utf8_bin` NULL
+);
+
+-----
+[]

@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X CHAR BINARY
+);
+
+-----
+CREATE TABLE `T` (
+    `X` CHAR(1) BINARY NULL
+);
+
+-----
+[]

@@ -1762,12 +1762,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DefaultCharacterSet$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "DefaultCharacterSet$ebnf$2", "symbols": [Equal], "postprocess": id},
     {"name": "DefaultCharacterSet$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCharacterSet", "symbols": ["DefaultCharacterSet$ebnf$1", CHARACTER, SET, "DefaultCharacterSet$ebnf$2", "Identifier"], "postprocess":  (data) => {
+    {"name": "DefaultCharacterSet", "symbols": ["DefaultCharacterSet$ebnf$1", CHARACTER, SET, "DefaultCharacterSet$ebnf$2", "CharacterSetName"], "postprocess":  (data) => {
             let [, , , , characterSetName] = data;
-            characterSetName = {
-                ...characterSetName,
-                identifier: characterSetName.identifier.toLowerCase(),
-            };
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
@@ -1775,15 +1771,7 @@ export var ParserRules: NearleyRule[] = [
                     characterSetName :
                     characterSetName.identifier.toUpperCase() == "DEFAULT" ?
                         undefined :
-                        //We allow `BINARY` here
-                        //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
-                        characterSetName.identifier.toUpperCase() == "BINARY" ?
-                            {
-                                ...characterSetName,
-                                //Hack; remove the syntactic error
-                                syntacticErrors: undefined,
-                            } :
-                            characterSetName),
+                        characterSetName),
             };
         } },
     {"name": "Constraint$ebnf$1", "symbols": ["Identifier"], "postprocess": id},
@@ -2022,6 +2010,7 @@ export var ParserRules: NearleyRule[] = [
                 characterSet: (char.nationalCharacterSet ??
                     modifier.characterSet),
                 collate: modifier.collate,
+                binary: modifier.binary,
             };
             if (char.variableLength &&
                 maxLength == undefined) {
@@ -2126,7 +2115,7 @@ export var ParserRules: NearleyRule[] = [
                 nationalCharacterSet: undefined,
             };
         } },
-    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1", "symbols": [CHARACTER, SET, "Identifier"]},
+    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1", "symbols": [CHARACTER, SET, "CharacterSetName"]},
     {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "CharacterDataTypeModifier$ebnf$2$subexpression$1", "symbols": [COLLATE, "Identifier"]},
@@ -2207,6 +2196,68 @@ export var ParserRules: NearleyRule[] = [
                     quoted: false,
                 },
             };
+        } },
+    {"name": "CharacterDataTypeModifier", "symbols": [BYTE], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                characterSet: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.binaryCharacterSet,
+                    quoted: false,
+                },
+                collate: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.binaryCollation,
+                    quoted: false,
+                },
+            };
+        } },
+    {"name": "CharacterDataTypeModifier", "symbols": [BINARY], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                characterSet: undefined,
+                collate: undefined,
+                binary: parse_util_1.getTextRange(data),
+            };
+        } },
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1", "symbols": [BINARY, CHARACTER, SET, "CharacterSetName"]},
+    {"name": "CharacterDataTypeModifier$subexpression$3", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$1"]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2", "symbols": [CHARACTER, SET, "CharacterSetName", BINARY]},
+    {"name": "CharacterDataTypeModifier$subexpression$3", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$2"]},
+    {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$subexpression$3"], "postprocess":  function (data) {
+            const x = data[0][0].filter((item) => "syntaxKind" in item);
+            const characterSet = x[0];
+            return {
+                ...parse_util_1.getTextRange(data),
+                characterSet,
+                collate: {
+                    ...parse_util_1.getTextRange(characterSet),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.characterSetToBinaryCollation(characterSet.identifier),
+                    quoted: false,
+                },
+            };
+        } },
+    {"name": "CharacterSetName", "symbols": ["Identifier"], "postprocess":  function (data) {
+            const identifier = data[0];
+            //We allow `BINARY` here
+            //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
+            if (identifier.identifier.toUpperCase() == "BINARY") {
+                return {
+                    ...identifier,
+                    identifier: identifier.identifier.toLowerCase(),
+                    //Hack; remove the syntactic error
+                    syntacticErrors: undefined,
+                };
+            }
+            else {
+                return {
+                    ...identifier,
+                    identifier: identifier.identifier.toLowerCase(),
+                };
+            }
         } },
     {"name": "BooleanDataType$subexpression$1", "symbols": [BOOL]},
     {"name": "BooleanDataType$subexpression$1", "symbols": [BOOLEAN]},

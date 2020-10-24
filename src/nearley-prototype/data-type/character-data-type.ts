@@ -212,6 +212,7 @@ makeRule(SyntaxKind.CharacterDataType)
                     modifier.characterSet
                 ),
                 collate : modifier.collate,
+                binary : modifier.binary,
             };
 
             if (

@@ -20,6 +20,11 @@ export interface ParserSettings {
     asciiBinaryCollation? : string,
     unicodeCharacterSet? : string,
     unicodeBinaryCollation? : string,
+    binaryCharacterSet? : string,
+    binaryCollation? : string,
+
+    characterSetToBinaryCollation? : (characterSet : String) => string,
+    collationToCharacterSet? : (collation : String) => string,
 }
 
 export type FullParserSettings = Required<ParserSettings>;
@@ -38,4 +43,24 @@ export const fullParserSettings : FullParserSettings = {
      */
     unicodeCharacterSet : "ucs2",
     unicodeBinaryCollation : "ucs2_bin",
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7128
+     */
+    binaryCharacterSet : "binary",
+    binaryCollation : "binary",
+
+    characterSetToBinaryCollation : (characterSet : String) => {
+        if (characterSet.toLowerCase() == "binary") {
+            return "binary";
+        } else {
+            return characterSet.toLowerCase() + "_bin";
+        }
+    },
+    collationToCharacterSet : (collation : String) => {
+        if (collation.toLowerCase() == "binary") {
+            return "binary";
+        } else {
+            return collation.toLowerCase().replace(/_.*$/, "");
+        }
+    },
 };

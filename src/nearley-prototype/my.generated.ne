@@ -1675,12 +1675,8 @@ DefaultCollation ->
 } %}
 
 DefaultCharacterSet ->
-    %DEFAULT:? %CHARACTER %SET %Equal:? Identifier {% (data) => {
+    %DEFAULT:? %CHARACTER %SET %Equal:? CharacterSetName {% (data) => {
     let [, , , , characterSetName] = data;
-    characterSetName = {
-        ...characterSetName,
-        identifier: characterSetName.identifier.toLowerCase(),
-    };
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
@@ -1688,15 +1684,7 @@ DefaultCharacterSet ->
             characterSetName :
             characterSetName.identifier.toUpperCase() == "DEFAULT" ?
                 undefined :
-                //We allow `BINARY` here
-                //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
-                characterSetName.identifier.toUpperCase() == "BINARY" ?
-                    {
-                        ...characterSetName,
-                        //Hack; remove the syntactic error
-                        syntacticErrors: undefined,
-                    } :
-                    characterSetName),
+                characterSetName),
     };
 } %}
 
@@ -1931,6 +1919,7 @@ CharacterDataType ->
         characterSet: (char.nationalCharacterSet ??
             modifier.characterSet),
         collate: modifier.collate,
+        binary: modifier.binary,
     };
     if (char.variableLength &&
         maxLength == undefined) {
@@ -2025,7 +2014,7 @@ VarCharStart ->
 } %}
 
 CharacterDataTypeModifier ->
-    (%CHARACTER %SET Identifier):? (%COLLATE Identifier):? {% function ([characterSet, collate]) {
+    (%CHARACTER %SET CharacterSetName):? (%COLLATE Identifier):? {% function ([characterSet, collate]) {
     return parse_util_1.processCharacterDataTypeModifier(this, {
         characterSet: undefined,
         collate: undefined,
@@ -2092,6 +2081,66 @@ CharacterDataTypeModifier ->
             quoted: false,
         },
     };
+} %}
+    | %BYTE {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        characterSet: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.binaryCharacterSet,
+            quoted: false,
+        },
+        collate: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.binaryCollation,
+            quoted: false,
+        },
+    };
+} %}
+    | %BINARY {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        characterSet: undefined,
+        collate: undefined,
+        binary: parse_util_1.getTextRange(data),
+    };
+} %}
+    | ((%BINARY %CHARACTER %SET CharacterSetName) | (%CHARACTER %SET CharacterSetName %BINARY)) {% function (data) {
+    const x = data[0][0].filter((item) => "syntaxKind" in item);
+    const characterSet = x[0];
+    return {
+        ...parse_util_1.getTextRange(data),
+        characterSet,
+        collate: {
+            ...parse_util_1.getTextRange(characterSet),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.characterSetToBinaryCollation(characterSet.identifier),
+            quoted: false,
+        },
+    };
+} %}
+
+CharacterSetName ->
+    Identifier {% function (data) {
+    const identifier = data[0];
+    //We allow `BINARY` here
+    //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
+    if (identifier.identifier.toUpperCase() == "BINARY") {
+        return {
+            ...identifier,
+            identifier: identifier.identifier.toLowerCase(),
+            //Hack; remove the syntactic error
+            syntacticErrors: undefined,
+        };
+    }
+    else {
+        return {
+            ...identifier,
+            identifier: identifier.identifier.toLowerCase(),
+        };
+    }
 } %}
 
 BooleanDataType ->
