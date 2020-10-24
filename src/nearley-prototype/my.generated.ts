@@ -2142,6 +2142,72 @@ export var ParserRules: NearleyRule[] = [
                 collate: collate?.[1],
             });
         } },
+    {"name": "CharacterDataTypeModifier", "symbols": [ASCII], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                characterSet: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.asciiCharacterSet,
+                    quoted: false,
+                },
+                collate: undefined,
+            };
+        } },
+    {"name": "CharacterDataTypeModifier$subexpression$1$subexpression$1", "symbols": [ASCII, BINARY]},
+    {"name": "CharacterDataTypeModifier$subexpression$1", "symbols": ["CharacterDataTypeModifier$subexpression$1$subexpression$1"]},
+    {"name": "CharacterDataTypeModifier$subexpression$1$subexpression$2", "symbols": [BINARY, ASCII]},
+    {"name": "CharacterDataTypeModifier$subexpression$1", "symbols": ["CharacterDataTypeModifier$subexpression$1$subexpression$2"]},
+    {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$subexpression$1"], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                characterSet: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.asciiCharacterSet,
+                    quoted: false,
+                },
+                collate: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.asciiBinaryCollation,
+                    quoted: false,
+                },
+            };
+        } },
+    {"name": "CharacterDataTypeModifier", "symbols": [UNICODE], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                characterSet: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.unicodeCharacterSet,
+                    quoted: false,
+                },
+                collate: undefined,
+            };
+        } },
+    {"name": "CharacterDataTypeModifier$subexpression$2$subexpression$1", "symbols": [UNICODE, BINARY]},
+    {"name": "CharacterDataTypeModifier$subexpression$2", "symbols": ["CharacterDataTypeModifier$subexpression$2$subexpression$1"]},
+    {"name": "CharacterDataTypeModifier$subexpression$2$subexpression$2", "symbols": [BINARY, UNICODE]},
+    {"name": "CharacterDataTypeModifier$subexpression$2", "symbols": ["CharacterDataTypeModifier$subexpression$2$subexpression$2"]},
+    {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$subexpression$2"], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                characterSet: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.unicodeCharacterSet,
+                    quoted: false,
+                },
+                collate: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: this.settings.unicodeBinaryCollation,
+                    quoted: false,
+                },
+            };
+        } },
     {"name": "BooleanDataType$subexpression$1", "symbols": [BOOL]},
     {"name": "BooleanDataType$subexpression$1", "symbols": [BOOLEAN]},
     {"name": "BooleanDataType", "symbols": ["BooleanDataType$subexpression$1"], "postprocess":  (data) => {

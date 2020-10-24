@@ -2035,6 +2035,64 @@ CharacterDataTypeModifier ->
         collate: collate?.[1],
     });
 } %}
+    | %ASCII {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        characterSet: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.asciiCharacterSet,
+            quoted: false,
+        },
+        collate: undefined,
+    };
+} %}
+    | ((%ASCII %BINARY) | (%BINARY %ASCII)) {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        characterSet: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.asciiCharacterSet,
+            quoted: false,
+        },
+        collate: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.asciiBinaryCollation,
+            quoted: false,
+        },
+    };
+} %}
+    | %UNICODE {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        characterSet: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.unicodeCharacterSet,
+            quoted: false,
+        },
+        collate: undefined,
+    };
+} %}
+    | ((%UNICODE %BINARY) | (%BINARY %UNICODE)) {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        characterSet: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.unicodeCharacterSet,
+            quoted: false,
+        },
+        collate: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: this.settings.unicodeBinaryCollation,
+            quoted: false,
+        },
+    };
+} %}
 
 BooleanDataType ->
     (%BOOL | %BOOLEAN) {% (data) => {
