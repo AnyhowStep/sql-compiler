@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X SMALLINT(20)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` SMALLINT(20) SIGNED NULL
+);
+
+-----
+[]

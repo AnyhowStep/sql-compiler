@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TINYINT(20)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TINYINT(20) SIGNED NULL
+);
+
+-----
+[]

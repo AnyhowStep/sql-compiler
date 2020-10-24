@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X INT ZEROFILL
+);
+
+-----
+CREATE TABLE `T` (
+    `X` INT UNSIGNED ZEROFILL NULL
+);
+
+-----
+[]

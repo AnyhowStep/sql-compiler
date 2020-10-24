@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X MEDIUMINT
+);
+
+-----
+CREATE TABLE `T` (
+    `X` MEDIUMINT SIGNED NULL
+);
+
+-----
+[]

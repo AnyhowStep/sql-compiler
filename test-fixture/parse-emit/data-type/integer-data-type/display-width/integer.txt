@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X INTEGER(20)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` INT(20) SIGNED NULL
+);
+
+-----
+[]
