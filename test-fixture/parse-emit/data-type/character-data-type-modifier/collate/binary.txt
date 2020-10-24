@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X CHAR COLLATE `binary`
+);
+
+-----
+CREATE TABLE `T` (
+    `X` CHAR(1) CHARACTER SET `binary` COLLATE `binary` NULL
+);
+
+-----
+[]

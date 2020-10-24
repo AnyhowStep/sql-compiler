@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X CHAR CHARACTER SET latin1 COLLATE latin1_bin
+);
+
+-----
+CREATE TABLE `T` (
+    `X` CHAR(1) CHARACTER SET `latin1` COLLATE `latin1_bin` NULL
+);
+
+-----
+[]
