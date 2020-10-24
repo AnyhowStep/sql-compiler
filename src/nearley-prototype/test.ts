@@ -9,8 +9,7 @@ const scanner = new Scanner(`
 `);
 */
 const scanner = new Scanner(`CREATE TABLE T (
-    X BOOL,
-    FULLTEXT (X) USING HASH
+    X CHAR(3.141e0)
 );
 
 

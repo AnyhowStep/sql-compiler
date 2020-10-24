@@ -46,6 +46,7 @@ makeRule(SyntaxKind.Identifier)
             pushSyntacticErrorAtNode(
                 this,
                 result,
+                [],
                 DiagnosticMessages.CannotUseReservedKeywordAsIdentifier,
                 ReverseTokenKind[tokenObj.tokenKind]
             );

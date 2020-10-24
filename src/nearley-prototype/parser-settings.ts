@@ -14,4 +14,14 @@ export interface ParserSettings {
      * Defaults to `true`
      */
     allowUserVariableInLimitClause? : boolean,
+
+    nationalCharacterSet? : string,
 }
+
+export type FullParserSettings = Required<ParserSettings>;
+
+export const fullParserSettings : FullParserSettings = {
+    mySqlVersion : 50799,
+    allowUserVariableInLimitClause : true,
+    nationalCharacterSet : "utf8",
+};

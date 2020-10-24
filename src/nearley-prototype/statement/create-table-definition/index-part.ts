@@ -29,6 +29,7 @@ makeRule(SyntaxKind.IndexPart)
                     columnName,
                     getStart(rawSortDirection),
                     getEnd(rawSortDirection),
+                    [],
                     DiagnosticMessages.IndexPartSortDirectionDescIgnored
                 );
             }

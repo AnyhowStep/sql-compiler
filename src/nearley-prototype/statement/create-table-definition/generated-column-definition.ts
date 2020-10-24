@@ -25,6 +25,7 @@ makeRule(SyntaxKind.ColumnDefinition)
                 pushSyntacticErrorAtNode(
                     this,
                     columnIdentifier,
+                    [],
                     DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement
                 );
             }
@@ -33,6 +34,7 @@ makeRule(SyntaxKind.ColumnDefinition)
                 pushSyntacticErrorAtNode(
                     this,
                     columnIdentifier,
+                    [],
                     DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat
                 );
             }
@@ -41,6 +43,7 @@ makeRule(SyntaxKind.ColumnDefinition)
                 pushSyntacticErrorAtNode(
                     this,
                     columnIdentifier,
+                    [],
                     DiagnosticMessages.GeneratedColumnCannotSpecifyStorage
                 );
             }
@@ -49,6 +52,7 @@ makeRule(SyntaxKind.ColumnDefinition)
                 pushSyntacticErrorAtNode(
                     this,
                     columnIdentifier,
+                    [],
                     DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue
                 );
             }

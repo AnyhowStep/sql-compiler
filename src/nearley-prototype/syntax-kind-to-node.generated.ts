@@ -15,7 +15,9 @@ import {
     TextDataType,
     UnionDataType,
     UnknownDataType,
+    DecimalLiteral,
     IntegerLiteral,
+    RealLiteral,
     StringLiteral,
     UnknownExpression,
     ColumnIdentifier,
@@ -23,6 +25,7 @@ import {
     TableIdentifier,
     DefaultCharacterSet,
     DefaultCollation,
+    FieldLength,
     SourceFile,
     SourceFileLite,
     CreateSchemaOptionList,
@@ -57,7 +60,9 @@ export type SyntaxKindToNode = {
     [SyntaxKind.TextDataType] : TextDataType;
     [SyntaxKind.UnionDataType] : UnionDataType;
     [SyntaxKind.UnknownDataType] : UnknownDataType;
+    [SyntaxKind.DecimalLiteral] : DecimalLiteral;
     [SyntaxKind.IntegerLiteral] : IntegerLiteral;
+    [SyntaxKind.RealLiteral] : RealLiteral;
     [SyntaxKind.StringLiteral] : StringLiteral;
     [SyntaxKind.UnknownExpression] : UnknownExpression;
     [SyntaxKind.ColumnIdentifier] : ColumnIdentifier;
@@ -65,6 +70,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.TableIdentifier] : TableIdentifier;
     [SyntaxKind.DefaultCharacterSet] : DefaultCharacterSet;
     [SyntaxKind.DefaultCollation] : DefaultCollation;
+    [SyntaxKind.FieldLength] : FieldLength;
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;

@@ -1466,16 +1466,16 @@ ColumnDefinition ->
     ColumnIdentifier DataType GeneratedDefinition ColumnModifier {% function (data) {
     const [columnIdentifier, dataType, generated, modifier] = data;
     if (modifier.autoIncrement) {
-        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
+        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
     }
     if (modifier.columnFormat != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
+        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
     }
     if (modifier.storage != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
+        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
     }
     if (modifier.defaultValue != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
+        parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
     }
     return {
         syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
@@ -1532,7 +1532,7 @@ IndexDefinition ->
         ...parse_util_1.getTextRange(data),
     };
     if (indexOption.indexType != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(this, indexName ?? result, diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
+        parse_util_1.pushSyntacticErrorAt(indexName ?? result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
     }
     return result;
 } %}
@@ -1585,7 +1585,7 @@ IndexPart ->
             parser_node_1.SortDirection.ASC :
             parser_node_1.SortDirection.DESC);
     if (sortDirection == parser_node_1.SortDirection.DESC) {
-        parse_util_1.pushSyntacticErrorAt(columnName, parse_util_1.getStart(rawSortDirection), parse_util_1.getEnd(rawSortDirection), diagnostic_messages_1.DiagnosticMessages.IndexPartSortDirectionDescIgnored);
+        parse_util_1.pushSyntacticErrorAt(columnName, parse_util_1.getStart(rawSortDirection), parse_util_1.getEnd(rawSortDirection), [], diagnostic_messages_1.DiagnosticMessages.IndexPartSortDirectionDescIgnored);
     }
     return {
         ...parse_util_1.getTextRange(data),
@@ -1628,6 +1628,32 @@ CreateSchemaStatement ->
 CreateSchemaOptionList ->
     (DefaultCharacterSet | DefaultCollation):* {% (data) => {
     return parse_util_1.toNodeArray(data.flat(2), parser_node_1.SyntaxKind.CreateSchemaOptionList, parse_util_1.getTextRange(data));
+} %}
+
+FieldLength ->
+    %OpenParentheses (IntegerLiteral | DecimalLiteral | RealLiteral) %CloseParentheses {% (data) => {
+    let [, [literal],] = data;
+    if (literal.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
+        literal = {
+            ...literal,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(literal.value.replace(/\.\d*$/, "")),
+        };
+        parse_util_1.pushSyntacticErrorAt(literal, literal.start, literal.end, [], diagnostic_messages_1.DiagnosticMessages.FieldLengthExpectsIntegerLiteral);
+    }
+    else if (literal.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
+        literal = {
+            ...literal,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(Math.floor(literal.value)),
+        };
+        parse_util_1.pushSyntacticErrorAt(literal, literal.start, literal.end, [], diagnostic_messages_1.DiagnosticMessages.FieldLengthExpectsIntegerLiteral);
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+        length: literal,
+    };
 } %}
 
 DefaultCollation ->
@@ -1786,7 +1812,7 @@ Identifier ->
         identifier: tokenObj.value,
         quoted: false,
     };
-    parse_util_1.pushSyntacticErrorAtNode(this, result, diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
+    parse_util_1.pushSyntacticErrorAtNode(this, result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
     return result;
 } %}
 
@@ -1802,6 +1828,21 @@ StringLiteral ->
     };
 } %}
 
+RealLiteral ->
+    %RealLiteral {% (data) => {
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.RealLiteral,
+        value: parseFloat(data[0].value),
+        sourceText: data[0].value,
+    };
+    if (!isFinite(result.value)) {
+        result.value = 0;
+        parse_util_1.pushSyntacticErrorAt(result, result.start, result.end, [], diagnostic_messages_1.DiagnosticMessages.RealLiteralEvaluatesToNonFiniteValue);
+    }
+    return result;
+} %}
+
 IntegerLiteral ->
     %IntegerLiteral {% (data) => {
     return {
@@ -1814,6 +1855,15 @@ IntegerLiteral ->
 Expression ->
     (IntegerLiteral | StringLiteral) {% (data) => {
     return data[0][0];
+} %}
+
+DecimalLiteral ->
+    %DecimalLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.DecimalLiteral,
+        value: data[0].value,
+    };
 } %}
 
 IntegerDataType ->
@@ -1855,57 +1905,61 @@ DataType ->
     (BinaryDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
-    CharStart (%OpenParentheses IntegerLiteral %CloseParentheses):? CharacterDataTypeModifier {% (data) => {
-    const [char, maxLength, modifier] = data;
-    return {
+    (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {
+    const [[char], maxLength, modifier] = data;
+    if (char.nationalCharacterSet != undefined &&
+        modifier.characterSet != undefined) {
+        parse_util_1.pushSyntacticErrorAt(char.nationalCharacterSet, modifier.characterSet.start, modifier.characterSet.end, [char.nationalCharacterSet], diagnostic_messages_1.DiagnosticMessages.NationalCharacterDataTypeCannotSpecifyCharacterSet);
+    }
+    const result = {
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
-        nationalCharacterSet: char.nationalCharacterSet,
-        variableLength: false,
+        variableLength: char.variableLength,
         maxLength: (maxLength == undefined ?
             {
                 start: char.end,
                 end: char.end,
-                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                value: BigInt(1),
+                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                length: {
+                    start: char.end,
+                    end: char.end,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(1),
+                },
             } :
-            maxLength[1]),
-        ...modifier,
-        ...parse_util_1.getTextRange(data),
+            maxLength),
+        characterSet: (char.nationalCharacterSet ??
+            modifier.characterSet),
+        collate: modifier.collate,
     };
-} %}
-    | VarCharStart %OpenParentheses IntegerLiteral %CloseParentheses CharacterDataTypeModifier {% (data) => {
-    const [varChar, , maxLength, , modifier] = data;
-    return {
-        syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
-        nationalCharacterSet: varChar.nationalCharacterSet,
-        variableLength: varChar.variableLength,
-        maxLength,
-        ...modifier,
-        ...parse_util_1.getTextRange(data),
-    };
+    if (char.variableLength &&
+        maxLength == undefined) {
+        parse_util_1.pushSyntacticErrorAt(result, char.end, char.end, [char], diagnostic_messages_1.DiagnosticMessages.VariableLengthCharacterDataTypeMustSpecifyFieldLength);
+    }
+    return result;
 } %}
 
 CharStart ->
-    %NATIONAL (%CHAR | %CHARACTER) {% (data) => {
+    %NATIONAL (%CHAR | %CHARACTER) {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
         variableLength: false,
         nationalCharacterSet: {
             ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            identifier: "utf8",
+            identifier: this.settings.nationalCharacterSet,
             quoted: false,
         },
     };
 } %}
-    | %NCHAR {% (data) => {
+    | %NCHAR {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
         variableLength: false,
         nationalCharacterSet: {
             ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            identifier: "utf8",
+            identifier: this.settings.nationalCharacterSet,
             quoted: false,
         },
     };
@@ -1919,38 +1973,38 @@ CharStart ->
 } %}
 
 VarCharStart ->
-    %NATIONAL (%VARCHAR | %VARCHARACTER | (%CHAR %VARYING) | (%CHARACTER %VARYING)) {% (data) => {
+    %NATIONAL (%VARCHAR | %VARCHARACTER | (%CHAR %VARYING) | (%CHARACTER %VARYING)) {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
         variableLength: true,
         nationalCharacterSet: {
             ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            identifier: "utf8",
+            identifier: this.settings.nationalCharacterSet,
             quoted: false,
         },
     };
 } %}
-    | %NCHAR %VARYING {% (data) => {
+    | %NCHAR (%VARYING | %VARCHAR) {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
         variableLength: true,
         nationalCharacterSet: {
             ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            identifier: "utf8",
+            identifier: this.settings.nationalCharacterSet,
             quoted: false,
         },
     };
 } %}
-    | %NVARCHAR {% (data) => {
+    | %NVARCHAR {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
         variableLength: true,
         nationalCharacterSet: {
             ...parse_util_1.getTextRange(data),
             syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            identifier: "utf8",
+            identifier: this.settings.nationalCharacterSet,
             quoted: false,
         },
     };

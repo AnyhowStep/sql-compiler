@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X CHAR(3.141e0)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` CHAR(3) NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Field length expects integer literal",
+        "start": 28,
+        "length": 7
+    }
+]

@@ -90,6 +90,26 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200016,
     }),
+    NationalCharacterDataTypeCannotSpecifyCharacterSet : makeDiagnosticMessage({
+        key : "NATIONAL character data types cannot specify CHARACTER SET",
+        category : DiagnosticCategory.Error,
+        code : 200017,
+    }),
+    VariableLengthCharacterDataTypeMustSpecifyFieldLength : makeDiagnosticMessage({
+        key : "Variable-length character data types must specify field length",
+        category : DiagnosticCategory.Error,
+        code : 200018,
+    }),
+    FieldLengthExpectsIntegerLiteral : makeDiagnosticMessage({
+        key : "Field length expects integer literal",
+        category : DiagnosticCategory.Error,
+        code : 200019,
+    }),
+    RealLiteralEvaluatesToNonFiniteValue : makeDiagnosticMessage({
+        key : "Real literal evaluates to non-finite value",
+        category : DiagnosticCategory.Error,
+        code : 200019,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

@@ -1,5 +1,5 @@
-import {ParserSettings} from "./parser-settings";
+import {FullParserSettings} from "./parser-settings";
 
 export interface ParserState {
-    settings : ParserSettings,
+    settings : FullParserSettings,
 }

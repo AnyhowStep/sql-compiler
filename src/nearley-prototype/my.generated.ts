@@ -1505,16 +1505,16 @@ export var ParserRules: NearleyRule[] = [
     {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "GeneratedDefinition", "ColumnModifier"], "postprocess":  function (data) {
             const [columnIdentifier, dataType, generated, modifier] = data;
             if (modifier.autoIncrement) {
-                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
+                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
             }
             if (modifier.columnFormat != undefined) {
-                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
+                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
             }
             if (modifier.storage != undefined) {
-                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
+                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
             }
             if (modifier.defaultValue != undefined) {
-                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
+                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
             }
             return {
                 syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
@@ -1596,7 +1596,7 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
             if (indexOption.indexType != undefined) {
-                parse_util_1.pushSyntacticErrorAtNode(this, indexName ?? result, diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
+                parse_util_1.pushSyntacticErrorAt(indexName ?? result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
             }
             return result;
         } },
@@ -1661,7 +1661,7 @@ export var ParserRules: NearleyRule[] = [
                     parser_node_1.SortDirection.ASC :
                     parser_node_1.SortDirection.DESC);
             if (sortDirection == parser_node_1.SortDirection.DESC) {
-                parse_util_1.pushSyntacticErrorAt(columnName, parse_util_1.getStart(rawSortDirection), parse_util_1.getEnd(rawSortDirection), diagnostic_messages_1.DiagnosticMessages.IndexPartSortDirectionDescIgnored);
+                parse_util_1.pushSyntacticErrorAt(columnName, parse_util_1.getStart(rawSortDirection), parse_util_1.getEnd(rawSortDirection), [], diagnostic_messages_1.DiagnosticMessages.IndexPartSortDirectionDescIgnored);
             }
             return {
                 ...parse_util_1.getTextRange(data),
@@ -1710,6 +1710,33 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateSchemaOptionList$ebnf$1", "symbols": ["CreateSchemaOptionList$ebnf$1", "CreateSchemaOptionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "CreateSchemaOptionList", "symbols": ["CreateSchemaOptionList$ebnf$1"], "postprocess":  (data) => {
             return parse_util_1.toNodeArray(data.flat(2), parser_node_1.SyntaxKind.CreateSchemaOptionList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "FieldLength$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "FieldLength$subexpression$1", "symbols": ["DecimalLiteral"]},
+    {"name": "FieldLength$subexpression$1", "symbols": ["RealLiteral"]},
+    {"name": "FieldLength", "symbols": [OpenParentheses, "FieldLength$subexpression$1", CloseParentheses], "postprocess":  (data) => {
+            let [, [literal],] = data;
+            if (literal.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
+                literal = {
+                    ...literal,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(literal.value.replace(/\.\d*$/, "")),
+                };
+                parse_util_1.pushSyntacticErrorAt(literal, literal.start, literal.end, [], diagnostic_messages_1.DiagnosticMessages.FieldLengthExpectsIntegerLiteral);
+            }
+            else if (literal.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
+                literal = {
+                    ...literal,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(Math.floor(literal.value)),
+                };
+                parse_util_1.pushSyntacticErrorAt(literal, literal.start, literal.end, [], diagnostic_messages_1.DiagnosticMessages.FieldLengthExpectsIntegerLiteral);
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                length: literal,
+            };
         } },
     {"name": "DefaultCollation$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
     {"name": "DefaultCollation$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -1871,7 +1898,7 @@ export var ParserRules: NearleyRule[] = [
                 identifier: tokenObj.value,
                 quoted: false,
             };
-            parse_util_1.pushSyntacticErrorAtNode(this, result, diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
+            parse_util_1.pushSyntacticErrorAtNode(this, result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
             return result;
         } },
     {"name": "StringLiteral", "symbols": [StringLiteral], "postprocess":  (data) => {
@@ -1881,6 +1908,19 @@ export var ParserRules: NearleyRule[] = [
                 value: data[0].value,
                 sourceText: data[0].getTokenSourceText(),
             };
+        } },
+    {"name": "RealLiteral", "symbols": [RealLiteral], "postprocess":  (data) => {
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RealLiteral,
+                value: parseFloat(data[0].value),
+                sourceText: data[0].value,
+            };
+            if (!isFinite(result.value)) {
+                result.value = 0;
+                parse_util_1.pushSyntacticErrorAt(result, result.start, result.end, [], diagnostic_messages_1.DiagnosticMessages.RealLiteralEvaluatesToNonFiniteValue);
+            }
+            return result;
         } },
     {"name": "IntegerLiteral", "symbols": [IntegerLiteral], "postprocess":  (data) => {
             return {
@@ -1893,6 +1933,13 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "Expression", "symbols": ["Expression$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
+        } },
+    {"name": "DecimalLiteral", "symbols": [DecimalLiteral], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.DecimalLiteral,
+                value: data[0].value,
+            };
         } },
     {"name": "IntegerDataType$subexpression$1", "symbols": [TINYINT]},
     {"name": "IntegerDataType$subexpression$1", "symbols": [SMALLINT]},
@@ -1945,60 +1992,65 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType", "symbols": ["DataType$subexpression$1"], "postprocess": (data) => data[0][0]},
-    {"name": "CharacterDataType$ebnf$1$subexpression$1", "symbols": [OpenParentheses, "IntegerLiteral", CloseParentheses]},
-    {"name": "CharacterDataType$ebnf$1", "symbols": ["CharacterDataType$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CharacterDataType$subexpression$1", "symbols": ["CharStart"]},
+    {"name": "CharacterDataType$subexpression$1", "symbols": ["VarCharStart"]},
+    {"name": "CharacterDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
     {"name": "CharacterDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CharacterDataType", "symbols": ["CharStart", "CharacterDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
-            const [char, maxLength, modifier] = data;
-            return {
+    {"name": "CharacterDataType", "symbols": ["CharacterDataType$subexpression$1", "CharacterDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+            const [[char], maxLength, modifier] = data;
+            if (char.nationalCharacterSet != undefined &&
+                modifier.characterSet != undefined) {
+                parse_util_1.pushSyntacticErrorAt(char.nationalCharacterSet, modifier.characterSet.start, modifier.characterSet.end, [char.nationalCharacterSet], diagnostic_messages_1.DiagnosticMessages.NationalCharacterDataTypeCannotSpecifyCharacterSet);
+            }
+            const result = {
+                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
-                nationalCharacterSet: char.nationalCharacterSet,
-                variableLength: false,
+                variableLength: char.variableLength,
                 maxLength: (maxLength == undefined ?
                     {
                         start: char.end,
                         end: char.end,
-                        syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                        value: BigInt(1),
+                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                        length: {
+                            start: char.end,
+                            end: char.end,
+                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                            value: BigInt(1),
+                        },
                     } :
-                    maxLength[1]),
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
+                    maxLength),
+                characterSet: (char.nationalCharacterSet ??
+                    modifier.characterSet),
+                collate: modifier.collate,
             };
-        } },
-    {"name": "CharacterDataType", "symbols": ["VarCharStart", OpenParentheses, "IntegerLiteral", CloseParentheses, "CharacterDataTypeModifier"], "postprocess":  (data) => {
-            const [varChar, , maxLength, , modifier] = data;
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
-                nationalCharacterSet: varChar.nationalCharacterSet,
-                variableLength: varChar.variableLength,
-                maxLength,
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
-            };
+            if (char.variableLength &&
+                maxLength == undefined) {
+                parse_util_1.pushSyntacticErrorAt(result, char.end, char.end, [char], diagnostic_messages_1.DiagnosticMessages.VariableLengthCharacterDataTypeMustSpecifyFieldLength);
+            }
+            return result;
         } },
     {"name": "CharStart$subexpression$1", "symbols": [CHAR]},
     {"name": "CharStart$subexpression$1", "symbols": [CHARACTER]},
-    {"name": "CharStart", "symbols": [NATIONAL, "CharStart$subexpression$1"], "postprocess":  (data) => {
+    {"name": "CharStart", "symbols": [NATIONAL, "CharStart$subexpression$1"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: false,
                 nationalCharacterSet: {
                     ...parse_util_1.getTextRange(data),
                     syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: "utf8",
+                    identifier: this.settings.nationalCharacterSet,
                     quoted: false,
                 },
             };
         } },
-    {"name": "CharStart", "symbols": [NCHAR], "postprocess":  (data) => {
+    {"name": "CharStart", "symbols": [NCHAR], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: false,
                 nationalCharacterSet: {
                     ...parse_util_1.getTextRange(data),
                     syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: "utf8",
+                    identifier: this.settings.nationalCharacterSet,
                     quoted: false,
                 },
             };
@@ -2018,54 +2070,56 @@ export var ParserRules: NearleyRule[] = [
     {"name": "VarCharStart$subexpression$1", "symbols": ["VarCharStart$subexpression$1$subexpression$1"]},
     {"name": "VarCharStart$subexpression$1$subexpression$2", "symbols": [CHARACTER, VARYING]},
     {"name": "VarCharStart$subexpression$1", "symbols": ["VarCharStart$subexpression$1$subexpression$2"]},
-    {"name": "VarCharStart", "symbols": [NATIONAL, "VarCharStart$subexpression$1"], "postprocess":  (data) => {
+    {"name": "VarCharStart", "symbols": [NATIONAL, "VarCharStart$subexpression$1"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
                 nationalCharacterSet: {
                     ...parse_util_1.getTextRange(data),
                     syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: "utf8",
+                    identifier: this.settings.nationalCharacterSet,
                     quoted: false,
                 },
             };
         } },
-    {"name": "VarCharStart", "symbols": [NCHAR, VARYING], "postprocess":  (data) => {
+    {"name": "VarCharStart$subexpression$2", "symbols": [VARYING]},
+    {"name": "VarCharStart$subexpression$2", "symbols": [VARCHAR]},
+    {"name": "VarCharStart", "symbols": [NCHAR, "VarCharStart$subexpression$2"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
                 nationalCharacterSet: {
                     ...parse_util_1.getTextRange(data),
                     syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: "utf8",
+                    identifier: this.settings.nationalCharacterSet,
                     quoted: false,
                 },
             };
         } },
-    {"name": "VarCharStart", "symbols": [NVARCHAR], "postprocess":  (data) => {
+    {"name": "VarCharStart", "symbols": [NVARCHAR], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
                 nationalCharacterSet: {
                     ...parse_util_1.getTextRange(data),
                     syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: "utf8",
+                    identifier: this.settings.nationalCharacterSet,
                     quoted: false,
                 },
             };
         } },
-    {"name": "VarCharStart$subexpression$2", "symbols": [CHAR]},
-    {"name": "VarCharStart$subexpression$2", "symbols": [CHARACTER]},
-    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$2", VARYING], "postprocess":  (data) => {
+    {"name": "VarCharStart$subexpression$3", "symbols": [CHAR]},
+    {"name": "VarCharStart$subexpression$3", "symbols": [CHARACTER]},
+    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$3", VARYING], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
                 nationalCharacterSet: undefined,
             };
         } },
-    {"name": "VarCharStart$subexpression$3", "symbols": [VARCHAR]},
-    {"name": "VarCharStart$subexpression$3", "symbols": [VARCHARACTER]},
-    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$3"], "postprocess":  (data) => {
+    {"name": "VarCharStart$subexpression$4", "symbols": [VARCHAR]},
+    {"name": "VarCharStart$subexpression$4", "symbols": [VARCHARACTER]},
+    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$4"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,

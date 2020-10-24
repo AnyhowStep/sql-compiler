@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X NCHAR VARCHAR(9001)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` VARCHAR(9001) CHARACTER SET `utf8` NULL
+);
+
+-----
+[]

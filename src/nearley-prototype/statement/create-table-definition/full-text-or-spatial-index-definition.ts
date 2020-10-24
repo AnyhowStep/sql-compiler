@@ -2,7 +2,7 @@ import {IndexClass, IndexDefinition, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {makeRule, union, optional} from "../../nearley-util";
 import {IndexPartListRule} from "./index-part";
-import {getTextRange, pushSyntacticErrorAtNode} from "../../parse-util";
+import {getTextRange, pushSyntacticErrorAt} from "../../parse-util";
 import {IndexOptionRule} from "./index-option";
 import {DiagnosticMessages} from "../../diagnostic-messages";
 
@@ -32,9 +32,11 @@ makeRule(SyntaxKind.IndexDefinition)
                 ...getTextRange(data),
             };
             if (indexOption.indexType != undefined) {
-                pushSyntacticErrorAtNode(
-                    this,
+                pushSyntacticErrorAt(
                     indexName ?? result,
+                    indexClass[0].start,
+                    indexClass[0].end,
+                    [],
                     DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType
                 );
             }

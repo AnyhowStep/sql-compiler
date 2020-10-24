@@ -1,13 +1,14 @@
-import {Identifier, SyntaxKind} from "../../parser-node";
+import {CharacterDataType, Identifier, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {
     makeCustomRule,
     makeRule, optional, union,
 } from "../nearley-util";
 import {CharacterDataTypeModifier} from "./character-data-type-modifier";
-import {getTextRange} from "../parse-util";
+import {getTextRange, pushSyntacticErrorAt} from "../parse-util";
+import {DiagnosticMessages} from "../diagnostic-messages";
 
-interface CharacterDataTypePreModifier {
+interface CharacterDataTypeStart {
     start : number;
     end : number;
     variableLength : boolean;
@@ -25,14 +26,14 @@ const VarCharStart = makeCustomRule("VarCharStart")
                 [TokenKind.CHARACTER, TokenKind.VARYING] as const,
             ),
         ] as const,
-        (data) : CharacterDataTypePreModifier => {
+        function (data) : CharacterDataTypeStart {
             return {
                 ...getTextRange(data),
                 variableLength : true,
                 nationalCharacterSet : {
                     ...getTextRange(data),
                     syntaxKind : SyntaxKind.Identifier,
-                    identifier : "utf8",
+                    identifier : this.settings.nationalCharacterSet,
                     quoted : false,
                 },
             }
@@ -41,16 +42,19 @@ const VarCharStart = makeCustomRule("VarCharStart")
     .addSubstitution(
         [
             TokenKind.NCHAR,
-            TokenKind.VARYING,
+            union(
+                TokenKind.VARYING,
+                TokenKind.VARCHAR
+            ),
         ] as const,
-        (data) : CharacterDataTypePreModifier => {
+        function (data) : CharacterDataTypeStart {
             return {
                 ...getTextRange(data),
                 variableLength : true,
                 nationalCharacterSet : {
                     ...getTextRange(data),
                     syntaxKind : SyntaxKind.Identifier,
-                    identifier : "utf8",
+                    identifier : this.settings.nationalCharacterSet,
                     quoted : false,
                 },
             }
@@ -60,14 +64,14 @@ const VarCharStart = makeCustomRule("VarCharStart")
         [
             TokenKind.NVARCHAR,
         ] as const,
-        (data) : CharacterDataTypePreModifier => {
+        function (data) : CharacterDataTypeStart {
             return {
                 ...getTextRange(data),
                 variableLength : true,
                 nationalCharacterSet : {
                     ...getTextRange(data),
                     syntaxKind : SyntaxKind.Identifier,
-                    identifier : "utf8",
+                    identifier : this.settings.nationalCharacterSet,
                     quoted : false,
                 },
             }
@@ -81,7 +85,7 @@ const VarCharStart = makeCustomRule("VarCharStart")
             ),
             TokenKind.VARYING
         ] as const,
-        (data) : CharacterDataTypePreModifier => {
+        (data) : CharacterDataTypeStart => {
             return {
                 ...getTextRange(data),
                 variableLength : true,
@@ -96,7 +100,7 @@ const VarCharStart = makeCustomRule("VarCharStart")
                 TokenKind.VARCHARACTER,
             ),
         ] as const,
-        (data) : CharacterDataTypePreModifier => {
+        (data) : CharacterDataTypeStart => {
             return {
                 ...getTextRange(data),
                 variableLength : true,
@@ -115,14 +119,14 @@ const CharStart = makeCustomRule("CharStart")
                 TokenKind.CHARACTER,
             ),
         ] as const,
-        (data) : CharacterDataTypePreModifier => {
+        function (data) : CharacterDataTypeStart {
             return {
                 ...getTextRange(data),
                 variableLength : false,
                 nationalCharacterSet : {
                     ...getTextRange(data),
                     syntaxKind : SyntaxKind.Identifier,
-                    identifier : "utf8",
+                    identifier : this.settings.nationalCharacterSet,
                     quoted : false,
                 },
             }
@@ -132,14 +136,14 @@ const CharStart = makeCustomRule("CharStart")
         [
             TokenKind.NCHAR,
         ] as const,
-        (data) : CharacterDataTypePreModifier => {
+        function (data) : CharacterDataTypeStart {
             return {
                 ...getTextRange(data),
                 variableLength : false,
                 nationalCharacterSet : {
                     ...getTextRange(data),
                     syntaxKind : SyntaxKind.Identifier,
-                    identifier : "utf8",
+                    identifier : this.settings.nationalCharacterSet,
                     quoted : false,
                 },
             }
@@ -152,7 +156,7 @@ const CharStart = makeCustomRule("CharStart")
                 TokenKind.CHARACTER,
             ),
         ] as const,
-        (data) : CharacterDataTypePreModifier => {
+        (data) : CharacterDataTypeStart => {
             return {
                 ...getTextRange(data),
                 variableLength : false,
@@ -164,52 +168,65 @@ const CharStart = makeCustomRule("CharStart")
 makeRule(SyntaxKind.CharacterDataType)
     .addSubstitution(
         [
-            CharStart,
-            optional([
-                TokenKind.OpenParentheses,
-                SyntaxKind.IntegerLiteral,
-                TokenKind.CloseParentheses,
-            ] as const),
+            union(CharStart, VarCharStart),
+            optional(SyntaxKind.FieldLength),
             CharacterDataTypeModifier,
         ] as const,
         (data) => {
-            const [char, maxLength, modifier] = data;
-            return {
+            const [[char], maxLength, modifier] = data;
+
+            if (
+                char.nationalCharacterSet != undefined &&
+                modifier.characterSet != undefined
+            ) {
+                pushSyntacticErrorAt(
+                    char.nationalCharacterSet,
+                    modifier.characterSet.start,
+                    modifier.characterSet.end,
+                    [char.nationalCharacterSet],
+                    DiagnosticMessages.NationalCharacterDataTypeCannotSpecifyCharacterSet
+                );
+            }
+
+            const result : CharacterDataType = {
+                ...getTextRange(data),
                 syntaxKind : SyntaxKind.CharacterDataType,
-                nationalCharacterSet : char.nationalCharacterSet,
-                variableLength : false,
+                variableLength : char.variableLength,
                 maxLength : (
                     maxLength == undefined ?
                     {
                         start : char.end,
                         end : char.end,
-                        syntaxKind : SyntaxKind.IntegerLiteral,
-                        value : BigInt(1),
+                        syntaxKind : SyntaxKind.FieldLength,
+                        length : {
+                            start : char.end,
+                            end : char.end,
+                            syntaxKind : SyntaxKind.IntegerLiteral,
+                            value : BigInt(1),
+                        },
                     } :
-                    maxLength[1]
+                    maxLength
                 ),
-                ...modifier,
-                ...getTextRange(data),
+                characterSet : (
+                    char.nationalCharacterSet ??
+                    modifier.characterSet
+                ),
+                collate : modifier.collate,
             };
-        }
-    )
-    .addSubstitution(
-        [
-            VarCharStart,
-            TokenKind.OpenParentheses,
-            SyntaxKind.IntegerLiteral,
-            TokenKind.CloseParentheses,
-            CharacterDataTypeModifier,
-        ] as const,
-        (data) => {
-            const [varChar, , maxLength, , modifier] = data;
-            return {
-                syntaxKind : SyntaxKind.CharacterDataType,
-                nationalCharacterSet : varChar.nationalCharacterSet,
-                variableLength : varChar.variableLength,
-                maxLength,
-                ...modifier,
-                ...getTextRange(data),
-            };
+
+            if (
+                char.variableLength &&
+                maxLength == undefined
+            ) {
+                pushSyntacticErrorAt(
+                    result,
+                    char.end,
+                    char.end,
+                    [char],
+                    DiagnosticMessages.VariableLengthCharacterDataTypeMustSpecifyFieldLength
+                );
+            }
+
+            return result;
         }
     );

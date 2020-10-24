@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X CHAR(3)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` CHAR(3) NULL
+);
+
+-----
+[]

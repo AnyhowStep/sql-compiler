@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X CHAR VARYING(32)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` VARCHAR(32) NULL
+);
+
+-----
+[]

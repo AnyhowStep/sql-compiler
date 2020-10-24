@@ -42,6 +42,7 @@ export const syntaxKinds = [
      */
     "DefaultCollation",
     "DefaultCharacterSet",
+    "FieldLength",
 
     /**
      * Statements

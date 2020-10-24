@@ -1,5 +1,5 @@
-import {IntegerLiteral} from "../expression";
 import {Identifier} from "../identifier";
+import {FieldLength} from "../misc";
 import {Node} from "../node";
 import {SyntaxKind} from "../syntax-kind.generated";
 
@@ -13,10 +13,9 @@ import {SyntaxKind} from "../syntax-kind.generated";
 export interface CharacterDataType extends Node {
     syntaxKind : SyntaxKind.CharacterDataType;
 
-    nationalCharacterSet : Identifier|undefined;
     variableLength : boolean;
-    maxLength : IntegerLiteral;
+    maxLength : FieldLength;
 
-    readonly collate : Identifier|undefined,
-    readonly characterSet : Identifier|undefined,
+    characterSet : Identifier|undefined,
+    collate : Identifier|undefined,
 }

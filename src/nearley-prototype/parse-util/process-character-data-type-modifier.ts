@@ -30,6 +30,7 @@ export function processCharacterDataTypeModifier (
                 pushSyntacticErrorAtNode(
                     state,
                     characterSet,
+                    [],
                     DiagnosticMessages.ConflictingDeclarations,
                     `CHARACTER SET ${characterSet.identifier}`,
                     `CHARACTER SET ${newCharacterSet.identifier}`
@@ -71,6 +72,7 @@ export function processCharacterDataTypeModifier (
                         pushSyntacticErrorAtNode(
                             state,
                             characterSet,
+                            [],
                             DiagnosticMessages.ConflictingDeclarations,
                             `CHARACTER SET ${characterSet.identifier}`,
                             `CHARACTER SET ${newCharacterSet}`
@@ -81,6 +83,7 @@ export function processCharacterDataTypeModifier (
                 pushSyntacticErrorAtNode(
                     state,
                     collate,
+                    [],
                     DiagnosticMessages.UnknownCollation,
                     collate.identifier
                 );
@@ -90,6 +93,7 @@ export function processCharacterDataTypeModifier (
                 pushSyntacticErrorAtNode(
                     state,
                     collate,
+                    [],
                     DiagnosticMessages.ConflictingDeclarations,
                     `COLLATE ${collate.identifier}`,
                     `COLLATE ${newCollate.identifier}`

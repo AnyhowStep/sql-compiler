@@ -15,6 +15,6 @@ CREATE TABLE `T` (
         "category": 0,
         "messageText": "FULLTEXT and SPATIAL index cannot specify index type",
         "start": 33,
-        "length": 23
+        "length": 8
     }
 ]

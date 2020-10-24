@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X NATIONAL CHAR
+);
+
+-----
+CREATE TABLE `T` (
+    `X` CHAR(1) CHARACTER SET `utf8` NULL
+);
+
+-----
+[]

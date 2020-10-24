@@ -1,6 +1,6 @@
 import {findAllSyntacticErrors, SourceFile, SourceFileLite, SyntaxKind} from "../parser-node";
 import {Scanner, TokenKind} from "../scanner";
-import {ParserSettings} from "./parser-settings";
+import {fullParserSettings, ParserSettings} from "./parser-settings";
 import {scanAll} from "./scan";
 import * as nearley from "nearley";
 import * as grammar from "./my.generated";
@@ -16,7 +16,10 @@ export function parse (
     settings : ParserSettings
 ) : SourceFile {
     const state : ParserState = {
-        settings,
+        settings : {
+            ...fullParserSettings,
+            ...settings,
+        },
     };
     const tokens = scanAll(scanner);
 
@@ -76,6 +79,7 @@ export function parse (
             parserSyntacticErrors.push(makeDiagnosticAt(
                 tokenObj.start,
                 tokenObj.start,
+                [],
                 DiagnosticMessages.Expected,
                 //tokenObj.getTokenSourceText(),
                 expected.join("|")
@@ -92,6 +96,7 @@ export function parse (
                 parserSyntacticErrors.push(makeDiagnosticAt(
                     tokenObj.start,
                     tokenObj.start,
+                    [],
                     DiagnosticMessages.InternalErrorGrammarIsAmbiguous
                 ));
             }
@@ -139,6 +144,7 @@ export function parse (
         parserSyntacticErrors.push(makeDiagnosticAt(
             scanner.getText().length,
             scanner.getText().length,
+            [],
             DiagnosticMessages.InternalErrorGrammarIsAmbiguous
         ));
     }
