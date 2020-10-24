@@ -1,0 +1,25 @@
+CREATE TABLE T (
+    X NATIONAL CHAR VARYING
+);
+
+-----
+CREATE TABLE `T` (
+    `X` VARCHAR(1) CHARACTER SET `utf8` NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Variable-length character data types must specify field length",
+        "start": 44,
+        "length": 0,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 23,
+                "length": 21
+            }
+        ]
+    }
+]

@@ -1,0 +1,25 @@
+CREATE TABLE T (
+    X VARCHAR
+);
+
+-----
+CREATE TABLE `T` (
+    `X` VARCHAR(1) NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Variable-length character data types must specify field length",
+        "start": 30,
+        "length": 0,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 23,
+                "length": 7
+            }
+        ]
+    }
+]

@@ -157,12 +157,28 @@ export function parse (
         ...results.map(sourceFileLite => {
             return findAllSyntacticErrors(sourceFileLite);
         })
-    ].flat(1).sort((a, b) => {
-        if (a.start == b.start) {
-            return a.length - b.length;
-        }
-        return a.start - b.start;
-    });
+    ]
+        .flat(1)
+        .sort((a, b) => {
+            if (a.start == b.start) {
+                return a.length - b.length;
+            }
+            return a.start - b.start;
+        })
+        .map((err) => {
+            if (err.relatedRanges == undefined) {
+                return err;
+            }
+            return {
+                ...err,
+                relatedRanges : err.relatedRanges.map(related => {
+                    return {
+                        ...related,
+                        filename : filename,
+                    };
+                }),
+            };
+        });
 
     if (results.length == 0) {
         const textRange = {

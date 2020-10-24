@@ -1,0 +1,25 @@
+CREATE TABLE T (
+    X NCHAR VARCHAR(9001) CHARACTER SET utf8
+);
+
+-----
+CREATE TABLE `T` (
+    `X` VARCHAR(9001) CHARACTER SET `utf8` NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "NATIONAL character data types cannot specify CHARACTER SET",
+        "start": 57,
+        "length": 4,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 23,
+                "length": 13
+            }
+        ]
+    }
+]

@@ -6,7 +6,7 @@ import {parse} from "../nearley-prototype";
 const root = `${__dirname}/../../test-fixture/parse`;
 suite('Should parse as expected', () => {
     testRecursive(root, ({
-        fileName,
+        //fileName,
         curPath,
         raw,
     }) => {
@@ -15,7 +15,7 @@ suite('Should parse as expected', () => {
         const preprocessed = input;//preprocess(input, {});
         const scanner = new Scanner(preprocessed);
         const file = parse(
-            fileName,
+            "file-0",
             scanner,
             {}
         );
@@ -36,6 +36,11 @@ suite('Should parse as expected', () => {
                         messageText : err.messageText,
                         start : err.start,
                         length : err.length,
+                        relatedRanges : (
+                            err.relatedRanges == undefined || err.relatedRanges.length == 0 ?
+                            undefined :
+                            err.relatedRanges
+                        ),
                     };
                 }),
                 null,
