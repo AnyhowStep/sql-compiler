@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X DOUBLE(10, 5)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DOUBLE(10, 5) SIGNED NULL
+);
+
+-----
+[]

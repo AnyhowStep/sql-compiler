@@ -1880,6 +1880,68 @@ IntegerDataType ->
     };
 } %}
 
+RealDataType ->
+    %FLOAT FieldLength IntegerDataTypeModifier {% function (data) {
+    const [, fieldLength, modifier] = data;
+    const bytes = (fieldLength.length.value <= 24n ?
+        4 :
+        fieldLength.length.value <= 53n ?
+            8 :
+            undefined);
+    const result = {
+        syntaxKind: parser_node_1.SyntaxKind.RealDataType,
+        bytes: bytes ?? 8,
+        precision: undefined,
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+    if (bytes == undefined) {
+        parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypePrecisionBits);
+    }
+    return result;
+} %}
+    | %FLOAT RealPrecision IntegerDataTypeModifier {% function (data) {
+    const [, precision, modifier] = data;
+    const result = {
+        syntaxKind: parser_node_1.SyntaxKind.RealDataType,
+        bytes: 4,
+        precision,
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+    return result;
+} %}
+    | %FLOAT IntegerDataTypeModifier {% function (data) {
+    const [, modifier] = data;
+    const result = {
+        syntaxKind: parser_node_1.SyntaxKind.RealDataType,
+        bytes: 4,
+        precision: undefined,
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+    return result;
+} %}
+
+RealDataType ->
+    (%REAL | %DOUBLE | (%DOUBLE %PRECISION)) RealPrecision:? IntegerDataTypeModifier {% function (data) {
+    const [dataType, precision, modifier] = data;
+    const bytes = (dataType[0] instanceof Array ?
+        8 :
+        dataType[0].tokenKind == scanner_1.TokenKind.DOUBLE ?
+            8 :
+            this.settings.realAsFloat ?
+                4 :
+                8);
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.RealDataType,
+        bytes,
+        precision: precision ?? undefined,
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+
 IntegerDataTypeModifier ->
     (%SIGNED | %UNSIGNED | %ZEROFILL):* {% function (data) {
     let integerDataTypeModifier = parse_util_1.createDefaultIntegerDataTypeModifier();
@@ -1889,8 +1951,66 @@ IntegerDataTypeModifier ->
     return integerDataTypeModifier;
 } %}
 
+RealPrecision ->
+    Precision {% function (data) {
+    const result = data[0];
+    if (result.precision.value == 0n || result.precision.value > 255n) {
+        parse_util_1.pushSyntacticErrorAt(result.precision, result.precision.start, result.precision.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypePrecision);
+    }
+    const maxScale = (result.precision.value > 30n ?
+        30n :
+        result.precision.value);
+    if (result.scale.value > maxScale) {
+        parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypeScale, maxScale.toString());
+    }
+    return result;
+} %}
+
+Precision ->
+    %OpenParentheses (IntegerLiteral | DecimalLiteral | RealLiteral) %Comma (IntegerLiteral | DecimalLiteral | RealLiteral) %CloseParentheses {% (data) => {
+    let [, [precision], , [scale],] = data;
+    if (precision.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
+        precision = {
+            ...precision,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(precision.value.replace(/\.\d*$/, "")),
+        };
+        parse_util_1.pushSyntacticErrorAt(precision, precision.start, precision.end, [], diagnostic_messages_1.DiagnosticMessages.PrecisionExpectsIntegerLiteral);
+    }
+    else if (precision.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
+        precision = {
+            ...precision,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(Math.floor(precision.value)),
+        };
+        parse_util_1.pushSyntacticErrorAt(precision, precision.start, precision.end, [], diagnostic_messages_1.DiagnosticMessages.PrecisionExpectsIntegerLiteral);
+    }
+    if (scale.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
+        scale = {
+            ...scale,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(scale.value.replace(/\.\d*$/, "")),
+        };
+        parse_util_1.pushSyntacticErrorAt(scale, scale.start, scale.end, [], diagnostic_messages_1.DiagnosticMessages.ScaleExpectsIntegerLiteral);
+    }
+    else if (scale.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
+        scale = {
+            ...scale,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(Math.floor(scale.value)),
+        };
+        parse_util_1.pushSyntacticErrorAt(scale, scale.start, scale.end, [], diagnostic_messages_1.DiagnosticMessages.ScaleExpectsIntegerLiteral);
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Precision,
+        precision,
+        scale,
+    };
+} %}
+
 DataType ->
-    (BinaryDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType | RealDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
     (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {

@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X FLOAT(54)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DOUBLE SIGNED NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Invalid real data type precision bits; max 53",
+        "start": 29,
+        "length": 2
+    }
+]

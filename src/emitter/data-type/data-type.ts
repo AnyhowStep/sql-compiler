@@ -5,6 +5,7 @@ import {emitBlobDataType} from "./blob-data-type";
 import {emitBooleanDataType} from "./boolean-data-type";
 import {emitCharacterDataType} from "./character-data-type";
 import {emitIntegerDataType} from "./integer-data-type";
+import {emitRealDataType} from "./real-data-type";
 
 export function emitDataType (dataType : DataType) : StringBuilder {
     return switchSyntaxKind(dataType)
@@ -13,6 +14,7 @@ export function emitDataType (dataType : DataType) : StringBuilder {
         .case(SyntaxKind.BooleanDataType, emitBooleanDataType)
         .case(SyntaxKind.CharacterDataType, emitCharacterDataType)
         .case(SyntaxKind.IntegerDataType, emitIntegerDataType)
+        .case(SyntaxKind.RealDataType, emitRealDataType)
         .default(() => new StringBuilder()
             .append(`TODO_DATA_TYPE(${ReverseSyntaxKind[dataType.syntaxKind]})`)
         )

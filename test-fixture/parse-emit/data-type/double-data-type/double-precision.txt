@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X DOUBLE PRECISION
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DOUBLE SIGNED NULL
+);
+
+-----
+[]

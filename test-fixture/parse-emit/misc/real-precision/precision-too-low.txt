@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X REAL(0, 0)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DOUBLE(0, 0) SIGNED NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Invalid real data type precision; min 0, max 255",
+        "start": 28,
+        "length": 1
+    }
+]

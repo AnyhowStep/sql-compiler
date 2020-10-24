@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X FLOAT
+);
+
+-----
+CREATE TABLE `T` (
+    `X` FLOAT SIGNED NULL
+);
+
+-----
+[]

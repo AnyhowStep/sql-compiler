@@ -25,6 +25,11 @@ export interface ParserSettings {
 
     characterSetToBinaryCollation? : (characterSet : String) => string,
     collationToCharacterSet? : (collation : String) => string,
+
+    /**
+     * Defaults to `false`
+     */
+    realAsFloat? : boolean,
 }
 
 export type FullParserSettings = Required<ParserSettings>;
@@ -63,4 +68,9 @@ export const fullParserSettings : FullParserSettings = {
             return collation.toLowerCase().replace(/_.*$/, "");
         }
     },
+
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6785
+     */
+    realAsFloat : false,
 };

@@ -25,6 +25,7 @@ import {TableIdentifier} from "./identifier/table-identifier";
 import {DefaultCharacterSet} from "./misc/default-character-set";
 import {DefaultCollation} from "./misc/default-collation";
 import {FieldLength} from "./misc/field-length";
+import {Precision} from "./misc/precision";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
 import {CreateSchemaOptionList} from "./statement/create-schema-statement";
@@ -68,6 +69,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableIdentifi
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DefaultCharacterSet) : node is DefaultCharacterSet;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DefaultCollation) : node is DefaultCollation;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.FieldLength) : node is FieldLength;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Precision) : node is Precision;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateSchemaOptionList) : node is CreateSchemaOptionList;
@@ -120,6 +122,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.DefaultCharacterSet, callback : (node : DefaultCharacterSet) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DefaultCollation, callback : (node : DefaultCollation) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.FieldLength, callback : (node : FieldLength) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.Precision, callback : (node : Precision) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateSchemaOptionList, callback : (node : CreateSchemaOptionList) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

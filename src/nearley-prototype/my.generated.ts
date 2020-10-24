@@ -1962,6 +1962,70 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
+    {"name": "RealDataType", "symbols": [FLOAT, "FieldLength", "IntegerDataTypeModifier"], "postprocess":  function (data) {
+            const [, fieldLength, modifier] = data;
+            const bytes = (fieldLength.length.value <= 24n ?
+                4 :
+                fieldLength.length.value <= 53n ?
+                    8 :
+                    undefined);
+            const result = {
+                syntaxKind: parser_node_1.SyntaxKind.RealDataType,
+                bytes: bytes ?? 8,
+                precision: undefined,
+                ...modifier,
+                ...parse_util_1.getTextRange(data),
+            };
+            if (bytes == undefined) {
+                parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypePrecisionBits);
+            }
+            return result;
+        } },
+    {"name": "RealDataType", "symbols": [FLOAT, "RealPrecision", "IntegerDataTypeModifier"], "postprocess":  function (data) {
+            const [, precision, modifier] = data;
+            const result = {
+                syntaxKind: parser_node_1.SyntaxKind.RealDataType,
+                bytes: 4,
+                precision,
+                ...modifier,
+                ...parse_util_1.getTextRange(data),
+            };
+            return result;
+        } },
+    {"name": "RealDataType", "symbols": [FLOAT, "IntegerDataTypeModifier"], "postprocess":  function (data) {
+            const [, modifier] = data;
+            const result = {
+                syntaxKind: parser_node_1.SyntaxKind.RealDataType,
+                bytes: 4,
+                precision: undefined,
+                ...modifier,
+                ...parse_util_1.getTextRange(data),
+            };
+            return result;
+        } },
+    {"name": "RealDataType$subexpression$1", "symbols": [REAL]},
+    {"name": "RealDataType$subexpression$1", "symbols": [DOUBLE]},
+    {"name": "RealDataType$subexpression$1$subexpression$1", "symbols": [DOUBLE, PRECISION]},
+    {"name": "RealDataType$subexpression$1", "symbols": ["RealDataType$subexpression$1$subexpression$1"]},
+    {"name": "RealDataType$ebnf$1", "symbols": ["RealPrecision"], "postprocess": id},
+    {"name": "RealDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "RealDataType", "symbols": ["RealDataType$subexpression$1", "RealDataType$ebnf$1", "IntegerDataTypeModifier"], "postprocess":  function (data) {
+            const [dataType, precision, modifier] = data;
+            const bytes = (dataType[0] instanceof Array ?
+                8 :
+                dataType[0].tokenKind == scanner_1.TokenKind.DOUBLE ?
+                    8 :
+                    this.settings.realAsFloat ?
+                        4 :
+                        8);
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.RealDataType,
+                bytes,
+                precision: precision ?? undefined,
+                ...modifier,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
     {"name": "IntegerDataTypeModifier$ebnf$1", "symbols": []},
     {"name": "IntegerDataTypeModifier$ebnf$1$subexpression$1", "symbols": [SIGNED]},
     {"name": "IntegerDataTypeModifier$ebnf$1$subexpression$1", "symbols": [UNSIGNED]},
@@ -1974,11 +2038,72 @@ export var ParserRules: NearleyRule[] = [
             }
             return integerDataTypeModifier;
         } },
+    {"name": "RealPrecision", "symbols": ["Precision"], "postprocess":  function (data) {
+            const result = data[0];
+            if (result.precision.value == 0n || result.precision.value > 255n) {
+                parse_util_1.pushSyntacticErrorAt(result.precision, result.precision.start, result.precision.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypePrecision);
+            }
+            const maxScale = (result.precision.value > 30n ?
+                30n :
+                result.precision.value);
+            if (result.scale.value > maxScale) {
+                parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypeScale, maxScale.toString());
+            }
+            return result;
+        } },
+    {"name": "Precision$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "Precision$subexpression$1", "symbols": ["DecimalLiteral"]},
+    {"name": "Precision$subexpression$1", "symbols": ["RealLiteral"]},
+    {"name": "Precision$subexpression$2", "symbols": ["IntegerLiteral"]},
+    {"name": "Precision$subexpression$2", "symbols": ["DecimalLiteral"]},
+    {"name": "Precision$subexpression$2", "symbols": ["RealLiteral"]},
+    {"name": "Precision", "symbols": [OpenParentheses, "Precision$subexpression$1", Comma, "Precision$subexpression$2", CloseParentheses], "postprocess":  (data) => {
+            let [, [precision], , [scale],] = data;
+            if (precision.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
+                precision = {
+                    ...precision,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(precision.value.replace(/\.\d*$/, "")),
+                };
+                parse_util_1.pushSyntacticErrorAt(precision, precision.start, precision.end, [], diagnostic_messages_1.DiagnosticMessages.PrecisionExpectsIntegerLiteral);
+            }
+            else if (precision.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
+                precision = {
+                    ...precision,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(Math.floor(precision.value)),
+                };
+                parse_util_1.pushSyntacticErrorAt(precision, precision.start, precision.end, [], diagnostic_messages_1.DiagnosticMessages.PrecisionExpectsIntegerLiteral);
+            }
+            if (scale.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
+                scale = {
+                    ...scale,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(scale.value.replace(/\.\d*$/, "")),
+                };
+                parse_util_1.pushSyntacticErrorAt(scale, scale.start, scale.end, [], diagnostic_messages_1.DiagnosticMessages.ScaleExpectsIntegerLiteral);
+            }
+            else if (scale.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
+                scale = {
+                    ...scale,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(Math.floor(scale.value)),
+                };
+                parse_util_1.pushSyntacticErrorAt(scale, scale.start, scale.end, [], diagnostic_messages_1.DiagnosticMessages.ScaleExpectsIntegerLiteral);
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Precision,
+                precision,
+                scale,
+            };
+        } },
     {"name": "DataType$subexpression$1", "symbols": ["BinaryDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BlobDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BooleanDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
     {"name": "DataType", "symbols": ["DataType$subexpression$1"], "postprocess": (data) => data[0][0]},
     {"name": "CharacterDataType$subexpression$1", "symbols": ["CharStart"]},
     {"name": "CharacterDataType$subexpression$1", "symbols": ["VarCharStart"]},

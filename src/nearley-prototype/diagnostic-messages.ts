@@ -110,6 +110,31 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200019,
     }),
+    InvalidRealDataTypePrecisionBits : makeDiagnosticMessage({
+        key : "Invalid real data type precision bits; max 53",
+        category : DiagnosticCategory.Error,
+        code : 200020,
+    }),
+    PrecisionExpectsIntegerLiteral : makeDiagnosticMessage({
+        key : "Precision expects integer literal",
+        category : DiagnosticCategory.Error,
+        code : 200021,
+    }),
+    ScaleExpectsIntegerLiteral : makeDiagnosticMessage({
+        key : "Scale expects integer literal",
+        category : DiagnosticCategory.Error,
+        code : 200022,
+    }),
+    InvalidRealDataTypePrecision : makeDiagnosticMessage({
+        key : "Invalid real data type precision; min 0, max 255",
+        category : DiagnosticCategory.Error,
+        code : 200023,
+    }),
+    InvalidRealDataTypeScale : makeDiagnosticMessage({
+        key : "Invalid real data type scale; max {0}",
+        category : DiagnosticCategory.Error,
+        code : 200024,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

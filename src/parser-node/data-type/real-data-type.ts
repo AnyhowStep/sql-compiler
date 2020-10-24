@@ -1,3 +1,4 @@
+import {Precision} from "../misc";
 import {Node} from "../node";
 import {SyntaxKind} from "../syntax-kind.generated";
 
@@ -7,6 +8,8 @@ import {SyntaxKind} from "../syntax-kind.generated";
 export interface RealDataType extends Node {
     syntaxKind : SyntaxKind.RealDataType;
     bytes : 4|8;
+
+    precision : Precision|undefined;
 
     signed : boolean;
 

@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X REAL(10, 11)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DOUBLE(10, 11) SIGNED NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Invalid real data type scale; max 10",
+        "start": 32,
+        "length": 2
+    }
+]

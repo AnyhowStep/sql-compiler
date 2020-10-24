@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X REAL(255, 31)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DOUBLE(255, 31) SIGNED NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Invalid real data type scale; max 30",
+        "start": 33,
+        "length": 2
+    }
+]

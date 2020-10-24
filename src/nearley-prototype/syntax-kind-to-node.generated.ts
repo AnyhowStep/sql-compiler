@@ -26,6 +26,7 @@ import {
     DefaultCharacterSet,
     DefaultCollation,
     FieldLength,
+    Precision,
     SourceFile,
     SourceFileLite,
     CreateSchemaOptionList,
@@ -71,6 +72,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.DefaultCharacterSet] : DefaultCharacterSet;
     [SyntaxKind.DefaultCollation] : DefaultCollation;
     [SyntaxKind.FieldLength] : FieldLength;
+    [SyntaxKind.Precision] : Precision;
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;
