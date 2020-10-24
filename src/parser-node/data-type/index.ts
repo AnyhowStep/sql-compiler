@@ -1,4 +1,5 @@
 export * from "./binary-data-type";
+export * from "./bit-data-type";
 export * from "./blob-data-type";
 export * from "./boolean-data-type";
 export * from "./character-data-type";

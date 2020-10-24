@@ -8,6 +8,7 @@ export const DataTypeRule = makeCustomRule<DataType>("DataType")
     .addSubstitution(
         [union(
             SyntaxKind.BinaryDataType,
+            SyntaxKind.BitDataType,
             SyntaxKind.BlobDataType,
             SyntaxKind.BooleanDataType,
             SyntaxKind.CharacterDataType,

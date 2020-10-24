@@ -2,6 +2,7 @@
 import {
     SyntaxKind,
     BinaryDataType,
+    BitDataType,
     BlobDataType,
     BooleanDataType,
     CharacterDataType,
@@ -48,6 +49,7 @@ import {
 
 export type SyntaxKindToNode = {
     [SyntaxKind.BinaryDataType] : BinaryDataType;
+    [SyntaxKind.BitDataType] : BitDataType;
     [SyntaxKind.BlobDataType] : BlobDataType;
     [SyntaxKind.BooleanDataType] : BooleanDataType;
     [SyntaxKind.CharacterDataType] : CharacterDataType;

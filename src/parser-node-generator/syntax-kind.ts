@@ -4,6 +4,7 @@ export const syntaxKinds = [
     "UnknownStatement",
     "UnknownExpression",
 
+    "BitDataType",
     "BooleanDataType",
     "IntegerDataType",
     "DecimalDataType",

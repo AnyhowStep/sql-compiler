@@ -1,4 +1,5 @@
 import "./data-type/binary-data-type";
+import "./data-type/bit-data-type";
 import "./data-type/blob-data-type";
 import "./data-type/boolean-data-type";
 import "./data-type/character-data-type-modifier";

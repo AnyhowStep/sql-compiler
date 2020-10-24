@@ -1,6 +1,7 @@
 import {SyntaxKind} from "./syntax-kind.generated";
 import {Node} from "./node";
 import {BinaryDataType} from "./data-type/binary-data-type";
+import {BitDataType} from "./data-type/bit-data-type";
 import {BlobDataType} from "./data-type/blob-data-type";
 import {BooleanDataType} from "./data-type/boolean-data-type";
 import {CharacterDataType} from "./data-type/character-data-type";
@@ -45,6 +46,7 @@ import {DelimiterStatement} from "./statement/delimiter-statement";
 import {UnknownStatement} from "./statement/unknown-statement";
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BinaryDataType) : node is BinaryDataType;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BitDataType) : node is BitDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BlobDataType) : node is BlobDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BooleanDataType) : node is BooleanDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CharacterDataType) : node is CharacterDataType;
@@ -98,6 +100,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean {
 interface SwitchSyntaxKind<ReturnT> {
 
     case<ResultT> (syntaxKind : SyntaxKind.BinaryDataType, callback : (node : BinaryDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.BitDataType, callback : (node : BitDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.BlobDataType, callback : (node : BlobDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.BooleanDataType, callback : (node : BooleanDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CharacterDataType, callback : (node : CharacterDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

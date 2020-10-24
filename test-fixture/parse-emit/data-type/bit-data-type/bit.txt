@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BIT
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BIT(1) NULL
+);
+
+-----
+[]

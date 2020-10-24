@@ -2010,7 +2010,7 @@ Precision ->
 } %}
 
 DataType ->
-    (BinaryDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType | RealDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType | RealDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
     (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {
@@ -2283,6 +2283,28 @@ BlobDataType ->
                 token.tokenKind == scanner_1.TokenKind.MEDIUMBLOB ?
                     24 :
                     32),
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+
+BitDataType ->
+    %BIT FieldLength:? {% (data) => {
+    const [dataType, bits] = data;
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.BitDataType,
+        bits: (bits == undefined ?
+            {
+                start: dataType.end,
+                end: dataType.end,
+                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                length: {
+                    start: dataType.end,
+                    end: dataType.end,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(1),
+                },
+            } :
+            bits),
         ...parse_util_1.getTextRange(data),
     };
 } %}

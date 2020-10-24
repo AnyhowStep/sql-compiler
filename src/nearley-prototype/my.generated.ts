@@ -2099,6 +2099,7 @@ export var ParserRules: NearleyRule[] = [
             };
         } },
     {"name": "DataType$subexpression$1", "symbols": ["BinaryDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["BitDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BlobDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BooleanDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
@@ -2407,6 +2408,28 @@ export var ParserRules: NearleyRule[] = [
                         token.tokenKind == scanner_1.TokenKind.MEDIUMBLOB ?
                             24 :
                             32),
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
+    {"name": "BitDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
+    {"name": "BitDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "BitDataType", "symbols": [BIT, "BitDataType$ebnf$1"], "postprocess":  (data) => {
+            const [dataType, bits] = data;
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.BitDataType,
+                bits: (bits == undefined ?
+                    {
+                        start: dataType.end,
+                        end: dataType.end,
+                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                        length: {
+                            start: dataType.end,
+                            end: dataType.end,
+                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                            value: BigInt(1),
+                        },
+                    } :
+                    bits),
                 ...parse_util_1.getTextRange(data),
             };
         } },

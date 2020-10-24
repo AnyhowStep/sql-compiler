@@ -1,4 +1,5 @@
 import {BinaryDataType} from "./binary-data-type";
+import {BitDataType} from "./bit-data-type";
 import {BlobDataType} from "./blob-data-type";
 import {BooleanDataType} from "./boolean-data-type";
 import {CharacterDataType} from "./character-data-type";
@@ -14,6 +15,7 @@ import {UnknownDataType} from "./unknown-data-type";
 
 export type DataType =
     | BinaryDataType
+    | BitDataType
     | BlobDataType
     | BooleanDataType
     | CharacterDataType
