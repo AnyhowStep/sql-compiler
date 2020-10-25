@@ -1950,6 +1950,38 @@ IntegerDataType ->
     };
 } %}
 
+GeometryDataType ->
+    (%POINT | %LINESTRING | %POLYGON | %GEOMETRY) {% (data) => {
+    const [[token]] = data;
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.GeometryDataType,
+        geometryType: (token.tokenKind == scanner_1.TokenKind.POINT ?
+            parser_node_1.GeometryType.Point :
+            token.tokenKind == scanner_1.TokenKind.LINESTRING ?
+                parser_node_1.GeometryType.LineString :
+                token.tokenKind == scanner_1.TokenKind.POLYGON ?
+                    parser_node_1.GeometryType.Polygon :
+                    parser_node_1.GeometryType.Geometry),
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+
+GeometryCollectionDataType ->
+    (%MULTIPOINT | %MULTILINESTRING | %MULTIPOLYGON | %GEOMETRYCOLLECTION) {% (data) => {
+    const [[token]] = data;
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.GeometryCollectionDataType,
+        geometryType: (token.tokenKind == scanner_1.TokenKind.MULTIPOINT ?
+            parser_node_1.GeometryType.Point :
+            token.tokenKind == scanner_1.TokenKind.MULTILINESTRING ?
+                parser_node_1.GeometryType.LineString :
+                token.tokenKind == scanner_1.TokenKind.MULTIPOLYGON ?
+                    parser_node_1.GeometryType.Polygon :
+                    parser_node_1.GeometryType.Geometry),
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+
 RealDataType ->
     %FLOAT FieldLength IntegerDataTypeModifier {% function (data) {
     const [, fieldLength, modifier] = data;
@@ -2110,7 +2142,7 @@ DateDataType ->
 } %}
 
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | IntegerDataType | RealDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | RealDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
     (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {

@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X MULTIPOLYGON
+);
+
+-----
+CREATE TABLE `T` (
+    `X` MULTIPOLYGON NULL
+);
+
+-----
+[]

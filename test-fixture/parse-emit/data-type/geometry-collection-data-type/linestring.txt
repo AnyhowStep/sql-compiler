@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X MULTILINESTRING
+);
+
+-----
+CREATE TABLE `T` (
+    `X` MULTILINESTRING NULL
+);
+
+-----
+[]

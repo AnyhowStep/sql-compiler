@@ -10,6 +10,8 @@ import "./data-type/date-data-type";
 import "./data-type/date-time-data-type";
 import "./data-type/double-data-type";
 import "./data-type/float-data-type";
+import "./data-type/geometry-collection-data-type";
+import "./data-type/geometry-data-type";
 import "./data-type/integer-data-type-modifier";
 import "./data-type/integer-data-type";
 import "./data-type/time-data-type";

@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X MULTIPOINT
+);
+
+-----
+CREATE TABLE `T` (
+    `X` MULTIPOINT NULL
+);
+
+-----
+[]

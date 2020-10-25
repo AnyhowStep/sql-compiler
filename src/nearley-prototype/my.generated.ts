@@ -2035,6 +2035,42 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
+    {"name": "GeometryDataType$subexpression$1", "symbols": [POINT]},
+    {"name": "GeometryDataType$subexpression$1", "symbols": [LINESTRING]},
+    {"name": "GeometryDataType$subexpression$1", "symbols": [POLYGON]},
+    {"name": "GeometryDataType$subexpression$1", "symbols": [GEOMETRY]},
+    {"name": "GeometryDataType", "symbols": ["GeometryDataType$subexpression$1"], "postprocess":  (data) => {
+            const [[token]] = data;
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.GeometryDataType,
+                geometryType: (token.tokenKind == scanner_1.TokenKind.POINT ?
+                    parser_node_1.GeometryType.Point :
+                    token.tokenKind == scanner_1.TokenKind.LINESTRING ?
+                        parser_node_1.GeometryType.LineString :
+                        token.tokenKind == scanner_1.TokenKind.POLYGON ?
+                            parser_node_1.GeometryType.Polygon :
+                            parser_node_1.GeometryType.Geometry),
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
+    {"name": "GeometryCollectionDataType$subexpression$1", "symbols": [MULTIPOINT]},
+    {"name": "GeometryCollectionDataType$subexpression$1", "symbols": [MULTILINESTRING]},
+    {"name": "GeometryCollectionDataType$subexpression$1", "symbols": [MULTIPOLYGON]},
+    {"name": "GeometryCollectionDataType$subexpression$1", "symbols": [GEOMETRYCOLLECTION]},
+    {"name": "GeometryCollectionDataType", "symbols": ["GeometryCollectionDataType$subexpression$1"], "postprocess":  (data) => {
+            const [[token]] = data;
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.GeometryCollectionDataType,
+                geometryType: (token.tokenKind == scanner_1.TokenKind.MULTIPOINT ?
+                    parser_node_1.GeometryType.Point :
+                    token.tokenKind == scanner_1.TokenKind.MULTILINESTRING ?
+                        parser_node_1.GeometryType.LineString :
+                        token.tokenKind == scanner_1.TokenKind.MULTIPOLYGON ?
+                            parser_node_1.GeometryType.Polygon :
+                            parser_node_1.GeometryType.Geometry),
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
     {"name": "RealDataType", "symbols": [FLOAT, "FieldLength", "IntegerDataTypeModifier"], "postprocess":  function (data) {
             const [, fieldLength, modifier] = data;
             const bytes = (fieldLength.length.value <= 24n ?
@@ -2206,6 +2242,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["DateDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["DateTimeDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["GeometryCollectionDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["GeometryDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TimeDataType"]},

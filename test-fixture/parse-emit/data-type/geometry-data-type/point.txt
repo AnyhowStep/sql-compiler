@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X POINT
+);
+
+-----
+CREATE TABLE `T` (
+    `X` POINT NULL
+);
+
+-----
+[]

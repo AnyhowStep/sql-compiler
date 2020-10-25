@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X LINESTRING
+);
+
+-----
+CREATE TABLE `T` (
+    `X` LINESTRING NULL
+);
+
+-----
+[]

@@ -7,6 +7,8 @@ import {emitBooleanDataType} from "./boolean-data-type";
 import {emitCharacterDataType} from "./character-data-type";
 import {emitDateDataType} from "./date-data-type";
 import {emitDateTimeDataType} from "./date-time-data-type";
+import {emitGeometryCollectionDataType} from "./geometry-collection-data-type";
+import {emitGeometryDataType} from "./geometry-data-type";
 import {emitIntegerDataType} from "./integer-data-type";
 import {emitRealDataType} from "./real-data-type";
 import {emitTimeDataType} from "./time-data-type";
@@ -22,6 +24,8 @@ export function emitDataType (dataType : DataType) : StringBuilder {
         .case(SyntaxKind.CharacterDataType, emitCharacterDataType)
         .case(SyntaxKind.DateDataType, emitDateDataType)
         .case(SyntaxKind.DateTimeDataType, emitDateTimeDataType)
+        .case(SyntaxKind.GeometryCollectionDataType, emitGeometryCollectionDataType)
+        .case(SyntaxKind.GeometryDataType, emitGeometryDataType)
         .case(SyntaxKind.IntegerDataType, emitIntegerDataType)
         .case(SyntaxKind.RealDataType, emitRealDataType)
         .case(SyntaxKind.TimeDataType, emitTimeDataType)

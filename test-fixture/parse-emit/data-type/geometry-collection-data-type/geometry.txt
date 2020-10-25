@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X GEOMETRYCOLLECTION
+);
+
+-----
+CREATE TABLE `T` (
+    `X` GEOMETRYCOLLECTION NULL
+);
+
+-----
+[]

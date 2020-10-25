@@ -14,6 +14,8 @@ export const DataTypeRule = makeCustomRule<DataType>("DataType")
             SyntaxKind.CharacterDataType,
             SyntaxKind.DateDataType,
             SyntaxKind.DateTimeDataType,
+            SyntaxKind.GeometryCollectionDataType,
+            SyntaxKind.GeometryDataType,
             SyntaxKind.IntegerDataType,
             SyntaxKind.RealDataType,
             SyntaxKind.TimeDataType,

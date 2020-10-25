@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X POLYGON
+);
+
+-----
+CREATE TABLE `T` (
+    `X` POLYGON NULL
+);
+
+-----
+[]
