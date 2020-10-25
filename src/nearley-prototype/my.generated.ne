@@ -2310,23 +2310,28 @@ BitDataType ->
 } %}
 
 BinaryDataType ->
-    %BINARY (%OpenParentheses %IntegerLiteral %CloseParentheses):? {% ([binary, maxLengthSpecifier]) => {
-    return {
-        start: binary.start,
-        end: maxLengthSpecifier?.[2].end ?? binary.end,
+    (%BINARY | %VARBINARY) FieldLength:? {% (data) => {
+    const [[dataType], maxLength] = data;
+    const result = {
+        ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
-        variableLength: false,
-        maxLength: (maxLengthSpecifier == undefined ?
-            1 :
-            parseInt(maxLengthSpecifier[1].value, 10)),
+        variableLength: dataType.tokenKind == scanner_1.TokenKind.VARBINARY,
+        maxLength: (maxLength ??
+            {
+                start: dataType.end,
+                end: dataType.end,
+                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                length: {
+                    start: dataType.end,
+                    end: dataType.end,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(1),
+                },
+            }),
     };
-} %}
-    | %VARBINARY %OpenParentheses %IntegerLiteral %CloseParentheses {% ([binary, , maxLengthSpecifier, closeParentheses]) => {
-    return {
-        start: binary.start,
-        end: closeParentheses.end,
-        syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
-        variableLength: true,
-        maxLength: parseInt(maxLengthSpecifier.value, 10),
-    };
+    if (result.variableLength &&
+        maxLength == undefined) {
+        parse_util_1.pushSyntacticErrorAt(result, dataType.end, dataType.end, [dataType], diagnostic_messages_1.DiagnosticMessages.VariableLengthBinaryDataTypeMustSpecifyFieldLength);
+    }
+    return result;
 } %}

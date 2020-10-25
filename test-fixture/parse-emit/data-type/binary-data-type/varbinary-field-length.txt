@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X VARBINARY(222)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` VARBINARY(222) NULL
+);
+
+-----
+[]

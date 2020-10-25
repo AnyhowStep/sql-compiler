@@ -2433,28 +2433,34 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
-    {"name": "BinaryDataType$ebnf$1$subexpression$1", "symbols": [OpenParentheses, IntegerLiteral, CloseParentheses]},
-    {"name": "BinaryDataType$ebnf$1", "symbols": ["BinaryDataType$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "BinaryDataType$subexpression$1", "symbols": [BINARY]},
+    {"name": "BinaryDataType$subexpression$1", "symbols": [VARBINARY]},
+    {"name": "BinaryDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
     {"name": "BinaryDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "BinaryDataType", "symbols": [BINARY, "BinaryDataType$ebnf$1"], "postprocess":  ([binary, maxLengthSpecifier]) => {
-            return {
-                start: binary.start,
-                end: maxLengthSpecifier?.[2].end ?? binary.end,
+    {"name": "BinaryDataType", "symbols": ["BinaryDataType$subexpression$1", "BinaryDataType$ebnf$1"], "postprocess":  (data) => {
+            const [[dataType], maxLength] = data;
+            const result = {
+                ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
-                variableLength: false,
-                maxLength: (maxLengthSpecifier == undefined ?
-                    1 :
-                    parseInt(maxLengthSpecifier[1].value, 10)),
+                variableLength: dataType.tokenKind == scanner_1.TokenKind.VARBINARY,
+                maxLength: (maxLength ??
+                    {
+                        start: dataType.end,
+                        end: dataType.end,
+                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                        length: {
+                            start: dataType.end,
+                            end: dataType.end,
+                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                            value: BigInt(1),
+                        },
+                    }),
             };
-        } },
-    {"name": "BinaryDataType", "symbols": [VARBINARY, OpenParentheses, IntegerLiteral, CloseParentheses], "postprocess":  ([binary, , maxLengthSpecifier, closeParentheses]) => {
-            return {
-                start: binary.start,
-                end: closeParentheses.end,
-                syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
-                variableLength: true,
-                maxLength: parseInt(maxLengthSpecifier.value, 10),
-            };
+            if (result.variableLength &&
+                maxLength == undefined) {
+                parse_util_1.pushSyntacticErrorAt(result, dataType.end, dataType.end, [dataType], diagnostic_messages_1.DiagnosticMessages.VariableLengthBinaryDataTypeMustSpecifyFieldLength);
+            }
+            return result;
         } }
 ];
 

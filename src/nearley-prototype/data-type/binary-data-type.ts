@@ -1,47 +1,55 @@
-import {SyntaxKind} from "../../parser-node";
+import {BinaryDataType, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
+import {DiagnosticMessages} from "../diagnostic-messages";
 import {
-    makeRule, optional,
+    makeRule, optional, union,
 } from "../nearley-util";
+import {getTextRange, pushSyntacticErrorAt} from "../parse-util";
 
 makeRule(SyntaxKind.BinaryDataType)
     .addSubstitution(
         [
-            TokenKind.BINARY,
-            optional([
-                TokenKind.OpenParentheses,
-                TokenKind.IntegerLiteral,
-                TokenKind.CloseParentheses,
-            ] as const)
+            union(
+                TokenKind.BINARY,
+                TokenKind.VARBINARY
+            ),
+            optional(SyntaxKind.FieldLength)
         ] as const,
-        ([binary, maxLengthSpecifier]) => {
-            return {
-                start : binary.start,
-                end : maxLengthSpecifier?.[2].end ?? binary.end,
+        (data) : BinaryDataType => {
+            const [[dataType], maxLength] = data;
+            const result : BinaryDataType = {
+                ...getTextRange(data),
                 syntaxKind : SyntaxKind.BinaryDataType,
-                variableLength : false,
+                variableLength : dataType.tokenKind == TokenKind.VARBINARY,
                 maxLength : (
-                    maxLengthSpecifier == undefined ?
-                    1 :
-                    parseInt(maxLengthSpecifier[1].value, 10)
+                    maxLength ??
+                    {
+                        start : dataType.end,
+                        end : dataType.end,
+                        syntaxKind : SyntaxKind.FieldLength,
+                        length : {
+                            start : dataType.end,
+                            end : dataType.end,
+                            syntaxKind : SyntaxKind.IntegerLiteral,
+                            value : BigInt(1),
+                        },
+                    }
                 ),
             };
-        }
-    )
-    .addSubstitution(
-        [
-            TokenKind.VARBINARY,
-            TokenKind.OpenParentheses,
-            TokenKind.IntegerLiteral,
-            TokenKind.CloseParentheses
-        ] as const,
-        ([binary, , maxLengthSpecifier, closeParentheses]) => {
-            return {
-                start : binary.start,
-                end : closeParentheses.end,
-                syntaxKind : SyntaxKind.BinaryDataType,
-                variableLength : true,
-                maxLength : parseInt(maxLengthSpecifier.value, 10),
-            };
+
+            if (
+                result.variableLength &&
+                maxLength == undefined
+            ) {
+                pushSyntacticErrorAt(
+                    result,
+                    dataType.end,
+                    dataType.end,
+                    [dataType],
+                    DiagnosticMessages.VariableLengthBinaryDataTypeMustSpecifyFieldLength
+                );
+            }
+
+            return result;
         }
     );

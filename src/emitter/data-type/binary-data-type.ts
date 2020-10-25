@@ -1,4 +1,5 @@
 import {BinaryDataType} from "../../parser-node";
+import {emitFieldLength} from "../misc";
 import {StringBuilder} from "../string-builder";
 
 export function emitBinaryDataType (dataType : BinaryDataType) : StringBuilder {
@@ -8,7 +9,5 @@ export function emitBinaryDataType (dataType : BinaryDataType) : StringBuilder {
             "VARBINARY" :
             "BINARY"
         )
-        .append("(")
-        .append(dataType.maxLength.toString())
-        .append(")");
+        .appendBuilder(emitFieldLength(dataType.maxLength));
 }

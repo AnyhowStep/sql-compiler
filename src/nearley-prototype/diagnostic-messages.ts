@@ -135,6 +135,11 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200024,
     }),
+    VariableLengthBinaryDataTypeMustSpecifyFieldLength : makeDiagnosticMessage({
+        key : "Variable-length binary data types must specify field length",
+        category : DiagnosticCategory.Error,
+        code : 200025,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

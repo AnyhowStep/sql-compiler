@@ -1,3 +1,4 @@
+import {FieldLength} from "../misc";
 import {Node} from "../node";
 import {SyntaxKind} from "../syntax-kind.generated";
 
@@ -12,5 +13,5 @@ export interface BinaryDataType extends Node {
     syntaxKind : SyntaxKind.BinaryDataType;
 
     variableLength : boolean;
-    maxLength : number;
+    maxLength : FieldLength;
 }

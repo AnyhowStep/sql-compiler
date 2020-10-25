@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BOOLEAN
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+);
+
+-----
+[]
