@@ -10,6 +10,7 @@ import {emitDateTimeDataType} from "./date-time-data-type";
 import {emitIntegerDataType} from "./integer-data-type";
 import {emitRealDataType} from "./real-data-type";
 import {emitTimeDataType} from "./time-data-type";
+import {emitTimestampDataType} from "./timestamp-data-type";
 import {emitYearDataType} from "./year-data-type";
 
 export function emitDataType (dataType : DataType) : StringBuilder {
@@ -24,6 +25,7 @@ export function emitDataType (dataType : DataType) : StringBuilder {
         .case(SyntaxKind.IntegerDataType, emitIntegerDataType)
         .case(SyntaxKind.RealDataType, emitRealDataType)
         .case(SyntaxKind.TimeDataType, emitTimeDataType)
+        .case(SyntaxKind.TimestampDataType, emitTimestampDataType)
         .case(SyntaxKind.YearDataType, emitYearDataType)
         .default(() => new StringBuilder()
             .append(`TODO_DATA_TYPE(${ReverseSyntaxKind[dataType.syntaxKind]})`)

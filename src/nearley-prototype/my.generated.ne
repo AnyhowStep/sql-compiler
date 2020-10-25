@@ -1880,6 +1880,28 @@ YearDataType ->
     return result;
 } %}
 
+TimestampDataType ->
+    %TIMESTAMP FieldLength:? {% (data) => {
+    const [dataType, fractionalSecondPrecision] = data;
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.TimestampDataType,
+        fractionalSecondPrecision: (fractionalSecondPrecision ??
+            {
+                start: dataType.end,
+                end: dataType.end,
+                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                length: {
+                    start: dataType.end,
+                    end: dataType.end,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(0),
+                },
+            }),
+    };
+    return result;
+} %}
+
 TimeDataType ->
     %TIME FieldLength:? {% (data) => {
     const [dataType, fractionalSecondPrecision] = data;
@@ -2088,7 +2110,7 @@ DateDataType ->
 } %}
 
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | IntegerDataType | RealDataType | TimeDataType | YearDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | IntegerDataType | RealDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
     (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {

@@ -21,6 +21,7 @@ export const syntaxKinds = [
     "YearDataType",
     "DateDataType",
     "TimeDataType",
+    "TimestampDataType",
 
     "GeometryDataType",
     "GeometryCollectionDataType",

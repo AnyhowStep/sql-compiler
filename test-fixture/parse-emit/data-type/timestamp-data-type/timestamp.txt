@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TIMESTAMP
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TIMESTAMP(0) NULL
+);
+
+-----
+[]

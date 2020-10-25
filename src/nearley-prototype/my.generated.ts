@@ -1955,6 +1955,28 @@ export var ParserRules: NearleyRule[] = [
             }
             return result;
         } },
+    {"name": "TimestampDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
+    {"name": "TimestampDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "TimestampDataType", "symbols": [TIMESTAMP, "TimestampDataType$ebnf$1"], "postprocess":  (data) => {
+            const [dataType, fractionalSecondPrecision] = data;
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.TimestampDataType,
+                fractionalSecondPrecision: (fractionalSecondPrecision ??
+                    {
+                        start: dataType.end,
+                        end: dataType.end,
+                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                        length: {
+                            start: dataType.end,
+                            end: dataType.end,
+                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                            value: BigInt(0),
+                        },
+                    }),
+            };
+            return result;
+        } },
     {"name": "TimeDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
     {"name": "TimeDataType$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "TimeDataType", "symbols": [TIME, "TimeDataType$ebnf$1"], "postprocess":  (data) => {
@@ -2184,6 +2206,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TimeDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["TimestampDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["YearDataType"]},
     {"name": "DataType", "symbols": ["DataType$subexpression$1"], "postprocess": (data) => data[0][0]},
     {"name": "CharacterDataType$subexpression$1", "symbols": ["CharStart"]},

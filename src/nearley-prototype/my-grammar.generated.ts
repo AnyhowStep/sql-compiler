@@ -12,6 +12,7 @@ import "./data-type/float-data-type";
 import "./data-type/integer-data-type-modifier";
 import "./data-type/integer-data-type";
 import "./data-type/time-data-type";
+import "./data-type/timestamp-data-type";
 import "./data-type/year-data-type";
 import "./expression/decimal-literal";
 import "./expression/expression";
