@@ -1924,6 +1924,59 @@ TimeDataType ->
     return result;
 } %}
 
+TextDataType ->
+    %TEXT FieldLength CharacterDataTypeModifier {% (data) => {
+    const [, fieldLength, modifier] = data;
+    const result = {
+        syntaxKind: parser_node_1.SyntaxKind.TextDataType,
+        lengthBytes: (fieldLength.length.value < (1n << 8n) ?
+            8 :
+            fieldLength.length.value < (1n << 16n) ?
+                16 :
+                fieldLength.length.value < (1n << 24n) ?
+                    24 :
+                    32),
+        characterSet: modifier.characterSet,
+        collate: modifier.collate,
+        binary: modifier.binary,
+        ...parse_util_1.getTextRange(data),
+    };
+    if (fieldLength.length.value >= (1n << 32n)) {
+        parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidTextDataTypeBytes);
+    }
+    return result;
+} %}
+
+TextDataType ->
+    (%TINYTEXT | %TEXT | %MEDIUMTEXT | %LONGTEXT) CharacterDataTypeModifier {% (data) => {
+    const [[token], modifier] = data;
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.TextDataType,
+        lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYTEXT ?
+            8 :
+            token.tokenKind == scanner_1.TokenKind.TEXT ?
+                16 :
+                token.tokenKind == scanner_1.TokenKind.MEDIUMTEXT ?
+                    24 :
+                    32),
+        characterSet: modifier.characterSet,
+        collate: modifier.collate,
+        binary: modifier.binary,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+    | %LONG (%VARCHAR | (%CHAR %VARYING)) CharacterDataTypeModifier {% (data) => {
+    const [, , modifier] = data;
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.TextDataType,
+        lengthBytes: 24,
+        characterSet: modifier.characterSet,
+        collate: modifier.collate,
+        binary: modifier.binary,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+
 IntegerDataType ->
     (%TINYINT | %SMALLINT | %MEDIUMINT | %INT | %INTEGER | %BIGINT) (%OpenParentheses IntegerLiteral %CloseParentheses):? IntegerDataTypeModifier {% (data) => {
     const [dataType, displayWidth, modifier] = data;
@@ -2142,7 +2195,7 @@ DateDataType ->
 } %}
 
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | RealDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | RealDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
     (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {

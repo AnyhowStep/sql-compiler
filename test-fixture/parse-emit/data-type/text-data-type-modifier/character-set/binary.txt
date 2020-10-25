@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TEXT CHARACTER SET binary
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TEXT CHARACTER SET `binary` NULL
+);
+
+-----
+[]

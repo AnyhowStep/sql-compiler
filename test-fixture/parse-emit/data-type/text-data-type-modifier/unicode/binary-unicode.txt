@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TEXT BINARY UNICODE
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TEXT CHARACTER SET `ucs2` COLLATE `ucs2_bin` NULL
+);
+
+-----
+[]

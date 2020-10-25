@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TEXT UNICODE
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TEXT CHARACTER SET `ucs2` NULL
+);
+
+-----
+[]

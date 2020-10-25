@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TEXT(255)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TINYTEXT NULL
+);
+
+-----
+[]

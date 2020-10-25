@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TEXT
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TEXT NULL
+);
+
+-----
+[]

@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X MEDIUMTEXT
+);
+
+-----
+CREATE TABLE `T` (
+    `X` MEDIUMTEXT NULL
+);
+
+-----
+[]

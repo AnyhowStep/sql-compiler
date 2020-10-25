@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X LONG CHAR VARYING
+);
+
+-----
+CREATE TABLE `T` (
+    `X` MEDIUMTEXT NULL
+);
+
+-----
+[]

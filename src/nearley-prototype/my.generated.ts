@@ -2002,6 +2002,62 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "TextDataType", "symbols": [TEXT, "FieldLength", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+            const [, fieldLength, modifier] = data;
+            const result = {
+                syntaxKind: parser_node_1.SyntaxKind.TextDataType,
+                lengthBytes: (fieldLength.length.value < (1n << 8n) ?
+                    8 :
+                    fieldLength.length.value < (1n << 16n) ?
+                        16 :
+                        fieldLength.length.value < (1n << 24n) ?
+                            24 :
+                            32),
+                characterSet: modifier.characterSet,
+                collate: modifier.collate,
+                binary: modifier.binary,
+                ...parse_util_1.getTextRange(data),
+            };
+            if (fieldLength.length.value >= (1n << 32n)) {
+                parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidTextDataTypeBytes);
+            }
+            return result;
+        } },
+    {"name": "TextDataType$subexpression$1", "symbols": [TINYTEXT]},
+    {"name": "TextDataType$subexpression$1", "symbols": [TEXT]},
+    {"name": "TextDataType$subexpression$1", "symbols": [MEDIUMTEXT]},
+    {"name": "TextDataType$subexpression$1", "symbols": [LONGTEXT]},
+    {"name": "TextDataType", "symbols": ["TextDataType$subexpression$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+            const [[token], modifier] = data;
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.TextDataType,
+                lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYTEXT ?
+                    8 :
+                    token.tokenKind == scanner_1.TokenKind.TEXT ?
+                        16 :
+                        token.tokenKind == scanner_1.TokenKind.MEDIUMTEXT ?
+                            24 :
+                            32),
+                characterSet: modifier.characterSet,
+                collate: modifier.collate,
+                binary: modifier.binary,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
+    {"name": "TextDataType$subexpression$2", "symbols": [VARCHAR]},
+    {"name": "TextDataType$subexpression$2$subexpression$1", "symbols": [CHAR, VARYING]},
+    {"name": "TextDataType$subexpression$2", "symbols": ["TextDataType$subexpression$2$subexpression$1"]},
+    {"name": "TextDataType", "symbols": [LONG, "TextDataType$subexpression$2", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+            const [, , modifier] = data;
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.TextDataType,
+                lengthBytes: 24,
+                characterSet: modifier.characterSet,
+                collate: modifier.collate,
+                binary: modifier.binary,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
     {"name": "IntegerDataType$subexpression$1", "symbols": [TINYINT]},
     {"name": "IntegerDataType$subexpression$1", "symbols": [SMALLINT]},
     {"name": "IntegerDataType$subexpression$1", "symbols": [MEDIUMINT]},
@@ -2246,6 +2302,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["GeometryDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["TextDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TimeDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TimestampDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["YearDataType"]},

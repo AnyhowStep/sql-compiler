@@ -150,6 +150,11 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200027,
     }),
+    InvalidTextDataTypeBytes : makeDiagnosticMessage({
+        key : "Invalid text data type bytes; min 0, max 4,294,967,295",
+        category : DiagnosticCategory.Error,
+        code : 200028,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

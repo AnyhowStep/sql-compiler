@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TEXT BINARY ASCII
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TEXT CHARACTER SET `latin1` COLLATE `latin1_bin` NULL
+);
+
+-----
+[]

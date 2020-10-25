@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TEXT(4294967295)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` LONGTEXT NULL
+);
+
+-----
+[]

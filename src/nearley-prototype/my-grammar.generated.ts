@@ -14,6 +14,8 @@ import "./data-type/geometry-collection-data-type";
 import "./data-type/geometry-data-type";
 import "./data-type/integer-data-type-modifier";
 import "./data-type/integer-data-type";
+import "./data-type/text-data-type";
+import "./data-type/text-field-length-data-type";
 import "./data-type/time-data-type";
 import "./data-type/timestamp-data-type";
 import "./data-type/year-data-type";

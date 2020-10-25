@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X TEXT(4294967296)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` LONGTEXT NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Invalid text data type bytes; min 0, max 4,294,967,295",
+        "start": 28,
+        "length": 10
+    }
+]
