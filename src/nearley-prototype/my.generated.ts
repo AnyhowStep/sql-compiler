@@ -2146,6 +2146,28 @@ export var ParserRules: NearleyRule[] = [
                 scale,
             };
         } },
+    {"name": "DateTimeDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
+    {"name": "DateTimeDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "DateTimeDataType", "symbols": [DATETIME, "DateTimeDataType$ebnf$1"], "postprocess":  (data) => {
+            const [dataType, fractionalSecondPrecision] = data;
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.DateTimeDataType,
+                fractionalSecondPrecision: (fractionalSecondPrecision ??
+                    {
+                        start: dataType.end,
+                        end: dataType.end,
+                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                        length: {
+                            start: dataType.end,
+                            end: dataType.end,
+                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                            value: BigInt(0),
+                        },
+                    }),
+            };
+            return result;
+        } },
     {"name": "DateDataType", "symbols": [DATE], "postprocess":  (data) => {
             return {
                 syntaxKind: parser_node_1.SyntaxKind.DateDataType,
@@ -2158,6 +2180,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["BooleanDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["DateDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["DateTimeDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TimeDataType"]},

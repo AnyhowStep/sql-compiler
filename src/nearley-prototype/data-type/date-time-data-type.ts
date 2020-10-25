@@ -1,4 +1,4 @@
-import {TimeDataType, SyntaxKind} from "../../parser-node";
+import {DateTimeDataType, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {
     makeRule, optional,
@@ -6,19 +6,19 @@ import {
 import {getTextRange} from "../parse-util";
 
 /**
- * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6584
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6618
  */
-makeRule(SyntaxKind.TimeDataType)
+makeRule(SyntaxKind.DateTimeDataType)
     .addSubstitution(
         [
-            TokenKind.TIME,
+            TokenKind.DATETIME,
             optional(SyntaxKind.FieldLength)
         ] as const,
-        (data) : TimeDataType => {
+        (data) : DateTimeDataType => {
             const [dataType, fractionalSecondPrecision] = data;
-            const result : TimeDataType = {
+            const result : DateTimeDataType = {
                 ...getTextRange(data),
-                syntaxKind : SyntaxKind.TimeDataType,
+                syntaxKind : SyntaxKind.DateTimeDataType,
                 fractionalSecondPrecision : (
                     fractionalSecondPrecision ??
                     {

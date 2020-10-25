@@ -13,6 +13,7 @@ export const DataTypeRule = makeCustomRule<DataType>("DataType")
             SyntaxKind.BooleanDataType,
             SyntaxKind.CharacterDataType,
             SyntaxKind.DateDataType,
+            SyntaxKind.DateTimeDataType,
             SyntaxKind.IntegerDataType,
             SyntaxKind.RealDataType,
             SyntaxKind.TimeDataType,
