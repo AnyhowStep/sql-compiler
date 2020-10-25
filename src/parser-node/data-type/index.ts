@@ -13,6 +13,7 @@ export * from "./integer-data-type";
 export * from "./json-data-type";
 export * from "./real-data-type";
 export * from "./text-data-type";
+export * from "./time-data-type";
 export * from "./union-data-type";
 export * from "./unknown-data-type";
 export * from "./year-data-type";

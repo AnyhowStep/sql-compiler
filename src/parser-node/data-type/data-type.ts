@@ -12,6 +12,7 @@ import {IntegerDataType} from "./integer-data-type";
 import {JsonDataType} from "./json-data-type";
 import {RealDataType} from "./real-data-type";
 import {TextDataType} from "./text-data-type";
+import {TimeDataType} from "./time-data-type";
 import {UnknownDataType} from "./unknown-data-type";
 import {YearDataType} from "./year-data-type";
 
@@ -30,6 +31,7 @@ export type DataType =
     | JsonDataType
     | RealDataType
     | TextDataType
+    | TimeDataType
     | UnknownDataType
     | YearDataType
 ;

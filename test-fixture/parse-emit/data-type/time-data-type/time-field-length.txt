@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X TIME(6)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TIME(6) NULL
+);
+
+-----
+[]

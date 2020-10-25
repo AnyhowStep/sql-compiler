@@ -15,6 +15,7 @@ import {
     JsonDataType,
     RealDataType,
     TextDataType,
+    TimeDataType,
     UnionDataType,
     UnknownDataType,
     YearDataType,
@@ -64,6 +65,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.JsonDataType] : JsonDataType;
     [SyntaxKind.RealDataType] : RealDataType;
     [SyntaxKind.TextDataType] : TextDataType;
+    [SyntaxKind.TimeDataType] : TimeDataType;
     [SyntaxKind.UnionDataType] : UnionDataType;
     [SyntaxKind.UnknownDataType] : UnknownDataType;
     [SyntaxKind.YearDataType] : YearDataType;

@@ -20,6 +20,7 @@ export const syntaxKinds = [
     "DateTimeDataType",
     "YearDataType",
     "DateDataType",
+    "TimeDataType",
 
     "GeometryDataType",
     "GeometryCollectionDataType",

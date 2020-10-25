@@ -14,6 +14,7 @@ import {IntegerDataType} from "./data-type/integer-data-type";
 import {JsonDataType} from "./data-type/json-data-type";
 import {RealDataType} from "./data-type/real-data-type";
 import {TextDataType} from "./data-type/text-data-type";
+import {TimeDataType} from "./data-type/time-data-type";
 import {UnionDataType} from "./data-type/union-data-type";
 import {UnknownDataType} from "./data-type/unknown-data-type";
 import {YearDataType} from "./data-type/year-data-type";
@@ -61,6 +62,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IntegerDataTy
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.JsonDataType) : node is JsonDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RealDataType) : node is RealDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TextDataType) : node is TextDataType;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TimeDataType) : node is TimeDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnionDataType) : node is UnionDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownDataType) : node is UnknownDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.YearDataType) : node is YearDataType;
@@ -117,6 +119,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.JsonDataType, callback : (node : JsonDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RealDataType, callback : (node : RealDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TextDataType, callback : (node : TextDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.TimeDataType, callback : (node : TimeDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnionDataType, callback : (node : UnionDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownDataType, callback : (node : UnknownDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.YearDataType, callback : (node : YearDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

@@ -15,6 +15,7 @@ export const DataTypeRule = makeCustomRule<DataType>("DataType")
             SyntaxKind.DateDataType,
             SyntaxKind.IntegerDataType,
             SyntaxKind.RealDataType,
+            SyntaxKind.TimeDataType,
             SyntaxKind.YearDataType,
         )] as const,
         (data) : DataType => data[0][0]
