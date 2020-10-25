@@ -1965,7 +1965,7 @@ TextDataType ->
         ...parse_util_1.getTextRange(data),
     };
 } %}
-    | %LONG (%VARCHAR | (%CHAR %VARYING)) CharacterDataTypeModifier {% (data) => {
+    | %LONG (%VARCHAR | (%CHAR %VARYING)):? CharacterDataTypeModifier {% (data) => {
     const [, , modifier] = data;
     return {
         syntaxKind: parser_node_1.SyntaxKind.TextDataType,

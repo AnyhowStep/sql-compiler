@@ -2044,10 +2044,12 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
-    {"name": "TextDataType$subexpression$2", "symbols": [VARCHAR]},
-    {"name": "TextDataType$subexpression$2$subexpression$1", "symbols": [CHAR, VARYING]},
-    {"name": "TextDataType$subexpression$2", "symbols": ["TextDataType$subexpression$2$subexpression$1"]},
-    {"name": "TextDataType", "symbols": [LONG, "TextDataType$subexpression$2", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+    {"name": "TextDataType$ebnf$1$subexpression$1", "symbols": [VARCHAR]},
+    {"name": "TextDataType$ebnf$1$subexpression$1$subexpression$1", "symbols": [CHAR, VARYING]},
+    {"name": "TextDataType$ebnf$1$subexpression$1", "symbols": ["TextDataType$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "TextDataType$ebnf$1", "symbols": ["TextDataType$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "TextDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "TextDataType", "symbols": [LONG, "TextDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
             const [, , modifier] = data;
             return {
                 syntaxKind: parser_node_1.SyntaxKind.TextDataType,

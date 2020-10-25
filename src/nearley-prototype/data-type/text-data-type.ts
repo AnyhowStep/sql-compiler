@@ -2,6 +2,7 @@ import {SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {
     makeRule,
+    optional,
     union,
 } from "../nearley-util";
 import {getTextRange} from "../parse-util";
@@ -40,14 +41,16 @@ makeRule(SyntaxKind.TextDataType)
     )
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6655
+     *
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6720
      */
     .addSubstitution(
         [
             TokenKind.LONG,
-            union(
+            optional(union(
                 TokenKind.VARCHAR,
                 [TokenKind.CHAR, TokenKind.VARYING] as const
-            ),
+            )),
             CharacterDataTypeModifier
         ] as const,
         (data) => {
