@@ -20,8 +20,13 @@ export const CharacterDataTypeModifier = makeCustomRule("CharacterDataTypeModifi
     .addSubstitution(
         [
             optional([
-                TokenKind.CHARACTER,
-                TokenKind.SET,
+                union(
+                    [
+                        TokenKind.CHARACTER,
+                        TokenKind.SET,
+                    ] as const,
+                    TokenKind.CHARSET
+                ),
                 CharacterSetNameRule
             ] as const),
             optional([
@@ -38,7 +43,7 @@ export const CharacterDataTypeModifier = makeCustomRule("CharacterDataTypeModifi
                     ...getTextRange([characterSet, collate]),
                 },
                 {
-                    characterSet : characterSet?.[2],
+                    characterSet : characterSet?.[1],
                     collate : collate?.[1],
                 }
             );
@@ -191,13 +196,23 @@ export const CharacterDataTypeModifier = makeCustomRule("CharacterDataTypeModifi
             union(
                 [
                     TokenKind.BINARY,
-                    TokenKind.CHARACTER,
-                    TokenKind.SET,
+                    union(
+                        [
+                            TokenKind.CHARACTER,
+                            TokenKind.SET,
+                        ] as const,
+                        TokenKind.CHARSET
+                    ),
                     CharacterSetNameRule,
                 ] as const,
                 [
-                    TokenKind.CHARACTER,
-                    TokenKind.SET,
+                    union(
+                        [
+                            TokenKind.CHARACTER,
+                            TokenKind.SET,
+                        ] as const,
+                        TokenKind.CHARSET
+                    ),
                     CharacterSetNameRule,
                     TokenKind.BINARY,
                 ] as const

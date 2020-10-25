@@ -1675,8 +1675,8 @@ DefaultCollation ->
 } %}
 
 DefaultCharacterSet ->
-    %DEFAULT:? %CHARACTER %SET %Equal:? CharacterSetName {% (data) => {
-    let [, , , , characterSetName] = data;
+    %DEFAULT:? ((%CHARACTER %SET) | %CHARSET) %Equal:? CharacterSetName {% (data) => {
+    let [, , , characterSetName] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
@@ -2234,13 +2234,13 @@ VarCharStart ->
 } %}
 
 CharacterDataTypeModifier ->
-    (%CHARACTER %SET CharacterSetName):? (%COLLATE Identifier):? {% function ([characterSet, collate]) {
+    (((%CHARACTER %SET) | %CHARSET) CharacterSetName):? (%COLLATE Identifier):? {% function ([characterSet, collate]) {
     return parse_util_1.processCharacterDataTypeModifier(this, {
         characterSet: undefined,
         collate: undefined,
         ...parse_util_1.getTextRange([characterSet, collate]),
     }, {
-        characterSet: characterSet?.[2],
+        characterSet: characterSet?.[1],
         collate: collate?.[1],
     });
 } %}
@@ -2327,7 +2327,7 @@ CharacterDataTypeModifier ->
         binary: parse_util_1.getTextRange(data),
     };
 } %}
-    | ((%BINARY %CHARACTER %SET CharacterSetName) | (%CHARACTER %SET CharacterSetName %BINARY)) {% function (data) {
+    | ((%BINARY ((%CHARACTER %SET) | %CHARSET) CharacterSetName) | (((%CHARACTER %SET) | %CHARSET) CharacterSetName %BINARY)) {% function (data) {
     const x = data[0][0].filter((item) => "syntaxKind" in item);
     const characterSet = x[0];
     return {

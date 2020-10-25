@@ -1760,10 +1760,13 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "DefaultCharacterSet$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
     {"name": "DefaultCharacterSet$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "DefaultCharacterSet$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
+    {"name": "DefaultCharacterSet$subexpression$1", "symbols": ["DefaultCharacterSet$subexpression$1$subexpression$1"]},
+    {"name": "DefaultCharacterSet$subexpression$1", "symbols": [CHARSET]},
     {"name": "DefaultCharacterSet$ebnf$2", "symbols": [Equal], "postprocess": id},
     {"name": "DefaultCharacterSet$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCharacterSet", "symbols": ["DefaultCharacterSet$ebnf$1", CHARACTER, SET, "DefaultCharacterSet$ebnf$2", "CharacterSetName"], "postprocess":  (data) => {
-            let [, , , , characterSetName] = data;
+    {"name": "DefaultCharacterSet", "symbols": ["DefaultCharacterSet$ebnf$1", "DefaultCharacterSet$subexpression$1", "DefaultCharacterSet$ebnf$2", "CharacterSetName"], "postprocess":  (data) => {
+            let [, , , characterSetName] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
@@ -2344,7 +2347,10 @@ export var ParserRules: NearleyRule[] = [
                 nationalCharacterSet: undefined,
             };
         } },
-    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1", "symbols": [CHARACTER, SET, "CharacterSetName"]},
+    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
+    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1$subexpression$1"]},
+    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1", "symbols": [CHARSET]},
+    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1", "CharacterSetName"]},
     {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "CharacterDataTypeModifier$ebnf$2$subexpression$1", "symbols": [COLLATE, "Identifier"]},
@@ -2356,7 +2362,7 @@ export var ParserRules: NearleyRule[] = [
                 collate: undefined,
                 ...parse_util_1.getTextRange([characterSet, collate]),
             }, {
-                characterSet: characterSet?.[2],
+                characterSet: characterSet?.[1],
                 collate: collate?.[1],
             });
         } },
@@ -2451,9 +2457,15 @@ export var ParserRules: NearleyRule[] = [
                 binary: parse_util_1.getTextRange(data),
             };
         } },
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1", "symbols": [BINARY, CHARACTER, SET, "CharacterSetName"]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1$subexpression$1"]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1", "symbols": [CHARSET]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1", "symbols": [BINARY, "CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1", "CharacterSetName"]},
     {"name": "CharacterDataTypeModifier$subexpression$3", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$1"]},
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2", "symbols": [CHARACTER, SET, "CharacterSetName", BINARY]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1$subexpression$1"]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1", "symbols": [CHARSET]},
+    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1", "CharacterSetName", BINARY]},
     {"name": "CharacterDataTypeModifier$subexpression$3", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$2"]},
     {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$subexpression$3"], "postprocess":  function (data) {
             const x = data[0][0].filter((item) => "syntaxKind" in item);
