@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BLOB(65536)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` MEDIUMBLOB NULL
+);
+
+-----
+[]

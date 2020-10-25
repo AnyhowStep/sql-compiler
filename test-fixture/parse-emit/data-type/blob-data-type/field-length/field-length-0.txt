@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BLOB(0)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` TINYBLOB NULL
+);
+
+-----
+[]

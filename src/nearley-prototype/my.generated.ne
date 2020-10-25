@@ -2372,6 +2372,26 @@ BooleanDataType ->
 } %}
 
 BlobDataType ->
+    %BLOB FieldLength {% (data) => {
+    const [, fieldLength] = data;
+    const result = {
+        syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
+        lengthBytes: (fieldLength.length.value < (1n << 8n) ?
+            8 :
+            fieldLength.length.value < (1n << 16n) ?
+                16 :
+                fieldLength.length.value < (1n << 24n) ?
+                    24 :
+                    32),
+        ...parse_util_1.getTextRange(data),
+    };
+    if (fieldLength.length.value >= (1n << 32n)) {
+        parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidBlobDataTypeBytes);
+    }
+    return result;
+} %}
+
+BlobDataType ->
     (%TINYBLOB | %BLOB | %MEDIUMBLOB | %LONGBLOB) {% (data) => {
     const [[token]] = data;
     return {

@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BLOB(4294967295)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` LONGBLOB NULL
+);
+
+-----
+[]

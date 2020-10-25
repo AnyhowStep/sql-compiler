@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BLOB(4294967296)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` LONGBLOB NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Invalid blob data type bytes; min 0, max 4,294,967,295",
+        "start": 28,
+        "length": 10
+    }
+]
