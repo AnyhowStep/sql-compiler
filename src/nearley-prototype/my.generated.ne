@@ -1854,6 +1854,32 @@ DecimalLiteral ->
     };
 } %}
 
+YearDataType ->
+    %YEAR FieldLength:? {% (data) => {
+    const [dataType, fieldLength] = data;
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.YearDataType,
+        fieldLength: (fieldLength ??
+            {
+                start: dataType.end,
+                end: dataType.end,
+                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                length: {
+                    start: dataType.end,
+                    end: dataType.end,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(4),
+                },
+            }),
+    };
+    if (fieldLength != undefined &&
+        fieldLength.length.value != 4n) {
+        parse_util_1.pushSyntacticErrorAt(result, dataType.end, dataType.end, [dataType], diagnostic_messages_1.DiagnosticMessages.YearFieldLengthMustBe4);
+    }
+    return result;
+} %}
+
 IntegerDataType ->
     (%TINYINT | %SMALLINT | %MEDIUMINT | %INT | %INTEGER | %BIGINT) (%OpenParentheses IntegerLiteral %CloseParentheses):? IntegerDataTypeModifier {% (data) => {
     const [dataType, displayWidth, modifier] = data;
@@ -2010,7 +2036,7 @@ Precision ->
 } %}
 
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType | RealDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType | RealDataType | YearDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
     (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {

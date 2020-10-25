@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X YEAR
+);
+
+-----
+CREATE TABLE `T` (
+    `X` YEAR(4) NULL
+);
+
+-----
+[]

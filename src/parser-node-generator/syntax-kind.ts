@@ -18,6 +18,7 @@ export const syntaxKinds = [
     "BlobDataType",
 
     "DateTimeDataType",
+    "YearDataType",
 
     "GeometryDataType",
     "GeometryCollectionDataType",

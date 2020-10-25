@@ -1929,6 +1929,32 @@ export var ParserRules: NearleyRule[] = [
                 value: data[0].value,
             };
         } },
+    {"name": "YearDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
+    {"name": "YearDataType$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "YearDataType", "symbols": [YEAR, "YearDataType$ebnf$1"], "postprocess":  (data) => {
+            const [dataType, fieldLength] = data;
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.YearDataType,
+                fieldLength: (fieldLength ??
+                    {
+                        start: dataType.end,
+                        end: dataType.end,
+                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                        length: {
+                            start: dataType.end,
+                            end: dataType.end,
+                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                            value: BigInt(4),
+                        },
+                    }),
+            };
+            if (fieldLength != undefined &&
+                fieldLength.length.value != 4n) {
+                parse_util_1.pushSyntacticErrorAt(result, dataType.end, dataType.end, [dataType], diagnostic_messages_1.DiagnosticMessages.YearFieldLengthMustBe4);
+            }
+            return result;
+        } },
     {"name": "IntegerDataType$subexpression$1", "symbols": [TINYINT]},
     {"name": "IntegerDataType$subexpression$1", "symbols": [SMALLINT]},
     {"name": "IntegerDataType$subexpression$1", "symbols": [MEDIUMINT]},
@@ -2105,6 +2131,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["YearDataType"]},
     {"name": "DataType", "symbols": ["DataType$subexpression$1"], "postprocess": (data) => data[0][0]},
     {"name": "CharacterDataType$subexpression$1", "symbols": ["CharStart"]},
     {"name": "CharacterDataType$subexpression$1", "symbols": ["VarCharStart"]},

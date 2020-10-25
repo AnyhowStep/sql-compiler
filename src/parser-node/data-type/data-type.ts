@@ -12,6 +12,7 @@ import {JsonDataType} from "./json-data-type";
 import {RealDataType} from "./real-data-type";
 import {TextDataType} from "./text-data-type";
 import {UnknownDataType} from "./unknown-data-type";
+import {YearDataType} from "./year-data-type";
 
 export type DataType =
     | BinaryDataType
@@ -28,4 +29,5 @@ export type DataType =
     | RealDataType
     | TextDataType
     | UnknownDataType
+    | YearDataType
 ;

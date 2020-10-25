@@ -15,6 +15,7 @@ import {RealDataType} from "./data-type/real-data-type";
 import {TextDataType} from "./data-type/text-data-type";
 import {UnionDataType} from "./data-type/union-data-type";
 import {UnknownDataType} from "./data-type/unknown-data-type";
+import {YearDataType} from "./data-type/year-data-type";
 import {DecimalLiteral} from "./expression/decimal-literal";
 import {IntegerLiteral} from "./expression/integer-literal";
 import {RealLiteral} from "./expression/real-literal";
@@ -60,6 +61,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RealDataType)
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TextDataType) : node is TextDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnionDataType) : node is UnionDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownDataType) : node is UnknownDataType;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.YearDataType) : node is YearDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DecimalLiteral) : node is DecimalLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IntegerLiteral) : node is IntegerLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RealLiteral) : node is RealLiteral;
@@ -114,6 +116,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.TextDataType, callback : (node : TextDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnionDataType, callback : (node : UnionDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownDataType, callback : (node : UnknownDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.YearDataType, callback : (node : YearDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DecimalLiteral, callback : (node : DecimalLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.IntegerLiteral, callback : (node : IntegerLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RealLiteral, callback : (node : RealLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

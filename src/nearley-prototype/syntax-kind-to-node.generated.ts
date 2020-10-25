@@ -16,6 +16,7 @@ import {
     TextDataType,
     UnionDataType,
     UnknownDataType,
+    YearDataType,
     DecimalLiteral,
     IntegerLiteral,
     RealLiteral,
@@ -63,6 +64,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.TextDataType] : TextDataType;
     [SyntaxKind.UnionDataType] : UnionDataType;
     [SyntaxKind.UnknownDataType] : UnknownDataType;
+    [SyntaxKind.YearDataType] : YearDataType;
     [SyntaxKind.DecimalLiteral] : DecimalLiteral;
     [SyntaxKind.IntegerLiteral] : IntegerLiteral;
     [SyntaxKind.RealLiteral] : RealLiteral;

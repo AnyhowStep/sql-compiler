@@ -140,6 +140,11 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200025,
     }),
+    YearFieldLengthMustBe4 : makeDiagnosticMessage({
+        key : "Year field length must be 4",
+        category : DiagnosticCategory.Error,
+        code : 200026,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",
