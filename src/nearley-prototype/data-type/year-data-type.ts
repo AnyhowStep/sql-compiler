@@ -6,6 +6,11 @@ import {
 } from "../nearley-util";
 import {getTextRange, pushSyntacticErrorAt} from "../parse-util";
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6566
+ *
+ * TODO: Implement support for `SIGNED, UNSIGNED, ZEROFILL`, even though they have no effect?
+ */
 makeRule(SyntaxKind.YearDataType)
     .addSubstitution(
         [

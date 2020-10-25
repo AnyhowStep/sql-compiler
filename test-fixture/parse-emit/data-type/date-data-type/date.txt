@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X DATE
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DATE NULL
+);
+
+-----
+[]

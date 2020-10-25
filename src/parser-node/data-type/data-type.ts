@@ -3,6 +3,7 @@ import {BitDataType} from "./bit-data-type";
 import {BlobDataType} from "./blob-data-type";
 import {BooleanDataType} from "./boolean-data-type";
 import {CharacterDataType} from "./character-data-type";
+import {DateDataType} from "./date-data-type";
 import {DateTimeDataType} from "./date-time-data-type";
 import {DecimalDataType} from "./decimal-data-type";
 import {GeometryCollectionDataType} from "./geometry-collection-data-type";
@@ -20,6 +21,7 @@ export type DataType =
     | BlobDataType
     | BooleanDataType
     | CharacterDataType
+    | DateDataType
     | DateTimeDataType
     | DecimalDataType
     | GeometryCollectionDataType

@@ -2124,11 +2124,18 @@ export var ParserRules: NearleyRule[] = [
                 scale,
             };
         } },
+    {"name": "DateDataType", "symbols": [DATE], "postprocess":  (data) => {
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.DateDataType,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
     {"name": "DataType$subexpression$1", "symbols": ["BinaryDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BitDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BlobDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["BooleanDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["DateDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["YearDataType"]},

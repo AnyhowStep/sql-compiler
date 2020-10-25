@@ -6,6 +6,7 @@ import {
     BlobDataType,
     BooleanDataType,
     CharacterDataType,
+    DateDataType,
     DateTimeDataType,
     DecimalDataType,
     GeometryCollectionDataType,
@@ -54,6 +55,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.BlobDataType] : BlobDataType;
     [SyntaxKind.BooleanDataType] : BooleanDataType;
     [SyntaxKind.CharacterDataType] : CharacterDataType;
+    [SyntaxKind.DateDataType] : DateDataType;
     [SyntaxKind.DateTimeDataType] : DateTimeDataType;
     [SyntaxKind.DecimalDataType] : DecimalDataType;
     [SyntaxKind.GeometryCollectionDataType] : GeometryCollectionDataType;

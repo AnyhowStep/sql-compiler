@@ -5,6 +5,7 @@ import "./data-type/boolean-data-type";
 import "./data-type/character-data-type-modifier";
 import "./data-type/character-data-type";
 import "./data-type/data-type";
+import "./data-type/date-data-type";
 import "./data-type/double-data-type";
 import "./data-type/float-data-type";
 import "./data-type/integer-data-type-modifier";

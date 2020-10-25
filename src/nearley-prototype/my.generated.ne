@@ -2035,8 +2035,16 @@ Precision ->
     };
 } %}
 
+DateDataType ->
+    %DATE {% (data) => {
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.DateDataType,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | IntegerDataType | RealDataType | YearDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | IntegerDataType | RealDataType | YearDataType) {% (data) => data[0][0] %}
 
 CharacterDataType ->
     (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {

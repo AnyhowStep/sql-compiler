@@ -5,6 +5,7 @@ import {BitDataType} from "./data-type/bit-data-type";
 import {BlobDataType} from "./data-type/blob-data-type";
 import {BooleanDataType} from "./data-type/boolean-data-type";
 import {CharacterDataType} from "./data-type/character-data-type";
+import {DateDataType} from "./data-type/date-data-type";
 import {DateTimeDataType} from "./data-type/date-time-data-type";
 import {DecimalDataType} from "./data-type/decimal-data-type";
 import {GeometryCollectionDataType} from "./data-type/geometry-collection-data-type";
@@ -51,6 +52,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BitDataType) 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BlobDataType) : node is BlobDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BooleanDataType) : node is BooleanDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CharacterDataType) : node is CharacterDataType;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DateDataType) : node is DateDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DateTimeDataType) : node is DateTimeDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DecimalDataType) : node is DecimalDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.GeometryCollectionDataType) : node is GeometryCollectionDataType;
@@ -106,6 +108,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.BlobDataType, callback : (node : BlobDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.BooleanDataType, callback : (node : BooleanDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CharacterDataType, callback : (node : CharacterDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.DateDataType, callback : (node : DateDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DateTimeDataType, callback : (node : DateTimeDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DecimalDataType, callback : (node : DecimalDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.GeometryCollectionDataType, callback : (node : GeometryCollectionDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
