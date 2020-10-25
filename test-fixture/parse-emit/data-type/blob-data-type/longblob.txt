@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X LONGBLOB
+);
+
+-----
+CREATE TABLE `T` (
+    `X` LONGBLOB NULL
+);
+
+-----
+[]
