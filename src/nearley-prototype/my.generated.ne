@@ -2438,6 +2438,13 @@ BlobDataType ->
         ...parse_util_1.getTextRange(data),
     };
 } %}
+    | %LONG %VARBINARY {% (data) => {
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
+        lengthBytes: 24,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
 
 BitDataType ->
     %BIT FieldLength:? {% (data) => {

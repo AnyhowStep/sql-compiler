@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X LONG VARBINARY
+);
+
+-----
+CREATE TABLE `T` (
+    `X` MEDIUMBLOB NULL
+);
+
+-----
+[]

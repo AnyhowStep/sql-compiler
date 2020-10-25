@@ -2582,6 +2582,13 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
+    {"name": "BlobDataType", "symbols": [LONG, VARBINARY], "postprocess":  (data) => {
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
+                lengthBytes: 24,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
     {"name": "BitDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
     {"name": "BitDataType$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "BitDataType", "symbols": [BIT, "BitDataType$ebnf$1"], "postprocess":  (data) => {
