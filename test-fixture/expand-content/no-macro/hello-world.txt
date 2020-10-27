@@ -1,0 +1,10 @@
+SELECT 1;
+
+-----
+{
+    "expandedContent": "SELECT 1;\n",
+    "originalToExpanded": []
+}
+
+-----
+[]

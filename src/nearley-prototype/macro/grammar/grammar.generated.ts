@@ -5,18 +5,21 @@
 // @ts-ignore
 function id(d: any[]): any { return d[0]; }
 
-import {TokenKind, isKeyword} from "../scanner";
-//import * as util from "util";
-//import {SyntaxKind, Node, NodeArray} from "../parser-node";
-//const nearley_util_1 = require("./nearley-util");
-const scanner_1 = require("../scanner");
-const parser_node_1 = require("../parser-node");
-const diagnostic_messages_1 = require("./diagnostic-messages");
-const parse_util_1 = require("./parse-util");
+import {TokenKind, isKeyword} from "../../../scanner";
+const scanner_1 = require("../../../scanner");
+const parser_node_1 = require("../../../parser-node");
+const diagnostic_messages_1 = require("../../diagnostic-messages");
+const parse_util_1 = require("../../parse-util");
 
 const NonPound : Tester = {
-    test: x => x.tokenKind != TokenKind.Pound,
+    test: x => x.tokenKind != TokenKind.Pound && x.tokenKind != TokenKind.MacroIdentifier,
     type : "Pound",
+};
+
+const KeywordOrIdentifier : Tester = {
+    test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind),
+    //Even though this could be a keyword, the intention is to use it as an identifier
+    type : "Identifier",
 };
 
 
@@ -1374,6 +1377,54 @@ export var Lexer: Lexer | undefined = undefined;
 
 export var ParserRules: NearleyRule[] = [
     {"name": "Start", "symbols": ["UnexpandedContent"], "postprocess": data => data[0]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1$subexpression$1", "symbols": ["MacroCall", "NonMacroCall"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1", "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1", "symbols": ["NonEmptyNonMacroCall", "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$1"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1$subexpression$1", "symbols": ["MacroCall", "NonMacroCall"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1$subexpression$1"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1$subexpression$2", "symbols": ["MacroCall", "NonMacroCall"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1$subexpression$2"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2", "symbols": ["NonMacroCall", "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2"]},
+    {"name": "NonEmptyUnexpandedContent", "symbols": ["NonEmptyUnexpandedContent$subexpression$1"], "postprocess":  function (data) {
+            const [firstPart, trailingParts] = data[0][0];
+            if (trailingParts.length == 0) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    unexpandedContent: [firstPart],
+                };
+            }
+            const unexpandedContent = [];
+            const firstPartStart = 0;
+            const firstPartEnd = trailingParts[0][0].start;
+            unexpandedContent.push({
+                start: firstPartStart,
+                end: firstPartEnd,
+                value: this.sourceText.substring(firstPartStart, firstPartEnd),
+            });
+            for (let i = 0; i < trailingParts.length; ++i) {
+                const curPart = trailingParts[i];
+                unexpandedContent.push(curPart[0]);
+                const nextPart = (i + 1 < trailingParts.length ?
+                    trailingParts[i + 1] :
+                    undefined);
+                const start = curPart[0].end;
+                const end = (nextPart == undefined ?
+                    curPart[1].end :
+                    nextPart[0].start);
+                unexpandedContent.push({
+                    start,
+                    end,
+                    value: this.sourceText.substring(start, end),
+                });
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                unexpandedContent,
+            };
+        } },
     {"name": "UnexpandedContent$ebnf$1", "symbols": []},
     {"name": "UnexpandedContent$ebnf$1$subexpression$1", "symbols": ["MacroCall", "NonMacroCall"]},
     {"name": "UnexpandedContent$ebnf$1", "symbols": ["UnexpandedContent$ebnf$1", "UnexpandedContent$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
@@ -1412,6 +1463,14 @@ export var ParserRules: NearleyRule[] = [
             return {
                 ...parse_util_1.getTextRange(data),
                 unexpandedContent,
+            };
+        } },
+    {"name": "NonEmptyNonMacroCall$ebnf$1", "symbols": [NonPound]},
+    {"name": "NonEmptyNonMacroCall$ebnf$1", "symbols": ["NonEmptyNonMacroCall$ebnf$1", NonPound], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "NonEmptyNonMacroCall", "symbols": ["NonEmptyNonMacroCall$ebnf$1"], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                value: "",
             };
         } },
     {"name": "NonMacroCall$ebnf$1", "symbols": []},
@@ -1504,7 +1563,7 @@ export var ParserRules: NearleyRule[] = [
                 args,
             };
         } },
-    {"name": "MacroArgument", "symbols": ["UnexpandedContent"], "postprocess":  function (data) {
+    {"name": "MacroArgument", "symbols": ["NonEmptyUnexpandedContent"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 value: "",

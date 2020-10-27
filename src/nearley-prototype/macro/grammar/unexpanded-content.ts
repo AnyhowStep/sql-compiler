@@ -1,5 +1,6 @@
+import {Diagnostic} from "../../../diagnostic";
 import {TextRange} from "../../../parser-node";
-import {makeCustomRule, zeroOrMore} from "../../nearley-util"
+import {makeCustomRule, oneOrMore, zeroOrMore, union} from "../../nearley-util"
 import {getTextRange} from "../../parse-util";
 import {MacroCall, MacroCallNode, NonPound} from "./macro-call";
 
@@ -20,8 +21,22 @@ const NonMacroCall = makeCustomRule("NonMacroCall")
         }
     );
 
+const NonEmptyNonMacroCall = makeCustomRule("NonEmptyNonMacroCall")
+    .addSubstitution(
+        [
+            oneOrMore(NonPound)
+        ] as const,
+        function (data) : NonMacroCallNode {
+            return {
+                ...getTextRange(data),
+                value : "",
+            }
+        }
+    );
+
 export interface UnexpandedContentNode extends TextRange {
     unexpandedContent : (NonMacroCallNode|MacroCallNode)[];
+    syntacticErrors? : Diagnostic[],
 }
 
 export const UnexpandedContent = makeCustomRule<UnexpandedContentNode>("UnexpandedContent")
@@ -35,6 +50,82 @@ export const UnexpandedContent = makeCustomRule<UnexpandedContentNode>("Unexpand
         ] as const,
         function (data) : UnexpandedContentNode {
             const [firstPart, trailingParts] = data;
+            if (trailingParts.length == 0) {
+                return {
+                    ...getTextRange(data),
+                    unexpandedContent : [firstPart],
+                };
+            }
+
+
+            const unexpandedContent : (NonMacroCallNode|MacroCallNode)[] = [];
+
+            const firstPartStart = 0;
+            const firstPartEnd = trailingParts[0][0].start;
+            unexpandedContent.push({
+                start : firstPartStart,
+                end : firstPartEnd,
+                value : this.sourceText.substring(
+                    firstPartStart,
+                    firstPartEnd
+                ),
+            });
+
+            for (let i=0; i<trailingParts.length; ++i) {
+                const curPart = trailingParts[i];
+
+                unexpandedContent.push(curPart[0]);
+
+                const nextPart = (
+                    i+1 < trailingParts.length ?
+                    trailingParts[i+1] :
+                    undefined
+                );
+                const start = curPart[0].end;
+                const end = (
+                    nextPart == undefined ?
+                    curPart[1].end :
+                    nextPart[0].start
+                );
+                unexpandedContent.push({
+                    start,
+                    end,
+                    value : this.sourceText.substring(
+                        start,
+                        end
+                    ),
+                });
+            }
+
+            return {
+                ...getTextRange(data),
+                unexpandedContent,
+            };
+        }
+    );
+
+makeCustomRule<UnexpandedContentNode>("NonEmptyUnexpandedContent")
+    .addSubstitution(
+        [
+            union(
+                [
+                    NonEmptyNonMacroCall,
+                    zeroOrMore([
+                        MacroCall,
+                        NonMacroCall,
+                    ] as const)
+                ] as const,
+                [
+                    NonMacroCall,
+                    oneOrMore([
+                        MacroCall,
+                        NonMacroCall,
+                    ] as const)
+                ] as const,
+            ),
+        ] as const,
+        function (data) : UnexpandedContentNode {
+            const [firstPart, trailingParts] = data[0][0];
             if (trailingParts.length == 0) {
                 return {
                     ...getTextRange(data),

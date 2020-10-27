@@ -217,40 +217,14 @@ export function parse (
 ) : SourceFile {
     const {
         partialParses : results,
-        parserSyntacticErrors,
+        syntacticErrors,
     } = parseHelper<SourceFileLite>(
+        filename,
         scanner,
         settings,
-        grammar
+        grammar,
+        findAllSyntacticErrors
     );
-
-    const syntacticErrors = [
-        ...parserSyntacticErrors,
-        ...results.map(sourceFileLite => {
-            return findAllSyntacticErrors(sourceFileLite);
-        })
-    ]
-        .flat(1)
-        .sort((a, b) => {
-            if (a.start == b.start) {
-                return a.length - b.length;
-            }
-            return a.start - b.start;
-        })
-        .map((err) => {
-            if (err.relatedRanges == undefined) {
-                return err;
-            }
-            return {
-                ...err,
-                relatedRanges : err.relatedRanges.map(related => {
-                    return {
-                        ...related,
-                        filename : filename,
-                    };
-                }),
-            };
-        });
 
     if (results.length == 0) {
         const textRange = {
@@ -275,7 +249,7 @@ export function parse (
         ...textRange,
         syntaxKind : SyntaxKind.SourceFile,
         statements : toNodeArray(
-            results.map(sourceFileLie => sourceFileLie.statements).flat(1),
+            results.map(sourceFileLite => sourceFileLite.statements).flat(1),
             SyntaxKind.SourceElementList,
             textRange,
         ),

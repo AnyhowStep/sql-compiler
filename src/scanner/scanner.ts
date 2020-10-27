@@ -460,7 +460,7 @@ export class Scanner {
                     return this.tokenKind = TokenKind.UnknownToken;
                 }
                 case CharacterCodes.pound: {
-                    if (isUnquotedIdentifierCharacter(ch)) {
+                    if (isUnquotedIdentifierCharacter(this.text.charCodeAt(this.index+1))) {
                         ++this.index;
                         this.tokenValue = this.scanUnquotedIdentifier();
                         return this.tokenKind = TokenKind.MacroIdentifier;

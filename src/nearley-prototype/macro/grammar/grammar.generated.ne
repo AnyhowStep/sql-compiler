@@ -1,18 +1,21 @@
 @preprocessor typescript
 
 @{%
-import {TokenKind, isKeyword} from "../scanner";
-//import * as util from "util";
-//import {SyntaxKind, Node, NodeArray} from "../parser-node";
-//const nearley_util_1 = require("./nearley-util");
-const scanner_1 = require("../scanner");
-const parser_node_1 = require("../parser-node");
-const diagnostic_messages_1 = require("./diagnostic-messages");
-const parse_util_1 = require("./parse-util");
+import {TokenKind, isKeyword} from "../../../scanner";
+const scanner_1 = require("../../../scanner");
+const parser_node_1 = require("../../../parser-node");
+const diagnostic_messages_1 = require("../../diagnostic-messages");
+const parse_util_1 = require("../../parse-util");
 
 const NonPound : Tester = {
-    test: x => x.tokenKind != TokenKind.Pound,
+    test: x => x.tokenKind != TokenKind.Pound && x.tokenKind != TokenKind.MacroIdentifier,
     type : "Pound",
+};
+
+const KeywordOrIdentifier : Tester = {
+    test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind),
+    //Even though this could be a keyword, the intention is to use it as an identifier
+    type : "Identifier",
 };
 
 
@@ -1352,6 +1355,45 @@ const UNIQUE_KEY : Tester = { test: x => x.tokenKind == TokenKind.UNIQUE_KEY, ty
 Start ->
     UnexpandedContent {% data => data[0] %}
 
+NonEmptyUnexpandedContent ->
+    ((NonEmptyNonMacroCall (MacroCall NonMacroCall):*) | (NonMacroCall (MacroCall NonMacroCall):+)) {% function (data) {
+    const [firstPart, trailingParts] = data[0][0];
+    if (trailingParts.length == 0) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            unexpandedContent: [firstPart],
+        };
+    }
+    const unexpandedContent = [];
+    const firstPartStart = 0;
+    const firstPartEnd = trailingParts[0][0].start;
+    unexpandedContent.push({
+        start: firstPartStart,
+        end: firstPartEnd,
+        value: this.sourceText.substring(firstPartStart, firstPartEnd),
+    });
+    for (let i = 0; i < trailingParts.length; ++i) {
+        const curPart = trailingParts[i];
+        unexpandedContent.push(curPart[0]);
+        const nextPart = (i + 1 < trailingParts.length ?
+            trailingParts[i + 1] :
+            undefined);
+        const start = curPart[0].end;
+        const end = (nextPart == undefined ?
+            curPart[1].end :
+            nextPart[0].start);
+        unexpandedContent.push({
+            start,
+            end,
+            value: this.sourceText.substring(start, end),
+        });
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        unexpandedContent,
+    };
+} %}
+
 UnexpandedContent ->
     NonMacroCall (MacroCall NonMacroCall):* {% function (data) {
     const [firstPart, trailingParts] = data;
@@ -1388,6 +1430,14 @@ UnexpandedContent ->
     return {
         ...parse_util_1.getTextRange(data),
         unexpandedContent,
+    };
+} %}
+
+NonEmptyNonMacroCall ->
+    %NonPound:+ {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        value: "",
     };
 } %}
 
@@ -1478,7 +1528,7 @@ MacroArgumentList ->
 
 
 MacroArgument ->
-    UnexpandedContent {% function (data) {
+    NonEmptyUnexpandedContent {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
         value: "",

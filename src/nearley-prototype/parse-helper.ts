@@ -11,12 +11,15 @@ import {DiagnosticMessages} from "./diagnostic-messages";
 export interface ParseHelperResult<PartialParseT extends unknown> {
     partialParses : PartialParseT[],
     parserSyntacticErrors : Diagnostic[],
+    syntacticErrors : Diagnostic[],
 }
 
 export function parseHelper<PartialParseT extends unknown> (
+    filename : string,
     scanner : Scanner,
     settings : ParserSettings,
     grammar : nearley.CompiledRules,
+    findAllSyntacticErrors : (partialParse : PartialParseT) => Diagnostic[]
 ) : ParseHelperResult<PartialParseT> {
 
     const state : ParserState = {
@@ -152,13 +155,47 @@ export function parseHelper<PartialParseT extends unknown> (
             [],
             DiagnosticMessages.InternalErrorGrammarIsAmbiguous
         ));
+        console.log(JSON.stringify(parser.results, null, 2));
     }
     if (partialParse != undefined) {
         results.push(partialParse)
     }
 
+    const syntacticErrors = [
+        ...parserSyntacticErrors,
+        ...results.map(sourceFileLite => {
+            return findAllSyntacticErrors(sourceFileLite);
+        })
+    ]
+        .flat(1)
+        .sort((a, b) => {
+            if (a.start == b.start) {
+                return a.length - b.length;
+            }
+            return a.start - b.start;
+        })
+        .map((err) => {
+            if (err.relatedRanges == undefined) {
+                return err;
+            }
+            return {
+                ...err,
+                relatedRanges : err.relatedRanges.map(related => {
+                    return {
+                        ...related,
+                        filename : (
+                            related.filename == undefined || related.filename == "" ?
+                            filename :
+                            related.filename
+                        ),
+                    };
+                }),
+            };
+        });
+
     return {
         partialParses : results,
         parserSyntacticErrors,
+        syntacticErrors,
     };
 }

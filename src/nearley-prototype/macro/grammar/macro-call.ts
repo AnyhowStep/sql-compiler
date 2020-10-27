@@ -14,7 +14,7 @@ export interface MacroArgumentNode extends TextRange {
 const MacroArgument = makeCustomRule("MacroArgument")
     .addSubstitution(
         [
-            makeCustomRule<UnexpandedContentNode>("UnexpandedContent")
+            makeCustomRule<UnexpandedContentNode>("NonEmptyUnexpandedContent")
         ] as const,
         function (data) : MacroArgumentNode {
             return {

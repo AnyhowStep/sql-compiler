@@ -50,12 +50,13 @@ export function expandContent (
     originalContent : string,
     settings : ParserSettings,
 ) : ExpandedContent {
-    const scanner = new Scanner(originalContent);
+    //const scanner = new Scanner(originalContent);
     const parsed = parseUnexpandedContent(
         filename,
-        scanner,
+        new Scanner(originalContent),
         settings
     );
+    console.log(parsed);
     if (
         parsed.unexpandedContent.length == 1 &&
         "value" in parsed.unexpandedContent[0]
@@ -65,7 +66,7 @@ export function expandContent (
             originalContent : originalContent,
             expandedContent : originalContent,
             originalToExpanded : [],
-            syntacticErrors : [...scanner.getSyntacticErrors()],
+            syntacticErrors : [...(parsed.syntacticErrors ?? [])],
         };
     }
 
@@ -84,7 +85,7 @@ export function expandContent (
                     expandedContent,
                     originalToExpanded,
                     syntacticErrors : [
-                        ...scanner.getSyntacticErrors(),
+                        ...(parsed.syntacticErrors ?? []),
                         makeDiagnosticAt(
                             part.identifier.start,
                             part.identifier.end,
@@ -152,6 +153,6 @@ export function expandContent (
         originalContent,
         expandedContent,
         originalToExpanded,
-        syntacticErrors : [...scanner.getSyntacticErrors()],
+        syntacticErrors : [...(parsed.syntacticErrors ?? [])],
     };
 }

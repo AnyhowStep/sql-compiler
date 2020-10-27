@@ -167,7 +167,7 @@ function findReferences (
 export function findAllMacros (
     filename : string,
     sourceText : string
-) {
+) : Macro[] {
     let result : Macro[] = [];
 
     /**
@@ -239,4 +239,6 @@ export function findAllMacros (
 
         match = macroRegex.exec(sourceText);
     }
+
+    return result;
 }

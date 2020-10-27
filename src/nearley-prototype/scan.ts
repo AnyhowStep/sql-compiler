@@ -48,6 +48,8 @@ export function scanAll (scanner : Scanner) : TokenObj<TokenKind>[] {
             value : (
                 token == TokenKind.Identifier ?
                 scanner.getTokenValue() :
+                token == TokenKind.MacroIdentifier ?
+                scanner.getTokenValue() :
                 token == TokenKind.CustomDelimiter ?
                 scanner.getTokenValue() :
                 token == TokenKind.IntegerLiteral ?
