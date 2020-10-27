@@ -30,6 +30,23 @@
         "args": ["${workspaceRoot}/dist/nearley-prototype/test.js"]
       },
       {
+        "type": "node",
+        "request": "launch",
+        "name": "Attach to Mocha",
+        "program": "${workspaceRoot}/node_modules/.bin/mocha",
+        "args": [
+          "${workspaceRoot}/dist/test",
+          "-u",
+          "tdd",
+          "--recursive"
+        ],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "skipFiles": [
+            "<node_internals>/**/*.js"
+        ]
+      },
+      {
         "name": "Language Server E2E Test",
         "type": "extensionHost",
         "request": "launch",
