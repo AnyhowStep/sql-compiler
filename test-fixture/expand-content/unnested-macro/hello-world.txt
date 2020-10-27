@@ -1,6 +1,6 @@
 #define helloWorld () 'hello world';;
 
-SELECT #helloWorld();
+SELECT \helloWorld;
 
 -----
 

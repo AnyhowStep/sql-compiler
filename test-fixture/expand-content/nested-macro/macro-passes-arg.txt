@@ -1,0 +1,15 @@
+#define hello (x) CONCAT('hello', x);;
+
+#define bigHello (x) CONCAT('big', \hello{x});;
+
+SELECT \bigHello{'tom'};
+
+-----
+
+
+
+
+SELECT CONCAT('big', CONCAT('hello', 'tom'));
+
+-----
+[]

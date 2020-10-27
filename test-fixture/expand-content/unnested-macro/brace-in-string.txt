@@ -1,0 +1,11 @@
+#define hello (x, y) CONCAT('hello world', x, y);;
+
+SELECT \hello{'bob'}{'a { or } in strings is okay'};
+
+-----
+
+
+SELECT CONCAT('hello world', 'bob', 'a { or } in strings is okay');
+
+-----
+[]

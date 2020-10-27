@@ -383,6 +383,31 @@ export class Scanner {
             const ch = this.text.charCodeAt(this.index);
 
             switch (ch) {
+                case CharacterCodes.openBrace: {
+                    ++this.index;
+                    return this.tokenKind = TokenKind.OpenBrace;
+                }
+                case CharacterCodes.closeBrace: {
+                    ++this.index;
+                    return this.tokenKind = TokenKind.CloseBrace;
+                }
+                case CharacterCodes.backslash: {
+                    if (isUnquotedIdentifierCharacter(this.text.charCodeAt(this.index+1))) {
+                        ++this.index;
+                        this.tokenValue = this.scanUnquotedIdentifier();
+                        return this.tokenKind = TokenKind.MacroIdentifier;
+                    }
+                    if (
+                        this.text.charCodeAt(this.index+1) == CharacterCodes.doubleQuote ||
+                        this.text.charCodeAt(this.index+1) == CharacterCodes.backtick
+                    ) {
+                        ++this.index;
+                        this.tokenValue = this.scanQuotedIdentifier();
+                        return this.tokenKind = TokenKind.MacroIdentifier;
+                    }
+                    ++this.index;
+                    return this.tokenKind = TokenKind.Backslash;
+                }
                 case CharacterCodes.openParen: {
                     if (
                         this.text.charCodeAt(this.index+1) == CharacterCodes.pound

@@ -25,6 +25,8 @@ const NonPound : Tester = {
         x.tokenKind != TokenKind.Pound &&
         x.tokenKind != TokenKind.OpenParenthesesPound &&
         x.tokenKind != TokenKind.PoundCloseParentheses &&
+        x.tokenKind != TokenKind.OpenBrace &&
+        x.tokenKind != TokenKind.CloseBrace &&
         x.tokenKind != TokenKind.MacroIdentifier
     ),
     type : "Pound",

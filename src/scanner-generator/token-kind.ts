@@ -51,6 +51,7 @@ export const tokenKinds = [
     "Pound",
     "OpenParenthesesPound",
     "PoundCloseParentheses",
+    "Backslash",
 
     "ColonEqual",
     "AtAt",
@@ -73,6 +74,8 @@ export const tokenKinds = [
 
     "OpenParentheses",
     "CloseParentheses",
+    "OpenBrace",
+    "CloseBrace",
 
     /**
      * Hacked in to support DELIMITER statements

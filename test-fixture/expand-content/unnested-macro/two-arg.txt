@@ -1,6 +1,6 @@
 #define hello (x, y) CONCAT('hello world', x, y);;
 
-SELECT #hello(#'bob'#'alice'#);
+SELECT \hello{'bob'}{'alice'};
 
 -----
 

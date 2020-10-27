@@ -16,6 +16,8 @@ const NonPound : Tester = {
         x.tokenKind != TokenKind.Pound &&
         x.tokenKind != TokenKind.OpenParenthesesPound &&
         x.tokenKind != TokenKind.PoundCloseParentheses &&
+        x.tokenKind != TokenKind.OpenBrace &&
+        x.tokenKind != TokenKind.CloseBrace &&
         x.tokenKind != TokenKind.MacroIdentifier
     ),
     type : "Pound",
@@ -1323,6 +1325,8 @@ const OpenParenthesesPound : Tester = { test: x => x.tokenKind == TokenKind.Open
 //@ts-ignore
 const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.PoundCloseParentheses, type : "PoundCloseParentheses" };
 //@ts-ignore
+const Backslash : Tester = { test: x => x.tokenKind == TokenKind.Backslash, type : "Backslash" };
+//@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
 const AtAt : Tester = { test: x => x.tokenKind == TokenKind.AtAt, type : "AtAt" };
@@ -1358,6 +1362,10 @@ const GreaterGreater : Tester = { test: x => x.tokenKind == TokenKind.GreaterGre
 const OpenParentheses : Tester = { test: x => x.tokenKind == TokenKind.OpenParentheses, type : "OpenParentheses" };
 //@ts-ignore
 const CloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.CloseParentheses, type : "CloseParentheses" };
+//@ts-ignore
+const OpenBrace : Tester = { test: x => x.tokenKind == TokenKind.OpenBrace, type : "OpenBrace" };
+//@ts-ignore
+const CloseBrace : Tester = { test: x => x.tokenKind == TokenKind.CloseBrace, type : "CloseBrace" };
 //@ts-ignore
 const DELIMITER_STATEMENT : Tester = { test: x => x.tokenKind == TokenKind.DELIMITER_STATEMENT, type : "DELIMITER_STATEMENT" };
 //@ts-ignore
@@ -1583,63 +1591,84 @@ export var ParserRules: NearleyRule[] = [
                 macroName: nameA.value + "." + nameB.identifier + "." + nameC.identifier,
             };
         } },
-    {"name": "MacroArgumentList$subexpression$1$subexpression$1", "symbols": [OpenParentheses, CloseParentheses]},
-    {"name": "MacroArgumentList$subexpression$1", "symbols": ["MacroArgumentList$subexpression$1$subexpression$1"]},
-    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
-    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Pound, "MacroArgument"]},
-    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1", "symbols": ["MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1", "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1", "symbols": ["MacroArgument", "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1"]},
-    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1", "symbols": ["MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "MacroArgumentList$subexpression$1$subexpression$2", "symbols": [OpenParenthesesPound, "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1", PoundCloseParentheses]},
-    {"name": "MacroArgumentList$subexpression$1", "symbols": ["MacroArgumentList$subexpression$1$subexpression$2"]},
-    {"name": "MacroArgumentList", "symbols": ["MacroArgumentList$subexpression$1"], "postprocess":  function (data) {
+    {"name": "MacroArgumentList$ebnf$1", "symbols": []},
+    {"name": "MacroArgumentList$ebnf$1$subexpression$1", "symbols": [OpenBrace, "MacroArgument", CloseBrace]},
+    {"name": "MacroArgumentList$ebnf$1", "symbols": ["MacroArgumentList$ebnf$1", "MacroArgumentList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "MacroArgumentList", "symbols": ["MacroArgumentList$ebnf$1"], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                args: data[0].map(([openBrace, _arg, closeBrace]) => {
+                    return {
+                        start: openBrace.end,
+                        end: closeBrace.start,
+                        value: this.sourceText.substring(openBrace.end, closeBrace.start),
+                    };
+                })
+            };
+            /*
             const rawData = data[0][0];
-            if (rawData[0].tokenKind == scanner_1.TokenKind.OpenParentheses) {
+            if (rawData[0].tokenKind == TokenKind.OpenParentheses) {
                 return {
-                    ...parse_util_1.getTextRange(data),
-                    args: [],
+                    ...getTextRange(data),
+                    args : [],
                 };
             }
-            const [openParen, rawArgs, closeParen] = rawData;
+            const [openParen, rawArgs, closeParen] = rawData as Exclude<typeof rawData, readonly [TokenObj<TokenKind.OpenParentheses>, ...any[]]>;
             if (rawArgs == undefined) {
                 return {
-                    ...parse_util_1.getTextRange(data),
-                    args: [],
+                    ...getTextRange(data),
+                    args : [],
                 };
             }
-            const args = [];
+        
+        
+            const args : MacroArgumentNode[] = [];
+        
             const firstArgStart = openParen.end;
-            const firstArgEnd = (rawArgs[1].length == 0 ?
+            const firstArgEnd = (
+                rawArgs[1].length == 0 ?
                 closeParen.start :
                 //The start of the first pound character
-                rawArgs[1][0][0].start);
+                rawArgs[1][0][0].start
+            );
             args.push({
-                start: firstArgStart,
-                end: firstArgEnd,
-                value: this.sourceText.substring(firstArgStart, firstArgEnd),
+                start : firstArgStart,
+                end : firstArgEnd,
+                value : this.sourceText.substring(
+                    firstArgStart,
+                    firstArgEnd
+                ),
             });
-            for (let i = 0; i < rawArgs[1].length; ++i) {
+        
+            for (let i=0; i<rawArgs[1].length; ++i) {
                 const curArg = rawArgs[1][i];
-                const nextArg = (i + 1 < rawArgs[1].length ?
-                    rawArgs[1][i + 1] :
-                    undefined);
+                const nextArg = (
+                    i+1 < rawArgs[1].length ?
+                    rawArgs[1][i+1] :
+                    undefined
+                );
                 const start = curArg[0].end;
-                const end = (nextArg == undefined ?
+                const end = (
+                    nextArg == undefined ?
                     closeParen.start :
-                    nextArg[0].start);
+                    nextArg[0].start
+                );
                 args.push({
                     start,
                     end,
-                    value: this.sourceText.substring(start, end),
+                    value : this.sourceText.substring(
+                        start,
+                        end
+                    ),
                 });
             }
+        
             return {
-                ...parse_util_1.getTextRange(data),
+                ...getTextRange(data),
                 args,
-            };
+            };*/
         } },
-    {"name": "MacroArgument", "symbols": ["NonEmptyUnexpandedContent"], "postprocess":  function (data) {
+    {"name": "MacroArgument", "symbols": ["UnexpandedContent"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 value: "",

@@ -2,14 +2,14 @@
 
 #define person (x) IF(x, 'alice', 'bob');;
 
-SELECT #hello(# #person(#RAND() > 1#) #);
+SELECT \hello{\person{RAND() > 1}};
 
 -----
 
 
 
 
-SELECT CONCAT('hello',  IF(RAND() > 1, 'alice', 'bob') );
+SELECT CONCAT('hello', IF(RAND() > 1, 'alice', 'bob'));
 
 -----
 []

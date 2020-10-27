@@ -1,7 +1,7 @@
 import {TextRange} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {IdentifierAllowReservedRule} from "../../identifier/identifier";
-import {makeCustomRule, optional, TokenObj, union, zeroOrMore} from "../../nearley-util";
+import {makeCustomRule, optional, TokenObj, zeroOrMore} from "../../nearley-util";
 import {getTextRange} from "../../parse-util";
 import {UnexpandedContentNode} from "./unexpanded-content";
 
@@ -14,7 +14,7 @@ export interface MacroArgumentNode extends TextRange {
 const MacroArgument = makeCustomRule("MacroArgument")
     .addSubstitution(
         [
-            makeCustomRule<UnexpandedContentNode>("NonEmptyUnexpandedContent")
+            makeCustomRule<UnexpandedContentNode>("UnexpandedContent")
         ] as const,
         function (data) : MacroArgumentNode {
             return {
@@ -31,6 +31,7 @@ export interface MacroArgumentListNode extends TextRange {
 const MacroArgumentList = makeCustomRule("MacroArgumentList")
     .addSubstitution(
         [
+            /*
             union(
                 [
                     TokenKind.OpenParentheses,
@@ -47,9 +48,28 @@ const MacroArgumentList = makeCustomRule("MacroArgumentList")
                     ] as const),
                     TokenKind.PoundCloseParentheses,
                 ] as const,
-            )
+            )*/
+            zeroOrMore([
+                TokenKind.OpenBrace,
+                MacroArgument,
+                TokenKind.CloseBrace,
+            ] as const),
         ] as const,
         function (data) : MacroArgumentListNode {
+            return {
+                ...getTextRange(data),
+                args : data[0].map(([openBrace, _arg, closeBrace]) => {
+                    return {
+                        start : openBrace.end,
+                        end : closeBrace.start,
+                        value : this.sourceText.substring(
+                            openBrace.end,
+                            closeBrace.start,
+                        ),
+                    }
+                })
+            }
+            /*
             const rawData = data[0][0];
             if (rawData[0].tokenKind == TokenKind.OpenParentheses) {
                 return {
@@ -110,7 +130,7 @@ const MacroArgumentList = makeCustomRule("MacroArgumentList")
             return {
                 ...getTextRange(data),
                 args,
-            };
+            };*/
         }
     )
 
