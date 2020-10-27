@@ -12,7 +12,12 @@ const diagnostic_messages_1 = require("../../diagnostic-messages");
 const parse_util_1 = require("../../parse-util");
 
 const NonPound : Tester = {
-    test: x => x.tokenKind != TokenKind.Pound && x.tokenKind != TokenKind.MacroIdentifier,
+    test: x => (
+        x.tokenKind != TokenKind.Pound &&
+        x.tokenKind != TokenKind.OpenParenthesesPound &&
+        x.tokenKind != TokenKind.PoundCloseParentheses &&
+        x.tokenKind != TokenKind.MacroIdentifier
+    ),
     type : "Pound",
 };
 
@@ -1314,6 +1319,10 @@ const Comma : Tester = { test: x => x.tokenKind == TokenKind.Comma, type : "Comm
 //@ts-ignore
 const Pound : Tester = { test: x => x.tokenKind == TokenKind.Pound, type : "Pound" };
 //@ts-ignore
+const OpenParenthesesPound : Tester = { test: x => x.tokenKind == TokenKind.OpenParenthesesPound, type : "OpenParenthesesPound" };
+//@ts-ignore
+const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.PoundCloseParentheses, type : "PoundCloseParentheses" };
+//@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
 const AtAt : Tester = { test: x => x.tokenKind == TokenKind.AtAt, type : "AtAt" };
@@ -1420,6 +1429,22 @@ export var ParserRules: NearleyRule[] = [
                     value: this.sourceText.substring(start, end),
                 });
             }
+            if (unexpandedContent.length == 0) {
+                const trailingWhitespace = {
+                    start: 0,
+                    end: this.sourceText.length,
+                    value: this.sourceText,
+                };
+                unexpandedContent.push(trailingWhitespace);
+            }
+            else {
+                const trailingWhitespace = {
+                    start: unexpandedContent[unexpandedContent.length - 1].end,
+                    end: this.sourceText.length,
+                    value: this.sourceText.substring(unexpandedContent[unexpandedContent.length - 1].end, this.sourceText.length),
+                };
+                unexpandedContent.push(trailingWhitespace);
+            }
             return {
                 ...parse_util_1.getTextRange(data),
                 unexpandedContent,
@@ -1459,6 +1484,22 @@ export var ParserRules: NearleyRule[] = [
                     end,
                     value: this.sourceText.substring(start, end),
                 });
+            }
+            if (unexpandedContent.length == 0) {
+                const trailingWhitespace = {
+                    start: 0,
+                    end: this.sourceText.length,
+                    value: this.sourceText,
+                };
+                unexpandedContent.push(trailingWhitespace);
+            }
+            else {
+                const trailingWhitespace = {
+                    start: unexpandedContent[unexpandedContent.length - 1].end,
+                    end: this.sourceText.length,
+                    value: this.sourceText.substring(unexpandedContent[unexpandedContent.length - 1].end, this.sourceText.length),
+                };
+                unexpandedContent.push(trailingWhitespace);
             }
             return {
                 ...parse_util_1.getTextRange(data),
@@ -1518,14 +1559,25 @@ export var ParserRules: NearleyRule[] = [
                 macroName: nameA.value + "." + nameB.identifier + "." + nameC.identifier,
             };
         } },
-    {"name": "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
-    {"name": "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Pound, "MacroArgument"]},
-    {"name": "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1", "symbols": ["MacroArgumentList$ebnf$1$subexpression$1$ebnf$1", "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "MacroArgumentList$ebnf$1$subexpression$1", "symbols": ["MacroArgument", "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1"]},
-    {"name": "MacroArgumentList$ebnf$1", "symbols": ["MacroArgumentList$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "MacroArgumentList$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "MacroArgumentList", "symbols": [OpenParentheses, "MacroArgumentList$ebnf$1", CloseParentheses], "postprocess":  function (data) {
-            const [openParen, rawArgs, closeParen] = data;
+    {"name": "MacroArgumentList$subexpression$1$subexpression$1", "symbols": [OpenParentheses, CloseParentheses]},
+    {"name": "MacroArgumentList$subexpression$1", "symbols": ["MacroArgumentList$subexpression$1$subexpression$1"]},
+    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Pound, "MacroArgument"]},
+    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1", "symbols": ["MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1", "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1", "symbols": ["MacroArgument", "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1", "symbols": ["MacroArgumentList$subexpression$1$subexpression$2$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "MacroArgumentList$subexpression$1$subexpression$2", "symbols": [OpenParenthesesPound, "MacroArgumentList$subexpression$1$subexpression$2$ebnf$1", PoundCloseParentheses]},
+    {"name": "MacroArgumentList$subexpression$1", "symbols": ["MacroArgumentList$subexpression$1$subexpression$2"]},
+    {"name": "MacroArgumentList", "symbols": ["MacroArgumentList$subexpression$1"], "postprocess":  function (data) {
+            const rawData = data[0][0];
+            if (rawData[0].tokenKind == scanner_1.TokenKind.OpenParentheses) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    args: [],
+                };
+            }
+            const [openParen, rawArgs, closeParen] = rawData;
             if (rawArgs == undefined) {
                 return {
                     ...parse_util_1.getTextRange(data),

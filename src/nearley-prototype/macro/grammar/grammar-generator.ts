@@ -21,7 +21,12 @@ const diagnostic_messages_1 = require("../../diagnostic-messages");
 const parse_util_1 = require("../../parse-util");
 
 const NonPound : Tester = {
-    test: x => x.tokenKind != TokenKind.Pound && x.tokenKind != TokenKind.MacroIdentifier,
+    test: x => (
+        x.tokenKind != TokenKind.Pound &&
+        x.tokenKind != TokenKind.OpenParenthesesPound &&
+        x.tokenKind != TokenKind.PoundCloseParentheses &&
+        x.tokenKind != TokenKind.MacroIdentifier
+    ),
     type : "Pound",
 };
 

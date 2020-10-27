@@ -97,6 +97,25 @@ export const UnexpandedContent = makeCustomRule<UnexpandedContentNode>("Unexpand
                 });
             }
 
+            if (unexpandedContent.length == 0) {
+                const trailingWhitespace : NonMacroCallNode = {
+                    start : 0,
+                    end : this.sourceText.length,
+                    value : this.sourceText,
+                };
+                unexpandedContent.push(trailingWhitespace);
+            } else {
+                const trailingWhitespace : NonMacroCallNode = {
+                    start : unexpandedContent[unexpandedContent.length-1].end,
+                    end : this.sourceText.length,
+                    value : this.sourceText.substring(
+                        unexpandedContent[unexpandedContent.length-1].end,
+                        this.sourceText.length
+                    ),
+                };
+                unexpandedContent.push(trailingWhitespace);
+            }
+
             return {
                 ...getTextRange(data),
                 unexpandedContent,
@@ -171,6 +190,25 @@ makeCustomRule<UnexpandedContentNode>("NonEmptyUnexpandedContent")
                         end
                     ),
                 });
+            }
+
+            if (unexpandedContent.length == 0) {
+                const trailingWhitespace : NonMacroCallNode = {
+                    start : 0,
+                    end : this.sourceText.length,
+                    value : this.sourceText,
+                };
+                unexpandedContent.push(trailingWhitespace);
+            } else {
+                const trailingWhitespace : NonMacroCallNode = {
+                    start : unexpandedContent[unexpandedContent.length-1].end,
+                    end : this.sourceText.length,
+                    value : this.sourceText.substring(
+                        unexpandedContent[unexpandedContent.length-1].end,
+                        this.sourceText.length
+                    ),
+                };
+                unexpandedContent.push(trailingWhitespace);
             }
 
             return {

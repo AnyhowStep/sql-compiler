@@ -49,6 +49,8 @@ export const tokenKinds = [
     "SemiColon",
     "Comma",
     "Pound",
+    "OpenParenthesesPound",
+    "PoundCloseParentheses",
 
     "ColonEqual",
     "AtAt",

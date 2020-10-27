@@ -8,7 +8,12 @@ const diagnostic_messages_1 = require("../../diagnostic-messages");
 const parse_util_1 = require("../../parse-util");
 
 const NonPound : Tester = {
-    test: x => x.tokenKind != TokenKind.Pound && x.tokenKind != TokenKind.MacroIdentifier,
+    test: x => (
+        x.tokenKind != TokenKind.Pound &&
+        x.tokenKind != TokenKind.OpenParenthesesPound &&
+        x.tokenKind != TokenKind.PoundCloseParentheses &&
+        x.tokenKind != TokenKind.MacroIdentifier
+    ),
     type : "Pound",
 };
 
@@ -1310,6 +1315,10 @@ const Comma : Tester = { test: x => x.tokenKind == TokenKind.Comma, type : "Comm
 //@ts-ignore
 const Pound : Tester = { test: x => x.tokenKind == TokenKind.Pound, type : "Pound" };
 //@ts-ignore
+const OpenParenthesesPound : Tester = { test: x => x.tokenKind == TokenKind.OpenParenthesesPound, type : "OpenParenthesesPound" };
+//@ts-ignore
+const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.PoundCloseParentheses, type : "PoundCloseParentheses" };
+//@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
 const AtAt : Tester = { test: x => x.tokenKind == TokenKind.AtAt, type : "AtAt" };
@@ -1388,6 +1397,22 @@ NonEmptyUnexpandedContent ->
             value: this.sourceText.substring(start, end),
         });
     }
+    if (unexpandedContent.length == 0) {
+        const trailingWhitespace = {
+            start: 0,
+            end: this.sourceText.length,
+            value: this.sourceText,
+        };
+        unexpandedContent.push(trailingWhitespace);
+    }
+    else {
+        const trailingWhitespace = {
+            start: unexpandedContent[unexpandedContent.length - 1].end,
+            end: this.sourceText.length,
+            value: this.sourceText.substring(unexpandedContent[unexpandedContent.length - 1].end, this.sourceText.length),
+        };
+        unexpandedContent.push(trailingWhitespace);
+    }
     return {
         ...parse_util_1.getTextRange(data),
         unexpandedContent,
@@ -1426,6 +1451,22 @@ UnexpandedContent ->
             end,
             value: this.sourceText.substring(start, end),
         });
+    }
+    if (unexpandedContent.length == 0) {
+        const trailingWhitespace = {
+            start: 0,
+            end: this.sourceText.length,
+            value: this.sourceText,
+        };
+        unexpandedContent.push(trailingWhitespace);
+    }
+    else {
+        const trailingWhitespace = {
+            start: unexpandedContent[unexpandedContent.length - 1].end,
+            end: this.sourceText.length,
+            value: this.sourceText.substring(unexpandedContent[unexpandedContent.length - 1].end, this.sourceText.length),
+        };
+        unexpandedContent.push(trailingWhitespace);
     }
     return {
         ...parse_util_1.getTextRange(data),
@@ -1485,8 +1526,15 @@ MacroIdentifier ->
 } %}
 
 MacroArgumentList ->
-    %OpenParentheses (MacroArgument (%Pound MacroArgument):*):? %CloseParentheses {% function (data) {
-    const [openParen, rawArgs, closeParen] = data;
+    ((%OpenParentheses %CloseParentheses) | (%OpenParenthesesPound (MacroArgument (%Pound MacroArgument):*):? %PoundCloseParentheses)) {% function (data) {
+    const rawData = data[0][0];
+    if (rawData[0].tokenKind == scanner_1.TokenKind.OpenParentheses) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            args: [],
+        };
+    }
+    const [openParen, rawArgs, closeParen] = rawData;
     if (rawArgs == undefined) {
         return {
             ...parse_util_1.getTextRange(data),

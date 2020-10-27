@@ -3,76 +3,9 @@
 SELECT #helloWorld();
 
 -----
-{
-    "expandedContent": "                                     \n\nSELECT 'hello world';",
-    "originalToExpanded": [
-        {
-            "src": {
-                "start": 0,
-                "end": 46
-            },
-            "dst": {
-                "start": 0,
-                "end": 46
-            }
-        },
-        {
-            "src": {
-                "start": 46,
-                "end": 59
-            },
-            "dst": {
-                "start": 46,
-                "end": 59
-            },
-            "expandedMacro": {
-                "macro": {
-                    "filename": "file-0",
-                    "start": 0,
-                    "end": 37,
-                    "identifier": {
-                        "start": 8,
-                        "end": 18,
-                        "macroName": "helloWorld"
-                    },
-                    "parameterList": [],
-                    "content": {
-                        "start": 22,
-                        "end": 35,
-                        "value": "'hello world'"
-                    },
-                    "substitutionContent": [
-                        {
-                            "start": 0,
-                            "end": 13,
-                            "value": "'hello world'"
-                        }
-                    ]
-                },
-                "args": [],
-                "originalSubstitutedContent": "'hello world'",
-                "expandedContent": {
-                    "originalContent": "'hello world'",
-                    "expandedContent": "'hello world'",
-                    "originalToExpanded": [],
-                    "syntacticErrors": []
-                },
-                "originalToSubstituted": [],
-                "syntacticErrors": []
-            }
-        },
-        {
-            "src": {
-                "start": 59,
-                "end": 60
-            },
-            "dst": {
-                "start": 59,
-                "end": 60
-            }
-        }
-    ]
-}
+
+
+SELECT 'hello world';
 
 -----
 []

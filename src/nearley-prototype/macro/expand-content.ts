@@ -56,7 +56,7 @@ export function expandContent (
         new Scanner(originalContent),
         settings
     );
-    console.log(parsed);
+
     if (
         parsed.unexpandedContent.length == 1 &&
         "value" in parsed.unexpandedContent[0]

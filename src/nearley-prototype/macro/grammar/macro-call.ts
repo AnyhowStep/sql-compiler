@@ -1,7 +1,7 @@
 import {TextRange} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {IdentifierAllowReservedRule} from "../../identifier/identifier";
-import {makeCustomRule, optional, TokenObj, zeroOrMore} from "../../nearley-util";
+import {makeCustomRule, optional, TokenObj, union, zeroOrMore} from "../../nearley-util";
 import {getTextRange} from "../../parse-util";
 import {UnexpandedContentNode} from "./unexpanded-content";
 
@@ -31,18 +31,33 @@ export interface MacroArgumentListNode extends TextRange {
 const MacroArgumentList = makeCustomRule("MacroArgumentList")
     .addSubstitution(
         [
-            TokenKind.OpenParentheses,
-            optional([
-                MacroArgument,
-                zeroOrMore([
-                    TokenKind.Pound,
-                    MacroArgument,
-                ] as const)
-            ] as const),
-            TokenKind.CloseParentheses,
+            union(
+                [
+                    TokenKind.OpenParentheses,
+                    TokenKind.CloseParentheses,
+                ] as const,
+                [
+                    TokenKind.OpenParenthesesPound,
+                    optional([
+                        MacroArgument,
+                        zeroOrMore([
+                            TokenKind.Pound,
+                            MacroArgument,
+                        ] as const)
+                    ] as const),
+                    TokenKind.PoundCloseParentheses,
+                ] as const,
+            )
         ] as const,
         function (data) : MacroArgumentListNode {
-            const [openParen, rawArgs, closeParen] = data;
+            const rawData = data[0][0];
+            if (rawData[0].tokenKind == TokenKind.OpenParentheses) {
+                return {
+                    ...getTextRange(data),
+                    args : [],
+                };
+            }
+            const [openParen, rawArgs, closeParen] = rawData as Exclude<typeof rawData, readonly [TokenObj<TokenKind.OpenParentheses>, ...any[]]>;
             if (rawArgs == undefined) {
                 return {
                     ...getTextRange(data),

@@ -383,6 +383,17 @@ export class Scanner {
             const ch = this.text.charCodeAt(this.index);
 
             switch (ch) {
+                case CharacterCodes.openParen: {
+                    if (
+                        this.text.charCodeAt(this.index+1) == CharacterCodes.pound
+                    ) {
+                        this.index += 2;
+                        return this.tokenKind = TokenKind.OpenParenthesesPound;
+                    }
+
+                    ++this.index;
+                    return this.tokenKind = TokenKind.OpenParentheses;
+                }
                 case CharacterCodes.lessThan: {
                     //<
                     //<<
@@ -472,6 +483,12 @@ export class Scanner {
                         ++this.index;
                         this.tokenValue = this.scanQuotedIdentifier();
                         return this.tokenKind = TokenKind.MacroIdentifier;
+                    }
+                    if (
+                        this.text.charCodeAt(this.index+1) == CharacterCodes.closeParen
+                    ) {
+                        this.index += 2;
+                        return this.tokenKind = TokenKind.PoundCloseParentheses;
                     }
                     ++this.index;
                     return this.tokenKind = TokenKind.Pound;

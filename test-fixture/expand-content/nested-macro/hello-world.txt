@@ -1,0 +1,15 @@
+#define helloWorld1 () 'hello world1';;
+
+#define helloWorld2 () CONCAT('hello world2', #helloWorld1());;
+
+SELECT #helloWorld1(), #helloWorld2();
+
+-----
+
+
+
+
+SELECT 'hello world1', CONCAT('hello world2', 'hello world1');
+
+-----
+[]

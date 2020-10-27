@@ -1290,6 +1290,10 @@ const Comma : Tester = { test: x => x.tokenKind == TokenKind.Comma, type : "Comm
 //@ts-ignore
 const Pound : Tester = { test: x => x.tokenKind == TokenKind.Pound, type : "Pound" };
 //@ts-ignore
+const OpenParenthesesPound : Tester = { test: x => x.tokenKind == TokenKind.OpenParenthesesPound, type : "OpenParenthesesPound" };
+//@ts-ignore
+const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.PoundCloseParentheses, type : "PoundCloseParentheses" };
+//@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
 const AtAt : Tester = { test: x => x.tokenKind == TokenKind.AtAt, type : "AtAt" };

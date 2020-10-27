@@ -35,7 +35,7 @@ suite('Should expand content as expected', () => {
             "\n" + curPath
         );
 
-        assert.strictEqual(
+        /*assert.strictEqual(
             JSON.stringify(
                 {
                     ...expandedContent,
@@ -47,6 +47,16 @@ suite('Should expand content as expected', () => {
             ) + "\n",
             output,
             errorMessage
+        );*/
+
+        assert.strictEqual(
+            expandedContent.expandedContent.replace(/^ +$/gm, ""),
+            output,
+            errorMessage + (
+                "\n" + JSON.stringify(rawInput) +
+                "\n" + JSON.stringify(expandedContent.expandedContent.replace(/^ +$/gm, "")) +
+                "\n" + JSON.stringify(output)
+            )
         );
 
         assert.strictEqual(
