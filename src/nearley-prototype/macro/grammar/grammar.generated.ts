@@ -14,10 +14,9 @@ const parser_node_1 = require("../parser-node");
 const diagnostic_messages_1 = require("./diagnostic-messages");
 const parse_util_1 = require("./parse-util");
 
-const KeywordOrIdentifier : Tester = {
-    test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind),
-    //Even though this could be a keyword, the intention is to use it as an identifier
-    type : "Identifier",
+const NonPound : Tester = {
+    test: x => x.tokenKind != TokenKind.Pound,
+    type : "Pound",
 };
 
 
@@ -1374,481 +1373,142 @@ export type NearleySymbol = string | { literal: any } | { test: (token: any) => 
 export var Lexer: Lexer | undefined = undefined;
 
 export var ParserRules: NearleyRule[] = [
-    {"name": "SourceFileLite$ebnf$1", "symbols": []},
-    {"name": "SourceFileLite$ebnf$1", "symbols": ["SourceFileLite$ebnf$1", "LeadingStatement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "SourceFileLite", "symbols": ["SourceFileLite$ebnf$1", "TrailingStatement"], "postprocess":  (data) => {
-            const arr = data.flat(1);
-            const statements = parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.SourceElementList, parse_util_1.getTextRange(data));
-            return {
-                start: statements.start,
-                end: statements.end,
-                syntaxKind: parser_node_1.SyntaxKind.SourceFileLite,
-                statements,
-            };
-        } },
-    {"name": "TrailingStatement$ebnf$1", "symbols": [SemiColon], "postprocess": id},
-    {"name": "TrailingStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "TrailingStatement$ebnf$2", "symbols": [CustomDelimiter], "postprocess": id},
-    {"name": "TrailingStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "TrailingStatement", "symbols": ["NonDelimiterStatement", "TrailingStatement$ebnf$1", "TrailingStatement$ebnf$2"], "postprocess":  (data) => {
-            data[0].customDelimiter = data[2]?.value ?? undefined;
-            return data[0];
-        } },
-    {"name": "TrailingStatement", "symbols": ["DelimiterStatement"], "postprocess": (data) => data[0]},
-    {"name": "LeadingStatement$ebnf$1", "symbols": [CustomDelimiter], "postprocess": id},
-    {"name": "LeadingStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "LeadingStatement", "symbols": ["NonDelimiterStatement", SemiColon, "LeadingStatement$ebnf$1"], "postprocess":  (data) => {
-            data[0].customDelimiter = data[2]?.value ?? undefined;
-            return data[0];
-        } },
-    {"name": "LeadingStatement", "symbols": ["DelimiterStatement"], "postprocess": (data) => data[0]},
-    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateSchemaStatement"]},
-    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},
-    {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
-            return data[0][0];
-        } },
-    {"name": "DelimiterStatement", "symbols": [DELIMITER_STATEMENT, CustomDelimiter], "postprocess":  (data) => {
-            const [identifier, customDelimiter] = data;
-            return {
-                start: identifier.start,
-                end: customDelimiter.end,
-                syntaxKind: parser_node_1.SyntaxKind.DelimiterStatement,
-                customDelimiter: customDelimiter.value,
-            };
-        } },
-    {"name": "CreateTableStatement$ebnf$1", "symbols": [TEMPORARY], "postprocess": id},
-    {"name": "CreateTableStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
-    {"name": "CreateTableStatement$ebnf$2", "symbols": ["CreateTableStatement$ebnf$2$subexpression$1"], "postprocess": id},
-    {"name": "CreateTableStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableDefinitionList"], "postprocess":  (data) => {
-            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions] = data;
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
-                temporary: temporary != null,
-                ifNotExists: ifNotExists != null,
-                tableIdentifier,
-                createTableDefinitions,
-            };
-        } },
-    {"name": "IndexDefinition$subexpression$1", "symbols": [INDEX]},
-    {"name": "IndexDefinition$subexpression$1", "symbols": [KEY]},
-    {"name": "IndexDefinition$ebnf$1", "symbols": ["Identifier"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition$ebnf$2", "symbols": ["IndexType"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["Constraint", UNIQUE, "IndexDefinition$subexpression$1", "IndexDefinition$ebnf$1", "IndexDefinition$ebnf$2", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
-            const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
-            const indexOption = (indexType == undefined ?
-                rawIndexOption :
-                rawIndexOption.indexType == undefined ?
-                    {
-                        ...rawIndexOption,
-                        indexType: indexType.indexType,
-                    } :
-                    rawIndexOption);
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
-                constraintName: ("syntaxKind" in constraintName ?
-                    constraintName :
-                    undefined),
-                indexClass: parser_node_1.IndexClass.UNIQUE,
-                indexName: indexName ?? undefined,
-                indexParts,
-                ...indexOption,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "IndexDefinition$subexpression$2", "symbols": [INDEX]},
-    {"name": "IndexDefinition$subexpression$2", "symbols": [KEY]},
-    {"name": "IndexDefinition$ebnf$3", "symbols": ["Identifier"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition$ebnf$4", "symbols": ["IndexType"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$2", "IndexDefinition$ebnf$3", "IndexDefinition$ebnf$4", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
-            const [, indexName, indexType, indexParts, rawIndexOption] = data;
-            const indexOption = (indexType == undefined ?
-                rawIndexOption :
-                rawIndexOption.indexType == undefined ?
-                    {
-                        ...rawIndexOption,
-                        indexType: indexType.indexType,
-                    } :
-                    rawIndexOption);
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
-                constraintName: undefined,
-                indexClass: parser_node_1.IndexClass.INDEX,
-                indexName: indexName ?? undefined,
-                indexParts,
-                ...indexOption,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "GeneratedDefinition$ebnf$1$subexpression$1", "symbols": [GENERATED, ALWAYS]},
-    {"name": "GeneratedDefinition$ebnf$1", "symbols": ["GeneratedDefinition$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "GeneratedDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "GeneratedDefinition$ebnf$2$subexpression$1", "symbols": [VIRTUAL]},
-    {"name": "GeneratedDefinition$ebnf$2$subexpression$1", "symbols": [STORED]},
-    {"name": "GeneratedDefinition$ebnf$2", "symbols": ["GeneratedDefinition$ebnf$2$subexpression$1"], "postprocess": id},
-    {"name": "GeneratedDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "GeneratedDefinition", "symbols": ["GeneratedDefinition$ebnf$1", AS, OpenParentheses, "Expression", CloseParentheses, "GeneratedDefinition$ebnf$2"], "postprocess":  (data) => {
-            const [, , , expr, , generatedType] = data;
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.GeneratedDefinition,
-                expr,
-                generatedType: (generatedType == null ?
-                    parser_node_1.GeneratedType.VIRTUAL :
-                    generatedType[0].tokenKind == scanner_1.TokenKind.STORED ?
-                        parser_node_1.GeneratedType.STORED :
-                        parser_node_1.GeneratedType.VIRTUAL),
-            };
-        } },
-    {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "GeneratedDefinition", "ColumnModifier"], "postprocess":  function (data) {
-            const [columnIdentifier, dataType, generated, modifier] = data;
-            if (modifier.autoIncrement) {
-                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
+    {"name": "Start", "symbols": ["UnexpandedContent"], "postprocess": data => data[0]},
+    {"name": "UnexpandedContent$ebnf$1", "symbols": []},
+    {"name": "UnexpandedContent$ebnf$1$subexpression$1", "symbols": ["MacroCall", "NonMacroCall"]},
+    {"name": "UnexpandedContent$ebnf$1", "symbols": ["UnexpandedContent$ebnf$1", "UnexpandedContent$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "UnexpandedContent", "symbols": ["NonMacroCall", "UnexpandedContent$ebnf$1"], "postprocess":  function (data) {
+            const [firstPart, trailingParts] = data;
+            if (trailingParts.length == 0) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    unexpandedContent: [firstPart],
+                };
             }
-            if (modifier.columnFormat != undefined) {
-                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
-            }
-            if (modifier.storage != undefined) {
-                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
-            }
-            if (modifier.defaultValue != undefined) {
-                parse_util_1.pushSyntacticErrorAtNode(this, columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
-            }
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
-                columnIdentifier,
-                dataType,
-                generated: generated,
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "ColumnModifier"], "postprocess":  (data) => {
-            const [columnIdentifier, dataType, modifier] = data;
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
-                columnIdentifier,
-                dataType,
-                generated: undefined,
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "ColumnModifier$ebnf$1", "symbols": []},
-    {"name": "ColumnModifier$ebnf$1", "symbols": ["ColumnModifier$ebnf$1", "ColumnModifierElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "ColumnModifier", "symbols": ["ColumnModifier$ebnf$1"], "postprocess":  (data) => {
-            let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
-            for (const ele of data[0]) {
-                columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
-            }
-            return columnDefinitionModifier;
-        } },
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": [AUTO_INCREMENT]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [FIXED]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [DYNAMIC]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [DEFAULT]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$1", "symbols": [COLUMN_FORMAT, "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$1"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1", "symbols": [DISK]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1", "symbols": [MEMORY]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$2", "symbols": [STORAGE, "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$2"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$3", "symbols": [DEFAULT, "Expression"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$3"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": [NULL]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$4", "symbols": [NOT, NULL]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$4"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": [UNIQUE]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": [UNIQUE_KEY]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$5", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", KEY]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$5"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$6", "symbols": [COMMENT, "StringLiteral"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$6"]},
-    {"name": "ColumnModifierElement", "symbols": ["ColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                data: data[0][0],
-            };
-        } },
-    {"name": "IndexDefinition$subexpression$3", "symbols": [FULLTEXT]},
-    {"name": "IndexDefinition$subexpression$3", "symbols": [SPATIAL]},
-    {"name": "IndexDefinition$ebnf$5$subexpression$1", "symbols": [INDEX]},
-    {"name": "IndexDefinition$ebnf$5$subexpression$1", "symbols": [KEY]},
-    {"name": "IndexDefinition$ebnf$5", "symbols": ["IndexDefinition$ebnf$5$subexpression$1"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$5", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition$ebnf$6", "symbols": ["Identifier"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$6", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$3", "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
-            const [indexClass, , indexName, indexParts, indexOption] = data;
-            const result = {
-                syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
-                constraintName: undefined,
-                indexClass: (indexClass[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
-                    parser_node_1.IndexClass.FULLTEXT :
-                    parser_node_1.IndexClass.SPATIAL),
-                indexName: indexName ?? undefined,
-                indexParts,
-                ...indexOption,
-                ...parse_util_1.getTextRange(data),
-            };
-            if (indexOption.indexType != undefined) {
-                parse_util_1.pushSyntacticErrorAt(indexName ?? result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
-            }
-            return result;
-        } },
-    {"name": "IndexOption$ebnf$1", "symbols": []},
-    {"name": "IndexOption$ebnf$1", "symbols": ["IndexOption$ebnf$1", "IndexOptionElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "IndexOption", "symbols": ["IndexOption$ebnf$1"], "postprocess":  (data) => {
-            let indexOption = parse_util_1.createDefaultIndexOption();
-            for (const ele of data[0]) {
-                indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
-            }
-            return indexOption;
-        } },
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [Equal], "postprocess": id},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1", "symbols": [KEY_BLOCK_SIZE, "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "IntegerLiteral"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$1"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexType"]},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$2", "symbols": [WITH, PARSER, "Identifier"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$2"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["Comment"]},
-    {"name": "IndexOptionElement", "symbols": ["IndexOptionElement$subexpression$1"], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                data: data[0][0],
-            };
-        } },
-    {"name": "IndexType$subexpression$1", "symbols": [BTREE]},
-    {"name": "IndexType$subexpression$1", "symbols": [HASH]},
-    {"name": "IndexType", "symbols": [USING, "IndexType$subexpression$1"], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
-                    parser_node_1.IndexType.BTREE :
-                    parser_node_1.IndexType.HASH),
-            };
-        } },
-    {"name": "IndexPartList$ebnf$1", "symbols": []},
-    {"name": "IndexPartList$ebnf$1$subexpression$1", "symbols": [Comma, "IndexPart"]},
-    {"name": "IndexPartList$ebnf$1", "symbols": ["IndexPartList$ebnf$1", "IndexPartList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "IndexPartList", "symbols": [OpenParentheses, "IndexPart", "IndexPartList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
-            const [, first, more] = data;
-            const arr = more
-                .flat(1)
-                //@ts-ignore
-                .filter((x) => {
-                return "syntaxKind" in x;
+            const unexpandedContent = [];
+            const firstPartStart = 0;
+            const firstPartEnd = trailingParts[0][0].start;
+            unexpandedContent.push({
+                start: firstPartStart,
+                end: firstPartEnd,
+                value: this.sourceText.substring(firstPartStart, firstPartEnd),
             });
-            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IndexPartList, parse_util_1.getTextRange(data));
-        } },
-    {"name": "IndexPart$ebnf$1$subexpression$1", "symbols": [OpenParentheses, "IntegerLiteral", CloseParentheses]},
-    {"name": "IndexPart$ebnf$1", "symbols": ["IndexPart$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "IndexPart$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "IndexPart$ebnf$2$subexpression$1", "symbols": [ASC]},
-    {"name": "IndexPart$ebnf$2$subexpression$1", "symbols": [DESC]},
-    {"name": "IndexPart$ebnf$2", "symbols": ["IndexPart$ebnf$2$subexpression$1"], "postprocess": id},
-    {"name": "IndexPart$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "IndexPart", "symbols": ["Identifier", "IndexPart$ebnf$1", "IndexPart$ebnf$2"], "postprocess":  (data) => {
-            const [columnName, indexLength, rawSortDirection] = data;
-            const sortDirection = (rawSortDirection == undefined ?
-                parser_node_1.SortDirection.ASC :
-                rawSortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
-                    parser_node_1.SortDirection.ASC :
-                    parser_node_1.SortDirection.DESC);
-            if (sortDirection == parser_node_1.SortDirection.DESC) {
-                parse_util_1.pushSyntacticErrorAt(columnName, parse_util_1.getStart(rawSortDirection), parse_util_1.getEnd(rawSortDirection), [], diagnostic_messages_1.DiagnosticMessages.IndexPartSortDirectionDescIgnored);
+            for (let i = 0; i < trailingParts.length; ++i) {
+                const curPart = trailingParts[i];
+                unexpandedContent.push(curPart[0]);
+                const nextPart = (i + 1 < trailingParts.length ?
+                    trailingParts[i + 1] :
+                    undefined);
+                const start = curPart[0].end;
+                const end = (nextPart == undefined ?
+                    curPart[1].end :
+                    nextPart[0].start);
+                unexpandedContent.push({
+                    start,
+                    end,
+                    value: this.sourceText.substring(start, end),
+                });
             }
             return {
                 ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.IndexPart,
-                columnName,
-                indexLength: (indexLength == undefined ?
-                    undefined :
-                    indexLength[1]),
-                sortDirection,
+                unexpandedContent,
             };
         } },
-    {"name": "CreateTableDefinitionList$ebnf$1", "symbols": []},
-    {"name": "CreateTableDefinitionList$ebnf$1$subexpression$1", "symbols": [Comma, "CreateTableDefinition"]},
-    {"name": "CreateTableDefinitionList$ebnf$1", "symbols": ["CreateTableDefinitionList$ebnf$1", "CreateTableDefinitionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "CreateTableDefinitionList", "symbols": [OpenParentheses, "CreateTableDefinition", "CreateTableDefinitionList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
-            const [, first, more] = data;
-            const arr = more
-                .flat(1)
-                //@ts-ignore
-                .filter((x) => {
-                return "syntaxKind" in x;
+    {"name": "NonMacroCall$ebnf$1", "symbols": []},
+    {"name": "NonMacroCall$ebnf$1", "symbols": ["NonMacroCall$ebnf$1", NonPound], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "NonMacroCall", "symbols": ["NonMacroCall$ebnf$1"], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                value: "",
+            };
+        } },
+    {"name": "MacroCall", "symbols": ["MacroIdentifier", "MacroArgumentList"], "postprocess":  function (data) {
+            const [identifier, argumentList] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                identifier,
+                argumentList,
+            };
+        } },
+    {"name": "MacroIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
+    {"name": "MacroIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": ["MacroIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "MacroIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "MacroIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved", "MacroIdentifier$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "MacroIdentifier$ebnf$1", "symbols": ["MacroIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "MacroIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "MacroIdentifier", "symbols": [MacroIdentifier, "MacroIdentifier$ebnf$1"], "postprocess":  function (data) {
+            const nameA = data[0];
+            const partB = data[1];
+            if (partB == undefined) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    macroName: nameA.value,
+                };
+            }
+            const nameB = partB[1];
+            const partC = partB[2];
+            if (partC == undefined) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    macroName: nameA.value + "." + nameB.identifier,
+                };
+            }
+            const nameC = partC[1];
+            return {
+                ...parse_util_1.getTextRange(data),
+                macroName: nameA.value + "." + nameB.identifier + "." + nameC.identifier,
+            };
+        } },
+    {"name": "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Pound, "MacroArgument"]},
+    {"name": "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1", "symbols": ["MacroArgumentList$ebnf$1$subexpression$1$ebnf$1", "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "MacroArgumentList$ebnf$1$subexpression$1", "symbols": ["MacroArgument", "MacroArgumentList$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "MacroArgumentList$ebnf$1", "symbols": ["MacroArgumentList$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "MacroArgumentList$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "MacroArgumentList", "symbols": [OpenParentheses, "MacroArgumentList$ebnf$1", CloseParentheses], "postprocess":  function (data) {
+            const [openParen, rawArgs, closeParen] = data;
+            if (rawArgs == undefined) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    args: [],
+                };
+            }
+            const args = [];
+            const firstArgStart = openParen.end;
+            const firstArgEnd = (rawArgs[1].length == 0 ?
+                closeParen.start :
+                //The start of the first pound character
+                rawArgs[1][0][0].start);
+            args.push({
+                start: firstArgStart,
+                end: firstArgEnd,
+                value: this.sourceText.substring(firstArgStart, firstArgEnd),
             });
-            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, parse_util_1.getTextRange(data));
-        } },
-    {"name": "CreateTableDefinition$subexpression$1", "symbols": ["ColumnDefinition"]},
-    {"name": "CreateTableDefinition$subexpression$1", "symbols": ["IndexDefinition"]},
-    {"name": "CreateTableDefinition", "symbols": ["CreateTableDefinition$subexpression$1"], "postprocess": (data) => data[0][0]},
-    {"name": "CreateSchemaStatement$subexpression$1", "symbols": [SCHEMA]},
-    {"name": "CreateSchemaStatement$subexpression$1", "symbols": [DATABASE]},
-    {"name": "CreateSchemaStatement$ebnf$1$subexpression$1", "symbols": [IF, NOT, EXISTS]},
-    {"name": "CreateSchemaStatement$ebnf$1", "symbols": ["CreateSchemaStatement$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "CreateSchemaStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CreateSchemaStatement", "symbols": [CREATE, "CreateSchemaStatement$subexpression$1", "CreateSchemaStatement$ebnf$1", "Identifier", "CreateSchemaOptionList"], "postprocess":  (data) => {
-            const [, , ifNotExists, identifier, createSchemaOptions] = data;
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.CreateSchemaStatement,
-                schemaName: identifier,
-                ifNotExists: ifNotExists != undefined,
-                createSchemaOptions,
-            };
-        } },
-    {"name": "CreateSchemaOptionList$ebnf$1", "symbols": []},
-    {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCharacterSet"]},
-    {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCollation"]},
-    {"name": "CreateSchemaOptionList$ebnf$1", "symbols": ["CreateSchemaOptionList$ebnf$1", "CreateSchemaOptionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "CreateSchemaOptionList", "symbols": ["CreateSchemaOptionList$ebnf$1"], "postprocess":  (data) => {
-            return parse_util_1.toNodeArray(data.flat(2), parser_node_1.SyntaxKind.CreateSchemaOptionList, parse_util_1.getTextRange(data));
-        } },
-    {"name": "FieldLength$subexpression$1", "symbols": ["IntegerLiteral"]},
-    {"name": "FieldLength$subexpression$1", "symbols": ["DecimalLiteral"]},
-    {"name": "FieldLength$subexpression$1", "symbols": ["RealLiteral"]},
-    {"name": "FieldLength", "symbols": [OpenParentheses, "FieldLength$subexpression$1", CloseParentheses], "postprocess":  (data) => {
-            let [, [literal],] = data;
-            if (literal.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
-                literal = {
-                    ...literal,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(literal.value.replace(/\.\d*$/, "")),
-                };
-                parse_util_1.pushSyntacticErrorAt(literal, literal.start, literal.end, [], diagnostic_messages_1.DiagnosticMessages.FieldLengthExpectsIntegerLiteral);
-            }
-            else if (literal.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
-                literal = {
-                    ...literal,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(Math.floor(literal.value)),
-                };
-                parse_util_1.pushSyntacticErrorAt(literal, literal.start, literal.end, [], diagnostic_messages_1.DiagnosticMessages.FieldLengthExpectsIntegerLiteral);
+            for (let i = 0; i < rawArgs[1].length; ++i) {
+                const curArg = rawArgs[1][i];
+                const nextArg = (i + 1 < rawArgs[1].length ?
+                    rawArgs[1][i + 1] :
+                    undefined);
+                const start = curArg[0].end;
+                const end = (nextArg == undefined ?
+                    closeParen.start :
+                    nextArg[0].start);
+                args.push({
+                    start,
+                    end,
+                    value: this.sourceText.substring(start, end),
+                });
             }
             return {
                 ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                length: literal,
+                args,
             };
         } },
-    {"name": "DefaultCollation$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
-    {"name": "DefaultCollation$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCollation$ebnf$2", "symbols": [Equal], "postprocess": id},
-    {"name": "DefaultCollation$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCollation", "symbols": ["DefaultCollation$ebnf$1", COLLATE, "DefaultCollation$ebnf$2", "Identifier"], "postprocess":  (data) => {
-            let [, , , collationName] = data;
-            collationName = {
-                ...collationName,
-                identifier: collationName.identifier.toLowerCase(),
-            };
+    {"name": "MacroArgument", "symbols": ["UnexpandedContent"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.DefaultCollation,
-                collationName: (collationName.quoted ?
-                    collationName :
-                    collationName.identifier.toUpperCase() == "DEFAULT" ?
-                        undefined :
-                        collationName),
+                value: "",
             };
-        } },
-    {"name": "DefaultCharacterSet$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
-    {"name": "DefaultCharacterSet$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCharacterSet$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
-    {"name": "DefaultCharacterSet$subexpression$1", "symbols": ["DefaultCharacterSet$subexpression$1$subexpression$1"]},
-    {"name": "DefaultCharacterSet$subexpression$1", "symbols": [CHARSET]},
-    {"name": "DefaultCharacterSet$ebnf$2", "symbols": [Equal], "postprocess": id},
-    {"name": "DefaultCharacterSet$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCharacterSet", "symbols": ["DefaultCharacterSet$ebnf$1", "DefaultCharacterSet$subexpression$1", "DefaultCharacterSet$ebnf$2", "CharacterSetName"], "postprocess":  (data) => {
-            let [, , , characterSetName] = data;
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
-                characterSetName: (characterSetName.quoted ?
-                    characterSetName :
-                    characterSetName.identifier.toUpperCase() == "DEFAULT" ?
-                        undefined :
-                        characterSetName),
-            };
-        } },
-    {"name": "Constraint$ebnf$1", "symbols": ["Identifier"], "postprocess": id},
-    {"name": "Constraint$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "Constraint", "symbols": [CONSTRAINT, "Constraint$ebnf$1"], "postprocess":  (data) => {
-            return data[1] ?? parse_util_1.getTextRange(data);
-        } },
-    {"name": "Comment", "symbols": [COMMENT, "StringLiteral"], "postprocess":  (data) => {
-            return data[1];
-        } },
-    {"name": "TableIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
-    {"name": "TableIdentifier$ebnf$1", "symbols": ["TableIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "TableIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "TableIdentifier", "symbols": ["Identifier", "TableIdentifier$ebnf$1"], "postprocess":  (data) => {
-            const [nameA, nameB] = data;
-            if (nameB == null) {
-                return {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.TableIdentifier,
-                    schemaName: undefined,
-                    tableName: nameA,
-                };
-            }
-            else {
-                return {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.TableIdentifier,
-                    schemaName: nameA,
-                    tableName: nameB[1],
-                };
-            }
-        } },
-    {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
-    {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": ["ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "ColumnIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved", "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1"]},
-    {"name": "ColumnIdentifier$ebnf$1", "symbols": ["ColumnIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "ColumnIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "ColumnIdentifier", "symbols": ["Identifier", "ColumnIdentifier$ebnf$1"], "postprocess":  (data) => {
-            const [nameA, nameB] = data;
-            if (nameB == null) {
-                return {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
-                    schemaName: undefined,
-                    tableName: undefined,
-                    columnName: nameA,
-                };
-            }
-            else {
-                const nameC = nameB[2];
-                if (nameC == null) {
-                    return {
-                        ...parse_util_1.getTextRange(data),
-                        syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
-                        schemaName: undefined,
-                        tableName: nameA,
-                        columnName: nameB[1],
-                    };
-                }
-                else {
-                    return {
-                        ...parse_util_1.getTextRange(data),
-                        syntaxKind: parser_node_1.SyntaxKind.ColumnIdentifier,
-                        schemaName: nameA,
-                        tableName: nameB[1],
-                        columnName: nameC[1],
-                    };
-                }
-            }
         } },
     {"name": "IdentifierAllowReserved", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
             const [tokenObj] = data;
@@ -1895,814 +1555,7 @@ export var ParserRules: NearleyRule[] = [
             };
             parse_util_1.pushSyntacticErrorAtNode(this, result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
             return result;
-        } },
-    {"name": "StringLiteral", "symbols": [StringLiteral], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
-                value: data[0].value,
-                sourceText: data[0].getTokenSourceText(),
-            };
-        } },
-    {"name": "RealLiteral", "symbols": [RealLiteral], "postprocess":  (data) => {
-            const result = {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.RealLiteral,
-                value: parseFloat(data[0].value),
-                sourceText: data[0].value,
-            };
-            if (!isFinite(result.value)) {
-                result.value = 0;
-                parse_util_1.pushSyntacticErrorAt(result, result.start, result.end, [], diagnostic_messages_1.DiagnosticMessages.RealLiteralEvaluatesToNonFiniteValue);
-            }
-            return result;
-        } },
-    {"name": "IntegerLiteral", "symbols": [IntegerLiteral], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                value: BigInt(data[0].value),
-            };
-        } },
-    {"name": "Expression$subexpression$1", "symbols": ["IntegerLiteral"]},
-    {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
-    {"name": "Expression", "symbols": ["Expression$subexpression$1"], "postprocess":  (data) => {
-            return data[0][0];
-        } },
-    {"name": "DecimalLiteral", "symbols": [DecimalLiteral], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.DecimalLiteral,
-                value: data[0].value,
-            };
-        } },
-    {"name": "YearDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
-    {"name": "YearDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "YearDataType", "symbols": [YEAR, "YearDataType$ebnf$1"], "postprocess":  (data) => {
-            const [dataType, fieldLength] = data;
-            const result = {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.YearDataType,
-                fieldLength: (fieldLength ??
-                    {
-                        start: dataType.end,
-                        end: dataType.end,
-                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                        length: {
-                            start: dataType.end,
-                            end: dataType.end,
-                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                            value: BigInt(4),
-                        },
-                    }),
-            };
-            if (fieldLength != undefined &&
-                fieldLength.length.value != 4n) {
-                parse_util_1.pushSyntacticErrorAt(result, dataType.end, dataType.end, [dataType], diagnostic_messages_1.DiagnosticMessages.YearFieldLengthMustBe4);
-            }
-            return result;
-        } },
-    {"name": "TimestampDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
-    {"name": "TimestampDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "TimestampDataType", "symbols": [TIMESTAMP, "TimestampDataType$ebnf$1"], "postprocess":  (data) => {
-            const [dataType, fractionalSecondPrecision] = data;
-            const result = {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.TimestampDataType,
-                fractionalSecondPrecision: (fractionalSecondPrecision ??
-                    {
-                        start: dataType.end,
-                        end: dataType.end,
-                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                        length: {
-                            start: dataType.end,
-                            end: dataType.end,
-                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                            value: BigInt(0),
-                        },
-                    }),
-            };
-            return result;
-        } },
-    {"name": "TimeDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
-    {"name": "TimeDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "TimeDataType", "symbols": [TIME, "TimeDataType$ebnf$1"], "postprocess":  (data) => {
-            const [dataType, fractionalSecondPrecision] = data;
-            const result = {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.TimeDataType,
-                fractionalSecondPrecision: (fractionalSecondPrecision ??
-                    {
-                        start: dataType.end,
-                        end: dataType.end,
-                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                        length: {
-                            start: dataType.end,
-                            end: dataType.end,
-                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                            value: BigInt(0),
-                        },
-                    }),
-            };
-            return result;
-        } },
-    {"name": "TextDataType", "symbols": [TEXT, "FieldLength", "CharacterDataTypeModifier"], "postprocess":  (data) => {
-            const [, fieldLength, modifier] = data;
-            const result = {
-                syntaxKind: parser_node_1.SyntaxKind.TextDataType,
-                lengthBytes: (fieldLength.length.value < (1n << 8n) ?
-                    8 :
-                    fieldLength.length.value < (1n << 16n) ?
-                        16 :
-                        fieldLength.length.value < (1n << 24n) ?
-                            24 :
-                            32),
-                characterSet: modifier.characterSet,
-                collate: modifier.collate,
-                binary: modifier.binary,
-                ...parse_util_1.getTextRange(data),
-            };
-            if (fieldLength.length.value >= (1n << 32n)) {
-                parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidTextDataTypeBytes);
-            }
-            return result;
-        } },
-    {"name": "TextDataType$subexpression$1", "symbols": [TINYTEXT]},
-    {"name": "TextDataType$subexpression$1", "symbols": [TEXT]},
-    {"name": "TextDataType$subexpression$1", "symbols": [MEDIUMTEXT]},
-    {"name": "TextDataType$subexpression$1", "symbols": [LONGTEXT]},
-    {"name": "TextDataType", "symbols": ["TextDataType$subexpression$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
-            const [[token], modifier] = data;
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.TextDataType,
-                lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYTEXT ?
-                    8 :
-                    token.tokenKind == scanner_1.TokenKind.TEXT ?
-                        16 :
-                        token.tokenKind == scanner_1.TokenKind.MEDIUMTEXT ?
-                            24 :
-                            32),
-                characterSet: modifier.characterSet,
-                collate: modifier.collate,
-                binary: modifier.binary,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "TextDataType$ebnf$1$subexpression$1", "symbols": [VARCHAR]},
-    {"name": "TextDataType$ebnf$1$subexpression$1$subexpression$1", "symbols": [CHAR, VARYING]},
-    {"name": "TextDataType$ebnf$1$subexpression$1", "symbols": ["TextDataType$ebnf$1$subexpression$1$subexpression$1"]},
-    {"name": "TextDataType$ebnf$1", "symbols": ["TextDataType$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "TextDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "TextDataType", "symbols": [LONG, "TextDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
-            const [, , modifier] = data;
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.TextDataType,
-                lengthBytes: 24,
-                characterSet: modifier.characterSet,
-                collate: modifier.collate,
-                binary: modifier.binary,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "IntegerDataType$subexpression$1", "symbols": [TINYINT]},
-    {"name": "IntegerDataType$subexpression$1", "symbols": [SMALLINT]},
-    {"name": "IntegerDataType$subexpression$1", "symbols": [MEDIUMINT]},
-    {"name": "IntegerDataType$subexpression$1", "symbols": [INT]},
-    {"name": "IntegerDataType$subexpression$1", "symbols": [INTEGER]},
-    {"name": "IntegerDataType$subexpression$1", "symbols": [BIGINT]},
-    {"name": "IntegerDataType$ebnf$1$subexpression$1", "symbols": [OpenParentheses, "IntegerLiteral", CloseParentheses]},
-    {"name": "IntegerDataType$ebnf$1", "symbols": ["IntegerDataType$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "IntegerDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "IntegerDataType", "symbols": ["IntegerDataType$subexpression$1", "IntegerDataType$ebnf$1", "IntegerDataTypeModifier"], "postprocess":  (data) => {
-            const [dataType, displayWidth, modifier] = data;
-            const token = dataType[0].tokenKind;
-            const bytes = (token == scanner_1.TokenKind.TINYINT ?
-                1 :
-                token == scanner_1.TokenKind.SMALLINT ?
-                    2 :
-                    token == scanner_1.TokenKind.MEDIUMINT ?
-                        3 :
-                        token == scanner_1.TokenKind.INT ?
-                            4 :
-                            token == scanner_1.TokenKind.INTEGER ?
-                                4 :
-                                8);
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.IntegerDataType,
-                bytes,
-                displayWidth: (displayWidth == undefined ?
-                    undefined :
-                    Number(displayWidth[1].value)),
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "GeometryDataType$subexpression$1", "symbols": [POINT]},
-    {"name": "GeometryDataType$subexpression$1", "symbols": [LINESTRING]},
-    {"name": "GeometryDataType$subexpression$1", "symbols": [POLYGON]},
-    {"name": "GeometryDataType$subexpression$1", "symbols": [GEOMETRY]},
-    {"name": "GeometryDataType", "symbols": ["GeometryDataType$subexpression$1"], "postprocess":  (data) => {
-            const [[token]] = data;
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.GeometryDataType,
-                geometryType: (token.tokenKind == scanner_1.TokenKind.POINT ?
-                    parser_node_1.GeometryType.Point :
-                    token.tokenKind == scanner_1.TokenKind.LINESTRING ?
-                        parser_node_1.GeometryType.LineString :
-                        token.tokenKind == scanner_1.TokenKind.POLYGON ?
-                            parser_node_1.GeometryType.Polygon :
-                            parser_node_1.GeometryType.Geometry),
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "GeometryCollectionDataType$subexpression$1", "symbols": [MULTIPOINT]},
-    {"name": "GeometryCollectionDataType$subexpression$1", "symbols": [MULTILINESTRING]},
-    {"name": "GeometryCollectionDataType$subexpression$1", "symbols": [MULTIPOLYGON]},
-    {"name": "GeometryCollectionDataType$subexpression$1", "symbols": [GEOMETRYCOLLECTION]},
-    {"name": "GeometryCollectionDataType", "symbols": ["GeometryCollectionDataType$subexpression$1"], "postprocess":  (data) => {
-            const [[token]] = data;
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.GeometryCollectionDataType,
-                geometryType: (token.tokenKind == scanner_1.TokenKind.MULTIPOINT ?
-                    parser_node_1.GeometryType.Point :
-                    token.tokenKind == scanner_1.TokenKind.MULTILINESTRING ?
-                        parser_node_1.GeometryType.LineString :
-                        token.tokenKind == scanner_1.TokenKind.MULTIPOLYGON ?
-                            parser_node_1.GeometryType.Polygon :
-                            parser_node_1.GeometryType.Geometry),
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "RealDataType", "symbols": [FLOAT, "FieldLength", "IntegerDataTypeModifier"], "postprocess":  function (data) {
-            const [, fieldLength, modifier] = data;
-            const bytes = (fieldLength.length.value <= 24n ?
-                4 :
-                fieldLength.length.value <= 53n ?
-                    8 :
-                    undefined);
-            const result = {
-                syntaxKind: parser_node_1.SyntaxKind.RealDataType,
-                bytes: bytes ?? 8,
-                precision: undefined,
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
-            };
-            if (bytes == undefined) {
-                parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypePrecisionBits);
-            }
-            return result;
-        } },
-    {"name": "RealDataType", "symbols": [FLOAT, "RealPrecision", "IntegerDataTypeModifier"], "postprocess":  function (data) {
-            const [, precision, modifier] = data;
-            const result = {
-                syntaxKind: parser_node_1.SyntaxKind.RealDataType,
-                bytes: 4,
-                precision,
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
-            };
-            return result;
-        } },
-    {"name": "RealDataType", "symbols": [FLOAT, "IntegerDataTypeModifier"], "postprocess":  function (data) {
-            const [, modifier] = data;
-            const result = {
-                syntaxKind: parser_node_1.SyntaxKind.RealDataType,
-                bytes: 4,
-                precision: undefined,
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
-            };
-            return result;
-        } },
-    {"name": "RealDataType$subexpression$1", "symbols": [REAL]},
-    {"name": "RealDataType$subexpression$1", "symbols": [DOUBLE]},
-    {"name": "RealDataType$subexpression$1$subexpression$1", "symbols": [DOUBLE, PRECISION]},
-    {"name": "RealDataType$subexpression$1", "symbols": ["RealDataType$subexpression$1$subexpression$1"]},
-    {"name": "RealDataType$ebnf$1", "symbols": ["RealPrecision"], "postprocess": id},
-    {"name": "RealDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "RealDataType", "symbols": ["RealDataType$subexpression$1", "RealDataType$ebnf$1", "IntegerDataTypeModifier"], "postprocess":  function (data) {
-            const [dataType, precision, modifier] = data;
-            const bytes = (dataType[0] instanceof Array ?
-                8 :
-                dataType[0].tokenKind == scanner_1.TokenKind.DOUBLE ?
-                    8 :
-                    this.settings.realAsFloat ?
-                        4 :
-                        8);
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.RealDataType,
-                bytes,
-                precision: precision ?? undefined,
-                ...modifier,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "IntegerDataTypeModifier$ebnf$1", "symbols": []},
-    {"name": "IntegerDataTypeModifier$ebnf$1$subexpression$1", "symbols": [SIGNED]},
-    {"name": "IntegerDataTypeModifier$ebnf$1$subexpression$1", "symbols": [UNSIGNED]},
-    {"name": "IntegerDataTypeModifier$ebnf$1$subexpression$1", "symbols": [ZEROFILL]},
-    {"name": "IntegerDataTypeModifier$ebnf$1", "symbols": ["IntegerDataTypeModifier$ebnf$1", "IntegerDataTypeModifier$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "IntegerDataTypeModifier", "symbols": ["IntegerDataTypeModifier$ebnf$1"], "postprocess":  function (data) {
-            let integerDataTypeModifier = parse_util_1.createDefaultIntegerDataTypeModifier();
-            for (const ele of data[0]) {
-                integerDataTypeModifier = parse_util_1.processIntegerDataTypeModifier(integerDataTypeModifier, ele[0]);
-            }
-            return integerDataTypeModifier;
-        } },
-    {"name": "RealPrecision", "symbols": ["Precision"], "postprocess":  function (data) {
-            const result = data[0];
-            if (result.precision.value == 0n || result.precision.value > 255n) {
-                parse_util_1.pushSyntacticErrorAt(result.precision, result.precision.start, result.precision.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypePrecision);
-            }
-            const maxScale = (result.precision.value > 30n ?
-                30n :
-                result.precision.value);
-            if (result.scale.value > maxScale) {
-                parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypeScale, maxScale.toString());
-            }
-            return result;
-        } },
-    {"name": "Precision$subexpression$1", "symbols": ["IntegerLiteral"]},
-    {"name": "Precision$subexpression$1", "symbols": ["DecimalLiteral"]},
-    {"name": "Precision$subexpression$1", "symbols": ["RealLiteral"]},
-    {"name": "Precision$subexpression$2", "symbols": ["IntegerLiteral"]},
-    {"name": "Precision$subexpression$2", "symbols": ["DecimalLiteral"]},
-    {"name": "Precision$subexpression$2", "symbols": ["RealLiteral"]},
-    {"name": "Precision", "symbols": [OpenParentheses, "Precision$subexpression$1", Comma, "Precision$subexpression$2", CloseParentheses], "postprocess":  (data) => {
-            let [, [precision], , [scale],] = data;
-            if (precision.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
-                precision = {
-                    ...precision,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(precision.value.replace(/\.\d*$/, "")),
-                };
-                parse_util_1.pushSyntacticErrorAt(precision, precision.start, precision.end, [], diagnostic_messages_1.DiagnosticMessages.PrecisionExpectsIntegerLiteral);
-            }
-            else if (precision.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
-                precision = {
-                    ...precision,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(Math.floor(precision.value)),
-                };
-                parse_util_1.pushSyntacticErrorAt(precision, precision.start, precision.end, [], diagnostic_messages_1.DiagnosticMessages.PrecisionExpectsIntegerLiteral);
-            }
-            if (scale.syntaxKind == parser_node_1.SyntaxKind.DecimalLiteral) {
-                scale = {
-                    ...scale,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(scale.value.replace(/\.\d*$/, "")),
-                };
-                parse_util_1.pushSyntacticErrorAt(scale, scale.start, scale.end, [], diagnostic_messages_1.DiagnosticMessages.ScaleExpectsIntegerLiteral);
-            }
-            else if (scale.syntaxKind == parser_node_1.SyntaxKind.RealLiteral) {
-                scale = {
-                    ...scale,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(Math.floor(scale.value)),
-                };
-                parse_util_1.pushSyntacticErrorAt(scale, scale.start, scale.end, [], diagnostic_messages_1.DiagnosticMessages.ScaleExpectsIntegerLiteral);
-            }
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.Precision,
-                precision,
-                scale,
-            };
-        } },
-    {"name": "DateTimeDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
-    {"name": "DateTimeDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "DateTimeDataType", "symbols": [DATETIME, "DateTimeDataType$ebnf$1"], "postprocess":  (data) => {
-            const [dataType, fractionalSecondPrecision] = data;
-            const result = {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.DateTimeDataType,
-                fractionalSecondPrecision: (fractionalSecondPrecision ??
-                    {
-                        start: dataType.end,
-                        end: dataType.end,
-                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                        length: {
-                            start: dataType.end,
-                            end: dataType.end,
-                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                            value: BigInt(0),
-                        },
-                    }),
-            };
-            return result;
-        } },
-    {"name": "DateDataType", "symbols": [DATE], "postprocess":  (data) => {
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.DateDataType,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "DataType$subexpression$1", "symbols": ["BinaryDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["BitDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["BlobDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["BooleanDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["CharacterDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["DateDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["DateTimeDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["GeometryCollectionDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["GeometryDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["TextDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["TimeDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["TimestampDataType"]},
-    {"name": "DataType$subexpression$1", "symbols": ["YearDataType"]},
-    {"name": "DataType", "symbols": ["DataType$subexpression$1"], "postprocess": (data) => data[0][0]},
-    {"name": "CharacterDataType$subexpression$1", "symbols": ["CharStart"]},
-    {"name": "CharacterDataType$subexpression$1", "symbols": ["VarCharStart"]},
-    {"name": "CharacterDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
-    {"name": "CharacterDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CharacterDataType", "symbols": ["CharacterDataType$subexpression$1", "CharacterDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
-            const [[char], maxLength, modifier] = data;
-            if (char.nationalCharacterSet != undefined &&
-                modifier.characterSet != undefined) {
-                parse_util_1.pushSyntacticErrorAt(char.nationalCharacterSet, modifier.characterSet.start, modifier.characterSet.end, [char.nationalCharacterSet], diagnostic_messages_1.DiagnosticMessages.NationalCharacterDataTypeCannotSpecifyCharacterSet);
-            }
-            const result = {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.CharacterDataType,
-                variableLength: char.variableLength,
-                maxLength: (maxLength == undefined ?
-                    {
-                        start: char.end,
-                        end: char.end,
-                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                        length: {
-                            start: char.end,
-                            end: char.end,
-                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                            value: BigInt(1),
-                        },
-                    } :
-                    maxLength),
-                characterSet: (char.nationalCharacterSet ??
-                    modifier.characterSet),
-                collate: modifier.collate,
-                binary: modifier.binary,
-            };
-            if (char.variableLength &&
-                maxLength == undefined) {
-                parse_util_1.pushSyntacticErrorAt(result, char.end, char.end, [char], diagnostic_messages_1.DiagnosticMessages.VariableLengthCharacterDataTypeMustSpecifyFieldLength);
-            }
-            return result;
-        } },
-    {"name": "CharStart$subexpression$1", "symbols": [CHAR]},
-    {"name": "CharStart$subexpression$1", "symbols": [CHARACTER]},
-    {"name": "CharStart", "symbols": [NATIONAL, "CharStart$subexpression$1"], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                variableLength: false,
-                nationalCharacterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.nationalCharacterSet,
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "CharStart", "symbols": [NCHAR], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                variableLength: false,
-                nationalCharacterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.nationalCharacterSet,
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "CharStart$subexpression$2", "symbols": [CHAR]},
-    {"name": "CharStart$subexpression$2", "symbols": [CHARACTER]},
-    {"name": "CharStart", "symbols": ["CharStart$subexpression$2"], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                variableLength: false,
-                nationalCharacterSet: undefined,
-            };
-        } },
-    {"name": "VarCharStart$subexpression$1", "symbols": [VARCHAR]},
-    {"name": "VarCharStart$subexpression$1", "symbols": [VARCHARACTER]},
-    {"name": "VarCharStart$subexpression$1$subexpression$1", "symbols": [CHAR, VARYING]},
-    {"name": "VarCharStart$subexpression$1", "symbols": ["VarCharStart$subexpression$1$subexpression$1"]},
-    {"name": "VarCharStart$subexpression$1$subexpression$2", "symbols": [CHARACTER, VARYING]},
-    {"name": "VarCharStart$subexpression$1", "symbols": ["VarCharStart$subexpression$1$subexpression$2"]},
-    {"name": "VarCharStart", "symbols": [NATIONAL, "VarCharStart$subexpression$1"], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                variableLength: true,
-                nationalCharacterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.nationalCharacterSet,
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "VarCharStart$subexpression$2", "symbols": [VARYING]},
-    {"name": "VarCharStart$subexpression$2", "symbols": [VARCHAR]},
-    {"name": "VarCharStart", "symbols": [NCHAR, "VarCharStart$subexpression$2"], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                variableLength: true,
-                nationalCharacterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.nationalCharacterSet,
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "VarCharStart", "symbols": [NVARCHAR], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                variableLength: true,
-                nationalCharacterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.nationalCharacterSet,
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "VarCharStart$subexpression$3", "symbols": [CHAR]},
-    {"name": "VarCharStart$subexpression$3", "symbols": [CHARACTER]},
-    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$3", VARYING], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                variableLength: true,
-                nationalCharacterSet: undefined,
-            };
-        } },
-    {"name": "VarCharStart$subexpression$4", "symbols": [VARCHAR]},
-    {"name": "VarCharStart$subexpression$4", "symbols": [VARCHARACTER]},
-    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$4"], "postprocess":  (data) => {
-            return {
-                ...parse_util_1.getTextRange(data),
-                variableLength: true,
-                nationalCharacterSet: undefined,
-            };
-        } },
-    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
-    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1$subexpression$1"]},
-    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1", "symbols": [CHARSET]},
-    {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1", "CharacterSetName"]},
-    {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1"], "postprocess": id},
-    {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CharacterDataTypeModifier$ebnf$2$subexpression$1", "symbols": [COLLATE, "Identifier"]},
-    {"name": "CharacterDataTypeModifier$ebnf$2", "symbols": ["CharacterDataTypeModifier$ebnf$2$subexpression$1"], "postprocess": id},
-    {"name": "CharacterDataTypeModifier$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$ebnf$1", "CharacterDataTypeModifier$ebnf$2"], "postprocess":  function ([characterSet, collate]) {
-            return parse_util_1.processCharacterDataTypeModifier(this, {
-                characterSet: undefined,
-                collate: undefined,
-                ...parse_util_1.getTextRange([characterSet, collate]),
-            }, {
-                characterSet: characterSet?.[1],
-                collate: collate?.[1],
-            });
-        } },
-    {"name": "CharacterDataTypeModifier", "symbols": [ASCII], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                characterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.asciiCharacterSet,
-                    quoted: false,
-                },
-                collate: undefined,
-            };
-        } },
-    {"name": "CharacterDataTypeModifier$subexpression$1$subexpression$1", "symbols": [ASCII, BINARY]},
-    {"name": "CharacterDataTypeModifier$subexpression$1", "symbols": ["CharacterDataTypeModifier$subexpression$1$subexpression$1"]},
-    {"name": "CharacterDataTypeModifier$subexpression$1$subexpression$2", "symbols": [BINARY, ASCII]},
-    {"name": "CharacterDataTypeModifier$subexpression$1", "symbols": ["CharacterDataTypeModifier$subexpression$1$subexpression$2"]},
-    {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$subexpression$1"], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                characterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.asciiCharacterSet,
-                    quoted: false,
-                },
-                collate: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.asciiBinaryCollation,
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "CharacterDataTypeModifier", "symbols": [UNICODE], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                characterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.unicodeCharacterSet,
-                    quoted: false,
-                },
-                collate: undefined,
-            };
-        } },
-    {"name": "CharacterDataTypeModifier$subexpression$2$subexpression$1", "symbols": [UNICODE, BINARY]},
-    {"name": "CharacterDataTypeModifier$subexpression$2", "symbols": ["CharacterDataTypeModifier$subexpression$2$subexpression$1"]},
-    {"name": "CharacterDataTypeModifier$subexpression$2$subexpression$2", "symbols": [BINARY, UNICODE]},
-    {"name": "CharacterDataTypeModifier$subexpression$2", "symbols": ["CharacterDataTypeModifier$subexpression$2$subexpression$2"]},
-    {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$subexpression$2"], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                characterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.unicodeCharacterSet,
-                    quoted: false,
-                },
-                collate: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.unicodeBinaryCollation,
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "CharacterDataTypeModifier", "symbols": [BYTE], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                characterSet: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.binaryCharacterSet,
-                    quoted: false,
-                },
-                collate: {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.binaryCollation,
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "CharacterDataTypeModifier", "symbols": [BINARY], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                characterSet: undefined,
-                collate: undefined,
-                binary: parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1$subexpression$1"]},
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1", "symbols": [CHARSET]},
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$1", "symbols": [BINARY, "CharacterDataTypeModifier$subexpression$3$subexpression$1$subexpression$1", "CharacterSetName"]},
-    {"name": "CharacterDataTypeModifier$subexpression$3", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$1"]},
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1$subexpression$1"]},
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1", "symbols": [CHARSET]},
-    {"name": "CharacterDataTypeModifier$subexpression$3$subexpression$2", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$2$subexpression$1", "CharacterSetName", BINARY]},
-    {"name": "CharacterDataTypeModifier$subexpression$3", "symbols": ["CharacterDataTypeModifier$subexpression$3$subexpression$2"]},
-    {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$subexpression$3"], "postprocess":  function (data) {
-            const x = data[0][0].filter((item) => "syntaxKind" in item);
-            const characterSet = x[0];
-            return {
-                ...parse_util_1.getTextRange(data),
-                characterSet,
-                collate: {
-                    ...parse_util_1.getTextRange(characterSet),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: this.settings.characterSetToBinaryCollation(characterSet.identifier),
-                    quoted: false,
-                },
-            };
-        } },
-    {"name": "CharacterSetName", "symbols": ["Identifier"], "postprocess":  function (data) {
-            const identifier = data[0];
-            //We allow `BINARY` here
-            //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
-            if (identifier.identifier.toUpperCase() == "BINARY") {
-                return {
-                    ...identifier,
-                    identifier: identifier.identifier.toLowerCase(),
-                    //Hack; remove the syntactic error
-                    syntacticErrors: undefined,
-                };
-            }
-            else {
-                return {
-                    ...identifier,
-                    identifier: identifier.identifier.toLowerCase(),
-                };
-            }
-        } },
-    {"name": "BooleanDataType$subexpression$1", "symbols": [BOOL]},
-    {"name": "BooleanDataType$subexpression$1", "symbols": [BOOLEAN]},
-    {"name": "BooleanDataType", "symbols": ["BooleanDataType$subexpression$1"], "postprocess":  (data) => {
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.BooleanDataType,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "BlobDataType", "symbols": [BLOB, "FieldLength"], "postprocess":  (data) => {
-            const [, fieldLength] = data;
-            const result = {
-                syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
-                lengthBytes: (fieldLength.length.value < (1n << 8n) ?
-                    8 :
-                    fieldLength.length.value < (1n << 16n) ?
-                        16 :
-                        fieldLength.length.value < (1n << 24n) ?
-                            24 :
-                            32),
-                ...parse_util_1.getTextRange(data),
-            };
-            if (fieldLength.length.value >= (1n << 32n)) {
-                parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidBlobDataTypeBytes);
-            }
-            return result;
-        } },
-    {"name": "BlobDataType$subexpression$1", "symbols": [TINYBLOB]},
-    {"name": "BlobDataType$subexpression$1", "symbols": [BLOB]},
-    {"name": "BlobDataType$subexpression$1", "symbols": [MEDIUMBLOB]},
-    {"name": "BlobDataType$subexpression$1", "symbols": [LONGBLOB]},
-    {"name": "BlobDataType", "symbols": ["BlobDataType$subexpression$1"], "postprocess":  (data) => {
-            const [[token]] = data;
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
-                lengthBytes: (token.tokenKind == scanner_1.TokenKind.TINYBLOB ?
-                    8 :
-                    token.tokenKind == scanner_1.TokenKind.BLOB ?
-                        16 :
-                        token.tokenKind == scanner_1.TokenKind.MEDIUMBLOB ?
-                            24 :
-                            32),
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "BlobDataType", "symbols": [LONG, VARBINARY], "postprocess":  (data) => {
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
-                lengthBytes: 24,
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "BitDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
-    {"name": "BitDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "BitDataType", "symbols": [BIT, "BitDataType$ebnf$1"], "postprocess":  (data) => {
-            const [dataType, bits] = data;
-            return {
-                syntaxKind: parser_node_1.SyntaxKind.BitDataType,
-                bits: (bits == undefined ?
-                    {
-                        start: dataType.end,
-                        end: dataType.end,
-                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                        length: {
-                            start: dataType.end,
-                            end: dataType.end,
-                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                            value: BigInt(1),
-                        },
-                    } :
-                    bits),
-                ...parse_util_1.getTextRange(data),
-            };
-        } },
-    {"name": "BinaryDataType$subexpression$1", "symbols": [BINARY]},
-    {"name": "BinaryDataType$subexpression$1", "symbols": [VARBINARY]},
-    {"name": "BinaryDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
-    {"name": "BinaryDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "BinaryDataType", "symbols": ["BinaryDataType$subexpression$1", "BinaryDataType$ebnf$1"], "postprocess":  (data) => {
-            const [[dataType], maxLength] = data;
-            const result = {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
-                variableLength: dataType.tokenKind == scanner_1.TokenKind.VARBINARY,
-                maxLength: (maxLength ??
-                    {
-                        start: dataType.end,
-                        end: dataType.end,
-                        syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                        length: {
-                            start: dataType.end,
-                            end: dataType.end,
-                            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                            value: BigInt(1),
-                        },
-                    }),
-            };
-            if (result.variableLength &&
-                maxLength == undefined) {
-                parse_util_1.pushSyntacticErrorAt(result, dataType.end, dataType.end, [dataType], diagnostic_messages_1.DiagnosticMessages.VariableLengthBinaryDataTypeMustSpecifyFieldLength);
-            }
-            return result;
         } }
 ];
 
-export var ParserStart: string = "SourceFileLite";
+export var ParserStart: string = "Start";

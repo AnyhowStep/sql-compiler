@@ -459,6 +459,23 @@ export class Scanner {
                     ++this.index;
                     return this.tokenKind = TokenKind.UnknownToken;
                 }
+                case CharacterCodes.pound: {
+                    if (isUnquotedIdentifierCharacter(ch)) {
+                        ++this.index;
+                        this.tokenValue = this.scanUnquotedIdentifier();
+                        return this.tokenKind = TokenKind.MacroIdentifier;
+                    }
+                    if (
+                        this.text.charCodeAt(this.index+1) == CharacterCodes.doubleQuote ||
+                        this.text.charCodeAt(this.index+1) == CharacterCodes.backtick
+                    ) {
+                        ++this.index;
+                        this.tokenValue = this.scanQuotedIdentifier();
+                        return this.tokenKind = TokenKind.MacroIdentifier;
+                    }
+                    ++this.index;
+                    return this.tokenKind = TokenKind.Pound;
+                }
                 case CharacterCodes.at: {
                     if (this.text.charCodeAt(this.index+1) == CharacterCodes.at) {
                         this.index += 2;

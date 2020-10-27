@@ -129,6 +129,7 @@ export enum CharacterCodes {
     slash = 0x2F,                 // /
     tilde = 0x7E,                 // ~
     backtick = 0x60,              // `
+    pound = 0x23,                 // #
 
     backspace = 0x08,             // \b
     formFeed = 0x0C,              // \f

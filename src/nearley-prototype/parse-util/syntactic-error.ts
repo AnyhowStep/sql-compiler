@@ -5,7 +5,7 @@ import {ParserState} from "../parser-state";
 export function makeDiagnosticAt (
     start : number,
     end : number,
-    relatedRanges : TextRange[],
+    relatedRanges : (TextRange & { filename? : string|undefined })[],
     diagnosticMessage : DiagnosticMessage,
     ...args : (string|number)[]
 ) : Diagnostic {
@@ -18,7 +18,7 @@ export function makeDiagnosticAt (
         relatedRanges : relatedRanges.map(range => {
             return {
                 //We set this value later
-                filename : "",
+                filename : range.filename ?? "",
                 start : range.start,
                 length : range.end - range.start,
             }

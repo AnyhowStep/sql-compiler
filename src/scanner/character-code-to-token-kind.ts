@@ -13,6 +13,7 @@ const characterCodeToTokenKind : Record<number, TokenKind> = {
     [CharacterCodes.equals] : TokenKind.Equal,
     [CharacterCodes.semicolon] : TokenKind.SemiColon,
     [CharacterCodes.dot] : TokenKind.Dot,
+    [CharacterCodes.pound] : TokenKind.Pound,
 };
 
 export function tryGetCharacterCodeTokenKind (ch : number) : TokenKind|undefined {

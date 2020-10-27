@@ -1,3 +1,20 @@
+@preprocessor typescript
+
+@{%
+import {TokenKind, isKeyword} from "../scanner";
+//import * as util from "util";
+//import {SyntaxKind, Node, NodeArray} from "../parser-node";
+//const nearley_util_1 = require("./nearley-util");
+const scanner_1 = require("../scanner");
+const parser_node_1 = require("../parser-node");
+const diagnostic_messages_1 = require("./diagnostic-messages");
+const parse_util_1 = require("./parse-util");
+
+const NonPound : Tester = {
+    test: x => x.tokenKind != TokenKind.Pound,
+    type : "Pound",
+};
+
 
 interface Tester {
     test : (x : { tokenKind : TokenKind }) => boolean,
@@ -1329,3 +1346,195 @@ const CloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.ClosePar
 const DELIMITER_STATEMENT : Tester = { test: x => x.tokenKind == TokenKind.DELIMITER_STATEMENT, type : "DELIMITER_STATEMENT" };
 //@ts-ignore
 const UNIQUE_KEY : Tester = { test: x => x.tokenKind == TokenKind.UNIQUE_KEY, type : "UNIQUE_KEY" };
+
+%}
+
+Start ->
+    UnexpandedContent {% data => data[0] %}
+
+UnexpandedContent ->
+    NonMacroCall (MacroCall NonMacroCall):* {% function (data) {
+    const [firstPart, trailingParts] = data;
+    if (trailingParts.length == 0) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            unexpandedContent: [firstPart],
+        };
+    }
+    const unexpandedContent = [];
+    const firstPartStart = 0;
+    const firstPartEnd = trailingParts[0][0].start;
+    unexpandedContent.push({
+        start: firstPartStart,
+        end: firstPartEnd,
+        value: this.sourceText.substring(firstPartStart, firstPartEnd),
+    });
+    for (let i = 0; i < trailingParts.length; ++i) {
+        const curPart = trailingParts[i];
+        unexpandedContent.push(curPart[0]);
+        const nextPart = (i + 1 < trailingParts.length ?
+            trailingParts[i + 1] :
+            undefined);
+        const start = curPart[0].end;
+        const end = (nextPart == undefined ?
+            curPart[1].end :
+            nextPart[0].start);
+        unexpandedContent.push({
+            start,
+            end,
+            value: this.sourceText.substring(start, end),
+        });
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        unexpandedContent,
+    };
+} %}
+
+NonMacroCall ->
+    %NonPound:* {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        value: "",
+    };
+} %}
+
+MacroCall ->
+    MacroIdentifier MacroArgumentList {% function (data) {
+    const [identifier, argumentList] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        identifier,
+        argumentList,
+    };
+} %}
+
+MacroIdentifier ->
+    %MacroIdentifier (%Dot IdentifierAllowReserved (%Dot IdentifierAllowReserved):?):? {% function (data) {
+    const nameA = data[0];
+    const partB = data[1];
+    if (partB == undefined) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            macroName: nameA.value,
+        };
+    }
+    const nameB = partB[1];
+    const partC = partB[2];
+    if (partC == undefined) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            macroName: nameA.value + "." + nameB.identifier,
+        };
+    }
+    const nameC = partC[1];
+    return {
+        ...parse_util_1.getTextRange(data),
+        macroName: nameA.value + "." + nameB.identifier + "." + nameC.identifier,
+    };
+} %}
+
+MacroArgumentList ->
+    %OpenParentheses (MacroArgument (%Pound MacroArgument):*):? %CloseParentheses {% function (data) {
+    const [openParen, rawArgs, closeParen] = data;
+    if (rawArgs == undefined) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            args: [],
+        };
+    }
+    const args = [];
+    const firstArgStart = openParen.end;
+    const firstArgEnd = (rawArgs[1].length == 0 ?
+        closeParen.start :
+        //The start of the first pound character
+        rawArgs[1][0][0].start);
+    args.push({
+        start: firstArgStart,
+        end: firstArgEnd,
+        value: this.sourceText.substring(firstArgStart, firstArgEnd),
+    });
+    for (let i = 0; i < rawArgs[1].length; ++i) {
+        const curArg = rawArgs[1][i];
+        const nextArg = (i + 1 < rawArgs[1].length ?
+            rawArgs[1][i + 1] :
+            undefined);
+        const start = curArg[0].end;
+        const end = (nextArg == undefined ?
+            closeParen.start :
+            nextArg[0].start);
+        args.push({
+            start,
+            end,
+            value: this.sourceText.substring(start, end),
+        });
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        args,
+    };
+} %}
+
+
+
+MacroArgument ->
+    UnexpandedContent {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        value: "",
+    };
+} %}
+
+
+
+IdentifierAllowReserved ->
+    %KeywordOrIdentifier {% function (data) {
+    const [tokenObj] = data;
+    if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+        const sourceText = tokenObj.getTokenSourceText();
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.value,
+            quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+        };
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+        identifier: tokenObj.value,
+        quoted: false,
+    };
+} %}
+
+Identifier ->
+    %KeywordOrIdentifier {% function (data) {
+    const [tokenObj] = data;
+    if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+        const sourceText = tokenObj.getTokenSourceText();
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.value,
+            quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+        };
+    }
+    if (scanner_1.isNonReserved(tokenObj.tokenKind)) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.value,
+            quoted: false,
+        };
+    }
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+        identifier: tokenObj.value,
+        quoted: false,
+    };
+    parse_util_1.pushSyntacticErrorAtNode(this, result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
+    return result;
+} %}
+
+

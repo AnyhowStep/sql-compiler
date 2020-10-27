@@ -30,6 +30,11 @@ export const tokenKinds = [
      */
     "Identifier",
     "UserVariableIdentifier",
+    /**
+     * For macro calls,
+     * `#macroName(x, y, z)`
+     */
+    "MacroIdentifier",
 
     /**
      * Punctuation
@@ -43,6 +48,7 @@ export const tokenKinds = [
     "Dot",
     "SemiColon",
     "Comma",
+    "Pound",
 
     "ColonEqual",
     "AtAt",

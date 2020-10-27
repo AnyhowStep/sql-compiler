@@ -1288,6 +1288,8 @@ const Identifier : Tester = { test: x => x.tokenKind == TokenKind.Identifier, ty
 //@ts-ignore
 const UserVariableIdentifier : Tester = { test: x => x.tokenKind == TokenKind.UserVariableIdentifier, type : "UserVariableIdentifier" };
 //@ts-ignore
+const MacroIdentifier : Tester = { test: x => x.tokenKind == TokenKind.MacroIdentifier, type : "MacroIdentifier" };
+//@ts-ignore
 const Plus : Tester = { test: x => x.tokenKind == TokenKind.Plus, type : "Plus" };
 //@ts-ignore
 const Minus : Tester = { test: x => x.tokenKind == TokenKind.Minus, type : "Minus" };
@@ -1303,6 +1305,8 @@ const Dot : Tester = { test: x => x.tokenKind == TokenKind.Dot, type : "Dot" };
 const SemiColon : Tester = { test: x => x.tokenKind == TokenKind.SemiColon, type : "SemiColon" };
 //@ts-ignore
 const Comma : Tester = { test: x => x.tokenKind == TokenKind.Comma, type : "Comma" };
+//@ts-ignore
+const Pound : Tester = { test: x => x.tokenKind == TokenKind.Pound, type : "Pound" };
 //@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore

@@ -1,15 +1,24 @@
-import {findAllSyntacticErrors, SourceFile, SourceFileLite, SyntaxKind} from "../parser-node";
-import {Scanner} from "../scanner";
-import {ParserSettings} from "./parser-settings";
-import * as grammar from "./my.generated";
-import {toNodeArray} from "./parse-util";
-import {parseHelper} from "./parse-helper";
-/*
-export function parse (
-    filename : string,
+import {Scanner, TokenKind} from "../scanner";
+import {fullParserSettings, ParserSettings} from "./parser-settings";
+import {ParserState} from "./parser-state";
+import {scanAll} from "./scan";
+import * as nearley from "nearley";
+import {Diagnostic} from "../diagnostic";
+import {TokenObj} from "./nearley-util";
+import {makeDiagnosticAt} from "./parse-util";
+import {DiagnosticMessages} from "./diagnostic-messages";
+
+export interface ParseHelperResult<PartialParseT extends unknown> {
+    partialParses : PartialParseT[],
+    parserSyntacticErrors : Diagnostic[],
+}
+
+export function parseHelper<PartialParseT extends unknown> (
     scanner : Scanner,
-    settings : ParserSettings
-) : SourceFile {
+    settings : ParserSettings,
+    grammar : nearley.CompiledRules,
+) : ParseHelperResult<PartialParseT> {
+
     const state : ParserState = {
         settings : {
             ...fullParserSettings,
@@ -35,7 +44,7 @@ export function parse (
     }));
 
     const parserSyntacticErrors : Diagnostic[] = [];
-    let results : SourceFileLite[] = [];
+    let results : PartialParseT[] = [];
     while (tokenIndex < tokens.length) {
         try {
             parser.feed([tokens[tokenIndex]] as any);
@@ -81,7 +90,7 @@ export function parse (
                 expected.join("|")
             ));
 
-            const sourceFileLite : SourceFileLite|undefined = (
+            const partialParse : PartialParseT|undefined = (
                 parser.results == undefined ?
                 undefined :
                 parser.results.length == 1 ?
@@ -96,8 +105,8 @@ export function parse (
                     DiagnosticMessages.InternalErrorGrammarIsAmbiguous
                 ));
             }
-            if (sourceFileLite != undefined) {
-                results.push(sourceFileLite)
+            if (partialParse != undefined) {
+                results.push(partialParse)
             }
 
             //Skip until after a semicolon or custom delimiter
@@ -129,7 +138,7 @@ export function parse (
         }
     }
 
-    const sourceFileLite : SourceFileLite|undefined = (
+    const partialParse : PartialParseT|undefined = (
         parser.results == undefined ?
         undefined :
         parser.results.length == 1 ?
@@ -144,143 +153,12 @@ export function parse (
             DiagnosticMessages.InternalErrorGrammarIsAmbiguous
         ));
     }
-    if (sourceFileLite != undefined) {
-        results.push(sourceFileLite)
+    if (partialParse != undefined) {
+        results.push(partialParse)
     }
 
-    const syntacticErrors = [
-        ...parserSyntacticErrors,
-        ...results.map(sourceFileLite => {
-            return findAllSyntacticErrors(sourceFileLite);
-        })
-    ]
-        .flat(1)
-        .sort((a, b) => {
-            if (a.start == b.start) {
-                return a.length - b.length;
-            }
-            return a.start - b.start;
-        })
-        .map((err) => {
-            if (err.relatedRanges == undefined) {
-                return err;
-            }
-            return {
-                ...err,
-                relatedRanges : err.relatedRanges.map(related => {
-                    return {
-                        ...related,
-                        filename : filename,
-                    };
-                }),
-            };
-        });
-
-    if (results.length == 0) {
-        const textRange = {
-            start : 0,
-            end : scanner.getText().length,
-        };
-        return {
-            ...textRange,
-            syntaxKind : SyntaxKind.SourceFile,
-            statements : toNodeArray([], SyntaxKind.SourceElementList, textRange),
-            filename,
-            text : scanner.getText(),
-            syntacticErrors,
-        };
-    }
-
-    const textRange = {
-        start : results[0].start,
-        end : results[results.length-1].end,
-    };
     return {
-        ...textRange,
-        syntaxKind : SyntaxKind.SourceFile,
-        statements : toNodeArray(
-            results.map(sourceFileLie => sourceFileLie.statements).flat(1),
-            SyntaxKind.SourceElementList,
-            textRange,
-        ),
-        filename,
-        text : scanner.getText(),
-        syntacticErrors,
-    };
-}
-*/
-
-export function parse (
-    filename : string,
-    scanner : Scanner,
-    settings : ParserSettings
-) : SourceFile {
-    const {
         partialParses : results,
         parserSyntacticErrors,
-    } = parseHelper<SourceFileLite>(
-        scanner,
-        settings,
-        grammar
-    );
-
-    const syntacticErrors = [
-        ...parserSyntacticErrors,
-        ...results.map(sourceFileLite => {
-            return findAllSyntacticErrors(sourceFileLite);
-        })
-    ]
-        .flat(1)
-        .sort((a, b) => {
-            if (a.start == b.start) {
-                return a.length - b.length;
-            }
-            return a.start - b.start;
-        })
-        .map((err) => {
-            if (err.relatedRanges == undefined) {
-                return err;
-            }
-            return {
-                ...err,
-                relatedRanges : err.relatedRanges.map(related => {
-                    return {
-                        ...related,
-                        filename : filename,
-                    };
-                }),
-            };
-        });
-
-    if (results.length == 0) {
-        const textRange = {
-            start : 0,
-            end : scanner.getText().length,
-        };
-        return {
-            ...textRange,
-            syntaxKind : SyntaxKind.SourceFile,
-            statements : toNodeArray([], SyntaxKind.SourceElementList, textRange),
-            filename,
-            text : scanner.getText(),
-            syntacticErrors,
-        };
-    }
-
-    const textRange = {
-        start : results[0].start,
-        end : results[results.length-1].end,
-    };
-    return {
-        ...textRange,
-        syntaxKind : SyntaxKind.SourceFile,
-        statements : toNodeArray(
-            results.map(sourceFileLie => sourceFileLie.statements).flat(1),
-            SyntaxKind.SourceElementList,
-            textRange,
-        ),
-        filename,
-        text : scanner.getText(),
-        syntacticErrors,
     };
 }

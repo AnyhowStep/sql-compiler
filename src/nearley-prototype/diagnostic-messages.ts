@@ -155,6 +155,16 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200028,
     }),
+    MacroNotFound : makeDiagnosticMessage({
+        key : "Cannot find macro {0}",
+        category : DiagnosticCategory.Error,
+        code : 200029,
+    }),
+    MacroArgumentCountMismatch : makeDiagnosticMessage({
+        key : "Expected {0} arguments; found {1}",
+        category : DiagnosticCategory.Error,
+        code : 200030,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",
