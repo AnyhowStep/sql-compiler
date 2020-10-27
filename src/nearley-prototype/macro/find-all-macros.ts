@@ -155,10 +155,12 @@ function findReferences (
                     scanner.next();
                 }
             } else {
-                parameter.references.push({
-                    start : scanner.getTokenIndex(),
-                    end : scanner.getIndex(),
-                });
+                if (scanner.getTokenValue() == parameter.parameterName) {
+                    parameter.references.push({
+                        start : scanner.getTokenIndex(),
+                        end : scanner.getIndex(),
+                    });
+                }
             }
         }
     }

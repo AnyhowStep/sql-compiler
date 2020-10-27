@@ -1,25 +1,12 @@
 import {Diagnostic} from "../../../diagnostic";
 import {TextRange} from "../../../parser-node";
-import {makeCustomRule, oneOrMore, zeroOrMore, union} from "../../nearley-util"
+import {makeCustomRule, oneOrMore, zeroOrMore, union, optional} from "../../nearley-util"
 import {getTextRange} from "../../parse-util";
 import {MacroCall, MacroCallNode, NonPound} from "./macro-call";
 
 export interface NonMacroCallNode extends TextRange {
     value : string;
 }
-
-const NonMacroCall = makeCustomRule("NonMacroCall")
-    .addSubstitution(
-        [
-            zeroOrMore(NonPound)
-        ] as const,
-        function (data) : NonMacroCallNode {
-            return {
-                ...getTextRange(data),
-                value : "",
-            }
-        }
-    );
 
 const NonEmptyNonMacroCall = makeCustomRule("NonEmptyNonMacroCall")
     .addSubstitution(
@@ -42,21 +29,27 @@ export interface UnexpandedContentNode extends TextRange {
 export const UnexpandedContent = makeCustomRule<UnexpandedContentNode>("UnexpandedContent")
     .addSubstitution(
         [
-            NonMacroCall,
+            optional(NonEmptyNonMacroCall),
             zeroOrMore([
                 MacroCall,
-                NonMacroCall,
+                optional(NonEmptyNonMacroCall),
             ] as const),
         ] as const,
         function (data) : UnexpandedContentNode {
             const [firstPart, trailingParts] = data;
             if (trailingParts.length == 0) {
-                return {
-                    ...getTextRange(data),
-                    unexpandedContent : [firstPart],
-                };
+                if (firstPart == undefined) {
+                    return {
+                        ...getTextRange(data),
+                        unexpandedContent : [],
+                    };
+                } else {
+                    return {
+                        ...getTextRange(data),
+                        unexpandedContent : [firstPart],
+                    };
+                }
             }
-
 
             const unexpandedContent : (NonMacroCallNode|MacroCallNode)[] = [];
 
@@ -84,7 +77,11 @@ export const UnexpandedContent = makeCustomRule<UnexpandedContentNode>("Unexpand
                 const start = curPart[0].end;
                 const end = (
                     nextPart == undefined ?
-                    curPart[1].end :
+                    (
+                        curPart[1] == undefined ?
+                        curPart[0].end :
+                        curPart[1].end
+                    ) :
                     nextPart[0].start
                 );
                 unexpandedContent.push({
@@ -131,14 +128,14 @@ makeCustomRule<UnexpandedContentNode>("NonEmptyUnexpandedContent")
                     NonEmptyNonMacroCall,
                     zeroOrMore([
                         MacroCall,
-                        NonMacroCall,
+                        optional(NonEmptyNonMacroCall),
                     ] as const)
                 ] as const,
                 [
-                    NonMacroCall,
+                    optional(NonEmptyNonMacroCall),
                     oneOrMore([
                         MacroCall,
-                        NonMacroCall,
+                        optional(NonEmptyNonMacroCall),
                     ] as const)
                 ] as const,
             ),
@@ -146,10 +143,17 @@ makeCustomRule<UnexpandedContentNode>("NonEmptyUnexpandedContent")
         function (data) : UnexpandedContentNode {
             const [firstPart, trailingParts] = data[0][0];
             if (trailingParts.length == 0) {
-                return {
-                    ...getTextRange(data),
-                    unexpandedContent : [firstPart],
-                };
+                if (firstPart == undefined) {
+                    return {
+                        ...getTextRange(data),
+                        unexpandedContent : [],
+                    };
+                } else {
+                    return {
+                        ...getTextRange(data),
+                        unexpandedContent : [firstPart],
+                    };
+                }
             }
 
 
@@ -179,7 +183,11 @@ makeCustomRule<UnexpandedContentNode>("NonEmptyUnexpandedContent")
                 const start = curPart[0].end;
                 const end = (
                     nextPart == undefined ?
-                    curPart[1].end :
+                    (
+                        curPart[1] == undefined ?
+                        curPart[0].end :
+                        curPart[1].end
+                    ) :
                     nextPart[0].start
                 );
                 unexpandedContent.push({

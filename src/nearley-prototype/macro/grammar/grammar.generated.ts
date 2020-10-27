@@ -1387,23 +1387,39 @@ export var Lexer: Lexer | undefined = undefined;
 export var ParserRules: NearleyRule[] = [
     {"name": "Start", "symbols": ["UnexpandedContent"], "postprocess": data => data[0]},
     {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1", "symbols": []},
-    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1$subexpression$1", "symbols": ["MacroCall", "NonMacroCall"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": ["NonEmptyNonMacroCall"], "postprocess": id},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1$subexpression$1", "symbols": ["MacroCall", "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1"]},
     {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1", "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$1", "symbols": ["NonEmptyNonMacroCall", "NonEmptyUnexpandedContent$subexpression$1$subexpression$1$ebnf$1"]},
     {"name": "NonEmptyUnexpandedContent$subexpression$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$1"]},
-    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1$subexpression$1", "symbols": ["MacroCall", "NonMacroCall"]},
-    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1$subexpression$1"]},
-    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1$subexpression$2", "symbols": ["MacroCall", "NonMacroCall"]},
-    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1$subexpression$2"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2", "symbols": ["NonMacroCall", "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "symbols": ["NonEmptyNonMacroCall"], "postprocess": id},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$1$ebnf$1", "symbols": ["NonEmptyNonMacroCall"], "postprocess": id},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$1", "symbols": ["MacroCall", "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$1$ebnf$1"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$1"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$2$ebnf$1", "symbols": ["NonEmptyNonMacroCall"], "postprocess": id},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$2$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$2", "symbols": ["MacroCall", "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$2$ebnf$1"]},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2", "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2$subexpression$2"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "NonEmptyUnexpandedContent$subexpression$1$subexpression$2", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$1", "NonEmptyUnexpandedContent$subexpression$1$subexpression$2$ebnf$2"]},
     {"name": "NonEmptyUnexpandedContent$subexpression$1", "symbols": ["NonEmptyUnexpandedContent$subexpression$1$subexpression$2"]},
     {"name": "NonEmptyUnexpandedContent", "symbols": ["NonEmptyUnexpandedContent$subexpression$1"], "postprocess":  function (data) {
             const [firstPart, trailingParts] = data[0][0];
             if (trailingParts.length == 0) {
-                return {
-                    ...parse_util_1.getTextRange(data),
-                    unexpandedContent: [firstPart],
-                };
+                if (firstPart == undefined) {
+                    return {
+                        ...parse_util_1.getTextRange(data),
+                        unexpandedContent: [],
+                    };
+                }
+                else {
+                    return {
+                        ...parse_util_1.getTextRange(data),
+                        unexpandedContent: [firstPart],
+                    };
+                }
             }
             const unexpandedContent = [];
             const firstPartStart = 0;
@@ -1421,7 +1437,9 @@ export var ParserRules: NearleyRule[] = [
                     undefined);
                 const start = curPart[0].end;
                 const end = (nextPart == undefined ?
-                    curPart[1].end :
+                    (curPart[1] == undefined ?
+                        curPart[0].end :
+                        curPart[1].end) :
                     nextPart[0].start);
                 unexpandedContent.push({
                     start,
@@ -1450,16 +1468,28 @@ export var ParserRules: NearleyRule[] = [
                 unexpandedContent,
             };
         } },
-    {"name": "UnexpandedContent$ebnf$1", "symbols": []},
-    {"name": "UnexpandedContent$ebnf$1$subexpression$1", "symbols": ["MacroCall", "NonMacroCall"]},
-    {"name": "UnexpandedContent$ebnf$1", "symbols": ["UnexpandedContent$ebnf$1", "UnexpandedContent$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "UnexpandedContent", "symbols": ["NonMacroCall", "UnexpandedContent$ebnf$1"], "postprocess":  function (data) {
+    {"name": "UnexpandedContent$ebnf$1", "symbols": ["NonEmptyNonMacroCall"], "postprocess": id},
+    {"name": "UnexpandedContent$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "UnexpandedContent$ebnf$2", "symbols": []},
+    {"name": "UnexpandedContent$ebnf$2$subexpression$1$ebnf$1", "symbols": ["NonEmptyNonMacroCall"], "postprocess": id},
+    {"name": "UnexpandedContent$ebnf$2$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "UnexpandedContent$ebnf$2$subexpression$1", "symbols": ["MacroCall", "UnexpandedContent$ebnf$2$subexpression$1$ebnf$1"]},
+    {"name": "UnexpandedContent$ebnf$2", "symbols": ["UnexpandedContent$ebnf$2", "UnexpandedContent$ebnf$2$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "UnexpandedContent", "symbols": ["UnexpandedContent$ebnf$1", "UnexpandedContent$ebnf$2"], "postprocess":  function (data) {
             const [firstPart, trailingParts] = data;
             if (trailingParts.length == 0) {
-                return {
-                    ...parse_util_1.getTextRange(data),
-                    unexpandedContent: [firstPart],
-                };
+                if (firstPart == undefined) {
+                    return {
+                        ...parse_util_1.getTextRange(data),
+                        unexpandedContent: [],
+                    };
+                }
+                else {
+                    return {
+                        ...parse_util_1.getTextRange(data),
+                        unexpandedContent: [firstPart],
+                    };
+                }
             }
             const unexpandedContent = [];
             const firstPartStart = 0;
@@ -1477,7 +1507,9 @@ export var ParserRules: NearleyRule[] = [
                     undefined);
                 const start = curPart[0].end;
                 const end = (nextPart == undefined ?
-                    curPart[1].end :
+                    (curPart[1] == undefined ?
+                        curPart[0].end :
+                        curPart[1].end) :
                     nextPart[0].start);
                 unexpandedContent.push({
                     start,
@@ -1509,14 +1541,6 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonEmptyNonMacroCall$ebnf$1", "symbols": [NonPound]},
     {"name": "NonEmptyNonMacroCall$ebnf$1", "symbols": ["NonEmptyNonMacroCall$ebnf$1", NonPound], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "NonEmptyNonMacroCall", "symbols": ["NonEmptyNonMacroCall$ebnf$1"], "postprocess":  function (data) {
-            return {
-                ...parse_util_1.getTextRange(data),
-                value: "",
-            };
-        } },
-    {"name": "NonMacroCall$ebnf$1", "symbols": []},
-    {"name": "NonMacroCall$ebnf$1", "symbols": ["NonMacroCall$ebnf$1", NonPound], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "NonMacroCall", "symbols": ["NonMacroCall$ebnf$1"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 value: "",

@@ -5,7 +5,7 @@ SELECT #hello(#'bob'#);
 -----
 
 
-SELECT 'bob'('hello world', 'bob');
+SELECT CONCAT('hello world', 'bob');
 
 -----
 []

@@ -1365,13 +1365,21 @@ Start ->
     UnexpandedContent {% data => data[0] %}
 
 NonEmptyUnexpandedContent ->
-    ((NonEmptyNonMacroCall (MacroCall NonMacroCall):*) | (NonMacroCall (MacroCall NonMacroCall):+)) {% function (data) {
+    ((NonEmptyNonMacroCall (MacroCall NonEmptyNonMacroCall:?):*) | (NonEmptyNonMacroCall:? (MacroCall NonEmptyNonMacroCall:?):+)) {% function (data) {
     const [firstPart, trailingParts] = data[0][0];
     if (trailingParts.length == 0) {
-        return {
-            ...parse_util_1.getTextRange(data),
-            unexpandedContent: [firstPart],
-        };
+        if (firstPart == undefined) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                unexpandedContent: [],
+            };
+        }
+        else {
+            return {
+                ...parse_util_1.getTextRange(data),
+                unexpandedContent: [firstPart],
+            };
+        }
     }
     const unexpandedContent = [];
     const firstPartStart = 0;
@@ -1389,7 +1397,9 @@ NonEmptyUnexpandedContent ->
             undefined);
         const start = curPart[0].end;
         const end = (nextPart == undefined ?
-            curPart[1].end :
+            (curPart[1] == undefined ?
+                curPart[0].end :
+                curPart[1].end) :
             nextPart[0].start);
         unexpandedContent.push({
             start,
@@ -1420,13 +1430,21 @@ NonEmptyUnexpandedContent ->
 } %}
 
 UnexpandedContent ->
-    NonMacroCall (MacroCall NonMacroCall):* {% function (data) {
+    NonEmptyNonMacroCall:? (MacroCall NonEmptyNonMacroCall:?):* {% function (data) {
     const [firstPart, trailingParts] = data;
     if (trailingParts.length == 0) {
-        return {
-            ...parse_util_1.getTextRange(data),
-            unexpandedContent: [firstPart],
-        };
+        if (firstPart == undefined) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                unexpandedContent: [],
+            };
+        }
+        else {
+            return {
+                ...parse_util_1.getTextRange(data),
+                unexpandedContent: [firstPart],
+            };
+        }
     }
     const unexpandedContent = [];
     const firstPartStart = 0;
@@ -1444,7 +1462,9 @@ UnexpandedContent ->
             undefined);
         const start = curPart[0].end;
         const end = (nextPart == undefined ?
-            curPart[1].end :
+            (curPart[1] == undefined ?
+                curPart[0].end :
+                curPart[1].end) :
             nextPart[0].start);
         unexpandedContent.push({
             start,
@@ -1476,14 +1496,6 @@ UnexpandedContent ->
 
 NonEmptyNonMacroCall ->
     %NonPound:+ {% function (data) {
-    return {
-        ...parse_util_1.getTextRange(data),
-        value: "",
-    };
-} %}
-
-NonMacroCall ->
-    %NonPound:* {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
         value: "",

@@ -1,0 +1,11 @@
+#define hello (x, y) CONCAT('hello world', x, y);;
+
+SELECT #hello(#'bob'#'alice'#);
+
+-----
+
+
+SELECT CONCAT('hello world', 'bob', 'alice');
+
+-----
+[]
