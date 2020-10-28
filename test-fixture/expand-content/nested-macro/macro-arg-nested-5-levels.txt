@@ -1,0 +1,27 @@
+#define helloWorld1 (x) 1, x;;
+
+#define helloWorld2 (x) \helloWorld1{2, x};;
+
+#define helloWorld3 (x) \helloWorld2{3, x};;
+
+#define helloWorld4 (x) \helloWorld3{4, x};;
+
+#define helloWorld5 (x) \helloWorld4{5, x};;
+
+SELECT \helloWorld5{0};
+
+-----
+
+
+
+
+
+
+
+
+
+
+SELECT 1, 2, 3, 4, 5, 0;
+
+-----
+[]

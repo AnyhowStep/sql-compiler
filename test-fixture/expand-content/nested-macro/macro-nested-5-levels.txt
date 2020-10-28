@@ -1,0 +1,27 @@
+#define helloWorld1 () 1;;
+
+#define helloWorld2 () \helloWorld1, 2;;
+
+#define helloWorld3 () \helloWorld2, 3;;
+
+#define helloWorld4 () \helloWorld3, 4;;
+
+#define helloWorld5 () \helloWorld4, 5;;
+
+SELECT \helloWorld5;
+
+-----
+
+
+
+
+
+
+
+
+
+
+SELECT 1, 2, 3, 4, 5;
+
+-----
+[]
