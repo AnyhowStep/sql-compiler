@@ -12,7 +12,7 @@
     "nearley-compile": "cd ./src/nearley-prototype && nearleyc ./my.generated.ne -o ./my.generated.ts && echo \"//@ts-nocheck\\n$(cat ./my.generated.ts)\" > ./my.generated.ts",
     "generate-parser": "cd ./src/nearley-prototype && ts-node -P ./tsconfig.json ./my-grammar-generator  && ts-node -P ./tsconfig.json ./my.ts && npm run nearley-compile",
     "nearley-compile-macro": "cd ./src/nearley-prototype/macro/grammar && nearleyc ./grammar.generated.ne -o ./grammar.generated.ts && echo \"//@ts-nocheck\\n$(cat ./grammar.generated.ts)\" > ./grammar.generated.ts",
-    "generate-parser-macro": "cd ./src/nearley-prototype/macro/grammar && ts-node -P ../../tsconfig.json ./grammar-generator && npm run nearley-compile-macro",
+    "generate-grammar-macro": "cd ./src/macro-grammar/generator && ts-node -P ../tsconfig.json ./generator",
     "build": "tsc -b"
   },
   "author": "",

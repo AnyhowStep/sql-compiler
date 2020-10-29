@@ -1,0 +1,15 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/parse-util",
+        "declarationDir": "../../dist/parse-util",
+        "types": []
+    },
+    "references" : [
+        { "path": "../diagnostic" },
+        { "path": "../nearley-wrapper" },
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

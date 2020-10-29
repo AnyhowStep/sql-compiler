@@ -8,7 +8,7 @@ const testers = tokenKinds
     .join("\n");
 
 fs.writeFileSync(
-    `${__dirname}/../nearley-prototype/testers.generated.ts.txt`,
+    `${__dirname}/testers.generated.ts.txt`,
     `
 interface Tester {
     test : (x : { tokenKind : TokenKind }) => boolean,
