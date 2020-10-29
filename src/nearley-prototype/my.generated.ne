@@ -1308,6 +1308,12 @@ const Comma : Tester = { test: x => x.tokenKind == TokenKind.Comma, type : "Comm
 //@ts-ignore
 const Pound : Tester = { test: x => x.tokenKind == TokenKind.Pound, type : "Pound" };
 //@ts-ignore
+const OpenParenthesesPound : Tester = { test: x => x.tokenKind == TokenKind.OpenParenthesesPound, type : "OpenParenthesesPound" };
+//@ts-ignore
+const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.PoundCloseParentheses, type : "PoundCloseParentheses" };
+//@ts-ignore
+const Backslash : Tester = { test: x => x.tokenKind == TokenKind.Backslash, type : "Backslash" };
+//@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
 const AtAt : Tester = { test: x => x.tokenKind == TokenKind.AtAt, type : "AtAt" };
@@ -1343,6 +1349,10 @@ const GreaterGreater : Tester = { test: x => x.tokenKind == TokenKind.GreaterGre
 const OpenParentheses : Tester = { test: x => x.tokenKind == TokenKind.OpenParentheses, type : "OpenParentheses" };
 //@ts-ignore
 const CloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.CloseParentheses, type : "CloseParentheses" };
+//@ts-ignore
+const OpenBrace : Tester = { test: x => x.tokenKind == TokenKind.OpenBrace, type : "OpenBrace" };
+//@ts-ignore
+const CloseBrace : Tester = { test: x => x.tokenKind == TokenKind.CloseBrace, type : "CloseBrace" };
 //@ts-ignore
 const DELIMITER_STATEMENT : Tester = { test: x => x.tokenKind == TokenKind.DELIMITER_STATEMENT, type : "DELIMITER_STATEMENT" };
 //@ts-ignore

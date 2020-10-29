@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import {Scanner} from "../scanner";
 import {testRecursive} from "./test-recursive";
 import {parse} from "../nearley-prototype";
 
@@ -13,10 +12,12 @@ suite('Should parse as expected', () => {
         const [input, syntacticErrors] = raw.split("\n-----\n");
 
         const preprocessed = input;//preprocess(input, {});
-        const scanner = new Scanner(preprocessed);
-        const file = parse(
-            "file-0",
+        const {
             scanner,
+            sourceFile : file,
+        } = parse(
+            "file-0",
+            preprocessed,
             {}
         );
 

@@ -210,11 +210,17 @@ export function parse (
 }
 */
 
+export interface ParseResult {
+    scanner : Scanner,
+    sourceFile : SourceFile,
+}
+
 export function parse (
     filename : string,
-    scanner : Scanner,
+    text : string,
     settings : ParserSettings
-) : SourceFile {
+) : ParseResult {
+    const scanner = new Scanner(text);
     const {
         partialParses : results,
         syntacticErrors,
@@ -232,12 +238,15 @@ export function parse (
             end : scanner.getText().length,
         };
         return {
-            ...textRange,
-            syntaxKind : SyntaxKind.SourceFile,
-            statements : toNodeArray([], SyntaxKind.SourceElementList, textRange),
-            filename,
-            text : scanner.getText(),
-            syntacticErrors,
+            scanner,
+            sourceFile : {
+                ...textRange,
+                syntaxKind : SyntaxKind.SourceFile,
+                statements : toNodeArray([], SyntaxKind.SourceElementList, textRange),
+                filename,
+                text,
+                syntacticErrors,
+            },
         };
     }
 
@@ -246,15 +255,18 @@ export function parse (
         end : results[results.length-1].end,
     };
     return {
-        ...textRange,
-        syntaxKind : SyntaxKind.SourceFile,
-        statements : toNodeArray(
-            results.map(sourceFileLite => sourceFileLite.statements).flat(1),
-            SyntaxKind.SourceElementList,
-            textRange,
-        ),
-        filename,
-        text : scanner.getText(),
-        syntacticErrors,
+        scanner,
+        sourceFile : {
+            ...textRange,
+            syntaxKind : SyntaxKind.SourceFile,
+            statements : toNodeArray(
+                results.map(sourceFileLite => sourceFileLite.statements).flat(1),
+                SyntaxKind.SourceElementList,
+                textRange,
+            ),
+            filename,
+            text,
+            syntacticErrors,
+        },
     };
 }
