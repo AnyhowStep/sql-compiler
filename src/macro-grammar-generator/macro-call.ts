@@ -1,9 +1,15 @@
-import {TokenKind} from "../../scanner";
-import {optional, TokenObj, zeroOrMore} from "../../nearley-wrapper";
-import {getTextRange} from "../../parse-util";
+import {TokenKind} from "../scanner";
+import {optional, TokenObj, zeroOrMore} from "../nearley-wrapper";
+import {getTextRange} from "../parse-util";
 import {makeRule} from "./factory";
-import {SyntaxKind} from "../../parser-node";
-import {MacroArgumentListNode, MacroArgumentNode, MacroCallNode, MacroIdentifierNode, UnexpandedContentNode} from "../node";
+import {SyntaxKind} from "../parser-node";
+import {
+    MacroArgumentListNode,
+    MacroArgumentNode,
+    MacroCallNode,
+    MacroIdentifierNode,
+    UnexpandedContentNode,
+} from "../macro-grammar";
 
 export const NonPound = makeRule<TokenObj<TokenKind>>("%NonPound");
 

@@ -1,14 +1,15 @@
 {
     "extends" : "../../tsconfig-base.json",
     "compilerOptions": {
-        "outDir": "../../dist/nearley-prototype",
-        "declarationDir": "../../dist/nearley-prototype",
+        "outDir": "../../dist/macro-grammar-generator",
+        "declarationDir": "../../dist/macro-grammar-generator",
         "types": ["@types/node"]
     },
     "references" : [
+        { "path": "../nearley-wrapper" },
         { "path": "../scanner" },
         { "path": "../parser-node" },
-        { "path": "../nearley-wrapper" },
+        { "path": "../parse-util" },
         { "path": "../macro-grammar" }
     ],
     "include" : [

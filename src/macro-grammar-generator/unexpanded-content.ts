@@ -1,8 +1,8 @@
-import {oneOrMore, zeroOrMore, union, optional} from "../../nearley-wrapper"
-import {getTextRange} from "../../parse-util";
-import {MacroCallNode, NonMacroCallNode, UnexpandedContentNode} from "../node";
+import {oneOrMore, zeroOrMore, union, optional} from "../nearley-wrapper"
+import {getTextRange} from "../parse-util";
 import {makeRule} from "./factory";
 import {MacroCall, NonPound} from "./macro-call";
+import {MacroCallNode, NonMacroCallNode, UnexpandedContentNode} from "../macro-grammar";
 
 const NonEmptyNonMacroCall = makeRule("NonEmptyNonMacroCall")
     .addSubstitution(

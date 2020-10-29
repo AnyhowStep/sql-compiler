@@ -2,7 +2,7 @@ import {Scanner} from "../../scanner";
 import {parseHelper} from "../parse-helper";
 import {ParserSettings} from "../parser-settings";
 import {UnexpandedContentNode} from "./grammar";
-import * as grammar from "./grammar/grammar.generated";
+import {grammar} from "../../macro-grammar";
 
 export function parseUnexpandedContent (
     filename : string,

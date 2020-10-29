@@ -1,8 +1,8 @@
-import {TokenObj} from "../../nearley-wrapper";
-import {TokenKind} from "../../scanner";
-import {Identifier, SyntaxKind} from "../../parser-node";
+import {TokenObj} from "../nearley-wrapper";
+import {TokenKind} from "../scanner";
+import {Identifier, SyntaxKind} from "../parser-node";
 import {makeRule, makeCustomRule} from "./factory";
-import {getTextRange} from "../../parse-util";
+import {getTextRange} from "../parse-util";
 /**
  * This is a hack, this does not actually exist as a rule but as a token
  */

@@ -1,7 +1,7 @@
-import {CustomSubstitutionToString, makeRuleFactory} from "../../nearley-wrapper";
-import {Identifier, ReverseSyntaxKind, SyntaxKind} from "../../parser-node";
+import {CustomSubstitutionToString, makeRuleFactory} from "../nearley-wrapper";
+import {Identifier, ReverseSyntaxKind, SyntaxKind} from "../parser-node";
 
-declare module "../../nearley-wrapper" {
+declare module "../nearley-wrapper" {
     interface CustomSubstitutionToData {
         [SyntaxKind.Identifier] : Identifier,
     }

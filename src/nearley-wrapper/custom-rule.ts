@@ -3,8 +3,12 @@ import {RuleReturnType} from "./rule-return-type";
 import {Substitution} from "./substitution";
 import {SubstitutionToData} from "./substitution-to-data";
 import {CustomSubstitutionToString, substitutionArrToString} from "./substitution-to-string";
+import {TextRange} from "./text-range";
 
-export interface CustomRule<ParserStateT, VariableT extends keyof CustomSubstitutionToData> extends RuleReturnType<CustomSubstitutionToData[VariableT]> {
+export interface CustomRule<
+    ParserStateT,
+    VariableT extends keyof CustomSubstitutionToData
+> extends RuleReturnType<Extract<CustomSubstitutionToData[VariableT], TextRange>> {
     variable : VariableT;
     addSubstitution<
         SubstitutionT extends readonly Substitution[]

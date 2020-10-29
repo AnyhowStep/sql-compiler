@@ -7,11 +7,11 @@ import "./macro-call";
 
 import * as fs from "fs";
 import {emitNearleyGrammar} from "./factory";
-import {compileGrammar} from "../../nearley-wrapper";
+import {compileGrammar} from "../nearley-wrapper";
 
 const testers = fs
     .readFileSync(
-        `${__dirname}/../../scanner-generator/testers.generated.ts.txt`,
+        `${__dirname}/../scanner-generator/testers.generated.ts.txt`,
         "utf-8"
     )
     .toString();
@@ -22,7 +22,7 @@ const output = `@preprocessor typescript
 import {TokenKind, isKeyword} from "../scanner";
 const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
-const diagnostic_messages_1 = require("../diagnostic-messages");
+//const diagnostic_messages_1 = require("../diagnostic-messages");
 const parse_util_1 = require("../parse-util");
 
 const NonPound : Tester = {
@@ -47,6 +47,6 @@ ${emitNearleyGrammar("UnexpandedContent")}
 `;
 
 compileGrammar(
-    `${__dirname}/..`,
+    `${__dirname}/../macro-grammar`,
     () => output
 );
