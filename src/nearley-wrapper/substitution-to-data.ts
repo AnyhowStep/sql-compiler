@@ -1,5 +1,5 @@
-import {TokenKind} from "../scanner";
 import {CustomSubstitutionToData} from "./custom-substitution-to-data";
+import {CustomTokenKind} from "./custom-token";
 import {QuantifiedSubstitution} from "./quantified-substitution";
 import {RuleReturnType} from "./rule-return-type";
 import {Substitution} from "./substitution";
@@ -49,7 +49,7 @@ export type SubstitutionToData<
     SubstitutionT extends keyof CustomSubstitutionToData ?
     CustomSubstitutionToData[SubstitutionT] :
 
-    SubstitutionT extends TokenKind ?
+    SubstitutionT extends CustomTokenKind ?
     TokenObj<SubstitutionT> :
 
     never

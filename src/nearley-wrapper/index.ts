@@ -2,6 +2,7 @@ export * from "./compile-grammar";
 
 export * from "./custom-rule";
 export * from "./custom-substitution-to-data";
+export * from "./custom-token";
 export * from "./data";
 
 export * from "./emit-nearley-grammar";

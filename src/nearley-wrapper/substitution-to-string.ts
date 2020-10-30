@@ -1,9 +1,9 @@
-import {ReverseTokenKind} from "../scanner";
 import {CustomSubstitutionToData} from "./custom-substitution-to-data";
+import {CustomTokenKind} from "./custom-token";
 import {AnySubstitution} from "./substitution";
 
 export interface CustomSubstitutionToString {
-    (substitution : keyof CustomSubstitutionToData) : string;
+    (substitution : (keyof CustomSubstitutionToData)|CustomTokenKind) : string;
 }
 
 export function substitutionToString (sub : AnySubstitution, customSubstitutionToString : CustomSubstitutionToString) : string {
@@ -17,11 +17,7 @@ export function substitutionToString (sub : AnySubstitution, customSubstitutionT
         return customSubstitutionToString(sub as never);
     }
     if (typeof sub == "number") {
-        if (sub < 1000) {
-            return "%" + (ReverseTokenKind as any)[sub];
-        } else {
-            return customSubstitutionToString(sub as never);
-        }
+        return customSubstitutionToString(sub as never);
     }
     if ("variable" in sub) {
         return sub.variable;

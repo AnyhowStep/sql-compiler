@@ -1,6 +1,4 @@
-import {TokenKind} from "../scanner";
-
-export interface TokenObj<TokenKindT extends TokenKind> {
+export interface TokenObj<TokenKindT> {
     start : number,
     end : number,
     tokenKind : TokenKindT;
