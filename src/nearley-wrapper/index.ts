@@ -8,6 +8,7 @@ export * from "./data";
 export * from "./emit-nearley-grammar";
 export * from "./quantified-substitution";
 export * from "./quantifier";
+export * from "./require-recursive";
 export * from "./rule-factory";
 export * from "./rule";
 export * from "./substitution-to-data";

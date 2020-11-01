@@ -1,9 +1,10 @@
 import {findAllSyntacticErrors, SourceFile, SourceFileLite, SyntaxKind} from "../parser-node";
 import {Scanner} from "../scanner";
 import {ParserSettings} from "./parser-settings";
-import * as grammar from "./my.generated";
 import {toNodeArray} from "./parse-util";
 import {parseHelper} from "./parse-helper";
+import {grammar} from "../mysql-grammar";
+
 /*
 export function parse (
     filename : string,

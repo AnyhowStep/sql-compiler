@@ -1,15 +1,16 @@
 {
     "extends" : "../../tsconfig-base.json",
     "compilerOptions": {
-        "outDir": "../../dist/nearley-prototype",
-        "declarationDir": "../../dist/nearley-prototype",
+        "outDir": "../../dist/mysql-grammar-generator",
+        "declarationDir": "../../dist/mysql-grammar-generator",
         "types": ["@types/node"]
     },
     "references" : [
-        { "path": "../scanner" },
-        { "path": "../parser-node" },
         { "path": "../nearley-wrapper" },
-        { "path": "../macro-grammar" },
+        { "path": "../diagnostic" },
+        { "path": "../parser-node" },
+        { "path": "../scanner" },
+        { "path": "../parse-util" },
         { "path": "../mysql-grammar" }
     ],
     "include" : [

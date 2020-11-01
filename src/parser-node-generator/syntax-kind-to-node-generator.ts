@@ -55,3 +55,17 @@ ${elements}
 } & Record<SyntaxKind, unknown>;
 `
 );
+
+fs.writeFileSync(
+    `${__dirname}/../mysql-grammar-generator/syntax-kind-to-node.generated.ts`,
+    `
+import {
+    SyntaxKind,
+${imports}
+} from "../parser-node";
+
+export type SyntaxKindToNode = {
+${elements}
+} & Record<SyntaxKind, unknown>;
+`
+);

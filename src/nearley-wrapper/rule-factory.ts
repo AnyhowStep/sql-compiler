@@ -1,6 +1,6 @@
-import {CustomRule, makeCustomRule} from "./custom-rule";
+import {CustomRule, makeCustomRuleImpl} from "./custom-rule";
 import {emitNearleyGrammar} from "./emit-nearley-grammar";
-import {AnyRule, makeRule, Rule} from "./rule";
+import {AnyRule, makeRuleImpl, Rule} from "./rule";
 import {CustomSubstitutionToData} from "./custom-substitution-to-data";
 import {CustomSubstitutionToString} from "./substitution-to-string";
 import {TextRange} from "./text-range";
@@ -20,14 +20,14 @@ export function makeRuleFactory<ParserStateT extends unknown> (
     const factory : RuleFactory<ParserStateT> = {
         makeCustomRule : (
             <VariableT extends keyof CustomSubstitutionToString> (variable : VariableT) : CustomRule<ParserStateT, VariableT> => {
-                const rule = makeCustomRule<ParserStateT, VariableT>(variable);
+                const rule = makeCustomRuleImpl<ParserStateT, VariableT>(variable);
                 rules.push(rule);
                 return rule;
             }
         ) as any,
         makeRule : (
             <InitialT extends TextRange=never>(variable : string) : Rule<ParserStateT, InitialT> => {
-                const rule = makeRule<ParserStateT, InitialT>(variable);
+                const rule = makeRuleImpl<ParserStateT, InitialT>(variable);
                 rules.push(rule);
                 return rule;
             }

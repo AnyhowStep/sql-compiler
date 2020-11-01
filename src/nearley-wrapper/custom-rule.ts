@@ -20,7 +20,7 @@ export interface CustomRule<
     generateNearlyGrammar (customSubstitutionToString : CustomSubstitutionToString) : string;
 }
 
-export function makeCustomRule<
+export function makeCustomRuleImpl<
     ParserStateT,
     VariableT extends keyof CustomSubstitutionToData
 > (variable : VariableT) : CustomRule<ParserStateT, VariableT> {

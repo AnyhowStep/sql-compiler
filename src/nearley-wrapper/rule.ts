@@ -22,7 +22,7 @@ export interface Rule<ParserStateT, ReturnT extends TextRange> extends RuleRetur
     generateNearlyGrammar (customSubstitutionToString : CustomSubstitutionToString) : string;
 }
 
-export function makeRule<ParserStateT, InitialT extends TextRange=never> (variable : string) : Rule<ParserStateT, InitialT> {
+export function makeRuleImpl<ParserStateT, InitialT extends TextRange=never> (variable : string) : Rule<ParserStateT, InitialT> {
     const substitutions : {
         substitution : readonly Substitution[],
         func : (this : ParserStateT, ...args : any) => unknown,
