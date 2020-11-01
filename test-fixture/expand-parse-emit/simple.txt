@@ -1,0 +1,17 @@
+#define hey (tableName) CREATE TABLE tableName (X INT);;
+
+-----
+\hey{KEY};
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[x]
