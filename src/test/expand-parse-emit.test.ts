@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandContent, findAllMacros, parse} from "../nearley-prototype";
+import {expandContent, findAllMacros, parse, traceDiagnostic} from "../nearley-prototype";
 import {emitSourceFile} from "../emitter";
 
 const root = `${__dirname}/../../test-fixture/expand-parse-emit`;
@@ -35,12 +35,12 @@ suite('Should expand-parse-emit content as expected', () => {
 
                 for (const macro of macros) {
                     assert.strictEqual(
-                        JSON.stringify(macro.parameterList.syntacticErrors, null, 2),
+                        JSON.stringify(macro.parameterList.syntacticErrors, null, 4),
                         undefined,
                         (
-                            JSON.stringify(macro, null, 2) +
+                            JSON.stringify(macro, null, 4) +
                             "\n" +
-                            JSON.stringify(macro.parameterList.syntacticErrors, null, 2)
+                            JSON.stringify(macro.parameterList.syntacticErrors, null, 4)
                         )
                     );
                 }
@@ -62,9 +62,9 @@ suite('Should expand-parse-emit content as expected', () => {
                 inputFile
             );
             assert.strictEqual(
-                JSON.stringify(result.syntacticErrors, null, 2),
+                JSON.stringify(result.syntacticErrors, null, 4),
                 "[]",
-                JSON.stringify(result, null, 2)
+                JSON.stringify(result, null, 4)
             )
             return result;
         });
@@ -84,7 +84,7 @@ suite('Should expand-parse-emit content as expected', () => {
         for (let i=0; i<emittedFiles.length; ++i) {
             const actualOutput = emittedFiles[i];
             const expectedOutput = expectedOutputs[i];
-            let errorMessage = JSON.stringify(parsedFiles[i].sourceFile, null, 2);
+            let errorMessage = JSON.stringify(parsedFiles[i].sourceFile, null, 4);
             errorMessage += "\n" + curPath;
 
             assert.strictEqual(
@@ -92,7 +92,26 @@ suite('Should expand-parse-emit content as expected', () => {
                 expectedOutput,
                 errorMessage
             );
-            const actualSyntacticErrors = parsedFiles[i].sourceFile.syntacticErrors.map(err => {
+            const rawSyntacticErrors = parsedFiles[i].sourceFile.syntacticErrors;
+            const tracedSyntacticErrors = rawSyntacticErrors.map(err => {
+                return traceDiagnostic(
+                    err,
+                    expandedInputFiles[i],
+                    (filename) => {
+                        const match = /^file-(\d+)$/.exec(filename);
+                        if (match == undefined) {
+                            assert.strictEqual(
+                                match,
+                                "defined",
+                                filename
+                            );
+                            throw new Error(`match not found`);
+                        }
+                        return expandedInputFiles[parseInt(match[1], 10)];
+                    }
+                );
+            })
+            const actualSyntacticErrors = tracedSyntacticErrors.map(err => {
                 return {
                     category : err.category,
                     messageText : err.messageText,
@@ -106,7 +125,7 @@ suite('Should expand-parse-emit content as expected', () => {
                 };
             });
             assert.strictEqual(
-                JSON.stringify(actualSyntacticErrors, null, 2) + "\n",
+                JSON.stringify(actualSyntacticErrors, null, 4) + "\n",
                 expectedSyntacticErrors[i],
                 errorMessage
             );

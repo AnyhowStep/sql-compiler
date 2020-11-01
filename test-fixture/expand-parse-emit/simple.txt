@@ -1,4 +1,4 @@
-#define hey (tableName) CREATE TABLE tableName (X INT);;
+#define hey (tableName) CREATE TABLE  tableName  (X INT);;
 
 -----
 \hey{KEY};
@@ -14,4 +14,23 @@ CREATE TABLE `KEY` (
 []
 
 -----
-[x]
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 5,
+        "length": 3,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 13,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 38,
+                "length": 9
+            }
+        ]
+    }
+]

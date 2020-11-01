@@ -6,13 +6,19 @@ export enum DiagnosticCategory {
     Hint,
 }
 
+export interface RelatedRange {
+    filename : string,
+    start : number,
+    length : number
+}
+
 export interface Diagnostic {
     start: number;
     length: number;
     messageText: string;
     category: DiagnosticCategory;
     code: number;
-    relatedRanges? : { filename : string, start : number, length : number }[];
+    relatedRanges? : RelatedRange[];
 }
 
 export interface DiagnosticMessage {
