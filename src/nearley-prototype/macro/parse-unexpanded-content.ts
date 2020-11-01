@@ -1,24 +1,23 @@
 import {Scanner} from "../../scanner";
 import {parseHelper} from "../parse-helper";
-import {ParserSettings} from "../parser-settings";
-import {UnexpandedContentNode} from "./grammar";
-import {grammar} from "../../macro-grammar";
+import {grammar, UnexpandedContentNode} from "../../macro-grammar";
 
 export function parseUnexpandedContent (
     filename : string,
-    scanner : Scanner,
-    settings : ParserSettings
+    scanner : Scanner
 ) : UnexpandedContentNode {
     const {
         partialParses : results,
         syntacticErrors,
-    } = parseHelper<UnexpandedContentNode>(
+    } = parseHelper<UnexpandedContentNode>({
+        state : {
+            sourceText : scanner.getText(),
+        },
         filename,
         scanner,
-        settings,
         grammar,
-        () => []
-    );
+        findAllSyntacticErrors : () => [],
+    });
 
     if (results.length == 0) {
         const textRange = {

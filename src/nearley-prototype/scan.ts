@@ -1,5 +1,5 @@
 import {CharacterCodes, ReverseTokenKind, Scanner, TokenKind} from "../scanner";
-import {TokenObj} from "./nearley-util";
+import {TokenObj} from "../nearley-wrapper";
 
 export function scanAll (scanner : Scanner) : TokenObj<TokenKind>[] {
     const arr : TokenObj<TokenKind>[] = [];

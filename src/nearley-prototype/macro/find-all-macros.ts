@@ -1,7 +1,7 @@
+import {pushSyntacticErrorAt} from "../../parse-util";
 import {SyntacticErrorContainer, TextRange} from "../../parser-node";
 import {ReverseTokenKind, Scanner, TokenKind} from "../../scanner";
 import {DiagnosticMessages} from "../diagnostic-messages";
-import {pushSyntacticErrorAt} from "../parse-util";
 
 export interface MacroIdentifier extends TextRange {
     macroName : string

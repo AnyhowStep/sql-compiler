@@ -25,8 +25,7 @@ suite('Should expand content as expected', () => {
         const expandedContent = expandContent(
             "file-0",
             macros,
-            input,
-            {}
+            input
         );
 
         let errorMessage = JSON.stringify(expandedContent, null, 2);

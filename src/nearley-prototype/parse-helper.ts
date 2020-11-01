@@ -1,11 +1,9 @@
 import {Scanner, TokenKind} from "../scanner";
-import {fullParserSettings, ParserSettings} from "./parser-settings";
-import {ParserState} from "./parser-state";
 import {scanAll} from "./scan";
 import * as nearley from "nearley";
 import {Diagnostic} from "../diagnostic";
-import {TokenObj} from "./nearley-util";
-import {makeDiagnosticAt} from "./parse-util";
+import {TokenObj} from "../nearley-wrapper";
+import {makeDiagnosticAt} from "../parse-util";
 import {DiagnosticMessages} from "./diagnostic-messages";
 
 export interface ParseHelperResult<PartialParseT extends unknown> {
@@ -14,21 +12,23 @@ export interface ParseHelperResult<PartialParseT extends unknown> {
     syntacticErrors : Diagnostic[],
 }
 
-export function parseHelper<PartialParseT extends unknown> (
+export interface ParseHelperArgs<PartialParseT extends unknown> {
+    state : unknown,
     filename : string,
     scanner : Scanner,
-    settings : ParserSettings,
     grammar : nearley.CompiledRules,
-    findAllSyntacticErrors : (partialParse : PartialParseT) => Diagnostic[]
-) : ParseHelperResult<PartialParseT> {
+    findAllSyntacticErrors : (partialParse : PartialParseT) => Diagnostic[],
+}
 
-    const state : ParserState = {
-        settings : {
-            ...fullParserSettings,
-            ...settings,
-        },
-        sourceText : scanner.getText(),
-    };
+export function parseHelper<PartialParseT extends unknown> (
+    {
+        state,
+        filename,
+        scanner,
+        grammar,
+        findAllSyntacticErrors,
+    } : ParseHelperArgs<PartialParseT>
+) : ParseHelperResult<PartialParseT> {
     const tokens = scanAll(scanner);
 
     let tokenIndex = 0;

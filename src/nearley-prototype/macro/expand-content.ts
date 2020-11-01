@@ -1,9 +1,8 @@
 import {Diagnostic} from "../../diagnostic";
+import {makeDiagnosticAt} from "../../parse-util";
 import {TextRange} from "../../parser-node";
 import {Scanner} from "../../scanner";
 import {DiagnosticMessages} from "../diagnostic-messages";
-import {makeDiagnosticAt} from "../parse-util";
-import {ParserSettings} from "../parser-settings";
 import {ExpandedMacro, expandMacro, MacroArgument} from "./expand-macro";
 import {Macro} from "./find-all-macros";
 import {parseUnexpandedContent} from "./parse-unexpanded-content";
@@ -48,13 +47,11 @@ export function expandContent (
     filename : string,
     macros : Macro[],
     originalContent : string,
-    settings : ParserSettings,
 ) : ExpandedContent {
     //const scanner = new Scanner(originalContent);
     const parsed = parseUnexpandedContent(
         filename,
-        new Scanner(originalContent),
-        settings
+        new Scanner(originalContent)
     );
 
     if (
@@ -104,8 +101,7 @@ export function expandContent (
                     value : expandContent(
                         filename,
                         macros,
-                        arg.value,
-                        settings
+                        arg.value
                     ),
                 };
             })
@@ -115,8 +111,7 @@ export function expandContent (
                 macros,
                 macro,
                 part.argumentList.start,
-                args,
-                settings
+                args
             );
 
             originalToExpanded.push({

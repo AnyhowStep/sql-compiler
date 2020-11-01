@@ -1,8 +1,7 @@
 import {Diagnostic} from "../../diagnostic";
+import {makeDiagnosticAt} from "../../parse-util";
 import {TextRange} from "../../parser-node";
 import {DiagnosticMessages} from "../diagnostic-messages";
-import {makeDiagnosticAt} from "../parse-util";
-import {ParserSettings} from "../parser-settings";
 import {expandContent, ExpandedContent} from "./expand-content";
 import {Macro, MacroSubstitution} from "./find-all-macros";
 
@@ -62,7 +61,6 @@ export function expandMacro (
     macro : Macro,
     argsStart : number,
     args : MacroArgument[],
-    settings : ParserSettings,
 ) : ExpandedMacro {
     if (args.length != macro.parameterList.length) {
         return {
@@ -73,7 +71,6 @@ export function expandMacro (
                 filename,
                 macros,
                 "",
-                settings,
             ),
             originalToSubstituted : [],
             syntacticErrors : [
@@ -125,7 +122,6 @@ export function expandMacro (
             filename,
             macros,
             originalSubstitutedContent,
-            settings,
         ),
         originalToSubstituted,
         syntacticErrors : [],
