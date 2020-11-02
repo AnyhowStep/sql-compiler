@@ -31,8 +31,8 @@ export function traceRelatedRange (
         return [createRelatedRangeWithoutExpandedMacro(map)];
     }
 
-    const originalToSubstituted = map.expandedMacro.originalToSubstituted.find(map => {
-        return map.dst.end >= relatedRangeEnd;
+    const originalToSubstituted = map.expandedMacro.originalToSubstituted.find(originalToSubstituted => {
+        return originalToSubstituted.dst.end + map.dst.start >= relatedRangeEnd;
     });
     if (originalToSubstituted == undefined) {
         return [createRelatedRangeWithoutExpandedMacro(map)];
@@ -48,7 +48,7 @@ export function traceRelatedRange (
 
     const arg = map.expandedMacro.args[parameterIndex];
 
-    const delta = originalToSubstituted.dst.start - arg.start;
+    const delta = originalToSubstituted.dst.start + map.dst.start - arg.start;
     return [
         {
             ...relatedRange,
