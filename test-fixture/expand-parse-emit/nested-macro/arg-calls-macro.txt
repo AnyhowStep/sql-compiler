@@ -1,0 +1,48 @@
+#define macro0 (tableName) TABLE  tableName  (;;
+
+#define hey (arg0) CREATE  arg0  X INT);;
+
+-----
+\hey{\macro0{KEY}};
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 13,
+        "length": 3,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 16,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 34,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 63,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 77,
+                "length": 4
+            }
+        ]
+    }
+]

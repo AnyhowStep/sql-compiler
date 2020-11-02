@@ -73,6 +73,7 @@ export function traceRelatedRange (
 }
 
 export function traceDiagnostic (
+    filename : string,
     diagnostic : Diagnostic,
     expandedContent : ExpandedContent,
     getExpandedContent : (filename : string) => ExpandedContent,
@@ -124,7 +125,25 @@ export function traceDiagnostic (
 
     const arg = map.expandedMacro.args[parameterIndex];
 
-    const delta = originalToSubstituted.dst.start + map.dst.start - arg.start;
+    let argTrace = (
+        arg.value.originalToExpanded.length == 0 ?
+        [] :
+        traceRelatedRange(
+            0,
+            {
+                filename,
+                start : diagnostic.start - originalToSubstituted.dst.start,
+                length : diagnostic.length,
+            },
+            arg.value
+        )
+    );
+
+    const newDiagnosticStart = (
+        argTrace.length == 0 ?
+        diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start :
+        argTrace.shift()!.start + arg.start
+    );
     const relatedRanges = (
         diagnostic.relatedRanges == undefined ?
         [] :
@@ -133,9 +152,10 @@ export function traceDiagnostic (
 
     return {
         ...diagnostic,
-        start : diagnostic.start - delta,
+        start : newDiagnosticStart,
         length : diagnostic.length,
         relatedRanges : [
+            ...argTrace,
             {
                 filename : map.expandedMacro.macro.filename,
                 start : parameter.start,
@@ -157,5 +177,4 @@ export function traceDiagnostic (
                 .flat(1),
         ],
     };
-
 }
