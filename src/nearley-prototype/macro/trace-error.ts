@@ -107,8 +107,8 @@ export function traceDiagnostic (
         return createDiagnosticWithoutExpandedMacro(map);
     }
 
-    const originalToSubstituted = map.expandedMacro.originalToSubstituted.find(map => {
-        return map.dst.end >= diagnosticEnd;
+    const originalToSubstituted = map.expandedMacro.originalToSubstituted.find(originalToSubstituted => {
+        return originalToSubstituted.dst.end + map.dst.start >= diagnosticEnd;
     });
     if (originalToSubstituted == undefined) {
         return createDiagnosticWithoutExpandedMacro(map);
@@ -124,7 +124,7 @@ export function traceDiagnostic (
 
     const arg = map.expandedMacro.args[parameterIndex];
 
-    const delta = originalToSubstituted.dst.start - arg.start;
+    const delta = originalToSubstituted.dst.start + map.dst.start - arg.start;
     const relatedRanges = (
         diagnostic.relatedRanges == undefined ?
         [] :

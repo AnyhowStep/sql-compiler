@@ -1,0 +1,60 @@
+#define hey (arg0) CREATE  arg0  X INT);;
+
+-----
+\hey{TABLE KEY (};
+
+\hey{TABLE BOTH (};
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TABLE `BOTH` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 11,
+        "length": 3,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 13,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 27,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword BOTH as identifier; escape it with backticks",
+        "start": 31,
+        "length": 4,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 13,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 27,
+                "length": 4
+            }
+        ]
+    }
+]
