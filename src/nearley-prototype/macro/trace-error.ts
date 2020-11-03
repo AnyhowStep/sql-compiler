@@ -214,7 +214,7 @@ export function doThing<
 
     const newDiagnosticStart = (
         argTrace.length == 0 ?
-        diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start :
+        map.resultDst.start + arg.start :
         argTrace.shift()!.start + arg.start
     );
     const relatedRanges = (
@@ -244,7 +244,7 @@ export function doThing<
                     {
                         filename : map.expandedMacro.macro.filename,
                         start : diagnostic.start,
-                        length : diagnostic.length,
+                        length : parameter.parameterName.length,
                     }
                 ),
                 map.expandedMacro.expandedContent
