@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as path from "path";
 
 (BigInt.prototype as any).toJSON = function () {
     return this.toString();
@@ -9,25 +10,25 @@ export interface CallbackArgs {
     curPath : string,
     raw : string,
 }
-export function testRecursive (dir : string, callback : (args : CallbackArgs) => void) {
-    const fileNames = fs.readdirSync(dir);
+export function testRecursive (dirOrPath : string, callback : (args : CallbackArgs) => void) {
+    if (fs.lstatSync(dirOrPath).isDirectory()) {
+        const fileNames = fs.readdirSync(dirOrPath);
 
-    for (const fileName of fileNames) {
-        const curPath = `${dir}/${fileName}`;
+        for (const fileName of fileNames) {
+            const curPath = `${dirOrPath}/${fileName}`;
 
-        if (curPath.endsWith(".todo")) {
-            test.skip(curPath, () => {});
-            continue;
-        }
-
-        if (fs.lstatSync(curPath).isDirectory()) {
+            if (curPath.endsWith(".todo")) {
+                test.skip(curPath, () => {});
+                continue;
+            }
             testRecursive(curPath, callback);
-            continue;
         }
+    } else {
+        const curPath = dirOrPath;
         test(curPath, () => {
             const raw = fs.readFileSync(curPath, "utf-8").toString();
             callback({
-                fileName,
+                fileName : path.basename(dirOrPath),
                 curPath,
                 raw,
             });

@@ -3,7 +3,10 @@ import {testRecursive} from "./test-recursive";
 import {expandContent, findAllMacros, parse, traceDiagnostic} from "../nearley-prototype";
 import {emitSourceFile} from "../emitter";
 
-const root = `${__dirname}/../../test-fixture/expand-parse-emit`;
+let root = `${__dirname}/../../test-fixture/expand-parse-emit`;
+if (process.env.EXPAND_PARSE_EMIT_FILE) {
+    root += "/" + process.env.EXPAND_PARSE_EMIT_FILE;
+}
 suite('Should expand-parse-emit content as expected', () => {
     testRecursive(root, ({
         //fileName,
@@ -57,6 +60,7 @@ suite('Should expand-parse-emit content as expected', () => {
 
         const expandedInputFiles = preprocessedFiles.map(({inputFile}, index) => {
             const result = expandContent(
+                0,
                 `file-${index}`,
                 macros,
                 inputFile

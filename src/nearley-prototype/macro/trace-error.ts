@@ -76,8 +76,113 @@ export function doThing<
         return createResultWithoutExpandedMacro(map);
     }
 
+    const originalToExpanded = map.expandedMacro.expandedContent.originalToExpanded
+        .find(originalToExpanded => {
+            return originalToExpanded.resultDst.end >= diagnosticEnd;
+        });
+    if (originalToExpanded == undefined) {
+        //map.expandedMacro.macro does not call macro
+        //or diagnostic is not inside a macro call
+        const originalToSubstituted = map.expandedMacro.originalToSubstituted.find(originalToSubstituted => {
+            return originalToSubstituted.resultDst.end >= diagnosticEnd;
+        });
+        if (originalToSubstituted == undefined) {
+            return createResultWithoutExpandedMacro(map);
+        }
+
+        const parameterIndex = map.expandedMacro.macro.parameterList.findIndex(
+            parameter => parameter.parameterName == originalToSubstituted.src.parameterName
+        );
+        if (parameterIndex < 0) {
+            return createResultWithoutExpandedMacro(map);
+        }
+        const parameter = map.expandedMacro.macro.parameterList[parameterIndex];
+
+        const arg = map.expandedMacro.args[parameterIndex];
+
+        let argTrace = (
+            arg.value.originalToExpanded.length == 0 ?
+            [] :
+            traceRelatedRange(
+                0,
+                {
+                    filename,
+                    start : diagnostic.start - originalToSubstituted.dst.start - map.dst.start,
+                    length : diagnostic.length,
+                },
+                arg.value
+            )
+        );
+
+        const newDiagnosticStart = (
+            argTrace.length == 0 ?
+            diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start :
+            argTrace.shift()!.start + arg.start
+        );
+        const relatedRanges = (
+            diagnostic.relatedRanges == undefined ?
+            [] :
+            diagnostic.relatedRanges
+        );
+
+        return makeResult({
+            newDiagnosticStart,
+            newRelatedRanges : [
+                ...argTrace,
+                {
+                    filename : map.expandedMacro.macro.filename,
+                    start : parameter.start,
+                    length : parameter.end - parameter.start,
+                },
+                ...traceRelatedRange(
+                    map.expandedMacro.macro.content.start,
+                    (
+                        map.expandedMacro.expandedContent.originalToExpanded.length == 0 ?
+                        {
+                            filename : map.expandedMacro.macro.filename,
+                            start : originalToSubstituted.src.start,
+                            length : originalToSubstituted.src.end - originalToSubstituted.src.start,
+                        } :
+                        {
+                            filename : map.expandedMacro.macro.filename,
+                            start : diagnostic.start,
+                            length : diagnostic.length,
+                        }
+                    ),
+                    map.expandedMacro.expandedContent
+                ),
+                ...relatedRanges
+                    .map(relatedRange => {
+                        return traceRelatedRange(0, relatedRange, undefined);
+                    })
+                    .flat(1),
+            ],
+        });
+    }
+
+    if (originalToExpanded.expandedMacro == undefined) {
+        return createResultWithoutExpandedMacro(map);
+    }
+
+    const originalToSubstituted2 = originalToExpanded.expandedMacro.originalToSubstituted.find(originalToSubstituted => {
+        return originalToSubstituted.resultDst.end >= diagnosticEnd;
+    });
+    if (originalToSubstituted2 == undefined) {
+        return createResultWithoutExpandedMacro(map);
+    }
+
+    const parameterIndex2 = originalToExpanded.expandedMacro.macro.parameterList.findIndex(
+        parameter => parameter.parameterName == originalToSubstituted2.src.parameterName
+    );
+    if (parameterIndex2 < 0) {
+        return createResultWithoutExpandedMacro(map);
+    }
+    //const parameter2 = originalToExpanded.expandedMacro.macro.parameterList[parameterIndex2];
+
+    //const arg2 = originalToExpanded.expandedMacro.args[parameterIndex2];
+
     const originalToSubstituted = map.expandedMacro.originalToSubstituted.find(originalToSubstituted => {
-        return originalToSubstituted.dst.end + map.dst.start >= diagnosticEnd;
+        return originalToSubstituted.dst.start >= originalToExpanded.src.start;
     });
     if (originalToSubstituted == undefined) {
         return createResultWithoutExpandedMacro(map);
@@ -129,11 +234,19 @@ export function doThing<
             },
             ...traceRelatedRange(
                 map.expandedMacro.macro.content.start,
-                {
-                    filename : map.expandedMacro.macro.filename,
-                    start : originalToSubstituted.src.start,
-                    length : originalToSubstituted.src.end - originalToSubstituted.src.start,
-                },
+                (
+                    map.expandedMacro.expandedContent.originalToExpanded.length == 0 ?
+                    {
+                        filename : map.expandedMacro.macro.filename,
+                        start : originalToSubstituted.src.start,
+                        length : originalToSubstituted.src.end - originalToSubstituted.src.start,
+                    } :
+                    {
+                        filename : map.expandedMacro.macro.filename,
+                        start : diagnostic.start,
+                        length : diagnostic.length,
+                    }
+                ),
                 map.expandedMacro.expandedContent
             ),
             ...relatedRanges

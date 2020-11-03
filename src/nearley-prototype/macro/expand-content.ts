@@ -10,6 +10,7 @@ import {parseUnexpandedContent} from "./parse-unexpanded-content";
 export interface TextRangeMap {
     src : TextRange,
     dst : TextRange,
+    resultDst : TextRange,
     expandedMacro : ExpandedMacro|undefined,
 }
 
@@ -44,6 +45,7 @@ export interface ExpandedContent {
  * Expands `unexpandedContent` recursively.
  */
 export function expandContent (
+    resultOffset : number,
     filename : string,
     macros : Macro[],
     originalContent : string,
@@ -99,6 +101,7 @@ export function expandContent (
                     start : arg.start,
                     end : arg.end,
                     value : expandContent(
+                        0,
                         filename,
                         macros,
                         arg.value
@@ -107,6 +110,7 @@ export function expandContent (
             })
 
             const expandedMacro = expandMacro(
+                resultOffset,
                 filename,
                 macros,
                 macro,
@@ -123,9 +127,14 @@ export function expandContent (
                     start : expandedContent.length,
                     end : expandedContent.length + expandedMacro.expandedContent.expandedContent.length,
                 },
+                resultDst : {
+                    start : resultOffset,
+                    end : resultOffset + expandedMacro.expandedContent.expandedContent.length,
+                },
                 expandedMacro,
             });
 
+            resultOffset += expandedMacro.expandedContent.expandedContent.length;
             expandedContent += expandedMacro.expandedContent.expandedContent;
         } else {
             originalToExpanded.push({
@@ -137,9 +146,14 @@ export function expandContent (
                     start : expandedContent.length,
                     end : expandedContent.length + part.value.length,
                 },
+                resultDst : {
+                    start : resultOffset,
+                    end : resultOffset + part.value.length,
+                },
                 expandedMacro : undefined,
             });
 
+            resultOffset += part.value.length;
             expandedContent += part.value;
         }
     }

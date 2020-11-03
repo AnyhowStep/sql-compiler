@@ -23,6 +23,7 @@ suite('Should expand content as expected', () => {
         }
 
         const expandedContent = expandContent(
+            0,
             "file-0",
             macros,
             input

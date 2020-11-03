@@ -12,6 +12,7 @@ export interface MacroArgument extends TextRange {
 export interface ConcreteSubstitution {
     src : MacroSubstitution,
     dst : TextRange,
+    resultDst : TextRange,
 }
 
 export interface ExpandedMacro {
@@ -56,6 +57,7 @@ export interface ExpandedMacro {
 }
 
 export function expandMacro (
+    resultOffset : number,
     filename : string,
     macros : Macro[],
     macro : Macro,
@@ -68,6 +70,7 @@ export function expandMacro (
             args,
             originalSubstitutedContent : "",
             expandedContent : expandContent(
+                resultOffset,
                 filename,
                 macros,
                 "",
@@ -93,6 +96,7 @@ export function expandMacro (
     }
     const originalToSubstituted : ConcreteSubstitution[] = [];
 
+    let curResultOffset = resultOffset;
     let originalSubstitutedContent = "";
 
     for (const part of macro.substitutionContent) {
@@ -106,10 +110,16 @@ export function expandMacro (
                     start : originalSubstitutedContent.length,
                     end : originalSubstitutedContent.length + argument.value.expandedContent.length,
                 },
+                resultDst : {
+                    start : curResultOffset,
+                    end : curResultOffset + argument.value.expandedContent.length,
+                },
             });
 
+            curResultOffset += argument.value.expandedContent.length;
             originalSubstitutedContent += argument.value.expandedContent;
         } else {
+            curResultOffset += part.value.length;
             originalSubstitutedContent += part.value;
         }
     }
@@ -119,6 +129,7 @@ export function expandMacro (
         args,
         originalSubstitutedContent,
         expandedContent : expandContent(
+            resultOffset,
             filename,
             macros,
             originalSubstitutedContent,
