@@ -243,8 +243,8 @@ export function doThing<
                     } :
                     {
                         filename : map.expandedMacro.macro.filename,
-                        start : diagnostic.start,
-                        length : parameter.parameterName.length,
+                        start : originalToSubstituted.src.start,
+                        length : originalToSubstituted.src.parameterName.length,
                     }
                 ),
                 map.expandedMacro.expandedContent

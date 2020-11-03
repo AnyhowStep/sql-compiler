@@ -1,0 +1,82 @@
+#define macro0 (tableName) TABLE  tableName  (;;
+
+#define hey (arg0) CREATE  \macro0{arg0}  X INT);;
+
+-----
+\hey{KEY};
+
+\hey{BOTH};
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TABLE `BOTH` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 5,
+        "length": 3,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 63,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 85,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 16,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 34,
+                "length": 9
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword BOTH as identifier; escape it with backticks",
+        "start": 17,
+        "length": 4,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 63,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 85,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 16,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 34,
+                "length": 9
+            }
+        ]
+    }
+]
