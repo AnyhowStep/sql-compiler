@@ -177,9 +177,11 @@ export function doThing<
     if (parameterIndex2 < 0) {
         return createResultWithoutExpandedMacro(map);
     }
-    //const parameter2 = originalToExpanded.expandedMacro.macro.parameterList[parameterIndex2];
+    const parameter2 = originalToExpanded.expandedMacro.macro.parameterList[parameterIndex2];
 
-    //const arg2 = originalToExpanded.expandedMacro.args[parameterIndex2];
+    const arg2 = originalToExpanded.expandedMacro.args[parameterIndex2];
+    parameter2;
+    arg2;
 
     const originalToSubstituted = map.expandedMacro.originalToSubstituted.find(originalToSubstituted => {
         return originalToSubstituted.dst.start >= originalToExpanded.src.start;
@@ -223,6 +225,29 @@ export function doThing<
         diagnostic.relatedRanges
     );
 
+    const nestedMacroRelatedRanges = traceRelatedRange(
+        map.expandedMacro.macro.content.start,
+        (
+            map.expandedMacro.expandedContent.originalToExpanded.length == 0 ?
+            {
+                filename : map.expandedMacro.macro.filename,
+                start : originalToSubstituted.src.start,
+                length : originalToSubstituted.src.end - originalToSubstituted.src.start,
+            } :
+            {
+                filename : map.expandedMacro.macro.filename,
+                start : diagnostic.start,
+                length : diagnostic.length,
+                //length : originalToSubstituted.src.parameterName.length,
+            }
+        ),
+        map.expandedMacro.expandedContent
+    );
+
+    if (map.expandedMacro.expandedContent.originalToExpanded.length > 0) {
+        nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
+    }
+
     return makeResult({
         newDiagnosticStart,
         newRelatedRanges : [
@@ -232,23 +257,7 @@ export function doThing<
                 start : parameter.start,
                 length : parameter.end - parameter.start,
             },
-            ...traceRelatedRange(
-                map.expandedMacro.macro.content.start,
-                (
-                    map.expandedMacro.expandedContent.originalToExpanded.length == 0 ?
-                    {
-                        filename : map.expandedMacro.macro.filename,
-                        start : originalToSubstituted.src.start,
-                        length : originalToSubstituted.src.end - originalToSubstituted.src.start,
-                    } :
-                    {
-                        filename : map.expandedMacro.macro.filename,
-                        start : originalToSubstituted.src.start,
-                        length : originalToSubstituted.src.parameterName.length,
-                    }
-                ),
-                map.expandedMacro.expandedContent
-            ),
+            ...nestedMacroRelatedRanges,
             ...relatedRanges
                 .map(relatedRange => {
                     return traceRelatedRange(0, relatedRange, undefined);
