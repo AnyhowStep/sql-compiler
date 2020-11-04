@@ -216,7 +216,8 @@ export function doThing<
 
     const newDiagnosticStart = (
         argTrace.length == 0 ?
-        map.resultDst.start + arg.start :
+        //map.resultDst.start + arg.start :
+        arg.start :
         argTrace.shift()!.start + arg.start
     );
     const relatedRanges = (
