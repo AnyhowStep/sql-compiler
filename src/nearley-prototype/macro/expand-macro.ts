@@ -9,8 +9,11 @@ export interface MacroArgument extends TextRange {
     value : ExpandedContent,
 }
 
+export interface MacroContentPart extends TextRange {
+    parameterName : undefined,
+}
 export interface ConcreteSubstitution {
-    src : MacroSubstitution,
+    src : MacroSubstitution|MacroContentPart,
     dst : TextRange,
     resultDst : TextRange,
 }
@@ -119,6 +122,22 @@ export function expandMacro (
             curResultOffset += argument.value.expandedContent.length;
             originalSubstitutedContent += argument.value.expandedContent;
         } else {
+            originalToSubstituted.push({
+                src : {
+                    start : part.start,
+                    end : part.end,
+                    parameterName : undefined,
+                },
+                dst : {
+                    start : originalSubstitutedContent.length,
+                    end : originalSubstitutedContent.length + part.value.length,
+                },
+                resultDst : {
+                    start : curResultOffset,
+                    end : curResultOffset + part.value.length,
+                },
+            });
+
             curResultOffset += part.value.length;
             originalSubstitutedContent += part.value;
         }

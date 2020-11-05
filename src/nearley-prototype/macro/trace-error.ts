@@ -1,5 +1,6 @@
 import {Diagnostic, RelatedRange} from "../../diagnostic";
 import {ExpandedContent, TextRangeMap} from "./expand-content";
+import {ConcreteSubstitution, ExpandedMacro} from "./expand-macro";
 
 export interface DiagnosticLike {
     readonly start: number;
@@ -9,6 +10,7 @@ export interface DiagnosticLike {
 
 export interface MakeResultArgs {
     readonly newDiagnosticStart : number;
+    readonly newDiagnosticLength : number;
     readonly newRelatedRanges : undefined|(readonly RelatedRange[]);
 }
 
@@ -53,6 +55,7 @@ export function doThing<
     if (map == undefined) {
         return makeResult({
             newDiagnosticStart : diagnostic.start,
+            newDiagnosticLength : diagnostic.length,
             newRelatedRanges : diagnostic.relatedRanges,
         });
     }
@@ -61,6 +64,7 @@ export function doThing<
         const delta = map.dst.start - map.src.start;
         return makeResult({
             newDiagnosticStart : diagnostic.start - delta,
+            newDiagnosticLength : diagnostic.length,
             newRelatedRanges : (
                 diagnostic.relatedRanges == undefined ?
                 undefined :
@@ -75,6 +79,44 @@ export function doThing<
                     })
                     .flat(1)
             ),
+        });
+    }
+
+    function createResultWithoutParameter (
+        map : TextRangeMap,
+        expandedMacro : ExpandedMacro,
+        originalToSubstituted : ConcreteSubstitution,
+    ) {
+        //const delta = map.dst.start - map.src.start;
+        const macroReferenceLength = expandedMacro.macro.identifier.end - expandedMacro.macro.identifier.start;
+        const relatedRanges = (
+            diagnostic.relatedRanges == undefined ?
+            [] :
+            diagnostic.relatedRanges
+        );
+
+        const diagnosticRelativeStart = diagnostic.start - originalToSubstituted.resultDst.start;
+
+        return makeResult({
+            newDiagnosticStart : map.src.start,//diagnostic.start - delta,
+            newDiagnosticLength : macroReferenceLength + 1,
+            newRelatedRanges : [
+                {
+                    filename : expandedMacro.macro.filename,
+                    start : expandedMacro.macro.content.start + originalToSubstituted.src.start + diagnosticRelativeStart,
+                    length : diagnosticEnd - diagnostic.start,
+                },
+                ...relatedRanges
+                    .map(relatedRange => {
+                        return traceRelatedRange(
+                            0,
+                            relatedRange,
+                            undefined,
+                            depth,
+                        );
+                    })
+                    .flat(1),
+            ],
         });
     }
 
@@ -100,7 +142,10 @@ export function doThing<
             parameter => parameter.parameterName == originalToSubstituted.src.parameterName
         );
         if (parameterIndex < 0) {
-            return createResultWithoutExpandedMacro(map);
+            //diagnostic is not inside of an argument.
+            //Either before or after.
+            //diagnostic is part of the unexpanded macro content itself.
+            return createResultWithoutParameter(map, map.expandedMacro, originalToSubstituted);
         }
         const parameter = map.expandedMacro.macro.parameterList[parameterIndex];
 
@@ -157,12 +202,16 @@ export function doThing<
             depth + 1,
         );
 
-        if (map.expandedMacro.expandedContent.originalToExpanded.length > 0) {
+        if (
+            map.expandedMacro.expandedContent.originalToExpanded.length > 0 &&
+            originalToSubstituted.src.parameterName != undefined
+        ) {
             nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
         }
 
         return makeResult({
             newDiagnosticStart,
+            newDiagnosticLength : diagnostic.length,
             newRelatedRanges : [
                 ...argTrace,
                 {
@@ -271,12 +320,16 @@ export function doThing<
         depth + 1
     );
 
-    if (map.expandedMacro.expandedContent.originalToExpanded.length > 0) {
+    if (
+        map.expandedMacro.expandedContent.originalToExpanded.length > 0 &&
+        originalToSubstituted.src.parameterName != undefined
+    ) {
         nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
     }
 
     return makeResult({
         newDiagnosticStart,
+        newDiagnosticLength : diagnostic.length,
         newRelatedRanges : [
             ...argTrace,
             {
@@ -305,13 +358,13 @@ export function traceRelatedRange (
         diagnostic : relatedRange,
         expandedContent,
         depth,
-        makeResult : ({ newDiagnosticStart, newRelatedRanges }) : RelatedRange[] => {
+        makeResult : ({ newDiagnosticStart, newDiagnosticLength, newRelatedRanges }) : RelatedRange[] => {
             if (newRelatedRanges == undefined) {
                 return [
                     {
                         ...relatedRange,
                         start : newDiagnosticStart + offset,
-                        length : relatedRange.length,
+                        length : newDiagnosticLength,
                     },
                 ];
             }
@@ -320,7 +373,7 @@ export function traceRelatedRange (
                 {
                     ...relatedRange,
                     start : newDiagnosticStart + offset,
-                    length : relatedRange.length,
+                    length : newDiagnosticLength,
                 },
                 ...newRelatedRanges,
             ];
@@ -351,11 +404,11 @@ export function traceDiagnostic (
         diagnostic,
         expandedContent,
         depth,
-        makeResult : ({ newDiagnosticStart, newRelatedRanges }) : Diagnostic => {
+        makeResult : ({ newDiagnosticStart, newDiagnosticLength, newRelatedRanges }) : Diagnostic => {
             return {
                 ...diagnostic,
                 start : newDiagnosticStart,
-                length : diagnostic.length,
+                length : newDiagnosticLength,
                 relatedRanges : (
                     newRelatedRanges == undefined ?
                     undefined :
