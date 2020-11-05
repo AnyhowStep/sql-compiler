@@ -102,6 +102,7 @@ suite('Should expand-parse-emit content as expected', () => {
                     `file-${i}`,
                     err,
                     expandedInputFiles[i],
+                    0,
                     (filename) => {
                         const match = /^file-(\d+)$/.exec(filename);
                         if (match == undefined) {

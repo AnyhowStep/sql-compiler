@@ -20,11 +20,14 @@ export interface DoThingArgs<
     readonly diagnostic : DiagnosticT,
     readonly expandedContent : ExpandedContent,
 
+    readonly depth : number,
+
     readonly makeResult : (makeResultArgs : MakeResultArgs) => ResultT,
     readonly traceRelatedRange : (
         offset : number,
         relatedRange : RelatedRange,
         expandedContent : ExpandedContent|undefined,
+        depth : number,
     ) => RelatedRange[],
 }
 
@@ -37,13 +40,15 @@ export function doThing<
         diagnostic,
         expandedContent,
 
+        depth,
+
         makeResult,
         traceRelatedRange,
     } : DoThingArgs<DiagnosticT, ResultT>
 ) : ResultT {
     const diagnosticEnd = diagnostic.start + diagnostic.length;
     const map = expandedContent.originalToExpanded.find(map => {
-        return map.dst.end >= diagnosticEnd;
+        return map.resultDst.end >= diagnosticEnd;
     });
     if (map == undefined) {
         return makeResult({
@@ -64,7 +69,8 @@ export function doThing<
                         return traceRelatedRange(
                             0,
                             relatedRange,
-                            undefined
+                            undefined,
+                            depth,
                         );
                     })
                     .flat(1)
@@ -110,13 +116,20 @@ export function doThing<
                     start : diagnostic.start - originalToSubstituted.dst.start - map.dst.start,
                     length : diagnostic.length,
                 },
-                arg.value
+                arg.value,
+                depth,
             )
+        );
+
+        const xStart = (
+            depth == 0 ?
+            diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start :
+            arg.start
         );
 
         const newDiagnosticStart = (
             argTrace.length == 0 ?
-            diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start :
+            xStart :
             argTrace.shift()!.start + arg.start
         );
         const relatedRanges = (
@@ -124,6 +137,29 @@ export function doThing<
             [] :
             diagnostic.relatedRanges
         );
+
+        const nestedMacroRelatedRanges = traceRelatedRange(
+            map.expandedMacro.macro.content.start,
+            (
+                map.expandedMacro.expandedContent.originalToExpanded.length == 0 ?
+                {
+                    filename : map.expandedMacro.macro.filename,
+                    start : originalToSubstituted.src.start,
+                    length : originalToSubstituted.src.end - originalToSubstituted.src.start,
+                } :
+                {
+                    filename : map.expandedMacro.macro.filename,
+                    start : diagnostic.start,
+                    length : diagnostic.length,
+                }
+            ),
+            map.expandedMacro.expandedContent,
+            depth + 1,
+        );
+
+        if (map.expandedMacro.expandedContent.originalToExpanded.length > 0) {
+            nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
+        }
 
         return makeResult({
             newDiagnosticStart,
@@ -134,26 +170,10 @@ export function doThing<
                     start : parameter.start,
                     length : parameter.end - parameter.start,
                 },
-                ...traceRelatedRange(
-                    map.expandedMacro.macro.content.start,
-                    (
-                        map.expandedMacro.expandedContent.originalToExpanded.length == 0 ?
-                        {
-                            filename : map.expandedMacro.macro.filename,
-                            start : originalToSubstituted.src.start,
-                            length : originalToSubstituted.src.end - originalToSubstituted.src.start,
-                        } :
-                        {
-                            filename : map.expandedMacro.macro.filename,
-                            start : diagnostic.start,
-                            length : diagnostic.length,
-                        }
-                    ),
-                    map.expandedMacro.expandedContent
-                ),
+                ...nestedMacroRelatedRanges,
                 ...relatedRanges
                     .map(relatedRange => {
-                        return traceRelatedRange(0, relatedRange, undefined);
+                        return traceRelatedRange(0, relatedRange, undefined, depth);
                     })
                     .flat(1),
             ],
@@ -210,14 +230,20 @@ export function doThing<
                 start : diagnostic.start - originalToSubstituted.dst.start - map.dst.start,
                 length : diagnostic.length,
             },
-            arg.value
+            arg.value,
+            depth
         )
+    );
+
+    const xStart = (
+        depth == 0 ?
+        arg.start :
+        diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start
     );
 
     const newDiagnosticStart = (
         argTrace.length == 0 ?
-        //map.resultDst.start + arg.start :
-        arg.start :
+        xStart :
         argTrace.shift()!.start + arg.start
     );
     const relatedRanges = (
@@ -239,10 +265,10 @@ export function doThing<
                 filename : map.expandedMacro.macro.filename,
                 start : diagnostic.start,
                 length : diagnostic.length,
-                //length : originalToSubstituted.src.parameterName.length,
             }
         ),
-        map.expandedMacro.expandedContent
+        map.expandedMacro.expandedContent,
+        depth + 1
     );
 
     if (map.expandedMacro.expandedContent.originalToExpanded.length > 0) {
@@ -261,7 +287,7 @@ export function doThing<
             ...nestedMacroRelatedRanges,
             ...relatedRanges
                 .map(relatedRange => {
-                    return traceRelatedRange(0, relatedRange, undefined);
+                    return traceRelatedRange(0, relatedRange, undefined, depth);
                 })
                 .flat(1),
         ],
@@ -271,12 +297,14 @@ export function doThing<
 export function traceRelatedRange (
     offset : number,
     relatedRange : RelatedRange,
-    expandedContent : ExpandedContent
+    expandedContent : ExpandedContent,
+    depth : number,
 ) : RelatedRange[] {
     return doThing<RelatedRange, RelatedRange[]>({
         filename : relatedRange.filename,
         diagnostic : relatedRange,
         expandedContent,
+        depth,
         makeResult : ({ newDiagnosticStart, newRelatedRanges }) : RelatedRange[] => {
             if (newRelatedRanges == undefined) {
                 return [
@@ -297,14 +325,15 @@ export function traceRelatedRange (
                 ...newRelatedRanges,
             ];
         },
-        traceRelatedRange : (offset, relatedRange, expandedContent) => {
+        traceRelatedRange : (offset, relatedRange, expandedContent, depth) => {
             if (expandedContent == undefined) {
                 throw new Error(`This should not happen`);
             }
             return traceRelatedRange(
                 offset,
                 relatedRange,
-                expandedContent
+                expandedContent,
+                depth,
             );
         },
     });
@@ -314,12 +343,14 @@ export function traceDiagnostic (
     filename : string,
     diagnostic : Diagnostic,
     expandedContent : ExpandedContent,
+    depth : number,
     getExpandedContent : (filename : string) => ExpandedContent,
 ) : Diagnostic {
     return doThing<Diagnostic, Diagnostic>({
         filename,
         diagnostic,
         expandedContent,
+        depth,
         makeResult : ({ newDiagnosticStart, newRelatedRanges }) : Diagnostic => {
             return {
                 ...diagnostic,
@@ -332,11 +363,12 @@ export function traceDiagnostic (
                 ),
             };
         },
-        traceRelatedRange : (offset, relatedRange, expandedContent) => {
+        traceRelatedRange : (offset, relatedRange, expandedContent, depth) => {
             return traceRelatedRange(
                 offset,
                 relatedRange,
-                expandedContent ?? getExpandedContent(relatedRange.filename)
+                expandedContent ?? getExpandedContent(relatedRange.filename),
+                depth,
             );
         },
     });
