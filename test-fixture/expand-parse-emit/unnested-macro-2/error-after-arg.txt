@@ -1,0 +1,38 @@
+#define hey (arg0) CREATE  arg0  KEY  (X INT);;
+
+#define hey2 () \hey{TABLE};;
+
+-----
+\hey2;
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 0,
+        "length": 5,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 65,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 33,
+                "length": 3
+            }
+        ]
+    }
+]
