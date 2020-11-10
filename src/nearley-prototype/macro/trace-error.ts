@@ -236,10 +236,16 @@ export function doThing<
             diagnostic.start - originalToSubstituted.resultDst.start + arg.start
         );
 
+        const firstArgTrace = argTrace.shift();
         const newDiagnosticStart = (
-            argTrace.length == 0 ?
+            firstArgTrace == undefined ?
             xStart :
-            argTrace.shift()!.start + arg.start
+            firstArgTrace.start + arg.start
+        );
+        const newDiagnosticLength = (
+            firstArgTrace == undefined ?
+            diagnostic.length :
+            firstArgTrace.length
         );
         const relatedRanges = (
             diagnostic.relatedRanges == undefined ?
@@ -249,7 +255,7 @@ export function doThing<
 
         return makeResult({
             newDiagnosticStart,
-            newDiagnosticLength : diagnostic.length,
+            newDiagnosticLength,
             newRelatedRanges : [
                 ...argTrace,
                 {
