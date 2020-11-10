@@ -232,8 +232,8 @@ export function doThing<
 
         const xStart = (
             depth == 0 ?
-            diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start :
-            arg.start
+            diagnostic.start - originalToSubstituted.resultDst.start + arg.start :
+            diagnostic.start - originalToSubstituted.resultDst.start + arg.start
         );
 
         const newDiagnosticStart = (
@@ -428,7 +428,7 @@ export function doThing<
         const xStart = (
             depth == 0 ?
             arg.start :
-            diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start
+            diagnostic.start - originalToSubstituted.resultDst.start + arg.start
         );
 
         const newDiagnosticStart = (

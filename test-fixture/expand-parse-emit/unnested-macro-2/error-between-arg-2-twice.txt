@@ -1,0 +1,64 @@
+#define hey (arg0, arg1, arg2, arg3) CREATE  arg0  arg1  KEY  arg2  arg3  INT);;
+
+#define hey2 ()
+\hey{   TEMPORARY   }{  TABLE  }{   ( }{     X};
+
+\hey{   TEMPORARY   }{  TABLE  }{   ( }{     X};
+;;
+
+-----
+\hey2
+
+-----
+
+-----
+CREATE TEMPORARY TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TEMPORARY TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 0,
+        "length": 5,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 98,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 57,
+                "length": 3
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 0,
+        "length": 5,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 148,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 57,
+                "length": 3
+            }
+        ]
+    }
+]
