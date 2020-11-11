@@ -1,0 +1,84 @@
+#define createTable (arg0) /* N0 */CREATE /* N0 */TABLE /* N0 */arg0 /* N0 */(/* N0 */X /* N0 */INT/* N0 */)/* N0 */;/* N0 */ ;;
+
+#define macro00 (arg00) /* N0 */arg00/* N0 */;;
+
+#define macro000 (arg000) /* N0 */arg000/* N0 */;;
+
+#define macro0000 (arg0000) /* N0 */arg0000/* N0 */;;
+
+#define macro00000 (arg00000) /* N0 */arg00000/* N0 */;;
+
+-----
+/* N0 */\createTable/* N0 */{/* N0 */\macro00/* N0 */{/* N0 */\macro000/* N0 */{/* N0 */\macro0000/* N0 */{/* N0 */\macro00000/* N0 */{/* N0 */KEY/* N0 */}/* N0 */}/* N0 */}/* N0 */}/* N0 */}/* N0 */
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 143,
+        "length": 3,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 306,
+                "length": 8
+            },
+            {
+                "filename": "file-0",
+                "start": 324,
+                "length": 8
+            },
+            {
+                "filename": "file-0",
+                "start": 250,
+                "length": 7
+            },
+            {
+                "filename": "file-0",
+                "start": 267,
+                "length": 7
+            },
+            {
+                "filename": "file-0",
+                "start": 197,
+                "length": 6
+            },
+            {
+                "filename": "file-0",
+                "start": 213,
+                "length": 6
+            },
+            {
+                "filename": "file-0",
+                "start": 147,
+                "length": 5
+            },
+            {
+                "filename": "file-0",
+                "start": 162,
+                "length": 5
+            },
+            {
+                "filename": "file-0",
+                "start": 21,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 64,
+                "length": 4
+            }
+        ]
+    }
+]
