@@ -1,0 +1,55 @@
+#define createTable (arg0) CREATE TABLE arg0 (X INT); ;;
+
+#define macro00 (arg00) arg00;;
+
+#define macro000 () KEY;;
+
+-----
+\createTable{/* N0 */\macro00{/* N0 */\macro000/* N0 */}/* N0 */}
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 38,
+        "length": 9,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 111,
+                "length": 3
+            },
+            {
+                "filename": "file-0",
+                "start": 75,
+                "length": 5
+            },
+            {
+                "filename": "file-0",
+                "start": 82,
+                "length": 5
+            },
+            {
+                "filename": "file-0",
+                "start": 21,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 40,
+                "length": 4
+            }
+        ]
+    }
+]
