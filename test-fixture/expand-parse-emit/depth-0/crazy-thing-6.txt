@@ -1,11 +1,11 @@
-#define createTable (arg0) /* N8 */CREATE /* N9 */TABLE /* NA */arg0 /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ ;;
+#define createTable (arg0) CREATE TABLE arg0 /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ ;;
 
 #define macro0000 (arg0000) arg0000;;
 
 #define macro00000 (arg00000) \macro0000{arg00000};;
 
 #define hey2 ()
-\createTable{/* N2222 */\macro00000{/**/KEY}}
+\createTable{\macro00000{/**/KEY}}
 ;;
 
 -----
@@ -31,27 +31,27 @@ CREATE TABLE `KEY` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 279,
+                "start": 244,
                 "length": 3
             },
             {
                 "filename": "file-0",
-                "start": 189,
+                "start": 165,
                 "length": 8
             },
             {
                 "filename": "file-0",
-                "start": 210,
+                "start": 186,
                 "length": 8
             },
             {
                 "filename": "file-0",
-                "start": 149,
+                "start": 125,
                 "length": 7
             },
             {
                 "filename": "file-0",
-                "start": 158,
+                "start": 134,
                 "length": 7
             },
             {
@@ -61,7 +61,7 @@ CREATE TABLE `KEY` (
             },
             {
                 "filename": "file-0",
-                "start": 64,
+                "start": 40,
                 "length": 4
             }
         ]

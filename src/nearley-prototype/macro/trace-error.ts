@@ -244,14 +244,31 @@ export function doThing<
             //@see crazy-thing-4
             //arg.start
         );
+        const argOriginalToExpanded = arg.value.originalToExpanded.find(originalToExpanded => {
+            return originalToExpanded.resultDst.end >= diagnostic.start - originalToSubstituted.resultDst.start
+        });
+        argOriginalToExpanded;
+
+        let diagnosticRelativeStart = diagnostic.start - originalToSubstituted.resultDst.start;
+        diagnosticRelativeStart;
+
+        if (argOriginalToExpanded != undefined) {
+            diagnosticRelativeStart -= argOriginalToExpanded.resultDst.start;
+        }
 
         //If `undefined`, the `arg` does not call any macros.
         const firstArgTrace = argTrace.shift();
         const newDiagnosticStart = (
             firstArgTrace == undefined ?
             xStart :
-            firstArgTrace.start + arg.start
+            depth == 0 ?
+            firstArgTrace.start + arg.start :
+            //@see depth-0/crazy-thing-6
+            firstArgTrace.start + arg.start + diagnosticRelativeStart
         );
+        if (firstArgTrace != undefined && depth != 0) {
+            debugger;
+        }
         const newDiagnosticLength = (
             firstArgTrace == undefined ?
             diagnostic.length :
@@ -446,9 +463,10 @@ export function doThing<
             )
         );
 
+        const diagnosticRelativeStart = diagnostic.start - originalToSubstituted2.resultDst.start;
         const xStart = (
             depth == 0 ?
-            arg.start + (diagnostic.start - originalToSubstituted2.resultDst.start) :
+            arg.start + diagnosticRelativeStart :
             arg.start
         );
 
