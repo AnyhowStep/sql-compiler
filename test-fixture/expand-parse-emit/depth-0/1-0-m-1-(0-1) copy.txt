@@ -25,6 +25,12 @@ CREATE TABLE `KEY` (
         "category": 0,
         "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
         "start": 13,
+        "length": 3
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 40,
         "length": 3,
         "relatedRanges": [
             {
