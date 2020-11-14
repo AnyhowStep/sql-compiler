@@ -171,7 +171,6 @@ export function doThing<
                 map.expandedMacro.expandedContent.originalToExpanded.length > 0 &&
                 originalToSubstituted.src.parameterName != undefined
             ) {
-                nestedMacroRelatedRanges[0].start = map.expandedMacro.macro.content.start + originalToSubstituted.src.start;
                 nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
             }
 
@@ -209,7 +208,6 @@ export function doThing<
             map.expandedMacro.expandedContent.originalToExpanded.length > 0 &&
             originalToSubstituted.src.parameterName != undefined
         ) {
-            nestedMacroRelatedRanges[0].start = map.expandedMacro.macro.content.start + originalToSubstituted.src.start;
             nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
         }
 
@@ -237,12 +235,13 @@ export function doThing<
         const xStart = (
             depth == 0 ?
             diagnostic.start - originalToSubstituted.resultDst.start + arg.start :
-
-            //@see unnested-macro-2-twice/use-macro-thrice.txt
-            arg.start + (diagnostic.start - originalToSubstituted.resultDst.start)
+            //nestedMacroRelatedRanges.length > 1 ?
+            //map.expandedMacro.expandedContent.originalToExpanded.length > 0 ?
+            //arg.value.originalToExpanded.length == 0 ?
+            //arg.start :
+            //(diagnostic.start - originalToSubstituted.resultDst.start) + arg.start//:
             //@see crazy-thing-3
-            //@see crazy-thing-4
-            //arg.start
+            arg.start
         );
 
         //If `undefined`, the `arg` does not call any macros.
@@ -387,7 +386,6 @@ export function doThing<
                 map.expandedMacro.expandedContent.originalToExpanded.length > 0 &&
                 originalToSubstituted.src.parameterName != undefined
             ) {
-                nestedMacroRelatedRanges[0].start = map.expandedMacro.macro.content.start + originalToSubstituted.src.start;
                 nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
             }
 
@@ -423,7 +421,6 @@ export function doThing<
             map.expandedMacro.expandedContent.originalToExpanded.length > 0 &&
             originalToSubstituted.src.parameterName != undefined
         ) {
-            nestedMacroRelatedRanges[0].start = map.expandedMacro.macro.content.start + originalToSubstituted.src.start;
             nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
         }
 
@@ -448,10 +445,7 @@ export function doThing<
 
         const xStart = (
             depth == 0 ?
-            //@see depth-0/crazy-thing-3.txt
-            arg.start + (diagnostic.start - originalToSubstituted2.resultDst.start) :
-            //@see nested-macro/use-macro-twice-calls-macro.txt
-            //arg.start :
+            arg.start + (diagnostic.start - originalToSubstituted.dst.start) :
             diagnostic.start - originalToSubstituted.resultDst.start + arg.start + (diagnostic.start - originalToSubstituted.dst.start)
         );
 
@@ -622,6 +616,143 @@ export function doThing<
                 .flat(1),
         ],
     });
+    /*
+    const originalToSubstituted = map.expandedMacro.originalToSubstituted.find(originalToSubstituted => {
+        //return originalToSubstituted.dst.start >= originalToExpanded.src.start;
+        //return originalToSubstituted.src.end >= originalToExpanded.src.end;
+        /*if (originalToExpanded.expandedMacro == undefined) {
+            return originalToSubstituted.resultDst.end >= originalToExpanded.resultDst.end;
+        } else {
+            return originalToSubstituted.src.end >= originalToExpanded.src.end;
+        }* /
+        return originalToSubstituted.resultDst.end >= originalToExpanded.resultDst.end;
+    });
+    if (originalToSubstituted == undefined) {
+        return createResultWithoutExpandedMacro(map);
+    }
+
+    const parameterIndex = map.expandedMacro.macro.parameterList.findIndex(
+        parameter => parameter.parameterName == originalToSubstituted.src.parameterName
+    );
+    if (parameterIndex < 0) {
+        const diagnosticRelativeStart = diagnostic.start - originalToSubstituted.resultDst.start;
+
+        const nestedMacroRelatedRanges = traceRelatedRange(
+            map.expandedMacro.macro.content.start,
+            (
+                map.expandedMacro.expandedContent.originalToExpanded.length == 0 ?
+                {
+                    filename : map.expandedMacro.macro.filename,
+                    start : originalToSubstituted.src.start + diagnosticRelativeStart,
+                    length : diagnostic.length,
+                    //length : originalToSubstituted.src.end - originalToSubstituted.src.start,
+                } :
+                {
+                    filename : map.expandedMacro.macro.filename,
+                    start : diagnostic.start,
+                    length : diagnostic.length,
+                }
+            ),
+            map.expandedMacro.expandedContent,
+            depth + 1
+        );
+
+        if (
+            map.expandedMacro.expandedContent.originalToExpanded.length > 0 &&
+            originalToSubstituted.src.parameterName != undefined
+        ) {
+            nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
+        }
+
+        return createResultWithoutParameter(
+            map,
+            map.expandedMacro,
+            originalToSubstituted2,
+            nestedMacroRelatedRanges,
+        );
+        //return createResultWithoutExpandedMacro(map);
+    }
+
+    const nestedMacroRelatedRanges = traceRelatedRange(
+        map.expandedMacro.macro.content.start,
+        (
+            map.expandedMacro.expandedContent.originalToExpanded.length == 0 ?
+            {
+                filename : map.expandedMacro.macro.filename,
+                start : originalToSubstituted.src.start,
+                length : originalToSubstituted.src.end - originalToSubstituted.src.start,
+            } :
+            {
+                filename : map.expandedMacro.macro.filename,
+                start : diagnostic.start,
+                length : diagnostic.length,
+            }
+        ),
+        map.expandedMacro.expandedContent,
+        depth + 1
+    );
+
+    if (
+        map.expandedMacro.expandedContent.originalToExpanded.length > 0 &&
+        originalToSubstituted.src.parameterName != undefined
+    ) {
+        nestedMacroRelatedRanges[0].length = originalToSubstituted.src.parameterName.length;
+    }
+
+    const parameter = map.expandedMacro.macro.parameterList[parameterIndex];
+
+    const arg = map.expandedMacro.args[parameterIndex];
+
+    let argTrace = (
+        arg.value.originalToExpanded.length == 0 ?
+        [] :
+        traceRelatedRange(
+            0,
+            {
+                filename,
+                start : diagnostic.start - originalToSubstituted.dst.start - map.dst.start,
+                length : diagnostic.length,
+            },
+            arg.value,
+            depth
+        )
+    );
+
+    const xStart = (
+        depth == 0 ?
+        arg.start :
+        diagnostic.start - originalToSubstituted.dst.start - map.dst.start + arg.start
+    );
+
+    const newDiagnosticStart = (
+        argTrace.length == 0 ?
+        xStart :
+        argTrace.shift()!.start + arg.start
+    );
+    const relatedRanges = (
+        diagnostic.relatedRanges == undefined ?
+        [] :
+        diagnostic.relatedRanges
+    );
+
+    return makeResult({
+        newDiagnosticStart,
+        newDiagnosticLength : diagnostic.length,
+        newRelatedRanges : [
+            ...argTrace,
+            {
+                filename : map.expandedMacro.macro.filename,
+                start : parameter.start,
+                length : parameter.end - parameter.start,
+            },
+            ...nestedMacroRelatedRanges,
+            ...relatedRanges
+                .map(relatedRange => {
+                    return traceRelatedRange(0, relatedRange, undefined, depth);
+                })
+                .flat(1),
+        ],
+    });//*/
 }
 
 export function traceRelatedRange (
