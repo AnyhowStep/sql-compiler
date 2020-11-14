@@ -448,11 +448,8 @@ export function doThing<
 
         const xStart = (
             depth == 0 ?
-            //@see depth-0/crazy-thing-3.txt
             arg.start + (diagnostic.start - originalToSubstituted2.resultDst.start) :
-            //@see nested-macro/use-macro-twice-calls-macro.txt
-            //arg.start :
-            diagnostic.start - originalToSubstituted.resultDst.start + arg.start + (diagnostic.start - originalToSubstituted.dst.start)
+            arg.start
         );
 
         //If `undefined`, the `arg` does not call any macros.
