@@ -1,0 +1,29 @@
+
+-----
+CREATE TABLE KEY (X INT);
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 13,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE TABLE KEY (X INT);\n"
+        }
+    ]
+]

@@ -1,4 +1,5 @@
 import {Diagnostic} from "../../diagnostic";
+import {MacroIdentifierNode} from "../../macro-grammar";
 import {makeDiagnosticAt} from "../../parse-util";
 import {TextRange} from "../../parser-node";
 import {DiagnosticMessages} from "../diagnostic-messages";
@@ -57,6 +58,10 @@ export interface ExpandedMacro {
     originalToSubstituted : ConcreteSubstitution[],
 
     syntacticErrors : Diagnostic[],
+
+    macroIdentifier : {
+        src : TextRange,
+    },
 }
 
 export function expandMacro (
@@ -66,6 +71,7 @@ export function expandMacro (
     macro : Macro,
     argsStart : number,
     args : MacroArgument[],
+    macroIdentifier : MacroIdentifierNode,
 ) : ExpandedMacro {
     if (args.length != macro.parameterList.length) {
         return {
@@ -95,6 +101,12 @@ export function expandMacro (
                     args.length
                 )
             ],
+            macroIdentifier : {
+                src : {
+                    start : macroIdentifier.start,
+                    end : macroIdentifier.end,
+                }
+            },
         };
     }
     const originalToSubstituted : ConcreteSubstitution[] = [];
@@ -155,5 +167,11 @@ export function expandMacro (
         ),
         originalToSubstituted,
         syntacticErrors : [],
+            macroIdentifier : {
+                src : {
+                    start : macroIdentifier.start,
+                    end : macroIdentifier.end,
+                }
+            },
     };
 }

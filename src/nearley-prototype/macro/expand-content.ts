@@ -115,7 +115,8 @@ export function expandContent (
                 macros,
                 macro,
                 part.argumentList.start,
-                args
+                args,
+                part.identifier
             );
 
             originalToExpanded.push({
