@@ -1,0 +1,135 @@
+#define createTable (arg0) CREATE TABLE arg0 /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ ;;
+
+#define macro0000 (arg0000) arg0000;;
+
+#define macro00000 (arg00000) /**/\macro0000{arg00000};;
+
+#define hey2 ()
+\createTable{\macro00000{/**/KEY}}
+;;
+
+-----
+\hey2
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 21,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE TABLE /**//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ \n\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 5
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 5
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 219,
+                "end": 254
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE TABLE /**//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ \n"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 13,
+                "end": 33
+            },
+            "fileSrc": {
+                "start": 232,
+                "end": 252
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "/**//**/KEY"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 12,
+                "end": 19
+            },
+            "fileSrc": {
+                "start": 244,
+                "end": 251
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 190,
+                "end": 198,
+                "parameterName": "arg00000"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "/**//**/KEY"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 15,
+                "end": 23
+            },
+            "fileSrc": {
+                "start": 190,
+                "end": 198
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 134,
+                "end": 141,
+                "parameterName": "arg0000"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "/**/KEY"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 40,
+                "end": 44,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE TABLE /**//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ "
+        }
+    ]
+]

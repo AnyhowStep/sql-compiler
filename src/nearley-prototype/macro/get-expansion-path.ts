@@ -12,6 +12,11 @@ export interface MyTextRangeMap extends TextRangeMap {
     }
 }
 
+export interface MyMacroArgument extends MacroArgument {
+    filename : string,
+    fileSrc : TextRange,
+}
+
 export type ExpansionPathItem =
     & (
         | ExpandedContent
@@ -21,15 +26,15 @@ export type ExpansionPathItem =
             & ConcreteSubstitution
             & { macro : Macro }
         )
-        | MacroArgument
+        | MyMacroArgument
     )
     & { filename : string, }
 ;
 
 export type ExpansionPath =
     | [ExpandedContent & { filename : string, }]
-    | [ExpandedContent & { filename : string, }, MyTextRangeMap|MacroArgument & { filename : string, }]
-    | [ExpandedContent & { filename : string, }, MyTextRangeMap|MacroArgument & { filename : string, }, ...ExpansionPathItem[]];
+    | [ExpandedContent & { filename : string, }, MyTextRangeMap|MyMacroArgument]
+    | [ExpandedContent & { filename : string, }, MyTextRangeMap|MyMacroArgument, ...ExpansionPathItem[]];
 
 function isLength<ArrT extends readonly unknown[], LengthT extends number> (
     arr : ArrT,
@@ -39,9 +44,14 @@ function isLength<ArrT extends readonly unknown[], LengthT extends number> (
 }
 
 interface GetExpansionPathImplArgs {
+    readonly offset : number,
     readonly filename : string,
     readonly diagnostic : DiagnosticLike,
     readonly expandedContent : ExpandedContent,
+    readonly parent : undefined|{
+        readonly macro : Macro|undefined,
+        readonly originalToSubstituted : ConcreteSubstitution|undefined,
+    },
 
     readonly traceRelatedRange : (
         relatedRange : RelatedRange,
@@ -51,9 +61,11 @@ interface GetExpansionPathImplArgs {
 
 function getExpansionPathImpl (
     {
+        offset,
         filename,
         diagnostic,
         expandedContent,
+        parent,
 
         traceRelatedRange,
     } : GetExpansionPathImplArgs
@@ -88,10 +100,15 @@ function getExpansionPathImpl (
     //We have a macro call
     const expandedMacro = originalToExpanded.expandedMacro;
 
-    const macroResult = getExpansionPathImpl({
+    let macroResult = getExpansionPathImpl({
+        offset : 0,
         filename : expandedMacro.macro.filename,
         diagnostic,
         expandedContent : expandedMacro.expandedContent,
+        parent : {
+            macro : expandedMacro.macro,
+            originalToSubstituted : undefined,
+        },
         traceRelatedRange,
     });
 
@@ -118,6 +135,18 @@ function getExpansionPathImpl (
     if (originalToSubstituted == undefined) {
         throw new Error(`Should have originalToSubstituted`);
     }
+
+    macroResult = getExpansionPathImpl({
+        offset : 0,
+        filename : expandedMacro.macro.filename,
+        diagnostic,
+        expandedContent : expandedMacro.expandedContent,
+        parent : {
+            macro : expandedMacro.macro,
+            originalToSubstituted : originalToSubstituted,
+        },
+        traceRelatedRange,
+    });
 
     if (originalToSubstituted.src.parameterName == undefined) {
         //This string did not come from a parameter.
@@ -149,9 +178,69 @@ function getExpansionPathImpl (
         throw new Error(`Should have parameterIndex`);
     }
 
+    //This string came from an argument.
     const arg = expandedMacro.args[parameterIndex];
 
-    //This string came from a parameter.
+    const diagnosticRelativeStart = diagnostic.start - originalToSubstituted.resultDst.start;
+
+    const argResult = getExpansionPathImpl({
+        offset : arg.start,
+        filename : expandedMacro.macro.filename,
+        diagnostic : {
+            start : diagnosticRelativeStart,
+            length : diagnostic.length,
+        },
+        expandedContent : arg.value,
+        parent : {
+            macro : parent?.macro,
+            originalToSubstituted : undefined,
+        },
+        traceRelatedRange,
+    });
+
+    const myArg = (
+        parent?.originalToSubstituted == undefined ?
+        arg :
+        parent.originalToSubstituted.src.parameterName == undefined ?
+        arg :
+        parent.originalToSubstituted.src
+    );
+    if (argResult.length == 1) {
+        //Argument does not call macros
+        return [
+            {
+                ...expandedContent,
+                filename,
+            },
+            //originalToExpanded,
+            {
+                ...arg,
+                filename,
+                start : myArg.start,
+                end : myArg.end,
+                fileSrc : (
+                    parent?.macro == undefined ?
+                    {
+                        start : offset + myArg.start,
+                        end : offset + myArg.end,
+                    } :
+                    {
+                        start : parent.macro.content.start + offset + myArg.start,
+                        end : parent.macro.content.start + offset + myArg.end,
+                    }
+                ),
+            },
+            //expandedMacro,
+            {
+                ...originalToSubstituted,
+                macro : expandedMacro.macro,
+                filename : expandedMacro.macro.filename,
+            },
+            ...macroResult,
+        ];
+    }
+
+    //Argument calls macros
     return [
         {
             ...expandedContent,
@@ -161,7 +250,21 @@ function getExpansionPathImpl (
         {
             ...arg,
             filename,
+            start : myArg.start,
+            end : myArg.end,
+            fileSrc : (
+                parent?.macro == undefined ?
+                {
+                    start : offset + myArg.start,
+                    end : offset + myArg.end,
+                } :
+                {
+                    start : parent.macro.content.start + offset + myArg.start,
+                    end : parent.macro.content.start + offset + myArg.end,
+                }
+            ),
         },
+        ...argResult,
         //expandedMacro,
         {
             ...originalToSubstituted,
@@ -179,9 +282,11 @@ export function getExpansionPath (
     getExpandedContent : (filename : string) => ExpandedContent,
 ) : ExpansionPath {
     return getExpansionPathImpl({
+        offset : 0,
         filename,
         diagnostic,
         expandedContent,
+        parent : undefined,
 
         traceRelatedRange : (relatedRange, expandedContent) => {
             return getExpansionPath(

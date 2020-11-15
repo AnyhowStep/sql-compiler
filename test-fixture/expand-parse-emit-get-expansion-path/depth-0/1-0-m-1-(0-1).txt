@@ -31,6 +31,10 @@ CREATE TABLE `KEY` (
             "src": {
                 "start": 13,
                 "end": 16
+            },
+            "fileSrc": {
+                "start": 13,
+                "end": 16
             }
         },
         {

@@ -142,7 +142,8 @@ suite('Should expand-parse-emit-get-expansion-path content as expected', () => {
                             src : {
                                 start : item.start,
                                 end : item.end,
-                            }
+                            },
+                            fileSrc : item.fileSrc,
                         }
                     }
 

@@ -56,6 +56,10 @@ CREATE TABLE `KEY` (
             "src": {
                 "start": 40,
                 "end": 43
+            },
+            "fileSrc": {
+                "start": 40,
+                "end": 43
             }
         },
         {
