@@ -3,25 +3,48 @@ import {ExpandedContent} from "./expand-content";
 import {ExpansionPath, getExpansionPath} from "./get-expansion-path";
 
 function pathToRelatedRanges (path : ExpansionPath) : RelatedRange[] {
-    const relatedRanges : RelatedRange[] = [];
+    let relatedRanges : RelatedRange[] = [];
+    function pushIfUnique (relatedRange : RelatedRange) {
+        if (relatedRanges.some(r => {
+            return (
+                r.filename == relatedRange.filename &&
+                r.start == relatedRange.start &&
+                r.length == relatedRange.length
+            );
+        })) {
+            return;
+        }
+
+        const relatedRangeEnd = relatedRange.start + relatedRange.length;
+        relatedRanges = relatedRanges.filter(r => {
+            const rEnd = r.start + r.length;
+            return !(
+                r.filename == relatedRange.filename &&
+                r.start <= relatedRange.start &&
+                rEnd >= relatedRangeEnd
+            );
+        })
+
+        relatedRanges.push(relatedRange);
+    }
     for (const item of path) {
         if ("macro" in item) {
             const parameter = item.macro.parameterList.find(parameter => {
                 return parameter.parameterName == item.src.parameterName;
             });
             if (parameter != undefined) {
-                relatedRanges.push({
+                pushIfUnique({
                     filename : item.filename,
                     start : parameter.start,
                     length : parameter.end - parameter.start,
                 });
-                relatedRanges.push({
+                pushIfUnique({
                     filename : item.filename,
                     start : item.macro.content.start + item.src.start,
                     length : item.src.end - item.src.start,
                 });
             } else {
-                relatedRanges.push({
+                pushIfUnique({
                     filename : item.filename,
                     start : item.macro.content.start + item.src.start,
                     length : item.src.end - item.src.start,
@@ -33,7 +56,7 @@ function pathToRelatedRanges (path : ExpansionPath) : RelatedRange[] {
             if (item.macroIdentifier == undefined) {
                 //TODO?
             } else {
-                relatedRanges.push({
+                pushIfUnique({
                     filename : item.filename,
                     start : item.macroIdentifier.fileSrc.start,
                     length : item.macroIdentifier.fileSrc.end - item.macroIdentifier.fileSrc.start,
@@ -42,7 +65,7 @@ function pathToRelatedRanges (path : ExpansionPath) : RelatedRange[] {
         }
 
         if ("value" in item) {
-            relatedRanges.push({
+            pushIfUnique({
                 filename : item.filename,
                 start : item.fileSrc.start,
                 length : item.fileSrc.end - item.fileSrc.start,

@@ -157,12 +157,28 @@ function getExpansionPathImpl (
         traceRelatedRange,
     });
 
+    /**
+     * @todo improve
+     */
+    const lastMacroResultWithResultDst = [...macroResult].reverse().find<MyTextRangeMap|MyConcreteSubstitution>(
+        (result) : result is MyTextRangeMap|MyConcreteSubstitution => {
+            if ("resultDst" in result) {
+                result;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    );
+
     originalToExpanded.resultDst.start
     let diagnosticRelativeStart = diagnostic.start;// - originalToSubstituted.resultDst.start;
     const expandedMacro_expandedContent_originalToExpanded = expandedMacro.expandedContent.originalToExpanded.find(originalToExpanded => {
         return originalToExpanded.resultDst.end >= diagnosticEnd;
     });
-    if (expandedMacro_expandedContent_originalToExpanded != undefined) {
+    if (lastMacroResultWithResultDst != undefined) {
+        diagnosticRelativeStart -= lastMacroResultWithResultDst.resultDst.start;
+    } else if (expandedMacro_expandedContent_originalToExpanded != undefined) {
         diagnosticRelativeStart -= expandedMacro_expandedContent_originalToExpanded.resultDst.start;
     } else {
         diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
@@ -172,7 +188,7 @@ function getExpansionPathImpl (
     }
 
     if (originalToSubstituted.src.parameterName == undefined) {
-        const macroIdentifierOffset = parent?.macro?.content.start ?? 0;
+        const macroIdentifierOffset = parent?.macro?.content.start ?? offset;
         //This string did not come from a parameter.
         return [
             {
@@ -271,6 +287,9 @@ function getExpansionPathImpl (
             };
             hasReplacements = true;
         }
+    }
+    if (!hasReplacements && parent?.macro == undefined) {
+        //diagnosticRelativeStart = 0;
     }
     if (argResult.length == 1) {
         //Argument does not call macros
