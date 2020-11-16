@@ -51,6 +51,7 @@ interface GetExpansionPathImplArgs {
     readonly parent : undefined|{
         readonly macro : Macro|undefined,
         readonly originalToSubstituted : ConcreteSubstitution|undefined,
+        readonly replacements : readonly ConcreteSubstitution[] | undefined,
     },
 
     readonly traceRelatedRange : (
@@ -108,6 +109,7 @@ function getExpansionPathImpl (
         parent : {
             macro : expandedMacro.macro,
             originalToSubstituted : undefined,
+            replacements : undefined,
         },
         traceRelatedRange,
     });
@@ -144,6 +146,9 @@ function getExpansionPathImpl (
         parent : {
             macro : expandedMacro.macro,
             originalToSubstituted : originalToSubstituted,
+            replacements : expandedMacro.originalToSubstituted.filter(originalToSubstituted => {
+                return originalToSubstituted.src.parameterName != undefined;
+            }),
         },
         traceRelatedRange,
     });
@@ -194,17 +199,44 @@ function getExpansionPathImpl (
         parent : {
             macro : parent?.macro,
             originalToSubstituted : undefined,
+            replacements : parent?.replacements,
         },
         traceRelatedRange,
     });
 
-    const myArg = (
+    let myArg : TextRange = (
         parent?.originalToSubstituted == undefined ?
         arg :
         parent.originalToSubstituted.src.parameterName == undefined ?
         arg :
-        parent.originalToSubstituted.src
+        arg//parent.originalToSubstituted.src
     );
+    if (parent?.replacements != undefined) {
+        const replacements = parent.replacements.filter(replacement => {
+            return (
+                replacement.dst.start - offset >= myArg.start &&
+                replacement.dst.end - offset <= myArg.end
+            )
+        });
+        const replacementLengths = replacements.map(replacement => {
+            const srcLength = replacement.src.end - replacement.src.start;
+            const dstLength = replacement.dst.end - replacement.dst.start;
+            return srcLength - dstLength;
+        });
+        const myArgLength = myArg.end - myArg.start;
+        const newLength = replacementLengths.reduce(
+            (memo, item) => {
+                return memo + item;
+            },
+            myArgLength
+        );
+        if (newLength != myArgLength) {
+            myArg = {
+                start : myArg.start,
+                end : myArg.start + newLength,
+            };
+        }
+    }
     if (argResult.length == 1) {
         //Argument does not call macros
         return [

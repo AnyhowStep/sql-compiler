@@ -1,0 +1,108 @@
+#define macro0 (tableName) TEMPORARY  tableName  X;;
+
+#define macro1 (tableNamz) TABLE  tableNamz  (;;
+
+#define hey (arg0) CREATE  \macro0{\macro1{arg0}}  INT);;
+
+-----
+\hey{KEY};
+
+-----
+
+-----
+CREATE TEMPORARY TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 26,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TEMPORARY  TABLE  KEY  (  X  INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 9
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 4
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 151,
+                "end": 159
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TEMPORARY  TABLE  KEY  (  X  INT)"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 16,
+                "end": 29
+            },
+            "fileSrc": {
+                "start": 139,
+                "end": 152
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "TABLE  KEY  ("
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 8,
+                "end": 12
+            },
+            "fileSrc": {
+                "start": 147,
+                "end": 151
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 88,
+                "end": 97,
+                "parameterName": "tableNamz"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "TABLE  KEY  ("
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 38,
+                "end": 47,
+                "parameterName": "tableName"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "TEMPORARY  TABLE  KEY  (  X"
+        }
+    ]
+]
