@@ -1,0 +1,94 @@
+#define hey (arg0) CREATE  arg0  X INT);;
+
+-----
+\hey{TABLE KEY (};
+
+\hey{TABLE BOTH (};
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TABLE `BOTH` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 14,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TABLE KEY (  X INT);\n\nCREATE  TABLE BOTH (  X INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 5,
+                "end": 16
+            },
+            "fileSrc": {
+                "start": 11,
+                "end": 14
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 27,
+                "end": 31,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE KEY (  X INT)"
+        }
+    ],
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword BOTH as identifier; escape it with backticks",
+            "start": 44,
+            "length": 4
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TABLE KEY (  X INT);\n\nCREATE  TABLE BOTH (  X INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 25,
+                "end": 37
+            },
+            "fileSrc": {
+                "start": 31,
+                "end": 35
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 27,
+                "end": 31,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE BOTH (  X INT)"
+        }
+    ]
+]

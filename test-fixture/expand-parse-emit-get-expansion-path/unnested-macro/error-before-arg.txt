@@ -1,7 +1,7 @@
-#define createTable () CREATE TABLE KEY (X INT); ;;
+#define hey (arg0) CREATE  TABLE  KEY  arg0  INT);;
 
 -----
-\createTable
+\hey{(     X};
 
 -----
 
@@ -19,40 +19,40 @@ CREATE TABLE `KEY` (
         {
             "category": 0,
             "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
-            "start": 13,
+            "start": 15,
             "length": 3
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE TABLE KEY (X INT); \n"
+            "expandedContent": "CREATE  TABLE  KEY  (     X  INT);\n"
         },
         {
             "filename": "file-1",
             "src": {
                 "start": 0,
-                "end": 12
+                "end": 13
             },
             "macroIdentifier": {
                 "src": {
                     "start": 0,
-                    "end": 12
+                    "end": 4
                 },
                 "fileSrc": {
                     "start": 0,
-                    "end": 12
+                    "end": 4
                 }
             }
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 36,
-                "end": 39
+                "start": 34,
+                "end": 37
             }
         },
         {
             "filename": "file-0",
-            "expandedContent": "CREATE TABLE KEY (X INT); "
+            "expandedContent": "CREATE  TABLE  KEY  (     X  INT)"
         }
     ]
 ]

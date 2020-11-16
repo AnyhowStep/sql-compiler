@@ -1,0 +1,81 @@
+#define hey (arg0) CREATE  TABLE  KEY  arg0  INT);;
+
+#define hey2 () \hey{(     X};;
+
+-----
+\hey2;
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 15,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TABLE  KEY  (     X  INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 5
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 5
+                },
+                "fileSrc": {
+                    "start": 0,
+                    "end": 5
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE  KEY  (     X  INT)"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 0,
+                "end": 13
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 4
+                },
+                "fileSrc": {
+                    "start": 69,
+                    "end": 73
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 34,
+                "end": 37
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE  KEY  (     X  INT)"
+        }
+    ]
+]

@@ -40,14 +40,11 @@ CREATE TEMPORARY TABLE `KEY` (
                 "src": {
                     "start": 0,
                     "end": 4
+                },
+                "fileSrc": {
+                    "start": 0,
+                    "end": 4
                 }
-            }
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 151,
-                "end": 159
             }
         },
         {

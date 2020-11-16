@@ -9,6 +9,7 @@ export interface MyTextRangeMap extends TextRangeMap {
     filename : string,
     macroIdentifier : undefined|{
         src : TextRange,
+        fileSrc : TextRange,
     }
 }
 
@@ -17,24 +18,27 @@ export interface MyMacroArgument extends MacroArgument {
     fileSrc : TextRange,
 }
 
+export interface MyExpandedContent extends ExpandedContent {
+    filename : string,
+}
+
+export interface MyConcreteSubstitution extends ConcreteSubstitution {
+    filename : string,
+    macro : Macro,
+}
+
 export type ExpansionPathItem =
-    & (
-        | ExpandedContent
-        //| ExpandedMacro
-        | MyTextRangeMap
-        | (
-            & ConcreteSubstitution
-            & { macro : Macro }
-        )
-        | MyMacroArgument
-    )
-    & { filename : string, }
+    | MyExpandedContent
+    //| ExpandedMacro
+    | MyTextRangeMap
+    | MyConcreteSubstitution
+    | MyMacroArgument
 ;
 
 export type ExpansionPath =
-    | [ExpandedContent & { filename : string, }]
-    | [ExpandedContent & { filename : string, }, MyTextRangeMap|MyMacroArgument]
-    | [ExpandedContent & { filename : string, }, MyTextRangeMap|MyMacroArgument, ...ExpansionPathItem[]];
+    | [MyExpandedContent]
+    | [MyExpandedContent, MyTextRangeMap|MyMacroArgument]
+    | [MyExpandedContent, MyTextRangeMap|MyMacroArgument, ...ExpansionPathItem[]];
 
 function isLength<ArrT extends readonly unknown[], LengthT extends number> (
     arr : ArrT,
@@ -153,7 +157,22 @@ function getExpansionPathImpl (
         traceRelatedRange,
     });
 
+    originalToExpanded.resultDst.start
+    let diagnosticRelativeStart = diagnostic.start;// - originalToSubstituted.resultDst.start;
+    const expandedMacro_expandedContent_originalToExpanded = expandedMacro.expandedContent.originalToExpanded.find(originalToExpanded => {
+        return originalToExpanded.resultDst.end >= diagnosticEnd;
+    });
+    if (expandedMacro_expandedContent_originalToExpanded != undefined) {
+        diagnosticRelativeStart -= expandedMacro_expandedContent_originalToExpanded.resultDst.start;
+    } else {
+        diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
+        if (originalToSubstituted.src.parameterName == undefined) {
+            diagnosticRelativeStart += originalToSubstituted.src.start;
+        }
+    }
+
     if (originalToSubstituted.src.parameterName == undefined) {
+        const macroIdentifierOffset = parent?.macro?.content.start ?? 0;
         //This string did not come from a parameter.
         return [
             {
@@ -162,15 +181,32 @@ function getExpansionPathImpl (
             },
             {
                 ...originalToExpanded,
-                macroIdentifier : expandedMacro.macroIdentifier,
+                macroIdentifier : {
+                    src : expandedMacro.macroIdentifier.src,
+                    fileSrc : {
+                        start : macroIdentifierOffset + expandedMacro.macroIdentifier.src.start,
+                        end : macroIdentifierOffset + expandedMacro.macroIdentifier.src.end,
+                    },
+                },
                 filename,
             },
             //expandedMacro,
-            {
-                ...originalToSubstituted,
-                macro : expandedMacro.macro,
-                filename : expandedMacro.macro.filename,
-            },
+            ...(
+                macroResult.length == 1 ?
+                [
+                    {
+                        ...originalToSubstituted,
+                        macro : expandedMacro.macro,
+                        filename : expandedMacro.macro.filename,
+                        src : {
+                            start : diagnosticRelativeStart,
+                            end : diagnosticRelativeStart + diagnostic.length,
+                            parameterName : originalToSubstituted.src.parameterName,
+                        },
+                    }
+                ] :
+                []
+            ),
             ...macroResult,
         ];
     }
@@ -185,9 +221,6 @@ function getExpansionPathImpl (
 
     //This string came from an argument.
     const arg = expandedMacro.args[parameterIndex];
-
-    const diagnosticRelativeStart = diagnostic.start - originalToSubstituted.resultDst.start;
-
     const argResult = getExpansionPathImpl({
         offset : arg.start,
         filename : filename,
@@ -211,6 +244,7 @@ function getExpansionPathImpl (
         arg :
         arg//parent.originalToSubstituted.src
     );
+    let hasReplacements = false;
     if (parent?.replacements != undefined) {
         const replacements = parent.replacements.filter(replacement => {
             return (
@@ -230,11 +264,12 @@ function getExpansionPathImpl (
             },
             myArgLength
         );
-        if (newLength != myArgLength) {
+        if (replacementLengths.length > 0) {
             myArg = {
                 start : myArg.start,
                 end : myArg.start + newLength,
             };
+            hasReplacements = true;
         }
     }
     if (argResult.length == 1) {
@@ -251,16 +286,31 @@ function getExpansionPathImpl (
                 start : myArg.start,
                 end : myArg.end,
                 fileSrc : (
-                    parent?.macro == undefined ?
-                    {
-                        start : offset + myArg.start,
-                        end : offset + myArg.end,
-                    } :
-                    {
-                        start : parent.macro.content.start + offset + myArg.start,
-                        end : parent.macro.content.start + offset + myArg.end,
-                    }
+                    hasReplacements ?
+                    (
+                        parent?.macro == undefined ?
+                        {
+                            start : offset + myArg.start,
+                            end : offset + myArg.end,
+                        } :
+                        {
+                            start : parent.macro.content.start + offset + myArg.start,
+                            end : parent.macro.content.start + offset + myArg.end,
+                        }
+                    ) :
+                    (
+                        parent?.macro == undefined ?
+                        {
+                            start : offset + myArg.start + diagnosticRelativeStart,
+                            end : offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
+                        } :
+                        {
+                            start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart,
+                            end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
+                        }
+                    )
                 ),
+                /*fileSrc : ,*/
             },
             //expandedMacro,
             {
