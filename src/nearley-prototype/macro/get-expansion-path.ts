@@ -190,7 +190,7 @@ function getExpansionPathImpl (
 
     const argResult = getExpansionPathImpl({
         offset : arg.start,
-        filename : expandedMacro.macro.filename,
+        filename : filename,
         diagnostic : {
             start : diagnosticRelativeStart,
             length : diagnostic.length,
