@@ -238,7 +238,7 @@ function getExpansionPathImpl (
     //This string came from an argument.
     const arg = expandedMacro.args[parameterIndex];
     const argResult = getExpansionPathImpl({
-        offset : arg.start,
+        offset : offset + arg.start,
         filename : filename,
         diagnostic : {
             start : diagnosticRelativeStart,

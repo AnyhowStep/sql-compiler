@@ -1,0 +1,116 @@
+#define createTable (arg0) CREATE TABLE arg0 (X INT); ;;
+
+#define macro00 (arg00) arg00;;
+
+#define macro000 () KEY;;
+
+-----
+\createTable{\macro00{\macro000}}
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 13,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE TABLE KEY (X INT); \n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 13,
+                "end": 32
+            },
+            "fileSrc": {
+                "start": 13,
+                "end": 32
+            }
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "KEY"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 9,
+                "end": 18
+            },
+            "fileSrc": {
+                "start": 22,
+                "end": 31
+            }
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "KEY"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 9
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 9
+                },
+                "fileSrc": {
+                    "start": 22,
+                    "end": 31
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 111,
+                "end": 114
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "KEY"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 82,
+                "end": 87,
+                "parameterName": "arg00"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "KEY"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 40,
+                "end": 44,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE TABLE KEY (X INT); "
+        }
+    ]
+]
