@@ -105,7 +105,7 @@ function getExpansionPathImpl (
     //We have a macro call
     const expandedMacro = originalToExpanded.expandedMacro;
 
-    let macroResult = getExpansionPathImpl({
+    const macroResult1 = getExpansionPathImpl({
         offset : 0,
         filename : expandedMacro.macro.filename,
         diagnostic,
@@ -118,44 +118,51 @@ function getExpansionPathImpl (
         traceRelatedRange,
     });
 
-    const expandedMacro_originalToExpandedOrArg = (
-        isLength(macroResult, 1) ?
+    const expandedMacro_originalToExpandedOrArg1 = (
+        isLength(macroResult1, 1) ?
         {
             src : {
                 end : diagnosticEnd,
             }
         } :
-        macroResult[1]
+        macroResult1[1]
     );
 
-    const expandedMacro_originalToExpandedOrArg_src_end = (
-        "src" in expandedMacro_originalToExpandedOrArg ?
-        expandedMacro_originalToExpandedOrArg.src.end :
-        expandedMacro_originalToExpandedOrArg.end
+    const expandedMacro_originalToExpandedOrArg_src_end1 = (
+        "src" in expandedMacro_originalToExpandedOrArg1 ?
+        expandedMacro_originalToExpandedOrArg1.src.end :
+        expandedMacro_originalToExpandedOrArg1.end
+    );
+    const expandedMacro_src_end_offset1 = (
+        "src" in expandedMacro_originalToExpandedOrArg1 ?
+        0 :
+        expandedMacro.macroIdentifier.src.start
     );
 
-    const originalToSubstituted = expandedMacro.originalToSubstituted.find(originalToSubstituted => {
-        return originalToSubstituted.resultDst.end >= expandedMacro_originalToExpandedOrArg_src_end;
+    const originalToSubstituted1 = expandedMacro.originalToSubstituted.find(originalToSubstituted => {
+        return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1;
     });
 
-    if (originalToSubstituted == undefined) {
+    if (originalToSubstituted1 == undefined) {
         throw new Error(`Should have originalToSubstituted`);
     }
 
-    macroResult = getExpansionPathImpl({
+    const macroResult2 = getExpansionPathImpl({
         offset : 0,
         filename : expandedMacro.macro.filename,
         diagnostic,
         expandedContent : expandedMacro.expandedContent,
         parent : {
             macro : expandedMacro.macro,
-            originalToSubstituted : originalToSubstituted,
+            originalToSubstituted : originalToSubstituted1,
             replacements : expandedMacro.originalToSubstituted.filter(originalToSubstituted => {
                 return originalToSubstituted.src.parameterName != undefined;
             }),
         },
         traceRelatedRange,
     });
+    const macroResult = macroResult2;
+    const originalToSubstituted = originalToSubstituted1;
 
     /**
      * @todo improve
@@ -188,7 +195,7 @@ function getExpansionPathImpl (
     }
 
     if (originalToSubstituted.src.parameterName == undefined) {
-        const macroIdentifierOffset = parent?.macro?.content.start ?? offset;
+        const macroIdentifierOffset = (parent?.macro?.content.start ?? 0) + offset;
         //This string did not come from a parameter.
         return [
             {
