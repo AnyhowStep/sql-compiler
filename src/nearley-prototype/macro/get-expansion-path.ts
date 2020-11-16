@@ -136,7 +136,8 @@ function getExpansionPathImpl (
     const expandedMacro_src_end_offset1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
         0 :
-        expandedMacro.macroIdentifier.src.start
+        originalToExpanded.dst.start
+        //expandedMacro.macroIdentifier.src.start
     );
 
     const originalToSubstituted1 = expandedMacro.originalToSubstituted.find(originalToSubstituted => {
