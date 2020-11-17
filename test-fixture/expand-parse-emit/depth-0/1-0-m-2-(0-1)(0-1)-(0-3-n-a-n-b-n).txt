@@ -1,0 +1,54 @@
+#define createTable (a, b) CREATE TABLE a (b INT); ;;
+
+-----
+\createTable{KEY}{CROSS}
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `CROSS` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 13,
+        "length": 3,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 21,
+                "length": 1
+            },
+            {
+                "filename": "file-0",
+                "start": 40,
+                "length": 1
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 18,
+        "length": 5,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 24,
+                "length": 1
+            },
+            {
+                "filename": "file-0",
+                "start": 43,
+                "length": 1
+            }
+        ]
+    }
+]

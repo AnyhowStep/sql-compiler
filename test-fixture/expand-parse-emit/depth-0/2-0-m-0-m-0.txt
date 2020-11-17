@@ -1,0 +1,50 @@
+#define createTable () CREATE TABLE KEY (X INT); ;;
+
+-----
+\createTable
+
+\createTable
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 0,
+        "length": 12,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 36,
+                "length": 3
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 14,
+        "length": 12,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 36,
+                "length": 3
+            }
+        ]
+    }
+]

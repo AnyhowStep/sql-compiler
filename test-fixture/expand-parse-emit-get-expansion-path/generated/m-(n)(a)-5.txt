@@ -1,0 +1,41 @@
+#define macro0 () CREATE TABLE T (X INT);;
+
+-----
+\macro0;
+
+CREATE SCHEMA KEY;
+
+-----
+
+-----
+CREATE TABLE `T` (
+    `X` INT SIGNED NULL
+);
+
+CREATE SCHEMA `KEY`;
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 39,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE TABLE T (X INT);\n\nCREATE SCHEMA KEY;\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 7,
+                "end": 28
+            }
+        }
+    ]
+]

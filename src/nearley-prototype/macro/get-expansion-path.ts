@@ -40,7 +40,7 @@ export type ExpansionPath =
     | [MyExpandedContent, MyTextRangeMap|MyMacroArgument]
     | [MyExpandedContent, MyTextRangeMap|MyMacroArgument, ...ExpansionPathItem[]];
 
-function isLength<ArrT extends readonly unknown[], LengthT extends number> (
+export function isLength<ArrT extends readonly unknown[], LengthT extends number> (
     arr : ArrT,
     length : LengthT
 ) : arr is Extract<ArrT, { length : LengthT }> {

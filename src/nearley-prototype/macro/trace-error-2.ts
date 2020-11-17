@@ -1,6 +1,6 @@
 import {Diagnostic, RelatedRange} from "../../diagnostic";
 import {ExpandedContent} from "./expand-content";
-import {ExpansionPath, getExpansionPath} from "./get-expansion-path";
+import {ExpansionPath, getExpansionPath, isLength} from "./get-expansion-path";
 
 function pathToRelatedRanges (path : ExpansionPath) : RelatedRange[] {
     let relatedRanges : RelatedRange[] = [];
@@ -93,7 +93,17 @@ export function traceDiagnostic (
 
     const newDiagnostic : Diagnostic = (
         firstRelatedRange == undefined ?
-        diagnostic :
+        (
+            isLength(path, 1) ?
+            diagnostic :
+            "macroIdentifier" in path[1] ?
+            {
+                ...diagnostic,
+                start : diagnostic.start - path[1].resultDst.start + path[1].src.start,
+                length : diagnostic.length,
+            } :
+            diagnostic
+        ) :
         {
             ...diagnostic,
             start : firstRelatedRange.start,

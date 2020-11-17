@@ -1,0 +1,84 @@
+#define macro0 (a, b) CREATE SCHEMA KEY; CREATE TABLE a (KEY INT);;
+
+-----
+CREATE SCHEMA KEY;
+
+\macro0{KEY}{+};
+
+CREATE SCHEMA KEY;
+
+-----
+
+-----
+CREATE SCHEMA `KEY`;
+
+CREATE SCHEMA `KEY`;
+
+CREATE TABLE `KEY` (
+    `KEY` INT SIGNED NULL
+);
+
+CREATE SCHEMA `KEY`;
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 14,
+        "length": 3
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 20,
+        "length": 7,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 36,
+                "length": 3
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 28,
+        "length": 3,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 16,
+                "length": 1
+            },
+            {
+                "filename": "file-0",
+                "start": 54,
+                "length": 1
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 20,
+        "length": 7,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 57,
+                "length": 3
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 52,
+        "length": 3
+    }
+]

@@ -5,4 +5,4 @@
   + non-macro-content, NonMacroCount: 0..MacroCount+1
 
 content:
-    MacroCount-NonMacroCount-(n|m-ArgCount-(content)+)+
+    MacroCount-NonMacroCount-(n|m-ArgCount-(content)+-(content))+
