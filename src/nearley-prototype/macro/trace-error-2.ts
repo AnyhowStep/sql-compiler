@@ -5,17 +5,18 @@ import {ExpansionPath, getExpansionPath} from "./get-expansion-path";
 function pathToRelatedRanges (path : ExpansionPath) : RelatedRange[] {
     let relatedRanges : RelatedRange[] = [];
     function pushIfUnique (relatedRange : RelatedRange) {
+        const relatedRangeEnd = relatedRange.start + relatedRange.length;
         if (relatedRanges.some(r => {
+            const rEnd = r.start + r.length;
             return (
                 r.filename == relatedRange.filename &&
-                r.start == relatedRange.start &&
-                r.length == relatedRange.length
+                r.start >= relatedRange.start &&
+                rEnd <= relatedRangeEnd
             );
         })) {
             return;
         }
 
-        const relatedRangeEnd = relatedRange.start + relatedRange.length;
         relatedRanges = relatedRanges.filter(r => {
             const rEnd = r.start + r.length;
             return !(

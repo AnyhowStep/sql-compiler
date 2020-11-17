@@ -48,6 +48,7 @@ function isLength<ArrT extends readonly unknown[], LengthT extends number> (
 }
 
 interface GetExpansionPathImplArgs {
+    readonly depth : number,
     readonly offset : number,
     readonly filename : string,
     readonly diagnostic : DiagnosticLike,
@@ -66,6 +67,7 @@ interface GetExpansionPathImplArgs {
 
 function getExpansionPathImpl (
     {
+        depth,
         offset,
         filename,
         diagnostic,
@@ -106,6 +108,7 @@ function getExpansionPathImpl (
     const expandedMacro = originalToExpanded.expandedMacro;
 
     const macroResult1 = getExpansionPathImpl({
+        depth : depth + 1,
         offset : 0,
         filename : expandedMacro.macro.filename,
         diagnostic,
@@ -122,12 +125,18 @@ function getExpansionPathImpl (
         isLength(macroResult1, 1) ?
         {
             src : {
+                start : diagnostic.start,
                 end : diagnosticEnd,
             }
         } :
         macroResult1[1]
     );
 
+    const expandedMacro_originalToExpandedOrArg_src_start1 = (
+        "src" in expandedMacro_originalToExpandedOrArg1 ?
+        expandedMacro_originalToExpandedOrArg1.src.start :
+        expandedMacro_originalToExpandedOrArg1.start
+    );
     const expandedMacro_originalToExpandedOrArg_src_end1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
         expandedMacro_originalToExpandedOrArg1.src.end :
@@ -140,15 +149,28 @@ function getExpansionPathImpl (
         //expandedMacro.macroIdentifier.src.start
     );
 
-    const originalToSubstituted1 = expandedMacro.originalToSubstituted.find(originalToSubstituted => {
-        return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1;
-    });
+    const originalToSubstituted1 = (
+        expandedMacro.originalToSubstituted.length == 1 ?
+        //expanded macro content has no parameters
+        expandedMacro.originalToSubstituted[0] :
+        //expanded macro content has parameters
+        expandedMacro.originalToSubstituted.find(originalToSubstituted => {
+            if ("src" in expandedMacro_originalToExpandedOrArg1) {
+                return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1;
+            }
+            return (
+                originalToSubstituted.resultDst.start >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 &&
+                originalToSubstituted.resultDst.end <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1
+            );
+        })
+    );
 
     if (originalToSubstituted1 == undefined) {
         throw new Error(`Should have originalToSubstituted`);
     }
 
     const macroResult2 = getExpansionPathImpl({
+        depth : depth + 1,
         offset : 0,
         filename : expandedMacro.macro.filename,
         diagnostic,
@@ -168,7 +190,7 @@ function getExpansionPathImpl (
     /**
      * @todo improve
      */
-    const lastMacroResultWithResultDst = [...macroResult].reverse().find<MyTextRangeMap|MyConcreteSubstitution>(
+    /*const lastMacroResultWithResultDst = [...macroResult].reverse().find<MyTextRangeMap|MyConcreteSubstitution>(
         (result) : result is MyTextRangeMap|MyConcreteSubstitution => {
             if ("resultDst" in result) {
                 result;
@@ -177,15 +199,27 @@ function getExpansionPathImpl (
                 return false;
             }
         }
-    );
+    );*/
+    const macroConreteSubstitutions = [...macroResult].filter<MyConcreteSubstitution>((result) : result is MyConcreteSubstitution => {
+        if ("macro" in result) {
+            result;
+            return true;
+        } else {
+            return false;
+        }
+    });
 
     originalToExpanded.resultDst.start
     let diagnosticRelativeStart = diagnostic.start;// - originalToSubstituted.resultDst.start;
     const expandedMacro_expandedContent_originalToExpanded = expandedMacro.expandedContent.originalToExpanded.find(originalToExpanded => {
         return originalToExpanded.resultDst.end >= diagnosticEnd;
     });
-    if (lastMacroResultWithResultDst != undefined) {
-        diagnosticRelativeStart -= lastMacroResultWithResultDst.resultDst.start;
+    if (macroConreteSubstitutions.length > 0) {
+        for (const sub of macroConreteSubstitutions) {
+            diagnosticRelativeStart -= sub.resultDst.start;
+        }
+    //if (lastMacroResultWithResultDst != undefined) {
+    //    diagnosticRelativeStart -= lastMacroResultWithResultDst.resultDst.start;
     } else if (expandedMacro_expandedContent_originalToExpanded != undefined) {
         diagnosticRelativeStart -= expandedMacro_expandedContent_originalToExpanded.resultDst.start;
     } else {
@@ -246,6 +280,7 @@ function getExpansionPathImpl (
     //This string came from an argument.
     const arg = expandedMacro.args[parameterIndex];
     const argResult = getExpansionPathImpl({
+        depth : depth,
         offset : offset + arg.start,
         filename : filename,
         diagnostic : {
@@ -296,7 +331,8 @@ function getExpansionPathImpl (
             hasReplacements = true;
         }
     }
-    if (!hasReplacements && parent?.macro == undefined) {
+    if (!hasReplacements && parent?.macro == undefined && depth == 0) {
+        debugger;
         //diagnosticRelativeStart = 0;
     }
     if (argResult.length == 1) {
@@ -391,6 +427,7 @@ export function getExpansionPath (
     getExpandedContent : (filename : string) => ExpandedContent,
 ) : ExpansionPath {
     return getExpansionPathImpl({
+        depth : 0,
         offset : 0,
         filename,
         diagnostic,
