@@ -1,0 +1,188 @@
+#define macro1 (tableNamz) tableNamz;;
+
+#define hey (arg0) CREATE  TABLE  \macro1{arg0}  (X INT);;
+
+#define hey2 ()
+\hey{KEY};
+;;
+
+-----
+\hey2
+
+\hey2
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 15,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TABLE  KEY  (X INT);\n\n\nCREATE  TABLE  KEY  (X INT);\n\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 5
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 5
+                },
+                "fileSrc": {
+                    "start": 0,
+                    "end": 5
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE  KEY  (X INT);\n"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 5,
+                "end": 8
+            },
+            "fileSrc": {
+                "start": 121,
+                "end": 124
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 82,
+                "end": 86,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE  KEY  (X INT)"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 23,
+                "end": 27
+            },
+            "fileSrc": {
+                "start": 82,
+                "end": 86
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 27,
+                "end": 36,
+                "parameterName": "tableNamz"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "KEY"
+        }
+    ],
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 46,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TABLE  KEY  (X INT);\n\n\nCREATE  TABLE  KEY  (X INT);\n\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 7,
+                "end": 12
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 7,
+                    "end": 12
+                },
+                "fileSrc": {
+                    "start": 7,
+                    "end": 12
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE  KEY  (X INT);\n"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 5,
+                "end": 8
+            },
+            "fileSrc": {
+                "start": 121,
+                "end": 124
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 82,
+                "end": 86,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE  KEY  (X INT)"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 23,
+                "end": 27
+            },
+            "fileSrc": {
+                "start": 82,
+                "end": 86
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 27,
+                "end": 36,
+                "parameterName": "tableNamz"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "KEY"
+        }
+    ]
+]
