@@ -1,0 +1,96 @@
+#define macro0 (tableName) TABLE  tableName  (;;
+
+#define hey (arg0) CREATE  arg0   INT);;
+
+#define hey2 ()
+\hey{TEMPORARY \macro0{KEY} X};
+
+\hey{TEMPORARY \macro0{CROSS} Y};
+;;
+
+-----
+\hey2
+
+-----
+
+-----
+CREATE TEMPORARY TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TEMPORARY TABLE `CROSS` (
+    `Y` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 0,
+        "length": 5,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 131,
+                "length": 3
+            },
+            {
+                "filename": "file-0",
+                "start": 16,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 34,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 63,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 77,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 0,
+        "length": 5,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 164,
+                "length": 5
+            },
+            {
+                "filename": "file-0",
+                "start": 16,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 34,
+                "length": 9
+            },
+            {
+                "filename": "file-0",
+                "start": 63,
+                "length": 4
+            },
+            {
+                "filename": "file-0",
+                "start": 77,
+                "length": 4
+            }
+        ]
+    }
+]
