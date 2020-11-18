@@ -307,15 +307,18 @@ function getExpansionPathImpl (
                         macro : expandedMacro.macro,
                         filename : expandedMacro.macro.filename,
                         src : (
-                            parent?.diagnosticRelativeStart == undefined ?
+                            //parent?.diagnosticRelativeStart == undefined ?
+                            parent?.originalToSubstituted_resultDst_start == undefined ?
                             {
                                 start : diagnosticRelativeStart,
                                 end : diagnosticRelativeStart + diagnostic.length,
                                 parameterName : originalToSubstituted.src.parameterName,
                             } :
                             {
-                                start : diagnostic.start - diagnosticRelativeStart,
-                                end : diagnostic.start - diagnosticRelativeStart + diagnostic.length,
+                                start : diagnostic.start - parent.originalToSubstituted_resultDst_start,
+                                end : diagnostic.start - parent.originalToSubstituted_resultDst_start + diagnostic.length,
+                                //start : diagnostic.start - diagnosticRelativeStart,
+                                //end : diagnostic.start - diagnosticRelativeStart + diagnostic.length,
                                 //start : diagnosticRelativeStart,
                                 //end : diagnosticRelativeStart + diagnostic.length,
                                 parameterName : originalToSubstituted.src.parameterName,
@@ -354,9 +357,9 @@ function getExpansionPathImpl (
             originalToSubstituted : undefined,
             replacements : parent?.replacements,
             //diagnosticRelativeStart
-            //originalToSubstituted_resultDst_start : (parent?.originalToSubstituted_resultDst_start ?? 0) + originalToSubstituted.resultDst.start,
+            originalToSubstituted_resultDst_start : (parent?.originalToSubstituted_resultDst_start ?? 0) + originalToSubstituted.resultDst.start,
             //diagnosticRelativeStart : (parent?.diagnosticRelativeStart ?? 0) + diagnosticRelativeStart + originalToSubstituted.resultDst.start,
-            originalToSubstituted_resultDst_start : originalToSubstituted.resultDst.start,
+            //originalToSubstituted_resultDst_start : originalToSubstituted.resultDst.start,
             diagnosticRelativeStart : diagnosticRelativeStart + originalToSubstituted.resultDst.start,
         },
         traceRelatedRange,
