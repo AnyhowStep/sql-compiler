@@ -2,7 +2,7 @@
 
 #define macro0000 (arg0000) arg0000;;
 
-#define macro00000 (arg00000) /**/\macro0000{arg00000};;
+#define macro00000 (arg00000) /* */\macro0000{arg00000};;
 
 #define hey2 ()
 \createTable{\macro00000{/**/KEY}}
@@ -27,12 +27,12 @@ CREATE TABLE `KEY` (
         {
             "category": 0,
             "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
-            "start": 21,
+            "start": 22,
             "length": 3
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE TABLE /**//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ \n\n"
+            "expandedContent": "CREATE TABLE /* *//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ \n\n"
         },
         {
             "filename": "file-1",
@@ -53,7 +53,7 @@ CREATE TABLE `KEY` (
         },
         {
             "filename": "file-0",
-            "expandedContent": "CREATE TABLE /**//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ \n"
+            "expandedContent": "CREATE TABLE /* *//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ \n"
         },
         {
             "filename": "file-0",
@@ -62,13 +62,13 @@ CREATE TABLE `KEY` (
                 "end": 33
             },
             "fileSrc": {
-                "start": 232,
-                "end": 252
+                "start": 233,
+                "end": 253
             }
         },
         {
             "filename": "file-0",
-            "expandedContent": "/**//**/KEY"
+            "expandedContent": "/* *//**/KEY"
         },
         {
             "filename": "file-0",
@@ -77,31 +77,31 @@ CREATE TABLE `KEY` (
                 "end": 19
             },
             "fileSrc": {
-                "start": 248,
-                "end": 251
+                "start": 249,
+                "end": 252
             }
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 190,
-                "end": 198,
+                "start": 191,
+                "end": 199,
                 "parameterName": "arg00000"
             }
         },
         {
             "filename": "file-0",
-            "expandedContent": "/**//**/KEY"
+            "expandedContent": "/* *//**/KEY"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 15,
-                "end": 23
+                "start": 16,
+                "end": 24
             },
             "fileSrc": {
-                "start": 190,
-                "end": 198
+                "start": 191,
+                "end": 199
             }
         },
         {
@@ -126,7 +126,7 @@ CREATE TABLE `KEY` (
         },
         {
             "filename": "file-0",
-            "expandedContent": "CREATE TABLE /**//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ "
+            "expandedContent": "CREATE TABLE /* *//**/KEY /* NB */(/* NC */X /* ND */INT/* NE */)/* NF */;/* NG */ "
         }
     ]
 ]

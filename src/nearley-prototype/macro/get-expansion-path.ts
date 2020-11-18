@@ -200,8 +200,8 @@ function getExpansionPathImpl (
                     originalToSubstituted.resultDst.end <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart
                 ) ||
                 (
-                    originalToSubstituted.resultDst.start <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - (parent?.originalToSubstituted_resultDst_start ?? 0) &&
-                    originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - (parent?.originalToSubstituted_resultDst_start ?? 0)
+                    originalToSubstituted.resultDst.start <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - parent_resultDstStart &&
+                    originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart
                 )
             );
         })
@@ -256,15 +256,24 @@ function getExpansionPathImpl (
     });
 
     originalToExpanded.resultDst.start
-    let diagnosticRelativeStart = diagnostic.start;// - originalToSubstituted.resultDst.start;
+    //let diagnosticRelativeStart = diagnostic.start;// - originalToSubstituted.resultDst.start;
+    let diagnosticRelativeStart = diagnostic.start;
     const expandedMacro_expandedContent_originalToExpanded = expandedMacro.expandedContent.originalToExpanded.find(originalToExpanded => {
         return originalToExpanded.resultDst.end >= diagnosticEnd;
     });
+    const macroConreteSubstitutions_resultDst_start = macroConreteSubstitutions.reduce(
+        (memo, sub) => {
+            return memo + sub.resultDst.start;
+        },
+        0
+    );
+    macroConreteSubstitutions_resultDst_start;
     expandedMacro_expandedContent_originalToExpanded;
     if (macroConreteSubstitutions.length > 0) {
         for (const sub of macroConreteSubstitutions) {
             diagnosticRelativeStart -= sub.resultDst.start;
         }
+        diagnosticRelativeStart -= (parent?.resultDstStart ?? 0);
     //if (lastMacroResultWithResultDst != undefined) {
     //    diagnosticRelativeStart -= lastMacroResultWithResultDst.resultDst.start;
     //} else if (expandedMacro_expandedContent_originalToExpanded != undefined) {
@@ -451,10 +460,12 @@ function getExpansionPathImpl (
                             end : offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
                         } :
                         {
-                            //start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart,
-                            //end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
-                            start : parent.macro.content.start + offset + myArg.start,
-                            end : parent.macro.content.start + offset + myArg.start + diagnostic.length,
+                            start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart,
+                            end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
+                            //start : parent.macro.content.start + offset + myArg.start + macroConreteSubstitutions_resultDst_start,
+                            //end : parent.macro.content.start + offset + myArg.start + macroConreteSubstitutions_resultDst_start + diagnostic.length,
+                            //start : parent.macro.content.start + offset + myArg.start,
+                            //end : parent.macro.content.start + offset + myArg.start + diagnostic.length,
                         }
                     )
                 ),
