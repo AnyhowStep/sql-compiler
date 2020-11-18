@@ -1,0 +1,154 @@
+#define macro00 () KEY;;
+
+#define macro03 (a) a;;
+
+#define macro0 (a)
+CREATE SCHEMA \macro03{KEY};
+CREATE SCHEMA a; ;;
+
+-----
+\macro0{\macro00}
+
+-----
+
+-----
+CREATE SCHEMA `KEY`;
+
+CREATE SCHEMA `KEY`;
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 14,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE SCHEMA KEY;\nCREATE SCHEMA KEY; \n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 17
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 7
+                },
+                "fileSrc": {
+                    "start": 0,
+                    "end": 7
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE SCHEMA KEY;\nCREATE SCHEMA KEY; "
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 23,
+                "end": 26
+            },
+            "fileSrc": {
+                "start": 93,
+                "end": 96
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 46,
+                "end": 47,
+                "parameterName": "a"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "KEY"
+        }
+    ],
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 33,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE SCHEMA KEY;\nCREATE SCHEMA KEY; \n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 8,
+                "end": 16
+            },
+            "fileSrc": {
+                "start": 8,
+                "end": 16
+            }
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "KEY"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 8
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 8
+                },
+                "fileSrc": {
+                    "start": 8,
+                    "end": 16
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 19,
+                "end": 22
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "KEY"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 113,
+                "end": 114,
+                "parameterName": "a"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE SCHEMA KEY;\nCREATE SCHEMA KEY; "
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 27,
+                "end": 47
+            }
+        }
+    ]
+]

@@ -1,0 +1,48 @@
+#define macro00 () /**/KEY/**/;;
+
+#define macro01 () /**/KEY/**/;;
+
+#define macro02 (a) /**/KEY/**/;;
+
+#define macro03 (a) /**/a/**/;;
+
+#define macro0 (a, b)
+CREATE SCHEMA \macro02{+++};
+CREATE SCHEMA \macro03{KEY};
+CREATE SCHEMA KEY;
+CREATE SCHEMA a;
+CREATE SCHEMA b;
+;;
+
+-----
+/**/
+\macro0{/**/\macro00/**/}{/**/\macro01/**/}
+/**/
+/*
+m-
+(m-(n))
+(m-(n))
+(m-(n)(n)-
+    m-(n)(a)-a-b)-
+m-(m-(n))(m-(n))
+(m-(n)(n)-
+    m-(a)(n)-a-b)
+*/
+-----
+
+-----
+CREATE SCHEMA `KEY`;
+
+CREATE SCHEMA `KEY`;
+
+CREATE SCHEMA `KEY`;
+
+CREATE SCHEMA `KEY`;
+
+CREATE SCHEMA `KEY`;
+
+-----
+[]
+
+-----
+[]

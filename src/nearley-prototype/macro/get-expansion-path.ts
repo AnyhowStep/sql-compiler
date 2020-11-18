@@ -10,7 +10,8 @@ export interface MyTextRangeMap extends TextRangeMap {
     macroIdentifier : undefined|{
         src : TextRange,
         fileSrc : TextRange,
-    }
+    },
+    fileSrc : TextRange,
 }
 
 export interface MyMacroArgument extends MacroArgument {
@@ -57,6 +58,8 @@ interface GetExpansionPathImplArgs {
         readonly macro : Macro|undefined,
         readonly originalToSubstituted : ConcreteSubstitution|undefined,
         readonly replacements : readonly ConcreteSubstitution[] | undefined,
+        readonly originalToSubstituted_resultDst_start : number|undefined,
+        readonly diagnosticRelativeStart : number|undefined,
     },
 
     readonly traceRelatedRange : (
@@ -77,9 +80,22 @@ function getExpansionPathImpl (
         traceRelatedRange,
     } : GetExpansionPathImplArgs
 ) : ExpansionPath {
+    /*
+    if (parent?.diagnosticRelativeStart != undefined) {
+        diagnostic = {
+            start : diagnostic.start - parent.diagnosticRelativeStart,
+            length : diagnostic.length,
+        };
+    }
+    //*/
     const diagnosticEnd = diagnostic.start + diagnostic.length;
     const originalToExpanded = expandedContent.originalToExpanded.find(originalToExpanded => {
-        return originalToExpanded.resultDst.end >= diagnosticEnd;
+        return originalToExpanded.resultDst.end >= diagnosticEnd - (
+            //parent?.diagnosticRelativeStart == undefined ?
+            parent?.originalToSubstituted_resultDst_start == undefined ?
+            0 :
+            parent.originalToSubstituted_resultDst_start
+        );
     });
     if (originalToExpanded == undefined) {
         return [
@@ -100,6 +116,10 @@ function getExpansionPathImpl (
                 ...originalToExpanded,
                 filename,
                 macroIdentifier : undefined,
+                fileSrc : {
+                    start : diagnostic.start - originalToExpanded.resultDst.start + originalToExpanded.src.start,
+                    end : diagnostic.start - originalToExpanded.resultDst.start + originalToExpanded.src.start + diagnostic.length,
+                },
             },
         ];
     }
@@ -117,6 +137,8 @@ function getExpansionPathImpl (
             macro : expandedMacro.macro,
             originalToSubstituted : undefined,
             replacements : undefined,
+            originalToSubstituted_resultDst_start : undefined,
+            diagnosticRelativeStart : undefined,
         },
         traceRelatedRange,
     });
@@ -127,6 +149,10 @@ function getExpansionPathImpl (
             src : {
                 start : diagnostic.start,
                 end : diagnosticEnd,
+            },
+            fileSrc : {
+                start : diagnostic.start,
+                end : diagnosticEnd,
             }
         } :
         macroResult1[1]
@@ -134,12 +160,14 @@ function getExpansionPathImpl (
 
     const expandedMacro_originalToExpandedOrArg_src_start1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
-        expandedMacro_originalToExpandedOrArg1.src.start :
+        //expandedMacro_originalToExpandedOrArg1.src.start :
+        expandedMacro_originalToExpandedOrArg1.fileSrc.start :
         expandedMacro_originalToExpandedOrArg1.start
     );
     const expandedMacro_originalToExpandedOrArg_src_end1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
-        expandedMacro_originalToExpandedOrArg1.src.end :
+        //expandedMacro_originalToExpandedOrArg1.src.end :
+        expandedMacro_originalToExpandedOrArg1.fileSrc.end :
         expandedMacro_originalToExpandedOrArg1.end
     );
     const expandedMacro_src_end_offset1 = (
@@ -156,11 +184,17 @@ function getExpansionPathImpl (
         //expanded macro content has parameters
         expandedMacro.originalToSubstituted.find(originalToSubstituted => {
             if ("src" in expandedMacro_originalToExpandedOrArg1) {
-                return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1;
+                return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - (parent?.originalToSubstituted_resultDst_start ?? 0);
             }
             return (
-                originalToSubstituted.resultDst.start >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 &&
-                originalToSubstituted.resultDst.end <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1
+                (
+                    originalToSubstituted.resultDst.start >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - (parent?.originalToSubstituted_resultDst_start ?? 0) &&
+                    originalToSubstituted.resultDst.end <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - (parent?.originalToSubstituted_resultDst_start ?? 0)
+                ) ||
+                (
+                    originalToSubstituted.resultDst.start <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - (parent?.originalToSubstituted_resultDst_start ?? 0) &&
+                    originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - (parent?.originalToSubstituted_resultDst_start ?? 0)
+                )
             );
         })
     );
@@ -181,6 +215,8 @@ function getExpansionPathImpl (
             replacements : expandedMacro.originalToSubstituted.filter(originalToSubstituted => {
                 return originalToSubstituted.src.parameterName != undefined;
             }),
+            originalToSubstituted_resultDst_start : undefined,
+            diagnosticRelativeStart : undefined,
         },
         traceRelatedRange,
     });
@@ -214,19 +250,29 @@ function getExpansionPathImpl (
     const expandedMacro_expandedContent_originalToExpanded = expandedMacro.expandedContent.originalToExpanded.find(originalToExpanded => {
         return originalToExpanded.resultDst.end >= diagnosticEnd;
     });
+    expandedMacro_expandedContent_originalToExpanded;
     if (macroConreteSubstitutions.length > 0) {
         for (const sub of macroConreteSubstitutions) {
             diagnosticRelativeStart -= sub.resultDst.start;
         }
     //if (lastMacroResultWithResultDst != undefined) {
     //    diagnosticRelativeStart -= lastMacroResultWithResultDst.resultDst.start;
-    } else if (expandedMacro_expandedContent_originalToExpanded != undefined) {
-        diagnosticRelativeStart -= expandedMacro_expandedContent_originalToExpanded.resultDst.start;
+    //} else if (expandedMacro_expandedContent_originalToExpanded != undefined) {
+    //    diagnosticRelativeStart -= expandedMacro_expandedContent_originalToExpanded.resultDst.start;
     } else {
-        diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
-        if (originalToSubstituted.src.parameterName == undefined) {
-            diagnosticRelativeStart += originalToSubstituted.src.start;
+        //*
+        if (parent?.originalToSubstituted_resultDst_start != undefined) {
+            diagnosticRelativeStart -= parent.originalToSubstituted_resultDst_start;
         }
+        //*/
+
+        if (expandedMacro_expandedContent_originalToExpanded == undefined) {
+            diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
+            if (originalToSubstituted.src.parameterName == undefined) {
+                diagnosticRelativeStart += originalToSubstituted.src.start;
+            }
+        }
+        //*/
     }
 
     if (originalToSubstituted.src.parameterName == undefined) {
@@ -247,6 +293,10 @@ function getExpansionPathImpl (
                     },
                 },
                 filename,
+                fileSrc : {
+                    start : macroIdentifierOffset + expandedMacro.macroIdentifier.src.start,
+                    end : macroIdentifierOffset + expandedMacro.macroIdentifier.src.end,
+                },
             },
             //expandedMacro,
             ...(
@@ -256,11 +306,21 @@ function getExpansionPathImpl (
                         ...originalToSubstituted,
                         macro : expandedMacro.macro,
                         filename : expandedMacro.macro.filename,
-                        src : {
-                            start : diagnosticRelativeStart,
-                            end : diagnosticRelativeStart + diagnostic.length,
-                            parameterName : originalToSubstituted.src.parameterName,
-                        },
+                        src : (
+                            parent?.diagnosticRelativeStart == undefined ?
+                            {
+                                start : diagnosticRelativeStart,
+                                end : diagnosticRelativeStart + diagnostic.length,
+                                parameterName : originalToSubstituted.src.parameterName,
+                            } :
+                            {
+                                start : diagnostic.start - diagnosticRelativeStart,
+                                end : diagnostic.start - diagnosticRelativeStart + diagnostic.length,
+                                //start : diagnosticRelativeStart,
+                                //end : diagnosticRelativeStart + diagnostic.length,
+                                parameterName : originalToSubstituted.src.parameterName,
+                            }
+                        ),
                     }
                 ] :
                 []
@@ -284,7 +344,8 @@ function getExpansionPathImpl (
         offset : offset + arg.start,
         filename : filename,
         diagnostic : {
-            start : diagnosticRelativeStart,
+            //start : diagnosticRelativeStart,
+            start : diagnostic.start,
             length : diagnostic.length,
         },
         expandedContent : arg.value,
@@ -292,6 +353,11 @@ function getExpansionPathImpl (
             macro : parent?.macro,
             originalToSubstituted : undefined,
             replacements : parent?.replacements,
+            //diagnosticRelativeStart
+            //originalToSubstituted_resultDst_start : (parent?.originalToSubstituted_resultDst_start ?? 0) + originalToSubstituted.resultDst.start,
+            //diagnosticRelativeStart : (parent?.diagnosticRelativeStart ?? 0) + diagnosticRelativeStart + originalToSubstituted.resultDst.start,
+            originalToSubstituted_resultDst_start : originalToSubstituted.resultDst.start,
+            diagnosticRelativeStart : diagnosticRelativeStart + originalToSubstituted.resultDst.start,
         },
         traceRelatedRange,
     });
@@ -364,12 +430,16 @@ function getExpansionPathImpl (
                     (
                         parent?.macro == undefined ?
                         {
+                            //start : offset + myArg.start,
+                            //end : offset + myArg.end,
                             start : offset + myArg.start + diagnosticRelativeStart,
                             end : offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
                         } :
                         {
                             start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart,
                             end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
+                            //start : parent.macro.content.start + offset + myArg.start,
+                            //end : parent.macro.content.start + offset + myArg.start + diagnostic.length,
                         }
                     )
                 ),

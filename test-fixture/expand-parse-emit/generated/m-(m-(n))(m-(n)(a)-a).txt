@@ -1,0 +1,70 @@
+#define macro00 () KEY;;
+
+#define macro03 (a) a;;
+
+#define macro0 (a)
+CREATE SCHEMA \macro03{KEY};
+CREATE SCHEMA a; ;;
+
+-----
+\macro0{\macro00}
+
+-----
+
+-----
+CREATE SCHEMA `KEY`;
+
+CREATE SCHEMA `KEY`;
+
+-----
+[]
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 0,
+        "length": 7,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 93,
+                "length": 3
+            },
+            {
+                "filename": "file-0",
+                "start": 43,
+                "length": 1
+            },
+            {
+                "filename": "file-0",
+                "start": 46,
+                "length": 1
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 8,
+        "length": 8,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 19,
+                "length": 3
+            },
+            {
+                "filename": "file-0",
+                "start": 67,
+                "length": 1
+            },
+            {
+                "filename": "file-0",
+                "start": 113,
+                "length": 1
+            }
+        ]
+    }
+]

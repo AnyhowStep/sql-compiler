@@ -179,16 +179,16 @@ export function generateCases (
     //for (let i=0; i<=macroCallCount; ++i) {
         //for (let j=0; j<=parameterCount; ++j) {
             const i = macroCallCount;
-            const j = parameterCount-(depth%2 == 0 ? 0 : 1);
+            const j = parameterCount;
 
             //const args : Set<string> = new Set<string>();
             //for (let k=0; k<=macroCallCount; ++k) {
-                const k = macroCallCount-1;
+                const k = macroCallCount;
                 const args = generateCases({
                     depth : depth+1,
                     maxDepth,
                     macroCallCount : k,
-                    parameterCount : effectiveParameterCount-(depth%2 == 0 ? 0 : 1),
+                    parameterCount : effectiveParameterCount,
                 });
             //}
 
@@ -346,7 +346,7 @@ export function generateCases (
 function getHistogram (str : string) {
     const histogram = new Map<string, number>();
     for (const c of str) {
-        if (c == "-" || c == "(" || c == ")" || c == "m") {
+        if (c == "-" || c == "(" || c == ")" || c == "m" || c == "n") {
             continue;
         }
         const count = histogram.get(str);
@@ -360,7 +360,7 @@ function getHistogram (str : string) {
 }
 const foo = generateCases({
     depth : 0,
-    maxDepth : 1,
+    maxDepth : 2,
 
     macroCallCount : 2,
     parameterCount : 2,
@@ -376,13 +376,13 @@ arr.sort((a, b) => {
 
     const aScore = [...aHistogram.values()].reduce(
         (memo, cur) => {
-            return memo + cur*cur / aHistogram.size;
+            return memo + cur*cur;
         },
         0
     );
     const bScore = [...bHistogram.values()].reduce(
         (memo, cur) => {
-            return memo + cur*cur / bHistogram.size;
+            return memo + cur*cur;
         },
         0
     );
