@@ -60,6 +60,7 @@ interface GetExpansionPathImplArgs {
         readonly replacements : readonly ConcreteSubstitution[] | undefined,
         readonly originalToSubstituted_resultDst_start : number|undefined,
         readonly diagnosticRelativeStart : number|undefined,
+        readonly resultDstStart : number|undefined,
     },
 
     readonly traceRelatedRange : (
@@ -92,9 +93,9 @@ function getExpansionPathImpl (
     const originalToExpanded = expandedContent.originalToExpanded.find(originalToExpanded => {
         return originalToExpanded.resultDst.end >= diagnosticEnd - (
             //parent?.diagnosticRelativeStart == undefined ?
-            parent?.originalToSubstituted_resultDst_start == undefined ?
+            parent?.resultDstStart == undefined ?
             0 :
-            parent.originalToSubstituted_resultDst_start
+            parent.resultDstStart
         );
     });
     if (originalToExpanded == undefined) {
@@ -139,6 +140,8 @@ function getExpansionPathImpl (
             replacements : undefined,
             originalToSubstituted_resultDst_start : undefined,
             diagnosticRelativeStart : undefined,
+            //resultDstStart : originalToExpanded.resultDst.start + (parent?.resultDstStart ?? 0),
+            resultDstStart : (parent?.resultDstStart ?? 0),
         },
         traceRelatedRange,
     });
@@ -176,6 +179,11 @@ function getExpansionPathImpl (
         originalToExpanded.resultDst.start
         //expandedMacro.macroIdentifier.src.start
     );
+    const parent_resultDstStart = (
+        "src" in expandedMacro_originalToExpandedOrArg1 ?
+        (parent?.resultDstStart ?? 0) :
+        0
+    );
 
     const originalToSubstituted1 = (
         expandedMacro.originalToSubstituted.length == 1 ?
@@ -184,12 +192,12 @@ function getExpansionPathImpl (
         //expanded macro content has parameters
         expandedMacro.originalToSubstituted.find(originalToSubstituted => {
             if ("src" in expandedMacro_originalToExpandedOrArg1) {
-                return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - (parent?.originalToSubstituted_resultDst_start ?? 0);
+                return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart;
             }
             return (
                 (
-                    originalToSubstituted.resultDst.start >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - (parent?.originalToSubstituted_resultDst_start ?? 0) &&
-                    originalToSubstituted.resultDst.end <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - (parent?.originalToSubstituted_resultDst_start ?? 0)
+                    originalToSubstituted.resultDst.start >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - parent_resultDstStart &&
+                    originalToSubstituted.resultDst.end <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart
                 ) ||
                 (
                     originalToSubstituted.resultDst.start <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - (parent?.originalToSubstituted_resultDst_start ?? 0) &&
@@ -217,6 +225,8 @@ function getExpansionPathImpl (
             }),
             originalToSubstituted_resultDst_start : undefined,
             diagnosticRelativeStart : undefined,
+            //resultDstStart : originalToExpanded.resultDst.start + (parent?.resultDstStart ?? 0),
+            resultDstStart : (parent?.resultDstStart ?? 0),
         },
         traceRelatedRange,
     });
@@ -361,6 +371,8 @@ function getExpansionPathImpl (
             //diagnosticRelativeStart : (parent?.diagnosticRelativeStart ?? 0) + diagnosticRelativeStart + originalToSubstituted.resultDst.start,
             //originalToSubstituted_resultDst_start : originalToSubstituted.resultDst.start,
             diagnosticRelativeStart : diagnosticRelativeStart + originalToSubstituted.resultDst.start,
+            //todo confirm calculation
+            resultDstStart : originalToSubstituted.resultDst.start + (parent?.originalToSubstituted_resultDst_start ?? 0) + (parent?.resultDstStart ?? 0),
         },
         traceRelatedRange,
     });
@@ -439,10 +451,10 @@ function getExpansionPathImpl (
                             end : offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
                         } :
                         {
-                            start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart,
-                            end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
-                            //start : parent.macro.content.start + offset + myArg.start,
-                            //end : parent.macro.content.start + offset + myArg.start + diagnostic.length,
+                            //start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart,
+                            //end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
+                            start : parent.macro.content.start + offset + myArg.start,
+                            end : parent.macro.content.start + offset + myArg.start + diagnostic.length,
                         }
                     )
                 ),
