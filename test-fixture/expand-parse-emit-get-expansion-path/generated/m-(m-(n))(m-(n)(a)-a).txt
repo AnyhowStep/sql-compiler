@@ -3,7 +3,7 @@
 #define macro03 (a) a;;
 
 #define macro0 (a)
-CREATE SCHEMA \macro03{KEY};
+CREATE SCHEMA \macro03{BOTH};
 CREATE SCHEMA a; ;;
 
 -----
@@ -12,7 +12,7 @@ CREATE SCHEMA a; ;;
 -----
 
 -----
-CREATE SCHEMA `KEY`;
+CREATE SCHEMA `BOTH`;
 
 CREATE SCHEMA `KEY`;
 
@@ -24,13 +24,13 @@ CREATE SCHEMA `KEY`;
     [
         {
             "category": 0,
-            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "messageText": "Cannot use keyword BOTH as identifier; escape it with backticks",
             "start": 14,
-            "length": 3
+            "length": 4
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE SCHEMA KEY;\nCREATE SCHEMA KEY; \n"
+            "expandedContent": "CREATE SCHEMA BOTH;\nCREATE SCHEMA KEY; \n"
         },
         {
             "filename": "file-1",
@@ -51,17 +51,17 @@ CREATE SCHEMA `KEY`;
         },
         {
             "filename": "file-0",
-            "expandedContent": "CREATE SCHEMA KEY;\nCREATE SCHEMA KEY; "
+            "expandedContent": "CREATE SCHEMA BOTH;\nCREATE SCHEMA KEY; "
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 23,
-                "end": 26
+                "end": 27
             },
             "fileSrc": {
                 "start": 93,
-                "end": 96
+                "end": 97
             }
         },
         {
@@ -74,19 +74,19 @@ CREATE SCHEMA `KEY`;
         },
         {
             "filename": "file-0",
-            "expandedContent": "KEY"
+            "expandedContent": "BOTH"
         }
     ],
     [
         {
             "category": 0,
             "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
-            "start": 33,
+            "start": 34,
             "length": 3
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE SCHEMA KEY;\nCREATE SCHEMA KEY; \n"
+            "expandedContent": "CREATE SCHEMA BOTH;\nCREATE SCHEMA KEY; \n"
         },
         {
             "filename": "file-1",
@@ -134,20 +134,20 @@ CREATE SCHEMA `KEY`;
         {
             "filename": "file-0",
             "src": {
-                "start": 113,
-                "end": 114,
+                "start": 114,
+                "end": 115,
                 "parameterName": "a"
             }
         },
         {
             "filename": "file-0",
-            "expandedContent": "CREATE SCHEMA KEY;\nCREATE SCHEMA KEY; "
+            "expandedContent": "CREATE SCHEMA BOTH;\nCREATE SCHEMA KEY; "
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 27,
-                "end": 47
+                "start": 28,
+                "end": 48
             }
         }
     ]

@@ -90,13 +90,23 @@ function getExpansionPathImpl (
     }
     //*/
     const diagnosticEnd = diagnostic.start + diagnostic.length;
+    const newDiagnosticEnd = diagnosticEnd - (
+        //parent?.diagnosticRelativeStart == undefined ?
+        parent?.resultDstStart == undefined ?
+        0 :
+        parent.resultDstStart
+    );
+    if (newDiagnosticEnd <= 0) {
+        //negative-length/zero-length diagnostics do not make sense
+        return [
+            {
+                ...expandedContent,
+                filename,
+            },
+        ];
+    }
     const originalToExpanded = expandedContent.originalToExpanded.find(originalToExpanded => {
-        return originalToExpanded.resultDst.end >= diagnosticEnd - (
-            //parent?.diagnosticRelativeStart == undefined ?
-            parent?.resultDstStart == undefined ?
-            0 :
-            parent.resultDstStart
-        );
+        return originalToExpanded.resultDst.end >= newDiagnosticEnd;
     });
     if (originalToExpanded == undefined) {
         return [
@@ -156,11 +166,24 @@ function getExpansionPathImpl (
             fileSrc : {
                 start : diagnostic.start,
                 end : diagnosticEnd,
-            }
+            },
+            dst : {
+                start : diagnostic.start,
+                end : diagnosticEnd,
+            },
+            resultDst : {
+                start : diagnostic.start,
+                end : diagnosticEnd,
+            },
         } :
         macroResult1[1]
     );
 
+    const expandedMacro_originalToExpandedOrArg_resultDst_start_offset = (
+        "src" in expandedMacro_originalToExpandedOrArg1 ?
+        expandedMacro_originalToExpandedOrArg1.resultDst.start - expandedMacro_originalToExpandedOrArg1.src.start :
+        0
+    );
     const expandedMacro_originalToExpandedOrArg_src_start1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
         //expandedMacro_originalToExpandedOrArg1.src.start :
@@ -376,12 +399,12 @@ function getExpansionPathImpl (
             originalToSubstituted : undefined,
             replacements : parent?.replacements,
             //diagnosticRelativeStart
-            originalToSubstituted_resultDst_start : (parent?.originalToSubstituted_resultDst_start ?? 0) + originalToSubstituted.resultDst.start,
+            originalToSubstituted_resultDst_start : (parent?.originalToSubstituted_resultDst_start ?? 0) + originalToSubstituted.resultDst.start + expandedMacro_originalToExpandedOrArg_resultDst_start_offset,
             //diagnosticRelativeStart : (parent?.diagnosticRelativeStart ?? 0) + diagnosticRelativeStart + originalToSubstituted.resultDst.start,
             //originalToSubstituted_resultDst_start : originalToSubstituted.resultDst.start,
             diagnosticRelativeStart : diagnosticRelativeStart + originalToSubstituted.resultDst.start,
             //todo confirm calculation
-            resultDstStart : originalToSubstituted.resultDst.start + (parent?.originalToSubstituted_resultDst_start ?? 0) + (parent?.resultDstStart ?? 0),
+            resultDstStart : originalToSubstituted.resultDst.start + expandedMacro_originalToExpandedOrArg_resultDst_start_offset + (parent?.resultDstStart ?? 0),
         },
         traceRelatedRange,
     });
