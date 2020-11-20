@@ -262,6 +262,13 @@ function getExpansionPathImpl (
         throw new Error(`Should have originalToSubstituted`);
     }
 
+    const parameterRefsBefore = expandedMacro.originalToSubstituted.filter(originalToSubstituted => {
+        if (originalToSubstituted.src.parameterName == undefined) {
+            return false;
+        }
+        return originalToSubstituted.src.end <= originalToSubstituted1.src.start;
+    });
+
     expandedMacro.expandedContent.originalToExpanded
     const blah = expandedMacro.originalToSubstituted[0].resultDst.start
     const expandedMacro_expandedContent_originalToExpanded_src_end_min = expandedMacro_originalToExpandedOrArg_src_start1;
@@ -415,8 +422,8 @@ function getExpansionPathImpl (
                             //parent?.diagnosticRelativeStart == undefined ?
                             parent?.originalToSubstituted_resultDst_start == undefined ?
                             {
-                                start : diagnosticRelativeStart,
-                                end : diagnosticRelativeStart + diagnostic.length,
+                                start : diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start).reduce((memo, cur) => memo + cur, 0),
+                                end : diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start).reduce((memo, cur) => memo + cur, 0) + diagnostic.length,
                                 parameterName : originalToSubstituted.src.parameterName,
                             } :
                             {
