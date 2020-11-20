@@ -371,6 +371,7 @@ function getExpansionPathImpl (
             if (diagnosticRelativeStart == expandedMacro_originalToExpandedOrArg_resultDst_start1) {
                 diagnosticRelativeStart -= originalToSubstituted.src.start;
                 diagnosticRelativeStart -= originalToExpanded.resultDst.start;
+                diagnosticRelativeStart -= (parent?.resultDstStart ?? 0);
             } else {
                 diagnosticRelativeStart -= expandedMacro_originalToExpandedOrArg_resultDst_start1;
                 diagnosticRelativeStart -= relativeResultDstStartAtOriginalToSubstituted;

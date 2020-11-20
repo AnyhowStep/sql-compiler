@@ -1,6 +1,6 @@
 #define macro0 (tableName) TABLE  tableName  (;;
 
-#define hey (arg0) CREATE  arg0  X INT);;
+#define hey (arg0) CREATE   arg0  X INT);;
 
 -----
 \hey{\macro0{KEY}};
@@ -21,12 +21,12 @@ CREATE TABLE `KEY` (
         {
             "category": 0,
             "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
-            "start": 15,
+            "start": 16,
             "length": 3
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TABLE  KEY  (  X INT);\n"
+            "expandedContent": "CREATE   TABLE  KEY  (  X INT);\n"
         },
         {
             "filename": "file-1",
@@ -69,14 +69,14 @@ CREATE TABLE `KEY` (
         {
             "filename": "file-0",
             "src": {
-                "start": 77,
-                "end": 81,
+                "start": 78,
+                "end": 82,
                 "parameterName": "arg0"
             }
         },
         {
             "filename": "file-0",
-            "expandedContent": "CREATE  TABLE  KEY  (  X INT)"
+            "expandedContent": "CREATE   TABLE  KEY  (  X INT)"
         }
     ]
 ]
