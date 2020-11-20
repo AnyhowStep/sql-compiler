@@ -422,8 +422,8 @@ function getExpansionPathImpl (
                             //parent?.diagnosticRelativeStart == undefined ?
                             parent?.originalToSubstituted_resultDst_start == undefined ?
                             {
-                                start : diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start).reduce((memo, cur) => memo + cur, 0),
-                                end : diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start).reduce((memo, cur) => memo + cur, 0) + diagnostic.length,
+                                start : diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start - (ref.resultDst.end - ref.resultDst.start)).reduce((memo, cur) => memo + cur, 0),
+                                end : diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start - (ref.resultDst.end - ref.resultDst.start)).reduce((memo, cur) => memo + cur, 0) + diagnostic.length,
                                 parameterName : originalToSubstituted.src.parameterName,
                             } :
                             {
