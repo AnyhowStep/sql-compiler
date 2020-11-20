@@ -193,6 +193,17 @@ function getExpansionPathImpl (
         expandedMacro_originalToExpandedOrArg1.resultDst.start - expandedMacro_originalToExpandedOrArg1.src.start :
         0
     );
+    const expandedMacro_originalToExpandedOrArg_resultDst_start1 = (
+        "src" in expandedMacro_originalToExpandedOrArg1 ?
+        (
+            "macro" in expandedMacro_originalToExpandedOrArg1 ?
+            0 :
+            expandedMacro_originalToExpandedOrArg1.resultDst.start
+        ) :
+        //TODO
+        0
+    );
+    expandedMacro_originalToExpandedOrArg_resultDst_start1;
     const expandedMacro_originalToExpandedOrArg_src_start1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
         expandedMacro_originalToExpandedOrArg1.src.start :
@@ -248,6 +259,35 @@ function getExpansionPathImpl (
     if (originalToSubstituted1 == undefined) {
         throw new Error(`Should have originalToSubstituted`);
     }
+
+    expandedMacro.expandedContent.originalToExpanded
+    const blah = expandedMacro.originalToSubstituted[0].resultDst.start
+    const expandedMacro_expandedContent_originalToExpanded_src_end_min = expandedMacro_originalToExpandedOrArg_src_start1;
+    const expandedMacro_expandedContent_originalToExpanded_src_max = originalToSubstituted1.resultDst.start - blah;
+    const relativeResultDstStartAtOriginalToSubstituted = expandedMacro.expandedContent.originalToExpanded.reduce(
+        (sum, originalToExpanded) => {
+            if (originalToExpanded.src.start == originalToExpanded.src.end) {
+                return sum;
+            }
+            if (originalToExpanded.src.end <= expandedMacro_expandedContent_originalToExpanded_src_end_min) {
+                return sum;
+            }
+            //TODO check if we want >= or >
+            if (originalToExpanded.src.start > expandedMacro_expandedContent_originalToExpanded_src_max) {
+                return sum;
+            }
+
+            if (originalToExpanded.src.end <= expandedMacro_expandedContent_originalToExpanded_src_max) {
+                const length = originalToExpanded.resultDst.end - originalToExpanded.resultDst.start;
+                return sum + length;
+            } else {
+                const length = expandedMacro_expandedContent_originalToExpanded_src_max - originalToExpanded.src.start;
+                return sum + length;
+            }
+        },
+        0
+    );
+    relativeResultDstStartAtOriginalToSubstituted;
 
     const macroResult2 = getExpansionPathImpl({
         depth : depth + 1,
@@ -329,8 +369,12 @@ function getExpansionPathImpl (
                 diagnosticRelativeStart += originalToSubstituted.src.start;
             }
         } else {
-            diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
-            diagnosticRelativeStart += expandedMacro_expandedContent_originalToExpanded.src.start;
+            //diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
+            //diagnosticRelativeStart += expandedMacro_expandedContent_originalToExpanded.src.start;
+            //uncommenting breaks unnested-macro/use-macro-twice-2.txt
+            //commenting breaks generated/m-(n)-(n-m-(n)-n-a).txt
+            diagnosticRelativeStart -= expandedMacro_originalToExpandedOrArg_resultDst_start1;
+            diagnosticRelativeStart -= relativeResultDstStartAtOriginalToSubstituted;
             if (originalToSubstituted.src.parameterName == undefined) {
                 diagnosticRelativeStart += originalToSubstituted.src.start;
             }

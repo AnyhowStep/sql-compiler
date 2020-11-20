@@ -1,6 +1,6 @@
 #define hey (arg00) \macro0 CREATE  arg00  X INT);;
 
-#define macro0 () /*111*/;;
+#define macro0 () /*1111*/;;
 
 -----
 \hey{TABLE KEY (};
