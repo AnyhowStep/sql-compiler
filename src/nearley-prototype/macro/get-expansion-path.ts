@@ -208,7 +208,8 @@ function getExpansionPathImpl (
     const expandedMacro_src_end_offset1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
         0 :
-        originalToExpanded.resultDst.start
+        0
+        //originalToExpanded.resultDst.start
         //expandedMacro.macroIdentifier.src.start
     );
     const parent_resultDstStart = (
