@@ -1,0 +1,155 @@
+#define macro0 (tableName) TABLE  tableName  (;;
+
+#define hey (arg0) CREATE  arg0   INT);;
+/*CREATE  TEMPORARY TABLE  KEY  ( X   INT);
+
+\hey{TEMPORARY \macro0{BOTH} X};
+
+CREATE  TEMPORARY TABLE  BOTH  ( X   INT);
+*/
+-----
+\hey{TEMPORARY \macro0{KEY} X};
+
+\hey{TEMPORARY \macro0{BOTH} X};
+
+-----
+
+-----
+CREATE TEMPORARY TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TEMPORARY TABLE `BOTH` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 25,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TEMPORARY TABLE  KEY  ( X   INT);\n\nCREATE  TEMPORARY TABLE  BOTH  ( X   INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 5,
+                "end": 29
+            },
+            "fileSrc": {
+                "start": 5,
+                "end": 29
+            }
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "TEMPORARY TABLE  KEY  ( X"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 18,
+                "end": 21
+            },
+            "fileSrc": {
+                "start": 23,
+                "end": 26
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 34,
+                "end": 43,
+                "parameterName": "tableName"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "TABLE  KEY  ("
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 77,
+                "end": 81,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TEMPORARY TABLE  KEY  ( X   INT)"
+        }
+    ],
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword BOTH as identifier; escape it with backticks",
+            "start": 68,
+            "length": 4
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TEMPORARY TABLE  KEY  ( X   INT);\n\nCREATE  TEMPORARY TABLE  BOTH  ( X   INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 38,
+                "end": 63
+            },
+            "fileSrc": {
+                "start": 38,
+                "end": 63
+            }
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "TEMPORARY TABLE  BOTH  ( X"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 18,
+                "end": 22
+            },
+            "fileSrc": {
+                "start": 56,
+                "end": 60
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 34,
+                "end": 43,
+                "parameterName": "tableName"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "TABLE  BOTH  ("
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 77,
+                "end": 81,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TEMPORARY TABLE  BOTH  ( X   INT)"
+        }
+    ]
+]

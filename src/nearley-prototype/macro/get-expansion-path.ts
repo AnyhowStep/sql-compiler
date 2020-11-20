@@ -189,6 +189,8 @@ function getExpansionPathImpl (
     );
 
     const expandedMacro_originalToExpandedOrArg_resultDst_start_offset = (
+        isLength(macroResult1, 1) ?
+        0 :
         "src" in expandedMacro_originalToExpandedOrArg1 ?
         expandedMacro_originalToExpandedOrArg1.resultDst.start - expandedMacro_originalToExpandedOrArg1.src.start :
         0
@@ -357,29 +359,23 @@ function getExpansionPathImpl (
     //} else if (expandedMacro_expandedContent_originalToExpanded != undefined) {
     //    diagnosticRelativeStart -= expandedMacro_expandedContent_originalToExpanded.resultDst.start;
     } else {
-        //*
+        /*
         if (parent?.originalToSubstituted_resultDst_start != undefined) {
             diagnosticRelativeStart -= parent.originalToSubstituted_resultDst_start;
         }
         //*/
 
-        if (expandedMacro_expandedContent_originalToExpanded == undefined) {
-            diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
-            if (originalToSubstituted.src.parameterName == undefined) {
-                diagnosticRelativeStart += originalToSubstituted.src.start;
-            }
+        if (originalToSubstituted.src.parameterName == undefined) {
+            diagnosticRelativeStart += originalToSubstituted.src.start;
         } else {
-            //diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
-            //diagnosticRelativeStart += expandedMacro_expandedContent_originalToExpanded.src.start;
-            //uncommenting breaks unnested-macro/use-macro-twice-2.txt
-            //commenting breaks generated/m-(n)-(n-m-(n)-n-a).txt
-            diagnosticRelativeStart -= expandedMacro_originalToExpandedOrArg_resultDst_start1;
-            diagnosticRelativeStart -= relativeResultDstStartAtOriginalToSubstituted;
-            if (originalToSubstituted.src.parameterName == undefined) {
-                diagnosticRelativeStart += originalToSubstituted.src.start;
+            if (diagnosticRelativeStart == expandedMacro_originalToExpandedOrArg_resultDst_start1) {
+                diagnosticRelativeStart -= originalToSubstituted.src.start;
+                diagnosticRelativeStart -= originalToExpanded.resultDst.start;
+            } else {
+                diagnosticRelativeStart -= expandedMacro_originalToExpandedOrArg_resultDst_start1;
+                diagnosticRelativeStart -= relativeResultDstStartAtOriginalToSubstituted;
             }
         }
-        //*/
     }
 
     if (originalToSubstituted.src.parameterName == undefined) {
