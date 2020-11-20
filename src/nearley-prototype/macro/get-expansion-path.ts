@@ -366,7 +366,8 @@ function getExpansionPathImpl (
         //*/
 
         if (originalToSubstituted.src.parameterName == undefined) {
-            diagnosticRelativeStart += originalToSubstituted.src.start;
+            //diagnosticRelativeStart += originalToSubstituted.src.start;
+            diagnosticRelativeStart -= originalToExpanded.resultDst.start
         } else {
             if (diagnosticRelativeStart == expandedMacro_originalToExpandedOrArg_resultDst_start1) {
                 diagnosticRelativeStart -= originalToSubstituted.src.start;
@@ -546,8 +547,8 @@ function getExpansionPathImpl (
                             end : offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
                         } :
                         {
-                            start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart,
-                            end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
+                            start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : originalToExpanded.resultDst.start),
+                            end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : originalToExpanded.resultDst.start) + diagnostic.length,
                             //start : parent.macro.content.start + offset + myArg.start + macroConreteSubstitutions_resultDst_start,
                             //end : parent.macro.content.start + offset + myArg.start + macroConreteSubstitutions_resultDst_start + diagnostic.length,
                             //start : parent.macro.content.start + offset + myArg.start,
