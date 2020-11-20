@@ -1,0 +1,126 @@
+#define macro02 () /**/BOTH/**/;;
+
+#define macro0 (x)
+CREATE SCHEMA \macro02;
+CREATE SCHEMA x;
+;;
+
+-----
+\macro0{KEY}
+
+-----
+
+-----
+CREATE SCHEMA `BOTH`;
+
+CREATE SCHEMA `KEY`;
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword BOTH as identifier; escape it with backticks",
+            "start": 18,
+            "length": 4
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE SCHEMA /**/BOTH/**/;\nCREATE SCHEMA KEY;\n\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 12
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 7
+                },
+                "fileSrc": {
+                    "start": 0,
+                    "end": 7
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE SCHEMA /**/BOTH/**/;\nCREATE SCHEMA KEY;\n"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 14,
+                "end": 22
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 14,
+                    "end": 22
+                },
+                "fileSrc": {
+                    "start": 68,
+                    "end": 76
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 23,
+                "end": 27
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "/**/BOTH/**/"
+        }
+    ],
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 42,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE SCHEMA /**/BOTH/**/;\nCREATE SCHEMA KEY;\n\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 8,
+                "end": 11
+            },
+            "fileSrc": {
+                "start": 8,
+                "end": 11
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 92,
+                "end": 93,
+                "parameterName": "x"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE SCHEMA /**/BOTH/**/;\nCREATE SCHEMA KEY;\n"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 22,
+                "end": 42
+            }
+        }
+    ]
+]

@@ -128,8 +128,8 @@ function getExpansionPathImpl (
                 filename,
                 macroIdentifier : undefined,
                 fileSrc : {
-                    start : diagnostic.start - originalToExpanded.resultDst.start + originalToExpanded.src.start,
-                    end : diagnostic.start - originalToExpanded.resultDst.start + originalToExpanded.src.start + diagnostic.length,
+                    start : diagnostic.start - originalToExpanded.resultDst.start + originalToExpanded.src.start + (parent?.macro?.content?.start ?? 0),
+                    end : diagnostic.start - originalToExpanded.resultDst.start + originalToExpanded.src.start + (parent?.macro?.content?.start ?? 0) + diagnostic.length,
                 },
             },
         ];
@@ -158,24 +158,33 @@ function getExpansionPathImpl (
 
     const expandedMacro_originalToExpandedOrArg1 = (
         isLength(macroResult1, 1) ?
-        {
-            src : {
-                start : diagnostic.start,
-                end : diagnosticEnd,
-            },
-            fileSrc : {
-                start : diagnostic.start,
-                end : diagnosticEnd,
-            },
-            dst : {
-                start : diagnostic.start,
-                end : diagnosticEnd,
-            },
-            resultDst : {
-                start : diagnostic.start,
-                end : diagnosticEnd,
-            },
-        } :
+        (
+            parent?.macro == undefined ?
+            {
+                src : {
+                    start : diagnostic.start - originalToExpanded.resultDst.start + originalToExpanded.dst.start - expandedMacro.originalToSubstituted[0].resultDst.start,
+                    end : diagnosticEnd - originalToExpanded.resultDst.start + originalToExpanded.dst.start - expandedMacro.originalToSubstituted[0].resultDst.start,
+                },
+                fileSrc : {
+                    start : diagnostic.start - originalToExpanded.resultDst.start + expandedMacro.macro.content.start,
+                    end : diagnosticEnd - originalToExpanded.resultDst.start + expandedMacro.macro.content.start,
+                },
+                resultDst : {
+                    start : diagnostic.start,
+                    end : diagnosticEnd,
+                },
+            } :
+            {
+                src : {
+                    start : diagnostic.start - expandedMacro.originalToSubstituted[0].resultDst.start,
+                    end : diagnosticEnd - expandedMacro.originalToSubstituted[0].resultDst.start,
+                },
+                resultDst : {
+                    start : diagnostic.start - expandedMacro.originalToSubstituted[0].resultDst.start,
+                    end : diagnosticEnd - expandedMacro.originalToSubstituted[0].resultDst.start,
+                },
+            }
+        ) :
         macroResult1[1]
     );
 
@@ -186,14 +195,14 @@ function getExpansionPathImpl (
     );
     const expandedMacro_originalToExpandedOrArg_src_start1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
-        //expandedMacro_originalToExpandedOrArg1.src.start :
-        expandedMacro_originalToExpandedOrArg1.fileSrc.start :
+        expandedMacro_originalToExpandedOrArg1.src.start :
+        //expandedMacro_originalToExpandedOrArg1.fileSrc.start :
         expandedMacro_originalToExpandedOrArg1.start
     );
     const expandedMacro_originalToExpandedOrArg_src_end1 = (
         "src" in expandedMacro_originalToExpandedOrArg1 ?
-        //expandedMacro_originalToExpandedOrArg1.src.end :
-        expandedMacro_originalToExpandedOrArg1.fileSrc.end :
+        expandedMacro_originalToExpandedOrArg1.src.end :
+        //expandedMacro_originalToExpandedOrArg1.fileSrc.end :
         expandedMacro_originalToExpandedOrArg1.end
     );
     const expandedMacro_src_end_offset1 = (
@@ -214,17 +223,22 @@ function getExpansionPathImpl (
         expandedMacro.originalToSubstituted[0] :
         //expanded macro content has parameters
         expandedMacro.originalToSubstituted.find(originalToSubstituted => {
-            if ("src" in expandedMacro_originalToExpandedOrArg1) {
-                return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart;
+            //if ("src" in expandedMacro_originalToExpandedOrArg1) {
+            //    return originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart;
+            //}
+            if (originalToSubstituted.resultDst.start == originalToSubstituted.resultDst.end) {
+                //Ignore length-zero substrings
+                return false;
             }
+            const blah = expandedMacro.originalToSubstituted[0].resultDst.start;
             return (
                 (
-                    originalToSubstituted.resultDst.start >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - parent_resultDstStart &&
-                    originalToSubstituted.resultDst.end <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart
+                    originalToSubstituted.resultDst.start >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - parent_resultDstStart + blah &&
+                    originalToSubstituted.resultDst.end <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart + blah
                 ) ||
                 (
-                    originalToSubstituted.resultDst.start <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - parent_resultDstStart &&
-                    originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart
+                    originalToSubstituted.resultDst.start <= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_start1 - parent_resultDstStart + blah &&
+                    originalToSubstituted.resultDst.end >= expandedMacro_src_end_offset1 + expandedMacro_originalToExpandedOrArg_src_end1 - parent_resultDstStart + blah
                 )
             );
         })
@@ -310,6 +324,12 @@ function getExpansionPathImpl (
 
         if (expandedMacro_expandedContent_originalToExpanded == undefined) {
             diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
+            if (originalToSubstituted.src.parameterName == undefined) {
+                diagnosticRelativeStart += originalToSubstituted.src.start;
+            }
+        } else {
+            diagnosticRelativeStart -= originalToSubstituted.resultDst.start;
+            diagnosticRelativeStart += expandedMacro_expandedContent_originalToExpanded.src.start;
             if (originalToSubstituted.src.parameterName == undefined) {
                 diagnosticRelativeStart += originalToSubstituted.src.start;
             }
@@ -479,6 +499,7 @@ function getExpansionPathImpl (
                         {
                             //start : offset + myArg.start,
                             //end : offset + myArg.end,
+                            //Need this to pass unnested-macro/use-macro-twice
                             start : offset + myArg.start + diagnosticRelativeStart,
                             end : offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
                         } :

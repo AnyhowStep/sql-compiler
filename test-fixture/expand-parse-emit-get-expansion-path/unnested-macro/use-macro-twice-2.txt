@@ -1,0 +1,110 @@
+#define hey (arg00) \macro0 CREATE  arg00  X INT);;
+
+#define macro0 () /*111*/;;
+
+-----
+\hey{TABLE KEY (};
+
+\hey{TABLE BOTH (};
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TABLE `BOTH` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 15,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": " CREATE  TABLE KEY (  X INT);\n\n CREATE  TABLE BOTH (  X INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 5,
+                "end": 16
+            },
+            "fileSrc": {
+                "start": 11,
+                "end": 14
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 36,
+                "end": 41,
+                "parameterName": "arg00"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": " CREATE  TABLE KEY (  X INT)"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 7,
+                "end": 35
+            }
+        }
+    ],
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword BOTH as identifier; escape it with backticks",
+            "start": 46,
+            "length": 4
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": " CREATE  TABLE KEY (  X INT);\n\n CREATE  TABLE BOTH (  X INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 25,
+                "end": 37
+            },
+            "fileSrc": {
+                "start": 31,
+                "end": 35
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 36,
+                "end": 41,
+                "parameterName": "arg00"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": " CREATE  TABLE BOTH (  X INT)"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 7,
+                "end": 36
+            }
+        }
+    ]
+]
