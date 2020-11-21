@@ -1,0 +1,87 @@
+#define createTable (arg0) CREATE TABLE  arg0 (X INT); ;;
+
+#define key () KEY;;
+
+-----
+\createTable{/* N00 */\key}
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 23,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE TABLE  /* N00 */KEY (X INT); \n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 13,
+                "end": 26
+            },
+            "fileSrc": {
+                "start": 13,
+                "end": 26
+            }
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "/* N00 */KEY"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 9,
+                "end": 13
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 9,
+                    "end": 13
+                },
+                "fileSrc": {
+                    "start": 22,
+                    "end": 26
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 74,
+                "end": 77
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "KEY"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 41,
+                "end": 45,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE TABLE  /* N00 */KEY (X INT); "
+        }
+    ]
+]
