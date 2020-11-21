@@ -553,8 +553,8 @@ function getExpansionPathImpl (
                             //start : offset + myArg.start,
                             //end : offset + myArg.end,
                             //Need this to pass unnested-macro/use-macro-twice
-                            start : offset + myArg.start + diagnosticRelativeStart,
-                            end : offset + myArg.start + diagnosticRelativeStart + diagnostic.length,
+                            start : offset + myArg.start + diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start - (ref.resultDst.end - ref.resultDst.start)).reduce((memo, cur) => memo + cur, 0),
+                            end : offset + myArg.start + diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start - (ref.resultDst.end - ref.resultDst.start)).reduce((memo, cur) => memo + cur, 0) + diagnostic.length,
                         } :
                         {
                             start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : originalToExpanded.resultDst.start),

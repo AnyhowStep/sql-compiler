@@ -1,0 +1,93 @@
+#define hey (arg0, arg1) CREATE  arg0  KEY   arg1  INT);;
+
+-----
+\hey{  TABLE  }{(     BOTH  };
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `BOTH` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 19,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE    TABLE    KEY   (     BOTH    INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 29
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 4
+                },
+                "fileSrc": {
+                    "start": 0,
+                    "end": 4
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 39,
+                "end": 42
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE    TABLE    KEY   (     BOTH    INT)"
+        }
+    ],
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword BOTH as identifier; escape it with backticks",
+            "start": 31,
+            "length": 4
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE    TABLE    KEY   (     BOTH    INT);\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 16,
+                "end": 28
+            },
+            "fileSrc": {
+                "start": 22,
+                "end": 26
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 45,
+                "end": 49,
+                "parameterName": "arg1"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE    TABLE    KEY   (     BOTH    INT)"
+        }
+    ]
+]
