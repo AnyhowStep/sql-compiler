@@ -1,0 +1,140 @@
+#define hey (arg0) CREATE  arg0  X INT);;
+
+#define hey2 ()
+\hey{TABLE KEY (};
+;;
+
+-----
+\hey2
+
+\hey2
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 14,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TABLE KEY (  X INT);\n\n\nCREATE  TABLE KEY (  X INT);\n\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 0,
+                "end": 5
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 0,
+                    "end": 5
+                },
+                "fileSrc": {
+                    "start": 0,
+                    "end": 5
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE KEY (  X INT);\n"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 5,
+                "end": 16
+            },
+            "fileSrc": {
+                "start": 70,
+                "end": 73
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 27,
+                "end": 31,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE KEY (  X INT)"
+        }
+    ],
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 45,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "expandedContent": "CREATE  TABLE KEY (  X INT);\n\n\nCREATE  TABLE KEY (  X INT);\n\n"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 7,
+                "end": 12
+            },
+            "macroIdentifier": {
+                "src": {
+                    "start": 7,
+                    "end": 12
+                },
+                "fileSrc": {
+                    "start": 7,
+                    "end": 12
+                }
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE KEY (  X INT);\n"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 5,
+                "end": 16
+            },
+            "fileSrc": {
+                "start": 70,
+                "end": 73
+            }
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 27,
+                "end": 31,
+                "parameterName": "arg0"
+            }
+        },
+        {
+            "filename": "file-0",
+            "expandedContent": "CREATE  TABLE KEY (  X INT)"
+        }
+    ]
+]
