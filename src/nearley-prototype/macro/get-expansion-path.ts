@@ -377,7 +377,14 @@ function getExpansionPathImpl (
             diagnosticRelativeStart -= originalToExpanded.resultDst.start
             diagnosticRelativeStart -= (parent?.resultDstStart ?? 0);
         } else {
-            if (diagnosticRelativeStart == expandedMacro_originalToExpandedOrArg_resultDst_start1) {
+            const sigh = (
+                parent?.macro == undefined ?
+                expandedContent.originalToExpanded[0].resultDst.start :
+                originalToExpanded.resultDst.start
+            );
+            if (diagnosticRelativeStart == expandedMacro_originalToExpandedOrArg_resultDst_start1 + sigh) {
+            //if (diagnosticRelativeStart == expandedMacro_originalToExpandedOrArg_resultDst_start1 + originalToExpanded.resultDst.start) {
+            //if (diagnosticRelativeStart == expandedMacro_originalToExpandedOrArg_resultDst_start1 + expandedContent.originalToExpanded[0].resultDst.start) {
                 diagnosticRelativeStart -= originalToSubstituted.src.start;
                 diagnosticRelativeStart -= originalToExpanded.resultDst.start;
                 diagnosticRelativeStart -= (parent?.resultDstStart ?? 0);
@@ -557,8 +564,10 @@ function getExpansionPathImpl (
                             end : offset + myArg.start + diagnosticRelativeStart + parameterRefsBefore.map(ref => ref.src.end - ref.src.start - (ref.resultDst.end - ref.resultDst.start)).reduce((memo, cur) => memo + cur, 0) + diagnostic.length,
                         } :
                         {
-                            start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : originalToExpanded.resultDst.start),
-                            end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : originalToExpanded.resultDst.start) + diagnostic.length,
+                            start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : 0),
+                            end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : 0) + diagnostic.length,
+                            //start : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : originalToExpanded.resultDst.start),
+                            //end : parent.macro.content.start + offset + myArg.start + diagnosticRelativeStart - (macroConreteSubstitutions.length > 0 ? 0 : originalToExpanded.resultDst.start) + diagnostic.length,
                             //start : parent.macro.content.start + offset + myArg.start + macroConreteSubstitutions_resultDst_start,
                             //end : parent.macro.content.start + offset + myArg.start + macroConreteSubstitutions_resultDst_start + diagnostic.length,
                             //start : parent.macro.content.start + offset + myArg.start,
