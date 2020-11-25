@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandContent, findAllMacros, parse, traceDiagnostic} from "../nearley-prototype";
+import {expandStringContent, findAllMacros, parse, traceDiagnostic} from "../nearley-prototype";
 import {emitSourceFile} from "../emitter";
 
 let root = `${__dirname}/../../test-fixture/expand-parse-emit`;
@@ -59,14 +59,13 @@ suite('Should expand-parse-emit content as expected', () => {
             .flat(1);
 
         const expandedInputFiles = preprocessedFiles.map(({inputFile}, index) => {
-            const result = expandContent(
-                0,
+            const result = expandStringContent(
                 `file-${index}`,
                 macros,
                 inputFile
             );
             assert.strictEqual(
-                JSON.stringify(result.syntacticErrors, null, 4),
+                JSON.stringify(result.bindErrors, null, 4),
                 "[]",
                 JSON.stringify(result, null, 4)
             )
@@ -76,7 +75,7 @@ suite('Should expand-parse-emit content as expected', () => {
         const parsedFiles = expandedInputFiles.map((expanded, index) => {
             return parse(
                 `file-${index}`,
-                expanded.expandedContent,
+                expanded.expandedText,
                 {}
             );
         });

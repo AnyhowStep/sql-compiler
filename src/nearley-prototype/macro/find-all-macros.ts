@@ -2,8 +2,10 @@ import {pushSyntacticErrorAt} from "../../parse-util";
 import {SyntacticErrorContainer, TextRange} from "../../parser-node";
 import {ReverseTokenKind, Scanner, TokenKind} from "../../scanner";
 import {DiagnosticMessages} from "../diagnostic-messages";
+import {parseUnexpandedContent} from "./parse-unexpanded-content";
 
 export interface MacroIdentifier extends TextRange {
+    fileSrc : TextRange,
     macroName : string
 }
 export interface MacroParameter extends TextRange {
@@ -11,19 +13,48 @@ export interface MacroParameter extends TextRange {
     /**
      * `TextRange` is within `content.value`
      */
-    references : TextRange[],
+    references : (
+        & TextRange
+        & { fileSrc : TextRange }
+    )[],
 }
+
+export enum MacroPartType {
+    ParameterReference = "ParameterReference",
+    PlainText = "PlainText",
+    MacroCall = "MacroCall",
+}
+
 /**
  * `TextRange` is within `content.value`
  */
-export interface MacroSubstitution extends TextRange {
+export interface ParameterReferencePart extends TextRange {
+    type : MacroPartType.ParameterReference,
+    fileSrc : TextRange,
     parameterName : string,
 }
 export interface MacroParameterList extends TextRange, Array<MacroParameter>, SyntacticErrorContainer {
 
 }
-export interface MacroContent extends TextRange {
+export interface PlainTextPart extends TextRange {
+    type : MacroPartType.PlainText,
+    fileSrc : TextRange,
     value : string
+}
+
+export interface Argument extends TextRange {
+    fileSrc : TextRange,
+    parts : (PlainTextPart|ParameterReferencePart|MacroCallPart)[]
+}
+
+export interface ArgumentList extends TextRange, Array<Argument>, SyntacticErrorContainer {
+
+}
+export interface MacroCallPart extends TextRange {
+    type : MacroPartType.MacroCall,
+    fileSrc : TextRange,
+    identifier : MacroIdentifier;
+    argumentList : ArgumentList;
 }
 
 export interface Macro extends TextRange {
@@ -33,21 +64,26 @@ export interface Macro extends TextRange {
     /**
      * May contain references to other macros
      */
-    content : MacroContent,
+    content : PlainTextPart,
 
-    substitutionContent : (MacroContent|MacroSubstitution)[],
+    parts : (PlainTextPart|ParameterReferencePart|MacroCallPart)[],
 }
 
-function computeSubstitutionContent (
+export function computeSubstitutionContent (
     parameterList : MacroParameterList,
-    content : MacroContent,
-) {
-    const substitutions = parameterList
+    originalText : PlainTextPart,
+) : (PlainTextPart|ParameterReferencePart|MacroCallPart)[] {
+    /**
+     * @todo Make this more efficient
+     */
+    const allParameterReferenceParts = parameterList
         .map(parameter => {
-            return parameter.references.map((ref) : MacroSubstitution => {
+            return parameter.references.map((ref) : ParameterReferencePart => {
                 return {
                     start : ref.start,
                     end : ref.end,
+                    type : MacroPartType.ParameterReference,
+                    fileSrc : ref.fileSrc,
                     parameterName : parameter.parameterName,
                 };
             });
@@ -56,33 +92,142 @@ function computeSubstitutionContent (
         .sort((a, b) => {
             return a.start - b.start;
         });
-    const result : (MacroContent|MacroSubstitution)[] = [];
 
-    let start = 0;
-    for (const substitution of substitutions) {
-        const prefixContent : MacroContent = {
-            start,
-            end : substitution.start,
-            value : content.value.substring(
+    const parsed = parseUnexpandedContent(
+        //@todo
+        "",
+        new Scanner(originalText.value)
+    );
+
+    const partsResult : (PlainTextPart|ParameterReferencePart|MacroCallPart)[] = [];
+
+    for (const node of parsed.unexpandedContent) {
+        if ("identifier" in node) {
+            const argumentList : ArgumentList = [] as unknown as ArgumentList;
+            argumentList.start = node.argumentList.start;
+            argumentList.end = node.argumentList.end;
+
+            for (const argNode of node.argumentList.args) {
+                argumentList.push({
+                    start : argNode.start,
+                    end : argNode.end,
+                    fileSrc : {
+                        start : originalText.fileSrc.start + argNode.start,
+                        end : originalText.fileSrc.start + argNode.end,
+                    },
+                    parts : computeSubstitutionContent(
+                        parameterList,
+                        {
+                            start : argNode.start,
+                            end : argNode.end,
+                            type : MacroPartType.PlainText,
+                            fileSrc : {
+                                start : originalText.fileSrc.start + argNode.start,
+                                end : originalText.fileSrc.start + argNode.end,
+                            },
+                            value : argNode.value,
+                        }
+                    ),
+                });
+            }
+
+            const part : MacroCallPart = {
+                start : node.start,
+                end : node.end,
+
+                type : MacroPartType.MacroCall,
+                fileSrc : {
+                    start : originalText.fileSrc.start + node.start,
+                    end : originalText.fileSrc.start + node.end,
+                },
+                identifier : {
+                    ...node.identifier,
+                    fileSrc : {
+                        start : originalText.fileSrc.start + node.identifier.start,
+                        end : originalText.fileSrc.start + node.identifier.end,
+                    },
+                },
+                argumentList,
+            };
+            partsResult.push(part);
+        } else {
+            const usedParameterReferenceParts = allParameterReferenceParts
+                .filter((ref) => {
+                    return (
+                        ref.fileSrc.start >= originalText.fileSrc.start + node.start &&
+                        ref.fileSrc.end <= originalText.fileSrc.start + node.end
+                    );
+                });
+
+            let start = node.start;
+            for (const parameterReferencePart of usedParameterReferenceParts) {
+                const prefixText : PlainTextPart = {
+                    start,
+                    end : parameterReferencePart.start - originalText.start,
+                    type : MacroPartType.PlainText,
+                    fileSrc : {
+                        start : originalText.fileSrc.start + start,
+                        end : originalText.fileSrc.start + parameterReferencePart.start - originalText.start,
+                    },
+                    value : originalText.value.substring(
+                        start,
+                        parameterReferencePart.start - originalText.start
+                    ),
+                };
+                start = parameterReferencePart.end - originalText.start;
+
+                if (prefixText.start != prefixText.end) {
+                    partsResult.push(prefixText);
+                }
+                partsResult.push({
+                    ...parameterReferencePart,
+                    start : parameterReferencePart.start - originalText.start,
+                    end : parameterReferencePart.end - originalText.start,
+                });
+            }
+
+            const trailingText : PlainTextPart = {
                 start,
-                substitution.start
-            ),
-        };
-        start = substitution.end;
-        result.push(prefixContent, substitution);
+                end : node.end,
+                type : MacroPartType.PlainText,
+                fileSrc : {
+                    start : originalText.fileSrc.start + start,
+                    end : originalText.fileSrc.start + node.end,
+                },
+                value : originalText.value.substring(
+                    start,
+                    node.end
+                ),
+            };
+            if (trailingText.start != trailingText.end) {
+                partsResult.push(trailingText);
+            }
+        }
     }
 
-    const trailingContent : MacroContent = {
-        start,
-        end : content.value.length,
-        value : content.value.substring(
-            start,
-            content.value.length
-        ),
-    };
-    result.push(trailingContent);
+    if (partsResult.length > 0) {
+        const lastPart = partsResult[partsResult.length-1];
+        if (lastPart.end != originalText.value.length) {
+            const start = lastPart.end;
+            const end = originalText.value.length;
+            const trailingText : PlainTextPart = {
+                start,
+                end : end,
+                type : MacroPartType.PlainText,
+                fileSrc : {
+                    start : originalText.fileSrc.start + start,
+                    end : originalText.fileSrc.start + end,
+                },
+                value : originalText.value.substring(
+                    start,
+                    end
+                ),
+            };
+            partsResult.push(trailingText);
+        }
+    }
 
-    return result;
+    return partsResult;
 }
 
 function parseParameterList (
@@ -136,7 +281,8 @@ function parseParameterList (
 
 function findReferences (
     parameter : MacroParameter,
-    content : string
+    content : string,
+    contentStart : number,
 ) {
     const scanner = new Scanner(content);
 
@@ -156,9 +302,16 @@ function findReferences (
                 }
             } else {
                 if (scanner.getTokenValue() == parameter.parameterName) {
+                    const start = scanner.getTokenIndex();
+                    const end = scanner.getIndex();
+
                     parameter.references.push({
-                        start : scanner.getTokenIndex(),
-                        end : scanner.getIndex(),
+                        start,
+                        end,
+                        fileSrc : {
+                            start : contentStart + start,
+                            end : contentStart + end,
+                        }
                     });
                 }
             }
@@ -213,12 +366,19 @@ export function findAllMacros (
         );
 
         for (const parameter of parameterList) {
-            findReferences(parameter, contentStr);
+            findReferences(parameter, contentStr, match.index + contentStart);
         }
 
-        const content = {
-            start : match.index + contentStart,
-            end : match.index + contentStart + contentStr.length,
+        const content : PlainTextPart = {
+            //start : match.index + contentStart,
+            //end : match.index + contentStart + contentStr.length,
+            start : 0,
+            end : contentStr.length,
+            type : MacroPartType.PlainText,
+            fileSrc : {
+                start : match.index + contentStart,
+                end : match.index + contentStart + contentStr.length,
+            },
             value : contentStr,
         };
 
@@ -229,11 +389,15 @@ export function findAllMacros (
             identifier : {
                 start : match.index + macroNameStart,
                 end : match.index + macroNameStart + macroName.length,
+                fileSrc : {
+                    start : match.index + macroNameStart,
+                    end : match.index + macroNameStart + macroName.length,
+                },
                 macroName : macroName,
             },
             parameterList,
             content,
-            substitutionContent : computeSubstitutionContent(
+            parts : computeSubstitutionContent(
                 parameterList,
                 content
             ),

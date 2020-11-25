@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandContent, findAllMacros, parse, getExpansionPath} from "../nearley-prototype";
+import {expandStringContent, findAllMacros, parse, getExpansionPath, MacroPartType} from "../nearley-prototype";
 import {emitSourceFile} from "../emitter";
 
 let root = `${__dirname}/../../test-fixture/expand-parse-emit-get-expansion-path`;
@@ -59,14 +59,13 @@ suite('Should expand-parse-emit-get-expansion-path content as expected', () => {
             .flat(1);
 
         const expandedInputFiles = preprocessedFiles.map(({inputFile}, index) => {
-            const result = expandContent(
-                0,
+            const result = expandStringContent(
                 `file-${index}`,
                 macros,
                 inputFile
             );
             assert.strictEqual(
-                JSON.stringify(result.syntacticErrors, null, 4),
+                JSON.stringify(result.bindErrors, null, 4),
                 "[]",
                 JSON.stringify(result, null, 4)
             )
@@ -76,7 +75,7 @@ suite('Should expand-parse-emit-get-expansion-path content as expected', () => {
         const parsedFiles = expandedInputFiles.map((expanded, index) => {
             return parse(
                 `file-${index}`,
-                expanded.expandedContent,
+                expanded.expandedText,
                 {}
             );
         });
@@ -103,59 +102,37 @@ suite('Should expand-parse-emit-get-expansion-path content as expected', () => {
                         `file-${i}`,
                         err,
                         expandedInputFiles[i],
-                        (filename) => {
-                            const match = /^file-(\d+)$/.exec(filename);
-                            if (match == undefined) {
-                                assert.strictEqual(
-                                    match,
-                                    "defined",
-                                    filename
-                                );
-                                throw new Error(`match not found`);
-                            }
-                            return expandedInputFiles[parseInt(match[1], 10)];
-                        }
                     ),
                 ].map(item => {
-                    if ("macro" in item) {
-                        return {
-                            filename : item.filename,
-                            src : {
-                                start : item.macro.content.start + item.src.start,
-                                end : item.macro.content.start + item.src.end,
-                                parameterName : item.src.parameterName,
-                            },
-                        };
-                    }
-
-                    if ("macroIdentifier" in item) {
-                        return {
-                            filename : item.filename,
-                            src : item.src,
-                            macroIdentifier : item.macroIdentifier,
-                        };
-                    }
-
-                    if ("value" in item) {
+                    if (item.expandedPart.expandedPart.type == MacroPartType.ParameterReference) {
                         return {
                             filename : item.filename,
                             src : {
                                 start : item.start,
                                 end : item.end,
                             },
-                            fileSrc : item.fileSrc,
-                        }
-                    }
-
-                    if (typeof item.expandedContent == "string") {
-                        return {
-                            filename : item.filename,
-                            expandedContent : item.expandedContent
+                            parameterName : item.expandedPart.expandedPart.filePart.parameterName,
                         };
                     }
 
-                    item;
-                    return undefined;
+                    if (item.expandedPart.expandedPart.type == MacroPartType.MacroCall) {
+                        return {
+                            filename : item.filename,
+                            src : {
+                                start : item.start,
+                                end : item.end,
+                            },
+                            macroIdentifier : item.expandedPart.expandedPart.expandedMacro.macro.identifier.macroName,
+                        };
+                    }
+
+                    return {
+                        filename : item.filename,
+                        src : {
+                            start : item.start,
+                            end : item.end,
+                        },
+                    };
                 });
                 return [
                     {

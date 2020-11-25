@@ -1,168 +1,162 @@
 import {Diagnostic} from "../../diagnostic";
 import {makeDiagnosticAt} from "../../parse-util";
 import {TextRange} from "../../parser-node";
-import {Scanner} from "../../scanner";
 import {DiagnosticMessages} from "../diagnostic-messages";
 import {ExpandedMacro, expandMacro, MacroArgument} from "./expand-macro";
-import {Macro} from "./find-all-macros";
-import {parseUnexpandedContent} from "./parse-unexpanded-content";
+import {computeSubstitutionContent, Macro, MacroParameterList, MacroPartType} from "./find-all-macros";
+import {substitute, SubstitutedMacroCallPart, SubstitutedParameterReferencePart, SubstitutedPlainTextPart} from "./substitute";
+
+export interface ExpandedMacroCallPart {
+    type : MacroPartType.MacroCall,
+    substituted : SubstitutedMacroCallPart,
+    macroArguments : MacroArgument[],
+    expandedMacro : ExpandedMacro,
+}
 
 export interface TextRangeMap {
-    src : TextRange,
-    dst : TextRange,
-    resultDst : TextRange,
-    expandedMacro : ExpandedMacro|undefined,
+    expandedSrc : TextRange,
+    expandedPart : SubstitutedPlainTextPart|SubstitutedParameterReferencePart|ExpandedMacroCallPart,
 }
 
 export interface ExpandedContent {
-    /**
-     * If `string`, the original content had no macro calls.
-     * Else, the original content had macro calls.
-     */
-    originalContent : string | ExpandedContent,
-    expandedContent : string,
+    originalParts : (SubstitutedPlainTextPart|SubstitutedParameterReferencePart|SubstitutedMacroCallPart)[],
+    expandedText : string,
 
-    /**
-     * Original,
-     * ```
-     * SELECT #tau();
-     * ```
-     *
-     * Expanded,
-     * ```
-     * SELECT 6.283185307179586
-     * ```
-     *
-     * + `src: { start : 7, end : 13 }`
-     * + `dst: { start : 7, end : 24 }`
-     */
-    originalToExpanded : TextRangeMap[],
+    expandedParts : TextRangeMap[],
 
-    syntacticErrors : Diagnostic[],
+    bindErrors : Diagnostic[],
+}
+
+export function expandStringContent (
+    filename : string,
+    macros : Macro[],
+    input : string,
+) {
+    const fileParts = computeSubstitutionContent(
+        [] as unknown as MacroParameterList,
+        {
+            type : MacroPartType.PlainText,
+            start : 0,
+            end : input.length,
+            fileSrc : {
+                start : 0,
+                end : input.length,
+            },
+            value : input,
+        }
+    );
+    const subtitutedParts = substitute(
+        0,
+        undefined,
+        [],
+        fileParts
+    );
+    return expandContent(
+        0,
+        filename,
+        macros,
+        subtitutedParts
+    );
 }
 
 /**
  * Expands `unexpandedContent` recursively.
  */
 export function expandContent (
-    resultOffset : number,
+    expandedSrcStartOffset : number,
     filename : string,
     macros : Macro[],
-    originalContent : string,
+    substitutedParts : (SubstitutedPlainTextPart|SubstitutedParameterReferencePart|SubstitutedMacroCallPart)[],
 ) : ExpandedContent {
-    //const scanner = new Scanner(originalContent);
-    const parsed = parseUnexpandedContent(
-        filename,
-        new Scanner(originalContent)
-    );
+    let expandedText : string = "";
+    const expandedParts : TextRangeMap[] = [];
 
-    if (
-        parsed.unexpandedContent.length == 1 &&
-        "value" in parsed.unexpandedContent[0]
-    ) {
-        //No expansion needed
-        return {
-            originalContent : originalContent,
-            expandedContent : originalContent,
-            originalToExpanded : [],
-            syntacticErrors : [...(parsed.syntacticErrors ?? [])],
-        };
-    }
-
-    const arr = parsed.unexpandedContent;
-
-    let expandedContent : string = "";
-    const originalToExpanded : TextRangeMap[] = [];
-
-    for (const part of arr) {
-        if ("identifier" in part) {
-            const macro = macros.find(m => m.identifier.macroName == part.identifier.macroName);
+    for (const part of substitutedParts) {
+        if (part.type == MacroPartType.MacroCall) {
+            const macro = macros.find(m => m.identifier.macroName == part.macroIdentifier.macroIdentifier.macroName);
             if (macro == undefined) {
                 //error
                 return {
-                    originalContent,
-                    expandedContent,
-                    originalToExpanded,
-                    syntacticErrors : [
-                        ...(parsed.syntacticErrors ?? []),
+                    originalParts : substitutedParts,
+                    expandedText,
+                    expandedParts,
+                    bindErrors : [
                         makeDiagnosticAt(
-                            part.identifier.start,
-                            part.identifier.end,
+                            part.filePart.identifier.start,
+                            part.filePart.identifier.end,
                             [],
                             DiagnosticMessages.MacroNotFound,
-                            part.identifier.macroName
+                            part.filePart.identifier.macroName
                         ),
                     ],
                 };
             }
 
-            const args = part.argumentList.args.map((arg) : MacroArgument => {
+            const args = part.argumentList.map((arg) : MacroArgument => {
                 return {
-                    start : arg.start,
-                    end : arg.end,
+                    substitutedArgument : arg,
                     value : expandContent(
                         0,
                         filename,
                         macros,
-                        arg.value
+                        arg.parts
                     ),
                 };
-            })
+            });
 
             const expandedMacro = expandMacro(
-                resultOffset,
+                expandedSrcStartOffset,
                 filename,
                 macros,
+                part,
                 macro,
-                part.argumentList.start,
                 args,
-                part.identifier
             );
 
-            originalToExpanded.push({
-                src : {
-                    start : part.start,
-                    end : part.end,
+            expandedParts.push({
+                expandedSrc : {
+                    start : expandedSrcStartOffset,
+                    end : expandedSrcStartOffset + expandedMacro.expandedContent.expandedText.length,
                 },
-                dst : {
-                    start : expandedContent.length,
-                    end : expandedContent.length + expandedMacro.expandedContent.expandedContent.length,
+                expandedPart : {
+                    type : MacroPartType.MacroCall,
+                    substituted : part,
+                    macroArguments : args,
+                    expandedMacro,
                 },
-                resultDst : {
-                    start : resultOffset,
-                    end : resultOffset + expandedMacro.expandedContent.expandedContent.length,
-                },
-                expandedMacro,
             });
 
-            resultOffset += expandedMacro.expandedContent.expandedContent.length;
-            expandedContent += expandedMacro.expandedContent.expandedContent;
+            expandedSrcStartOffset += expandedMacro.expandedContent.expandedText.length;
+            expandedText += expandedMacro.expandedContent.expandedText;
+        } else if (part.type == MacroPartType.PlainText) {
+            expandedParts.push({
+                expandedSrc : {
+                    start : expandedSrcStartOffset,
+                    end : expandedSrcStartOffset + part.filePart.value.length,
+                },
+                expandedPart : part,
+            });
+
+            expandedSrcStartOffset += part.filePart.value.length;
+            expandedText += part.filePart.value;
         } else {
-            originalToExpanded.push({
-                src : {
-                    start : part.start,
-                    end : part.end,
+            expandedParts.push({
+                expandedSrc : {
+                    start : expandedSrcStartOffset,
+                    end : expandedSrcStartOffset + part.macroArgument.value.expandedText.length,
                 },
-                dst : {
-                    start : expandedContent.length,
-                    end : expandedContent.length + part.value.length,
-                },
-                resultDst : {
-                    start : resultOffset,
-                    end : resultOffset + part.value.length,
-                },
-                expandedMacro : undefined,
+                expandedPart : part,
             });
 
-            resultOffset += part.value.length;
-            expandedContent += part.value;
+            expandedSrcStartOffset += part.macroArgument.value.expandedText.length;
+            expandedText += part.macroArgument.value.expandedText;
         }
     }
 
     return {
-        originalContent,
-        expandedContent,
-        originalToExpanded,
-        syntacticErrors : [...(parsed.syntacticErrors ?? [])],
+        originalParts: substitutedParts,
+        expandedText,
+        expandedParts,
+        bindErrors : [],
     };
 }

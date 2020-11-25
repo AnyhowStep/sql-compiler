@@ -1,8 +1,11 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandContent, findAllMacros} from "../nearley-prototype";
+import {expandStringContent, findAllMacros} from "../nearley-prototype";
 
-const root = `${__dirname}/../../test-fixture/expand-content`;
+let root = `${__dirname}/../../test-fixture/expand-content`;
+if (process.env.EXPAND_CONTENT_FILE) {
+    root += "/" + process.env.EXPAND_CONTENT_FILE;
+}
 suite('Should expand content as expected', () => {
     testRecursive(root, ({
         //fileName,
@@ -22,8 +25,7 @@ suite('Should expand content as expected', () => {
             input = input.substring(0, macro.start) + " ".repeat(macro.end - macro.start) + input.substring(macro.end);
         }
 
-        const expandedContent = expandContent(
-            0,
+        const expandedContent = expandStringContent(
             "file-0",
             macros,
             input
@@ -50,11 +52,11 @@ suite('Should expand content as expected', () => {
         );*/
 
         assert.strictEqual(
-            expandedContent.expandedContent.replace(/^ +$/gm, ""),
+            expandedContent.expandedText.replace(/^ +$/gm, ""),
             output,
             errorMessage + (
                 "\n" + JSON.stringify(rawInput) +
-                "\n" + JSON.stringify(expandedContent.expandedContent.replace(/^ +$/gm, "")) +
+                "\n" + JSON.stringify(expandedContent.expandedText.replace(/^ +$/gm, "")) +
                 "\n" + JSON.stringify(output)
             )
         );
@@ -62,7 +64,7 @@ suite('Should expand content as expected', () => {
         assert.strictEqual(
             JSON.stringify(
                 [
-                    ...expandedContent.syntacticErrors,
+                    ...expandedContent.bindErrors,
                 ].map(err => {
                     return {
                         category : err.category,

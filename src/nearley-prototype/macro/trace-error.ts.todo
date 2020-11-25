@@ -535,7 +535,7 @@ export function doThing<
     argTrace2Qwerty;
     arg2Qwerty.value.originalToExpanded
 
-    map.expandedMacro.macro.substitutionContent
+    map.expandedMacro.macro.parts
 
     const parameterIndex = map.expandedMacro.macro.parameterList.findIndex(
         parameter => parameter.parameterName == originalToSubstituted.src.parameterName

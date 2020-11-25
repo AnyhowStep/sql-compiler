@@ -1,12 +1,13 @@
 import {Diagnostic} from "../../diagnostic";
-import {MacroIdentifierNode} from "../../macro-grammar";
 import {makeDiagnosticAt} from "../../parse-util";
 import {TextRange} from "../../parser-node";
 import {DiagnosticMessages} from "../diagnostic-messages";
 import {expandContent, ExpandedContent} from "./expand-content";
-import {Macro, MacroSubstitution} from "./find-all-macros";
+import {Macro, ParameterReferencePart} from "./find-all-macros";
+import {getSubstitutedMacro, SubstitutedArgument, SubstitutedMacroCallPart} from "./substitute";
 
-export interface MacroArgument extends TextRange {
+export interface MacroArgument {
+    substitutedArgument : SubstitutedArgument,
     value : ExpandedContent,
 }
 
@@ -14,7 +15,7 @@ export interface MacroContentPart extends TextRange {
     parameterName : undefined,
 }
 export interface ConcreteSubstitution {
-    src : MacroSubstitution|MacroContentPart,
+    src : ParameterReferencePart|MacroContentPart,
     dst : TextRange,
     resultDst : TextRange,
 }
@@ -23,69 +24,32 @@ export interface ExpandedMacro {
     macro : Macro,
     args : MacroArgument[],
 
-    originalSubstitutedContent : string,
     expandedContent : ExpandedContent,
-    /**
-     * Original,
-     * ```
-     * SELECT x, y, z;
-     * ```
-     *
-     * Arguments,
-     * ```
-     * x = 'hello'
-     * y = 23
-     * z = PI()
-     * ```
-     *
-     * Expanded,
-     * ```
-     * SELECT 'hello', 23, PI()
-     * ```
-     *
-     * For `x`,
-     * + `src: { start : 7, end : 8 }`
-     * + `dst: { start : 7, end : 14 }`
-     *
-     * For `y`,
-     * + `src: { start : 10, end : 11 }`
-     * + `dst: { start : 16, end : 18 }`
-     *
-     * For `z`,
-     * + `src: { start : 13, end : 14 }`
-     * + `dst: { start : 20, end : 24 }`
-     */
-    originalToSubstituted : ConcreteSubstitution[],
 
-    syntacticErrors : Diagnostic[],
-
-    macroIdentifier : {
-        src : TextRange,
-    },
+    semanticErrors : Diagnostic[],
 }
 
 export function expandMacro (
-    resultOffset : number,
+    expandedSrcStartOffset : number,
     filename : string,
     macros : Macro[],
+    substitutedMacroCall : SubstitutedMacroCallPart,
     macro : Macro,
-    argsStart : number,
     args : MacroArgument[],
-    macroIdentifier : MacroIdentifierNode,
 ) : ExpandedMacro {
+    const argsStart = substitutedMacroCall.filePart.argumentList.start;
+
     if (args.length != macro.parameterList.length) {
         return {
             macro,
             args,
-            originalSubstitutedContent : "",
             expandedContent : expandContent(
-                resultOffset,
+                expandedSrcStartOffset,
                 filename,
                 macros,
-                "",
+                [],
             ),
-            originalToSubstituted : [],
-            syntacticErrors : [
+            semanticErrors : [
                 makeDiagnosticAt(
                     argsStart,
                     argsStart,
@@ -101,77 +65,21 @@ export function expandMacro (
                     args.length
                 )
             ],
-            macroIdentifier : {
-                src : {
-                    start : macroIdentifier.start,
-                    end : macroIdentifier.end,
-                }
-            },
         };
     }
-    const originalToSubstituted : ConcreteSubstitution[] = [];
 
-    let curResultOffset = resultOffset;
-    let originalSubstitutedContent = "";
-
-    for (const part of macro.substitutionContent) {
-        if ("parameterName" in part) {
-            const argumentIndex = macro.parameterList.findIndex(x => x.parameterName == part.parameterName);
-            const argument = args[argumentIndex];
-
-            originalToSubstituted.push({
-                src : part,
-                dst : {
-                    start : originalSubstitutedContent.length,
-                    end : originalSubstitutedContent.length + argument.value.expandedContent.length,
-                },
-                resultDst : {
-                    start : curResultOffset,
-                    end : curResultOffset + argument.value.expandedContent.length,
-                },
-            });
-
-            curResultOffset += argument.value.expandedContent.length;
-            originalSubstitutedContent += argument.value.expandedContent;
-        } else {
-            originalToSubstituted.push({
-                src : {
-                    start : part.start,
-                    end : part.end,
-                    parameterName : undefined,
-                },
-                dst : {
-                    start : originalSubstitutedContent.length,
-                    end : originalSubstitutedContent.length + part.value.length,
-                },
-                resultDst : {
-                    start : curResultOffset,
-                    end : curResultOffset + part.value.length,
-                },
-            });
-
-            curResultOffset += part.value.length;
-            originalSubstitutedContent += part.value;
-        }
-    }
+    const {parts} = getSubstitutedMacro(macro, args);
+    const expandedContent = expandContent(
+        expandedSrcStartOffset,
+        "",
+        macros,
+        parts
+    );
 
     return {
         macro,
         args,
-        originalSubstitutedContent,
-        expandedContent : expandContent(
-            resultOffset,
-            filename,
-            macros,
-            originalSubstitutedContent,
-        ),
-        originalToSubstituted,
-        syntacticErrors : [],
-            macroIdentifier : {
-                src : {
-                    start : macroIdentifier.start,
-                    end : macroIdentifier.end,
-                }
-            },
+        expandedContent,
+        semanticErrors : [],
     };
 }
