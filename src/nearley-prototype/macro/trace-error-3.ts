@@ -8,8 +8,7 @@ export interface DiagnosticLike {
     readonly relatedRanges? : readonly RelatedRange[];
 }
 
-function pathToRelatedRanges (path : ExpansionPath) : RelatedRange[] {
-    let relatedRanges : RelatedRange[] = [];
+function pathToRelatedRanges (path : ExpansionPath, relatedRanges : RelatedRange[] = []) : RelatedRange[] {
     function pushIfUnique (relatedRange : RelatedRange) {
         const relatedRangeEnd = relatedRange.start + relatedRange.length;
         if (relatedRanges.some(r => {
@@ -35,7 +34,6 @@ function pathToRelatedRanges (path : ExpansionPath) : RelatedRange[] {
         relatedRanges.push(relatedRange);
     }
     for (const item of path) {
-        item.filename
         pushIfUnique({
             filename : item.filename,
             start : item.start,

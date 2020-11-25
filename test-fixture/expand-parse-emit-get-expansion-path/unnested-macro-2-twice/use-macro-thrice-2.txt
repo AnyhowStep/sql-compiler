@@ -34,51 +34,34 @@ CREATE TABLE `KEY` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TABLE KEY (  X INT);\n\n\nCREATE  TABLE KEY (  X INT);\n\n"
-        },
-        {
-            "filename": "file-1",
             "src": {
                 "start": 0,
                 "end": 5
             },
-            "macroIdentifier": {
-                "src": {
-                    "start": 0,
-                    "end": 5
-                },
-                "fileSrc": {
-                    "start": 0,
-                    "end": 5
-                }
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TABLE KEY (  X INT);\n"
+            "macroIdentifier": "hey2"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 5,
-                "end": 16
+                "start": 64,
+                "end": 75
             },
-            "fileSrc": {
-                "start": 70,
-                "end": 73
-            }
+            "macroIdentifier": "hey"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 27,
-                "end": 31,
-                "parameterName": "arg0"
-            }
+                "end": 31
+            },
+            "parameterName": "arg0"
         },
         {
             "filename": "file-0",
-            "expandedContent": "CREATE  TABLE KEY (  X INT)"
+            "src": {
+                "start": 70,
+                "end": 73
+            }
         }
     ],
     [
@@ -90,51 +73,34 @@ CREATE TABLE `KEY` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TABLE KEY (  X INT);\n\n\nCREATE  TABLE KEY (  X INT);\n\n"
-        },
-        {
-            "filename": "file-1",
             "src": {
                 "start": 7,
                 "end": 12
             },
-            "macroIdentifier": {
-                "src": {
-                    "start": 7,
-                    "end": 12
-                },
-                "fileSrc": {
-                    "start": 7,
-                    "end": 12
-                }
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TABLE KEY (  X INT);\n"
+            "macroIdentifier": "hey2"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 5,
-                "end": 16
+                "start": 64,
+                "end": 75
             },
-            "fileSrc": {
-                "start": 70,
-                "end": 73
-            }
+            "macroIdentifier": "hey"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 27,
-                "end": 31,
-                "parameterName": "arg0"
-            }
+                "end": 31
+            },
+            "parameterName": "arg0"
         },
         {
             "filename": "file-0",
-            "expandedContent": "CREATE  TABLE KEY (  X INT)"
+            "src": {
+                "start": 70,
+                "end": 73
+            }
         }
     ]
 ]
