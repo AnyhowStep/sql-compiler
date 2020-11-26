@@ -45,4 +45,90 @@ CREATE SCHEMA `KEY`;
 []
 
 -----
-[]
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 5,
+        "length": 7,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 172,
+                "length": 8
+            },
+            {
+                "filename": "file-0",
+                "start": 92,
+                "length": 3
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 5,
+        "length": 7,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 210,
+                "length": 3
+            },
+            {
+                "filename": "file-0",
+                "start": 127,
+                "length": 1
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 5,
+        "length": 7,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 230,
+                "length": 3
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 17,
+        "length": 8,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 23,
+                "length": 3
+            },
+            {
+                "filename": "file-0",
+                "start": 249,
+                "length": 1
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+        "start": 35,
+        "length": 8,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 57,
+                "length": 3
+            },
+            {
+                "filename": "file-0",
+                "start": 266,
+                "length": 1
+            }
+        ]
+    }
+]

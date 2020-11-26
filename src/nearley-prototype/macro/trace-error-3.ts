@@ -36,7 +36,9 @@ function pathToRelatedRanges (path : ExpansionPath, relatedRanges : RelatedRange
     }
     for (const item of path) {
         if (item.type == MacroPartType.ParameterReference) {
-            relatedRanges = pathToRelatedRanges(item.argTrace, relatedRanges);
+            if (item.argTrace[0].type == MacroPartType.MacroCall) {
+                relatedRanges = pathToRelatedRanges(item.argTrace, relatedRanges);
+            }
             pushIfUnique({
                 filename : item.filename,
                 start : item.start,

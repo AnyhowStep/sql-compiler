@@ -56,11 +56,6 @@ CREATE TABLE `KEY` (
             },
             {
                 "filename": "file-0",
-                "start": 19,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 44,
                 "length": 4
             }
@@ -94,11 +89,6 @@ CREATE TABLE `KEY` (
                 "filename": "file-0",
                 "start": 128,
                 "length": 5
-            },
-            {
-                "filename": "file-0",
-                "start": 19,
-                "length": 4
             },
             {
                 "filename": "file-0",

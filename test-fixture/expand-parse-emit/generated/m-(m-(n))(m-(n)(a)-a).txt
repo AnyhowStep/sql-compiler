@@ -34,11 +34,6 @@ CREATE SCHEMA `KEY`;
             },
             {
                 "filename": "file-0",
-                "start": 43,
-                "length": 1
-            },
-            {
-                "filename": "file-0",
                 "start": 46,
                 "length": 1
             }
@@ -54,11 +49,6 @@ CREATE SCHEMA `KEY`;
                 "filename": "file-0",
                 "start": 19,
                 "length": 3
-            },
-            {
-                "filename": "file-0",
-                "start": 67,
-                "length": 1
             },
             {
                 "filename": "file-0",

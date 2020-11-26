@@ -62,11 +62,6 @@ CREATE SCHEMA `KEY`;
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 16,
-                "length": 1
-            },
-            {
-                "filename": "file-0",
                 "start": 54,
                 "length": 1
             }
@@ -104,11 +99,6 @@ CREATE SCHEMA `KEY`;
         "start": 49,
         "length": 3,
         "relatedRanges": [
-            {
-                "filename": "file-0",
-                "start": 88,
-                "length": 1
-            },
             {
                 "filename": "file-0",
                 "start": 123,

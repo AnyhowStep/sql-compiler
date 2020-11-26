@@ -35,11 +35,6 @@ CREATE TABLE `CROSS` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 13,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 27,
                 "length": 4
             }
@@ -53,11 +48,6 @@ CREATE TABLE `CROSS` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 13,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 27,
                 "length": 4
             }
@@ -69,11 +59,6 @@ CREATE TABLE `CROSS` (
         "start": 52,
         "length": 5,
         "relatedRanges": [
-            {
-                "filename": "file-0",
-                "start": 13,
-                "length": 4
-            },
             {
                 "filename": "file-0",
                 "start": 27,

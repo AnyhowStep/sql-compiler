@@ -52,27 +52,12 @@ CREATE TEMPORARY TABLE `CROSS` (
             },
             {
                 "filename": "file-0",
-                "start": 117,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 147,
                 "length": 4
             },
             {
                 "filename": "file-0",
-                "start": 70,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
                 "start": 88,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
-                "start": 16,
                 "length": 9
             },
             {
@@ -95,27 +80,12 @@ CREATE TEMPORARY TABLE `CROSS` (
             },
             {
                 "filename": "file-0",
-                "start": 117,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 147,
                 "length": 4
             },
             {
                 "filename": "file-0",
-                "start": 70,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
                 "start": 88,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
-                "start": 16,
                 "length": 9
             },
             {
@@ -138,27 +108,12 @@ CREATE TEMPORARY TABLE `CROSS` (
             },
             {
                 "filename": "file-0",
-                "start": 117,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 147,
                 "length": 4
             },
             {
                 "filename": "file-0",
-                "start": 70,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
                 "start": 88,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
-                "start": 16,
                 "length": 9
             },
             {
@@ -181,27 +136,12 @@ CREATE TEMPORARY TABLE `CROSS` (
             },
             {
                 "filename": "file-0",
-                "start": 117,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 147,
                 "length": 4
             },
             {
                 "filename": "file-0",
-                "start": 70,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
                 "start": 88,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
-                "start": 16,
                 "length": 9
             },
             {

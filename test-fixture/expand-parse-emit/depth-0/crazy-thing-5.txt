@@ -36,28 +36,13 @@ CREATE TABLE `KEY` (
             },
             {
                 "filename": "file-0",
-                "start": 165,
-                "length": 8
-            },
-            {
-                "filename": "file-0",
                 "start": 186,
                 "length": 8
             },
             {
                 "filename": "file-0",
-                "start": 125,
-                "length": 7
-            },
-            {
-                "filename": "file-0",
                 "start": 134,
                 "length": 7
-            },
-            {
-                "filename": "file-0",
-                "start": 21,
-                "length": 4
             },
             {
                 "filename": "file-0",

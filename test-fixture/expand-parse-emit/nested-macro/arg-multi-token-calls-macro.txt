@@ -25,18 +25,8 @@ CREATE TEMPORARY TABLE `KEY` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 16,
-                "length": 9
-            },
-            {
-                "filename": "file-0",
                 "start": 34,
                 "length": 9
-            },
-            {
-                "filename": "file-0",
-                "start": 63,
-                "length": 4
             },
             {
                 "filename": "file-0",

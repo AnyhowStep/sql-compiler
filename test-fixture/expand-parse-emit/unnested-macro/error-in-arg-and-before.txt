@@ -36,11 +36,6 @@ CREATE TABLE `KEY` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 19,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 44,
                 "length": 4
             }

@@ -34,28 +34,13 @@ CREATE TABLE `KEY` (
             },
             {
                 "filename": "file-0",
-                "start": 109,
-                "length": 6
-            },
-            {
-                "filename": "file-0",
                 "start": 117,
                 "length": 6
             },
             {
                 "filename": "file-0",
-                "start": 75,
-                "length": 5
-            },
-            {
-                "filename": "file-0",
                 "start": 82,
                 "length": 5
-            },
-            {
-                "filename": "file-0",
-                "start": 21,
-                "length": 4
             },
             {
                 "filename": "file-0",

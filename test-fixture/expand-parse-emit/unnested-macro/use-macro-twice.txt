@@ -29,11 +29,6 @@ CREATE TABLE `BOTH` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 13,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 27,
                 "length": 4
             }
@@ -45,11 +40,6 @@ CREATE TABLE `BOTH` (
         "start": 31,
         "length": 4,
         "relatedRanges": [
-            {
-                "filename": "file-0",
-                "start": 13,
-                "length": 4
-            },
             {
                 "filename": "file-0",
                 "start": 27,

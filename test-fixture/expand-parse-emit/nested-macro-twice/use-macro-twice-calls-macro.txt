@@ -43,18 +43,8 @@ CREATE TABLE `BOTH` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 63,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 85,
                 "length": 4
-            },
-            {
-                "filename": "file-0",
-                "start": 16,
-                "length": 9
             },
             {
                 "filename": "file-0",
@@ -71,18 +61,8 @@ CREATE TABLE `BOTH` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 63,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 85,
                 "length": 4
-            },
-            {
-                "filename": "file-0",
-                "start": 16,
-                "length": 9
             },
             {
                 "filename": "file-0",
@@ -99,18 +79,8 @@ CREATE TABLE `BOTH` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 63,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 85,
                 "length": 4
-            },
-            {
-                "filename": "file-0",
-                "start": 16,
-                "length": 9
             },
             {
                 "filename": "file-0",
@@ -127,18 +97,8 @@ CREATE TABLE `BOTH` (
         "relatedRanges": [
             {
                 "filename": "file-0",
-                "start": 63,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 85,
                 "length": 4
-            },
-            {
-                "filename": "file-0",
-                "start": 16,
-                "length": 9
             },
             {
                 "filename": "file-0",

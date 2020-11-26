@@ -58,11 +58,6 @@ CREATE TABLE `CROSS` (
             },
             {
                 "filename": "file-0",
-                "start": 13,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 27,
                 "length": 4
             }
@@ -77,11 +72,6 @@ CREATE TABLE `CROSS` (
             {
                 "filename": "file-0",
                 "start": 90,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
-                "start": 13,
                 "length": 4
             },
             {
@@ -101,11 +91,6 @@ CREATE TABLE `CROSS` (
                 "filename": "file-0",
                 "start": 111,
                 "length": 5
-            },
-            {
-                "filename": "file-0",
-                "start": 13,
-                "length": 4
             },
             {
                 "filename": "file-0",
@@ -127,11 +112,6 @@ CREATE TABLE `CROSS` (
             },
             {
                 "filename": "file-0",
-                "start": 13,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
                 "start": 27,
                 "length": 4
             }
@@ -146,11 +126,6 @@ CREATE TABLE `CROSS` (
             {
                 "filename": "file-0",
                 "start": 90,
-                "length": 4
-            },
-            {
-                "filename": "file-0",
-                "start": 13,
                 "length": 4
             },
             {
@@ -170,11 +145,6 @@ CREATE TABLE `CROSS` (
                 "filename": "file-0",
                 "start": 111,
                 "length": 5
-            },
-            {
-                "filename": "file-0",
-                "start": 13,
-                "length": 4
             },
             {
                 "filename": "file-0",
