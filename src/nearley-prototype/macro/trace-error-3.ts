@@ -1,5 +1,6 @@
 import {Diagnostic, RelatedRange} from "../../diagnostic";
 import {ExpandedContent} from "./expand-content";
+import {MacroPartType} from "./find-all-macros";
 import {ExpansionPath, getExpansionPath} from "./get-expansion-path";
 
 export interface DiagnosticLike {
@@ -9,7 +10,7 @@ export interface DiagnosticLike {
 }
 
 function pathToRelatedRanges (path : ExpansionPath, relatedRanges : RelatedRange[] = []) : RelatedRange[] {
-    function pushIfUnique (relatedRange : RelatedRange) {
+    const pushIfUnique = (relatedRange : RelatedRange) => {
         const relatedRangeEnd = relatedRange.start + relatedRange.length;
         if (relatedRanges.some(r => {
             const rEnd = r.start + r.length;
@@ -34,23 +35,30 @@ function pathToRelatedRanges (path : ExpansionPath, relatedRanges : RelatedRange
         relatedRanges.push(relatedRange);
     }
     for (const item of path) {
-        pushIfUnique({
-            filename : item.filename,
-            start : item.start,
-            length : item.end - item.start,
-        });
+        if (item.type == MacroPartType.ParameterReference) {
+            relatedRanges = pathToRelatedRanges(item.argTrace, relatedRanges);
+            pushIfUnique({
+                filename : item.filename,
+                start : item.start,
+                length : item.end - item.start,
+            });
+        } else {
+            pushIfUnique({
+                filename : item.filename,
+                start : item.start,
+                length : item.end - item.start,
+            });
+        }
     }
     return relatedRanges;
 }
 
 export function traceDiagnostic (
-    filename : string,
     diagnostic : Diagnostic,
     expandedContent : ExpandedContent,
     getExpandedContent : (filename : string) => ExpandedContent,
 ) : Diagnostic {
     const path = getExpansionPath(
-        filename,
         diagnostic,
         expandedContent
     );
@@ -77,7 +85,6 @@ export function traceDiagnostic (
                 ...diagnostic.relatedRanges
                     .map(relatedRange => {
                         const path = getExpansionPath(
-                            relatedRange.filename,
                             relatedRange,
                             getExpandedContent(relatedRange.filename),
                         );

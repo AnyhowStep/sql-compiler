@@ -1,24 +1,32 @@
 import {TextRange} from "../../parser-node";
-import {ExpandedContent, TextRangeMap} from "./expand-content";
+import {ExpandedContent, TextRangeMap, ExpandedMacroCallPart} from "./expand-content";
 import {MacroPartType} from "./find-all-macros";
-import {SubstitutedParameterReferencePart} from "./substitute";
+import {SubstitutedParameterReferencePart, SubstitutedPlainTextPart} from "./substitute";
 import {DiagnosticLike} from "./trace-error-3";
 
-export interface PathItem extends TextRange {
-    type : MacroPartType.PlainText | MacroPartType.MacroCall,
+export interface PlainTextPathItem extends TextRange {
+    type : MacroPartType.PlainText,
     filename : string,
-    expandedPart : TextRangeMap
+    expandedPart : TextRangeMap & { expandedPart : SubstitutedPlainTextPart },
 }
 
 export interface ParameterReferencePathItem extends TextRange {
     type : MacroPartType.ParameterReference,
     filename : string,
     expandedPart : TextRangeMap & { expandedPart : SubstitutedParameterReferencePart },
+    argTrace : ExpansionPath,
+}
+
+export interface MacroCallPathItem extends TextRange {
+    type : MacroPartType.MacroCall,
+    filename : string,
+    expandedPart : TextRangeMap & { expandedPart : ExpandedMacroCallPart }
 }
 
 export type ExpansionPathItem =
-    | PathItem
+    | PlainTextPathItem
     | ParameterReferencePathItem
+    | MacroCallPathItem
 ;
 
 export type ExpansionPath =
@@ -33,14 +41,44 @@ export function isLength<ArrT extends readonly unknown[], LengthT extends number
 }
 
 interface GetExpansionPathImplArgs {
-    readonly filename : string,
     readonly diagnostic : DiagnosticLike,
     readonly expandedContent : ExpandedContent,
 }
 
+function findArgumentRange (
+    path : ExpansionPath,
+    filename : string,
+    start : number,
+    end : number
+) : ExpansionPathItem|undefined {
+    let result : ExpansionPathItem|undefined = undefined;
+    let resultLength = Infinity;
+    for (const item of path) {
+        if (item.filename == filename && item.start >= start && item.end <= end && item.end-item.start < resultLength) {
+            result = item;
+            resultLength = item.end-item.start;
+            if (item.type == MacroPartType.MacroCall) {
+                return result;
+            }
+        }
+        if (item.type != MacroPartType.ParameterReference) {
+            continue;
+        }
+
+        const argTraceResult = findArgumentRange(item.argTrace, filename, start, end);
+        if (
+            argTraceResult != undefined &&
+            argTraceResult.end-argTraceResult.start < resultLength
+        ) {
+            result = argTraceResult;
+            resultLength = argTraceResult.end-argTraceResult.start;
+        }
+    }
+    return result;
+}
+
 function getExpansionPathImpl (
     {
-        filename,
         diagnostic,
         expandedContent,
     } : GetExpansionPathImplArgs
@@ -51,7 +89,7 @@ function getExpansionPathImpl (
         }
         return (
             expandedPart.expandedSrc.start <= diagnostic.start &&
-            expandedPart.expandedSrc.end >= diagnostic.start
+            expandedPart.expandedSrc.end > diagnostic.start
         );
     });
     if (expandedPart == undefined) {
@@ -64,17 +102,19 @@ function getExpansionPathImpl (
         return [
             {
                 type : MacroPartType.PlainText,
-                filename,
+                filename : expandedPart.expandedPart.filePart.filename,
                 start : diagnosticStartOffset + expandedPart.expandedPart.filePart.fileSrc.start,
                 end : diagnosticStartOffset + expandedPart.expandedPart.filePart.fileSrc.start + diagnostic.length,
-                expandedPart,
+                expandedPart : {
+                    ...expandedPart,
+                    expandedPart : expandedPart.expandedPart,
+                },
             }
         ];
     } else if (expandedPart.expandedPart.type == MacroPartType.ParameterReference) {
         const diagnosticStartOffset = diagnostic.start - expandedPart.expandedSrc.start;
         expandedPart.expandedPart.filePart.fileSrc
         const argTrace = getExpansionPathImpl({
-            filename,
             diagnostic : {
                 start : diagnosticStartOffset,
                 length : diagnostic.length,
@@ -84,19 +124,18 @@ function getExpansionPathImpl (
         return [
             {
                 type : MacroPartType.ParameterReference,
-                filename,
+                filename : expandedPart.expandedPart.filePart.filename,
                 start : expandedPart.expandedPart.filePart.fileSrc.start,
                 end : expandedPart.expandedPart.filePart.fileSrc.end,
                 expandedPart : {
                     ...expandedPart,
                     expandedPart : expandedPart.expandedPart,
                 },
+                argTrace,
             },
-            ...argTrace,
         ]
     } else {
         const macroCallTrace = getExpansionPathImpl({
-            filename : expandedPart.expandedPart.expandedMacro.macro.filename,
             diagnostic,
             expandedContent : expandedPart.expandedPart.expandedMacro.expandedContent,
         });
@@ -106,10 +145,13 @@ function getExpansionPathImpl (
             return [
                 {
                     type : MacroPartType.MacroCall,
-                    filename,
+                    filename : expandedPart.expandedPart.substituted.filePart.filename,
                     start : expandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.start,
                     end : expandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.end,
-                    expandedPart,
+                    expandedPart : {
+                        ...expandedPart,
+                        expandedPart : expandedPart.expandedPart,
+                    },
                 },
                 ...macroCallTrace,
             ]
@@ -117,37 +159,101 @@ function getExpansionPathImpl (
             const usedMacroArgument = firstPathItem.expandedPart.expandedPart.macroArgument;
             const usedMyMacroArgument = expandedPart.expandedPart.macroArguments.some(arg => arg == usedMacroArgument);
             if (usedMyMacroArgument) {
+                const argRange = findArgumentRange(
+                    macroCallTrace,
+                    expandedPart.expandedPart.substituted.filePart.filename,
+                    usedMacroArgument.substitutedArgument.argument.fileSrc.start,
+                    usedMacroArgument.substitutedArgument.argument.fileSrc.end
+                );
+
+                if (argRange != undefined && argRange.type == MacroPartType.MacroCall) {
+                    return [
+                        {
+                            type : MacroPartType.MacroCall,
+                            filename : expandedPart.expandedPart.substituted.filePart.filename,
+                            start : argRange.expandedPart.expandedPart.substituted.filePart.fileSrc.start,
+                            end : argRange.expandedPart.expandedPart.substituted.filePart.fileSrc.end,
+                            expandedPart : {
+                                ...expandedPart,
+                                expandedPart : expandedPart.expandedPart,
+                            },
+                        },
+                        ...macroCallTrace,
+                    ];
+                }
+
                 return [
-                    {
-                        type : MacroPartType.MacroCall,
-                        filename,
-                        start : usedMacroArgument.substitutedArgument.argument.fileSrc.start,
-                        end : usedMacroArgument.substitutedArgument.argument.fileSrc.end,
-                        expandedPart,
-                    },
+                    (
+                        argRange == undefined ?
+                        {
+                            type : MacroPartType.MacroCall,
+                            filename : expandedPart.expandedPart.substituted.filePart.filename,
+                            start : usedMacroArgument.substitutedArgument.argument.fileSrc.start,
+                            end : usedMacroArgument.substitutedArgument.argument.fileSrc.end,
+                            expandedPart : {
+                                ...expandedPart,
+                                expandedPart : expandedPart.expandedPart,
+                            },
+                        } :
+                        {
+                            type : MacroPartType.MacroCall,
+                            filename : expandedPart.expandedPart.substituted.filePart.filename,
+                            start : argRange.start,
+                            end : argRange.end,
+                            expandedPart : {
+                                ...expandedPart,
+                                expandedPart : expandedPart.expandedPart,
+                            },
+                        }
+                    ),
                     ...macroCallTrace,
                 ];
             } else {
                 return [
                     {
                         type : MacroPartType.MacroCall,
-                        filename,
+                        filename : expandedPart.expandedPart.substituted.filePart.filename,
                         start : expandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.start,
                         end : expandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.end,
-                        expandedPart,
+                        expandedPart : {
+                            ...expandedPart,
+                            expandedPart : expandedPart.expandedPart,
+                        },
                     },
                     ...macroCallTrace,
                 ];
             }
         } else {
+            const argRange = findArgumentRange(
+                macroCallTrace,
+                expandedPart.expandedPart.substituted.filePart.filename,
+                expandedPart.expandedPart.substituted.filePart.fileSrc.start,
+                expandedPart.expandedPart.substituted.filePart.fileSrc.end
+            );
             return [
-                {
-                    type : MacroPartType.MacroCall,
-                    filename,
-                    start : expandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.start,
-                    end : expandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.end,
-                    expandedPart,
-                },
+                (
+                    argRange == undefined ?
+                    {
+                        type : MacroPartType.MacroCall,
+                        filename : expandedPart.expandedPart.substituted.filePart.filename,
+                        start : expandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.start,
+                        end : expandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.end,
+                        expandedPart : {
+                            ...expandedPart,
+                            expandedPart : expandedPart.expandedPart,
+                        },
+                    } :
+                    {
+                        type : MacroPartType.MacroCall,
+                        filename : expandedPart.expandedPart.substituted.filePart.filename,
+                        start : argRange.start,
+                        end : argRange.end,
+                        expandedPart : {
+                            ...expandedPart,
+                            expandedPart : expandedPart.expandedPart,
+                        },
+                    }
+                ),
                 ...macroCallTrace,
             ]
         }
@@ -155,12 +261,10 @@ function getExpansionPathImpl (
 }
 
 export function getExpansionPath (
-    filename : string,
     diagnostic : DiagnosticLike,
     expandedContent : ExpandedContent,
 ) : ExpansionPath {
     return getExpansionPathImpl({
-        filename,
         diagnostic,
         expandedContent,
     });

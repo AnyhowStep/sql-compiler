@@ -36,74 +36,35 @@ CREATE TABLE `KEY` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TABLE  KEY  (X INT);\n\n\nCREATE  TABLE  KEY  (X INT);\n\n"
-        },
-        {
-            "filename": "file-1",
             "src": {
                 "start": 0,
                 "end": 5
             },
-            "macroIdentifier": {
-                "src": {
-                    "start": 0,
-                    "end": 5
-                },
-                "fileSrc": {
-                    "start": 0,
-                    "end": 5
-                }
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TABLE  KEY  (X INT);\n"
+            "macroIdentifier": "hey2"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 5,
-                "end": 8
-            },
-            "fileSrc": {
                 "start": 121,
                 "end": 124
-            }
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 82,
-                "end": 86,
-                "parameterName": "arg0"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TABLE  KEY  (X INT)"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 23,
-                "end": 27
             },
-            "fileSrc": {
+            "macroIdentifier": "hey"
+        },
+        {
+            "filename": "file-0",
+            "src": {
                 "start": 82,
                 "end": 86
-            }
+            },
+            "macroIdentifier": "macro1"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 27,
-                "end": 36,
-                "parameterName": "tableNamz"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "KEY"
+                "end": 36
+            },
+            "parameterName": "tableNamz"
         }
     ],
     [
@@ -115,74 +76,35 @@ CREATE TABLE `KEY` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TABLE  KEY  (X INT);\n\n\nCREATE  TABLE  KEY  (X INT);\n\n"
-        },
-        {
-            "filename": "file-1",
             "src": {
                 "start": 7,
                 "end": 12
             },
-            "macroIdentifier": {
-                "src": {
-                    "start": 7,
-                    "end": 12
-                },
-                "fileSrc": {
-                    "start": 7,
-                    "end": 12
-                }
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TABLE  KEY  (X INT);\n"
+            "macroIdentifier": "hey2"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 5,
-                "end": 8
-            },
-            "fileSrc": {
                 "start": 121,
                 "end": 124
-            }
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 82,
-                "end": 86,
-                "parameterName": "arg0"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TABLE  KEY  (X INT)"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 23,
-                "end": 27
             },
-            "fileSrc": {
+            "macroIdentifier": "hey"
+        },
+        {
+            "filename": "file-0",
+            "src": {
                 "start": 82,
                 "end": 86
-            }
+            },
+            "macroIdentifier": "macro1"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 27,
-                "end": 36,
-                "parameterName": "tableNamz"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "KEY"
+                "end": 36
+            },
+            "parameterName": "tableNamz"
         }
     ]
 ]

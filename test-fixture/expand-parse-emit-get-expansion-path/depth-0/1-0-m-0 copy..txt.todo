@@ -1,0 +1,20 @@
+#define KE () KE;;
+
+#define Y () Y;;
+
+-----
+CREATE TABLE \KE\Y (X INT);
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+]

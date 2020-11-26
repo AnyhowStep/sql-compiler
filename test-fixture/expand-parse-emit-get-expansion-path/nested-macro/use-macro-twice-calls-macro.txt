@@ -32,53 +32,27 @@ CREATE TABLE `BOTH` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TABLE  KEY  (  X INT);\n\nCREATE  TABLE  BOTH  (  X INT);\n"
-        },
-        {
-            "filename": "file-1",
             "src": {
                 "start": 5,
                 "end": 8
             },
-            "fileSrc": {
-                "start": 5,
-                "end": 8
-            }
+            "macroIdentifier": "hey"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 85,
-                "end": 89,
-                "parameterName": "arg0"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TABLE  KEY  (  X INT)"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 16,
-                "end": 20
-            },
-            "fileSrc": {
                 "start": 85,
                 "end": 89
-            }
+            },
+            "macroIdentifier": "macro0"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 34,
-                "end": 43,
-                "parameterName": "tableName"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "TABLE  KEY  ("
+                "end": 43
+            },
+            "parameterName": "tableName"
         }
     ],
     [
@@ -90,53 +64,27 @@ CREATE TABLE `BOTH` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TABLE  KEY  (  X INT);\n\nCREATE  TABLE  BOTH  (  X INT);\n"
-        },
-        {
-            "filename": "file-1",
             "src": {
                 "start": 17,
                 "end": 21
             },
-            "fileSrc": {
-                "start": 17,
-                "end": 21
-            }
+            "macroIdentifier": "hey"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 85,
-                "end": 89,
-                "parameterName": "arg0"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TABLE  BOTH  (  X INT)"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 16,
-                "end": 20
-            },
-            "fileSrc": {
                 "start": 85,
                 "end": 89
-            }
+            },
+            "macroIdentifier": "macro0"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 34,
-                "end": 43,
-                "parameterName": "tableName"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "TABLE  BOTH  ("
+                "end": 43
+            },
+            "parameterName": "tableName"
         }
     ]
 ]

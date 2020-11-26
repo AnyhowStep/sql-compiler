@@ -28,80 +28,43 @@ CREATE TEMPORARY TABLE `KEY` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TEMPORARY  TABLE  /* */KEY  (  X  INT);\n"
-        },
-        {
-            "filename": "file-1",
             "src": {
                 "start": 5,
                 "end": 8
             },
-            "fileSrc": {
-                "start": 5,
-                "end": 8
-            }
+            "macroIdentifier": "hey"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 152,
-                "end": 156,
-                "parameterName": "arg0"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TEMPORARY  TABLE  /* */KEY  (  X  INT)"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 16,
-                "end": 29
-            },
-            "fileSrc": {
                 "start": 144,
                 "end": 157
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "TABLE  /* */KEY  ("
+            },
+            "macroIdentifier": "macro0"
         },
         {
             "filename": "file-0",
             "src": {
-                "start": 8,
-                "end": 12
-            },
-            "fileSrc": {
                 "start": 152,
                 "end": 156
-            }
+            },
+            "macroIdentifier": "macro1"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 93,
-                "end": 102,
-                "parameterName": "tableNamz"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "TABLE  /* */KEY  ("
+                "end": 102
+            },
+            "parameterName": "tableNamz"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 38,
-                "end": 47,
-                "parameterName": "tableName"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "TEMPORARY  TABLE  /* */KEY  (  X"
+                "end": 47
+            },
+            "parameterName": "tableName"
         }
     ]
 ]

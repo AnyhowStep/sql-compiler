@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandStringContent, findAllMacros, parse, getExpansionPath, MacroPartType} from "../nearley-prototype";
+import {expandStringContent, findAllMacros, parse, getExpansionPath, MacroPartType, ExpansionPath} from "../nearley-prototype";
 import {emitSourceFile} from "../emitter";
 
 let root = `${__dirname}/../../test-fixture/expand-parse-emit-get-expansion-path`;
@@ -97,43 +97,53 @@ suite('Should expand-parse-emit-get-expansion-path content as expected', () => {
             );
             const rawSyntacticErrors = parsedFiles[i].sourceFile.syntacticErrors;
             const tracedSyntacticErrors = rawSyntacticErrors.map(err => {
-                const expansionPath = [
-                    ...getExpansionPath(
-                        `file-${i}`,
+                function processExpansionPath (path : ExpansionPath) : {}[] {
+                    return path
+                        .map(item => {
+                            if (item.type == MacroPartType.ParameterReference) {
+                                return [
+                                    ...(
+                                        item.argTrace[0].type == MacroPartType.MacroCall ?
+                                        processExpansionPath(item.argTrace) :
+                                        []
+                                    ),
+                                    {
+                                        filename : item.filename,
+                                        src : {
+                                            start : item.start,
+                                            end : item.end,
+                                        },
+                                        parameterName : item.expandedPart.expandedPart.filePart.parameterName,
+                                    },
+                                ];
+                            }
+
+                            if (item.expandedPart.expandedPart.type == MacroPartType.MacroCall) {
+                                return {
+                                    filename : item.filename,
+                                    src : {
+                                        start : item.start,
+                                        end : item.end,
+                                    },
+                                    macroIdentifier : item.expandedPart.expandedPart.expandedMacro.macro.identifier.macroName,
+                                };
+                            }
+
+                            return {
+                                filename : item.filename,
+                                src : {
+                                    start : item.start,
+                                    end : item.end,
+                                },
+                            };
+                        })
+                        .flat(1);
+                }
+                const expansionPath = processExpansionPath(getExpansionPath(
                         err,
                         expandedInputFiles[i],
                     ),
-                ].map(item => {
-                    if (item.expandedPart.expandedPart.type == MacroPartType.ParameterReference) {
-                        return {
-                            filename : item.filename,
-                            src : {
-                                start : item.start,
-                                end : item.end,
-                            },
-                            parameterName : item.expandedPart.expandedPart.filePart.parameterName,
-                        };
-                    }
-
-                    if (item.expandedPart.expandedPart.type == MacroPartType.MacroCall) {
-                        return {
-                            filename : item.filename,
-                            src : {
-                                start : item.start,
-                                end : item.end,
-                            },
-                            macroIdentifier : item.expandedPart.expandedPart.expandedMacro.macro.identifier.macroName,
-                        };
-                    }
-
-                    return {
-                        filename : item.filename,
-                        src : {
-                            start : item.start,
-                            end : item.end,
-                        },
-                    };
-                });
+                );
                 return [
                     {
                         category : err.category,

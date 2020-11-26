@@ -28,13 +28,9 @@ CREATE SCHEMA `KEY`;
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE TABLE T (X INT);\n\nCREATE SCHEMA KEY;\n"
-        },
-        {
-            "filename": "file-1",
             "src": {
-                "start": 7,
-                "end": 28
+                "start": 24,
+                "end": 27
             }
         }
     ]

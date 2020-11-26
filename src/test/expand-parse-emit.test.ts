@@ -98,7 +98,6 @@ suite('Should expand-parse-emit content as expected', () => {
             const rawSyntacticErrors = parsedFiles[i].sourceFile.syntacticErrors;
             const tracedSyntacticErrors = rawSyntacticErrors.map(err => {
                 return traceDiagnostic(
-                    `file-${i}`,
                     err,
                     expandedInputFiles[i],
                     (filename) => {

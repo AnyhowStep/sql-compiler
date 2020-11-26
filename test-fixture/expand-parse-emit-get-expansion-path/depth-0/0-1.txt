@@ -23,7 +23,10 @@ CREATE TABLE `KEY` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE TABLE KEY (X INT);\n"
+            "src": {
+                "start": 13,
+                "end": 16
+            }
         }
     ]
 ]

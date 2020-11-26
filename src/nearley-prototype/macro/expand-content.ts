@@ -33,8 +33,10 @@ export function expandStringContent (
     input : string,
 ) {
     const fileParts = computeSubstitutionContent(
+        filename,
         [] as unknown as MacroParameterList,
         {
+            filename,
             type : MacroPartType.PlainText,
             start : 0,
             end : input.length,

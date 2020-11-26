@@ -37,57 +37,35 @@ CREATE TEMPORARY TABLE `BOTH` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TEMPORARY TABLE  KEY  ( X   INT);\n\nCREATE  TEMPORARY TABLE  BOTH  ( X   INT);\n"
+            "src": {
+                "start": 15,
+                "end": 27
+            },
+            "macroIdentifier": "hey"
         },
         {
             "filename": "file-1",
             "src": {
-                "start": 5,
-                "end": 29
-            },
-            "fileSrc": {
-                "start": 5,
-                "end": 29
-            }
-        },
-        {
-            "filename": "file-1",
-            "expandedContent": "TEMPORARY TABLE  KEY  ( X"
-        },
-        {
-            "filename": "file-1",
-            "src": {
-                "start": 18,
-                "end": 21
-            },
-            "fileSrc": {
                 "start": 23,
                 "end": 26
-            }
+            },
+            "macroIdentifier": "macro0"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 34,
-                "end": 43,
-                "parameterName": "tableName"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "TABLE  KEY  ("
+                "end": 43
+            },
+            "parameterName": "tableName"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 77,
-                "end": 81,
-                "parameterName": "arg0"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TEMPORARY TABLE  KEY  ( X   INT)"
+                "end": 81
+            },
+            "parameterName": "arg0"
         }
     ],
     [
@@ -99,57 +77,35 @@ CREATE TEMPORARY TABLE `BOTH` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "CREATE  TEMPORARY TABLE  KEY  ( X   INT);\n\nCREATE  TEMPORARY TABLE  BOTH  ( X   INT);\n"
+            "src": {
+                "start": 48,
+                "end": 61
+            },
+            "macroIdentifier": "hey"
         },
         {
             "filename": "file-1",
             "src": {
-                "start": 38,
-                "end": 63
-            },
-            "fileSrc": {
-                "start": 38,
-                "end": 63
-            }
-        },
-        {
-            "filename": "file-1",
-            "expandedContent": "TEMPORARY TABLE  BOTH  ( X"
-        },
-        {
-            "filename": "file-1",
-            "src": {
-                "start": 18,
-                "end": 22
-            },
-            "fileSrc": {
                 "start": 56,
                 "end": 60
-            }
+            },
+            "macroIdentifier": "macro0"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 34,
-                "end": 43,
-                "parameterName": "tableName"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "TABLE  BOTH  ("
+                "end": 43
+            },
+            "parameterName": "tableName"
         },
         {
             "filename": "file-0",
             "src": {
                 "start": 77,
-                "end": 81,
-                "parameterName": "arg0"
-            }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE  TEMPORARY TABLE  BOTH  ( X   INT)"
+                "end": 81
+            },
+            "parameterName": "arg0"
         }
     ]
 ]

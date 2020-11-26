@@ -29,6 +29,7 @@ export enum MacroPartType {
  * `TextRange` is within `content.value`
  */
 export interface ParameterReferencePart extends TextRange {
+    filename : string,
     type : MacroPartType.ParameterReference,
     fileSrc : TextRange,
     parameterName : string,
@@ -37,12 +38,14 @@ export interface MacroParameterList extends TextRange, Array<MacroParameter>, Sy
 
 }
 export interface PlainTextPart extends TextRange {
+    filename : string,
     type : MacroPartType.PlainText,
     fileSrc : TextRange,
     value : string
 }
 
 export interface Argument extends TextRange {
+    filename : string,
     fileSrc : TextRange,
     parts : (PlainTextPart|ParameterReferencePart|MacroCallPart)[]
 }
@@ -51,6 +54,7 @@ export interface ArgumentList extends TextRange, Array<Argument>, SyntacticError
 
 }
 export interface MacroCallPart extends TextRange {
+    filename : string,
     type : MacroPartType.MacroCall,
     fileSrc : TextRange,
     identifier : MacroIdentifier;
@@ -70,6 +74,7 @@ export interface Macro extends TextRange {
 }
 
 export function computeSubstitutionContent (
+    filename : string,
     parameterList : MacroParameterList,
     originalText : PlainTextPart,
 ) : (PlainTextPart|ParameterReferencePart|MacroCallPart)[] {
@@ -82,6 +87,7 @@ export function computeSubstitutionContent (
                 return {
                     start : ref.start,
                     end : ref.end,
+                    filename,
                     type : MacroPartType.ParameterReference,
                     fileSrc : ref.fileSrc,
                     parameterName : parameter.parameterName,
@@ -111,15 +117,18 @@ export function computeSubstitutionContent (
                 argumentList.push({
                     start : argNode.start,
                     end : argNode.end,
+                    filename,
                     fileSrc : {
                         start : originalText.fileSrc.start + argNode.start,
                         end : originalText.fileSrc.start + argNode.end,
                     },
                     parts : computeSubstitutionContent(
+                        filename,
                         parameterList,
                         {
                             start : argNode.start,
                             end : argNode.end,
+                            filename,
                             type : MacroPartType.PlainText,
                             fileSrc : {
                                 start : originalText.fileSrc.start + argNode.start,
@@ -135,6 +144,7 @@ export function computeSubstitutionContent (
                 start : node.start,
                 end : node.end,
 
+                filename,
                 type : MacroPartType.MacroCall,
                 fileSrc : {
                     start : originalText.fileSrc.start + node.start,
@@ -163,32 +173,34 @@ export function computeSubstitutionContent (
             for (const parameterReferencePart of usedParameterReferenceParts) {
                 const prefixText : PlainTextPart = {
                     start,
-                    end : parameterReferencePart.start - originalText.start,
+                    end : parameterReferencePart.fileSrc.start - originalText.fileSrc.start,
+                    filename,
                     type : MacroPartType.PlainText,
                     fileSrc : {
                         start : originalText.fileSrc.start + start,
-                        end : originalText.fileSrc.start + parameterReferencePart.start - originalText.start,
+                        end : originalText.fileSrc.start + parameterReferencePart.fileSrc.start - originalText.fileSrc.start,
                     },
                     value : originalText.value.substring(
                         start,
-                        parameterReferencePart.start - originalText.start
+                        parameterReferencePart.fileSrc.start - originalText.fileSrc.start
                     ),
                 };
-                start = parameterReferencePart.end - originalText.start;
+                start = parameterReferencePart.fileSrc.end - originalText.fileSrc.start;
 
                 if (prefixText.start != prefixText.end) {
                     partsResult.push(prefixText);
                 }
                 partsResult.push({
                     ...parameterReferencePart,
-                    start : parameterReferencePart.start - originalText.start,
-                    end : parameterReferencePart.end - originalText.start,
+                    start : parameterReferencePart.fileSrc.start - originalText.fileSrc.start,
+                    end : parameterReferencePart.fileSrc.end - originalText.fileSrc.start,
                 });
             }
 
             const trailingText : PlainTextPart = {
                 start,
                 end : node.end,
+                filename,
                 type : MacroPartType.PlainText,
                 fileSrc : {
                     start : originalText.fileSrc.start + start,
@@ -213,6 +225,7 @@ export function computeSubstitutionContent (
             const trailingText : PlainTextPart = {
                 start,
                 end : end,
+                filename,
                 type : MacroPartType.PlainText,
                 fileSrc : {
                     start : originalText.fileSrc.start + start,
@@ -374,6 +387,7 @@ export function findAllMacros (
             //end : match.index + contentStart + contentStr.length,
             start : 0,
             end : contentStr.length,
+            filename,
             type : MacroPartType.PlainText,
             fileSrc : {
                 start : match.index + contentStart,
@@ -398,6 +412,7 @@ export function findAllMacros (
             parameterList,
             content,
             parts : computeSubstitutionContent(
+                filename,
                 parameterList,
                 content
             ),

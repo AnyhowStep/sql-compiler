@@ -31,8 +31,8 @@ CREATE TABLE `BOTH` (
         {
             "filename": "file-1",
             "src": {
-                "start": 5,
-                "end": 16
+                "start": 11,
+                "end": 14
             },
             "macroIdentifier": "hey"
         },
@@ -43,13 +43,6 @@ CREATE TABLE `BOTH` (
                 "end": 31
             },
             "parameterName": "arg0"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 11,
-                "end": 14
-            }
         }
     ],
     [
@@ -62,8 +55,8 @@ CREATE TABLE `BOTH` (
         {
             "filename": "file-1",
             "src": {
-                "start": 25,
-                "end": 37
+                "start": 31,
+                "end": 35
             },
             "macroIdentifier": "hey"
         },
@@ -74,13 +67,6 @@ CREATE TABLE `BOTH` (
                 "end": 31
             },
             "parameterName": "arg0"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 31,
-                "end": 35
-            }
         }
     ]
 ]

@@ -43,8 +43,8 @@ CREATE TABLE `KEY` (
         {
             "filename": "file-0",
             "src": {
-                "start": 64,
-                "end": 75
+                "start": 70,
+                "end": 73
             },
             "macroIdentifier": "hey"
         },
@@ -55,13 +55,6 @@ CREATE TABLE `KEY` (
                 "end": 31
             },
             "parameterName": "arg0"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 70,
-                "end": 73
-            }
         }
     ],
     [
@@ -82,8 +75,8 @@ CREATE TABLE `KEY` (
         {
             "filename": "file-0",
             "src": {
-                "start": 64,
-                "end": 75
+                "start": 70,
+                "end": 73
             },
             "macroIdentifier": "hey"
         },
@@ -94,13 +87,6 @@ CREATE TABLE `KEY` (
                 "end": 31
             },
             "parameterName": "arg0"
-        },
-        {
-            "filename": "file-0",
-            "src": {
-                "start": 70,
-                "end": 73
-            }
         }
     ]
 ]

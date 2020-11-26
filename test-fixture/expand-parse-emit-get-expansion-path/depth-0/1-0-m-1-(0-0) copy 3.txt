@@ -24,24 +24,11 @@ CREATE TABLE `KEY` (
         },
         {
             "filename": "file-1",
-            "expandedContent": "  CREATE TABLE  KEY (X INT); \n"
-        },
-        {
-            "filename": "file-1",
             "src": {
                 "start": 2,
-                "end": 19
+                "end": 16
             },
-            "macroIdentifier": {
-                "src": {
-                    "start": 2,
-                    "end": 16
-                },
-                "fileSrc": {
-                    "start": 2,
-                    "end": 16
-                }
-            }
+            "macroIdentifier": "createTable"
         },
         {
             "filename": "file-0",
@@ -49,10 +36,6 @@ CREATE TABLE `KEY` (
                 "start": 45,
                 "end": 48
             }
-        },
-        {
-            "filename": "file-0",
-            "expandedContent": "CREATE TABLE  KEY (X INT); "
         }
     ]
 ]
