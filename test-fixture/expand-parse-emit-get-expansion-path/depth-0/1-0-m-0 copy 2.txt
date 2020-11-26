@@ -1,0 +1,76 @@
+#define identity (x) x;;
+
+#define macro0 (a, b) \identity{a}\identity{b};;
+
+-----
+CREATE TABLE \macro0{KE}{Y} (X INT);
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 13,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 21,
+                "end": 23
+            },
+            "macroIdentifier": "macro0"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 58,
+                "end": 59
+            },
+            "macroIdentifier": "identity"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 21,
+                "end": 22
+            },
+            "parameterName": "x"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 25,
+                "end": 26
+            },
+            "macroIdentifier": "macro0"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 70,
+                "end": 71
+            },
+            "macroIdentifier": "identity"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 21,
+                "end": 22
+            },
+            "parameterName": "x"
+        }
+    ]
+]

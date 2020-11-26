@@ -1,0 +1,58 @@
+#define KE () KE;;
+
+#define Y () Y;;
+
+-----
+CREATE TABLE \KE\Y (X INT);
+
+-----
+
+-----
+CREATE TABLE `KEY` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword KEY as identifier; escape it with backticks",
+            "start": 13,
+            "length": 3
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 13,
+                "end": 16
+            },
+            "macroIdentifier": "KE"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 14,
+                "end": 16
+            }
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 16,
+                "end": 18
+            },
+            "macroIdentifier": "Y"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 33,
+                "end": 34
+            }
+        }
+    ]
+]
