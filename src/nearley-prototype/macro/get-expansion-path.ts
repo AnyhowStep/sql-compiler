@@ -337,6 +337,10 @@ function getExpansionPathImpl (
             (
                 expandedPart.expandedSrc.start < diagnostic.start + diagnostic.length &&
                 expandedPart.expandedSrc.end >= diagnostic.start + diagnostic.length
+            ) ||
+            (
+                expandedPart.expandedSrc.start >= diagnostic.start &&
+                expandedPart.expandedSrc.end <= diagnostic.start + diagnostic.length
             )
         );
     });

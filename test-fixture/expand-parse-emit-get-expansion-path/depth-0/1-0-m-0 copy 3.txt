@@ -1,0 +1,182 @@
+#define identity (x) x;;
+
+#define identity2 (x, y) \identity{x}\identity{y};;
+
+#define macro0 (a, b, c, d, e) \identity2{a}{b}\identity2{c}{d}\identity{e};;
+
+-----
+CREATE TABLE \macro0{C}{R}{O}{S}{S} (X INT);
+
+-----
+
+-----
+CREATE TABLE `CROSS` (
+    `X` INT SIGNED NULL
+);
+
+-----
+[]
+
+-----
+[
+    [
+        {
+            "category": 0,
+            "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+            "start": 13,
+            "length": 5
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 21,
+                "end": 22
+            },
+            "macroIdentifier": "macro0"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 121,
+                "end": 122
+            },
+            "macroIdentifier": "identity2"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 61,
+                "end": 62
+            },
+            "macroIdentifier": "identity"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 21,
+                "end": 22
+            },
+            "parameterName": "x"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 24,
+                "end": 25
+            },
+            "macroIdentifier": "macro0"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 124,
+                "end": 125
+            },
+            "macroIdentifier": "identity2"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 73,
+                "end": 74
+            },
+            "macroIdentifier": "identity"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 21,
+                "end": 22
+            },
+            "parameterName": "x"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 27,
+                "end": 28
+            },
+            "macroIdentifier": "macro0"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 137,
+                "end": 138
+            },
+            "macroIdentifier": "identity2"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 61,
+                "end": 62
+            },
+            "macroIdentifier": "identity"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 21,
+                "end": 22
+            },
+            "parameterName": "x"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 30,
+                "end": 31
+            },
+            "macroIdentifier": "macro0"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 140,
+                "end": 141
+            },
+            "macroIdentifier": "identity2"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 73,
+                "end": 74
+            },
+            "macroIdentifier": "identity"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 21,
+                "end": 22
+            },
+            "parameterName": "x"
+        },
+        {
+            "filename": "file-1",
+            "src": {
+                "start": 33,
+                "end": 34
+            },
+            "macroIdentifier": "macro0"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 152,
+                "end": 153
+            },
+            "macroIdentifier": "identity"
+        },
+        {
+            "filename": "file-0",
+            "src": {
+                "start": 21,
+                "end": 22
+            },
+            "parameterName": "x"
+        }
+    ]
+]
