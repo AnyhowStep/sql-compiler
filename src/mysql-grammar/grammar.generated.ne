@@ -1692,7 +1692,7 @@ CharacterDataType ->
 } %}
 
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | RealDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | JsonDataType | RealDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
 
 DateDataType ->
     %DATE {% (data) => {
@@ -1849,6 +1849,14 @@ IntegerDataType ->
             undefined :
             Number(displayWidth[1].value)),
         ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+
+JsonDataType ->
+    %JSON {% (data) => {
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.JsonDataType,
         ...parse_util_1.getTextRange(data),
     };
 } %}

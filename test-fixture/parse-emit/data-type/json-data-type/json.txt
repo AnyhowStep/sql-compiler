@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X JSON
+);
+
+-----
+CREATE TABLE `T` (
+    `X` JSON NULL
+);
+
+-----
+[]

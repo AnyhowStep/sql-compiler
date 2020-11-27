@@ -15,6 +15,7 @@ makeCustomRule(CustomSyntaxKind.DataType)
             SyntaxKind.GeometryCollectionDataType,
             SyntaxKind.GeometryDataType,
             SyntaxKind.IntegerDataType,
+            SyntaxKind.JsonDataType,
             SyntaxKind.RealDataType,
             SyntaxKind.TextDataType,
             SyntaxKind.TimeDataType,

@@ -10,6 +10,7 @@ import {emitDateTimeDataType} from "./date-time-data-type";
 import {emitGeometryCollectionDataType} from "./geometry-collection-data-type";
 import {emitGeometryDataType} from "./geometry-data-type";
 import {emitIntegerDataType} from "./integer-data-type";
+import {emitJsonDataType} from "./json-data-type";
 import {emitRealDataType} from "./real-data-type";
 import {emitTextDataType} from "./text-data-type";
 import {emitTimeDataType} from "./time-data-type";
@@ -28,6 +29,7 @@ export function emitDataType (dataType : DataType) : StringBuilder {
         .case(SyntaxKind.GeometryCollectionDataType, emitGeometryCollectionDataType)
         .case(SyntaxKind.GeometryDataType, emitGeometryDataType)
         .case(SyntaxKind.IntegerDataType, emitIntegerDataType)
+        .case(SyntaxKind.JsonDataType, emitJsonDataType)
         .case(SyntaxKind.RealDataType, emitRealDataType)
         .case(SyntaxKind.TextDataType, emitTextDataType)
         .case(SyntaxKind.TimeDataType, emitTimeDataType)

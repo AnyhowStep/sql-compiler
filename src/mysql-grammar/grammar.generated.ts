@@ -1763,6 +1763,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["GeometryCollectionDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["GeometryDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["JsonDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TextDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TimeDataType"]},
@@ -1939,6 +1940,12 @@ export var ParserRules: NearleyRule[] = [
                     undefined :
                     Number(displayWidth[1].value)),
                 ...modifier,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
+    {"name": "JsonDataType", "symbols": [JSON], "postprocess":  (data) => {
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.JsonDataType,
                 ...parse_util_1.getTextRange(data),
             };
         } },
