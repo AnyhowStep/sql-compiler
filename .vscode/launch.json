@@ -8,10 +8,10 @@
         "name": "Launch Client",
         "runtimeExecutable": "${execPath}",
         "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-        "outFiles": ["${workspaceRoot}/client/out/**/*.js"],
+        "outFiles": ["${workspaceRoot}/dist/language-client/**/*.js"],
         "preLaunchTask": {
           "type": "npm",
-          "script": "compile"
+          "script": "build"
         }
       },
       {
@@ -20,7 +20,7 @@
         "name": "Attach to Server",
         "port": 6009,
         "restart": true,
-        "outFiles": ["${workspaceRoot}/server/out/**/*.js"]
+        "outFiles": ["${workspaceRoot}/dist/language-server/**/*.js"]
       },
       {
         "type": "node",
@@ -35,11 +35,16 @@
         "name": "Attach to Mocha",
         "program": "${workspaceRoot}/node_modules/.bin/mocha",
         "args": [
-          "${workspaceRoot}/dist/test/expand-parse-emit.test.js",
+          "${workspaceRoot}/dist/test/expand-parse-emit-get-expansion-path.test.js",
           "-u",
           "tdd",
           "--recursive"
         ],
+        "env": {
+          "EXPAND_CONTENT_FILE": "nested-macro/macro-passes-expr-using-arg.txt",
+          "EXPAND_PARSE_EMIT_FILE": "generated/m-(m-(n))(m-(n)(a)-a).txt",
+          "EXPAND_PARSE_EMIT_GET_EXPANSION_PATH_FILE": "depth-0/1-0-m-0 copy 3.txt",
+        },
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen",
         "skipFiles": [

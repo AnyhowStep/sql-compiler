@@ -8,6 +8,8 @@
         { "path" : "src/emitter" },
         { "path" : "src/nearley-wrapper" },
         { "path" : "src/unexpanded-content-grammar" },
+        { "path" : "src/language-server" },
+        { "path" : "src/language-client" },
         { "path" : "src/test" }
     ],
     "files" : []

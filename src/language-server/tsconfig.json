@@ -1,0 +1,17 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/language-server",
+        "declarationDir": "../../dist/language-server",
+        "types": []
+    },
+    "references" : [
+        { "path": "../macro-definition-grammar" },
+        { "path": "../macro" },
+        { "path": "../mysql-grammar" },
+        { "path": "../emitter" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

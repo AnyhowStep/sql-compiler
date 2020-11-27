@@ -1,0 +1,13 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/language-client",
+        "declarationDir": "../../dist/language-client",
+        "types": []
+    },
+    "references" : [
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

@@ -16,11 +16,19 @@
 
 + `macro`
 
+  Expands strings that call macros, provides human-friendly diagnostic traces.
+
   Has code `230000` diagnostics.
 
 + `macro-definition-grammar`
 
+  Contains a macro definition parser.
+
   Has code `220000` diagnostics.
+
++ `macro-definition-node`
+
+  Contains interfaces for a macro definition parse tree.
 
 + `mysql-grammar`
 
@@ -61,6 +69,10 @@
 + `scanner-generator`
 
   Generates types related to the scanner.
+
++ `test`
+
+  Contains tests for the entire repository.
 
 + `unexpanded-content-grammar`
 
