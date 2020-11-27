@@ -1,6 +1,6 @@
-import {TextRange} from "../../parser-node";
+import type {TextRange} from "../nearley-wrapper";
 import {ExpandedContent, TextRangeMap, ExpandedMacroCallPart} from "./expand-content";
-import {MacroPartType} from "./find-all-macros";
+import {MacroPartType} from "../macro-definition-node";
 import {SubstitutedParameterReferencePart, SubstitutedPlainTextPart} from "./substitute";
 import {DiagnosticLike} from "./trace-error-3";
 

@@ -13,7 +13,8 @@
         { "path": "../mysql-grammar" },
         { "path": "../fault-tolerant-parser" },
         { "path": "../macro-definition-grammar" },
-        { "path": "../macro-definition-node" }
+        { "path": "../macro-definition-node" },
+        { "path": "../macro" }
     ],
     "include" : [
         "./**/*.ts"

@@ -6,6 +6,9 @@
         "types": []
     },
     "references" : [
+        { "path": "../macro-definition-node" },
+        { "path": "../macro-definition-grammar" },
+        { "path": "../nearley-wrapper" }
     ],
     "include" : [
         "./**/*.ts"

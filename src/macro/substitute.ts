@@ -1,6 +1,14 @@
-import {TextRange} from "../../parser-node";
+import type {TextRange} from "../nearley-wrapper";
 import {MacroArgument} from "./expand-macro";
-import {Argument, Macro, MacroCallPart, ParameterReferencePart, PlainTextPart, MacroIdentifier, MacroPartType} from "./find-all-macros";
+import {
+    Argument,
+    Macro,
+    MacroCallPart,
+    ParameterReferencePart,
+    PlainTextPart,
+    MacroIdentifier,
+    MacroPartType,
+} from "../macro-definition-node";
 
 export interface SubstitutedPlainTextPart {
     type : MacroPartType.PlainText,

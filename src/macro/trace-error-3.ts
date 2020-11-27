@@ -1,6 +1,6 @@
-import {Diagnostic, RelatedRange} from "../../diagnostic";
+import {Diagnostic, RelatedRange} from "../diagnostic";
 import {ExpandedContent} from "./expand-content";
-import {MacroPartType} from "./find-all-macros";
+import {MacroPartType} from "../macro-definition-node";
 import {ExpansionPath, getExpansionPath} from "./get-expansion-path";
 
 export interface DiagnosticLike {

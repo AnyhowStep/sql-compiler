@@ -1,9 +1,10 @@
-import {Diagnostic} from "../../diagnostic";
-import {makeDiagnosticAt} from "../../parse-util";
-import {TextRange} from "../../parser-node";
-import {DiagnosticMessages} from "../diagnostic-messages";
+import {Diagnostic} from "../diagnostic";
+import {makeDiagnosticAt} from "../parse-util";
+import type {TextRange} from "../nearley-wrapper";
+import {DiagnosticMessages} from "./diagnostic-messages";
 import {ExpandedMacro, expandMacro, MacroArgument} from "./expand-macro";
-import {computeSubstitutionContent, Macro, MacroParameterList, MacroPartType} from "./find-all-macros";
+import {Macro, MacroParameterList, MacroPartType} from "../macro-definition-node";
+import {computeSubstitutionContent} from "../macro-definition-grammar";
 import {substitute, SubstitutedMacroCallPart, SubstitutedParameterReferencePart, SubstitutedPlainTextPart} from "./substitute";
 
 export interface ExpandedMacroCallPart {
