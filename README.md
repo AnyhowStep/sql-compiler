@@ -10,21 +10,17 @@
 
 + `fault-tolerant-parser`
 
+  Modifies the Earley algorithm implemented by `nearley` to be fault tolerant.
+
   Has code `210000` diagnostics.
 
 + `macro`
 
+  Has code `230000` diagnostics.
+
++ `macro-definition-grammar`
+
   Has code `220000` diagnostics.
-
-+ `macro-grammar`
-
-  Contains interfaces for a macro parse tree.
-
-  Contains a macro parser.
-
-+ `macro-grammar-generator`
-
-  Generates a macro parser. Generated parser is built to `macro-grammar` project.
 
 + `mysql-grammar`
 
@@ -65,6 +61,16 @@
 + `scanner-generator`
 
   Generates types related to the scanner.
+
++ `unexpanded-content-grammar`
+
+  Contains interfaces for an unexpanded content parse tree.
+
+  Contains an unexpanded content parser.
+
++ `unexpanded-content-grammar-generator`
+
+  Generates an unexpanded content parser. Generated parser is built to `unexpanded content-grammar` project.
 
 -----
 

@@ -9,7 +9,7 @@ import {
     MacroCallNode,
     MacroIdentifierNode,
     UnexpandedContentNode,
-} from "../macro-grammar";
+} from "../unexpanded-content-grammar";
 
 export const NonPound = makeRule<TokenObj<TokenKind>>("%NonPound");
 

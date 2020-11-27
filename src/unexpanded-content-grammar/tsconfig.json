@@ -1,8 +1,8 @@
 {
     "extends" : "../../tsconfig-base.json",
     "compilerOptions": {
-        "outDir": "../../dist/macro-grammar",
-        "declarationDir": "../../dist/macro-grammar",
+        "outDir": "../../dist/unexpanded-content-grammar",
+        "declarationDir": "../../dist/unexpanded-content-grammar",
         "types": ["@types/node"]
     },
     "references" : [
@@ -10,7 +10,8 @@
         { "path": "../diagnostic" },
         { "path": "../scanner" },
         { "path": "../parser-node" },
-        { "path": "../parse-util" }
+        { "path": "../parse-util" },
+        { "path": "../fault-tolerant-parser" }
     ],
     "include" : [
         "./**/*.ts"

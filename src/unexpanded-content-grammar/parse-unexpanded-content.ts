@@ -1,6 +1,7 @@
-import {Scanner} from "../../scanner";
-import {parseHelper} from "../../fault-tolerant-parser";
-import {grammar, UnexpandedContentNode} from "../../macro-grammar";
+import type {Scanner} from "../scanner";
+import {parseHelper} from "../fault-tolerant-parser";
+import * as grammar from "./grammar.generated";
+import {UnexpandedContentNode} from "./node";
 
 export function parseUnexpandedContent (
     filename : string,

@@ -9,9 +9,11 @@
         { "path": "../scanner" },
         { "path": "../parser-node" },
         { "path": "../nearley-wrapper" },
-        { "path": "../macro-grammar" },
+        { "path": "../unexpanded-content-grammar" },
         { "path": "../mysql-grammar" },
-        { "path": "../fault-tolerant-parser" }
+        { "path": "../fault-tolerant-parser" },
+        { "path": "../macro-definition-grammar" },
+        { "path": "../macro-definition-node" }
     ],
     "include" : [
         "./**/*.ts"

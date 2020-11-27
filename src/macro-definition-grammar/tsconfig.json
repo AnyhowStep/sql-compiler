@@ -1,0 +1,19 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/macro-definition-grammar",
+        "declarationDir": "../../dist/macro-definition-grammar",
+        "types": []
+    },
+    "references" : [
+        { "path": "../macro-definition-node" },
+        { "path": "../diagnostic" },
+        { "path": "../parse-util" },
+        { "path": "../nearley-wrapper" },
+        { "path": "../scanner" },
+        { "path": "../unexpanded-content-grammar" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

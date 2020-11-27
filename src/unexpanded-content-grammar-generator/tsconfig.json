@@ -1,8 +1,8 @@
 {
     "extends" : "../../tsconfig-base.json",
     "compilerOptions": {
-        "outDir": "../../dist/macro-grammar-generator",
-        "declarationDir": "../../dist/macro-grammar-generator",
+        "outDir": "../../dist/unexpanded-content-grammar-generator",
+        "declarationDir": "../../dist/unexpanded-content-grammar-generator",
         "types": ["@types/node"]
     },
     "references" : [
@@ -10,7 +10,7 @@
         { "path": "../scanner" },
         { "path": "../parser-node" },
         { "path": "../parse-util" },
-        { "path": "../macro-grammar" }
+        { "path": "../unexpanded-content-grammar" }
     ],
     "include" : [
         "./**/*.ts"

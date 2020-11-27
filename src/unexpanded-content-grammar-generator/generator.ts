@@ -47,6 +47,6 @@ ${emitNearleyGrammar("UnexpandedContent")}
 `;
 
 compileGrammar(
-    `${__dirname}/../macro-grammar`,
+    `${__dirname}/../unexpanded-content-grammar`,
     () => output
 );

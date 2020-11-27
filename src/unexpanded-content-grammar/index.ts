@@ -3,3 +3,5 @@ export * from "./node";
 
 import * as grammar from "./grammar.generated";
 export {grammar}
+
+export * from "./parse-unexpanded-content";

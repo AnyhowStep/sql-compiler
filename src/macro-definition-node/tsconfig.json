@@ -1,0 +1,15 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/macro-definition-node",
+        "declarationDir": "../../dist/macro-definition-node",
+        "types": []
+    },
+    "references" : [
+        { "path": "../nearley-wrapper" },
+        { "path": "../parse-util" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}
