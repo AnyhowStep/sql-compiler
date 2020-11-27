@@ -1,7 +1,8 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandStringContent, findAllMacros, parse, traceDiagnostic} from "../nearley-prototype";
+import {expandStringContent, findAllMacros, traceDiagnostic} from "../nearley-prototype";
 import {emitSourceFile} from "../emitter";
+import {parse} from "../mysql-grammar";
 
 let root = `${__dirname}/../../test-fixture/expand-parse-emit`;
 if (process.env.EXPAND_PARSE_EMIT_FILE) {

@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {parse} from "../nearley-prototype";
+import {parse} from "../mysql-grammar";
 
 const root = `${__dirname}/../../test-fixture/parse`;
 suite('Should parse as expected', () => {

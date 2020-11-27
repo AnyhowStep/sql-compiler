@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import {emitSourceFile} from "../emitter";
 import {testRecursive} from "./test-recursive";
-import {parse} from "../nearley-prototype";
+import {parse} from "../mysql-grammar";
 
 const root = `${__dirname}/../../test-fixture/parse-emit`;
 suite('Should parse-emit as expected', () => {

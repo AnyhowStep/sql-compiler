@@ -8,7 +8,8 @@
     "references" : [
         { "path": "../scanner" },
         { "path": "../parser-node" },
-        { "path": "../parse-util" }
+        { "path": "../parse-util" },
+        { "path": "../fault-tolerant-parser" }
     ],
     "include" : [
         "./**/*.ts"
