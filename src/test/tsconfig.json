@@ -7,7 +7,9 @@
     },
     "references" : [
         { "path": "../scanner" },
-        { "path": "../nearley-prototype" },
+        { "path": "../macro-definition-node" },
+        { "path": "../macro-definition-grammar" },
+        { "path": "../macro" },
         { "path": "../mysql-grammar" },
         { "path": "../emitter" }
     ],

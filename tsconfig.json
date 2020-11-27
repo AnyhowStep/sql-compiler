@@ -8,7 +8,6 @@
         { "path" : "src/emitter" },
         { "path" : "src/nearley-wrapper" },
         { "path" : "src/unexpanded-content-grammar" },
-        { "path" : "src/nearley-prototype" },
         { "path" : "src/test" }
     ],
     "files" : []

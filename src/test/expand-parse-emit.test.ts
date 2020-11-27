@@ -1,6 +1,7 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandStringContent, findAllMacros, traceDiagnostic} from "../nearley-prototype";
+import {findAllMacros} from "../macro-definition-grammar";
+import {expandStringContent, traceDiagnostic} from "../macro";
 import {emitSourceFile} from "../emitter";
 import {parse} from "../mysql-grammar";
 

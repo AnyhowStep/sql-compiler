@@ -1,8 +1,10 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandStringContent, findAllMacros, getExpansionPath, MacroPartType, ExpansionPath} from "../nearley-prototype";
 import {emitSourceFile} from "../emitter";
 import {parse} from "../mysql-grammar";
+import {MacroPartType} from "../macro-definition-node";
+import {findAllMacros} from "../macro-definition-grammar";
+import {expandStringContent, getExpansionPath, ExpansionPath} from "../macro";
 
 let root = `${__dirname}/../../test-fixture/expand-parse-emit-get-expansion-path`;
 if (process.env.EXPAND_PARSE_EMIT_GET_EXPANSION_PATH_FILE) {

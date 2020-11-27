@@ -1,6 +1,7 @@
 import * as assert from "assert";
 import {testRecursive} from "./test-recursive";
-import {expandStringContent, findAllMacros} from "../nearley-prototype";
+import {findAllMacros} from "../macro-definition-grammar";
+import {expandStringContent} from "../macro";
 
 let root = `${__dirname}/../../test-fixture/expand-content`;
 if (process.env.EXPAND_CONTENT_FILE) {
