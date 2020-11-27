@@ -30,6 +30,7 @@ export interface ParameterReferencePart extends TextRange {
     type : MacroPartType.ParameterReference,
     fileSrc : TextRange,
     parameterName : string,
+    value : string
 }
 export interface MacroParameterList extends TextRange, Array<MacroParameter>, SyntacticErrorContainer {
 
@@ -56,6 +57,7 @@ export interface MacroCallPart extends TextRange {
     fileSrc : TextRange,
     identifier : MacroIdentifier;
     argumentList : ArgumentList;
+    value : string,
 }
 
 export interface Macro extends TextRange {

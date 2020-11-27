@@ -156,7 +156,12 @@ suite('Should expand-parse-emit-get-expansion-path content as expected', () => {
                         relatedRanges : (
                             err.relatedRanges == undefined || err.relatedRanges.length == 0 ?
                             undefined :
-                            err.relatedRanges
+                            err.relatedRanges.map(r => {
+                                return {
+                                    ...r,
+                                    messageText : undefined,
+                                }
+                            })
                         ),
                     },
                     ...expansionPath,

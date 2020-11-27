@@ -83,7 +83,7 @@ export function substitute (
     let curSubstitutedSrcStartOffset = substitutedSrcStartoffset;
 
     for (const part of parts) {
-        if ("parameterName" in part) {
+        if (part.type == MacroPartType.ParameterReference) {
             if (macro == undefined) {
                 throw new Error(`Unexpected parameter reference`);
             }
@@ -101,7 +101,7 @@ export function substitute (
             });
 
             curSubstitutedSrcStartOffset += macroArgument.value.expandedText.length;
-        } else if ("value" in part) {
+        } else if (part.type == MacroPartType.PlainText) {
             resultParts.push({
                 type : MacroPartType.PlainText,
                 substitutedSrc : {

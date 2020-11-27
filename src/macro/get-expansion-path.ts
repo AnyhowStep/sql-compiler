@@ -24,6 +24,7 @@ export interface MacroCallPathItem extends TextRange {
     filename : string,
     expandedPart : TextRangeMap & { expandedPart : ExpandedMacroCallPart },
     depth : number,
+    argRange : ExpansionPathItem|undefined,
 }
 
 export type ExpansionPathItem =
@@ -195,6 +196,7 @@ function getExpansionPathPerPart (
                         expandedPart : expandedPart.expandedPart,
                     },
                     depth,
+                    argRange : undefined,
                 },
                 ...macroCallTrace,
             ]
@@ -225,6 +227,7 @@ function getExpansionPathPerPart (
                                     end : argRange.expandedPart.expandedPart.substituted.filePart.fileSrc.end,
                                     expandedPart : myExpandedPart,
                                     depth,
+                                    argRange,
                                 },
                                 ...splitPath,
                             );
@@ -241,6 +244,7 @@ function getExpansionPathPerPart (
                                     end : usedMacroArgument.substitutedArgument.argument.fileSrc.end,
                                     expandedPart : myExpandedPart,
                                     depth,
+                                    argRange,
                                 } :
                                 {
                                     type : MacroPartType.MacroCall,
@@ -249,6 +253,7 @@ function getExpansionPathPerPart (
                                     end : argRange.end,
                                     expandedPart : myExpandedPart,
                                     depth,
+                                    argRange,
                                 }
                             ),
                             ...splitPath,
@@ -269,6 +274,7 @@ function getExpansionPathPerPart (
                             expandedPart : expandedPart.expandedPart,
                         },
                         depth,
+                        argRange : undefined,
                     },
                     ...macroCallTrace,
                 ];
@@ -298,6 +304,7 @@ function getExpansionPathPerPart (
                                 end : myExpandedPart.expandedPart.substituted.macroIdentifier.macroIdentifier.fileSrc.end,
                                 expandedPart : myExpandedPart,
                                 depth,
+                                argRange,
                             } :
                             {
                                 type : MacroPartType.MacroCall,
@@ -306,6 +313,7 @@ function getExpansionPathPerPart (
                                 end : argRange.end,
                                 expandedPart : myExpandedPart,
                                 depth,
+                                argRange,
                             }
                         ),
                         ...splitPath,

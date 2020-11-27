@@ -14,7 +14,8 @@ import {
     CompletionItemKind,
     TextDocumentPositionParams,
     TextDocumentSyncKind,
-    InitializeResult
+    InitializeResult,
+    DiagnosticRelatedInformation,
 } from 'vscode-languageserver';
 
 import {
@@ -211,7 +212,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
 
         if (hasDiagnosticRelatedInformationCapability) {
             diagnostic.relatedInformation = traced.relatedRanges?.map(
-                r => {
+                (r) : DiagnosticRelatedInformation => {
                     return {
                         location: {
                             uri: r.filename,
@@ -220,7 +221,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
                                 end : textDocument.positionAt(r.start + r.length),
                             }
                         },
-                        message : "See here",
+                        message : r.messageText ?? "",
                     };
                 }
             );

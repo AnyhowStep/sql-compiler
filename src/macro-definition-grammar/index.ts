@@ -31,6 +31,10 @@ export function computeSubstitutionContent (
                     type : MacroPartType.ParameterReference,
                     fileSrc : ref.fileSrc,
                     parameterName : parameter.parameterName,
+                    value : originalText.value.substring(
+                        ref.fileSrc.start - originalText.fileSrc.start,
+                        ref.fileSrc.end - originalText.fileSrc.start
+                    ),
                 };
             });
         })
@@ -98,6 +102,10 @@ export function computeSubstitutionContent (
                     },
                 },
                 argumentList,
+                value : originalText.value.substring(
+                    node.start,
+                    node.end
+                ),
             };
             partsResult.push(part);
         } else {

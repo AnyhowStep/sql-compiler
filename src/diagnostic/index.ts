@@ -9,7 +9,8 @@ export enum DiagnosticCategory {
 export interface RelatedRange {
     filename : string,
     start : number,
-    length : number
+    length : number,
+    messageText? : string,
 }
 
 export interface Diagnostic {

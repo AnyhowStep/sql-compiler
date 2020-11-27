@@ -1,7 +1,7 @@
 import {Diagnostic, RelatedRange} from "../diagnostic";
 import {ExpandedContent} from "./expand-content";
 import {MacroPartType} from "../macro-definition-node";
-import {ExpansionPath, getExpansionPath} from "./get-expansion-path";
+import {ExpansionPath, ExpansionPathItem, getExpansionPath} from "./get-expansion-path";
 
 export interface DiagnosticLike {
     readonly start: number;
@@ -43,13 +43,62 @@ function pathToRelatedRanges (path : ExpansionPath, relatedRanges : RelatedRange
                 filename : item.filename,
                 start : item.start,
                 length : item.end - item.start,
+                messageText : "parameter: " + item.expandedPart.expandedPart.filePart.parameterName,
             });
-        } else {
+        } else if (item.type == MacroPartType.PlainText) {
+            const value = item.expandedPart.expandedPart.filePart.value;
+            const strStart = item.start - item.expandedPart.expandedPart.filePart.fileSrc.start;
+            const strEnd = item.end - item.expandedPart.expandedPart.filePart.fileSrc.start;
+            const messageText = value.substring(strStart, strEnd);
+
             pushIfUnique({
                 filename : item.filename,
                 start : item.start,
                 length : item.end - item.start,
+                messageText,
             });
+        } else {
+            if (item.argRange == undefined) {
+                pushIfUnique({
+                    filename : item.filename,
+                    start : item.start,
+                    length : item.end - item.start,
+                    messageText : "\\" + item.expandedPart.expandedPart.substituted.filePart.identifier.macroName,
+                });
+            } else {
+                function getFileSrcStart (argRange : ExpansionPathItem) {
+                    switch (argRange.type) {
+                        case MacroPartType.PlainText:
+                            return argRange.expandedPart.expandedPart.filePart.fileSrc.start;
+                        case MacroPartType.ParameterReference:
+                            return argRange.expandedPart.expandedPart.filePart.fileSrc.start;
+                        case MacroPartType.MacroCall:
+                            return argRange.expandedPart.expandedPart.substituted.filePart.fileSrc.start;
+                    }
+                }
+                function getStr (argRange : ExpansionPathItem) {
+                    switch (argRange.type) {
+                        case MacroPartType.PlainText:
+                            return argRange.expandedPart.expandedPart.filePart.value;
+                        case MacroPartType.ParameterReference:
+                            return argRange.expandedPart.expandedPart.filePart.value;
+                        case MacroPartType.MacroCall:
+                            return argRange.expandedPart.expandedPart.substituted.filePart.value;
+                    }
+                }
+                const fileSrcStart = getFileSrcStart(item.argRange);
+                const strStart = item.argRange.start - fileSrcStart;
+                const strEnd = item.argRange.end - fileSrcStart;
+                const str = getStr(item.argRange);
+                const argRangeMessageText = str.substring(strStart, strEnd);
+
+                pushIfUnique({
+                    filename : item.filename,
+                    start : item.start,
+                    length : item.end - item.start,
+                    messageText : "\\" + item.expandedPart.expandedPart.substituted.filePart.identifier.macroName + ": " + argRangeMessageText,
+                });
+            }
         }
     }
     return relatedRanges;
