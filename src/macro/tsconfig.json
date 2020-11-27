@@ -1,0 +1,13 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/macro",
+        "declarationDir": "../../dist/macro",
+        "types": []
+    },
+    "references" : [
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

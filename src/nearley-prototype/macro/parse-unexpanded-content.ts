@@ -1,5 +1,5 @@
 import {Scanner} from "../../scanner";
-import {parseHelper} from "../parse-helper";
+import {parseHelper} from "../../fault-tolerant-parser";
 import {grammar, UnexpandedContentNode} from "../../macro-grammar";
 
 export function parseUnexpandedContent (

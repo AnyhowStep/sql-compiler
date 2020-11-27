@@ -155,7 +155,7 @@ export function parseHelper<PartialParseT extends unknown> (
             [],
             DiagnosticMessages.InternalErrorGrammarIsAmbiguous
         ));
-        console.log(JSON.stringify(parser.results, null, 2));
+        //console.log(JSON.stringify(parser.results, null, 2));
     }
     if (partialParse != undefined) {
         results.push(partialParse)

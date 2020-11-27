@@ -1,0 +1,17 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/fault-tolerant-parser",
+        "declarationDir": "../../dist/fault-tolerant-parser",
+        "types": []
+    },
+    "references" : [
+        { "path": "../diagnostic" },
+        { "path": "../scanner" },
+        { "path": "../parse-util" },
+        { "path": "../nearley-wrapper" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

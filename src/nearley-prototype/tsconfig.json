@@ -10,7 +10,8 @@
         { "path": "../parser-node" },
         { "path": "../nearley-wrapper" },
         { "path": "../macro-grammar" },
-        { "path": "../mysql-grammar" }
+        { "path": "../mysql-grammar" },
+        { "path": "../fault-tolerant-parser" }
     ],
     "include" : [
         "./**/*.ts"

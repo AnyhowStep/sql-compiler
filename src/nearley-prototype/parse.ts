@@ -1,6 +1,6 @@
 import {findAllSyntacticErrors, SourceFile, SourceFileLite, SyntaxKind} from "../parser-node";
 import {Scanner} from "../scanner";
-import {parseHelper} from "./parse-helper";
+import {parseHelper} from "../fault-tolerant-parser";
 import {fullParserSettings, grammar, ParserSettings, ParserState, toNodeArray} from "../mysql-grammar";
 
 export interface ParseResult {
