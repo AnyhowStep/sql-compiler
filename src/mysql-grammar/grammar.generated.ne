@@ -1692,7 +1692,7 @@ CharacterDataType ->
 } %}
 
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | JsonDataType | RealDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | DecimalDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | JsonDataType | RealDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
 
 DateDataType ->
     %DATE {% (data) => {
@@ -1720,6 +1720,77 @@ DateTimeDataType ->
                     value: BigInt(0),
                 },
             }),
+    };
+    return result;
+} %}
+
+DecimalDataType ->
+    (%DECIMAL | %DEC | %NUMERIC | %FIXED) FieldLength IntegerDataTypeModifier {% function (data) {
+    const [, fieldLength, modifier] = data;
+    const result = {
+        syntaxKind: parser_node_1.SyntaxKind.DecimalDataType,
+        precision: {
+            syntaxKind: parser_node_1.SyntaxKind.Precision,
+            start: fieldLength.start,
+            end: fieldLength.end,
+            precision: fieldLength.length,
+            scale: {
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                start: fieldLength.length.end,
+                end: fieldLength.length.end,
+                value: 0n,
+            },
+        },
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+    if (fieldLength.length.value > 65n) {
+        parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.DecimalPrecisionTooHigh);
+    }
+    return result;
+} %}
+    | (%DECIMAL | %DEC | %NUMERIC | %FIXED) DecimalPrecision IntegerDataTypeModifier {% function (data) {
+    const [, precision, modifier] = data;
+    const result = {
+        syntaxKind: parser_node_1.SyntaxKind.DecimalDataType,
+        precision,
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+    return result;
+} %}
+    | (%DECIMAL | %DEC | %NUMERIC | %FIXED) IntegerDataTypeModifier {% function (data) {
+    const [, modifier] = data;
+    const dataTextRange = parse_util_1.getTextRange(data);
+    const result = {
+        syntaxKind: parser_node_1.SyntaxKind.DecimalDataType,
+        precision: {
+            syntaxKind: parser_node_1.SyntaxKind.Precision,
+            start: dataTextRange.end,
+            end: dataTextRange.end,
+            /**
+             * https://dev.mysql.com/doc/refman/5.7/en/fixed-point-types.html
+             *
+             * the syntax DECIMAL is equivalent to DECIMAL(M,0),
+             * where the implementation is permitted to decide the value of M.
+             * MySQL supports both of these variant forms of DECIMAL syntax.
+             * The default value of M is 10.
+             */
+            precision: {
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                start: dataTextRange.end,
+                end: dataTextRange.end,
+                value: 10n,
+            },
+            scale: {
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                start: dataTextRange.end,
+                end: dataTextRange.end,
+                value: 0n,
+            },
+        },
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
     };
     return result;
 } %}
@@ -2283,6 +2354,24 @@ RealPrecision ->
         result.precision.value);
     if (result.scale.value > maxScale) {
         parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypeScale, maxScale.toString());
+    }
+    return result;
+} %}
+
+DecimalPrecision ->
+    Precision {% function (data) {
+    const result = data[0];
+    /**
+     * https://dev.mysql.com/doc/refman/5.7/en/fixed-point-types.html
+     */
+    if (result.precision.value > 65n) {
+        parse_util_1.pushSyntacticErrorAt(result.precision, result.precision.start, result.precision.end, [], diagnostic_messages_1.DiagnosticMessages.DecimalPrecisionTooHigh);
+    }
+    const maxScale = (result.precision.value > 30n ?
+        30n :
+        result.precision.value);
+    if (result.scale.value > maxScale) {
+        parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidDataTypeScale, maxScale.toString());
     }
     return result;
 } %}

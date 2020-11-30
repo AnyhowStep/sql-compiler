@@ -165,6 +165,11 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200030,
     }),
+    InvalidDataTypeScale : makeDiagnosticMessage({
+        key : "Invalid data type scale; max {0}",
+        category : DiagnosticCategory.Error,
+        code : 200031,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",

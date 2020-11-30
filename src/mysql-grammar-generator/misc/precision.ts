@@ -129,3 +129,43 @@ makeCustomRule(CustomSyntaxKind.RealPrecision)
             return result;
         }
     );
+
+makeCustomRule(CustomSyntaxKind.DecimalPrecision)
+    .addSubstitution(
+        [SyntaxKind.Precision] as const,
+        function (data) : Precision {
+            const result = data[0];
+
+            /**
+             * https://dev.mysql.com/doc/refman/5.7/en/fixed-point-types.html
+             */
+            if (result.precision.value > 65n) {
+                pushSyntacticErrorAt(
+                    result.precision,
+                    result.precision.start,
+                    result.precision.end,
+                    [],
+                    DiagnosticMessages.DecimalPrecisionTooHigh
+                );
+            }
+
+            const maxScale = (
+                result.precision.value > 30n ?
+                30n :
+                result.precision.value
+            );
+
+            if (result.scale.value > maxScale) {
+                pushSyntacticErrorAt(
+                    result.scale,
+                    result.scale.start,
+                    result.scale.end,
+                    [],
+                    DiagnosticMessages.InvalidDataTypeScale,
+                    maxScale.toString()
+                );
+            }
+
+            return result;
+        }
+    );

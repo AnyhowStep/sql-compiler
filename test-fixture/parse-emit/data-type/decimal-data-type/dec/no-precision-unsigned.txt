@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X DEC UNSIGNED
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DECIMAL(10, 0) UNSIGNED NULL
+);
+
+-----
+[]

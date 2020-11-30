@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X DECIMAL(30, 20) ZEROFILL
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DECIMAL(30, 20) UNSIGNED ZEROFILL NULL
+);
+
+-----
+[]

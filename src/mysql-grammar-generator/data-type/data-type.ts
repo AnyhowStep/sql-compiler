@@ -12,6 +12,7 @@ makeCustomRule(CustomSyntaxKind.DataType)
             SyntaxKind.CharacterDataType,
             SyntaxKind.DateDataType,
             SyntaxKind.DateTimeDataType,
+            SyntaxKind.DecimalDataType,
             SyntaxKind.GeometryCollectionDataType,
             SyntaxKind.GeometryDataType,
             SyntaxKind.IntegerDataType,
