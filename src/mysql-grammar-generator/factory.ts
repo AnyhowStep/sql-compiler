@@ -1,9 +1,11 @@
 import {ParserState} from "../mysql-grammar";
 import {CustomSubstitutionToString, makeRuleFactory, TextRange} from "../nearley-wrapper";
 import {
+    BitLiteral,
     CreateTableDefinition,
     DataType,
     Expression,
+    HexLiteral,
     Identifier,
     IndexPart,
     NodeArray,
@@ -42,6 +44,8 @@ export enum CustomSyntaxKind {
     NonDelimiterStatement,
     LeadingStatement,
     TrailingStatement,
+    TextString,
+    StringList,
 }
 
 declare module "../nearley-wrapper" {
@@ -64,6 +68,14 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.NonDelimiterStatement] : Statement,
         [CustomSyntaxKind.LeadingStatement] : Statement,
         [CustomSyntaxKind.TrailingStatement] : Statement,
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12820-L12843
+         */
+        [CustomSyntaxKind.TextString] : StringLiteral|HexLiteral|BitLiteral,
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7488-L7490
+         */
+        [CustomSyntaxKind.StringList] : NodeArray<StringLiteral|HexLiteral|BitLiteral>,
     }
 
     interface CustomToken extends Array<TokenKind> {

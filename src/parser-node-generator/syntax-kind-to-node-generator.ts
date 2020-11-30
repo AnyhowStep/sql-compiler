@@ -43,7 +43,7 @@ const elements = [...syntaxKinds.keys()]
     .join("\n");
 
 fs.writeFileSync(
-    `${__dirname}/../nearley-prototype/syntax-kind-to-node.generated.ts`,
+    `${__dirname}/../mysql-grammar-generator/syntax-kind-to-node.generated.ts`,
     `
 import {
     SyntaxKind,

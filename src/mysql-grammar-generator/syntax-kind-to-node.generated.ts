@@ -9,6 +9,7 @@ import {
     DateDataType,
     DateTimeDataType,
     DecimalDataType,
+    EnumDataType,
     GeometryCollectionDataType,
     GeometryDataType,
     IntegerDataType,
@@ -20,7 +21,9 @@ import {
     UnionDataType,
     UnknownDataType,
     YearDataType,
+    BitLiteral,
     DecimalLiteral,
+    HexLiteral,
     IntegerLiteral,
     RealLiteral,
     StringLiteral,
@@ -60,6 +63,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.DateDataType] : DateDataType;
     [SyntaxKind.DateTimeDataType] : DateTimeDataType;
     [SyntaxKind.DecimalDataType] : DecimalDataType;
+    [SyntaxKind.EnumDataType] : EnumDataType;
     [SyntaxKind.GeometryCollectionDataType] : GeometryCollectionDataType;
     [SyntaxKind.GeometryDataType] : GeometryDataType;
     [SyntaxKind.IntegerDataType] : IntegerDataType;
@@ -71,7 +75,9 @@ export type SyntaxKindToNode = {
     [SyntaxKind.UnionDataType] : UnionDataType;
     [SyntaxKind.UnknownDataType] : UnknownDataType;
     [SyntaxKind.YearDataType] : YearDataType;
+    [SyntaxKind.BitLiteral] : BitLiteral;
     [SyntaxKind.DecimalLiteral] : DecimalLiteral;
+    [SyntaxKind.HexLiteral] : HexLiteral;
     [SyntaxKind.IntegerLiteral] : IntegerLiteral;
     [SyntaxKind.RealLiteral] : RealLiteral;
     [SyntaxKind.StringLiteral] : StringLiteral;

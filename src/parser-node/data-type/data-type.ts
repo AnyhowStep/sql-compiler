@@ -6,6 +6,7 @@ import {CharacterDataType} from "./character-data-type";
 import {DateDataType} from "./date-data-type";
 import {DateTimeDataType} from "./date-time-data-type";
 import {DecimalDataType} from "./decimal-data-type";
+import {EnumDataType} from "./enum-data-type";
 import {GeometryCollectionDataType} from "./geometry-collection-data-type";
 import {GeometryDataType} from "./geometry-data-type";
 import {IntegerDataType} from "./integer-data-type";
@@ -26,6 +27,7 @@ export type DataType =
     | DateDataType
     | DateTimeDataType
     | DecimalDataType
+    | EnumDataType
     | GeometryCollectionDataType
     | GeometryDataType
     | IntegerDataType

@@ -67,5 +67,20 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 100043,
     }),
+    XHexLiteralMustHaveEvenNumberOfDigits : makeDiagnosticMessage({
+        key : "X'' hex literal must have even number of digits",
+        category : DiagnosticCategory.Error,
+        code : 100044,
+    }),
+    XHexLiteralMustUseHexDigits : makeDiagnosticMessage({
+        key : "X'' hex literal must use hex digits",
+        category : DiagnosticCategory.Error,
+        code : 100045,
+    }),
+    BBitLiteralMustUseBinaryDigits : makeDiagnosticMessage({
+        key : "B'' bit literal must use binary digits",
+        category : DiagnosticCategory.Error,
+        code : 100046,
+    }),
 
 } as const;

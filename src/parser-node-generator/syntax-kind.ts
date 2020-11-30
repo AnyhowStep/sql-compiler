@@ -26,6 +26,8 @@ export const syntaxKinds = [
     "GeometryDataType",
     "GeometryCollectionDataType",
 
+    "EnumDataType",
+
     "UnionDataType",
     "UnknownDataType",
 
@@ -127,6 +129,8 @@ export const syntaxKinds = [
     "NullLiteral",
     "BooleanLiteral",
     "StringLiteral",
+    "HexLiteral",
+    "BitLiteral",
     "IntegerLiteral",
     "DecimalLiteral",
     "RealLiteral",
@@ -145,5 +149,6 @@ export const syntaxKinds = [
     "ColumnIdentifierList",
     "OrderItemList",
     "IndexPartList",
+    "StringList",
 
 ] as const;

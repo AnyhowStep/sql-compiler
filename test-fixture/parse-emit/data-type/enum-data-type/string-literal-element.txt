@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X ENUM('a', 'b')
+);
+
+-----
+CREATE TABLE `T` (
+    `X` ENUM('a', 'b') NULL
+);
+
+-----
+[]

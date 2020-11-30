@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X ENUM(X'', x'aa', 0xaaa)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` ENUM(X'', x'aa', 0xaaa) NULL
+);
+
+-----
+[]

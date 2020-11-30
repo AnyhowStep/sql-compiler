@@ -56,6 +56,10 @@ export function scanAll (scanner : Scanner) : TokenObj<TokenKind>[] {
                 scanner.getTokenValue() :
                 token == TokenKind.StringLiteral ?
                 scanner.getTokenValue() :
+                token == TokenKind.HexLiteral ?
+                scanner.getTokenValue() :
+                token == TokenKind.BitLiteral ?
+                scanner.getTokenValue() :
                 token == TokenKind.DecimalLiteral ?
                 scanner.getTokenValue() :
                 token == TokenKind.RealLiteral ?

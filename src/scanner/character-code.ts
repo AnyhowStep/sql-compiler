@@ -242,3 +242,11 @@ export function isAllDigit (str : string) {
 export function isDigit (ch : number) {
     return (ch >= CharacterCodes._0 && ch <= CharacterCodes._9);
 }
+
+export function isHexDigit (ch : number) {
+    return (
+        (ch >= CharacterCodes._0 && ch <= CharacterCodes._9) ||
+        (ch >= CharacterCodes.a && ch <= CharacterCodes.f) ||
+        (ch >= CharacterCodes.A && ch <= CharacterCodes.F)
+    );
+}

@@ -1,0 +1,15 @@
+CREATE TABLE T (
+    X ENUM()
+);
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected BitLiteral|HexLiteral|StringLiteral",
+        "start": 28,
+        "length": 0
+    }
+]

@@ -7,6 +7,7 @@ export * from "./data-type";
 export * from "./date-data-type";
 export * from "./date-time-data-type";
 export * from "./decimal-data-type";
+export * from "./enum-data-type";
 export * from "./geometry-collection-data-type";
 export * from "./geometry-data-type";
 export * from "./integer-data-type";

@@ -382,6 +382,58 @@ export class Scanner {
             this.tokenIndex = this.index;
             const ch = this.text.charCodeAt(this.index);
 
+            //https://dev.mysql.com/doc/refman/5.7/en/hexadecimal-literals.html
+            if (ch == CharacterCodes.x || ch == CharacterCodes.X) {
+                if (this.text.charCodeAt(this.index+1) == CharacterCodes.singleQuote) {
+                    ++this.index;
+                    this.tokenValue = this.scanQuotedString();
+                    if (!/^[0-9a-fA-F]*$/.test(this.tokenValue)) {
+                        this.onError(DiagnosticMessages.XHexLiteralMustUseHexDigits, this.tokenValue.length)
+                    }
+                    if (this.tokenValue.length%2 != 0) {
+                        /**
+                         * Values written using X'val' notation must contain an even number of digits or a syntax error occurs.
+                         * To correct the problem, pad the value with a leading zero
+                         */
+                        this.onError(DiagnosticMessages.XHexLiteralMustHaveEvenNumberOfDigits, this.tokenValue.length)
+
+                    }
+                    return this.tokenKind = TokenKind.HexLiteral;
+                }
+            }
+
+            if (ch == CharacterCodes._0) {
+                if (this.text.charCodeAt(this.index+1) == CharacterCodes.x) {
+                    const tokenValue = this.scanUnquotedIdentifier();
+                    if (/^0x[0-9a-fA-F]+$/.test(tokenValue)) {
+                        this.tokenValue = tokenValue;
+                        return this.tokenKind = TokenKind.HexLiteral;
+                    }
+                }
+            }
+
+            //https://dev.mysql.com/doc/refman/5.7/en/bit-value-literals.html
+            if (ch == CharacterCodes.b || ch == CharacterCodes.B) {
+                if (this.text.charCodeAt(this.index+1) == CharacterCodes.singleQuote) {
+                    ++this.index;
+                    this.tokenValue = this.scanQuotedString();
+                    if (!/^[01]*$/.test(this.tokenValue)) {
+                        this.onError(DiagnosticMessages.BBitLiteralMustUseBinaryDigits, this.tokenValue.length)
+                    }
+                    return this.tokenKind = TokenKind.BitLiteral;
+                }
+            }
+
+            if (ch == CharacterCodes._0) {
+                if (this.text.charCodeAt(this.index+1) == CharacterCodes.b) {
+                    const tokenValue = this.scanUnquotedIdentifier();
+                    if (/^0b[01]+$/.test(tokenValue)) {
+                        this.tokenValue = tokenValue;
+                        return this.tokenKind = TokenKind.BitLiteral;
+                    }
+                }
+            }
+
             switch (ch) {
                 case CharacterCodes.openBrace: {
                     ++this.index;

@@ -21,6 +21,13 @@ export const tokenKinds = [
      * Literals
      */
     "StringLiteral",
+
+    //https://dev.mysql.com/doc/refman/5.7/en/hexadecimal-literals.html
+    "HexLiteral",
+
+    //https://dev.mysql.com/doc/refman/5.7/en/bit-value-literals.html
+    "BitLiteral",
+
     "IntegerLiteral",
     "DecimalLiteral",
     "RealLiteral",

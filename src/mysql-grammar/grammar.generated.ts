@@ -1279,6 +1279,10 @@ const CustomDelimiter : Tester = { test: x => x.tokenKind == TokenKind.CustomDel
 //@ts-ignore
 const StringLiteral : Tester = { test: x => x.tokenKind == TokenKind.StringLiteral, type : "StringLiteral" };
 //@ts-ignore
+const HexLiteral : Tester = { test: x => x.tokenKind == TokenKind.HexLiteral, type : "HexLiteral" };
+//@ts-ignore
+const BitLiteral : Tester = { test: x => x.tokenKind == TokenKind.BitLiteral, type : "BitLiteral" };
+//@ts-ignore
 const IntegerLiteral : Tester = { test: x => x.tokenKind == TokenKind.IntegerLiteral, type : "IntegerLiteral" };
 //@ts-ignore
 const DecimalLiteral : Tester = { test: x => x.tokenKind == TokenKind.DecimalLiteral, type : "DecimalLiteral" };
@@ -1761,6 +1765,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["DateDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["DateTimeDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["DecimalDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["EnumDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["GeometryCollectionDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["GeometryDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
@@ -1902,6 +1907,21 @@ export var ParserRules: NearleyRule[] = [
                 ...modifier,
                 ...parse_util_1.getTextRange(data),
             };
+        } },
+    {"name": "EnumDataType", "symbols": [ENUM, "StringList", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+            const [, elements, modifier] = data;
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.EnumDataType,
+                /**
+                 * @todo Check for duplicate elements
+                 */
+                elements,
+                characterSet: modifier.characterSet,
+                collate: modifier.collate,
+                binary: modifier.binary,
+            };
+            return result;
         } },
     {"name": "RealDataType", "symbols": [FLOAT, "FieldLength", "IntegerDataTypeModifier"], "postprocess":  function (data) {
             const [, fieldLength, modifier] = data;
@@ -2159,6 +2179,14 @@ export var ParserRules: NearleyRule[] = [
             }
             return result;
         } },
+    {"name": "BitLiteral", "symbols": [BitLiteral], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.BitLiteral,
+                value: data[0].value,
+                sourceText: data[0].getTokenSourceText(),
+            };
+        } },
     {"name": "DecimalLiteral", "symbols": [DecimalLiteral], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -2170,6 +2198,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "Expression", "symbols": ["Expression$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
+        } },
+    {"name": "HexLiteral", "symbols": [HexLiteral], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.HexLiteral,
+                value: data[0].value,
+                sourceText: data[0].getTokenSourceText(),
+            };
         } },
     {"name": "IntegerLiteral", "symbols": [IntegerLiteral], "postprocess":  (data) => {
             return {
@@ -2474,6 +2510,25 @@ export var ParserRules: NearleyRule[] = [
                 parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidDataTypeScale, maxScale.toString());
             }
             return result;
+        } },
+    {"name": "StringList$ebnf$1", "symbols": []},
+    {"name": "StringList$ebnf$1$subexpression$1", "symbols": [Comma, "TextString"]},
+    {"name": "StringList$ebnf$1", "symbols": ["StringList$ebnf$1", "StringList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "StringList", "symbols": [OpenParentheses, "TextString", "StringList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.StringList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "TextString$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "TextString$subexpression$1", "symbols": ["HexLiteral"]},
+    {"name": "TextString$subexpression$1", "symbols": ["BitLiteral"]},
+    {"name": "TextString", "symbols": ["TextString$subexpression$1"], "postprocess":  (data) => {
+            let [[literal]] = data;
+            return literal;
         } },
     {"name": "CreateSchemaOptionList$ebnf$1", "symbols": []},
     {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCharacterSet"]},

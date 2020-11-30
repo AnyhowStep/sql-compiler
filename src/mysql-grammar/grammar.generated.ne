@@ -1275,6 +1275,10 @@ const CustomDelimiter : Tester = { test: x => x.tokenKind == TokenKind.CustomDel
 //@ts-ignore
 const StringLiteral : Tester = { test: x => x.tokenKind == TokenKind.StringLiteral, type : "StringLiteral" };
 //@ts-ignore
+const HexLiteral : Tester = { test: x => x.tokenKind == TokenKind.HexLiteral, type : "HexLiteral" };
+//@ts-ignore
+const BitLiteral : Tester = { test: x => x.tokenKind == TokenKind.BitLiteral, type : "BitLiteral" };
+//@ts-ignore
 const IntegerLiteral : Tester = { test: x => x.tokenKind == TokenKind.IntegerLiteral, type : "IntegerLiteral" };
 //@ts-ignore
 const DecimalLiteral : Tester = { test: x => x.tokenKind == TokenKind.DecimalLiteral, type : "DecimalLiteral" };
@@ -1692,7 +1696,7 @@ CharacterDataType ->
 } %}
 
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | DecimalDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | JsonDataType | RealDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | DecimalDataType | EnumDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | JsonDataType | RealDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
 
 DateDataType ->
     %DATE {% (data) => {
@@ -1812,6 +1816,23 @@ RealDataType ->
         ...modifier,
         ...parse_util_1.getTextRange(data),
     };
+} %}
+
+EnumDataType ->
+    %ENUM StringList CharacterDataTypeModifier {% (data) => {
+    const [, elements, modifier] = data;
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.EnumDataType,
+        /**
+         * @todo Check for duplicate elements
+         */
+        elements,
+        characterSet: modifier.characterSet,
+        collate: modifier.collate,
+        binary: modifier.binary,
+    };
+    return result;
 } %}
 
 RealDataType ->
@@ -2055,6 +2076,16 @@ YearDataType ->
     return result;
 } %}
 
+BitLiteral ->
+    %BitLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.BitLiteral,
+        value: data[0].value,
+        sourceText: data[0].getTokenSourceText(),
+    };
+} %}
+
 DecimalLiteral ->
     %DecimalLiteral {% (data) => {
     return {
@@ -2067,6 +2098,16 @@ DecimalLiteral ->
 Expression ->
     (IntegerLiteral | StringLiteral) {% (data) => {
     return data[0][0];
+} %}
+
+HexLiteral ->
+    %HexLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.HexLiteral,
+        value: data[0].value,
+        sourceText: data[0].getTokenSourceText(),
+    };
 } %}
 
 IntegerLiteral ->
@@ -2374,6 +2415,23 @@ DecimalPrecision ->
         parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidDataTypeScale, maxScale.toString());
     }
     return result;
+} %}
+
+StringList ->
+    %OpenParentheses TextString (%Comma TextString):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.StringList, parse_util_1.getTextRange(data));
+} %}
+
+TextString ->
+    (StringLiteral | HexLiteral | BitLiteral) {% (data) => {
+    let [[literal]] = data;
+    return literal;
 } %}
 
 CreateSchemaOptionList ->
