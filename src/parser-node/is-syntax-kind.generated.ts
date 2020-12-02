@@ -31,6 +31,7 @@ import {UnknownExpression} from "./expression/unknown-expression";
 import {ColumnIdentifier} from "./identifier/column-identifier";
 import {Identifier} from "./identifier/identifier";
 import {TableIdentifier} from "./identifier/table-identifier";
+import {CurrentTimestamp} from "./misc/current-timestamp";
 import {DefaultCharacterSet} from "./misc/default-character-set";
 import {DefaultCollation} from "./misc/default-collation";
 import {FieldLength} from "./misc/field-length";
@@ -84,6 +85,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownExpres
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnIdentifier) : node is ColumnIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Identifier) : node is Identifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableIdentifier) : node is TableIdentifier;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CurrentTimestamp) : node is CurrentTimestamp;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DefaultCharacterSet) : node is DefaultCharacterSet;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DefaultCollation) : node is DefaultCollation;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.FieldLength) : node is FieldLength;
@@ -146,6 +148,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.ColumnIdentifier, callback : (node : ColumnIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Identifier, callback : (node : Identifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TableIdentifier, callback : (node : TableIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CurrentTimestamp, callback : (node : CurrentTimestamp) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DefaultCharacterSet, callback : (node : DefaultCharacterSet) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DefaultCollation, callback : (node : DefaultCollation) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.FieldLength, callback : (node : FieldLength) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

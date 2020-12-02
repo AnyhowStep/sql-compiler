@@ -32,6 +32,7 @@ import {
     ColumnIdentifier,
     Identifier,
     TableIdentifier,
+    CurrentTimestamp,
     DefaultCharacterSet,
     DefaultCollation,
     FieldLength,
@@ -87,6 +88,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.ColumnIdentifier] : ColumnIdentifier;
     [SyntaxKind.Identifier] : Identifier;
     [SyntaxKind.TableIdentifier] : TableIdentifier;
+    [SyntaxKind.CurrentTimestamp] : CurrentTimestamp;
     [SyntaxKind.DefaultCharacterSet] : DefaultCharacterSet;
     [SyntaxKind.DefaultCollation] : DefaultCollation;
     [SyntaxKind.FieldLength] : FieldLength;

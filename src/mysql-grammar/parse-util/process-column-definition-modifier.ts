@@ -1,4 +1,4 @@
-import {ColumnFormat, Expression, isSyntaxKind, Storage, StringLiteral, SyntaxKind} from "../../parser-node";
+import {ColumnFormat, CurrentTimestamp, Expression, isSyntaxKind, Storage, StringLiteral, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {TokenObj} from "../../nearley-wrapper";
 import {getTextRange} from "./text-range";
@@ -23,6 +23,8 @@ export function createDefaultColumnDefinitionModifier () : ColumnDefinitionModif
         primaryKey : false,
         comment : undefined,
         foreignKeyReferenceDefinition : undefined,
+
+        onUpdate : undefined,
     };
 }
 
@@ -47,6 +49,7 @@ export function processColumnDefinitionModifier (
         | readonly [TokenObj<TokenKind.PRIMARY> | null, TokenObj<TokenKind.KEY>]
         | readonly [TokenObj<TokenKind.COMMENT>, StringLiteral]
         | readonly [TokenObj<TokenKind.SERIAL>, TokenObj<TokenKind.DEFAULT>, TokenObj<TokenKind.VALUE>]
+        | readonly [TokenObj<TokenKind.ON>, TokenObj<TokenKind.UPDATE>, CurrentTimestamp]
     )
 ) : ColumnDefinitionModifier {
     let result = {
@@ -163,6 +166,13 @@ export function processColumnDefinitionModifier (
         };
         result.autoIncrement = true;
         result.uniqueKey = true;
+        return result;
+    }
+
+
+    if (next[2] != undefined && "syntaxKind" in next[2] && next[2].syntaxKind == SyntaxKind.CurrentTimestamp) {
+        //ON UPDATE CurrentTimestamp
+        result.onUpdate = next[2];
         return result;
     }
 

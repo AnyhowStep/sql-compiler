@@ -1,4 +1,4 @@
-import {ColumnFormat, Expression, ForeignKeyReferenceDefinition, Storage, StringLiteral, TextRange} from "../../parser-node";
+import {ColumnFormat, CurrentTimestamp, Expression, ForeignKeyReferenceDefinition, Storage, StringLiteral, TextRange} from "../../parser-node";
 
 export interface ColumnDefinitionModifier extends TextRange {
     autoIncrement : boolean,
@@ -13,4 +13,6 @@ export interface ColumnDefinitionModifier extends TextRange {
 
     comment : StringLiteral|undefined,
     foreignKeyReferenceDefinition : ForeignKeyReferenceDefinition|undefined,
+
+    onUpdate : CurrentTimestamp|undefined,
 }

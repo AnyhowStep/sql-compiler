@@ -1,6 +1,7 @@
 import {DataType} from "../../data-type";
 import {Expression, StringLiteral} from "../../expression";
 import {ColumnIdentifier} from "../../identifier";
+import {CurrentTimestamp} from "../../misc";
 import {TextRange} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {CreateTableDefinition} from "./create-table-definition";
@@ -97,4 +98,6 @@ export interface ColumnDefinition extends CreateTableDefinition {
      * https://dev.mysql.com/doc/refman/5.7/en/create-table.html
      */
     foreignKeyReferenceDefinition : ForeignKeyReferenceDefinition|undefined,
+
+    onUpdate : CurrentTimestamp|undefined,
 }

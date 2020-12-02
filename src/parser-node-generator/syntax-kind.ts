@@ -48,6 +48,7 @@ export const syntaxKinds = [
     /**
      * Misc
      */
+    "CurrentTimestamp",
     "DefaultCollation",
     "DefaultCharacterSet",
     "FieldLength",

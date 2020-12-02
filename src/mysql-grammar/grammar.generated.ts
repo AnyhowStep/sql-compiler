@@ -17,6 +17,11 @@ const KeywordOrIdentifier : Tester = {
     type : "Identifier",
 };
 
+const NowToken : Tester = {
+    test: x => x.tokenKind == TokenKind.Identifier && x.getTokenSourceText().toUpperCase() == "NOW",
+    type : "NOW",
+};
+
 
 interface Tester {
     test : (x : { tokenKind : TokenKind }) => boolean,
@@ -2385,6 +2390,51 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Constraint", "symbols": [CONSTRAINT, "Constraint$ebnf$1"], "postprocess":  (data) => {
             return data[1] ?? parse_util_1.getTextRange(data);
         } },
+    {"name": "CurrentTimestamp", "symbols": [NowToken, OpenParentheses, CloseParentheses], "postprocess":  (data) => {
+            const textRange = parse_util_1.getTextRange(data);
+            return {
+                ...textRange,
+                syntaxKind: parser_node_1.SyntaxKind.CurrentTimestamp,
+                fractionalSecondPrecision: {
+                    ...textRange,
+                    syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                    length: {
+                        ...textRange,
+                        syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                        value: 0n,
+                    },
+                },
+            };
+        } },
+    {"name": "CurrentTimestamp$ebnf$1$subexpression$1", "symbols": [OpenParentheses, CloseParentheses]},
+    {"name": "CurrentTimestamp$ebnf$1", "symbols": ["CurrentTimestamp$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CurrentTimestamp$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CurrentTimestamp", "symbols": [CURRENT_TIMESTAMP, "CurrentTimestamp$ebnf$1"], "postprocess":  (data) => {
+            const textRange = parse_util_1.getTextRange(data);
+            return {
+                ...textRange,
+                syntaxKind: parser_node_1.SyntaxKind.CurrentTimestamp,
+                fractionalSecondPrecision: {
+                    ...textRange,
+                    syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+                    length: {
+                        ...textRange,
+                        syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                        value: 0n,
+                    },
+                },
+            };
+        } },
+    {"name": "CurrentTimestamp$subexpression$1", "symbols": [CURRENT_TIMESTAMP]},
+    {"name": "CurrentTimestamp$subexpression$1", "symbols": [NowToken]},
+    {"name": "CurrentTimestamp", "symbols": ["CurrentTimestamp$subexpression$1", "FieldLength"], "postprocess":  (data) => {
+            const [, fractionalSecondPrecision] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CurrentTimestamp,
+                fractionalSecondPrecision,
+            };
+        } },
     {"name": "DefaultCharacterSet$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
     {"name": "DefaultCharacterSet$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "DefaultCharacterSet$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
@@ -2827,6 +2877,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$6"]},
     {"name": "ColumnModifierElement$subexpression$1$subexpression$7", "symbols": [SERIAL, DEFAULT, VALUE]},
     {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$7"]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$8", "symbols": [ON, UPDATE, "CurrentTimestamp"]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$8"]},
     {"name": "ColumnModifierElement", "symbols": ["ColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),

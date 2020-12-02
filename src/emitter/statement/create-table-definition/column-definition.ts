@@ -2,6 +2,7 @@ import {ColumnDefinition, ColumnFormat, Storage} from "../../../parser-node";
 import {emitDataType} from "../../data-type";
 import {emitExpression} from "../../expression";
 import {emitQuotedIdentifier} from "../../identifier";
+import {emitCurrentTimestamp} from "../../misc";
 import {StringBuilder} from "../../string-builder";
 import {emitGeneratedDefinition} from "./generated-definition";
 
@@ -54,6 +55,14 @@ export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
                 .append(" DEFAULT ")
                 .appendBuilder(emitExpression(def.defaultValue));
         })
+        .scope(builder => {
+            if (def.onUpdate == undefined) {
+                return;
+            }
+            builder
+                .append(" ON UPDATE ")
+                .appendBuilder(emitCurrentTimestamp(def.onUpdate));
+        })
         .append(
             def.uniqueKey ?
             " UNIQUE KEY" :
@@ -71,5 +80,5 @@ export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
             builder
                 .append(" COMMENT ")
                 .appendBuilder(emitExpression(def.comment));
-        });
+        })
 }

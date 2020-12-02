@@ -32,6 +32,11 @@ const KeywordOrIdentifier : Tester = {
     type : "Identifier",
 };
 
+const NowToken : Tester = {
+    test: x => x.tokenKind == TokenKind.Identifier && x.getTokenSourceText().toUpperCase() == "NOW",
+    type : "NOW",
+};
+
 ${testers}
 %}
 

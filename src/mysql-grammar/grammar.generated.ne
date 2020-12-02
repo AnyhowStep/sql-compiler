@@ -13,6 +13,11 @@ const KeywordOrIdentifier : Tester = {
     type : "Identifier",
 };
 
+const NowToken : Tester = {
+    test: x => x.tokenKind == TokenKind.Identifier && x.getTokenSourceText().toUpperCase() == "NOW",
+    type : "NOW",
+};
+
 
 interface Tester {
     test : (x : { tokenKind : TokenKind }) => boolean,
@@ -2300,6 +2305,50 @@ Constraint ->
     return data[1] ?? parse_util_1.getTextRange(data);
 } %}
 
+
+
+CurrentTimestamp ->
+    %NowToken %OpenParentheses %CloseParentheses {% (data) => {
+    const textRange = parse_util_1.getTextRange(data);
+    return {
+        ...textRange,
+        syntaxKind: parser_node_1.SyntaxKind.CurrentTimestamp,
+        fractionalSecondPrecision: {
+            ...textRange,
+            syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+            length: {
+                ...textRange,
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value: 0n,
+            },
+        },
+    };
+} %}
+    | %CURRENT_TIMESTAMP (%OpenParentheses %CloseParentheses):? {% (data) => {
+    const textRange = parse_util_1.getTextRange(data);
+    return {
+        ...textRange,
+        syntaxKind: parser_node_1.SyntaxKind.CurrentTimestamp,
+        fractionalSecondPrecision: {
+            ...textRange,
+            syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+            length: {
+                ...textRange,
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value: 0n,
+            },
+        },
+    };
+} %}
+    | (%CURRENT_TIMESTAMP | %NowToken) FieldLength {% (data) => {
+    const [, fractionalSecondPrecision] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CurrentTimestamp,
+        fractionalSecondPrecision,
+    };
+} %}
+
 DefaultCharacterSet ->
     %DEFAULT:? ((%CHARACTER %SET) | %CHARSET) %Equal:? CharacterSetName {% (data) => {
     let [, , , characterSetName] = data;
@@ -2676,7 +2725,7 @@ IndexType ->
 } %}
 
 ColumnModifierElement ->
-    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY | %DEFAULT)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral) | (%SERIAL %DEFAULT %VALUE)) {% (data) => {
+    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY | %DEFAULT)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral) | (%SERIAL %DEFAULT %VALUE) | (%ON %UPDATE CurrentTimestamp)) {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         data: data[0][0],
