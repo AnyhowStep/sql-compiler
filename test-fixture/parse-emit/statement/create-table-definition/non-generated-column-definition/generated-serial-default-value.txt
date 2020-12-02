@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X DOUBLE GENERATED ALWAYS AS (1) SERIAL DEFAULT VALUE
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DOUBLE SIGNED GENERATED ALWAYS AS (1) VIRTUAL NOT NULL AUTO_INCREMENT UNIQUE KEY
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify auto-increment",
+        "start": 21,
+        "length": 1
+    }
+]

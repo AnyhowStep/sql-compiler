@@ -2825,6 +2825,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$5"]},
     {"name": "ColumnModifierElement$subexpression$1$subexpression$6", "symbols": [COMMENT, "StringLiteral"]},
     {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$6"]},
+    {"name": "ColumnModifierElement$subexpression$1$subexpression$7", "symbols": [SERIAL, DEFAULT, VALUE]},
+    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$7"]},
     {"name": "ColumnModifierElement", "symbols": ["ColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),

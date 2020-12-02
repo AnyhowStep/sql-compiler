@@ -46,6 +46,7 @@ export function processColumnDefinitionModifier (
         | TokenObj<TokenKind.UNIQUE_KEY>
         | readonly [TokenObj<TokenKind.PRIMARY> | null, TokenObj<TokenKind.KEY>]
         | readonly [TokenObj<TokenKind.COMMENT>, StringLiteral]
+        | readonly [TokenObj<TokenKind.SERIAL>, TokenObj<TokenKind.DEFAULT>, TokenObj<TokenKind.VALUE>]
     )
 ) : ColumnDefinitionModifier {
     let result = {
@@ -151,6 +152,17 @@ export function processColumnDefinitionModifier (
             nullable : false,
         };
         result.primaryKey = true;
+        return result;
+    }
+
+    if (next[0]?.tokenKind == TokenKind.SERIAL) {
+        //SERIAL DEFAULT VALUE
+        result.nullable = {
+            ...getTextRange(next),
+            nullable : false,
+        };
+        result.autoIncrement = true;
+        result.uniqueKey = true;
         return result;
     }
 

@@ -27,6 +27,10 @@ const ColumnModifierElementRule = makeRule("ColumnModifierElement")
                 TokenKind.UNIQUE_KEY,
                 [optional(TokenKind.PRIMARY), TokenKind.KEY] as const,
                 [TokenKind.COMMENT, SyntaxKind.StringLiteral] as const,
+                /**
+                 * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6898
+                 */
+                [TokenKind.SERIAL, TokenKind.DEFAULT, TokenKind.VALUE] as const,
                 //TODO SyntaxKind.ForeignKeyReferenceDefinition,
             )
         ] as const,
