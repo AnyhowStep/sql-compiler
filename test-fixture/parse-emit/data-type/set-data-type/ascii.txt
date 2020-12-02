@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X SET('a', 'b') ASCII
+);
+
+-----
+CREATE TABLE `T` (
+    `X` SET('a', 'b') CHARACTER SET `latin1` NULL
+);
+
+-----
+[]

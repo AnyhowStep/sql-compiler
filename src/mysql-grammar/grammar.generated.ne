@@ -1696,7 +1696,7 @@ CharacterDataType ->
 } %}
 
 DataType ->
-    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | DecimalDataType | EnumDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | JsonDataType | RealDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
+    (BinaryDataType | BitDataType | BlobDataType | BooleanDataType | CharacterDataType | DateDataType | DateTimeDataType | DecimalDataType | EnumDataType | GeometryCollectionDataType | GeometryDataType | IntegerDataType | JsonDataType | RealDataType | SetDataType | TextDataType | TimeDataType | TimestampDataType | YearDataType) {% (data) => data[0][0] %}
 
 DateDataType ->
     %DATE {% (data) => {
@@ -1951,6 +1951,23 @@ JsonDataType ->
         syntaxKind: parser_node_1.SyntaxKind.JsonDataType,
         ...parse_util_1.getTextRange(data),
     };
+} %}
+
+SetDataType ->
+    %SET StringList CharacterDataTypeModifier {% (data) => {
+    const [, elements, modifier] = data;
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SetDataType,
+        /**
+         * @todo Check for duplicate elements
+         */
+        elements,
+        characterSet: modifier.characterSet,
+        collate: modifier.collate,
+        binary: modifier.binary,
+    };
+    return result;
 } %}
 
 TextDataType ->

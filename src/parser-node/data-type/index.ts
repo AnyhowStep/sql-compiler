@@ -13,6 +13,7 @@ export * from "./geometry-data-type";
 export * from "./integer-data-type";
 export * from "./json-data-type";
 export * from "./real-data-type";
+export * from "./set-data-type";
 export * from "./text-data-type";
 export * from "./time-data-type";
 export * from "./timestamp-data-type";

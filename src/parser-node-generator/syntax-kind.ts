@@ -27,6 +27,7 @@ export const syntaxKinds = [
     "GeometryCollectionDataType",
 
     "EnumDataType",
+    "SetDataType",
 
     "UnionDataType",
     "UnknownDataType",

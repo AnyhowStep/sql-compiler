@@ -14,6 +14,7 @@ import {emitGeometryDataType} from "./geometry-data-type";
 import {emitIntegerDataType} from "./integer-data-type";
 import {emitJsonDataType} from "./json-data-type";
 import {emitRealDataType} from "./real-data-type";
+import {emitSetDataType} from "./set-data-type";
 import {emitTextDataType} from "./text-data-type";
 import {emitTimeDataType} from "./time-data-type";
 import {emitTimestampDataType} from "./timestamp-data-type";
@@ -35,6 +36,7 @@ export function emitDataType (dataType : DataType) : StringBuilder {
         .case(SyntaxKind.IntegerDataType, emitIntegerDataType)
         .case(SyntaxKind.JsonDataType, emitJsonDataType)
         .case(SyntaxKind.RealDataType, emitRealDataType)
+        .case(SyntaxKind.SetDataType, emitSetDataType)
         .case(SyntaxKind.TextDataType, emitTextDataType)
         .case(SyntaxKind.TimeDataType, emitTimeDataType)
         .case(SyntaxKind.TimestampDataType, emitTimestampDataType)

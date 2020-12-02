@@ -14,6 +14,7 @@ import {GeometryDataType} from "./data-type/geometry-data-type";
 import {IntegerDataType} from "./data-type/integer-data-type";
 import {JsonDataType} from "./data-type/json-data-type";
 import {RealDataType} from "./data-type/real-data-type";
+import {SetDataType} from "./data-type/set-data-type";
 import {TextDataType} from "./data-type/text-data-type";
 import {TimeDataType} from "./data-type/time-data-type";
 import {TimestampDataType} from "./data-type/timestamp-data-type";
@@ -66,6 +67,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.GeometryDataT
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IntegerDataType) : node is IntegerDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.JsonDataType) : node is JsonDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RealDataType) : node is RealDataType;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SetDataType) : node is SetDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TextDataType) : node is TextDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TimeDataType) : node is TimeDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TimestampDataType) : node is TimestampDataType;
@@ -127,6 +129,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.IntegerDataType, callback : (node : IntegerDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.JsonDataType, callback : (node : JsonDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RealDataType, callback : (node : RealDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.SetDataType, callback : (node : SetDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TextDataType, callback : (node : TextDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TimeDataType, callback : (node : TimeDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TimestampDataType, callback : (node : TimestampDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

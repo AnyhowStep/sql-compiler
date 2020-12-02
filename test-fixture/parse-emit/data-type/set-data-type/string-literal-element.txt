@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X SET('a', 'b')
+);
+
+-----
+CREATE TABLE `T` (
+    `X` SET('a', 'b') NULL
+);
+
+-----
+[]

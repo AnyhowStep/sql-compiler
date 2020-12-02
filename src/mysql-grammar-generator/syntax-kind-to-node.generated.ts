@@ -15,6 +15,7 @@ import {
     IntegerDataType,
     JsonDataType,
     RealDataType,
+    SetDataType,
     TextDataType,
     TimeDataType,
     TimestampDataType,
@@ -69,6 +70,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.IntegerDataType] : IntegerDataType;
     [SyntaxKind.JsonDataType] : JsonDataType;
     [SyntaxKind.RealDataType] : RealDataType;
+    [SyntaxKind.SetDataType] : SetDataType;
     [SyntaxKind.TextDataType] : TextDataType;
     [SyntaxKind.TimeDataType] : TimeDataType;
     [SyntaxKind.TimestampDataType] : TimestampDataType;

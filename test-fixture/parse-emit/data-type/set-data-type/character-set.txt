@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X SET('a', 'b') CHARACTER SET utf8mb4
+);
+
+-----
+CREATE TABLE `T` (
+    `X` SET('a', 'b') CHARACTER SET `utf8mb4` NULL
+);
+
+-----
+[]

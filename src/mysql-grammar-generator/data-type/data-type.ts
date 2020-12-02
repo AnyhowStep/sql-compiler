@@ -19,6 +19,7 @@ makeCustomRule(CustomSyntaxKind.DataType)
             SyntaxKind.IntegerDataType,
             SyntaxKind.JsonDataType,
             SyntaxKind.RealDataType,
+            SyntaxKind.SetDataType,
             SyntaxKind.TextDataType,
             SyntaxKind.TimeDataType,
             SyntaxKind.TimestampDataType,

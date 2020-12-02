@@ -12,6 +12,7 @@ import {GeometryDataType} from "./geometry-data-type";
 import {IntegerDataType} from "./integer-data-type";
 import {JsonDataType} from "./json-data-type";
 import {RealDataType} from "./real-data-type";
+import {SetDataType} from "./set-data-type";
 import {TextDataType} from "./text-data-type";
 import {TimeDataType} from "./time-data-type";
 import {TimestampDataType} from "./timestamp-data-type";
@@ -33,6 +34,7 @@ export type DataType =
     | IntegerDataType
     | JsonDataType
     | RealDataType
+    | SetDataType
     | TextDataType
     | TimeDataType
     | TimestampDataType

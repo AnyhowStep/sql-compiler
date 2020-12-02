@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X SET(B'', b'11', 0b111)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` SET(B'', b'11', 0b111) NULL
+);
+
+-----
+[]

@@ -1771,6 +1771,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DataType$subexpression$1", "symbols": ["IntegerDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["JsonDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["RealDataType"]},
+    {"name": "DataType$subexpression$1", "symbols": ["SetDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TextDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TimeDataType"]},
     {"name": "DataType$subexpression$1", "symbols": ["TimestampDataType"]},
@@ -2050,6 +2051,21 @@ export var ParserRules: NearleyRule[] = [
                 syntaxKind: parser_node_1.SyntaxKind.JsonDataType,
                 ...parse_util_1.getTextRange(data),
             };
+        } },
+    {"name": "SetDataType", "symbols": [SET, "StringList", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+            const [, elements, modifier] = data;
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.SetDataType,
+                /**
+                 * @todo Check for duplicate elements
+                 */
+                elements,
+                characterSet: modifier.characterSet,
+                collate: modifier.collate,
+                binary: modifier.binary,
+            };
+            return result;
         } },
     {"name": "TextDataType$subexpression$1", "symbols": [TINYTEXT]},
     {"name": "TextDataType$subexpression$1", "symbols": [TEXT]},
