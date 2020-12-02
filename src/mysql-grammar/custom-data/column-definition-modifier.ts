@@ -6,7 +6,7 @@ export interface ColumnDefinitionModifier extends TextRange {
     storage : Storage|undefined,
     defaultValue : Expression|undefined,
 
-    nullable : boolean,
+    nullable : (TextRange & { nullable : boolean })|undefined,
 
     uniqueKey : boolean,
     primaryKey : boolean,

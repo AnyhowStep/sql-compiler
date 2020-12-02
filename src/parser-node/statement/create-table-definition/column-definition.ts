@@ -1,6 +1,7 @@
 import {DataType} from "../../data-type";
 import {Expression, StringLiteral} from "../../expression";
 import {ColumnIdentifier} from "../../identifier";
+import {TextRange} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {CreateTableDefinition} from "./create-table-definition";
 import {ForeignKeyReferenceDefinition} from "./foreign-key-reference-definition";
@@ -62,7 +63,7 @@ export interface ColumnDefinition extends CreateTableDefinition {
      * These below can be specified, regardless of `generated`.
      */
 
-    nullable : boolean,
+    nullable : (TextRange & { nullable : boolean })|undefined,
 
     uniqueKey : boolean,
     /**

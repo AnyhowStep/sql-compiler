@@ -19,7 +19,7 @@ export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
                 .appendBuilder(emitGeneratedDefinition(def.generated));
         })
         .append(
-            def.nullable ?
+            def.nullable == undefined || def.nullable.nullable ?
             " NULL" :
             " NOT NULL"
         )

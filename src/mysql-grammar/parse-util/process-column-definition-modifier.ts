@@ -14,7 +14,10 @@ export function createDefaultColumnDefinitionModifier () : ColumnDefinitionModif
         storage : undefined,
         defaultValue : undefined,
 
-        nullable : true,
+        /**
+         * If `undefined`, it's nullable.
+         */
+        nullable : undefined,
 
         uniqueKey : false,
         primaryKey : false,
@@ -53,12 +56,21 @@ export function processColumnDefinitionModifier (
     if (!(next instanceof Array)) {
         if (next.tokenKind == TokenKind.NULL) {
             //NULL
+            result.nullable = {
+                start : next.start,
+                end : next.end,
+                nullable : true,
+            };
             return result;
         }
 
         if (next.tokenKind == TokenKind.AUTO_INCREMENT) {
             //AUTO_INCREMENT
-            result.nullable = false;
+            result.nullable = {
+                start : next.start,
+                end : next.end,
+                nullable : false,
+            };
             result.autoIncrement = true;
             return result;
         }
@@ -113,7 +125,10 @@ export function processColumnDefinitionModifier (
 
     if (next[0]?.tokenKind == TokenKind.NOT) {
         //NOT NULL
-        result.nullable = false;
+        result.nullable = {
+            ...getTextRange(next),
+            nullable : false,
+        };
         return result;
     }
 
@@ -129,7 +144,10 @@ export function processColumnDefinitionModifier (
 
     if (next[1] != undefined && "tokenKind" in next[1] && next[1].tokenKind == TokenKind.KEY) {
         //PRIMARY KEY
-        result.nullable = false;
+        result.nullable = {
+            ...getTextRange(next),
+            nullable : false,
+        };
         result.primaryKey = true;
         return result;
     }

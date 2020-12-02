@@ -1,0 +1,16 @@
+/*
+    Generally, you cannot have a `NULL` auto-increment column.
+    However, the rules seem different with the `SERIAL` pseudo-data type.
+    I can only assume it's a mistake and they just forgot.
+*/
+CREATE TABLE T (
+    X SERIAL NULL
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BIGINT UNSIGNED NULL AUTO_INCREMENT UNIQUE KEY
+);
+
+-----
+[]

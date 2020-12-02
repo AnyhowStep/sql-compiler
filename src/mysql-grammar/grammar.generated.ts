@@ -2799,6 +2799,38 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
+    {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", SERIAL, "ColumnDefinitionModifier"], "postprocess":  (data) => {
+            const [columnIdentifier, serial, modifier] = data;
+            const dataType = {
+                start: serial.start,
+                end: serial.end,
+                syntaxKind: parser_node_1.SyntaxKind.IntegerDataType,
+                bytes: 8,
+                displayWidth: undefined,
+                signed: false,
+                zeroFill: false,
+            };
+            /**
+             * For some reason, we can make `SERIAL` columns nullable.
+             */
+            modifier.nullable = (modifier.nullable == undefined ?
+                {
+                    start: serial.start,
+                    end: serial.end,
+                    nullable: false,
+                } :
+                modifier.nullable);
+            modifier.autoIncrement = true;
+            modifier.uniqueKey = true;
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+                columnIdentifier,
+                dataType,
+                generated: undefined,
+                ...modifier,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
     {"name": "IndexDefinition$subexpression$3", "symbols": [INDEX]},
     {"name": "IndexDefinition$subexpression$3", "symbols": [KEY]},
     {"name": "IndexDefinition$ebnf$5", "symbols": ["Identifier"], "postprocess": id},

@@ -1,4 +1,4 @@
-import {SyntaxKind} from "../../../parser-node";
+import {IntegerDataType, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {
     optional,
@@ -66,6 +66,51 @@ makeCustomRule(SyntaxKind.ColumnDefinition)
         ] as const,
         (data) => {
             const [columnIdentifier, dataType, modifier] = data;
+            return {
+                syntaxKind : SyntaxKind.ColumnDefinition,
+                columnIdentifier,
+                dataType,
+                generated : undefined,
+
+                ...modifier,
+                ...getTextRange(data),
+            };
+        }
+    )
+    .addSubstitution(
+        [
+            SyntaxKind.ColumnIdentifier,
+            TokenKind.SERIAL,
+            CustomSyntaxKind.ColumnDefinitionModifier,
+        ] as const,
+        (data) => {
+            const [columnIdentifier, serial, modifier] = data;
+
+            const dataType : IntegerDataType = {
+                start : serial.start,
+                end : serial.end,
+                syntaxKind : SyntaxKind.IntegerDataType,
+                bytes : 8,
+                displayWidth : undefined,
+                signed : false,
+                zeroFill : false,
+            };
+
+            /**
+             * For some reason, we can make `SERIAL` columns nullable.
+             */
+            modifier.nullable = (
+                modifier.nullable == undefined ?
+                {
+                    start : serial.start,
+                    end : serial.end,
+                    nullable : false,
+                } :
+                modifier.nullable
+            );
+            modifier.autoIncrement = true;
+            modifier.uniqueKey = true;
+
             return {
                 syntaxKind : SyntaxKind.ColumnDefinition,
                 columnIdentifier,
