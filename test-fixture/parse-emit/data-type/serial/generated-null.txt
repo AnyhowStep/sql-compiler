@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    Y INT,
+    X SERIAL GENERATED ALWAYS AS (999) NULL
+);
+
+-----
+CREATE TABLE `T` (
+    `Y` INT SIGNED NULL,
+    `X` BIGINT UNSIGNED GENERATED ALWAYS AS (999) VIRTUAL NOT NULL AUTO_INCREMENT UNIQUE KEY
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify auto-increment",
+        "start": 32,
+        "length": 1
+    }
+]

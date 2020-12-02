@@ -2526,6 +2526,57 @@ ColumnDefinition ->
         ...parse_util_1.getTextRange(data),
     };
 } %}
+    | ColumnIdentifier %SERIAL GeneratedDefinition ColumnDefinitionModifier {% function (data) {
+    const [columnIdentifierOriginal, serial, generated, modifier] = data;
+    const columnIdentifier = {
+        ...columnIdentifierOriginal,
+        syntacticErrors: (columnIdentifierOriginal.syntacticErrors == undefined ?
+            undefined :
+            [...columnIdentifierOriginal.syntacticErrors]),
+    };
+    const dataType = {
+        start: serial.start,
+        end: serial.end,
+        syntaxKind: parser_node_1.SyntaxKind.IntegerDataType,
+        bytes: 8,
+        displayWidth: undefined,
+        signed: false,
+        zeroFill: false,
+    };
+    /**
+     * For some reason, `SERIAL GENERATED` columns are always
+     * non-nullable.
+     *
+     * Different from `SERIAL` non-generated columns...
+     */
+    modifier.nullable = {
+        start: serial.start,
+        end: serial.end,
+        nullable: false,
+    };
+    modifier.autoIncrement = true;
+    modifier.uniqueKey = true;
+    if (modifier.autoIncrement) {
+        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
+    }
+    if (modifier.columnFormat != undefined) {
+        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
+    }
+    if (modifier.storage != undefined) {
+        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
+    }
+    if (modifier.defaultValue != undefined) {
+        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
+    }
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+        columnIdentifier,
+        dataType,
+        generated: generated,
+        ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
 
 GeneratedDefinition ->
     (%GENERATED %ALWAYS):? %AS %OpenParentheses Expression %CloseParentheses (%VIRTUAL | %STORED):? {% (data) => {

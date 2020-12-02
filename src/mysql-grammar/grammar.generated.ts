@@ -2632,6 +2632,57 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
+    {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", SERIAL, "GeneratedDefinition", "ColumnDefinitionModifier"], "postprocess":  function (data) {
+            const [columnIdentifierOriginal, serial, generated, modifier] = data;
+            const columnIdentifier = {
+                ...columnIdentifierOriginal,
+                syntacticErrors: (columnIdentifierOriginal.syntacticErrors == undefined ?
+                    undefined :
+                    [...columnIdentifierOriginal.syntacticErrors]),
+            };
+            const dataType = {
+                start: serial.start,
+                end: serial.end,
+                syntaxKind: parser_node_1.SyntaxKind.IntegerDataType,
+                bytes: 8,
+                displayWidth: undefined,
+                signed: false,
+                zeroFill: false,
+            };
+            /**
+             * For some reason, `SERIAL GENERATED` columns are always
+             * non-nullable.
+             *
+             * Different from `SERIAL` non-generated columns...
+             */
+            modifier.nullable = {
+                start: serial.start,
+                end: serial.end,
+                nullable: false,
+            };
+            modifier.autoIncrement = true;
+            modifier.uniqueKey = true;
+            if (modifier.autoIncrement) {
+                parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
+            }
+            if (modifier.columnFormat != undefined) {
+                parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
+            }
+            if (modifier.storage != undefined) {
+                parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
+            }
+            if (modifier.defaultValue != undefined) {
+                parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
+            }
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
+                columnIdentifier,
+                dataType,
+                generated: generated,
+                ...modifier,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
     {"name": "GeneratedDefinition$ebnf$1$subexpression$1", "symbols": [GENERATED, ALWAYS]},
     {"name": "GeneratedDefinition$ebnf$1", "symbols": ["GeneratedDefinition$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "GeneratedDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
