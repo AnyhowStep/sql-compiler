@@ -37,7 +37,7 @@ export function processColumnDefinitionModifier (
         ]
         | readonly [
             TokenObj<TokenKind.STORAGE>,
-            [TokenObj<TokenKind.DISK>|TokenObj<TokenKind.MEMORY>]
+            [TokenObj<TokenKind.DISK>|TokenObj<TokenKind.MEMORY>|TokenObj<TokenKind.DEFAULT>]
         ]
         | readonly [TokenObj<TokenKind.DEFAULT>, Expression]
         | TokenObj<TokenKind.NULL>
@@ -108,7 +108,9 @@ export function processColumnDefinitionModifier (
             result.storage = (
                 tokenObj.tokenKind == TokenKind.DISK ?
                 Storage.DISK :
-                Storage.MEMORY
+                tokenObj.tokenKind == TokenKind.MEMORY ?
+                Storage.MEMORY :
+                Storage.DEFAULT
             );
             return result;
         }

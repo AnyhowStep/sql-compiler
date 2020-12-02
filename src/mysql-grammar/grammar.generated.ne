@@ -2676,7 +2676,7 @@ IndexType ->
 } %}
 
 ColumnModifierElement ->
-    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
+    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY | %DEFAULT)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral)) {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         data: data[0][0],

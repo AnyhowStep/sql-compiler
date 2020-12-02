@@ -16,6 +16,7 @@ export enum ColumnFormat {
 export enum Storage {
     DISK,
     MEMORY,
+    DEFAULT,
 }
 
 export interface ColumnDefinition extends CreateTableDefinition {
@@ -40,6 +41,9 @@ export interface ColumnDefinition extends CreateTableDefinition {
      * Defaults to `ColumnFormat.DEFAULT`
      */
     columnFormat : ColumnFormat|undefined,
+    /**
+     * Defaults to `Storage.DEFAULT`
+     */
     storage : Storage|undefined,
 
     /**

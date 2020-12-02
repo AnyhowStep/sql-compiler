@@ -19,7 +19,7 @@ const ColumnModifierElementRule = makeRule("ColumnModifierElement")
             union(
                 TokenKind.AUTO_INCREMENT,
                 [TokenKind.COLUMN_FORMAT, union(TokenKind.FIXED, TokenKind.DYNAMIC, TokenKind.DEFAULT)] as const,
-                [TokenKind.STORAGE, union(TokenKind.DISK, TokenKind.MEMORY)] as const,
+                [TokenKind.STORAGE, union(TokenKind.DISK, TokenKind.MEMORY, TokenKind.DEFAULT)] as const,
                 [TokenKind.DEFAULT, CustomSyntaxKind.Expression] as const,
                 TokenKind.NULL,
                 [TokenKind.NOT, TokenKind.NULL] as const,

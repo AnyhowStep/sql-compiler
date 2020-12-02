@@ -42,7 +42,9 @@ export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
             undefined :
             def.storage == Storage.DISK ?
             " STORAGE DISK" :
-            " STORAGE MEMORY"
+            def.storage == Storage.MEMORY ?
+            " STORAGE MEMORY" :
+            " STORAGE DEFAULT"
         )
         .scope(builder => {
             if (def.defaultValue == undefined) {
