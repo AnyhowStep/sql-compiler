@@ -25,6 +25,8 @@ export function createDefaultColumnDefinitionModifier () : ColumnDefinitionModif
         foreignKeyReferenceDefinition : undefined,
 
         onUpdate : undefined,
+
+        checkDefinition : undefined,
     };
 }
 

@@ -1,0 +1,11 @@
+CREATE TABLE T (
+    X BINARY CHECK (1)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BINARY(1) NULL CHECK (1)
+);
+
+-----
+[]

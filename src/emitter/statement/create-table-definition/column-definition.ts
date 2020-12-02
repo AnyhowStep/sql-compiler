@@ -4,6 +4,7 @@ import {emitExpression} from "../../expression";
 import {emitQuotedIdentifier} from "../../identifier";
 import {emitCurrentTimestamp} from "../../misc";
 import {StringBuilder} from "../../string-builder";
+import {emitCheckDefinition} from "./check-definition";
 import {emitGeneratedDefinition} from "./generated-definition";
 
 export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
@@ -80,5 +81,14 @@ export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
             builder
                 .append(" COMMENT ")
                 .appendBuilder(emitExpression(def.comment));
+        })
+        //This should be at the end
+        .scope(builder => {
+            if (def.checkDefinition == undefined) {
+                return;
+            }
+            builder
+                .append(" ")
+                .appendBuilder(emitCheckDefinition(def.checkDefinition));
         })
 }

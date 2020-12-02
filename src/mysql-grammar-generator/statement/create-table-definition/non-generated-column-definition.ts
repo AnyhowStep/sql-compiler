@@ -47,6 +47,7 @@ makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifier)
     .addSubstitution(
         [
             zeroOrMore(ColumnModifierElementRule),
+            optional(SyntaxKind.CheckDefinition),
         ] as const,
         (data) : ColumnDefinitionModifier => {
             let columnDefinitionModifier = createDefaultColumnDefinitionModifier();
@@ -56,6 +57,11 @@ makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifier)
                     columnDefinitionModifier,
                     ele.data
                 );
+            }
+
+            const checkDefinition = data[1];
+            if (checkDefinition != undefined) {
+                columnDefinitionModifier.checkDefinition = checkDefinition;
             }
 
             return columnDefinitionModifier;

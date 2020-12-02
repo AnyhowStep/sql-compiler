@@ -2618,6 +2618,14 @@ export var ParserRules: NearleyRule[] = [
                 createSchemaOptions,
             };
         } },
+    {"name": "CheckDefinition", "symbols": [CHECK, OpenParentheses, "Expression", CloseParentheses], "postprocess":  (data) => {
+            const [, , expr,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CheckDefinition,
+                expr,
+            };
+        } },
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["ColumnDefinition"]},
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["IndexDefinition"]},
     {"name": "CreateTableDefinition", "symbols": ["CreateTableDefinition$subexpression$1"], "postprocess": (data) => data[0][0]},
@@ -2899,10 +2907,16 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": []},
     {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": ["ColumnDefinitionModifier$ebnf$1", "ColumnModifierElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "ColumnDefinitionModifier", "symbols": ["ColumnDefinitionModifier$ebnf$1"], "postprocess":  (data) => {
+    {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": ["CheckDefinition"], "postprocess": id},
+    {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "ColumnDefinitionModifier", "symbols": ["ColumnDefinitionModifier$ebnf$1", "ColumnDefinitionModifier$ebnf$2"], "postprocess":  (data) => {
             let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
             for (const ele of data[0]) {
                 columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+            }
+            const checkDefinition = data[1];
+            if (checkDefinition != undefined) {
+                columnDefinitionModifier.checkDefinition = checkDefinition;
             }
             return columnDefinitionModifier;
         } },

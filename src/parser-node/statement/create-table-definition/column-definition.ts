@@ -4,6 +4,7 @@ import {ColumnIdentifier} from "../../identifier";
 import {CurrentTimestamp} from "../../misc";
 import {TextRange} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
+import {CheckDefinition} from "./check-definition";
 import {CreateTableDefinition} from "./create-table-definition";
 import {ForeignKeyReferenceDefinition} from "./foreign-key-reference-definition";
 import {GeneratedDefinition} from "./generated-definition";
@@ -100,4 +101,6 @@ export interface ColumnDefinition extends CreateTableDefinition {
     foreignKeyReferenceDefinition : ForeignKeyReferenceDefinition|undefined,
 
     onUpdate : CurrentTimestamp|undefined,
+
+    checkDefinition : CheckDefinition|undefined,
 }

@@ -2517,6 +2517,16 @@ CreateSchemaStatement ->
     };
 } %}
 
+CheckDefinition ->
+    %CHECK %OpenParentheses Expression %CloseParentheses {% (data) => {
+    const [, , expr,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CheckDefinition,
+        expr,
+    };
+} %}
+
 CreateTableDefinition ->
     (ColumnDefinition | IndexDefinition) {% (data) => data[0][0] %}
 
@@ -2745,10 +2755,14 @@ ColumnModifierElement ->
 } %}
 
 ColumnDefinitionModifier ->
-    ColumnModifierElement:* {% (data) => {
+    ColumnModifierElement:* CheckDefinition:? {% (data) => {
     let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
     for (const ele of data[0]) {
         columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+    }
+    const checkDefinition = data[1];
+    if (checkDefinition != undefined) {
+        columnDefinitionModifier.checkDefinition = checkDefinition;
     }
     return columnDefinitionModifier;
 } %}
