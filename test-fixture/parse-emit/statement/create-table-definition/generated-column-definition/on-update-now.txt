@@ -1,0 +1,102 @@
+CREATE TABLE T (
+    X DATETIME GENERATED ALWAYS AS (1) ON UPDATE NOW()
+);
+
+CREATE TABLE T (
+    X DATETIME(0) GENERATED ALWAYS AS (1) ON UPDATE NOW(0)
+);
+
+CREATE TABLE T (
+    X DATETIME(1) GENERATED ALWAYS AS (1) ON UPDATE NOW(1)
+);
+
+CREATE TABLE T (
+    X DATETIME GENERATED ALWAYS AS (1) ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE T (
+    X DATETIME GENERATED ALWAYS AS (1) ON UPDATE CURRENT_TIMESTAMP()
+);
+
+CREATE TABLE T (
+    X DATETIME(0) GENERATED ALWAYS AS (1) ON UPDATE CURRENT_TIMESTAMP(0)
+);
+
+CREATE TABLE T (
+    X DATETIME(1) GENERATED ALWAYS AS (1) ON UPDATE CURRENT_TIMESTAMP(1)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` DATETIME(0) GENERATED ALWAYS AS (1) VIRTUAL NULL ON UPDATE CURRENT_TIMESTAMP(0)
+);
+
+CREATE TABLE `T` (
+    `X` DATETIME(0) GENERATED ALWAYS AS (1) VIRTUAL NULL ON UPDATE CURRENT_TIMESTAMP(0)
+);
+
+CREATE TABLE `T` (
+    `X` DATETIME(1) GENERATED ALWAYS AS (1) VIRTUAL NULL ON UPDATE CURRENT_TIMESTAMP(1)
+);
+
+CREATE TABLE `T` (
+    `X` DATETIME(0) GENERATED ALWAYS AS (1) VIRTUAL NULL ON UPDATE CURRENT_TIMESTAMP(0)
+);
+
+CREATE TABLE `T` (
+    `X` DATETIME(0) GENERATED ALWAYS AS (1) VIRTUAL NULL ON UPDATE CURRENT_TIMESTAMP(0)
+);
+
+CREATE TABLE `T` (
+    `X` DATETIME(0) GENERATED ALWAYS AS (1) VIRTUAL NULL ON UPDATE CURRENT_TIMESTAMP(0)
+);
+
+CREATE TABLE `T` (
+    `X` DATETIME(1) GENERATED ALWAYS AS (1) VIRTUAL NULL ON UPDATE CURRENT_TIMESTAMP(1)
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        "start": 21,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        "start": 97,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        "start": 177,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        "start": 257,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        "start": 345,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        "start": 435,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        "start": 529,
+        "length": 1
+    }
+]

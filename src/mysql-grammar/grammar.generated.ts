@@ -2660,7 +2660,13 @@ export var ParserRules: NearleyRule[] = [
             return result;
         } },
     {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "GeneratedDefinition", "ColumnDefinitionModifier"], "postprocess":  function (data) {
-            const [columnIdentifier, dataType, generated, modifier] = data;
+            const [columnIdentifierOriginal, dataType, generated, modifier] = data;
+            const columnIdentifier = {
+                ...columnIdentifierOriginal,
+                syntacticErrors: (columnIdentifierOriginal.syntacticErrors == undefined ?
+                    undefined :
+                    [...columnIdentifierOriginal.syntacticErrors]),
+            };
             if (modifier.autoIncrement) {
                 parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
             }
@@ -2672,6 +2678,9 @@ export var ParserRules: NearleyRule[] = [
             }
             if (modifier.defaultValue != undefined) {
                 parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
+            }
+            if (modifier.onUpdate != undefined) {
+                parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp);
             }
             return {
                 syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
@@ -2723,6 +2732,9 @@ export var ParserRules: NearleyRule[] = [
             }
             if (modifier.defaultValue != undefined) {
                 parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
+            }
+            if (modifier.onUpdate != undefined) {
+                parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp);
             }
             return {
                 syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,

@@ -16,7 +16,16 @@ makeCustomRule(SyntaxKind.ColumnDefinition)
             CustomSyntaxKind.ColumnDefinitionModifier,
         ] as const,
         function (data) {
-            const [columnIdentifier, dataType, generated, modifier] = data;
+            const [columnIdentifierOriginal, dataType, generated, modifier] = data;
+
+            const columnIdentifier : ColumnIdentifier = {
+                ...columnIdentifierOriginal,
+                syntacticErrors : (
+                    columnIdentifierOriginal.syntacticErrors == undefined ?
+                    undefined :
+                    [...columnIdentifierOriginal.syntacticErrors]
+                ),
+            }
 
             if (modifier.autoIncrement) {
                 pushSyntacticErrorAtNode(
@@ -47,6 +56,14 @@ makeCustomRule(SyntaxKind.ColumnDefinition)
                     columnIdentifier,
                     [],
                     DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue
+                );
+            }
+
+            if (modifier.onUpdate != undefined) {
+                pushSyntacticErrorAtNode(
+                    columnIdentifier,
+                    [],
+                    DiagnosticMessages.GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp
                 );
             }
 
@@ -133,6 +150,14 @@ makeCustomRule(SyntaxKind.ColumnDefinition)
                     columnIdentifier,
                     [],
                     DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue
+                );
+            }
+
+            if (modifier.onUpdate != undefined) {
+                pushSyntacticErrorAtNode(
+                    columnIdentifier,
+                    [],
+                    DiagnosticMessages.GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp
                 );
             }
 

@@ -170,6 +170,11 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200031,
     }),
+    GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp : makeDiagnosticMessage({
+        key : "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        category : DiagnosticCategory.Error,
+        code : 200032,
+    }),
 
     ExpectedSourceElement : makeDiagnosticMessage({
         key : "Expected DDL, DML, expression definition, or function declaration",
