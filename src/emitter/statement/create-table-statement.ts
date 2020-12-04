@@ -2,6 +2,7 @@ import {CreateTableStatement} from "../../parser-node";
 import {emitTableIdentifier} from "../identifier";
 import {StringBuilder} from "../string-builder";
 import {emitCreateTableDefinition} from "./create-table-definition";
+import {emitCreateTableOptions} from "./create-table-options";
 
 export function emitCreateTableStatement (statement : CreateTableStatement) : StringBuilder {
     const builder = new StringBuilder()
@@ -18,6 +19,16 @@ export function emitCreateTableStatement (statement : CreateTableStatement) : St
             (builder, def) => builder.appendBuilder(emitCreateTableDefinition(def))
         ))
         .appendNewLine()
-        .append(");");
+        .append(")")
+        .scope(builder => {
+            const createTableOptions = emitCreateTableOptions(statement.createTableOptions);
+            if (createTableOptions.isEmpty()) {
+                return;
+            }
+            builder.indent(builder => {
+                builder.appendBuilder(createTableOptions);
+            })
+        })
+        .append(";");
     return builder;
 }

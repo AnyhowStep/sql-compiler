@@ -108,3 +108,13 @@ https://github.com/kach/nearley/issues/358
 ### Notes on References
 
 https://github.com/pingcap/parser
+
+-----
+
+### Notes about static analysis of SQL
+
+https://stackoverflow.com/questions/900055/is-sql-or-even-tsql-turing-complete
+
+http://assets.en.oreilly.com/1/event/27/High%20Performance%20SQL%20with%20PostgreSQL%20Presentation.pdf
+
+https://course.ccs.neu.edu/cs4410sp19/lec_type-inference_notes.html

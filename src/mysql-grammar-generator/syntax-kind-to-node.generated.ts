@@ -49,6 +49,7 @@ import {
     IndexPart,
     IndexDefinition,
     PrimaryKeyDefinition,
+    CreateTableOptions,
     CreateTableStatement,
     DeclareFunctionParameter,
     DeclareFunctionStatement,
@@ -105,6 +106,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.IndexPart] : IndexPart;
     [SyntaxKind.IndexDefinition] : IndexDefinition;
     [SyntaxKind.PrimaryKeyDefinition] : PrimaryKeyDefinition;
+    [SyntaxKind.CreateTableOptions] : CreateTableOptions;
     [SyntaxKind.CreateTableStatement] : CreateTableStatement;
     [SyntaxKind.DeclareFunctionParameter] : DeclareFunctionParameter;
     [SyntaxKind.DeclareFunctionStatement] : DeclareFunctionStatement;

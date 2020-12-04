@@ -48,6 +48,7 @@ import {GeneratedDefinition} from "./statement/create-table-definition/generated
 import {IndexPart} from "./statement/create-table-definition/index-definition";
 import {IndexDefinition} from "./statement/create-table-definition/index-definition";
 import {PrimaryKeyDefinition} from "./statement/create-table-definition/primary-key-definition";
+import {CreateTableOptions} from "./statement/create-table-options";
 import {CreateTableStatement} from "./statement/create-table-statement";
 import {DeclareFunctionParameter} from "./statement/declare-function-parameter";
 import {DeclareFunctionStatement} from "./statement/declare-function-statement";
@@ -102,6 +103,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.GeneratedDefi
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IndexPart) : node is IndexPart;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IndexDefinition) : node is IndexDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PrimaryKeyDefinition) : node is PrimaryKeyDefinition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableOptions) : node is CreateTableOptions;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableStatement) : node is CreateTableStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DeclareFunctionParameter) : node is DeclareFunctionParameter;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DeclareFunctionStatement) : node is DeclareFunctionStatement;
@@ -165,6 +167,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.IndexPart, callback : (node : IndexPart) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.IndexDefinition, callback : (node : IndexDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.PrimaryKeyDefinition, callback : (node : PrimaryKeyDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateTableOptions, callback : (node : CreateTableOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableStatement, callback : (node : CreateTableStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DeclareFunctionParameter, callback : (node : DeclareFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DeclareFunctionStatement, callback : (node : DeclareFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

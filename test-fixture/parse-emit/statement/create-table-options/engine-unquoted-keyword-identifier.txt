@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    ENGINE = CROSS;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    ENGINE = `CROSS`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 46,
+        "length": 5
+    }
+]

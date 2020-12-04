@@ -3218,13 +3218,69 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
+    {"name": "CreateTableOption$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "CreateTableOption$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "CreateTableOption", "symbols": [ENGINE, "CreateTableOption$ebnf$1", "CreateTableOption$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                engine: data[2][0],
+            };
+        } },
+    {"name": "CreateTableOption$ebnf$2", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [MAX_ROWS, "CreateTableOption$ebnf$2", "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                maxRows: data[2],
+            };
+        } },
+    {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
+    {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": ["CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "CreateTableOption"]},
+    {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": ["CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateTableOptions$ebnf$1$subexpression$1", "symbols": ["CreateTableOption", "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "CreateTableOptions$ebnf$1", "symbols": ["CreateTableOptions$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateTableOptions$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOptions", "symbols": ["CreateTableOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                engine: undefined,
+                maxRows: undefined,
+            };
+            for (const item of arr) {
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTableOptions,
+                ...result,
+            };
+        } },
     {"name": "CreateTableStatement$ebnf$1", "symbols": [TEMPORARY], "postprocess": id},
     {"name": "CreateTableStatement$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "CreateTableStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
     {"name": "CreateTableStatement$ebnf$2", "symbols": ["CreateTableStatement$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "CreateTableStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableDefinitionList"], "postprocess":  (data) => {
-            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions] = data;
+    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableDefinitionList", "CreateTableOptions"], "postprocess":  (data) => {
+            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
@@ -3232,6 +3288,7 @@ export var ParserRules: NearleyRule[] = [
                 ifNotExists: ifNotExists != null,
                 tableIdentifier,
                 createTableDefinitions,
+                createTableOptions,
             };
         } },
     {"name": "DelimiterStatement", "symbols": [DELIMITER_STATEMENT, CustomDelimiter], "postprocess":  (data) => {

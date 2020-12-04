@@ -1,0 +1,23 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    ENGINE 'InnoDB';
+
+CREATE TABLE T (
+    X BOOLEAN
+)
+    ENGINE 'CROSS';
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    ENGINE = 'InnoDB';
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    ENGINE = 'CROSS';
+
+-----
+[]

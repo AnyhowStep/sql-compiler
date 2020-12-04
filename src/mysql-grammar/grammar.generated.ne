@@ -3017,9 +3017,55 @@ IndexDefinition ->
     };
 } %}
 
+CreateTableOption ->
+    %ENGINE %Equal:? (Identifier | StringLiteral) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        engine: data[2][0],
+    };
+} %}
+    | %MAX_ROWS %Equal:? IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        maxRows: data[2],
+    };
+} %}
+
+CreateTableOptions ->
+    (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        engine: undefined,
+        maxRows: undefined,
+    };
+    for (const item of arr) {
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTableOptions,
+        ...result,
+    };
+} %}
+
 CreateTableStatement ->
-    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList {% (data) => {
-    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions] = data;
+    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList CreateTableOptions {% (data) => {
+    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
@@ -3027,6 +3073,7 @@ CreateTableStatement ->
         ifNotExists: ifNotExists != null,
         tableIdentifier,
         createTableDefinitions,
+        createTableOptions,
     };
 } %}
 

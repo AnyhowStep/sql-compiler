@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    ENGINE MyISAM
+    ENGINE InnoDB;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    ENGINE = `InnoDB`;
+
+-----
+[]

@@ -1,0 +1,15 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    ENGINE = MyISAM,
+    MAX_ROWS = 123456;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    ENGINE = `MyISAM`
+    MAX_ROWS = 123456;
+
+-----
+[]

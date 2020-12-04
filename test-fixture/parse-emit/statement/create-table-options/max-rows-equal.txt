@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    MAX_ROWS = 1;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    MAX_ROWS = 1;
+
+-----
+[]

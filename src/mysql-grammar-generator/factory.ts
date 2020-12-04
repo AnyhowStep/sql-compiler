@@ -23,6 +23,7 @@ import {
     IndexOption,
     IndexTypeNode,
     IntegerDataTypeModifier,
+    CreateTableOption,
 } from "./custom-data";
 import {SyntaxKindToNode} from "./syntax-kind-to-node.generated";
 
@@ -49,6 +50,7 @@ export enum CustomSyntaxKind {
     StringList,
     IdentifierList,
     ColumnCheckDefinition,
+    CreateTableOption,
 }
 
 declare module "../nearley-wrapper" {
@@ -81,6 +83,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.StringList] : NodeArray<StringLiteral|HexLiteral|BitLiteral>,
         [CustomSyntaxKind.IdentifierList] : NodeArray<Identifier>,
         [CustomSyntaxKind.ColumnCheckDefinition] : CheckDefinition,
+        [CustomSyntaxKind.CreateTableOption] : CreateTableOption,
     }
 
     interface CustomToken extends Array<TokenKind> {

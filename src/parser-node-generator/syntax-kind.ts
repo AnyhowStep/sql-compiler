@@ -69,6 +69,7 @@ export const syntaxKinds = [
     "PrimaryKeyDefinition",
     "ForeignKeyDefinition",
     "CheckDefinition",
+    "CreateTableOptions",
 
     "SetStatement",
     "Assignment",
