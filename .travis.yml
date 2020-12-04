@@ -1,0 +1,34 @@
+language: node_js
+
+node_js:
+  - 'node'
+  - '11'
+  - '12'
+  - '13'
+  - '14'
+
+branches:
+  only:
+  - /.*/
+
+
+install:
+  - npm install
+
+cache:
+  directories:
+    - node_modules
+
+git:
+  depth: 1
+
+script:
+  - npm run generate
+  - npm run generate-grammar-macro
+  - npm run generate-grammar-mysql
+  - npm run build
+  - npm run coverage
+  - npm install codecov
+
+after_success:
+  - ./node_modules/.bin/c8 report --reporter=text-lcov | ./node_modules/.bin/codecov --pipe

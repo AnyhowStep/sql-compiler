@@ -5,18 +5,15 @@
   "main": "./dist/language-client/extension",
   "scripts": {
     "test": "mocha dist/test -u tdd --recursive",
-    "coverage": "nyc --reporter=html --reporter=text mocha dist/test -u tdd --recursive",
+    "coverage": "nyc --reporter=html --reporter=text --reporter=json mocha dist/test -u tdd --recursive",
     "scanner-generator": "ts-node ./src/scanner-generator/generator",
     "parser-node-generator": "cd ./src/parser-node-generator && ts-node -P ./tsconfig.json ./generator",
     "generate": "npm run scanner-generator && npm run parser-node-generator",
-    "nearley-compile": "cd ./src/nearley-prototype && nearleyc ./my.generated.ne -o ./my.generated.ts && echo \"//@ts-nocheck\\n$(cat ./my.generated.ts)\" > ./my.generated.ts",
-    "generate-parser": "cd ./src/nearley-prototype && ts-node -P ./tsconfig.json ./my-grammar-generator  && ts-node -P ./tsconfig.json ./my.ts && npm run nearley-compile",
-    "nearley-compile-macro": "cd ./src/nearley-prototype/macro/grammar && nearleyc ./grammar.generated.ne -o ./grammar.generated.ts && echo \"//@ts-nocheck\\n$(cat ./grammar.generated.ts)\" > ./grammar.generated.ts",
     "generate-grammar-macro": "cd ./src/macro-grammar-generator && ts-node -P ./tsconfig.json ./generator",
     "generate-grammar-mysql": "cd ./src/mysql-grammar-generator && ts-node -P ./tsconfig.json ./generator",
     "build": "tsc -b"
   },
-  "author": "",
+  "author": "AnyhowStep",
   "license": "MIT",
   "devDependencies": {
     "@types/mocha": "^8.0.3",
