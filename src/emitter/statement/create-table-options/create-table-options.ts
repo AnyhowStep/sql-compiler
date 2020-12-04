@@ -34,4 +34,15 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 .append("MIN_ROWS = ")
                 .appendBuilder(emitExpression(options.minRows))
         })
+        .scope(builder => {
+            if (options.averageRowLength == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("AVG_ROW_LENGTH = ")
+                .appendBuilder(emitExpression(options.averageRowLength))
+        })
 }

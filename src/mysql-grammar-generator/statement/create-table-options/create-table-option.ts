@@ -48,3 +48,16 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             };
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.AVG_ROW_LENGTH,
+            optional(TokenKind.Equal),
+            SyntaxKind.IntegerLiteral
+        ] as const,
+        (data) : CreateTableOption => {
+            return {
+                ...getTextRange(data),
+                averageRowLength : data[2],
+            };
+        }
+    )

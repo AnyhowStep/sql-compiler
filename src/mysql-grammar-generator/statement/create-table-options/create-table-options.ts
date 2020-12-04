@@ -36,6 +36,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 engine : undefined,
                 maxRows : undefined,
                 minRows : undefined,
+                averageRowLength : undefined,
             };
 
             for (const item of arr) {

@@ -12,7 +12,12 @@ export interface CreateTableOptions extends Node {
     syntaxKind : SyntaxKind.CreateTableOptions;
     /*
     autoIncrement;
-    averageRowLength;
+    */
+    /**
+     * The maximum MAX_ROWS value is 4294967295; larger values are **ignored**.
+     */
+    averageRowLength : IntegerLiteral|undefined;
+    /*
     characterSet;
     checksum;
     collate;
@@ -42,6 +47,8 @@ export interface CreateTableOptions extends Node {
      */
     maxRows : IntegerLiteral|undefined;
     /**
+     * The maximum MIN_ROWS value is 4294967295; larger values are truncated to this limit.
+     *
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5928
      */
     minRows : IntegerLiteral|undefined;

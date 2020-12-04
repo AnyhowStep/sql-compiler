@@ -3036,6 +3036,12 @@ CreateTableOption ->
         minRows: data[2],
     };
 } %}
+    | %AVG_ROW_LENGTH %Equal:? IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        averageRowLength: data[2],
+    };
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3054,6 +3060,7 @@ CreateTableOptions ->
         engine: undefined,
         maxRows: undefined,
         minRows: undefined,
+        averageRowLength: undefined,
     };
     for (const item of arr) {
         for (const k of Object.keys(item)) {

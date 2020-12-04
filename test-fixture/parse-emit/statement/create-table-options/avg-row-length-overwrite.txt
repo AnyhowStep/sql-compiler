@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    AVG_ROW_LENGTH 1
+    AVG_ROW_LENGTH 2;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    AVG_ROW_LENGTH = 2;
+
+-----
+[]
