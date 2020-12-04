@@ -56,4 +56,26 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 .append("PASSWORD = ")
                 .appendBuilder(emitExpression(options.password))
         })
+        .scope(builder => {
+            if (options.comment == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("COMMENT = ")
+                .appendBuilder(emitExpression(options.comment))
+        })
+        .scope(builder => {
+            if (options.compression == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("COMPRESSION = ")
+                .appendBuilder(emitExpression(options.compression))
+        })
 }

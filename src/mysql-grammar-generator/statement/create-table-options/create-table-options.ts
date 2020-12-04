@@ -38,6 +38,8 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 minRows : undefined,
                 averageRowLength : undefined,
                 password : undefined,
+                comment : undefined,
+                compression : undefined,
             };
 
             for (const item of arr) {

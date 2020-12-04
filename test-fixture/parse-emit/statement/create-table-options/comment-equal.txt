@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    COMMENT = 'pw';
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    COMMENT = 'pw';
+
+-----
+[]

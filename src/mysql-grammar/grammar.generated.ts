@@ -3260,6 +3260,22 @@ export var ParserRules: NearleyRule[] = [
                 password: data[2],
             };
         } },
+    {"name": "CreateTableOption$ebnf$6", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [COMMENT, "CreateTableOption$ebnf$6", "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                comment: data[2],
+            };
+        } },
+    {"name": "CreateTableOption$ebnf$7", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [COMPRESSION, "CreateTableOption$ebnf$7", "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                compression: data[2],
+            };
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3286,6 +3302,8 @@ export var ParserRules: NearleyRule[] = [
                 minRows: undefined,
                 averageRowLength: undefined,
                 password: undefined,
+                comment: undefined,
+                compression: undefined,
             };
             for (const item of arr) {
                 for (const k of Object.keys(item)) {

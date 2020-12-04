@@ -21,8 +21,15 @@ export interface CreateTableOptions extends Node {
     characterSet;
     checksum;
     collate;
-    comment;
-    compression;
+    */
+    comment : StringLiteral|undefined;
+    /**
+     * Supported values include Zlib, LZ4, and None.
+     *
+     * https://dev.mysql.com/doc/refman/5.7/en/create-table.html
+     */
+    compression : StringLiteral|undefined;
+    /*
     connection;
     dataDirectory;
     indexDirectory;

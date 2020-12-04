@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    COMPRESSION = 'a';
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    COMPRESSION = 'a';
+
+-----
+[]

@@ -74,3 +74,29 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             };
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.COMMENT,
+            optional(TokenKind.Equal),
+            SyntaxKind.StringLiteral
+        ] as const,
+        (data) : CreateTableOption => {
+            return {
+                ...getTextRange(data),
+                comment : data[2],
+            };
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.COMPRESSION,
+            optional(TokenKind.Equal),
+            SyntaxKind.StringLiteral
+        ] as const,
+        (data) : CreateTableOption => {
+            return {
+                ...getTextRange(data),
+                compression : data[2],
+            };
+        }
+    )

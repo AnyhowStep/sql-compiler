@@ -3048,6 +3048,18 @@ CreateTableOption ->
         password: data[2],
     };
 } %}
+    | %COMMENT %Equal:? StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        comment: data[2],
+    };
+} %}
+    | %COMPRESSION %Equal:? StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        compression: data[2],
+    };
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3068,6 +3080,8 @@ CreateTableOptions ->
         minRows: undefined,
         averageRowLength: undefined,
         password: undefined,
+        comment: undefined,
+        compression: undefined,
     };
     for (const item of arr) {
         for (const k of Object.keys(item)) {
