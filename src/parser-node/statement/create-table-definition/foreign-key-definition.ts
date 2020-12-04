@@ -8,6 +8,7 @@ export interface ForeignKeyDefinition extends CreateTableDefinition {
     syntaxKind : SyntaxKind.ForeignKeyDefinition;
 
     constraintName : Identifier|undefined;
+    indexName : Identifier|undefined;
     columns : NodeArray<Identifier>;
 
     foreignKeyReferenceDefinition : ForeignKeyReferenceDefinition,

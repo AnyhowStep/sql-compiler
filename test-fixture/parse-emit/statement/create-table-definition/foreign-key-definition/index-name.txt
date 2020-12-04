@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    FOREIGN KEY FK (X) REFERENCES U (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    FOREIGN KEY `FK` (`X`) REFERENCES `U` (`X`)
+);
+
+-----
+[]

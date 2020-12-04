@@ -2650,6 +2650,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["IndexDefinition"]},
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["CheckDefinition"]},
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["PrimaryKeyDefinition"]},
+    {"name": "CreateTableDefinition$subexpression$1", "symbols": ["ForeignKeyDefinition"]},
     {"name": "CreateTableDefinition", "symbols": ["CreateTableDefinition$subexpression$1"], "postprocess": (data) => data[0][0]},
     {"name": "CreateTableDefinitionList$ebnf$1", "symbols": []},
     {"name": "CreateTableDefinitionList$ebnf$1$subexpression$1", "symbols": [Comma, "CreateTableDefinition"]},
@@ -2662,6 +2663,24 @@ export var ParserRules: NearleyRule[] = [
                 return "syntaxKind" in x;
             });
             return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "ForeignKeyDefinition$ebnf$1", "symbols": ["Constraint"], "postprocess": id},
+    {"name": "ForeignKeyDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "ForeignKeyDefinition$ebnf$2", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "ForeignKeyDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "ForeignKeyDefinition", "symbols": ["ForeignKeyDefinition$ebnf$1", FOREIGN, KEY, "ForeignKeyDefinition$ebnf$2", "IdentifierList", "ForeignKeyReferenceDefinition"], "postprocess":  function (data) {
+            const [constraintName, , , indexName, columns, foreignKeyReferenceDefinition] = data;
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.ForeignKeyDefinition,
+                constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
+                    constraintName :
+                    undefined),
+                indexName: (constraintName != undefined && "syntaxKind" in constraintName ?
+                    constraintName : indexName !== null && indexName !== void 0 ? indexName : undefined),
+                columns,
+                foreignKeyReferenceDefinition,
+                ...parse_util_1.getTextRange(data),
+            };
         } },
     {"name": "ReferenceOption$subexpression$1$subexpression$1", "symbols": [RESTRICT]},
     {"name": "ReferenceOption$subexpression$1", "symbols": ["ReferenceOption$subexpression$1$subexpression$1"]},

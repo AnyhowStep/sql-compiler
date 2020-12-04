@@ -14,6 +14,7 @@ makeCustomRule(CustomSyntaxKind.CreateTableDefinition)
             SyntaxKind.IndexDefinition,
             SyntaxKind.CheckDefinition,
             SyntaxKind.PrimaryKeyDefinition,
+            SyntaxKind.ForeignKeyDefinition,
         )] as const,
         (data) : CreateTableDefinition => data[0][0]
     );

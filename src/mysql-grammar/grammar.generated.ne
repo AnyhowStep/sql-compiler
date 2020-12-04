@@ -2547,7 +2547,7 @@ ColumnCheckDefinition ->
 } %}
 
 CreateTableDefinition ->
-    (ColumnDefinition | IndexDefinition | CheckDefinition | PrimaryKeyDefinition) {% (data) => data[0][0] %}
+    (ColumnDefinition | IndexDefinition | CheckDefinition | PrimaryKeyDefinition | ForeignKeyDefinition) {% (data) => data[0][0] %}
 
 CreateTableDefinitionList ->
     %OpenParentheses CreateTableDefinition (%Comma CreateTableDefinition):* %CloseParentheses {% (data) => {
@@ -2558,6 +2558,22 @@ CreateTableDefinitionList ->
         return "syntaxKind" in x;
     });
     return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, parse_util_1.getTextRange(data));
+} %}
+
+ForeignKeyDefinition ->
+    Constraint:? %FOREIGN %KEY Identifier:? IdentifierList ForeignKeyReferenceDefinition {% function (data) {
+    const [constraintName, , , indexName, columns, foreignKeyReferenceDefinition] = data;
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.ForeignKeyDefinition,
+        constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
+            constraintName :
+            undefined),
+        indexName: (constraintName != undefined && "syntaxKind" in constraintName ?
+            constraintName : indexName !== null && indexName !== void 0 ? indexName : undefined),
+        columns,
+        foreignKeyReferenceDefinition,
+        ...parse_util_1.getTextRange(data),
+    };
 } %}
 
 ReferenceOption ->
