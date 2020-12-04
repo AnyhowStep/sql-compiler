@@ -99,7 +99,7 @@ makeCustomRule(CustomSyntaxKind.RealPrecision)
         function (data) : Precision {
             const result = data[0];
 
-            if (result.precision.value == 0n || result.precision.value > 255n) {
+            if (result.precision.value == BigInt(0) || result.precision.value > BigInt(255)) {
                 pushSyntacticErrorAt(
                     result.precision,
                     result.precision.start,
@@ -110,8 +110,8 @@ makeCustomRule(CustomSyntaxKind.RealPrecision)
             }
 
             const maxScale = (
-                result.precision.value > 30n ?
-                30n :
+                result.precision.value > BigInt(30) ?
+                BigInt(30) :
                 result.precision.value
             );
 
@@ -139,7 +139,7 @@ makeCustomRule(CustomSyntaxKind.DecimalPrecision)
             /**
              * https://dev.mysql.com/doc/refman/5.7/en/fixed-point-types.html
              */
-            if (result.precision.value > 65n) {
+            if (result.precision.value > BigInt(65)) {
                 pushSyntacticErrorAt(
                     result.precision,
                     result.precision.start,
@@ -150,8 +150,8 @@ makeCustomRule(CustomSyntaxKind.DecimalPrecision)
             }
 
             const maxScale = (
-                result.precision.value > 30n ?
-                30n :
+                result.precision.value > BigInt(30) ?
+                BigInt(30) :
                 result.precision.value
             );
 

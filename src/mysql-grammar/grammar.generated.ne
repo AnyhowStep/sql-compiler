@@ -1377,18 +1377,17 @@ BinaryDataType ->
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.BinaryDataType,
         variableLength: dataType.tokenKind == scanner_1.TokenKind.VARBINARY,
-        maxLength: (maxLength ??
-            {
+        maxLength: (maxLength !== null && maxLength !== void 0 ? maxLength : {
+            start: dataType.end,
+            end: dataType.end,
+            syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+            length: {
                 start: dataType.end,
                 end: dataType.end,
-                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                length: {
-                    start: dataType.end,
-                    end: dataType.end,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(1),
-                },
-            }),
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value: BigInt(1),
+            },
+        }),
     };
     if (result.variableLength &&
         maxLength == undefined) {
@@ -1447,16 +1446,16 @@ BlobDataType ->
     const [, fieldLength] = data;
     const result = {
         syntaxKind: parser_node_1.SyntaxKind.BlobDataType,
-        lengthBytes: (fieldLength.length.value < (1n << 8n) ?
+        lengthBytes: (fieldLength.length.value < (BigInt(1) << BigInt(8)) ?
             8 :
-            fieldLength.length.value < (1n << 16n) ?
+            fieldLength.length.value < (BigInt(1) << BigInt(16)) ?
                 16 :
-                fieldLength.length.value < (1n << 24n) ?
+                fieldLength.length.value < (BigInt(1) << BigInt(24)) ?
                     24 :
                     32),
         ...parse_util_1.getTextRange(data),
     };
-    if (fieldLength.length.value >= (1n << 32n)) {
+    if (fieldLength.length.value >= (BigInt(1) << BigInt(32))) {
         parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidBlobDataTypeBytes);
     }
     return result;
@@ -1477,8 +1476,8 @@ CharacterDataTypeModifier ->
         collate: undefined,
         ...parse_util_1.getTextRange([characterSet, collate]),
     }, {
-        characterSet: characterSet?.[1],
-        collate: collate?.[1],
+        characterSet: characterSet === null || characterSet === void 0 ? void 0 : characterSet[1],
+        collate: collate === null || collate === void 0 ? void 0 : collate[1],
     });
 } %}
     | %ASCII {% function (data) {
@@ -1666,6 +1665,7 @@ CharStart ->
 
 CharacterDataType ->
     (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {
+    var _a;
     const [[char], maxLength, modifier] = data;
     if (char.nationalCharacterSet != undefined &&
         modifier.characterSet != undefined) {
@@ -1688,8 +1688,7 @@ CharacterDataType ->
                 },
             } :
             maxLength),
-        characterSet: (char.nationalCharacterSet ??
-            modifier.characterSet),
+        characterSet: ((_a = char.nationalCharacterSet) !== null && _a !== void 0 ? _a : modifier.characterSet),
         collate: modifier.collate,
         binary: modifier.binary,
     };
@@ -1717,18 +1716,17 @@ DateTimeDataType ->
     const result = {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.DateTimeDataType,
-        fractionalSecondPrecision: (fractionalSecondPrecision ??
-            {
+        fractionalSecondPrecision: (fractionalSecondPrecision !== null && fractionalSecondPrecision !== void 0 ? fractionalSecondPrecision : {
+            start: dataType.end,
+            end: dataType.end,
+            syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+            length: {
                 start: dataType.end,
                 end: dataType.end,
-                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                length: {
-                    start: dataType.end,
-                    end: dataType.end,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(0),
-                },
-            }),
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value: BigInt(0),
+            },
+        }),
     };
     return result;
 } %}
@@ -1747,13 +1745,13 @@ DecimalDataType ->
                 syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
                 start: fieldLength.length.end,
                 end: fieldLength.length.end,
-                value: 0n,
+                value: BigInt(0),
             },
         },
         ...modifier,
         ...parse_util_1.getTextRange(data),
     };
-    if (fieldLength.length.value > 65n) {
+    if (fieldLength.length.value > BigInt(65)) {
         parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.DecimalPrecisionTooHigh);
     }
     return result;
@@ -1789,13 +1787,13 @@ DecimalDataType ->
                 syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
                 start: dataTextRange.end,
                 end: dataTextRange.end,
-                value: 10n,
+                value: BigInt(10),
             },
             scale: {
                 syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
                 start: dataTextRange.end,
                 end: dataTextRange.end,
-                value: 0n,
+                value: BigInt(0),
             },
         },
         ...modifier,
@@ -1817,7 +1815,7 @@ RealDataType ->
     return {
         syntaxKind: parser_node_1.SyntaxKind.RealDataType,
         bytes,
-        precision: precision ?? undefined,
+        precision: precision !== null && precision !== void 0 ? precision : undefined,
         ...modifier,
         ...parse_util_1.getTextRange(data),
     };
@@ -1843,14 +1841,14 @@ EnumDataType ->
 RealDataType ->
     %FLOAT FieldLength IntegerDataTypeModifier {% function (data) {
     const [, fieldLength, modifier] = data;
-    const bytes = (fieldLength.length.value <= 24n ?
+    const bytes = (fieldLength.length.value <= BigInt(24) ?
         4 :
-        fieldLength.length.value <= 53n ?
+        fieldLength.length.value <= BigInt(53) ?
             8 :
             undefined);
     const result = {
         syntaxKind: parser_node_1.SyntaxKind.RealDataType,
-        bytes: bytes ?? 8,
+        bytes: bytes !== null && bytes !== void 0 ? bytes : 8,
         precision: undefined,
         ...modifier,
         ...parse_util_1.getTextRange(data),
@@ -2010,11 +2008,11 @@ TextDataType ->
     const [, fieldLength, modifier] = data;
     const result = {
         syntaxKind: parser_node_1.SyntaxKind.TextDataType,
-        lengthBytes: (fieldLength.length.value < (1n << 8n) ?
+        lengthBytes: (fieldLength.length.value < (BigInt(1) << BigInt(8)) ?
             8 :
-            fieldLength.length.value < (1n << 16n) ?
+            fieldLength.length.value < (BigInt(1) << BigInt(16)) ?
                 16 :
-                fieldLength.length.value < (1n << 24n) ?
+                fieldLength.length.value < (BigInt(1) << BigInt(24)) ?
                     24 :
                     32),
         characterSet: modifier.characterSet,
@@ -2022,7 +2020,7 @@ TextDataType ->
         binary: modifier.binary,
         ...parse_util_1.getTextRange(data),
     };
-    if (fieldLength.length.value >= (1n << 32n)) {
+    if (fieldLength.length.value >= (BigInt(1) << BigInt(32))) {
         parse_util_1.pushSyntacticErrorAt(result, fieldLength.length.start, fieldLength.length.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidTextDataTypeBytes);
     }
     return result;
@@ -2034,18 +2032,17 @@ TimeDataType ->
     const result = {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.TimeDataType,
-        fractionalSecondPrecision: (fractionalSecondPrecision ??
-            {
+        fractionalSecondPrecision: (fractionalSecondPrecision !== null && fractionalSecondPrecision !== void 0 ? fractionalSecondPrecision : {
+            start: dataType.end,
+            end: dataType.end,
+            syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+            length: {
                 start: dataType.end,
                 end: dataType.end,
-                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                length: {
-                    start: dataType.end,
-                    end: dataType.end,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(0),
-                },
-            }),
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value: BigInt(0),
+            },
+        }),
     };
     return result;
 } %}
@@ -2056,18 +2053,17 @@ TimestampDataType ->
     const result = {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.TimestampDataType,
-        fractionalSecondPrecision: (fractionalSecondPrecision ??
-            {
+        fractionalSecondPrecision: (fractionalSecondPrecision !== null && fractionalSecondPrecision !== void 0 ? fractionalSecondPrecision : {
+            start: dataType.end,
+            end: dataType.end,
+            syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+            length: {
                 start: dataType.end,
                 end: dataType.end,
-                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                length: {
-                    start: dataType.end,
-                    end: dataType.end,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(0),
-                },
-            }),
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value: BigInt(0),
+            },
+        }),
     };
     return result;
 } %}
@@ -2078,21 +2074,20 @@ YearDataType ->
     const result = {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.YearDataType,
-        fieldLength: (fieldLength ??
-            {
+        fieldLength: (fieldLength !== null && fieldLength !== void 0 ? fieldLength : {
+            start: dataType.end,
+            end: dataType.end,
+            syntaxKind: parser_node_1.SyntaxKind.FieldLength,
+            length: {
                 start: dataType.end,
                 end: dataType.end,
-                syntaxKind: parser_node_1.SyntaxKind.FieldLength,
-                length: {
-                    start: dataType.end,
-                    end: dataType.end,
-                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                    value: BigInt(4),
-                },
-            }),
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value: BigInt(4),
+            },
+        }),
     };
     if (fieldLength != undefined &&
-        fieldLength.length.value != 4n) {
+        fieldLength.length.value != BigInt(4)) {
         parse_util_1.pushSyntacticErrorAt(result, dataType.end, dataType.end, [dataType], diagnostic_messages_1.DiagnosticMessages.YearFieldLengthMustBe4);
     }
     return result;
@@ -2302,7 +2297,8 @@ Comment ->
 
 Constraint ->
     %CONSTRAINT Identifier:? {% (data) => {
-    return data[1] ?? parse_util_1.getTextRange(data);
+    var _a;
+    return (_a = data[1]) !== null && _a !== void 0 ? _a : parse_util_1.getTextRange(data);
 } %}
 
 
@@ -2319,7 +2315,7 @@ CurrentTimestamp ->
             length: {
                 ...textRange,
                 syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                value: 0n,
+                value: BigInt(0),
             },
         },
     };
@@ -2335,7 +2331,7 @@ CurrentTimestamp ->
             length: {
                 ...textRange,
                 syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                value: 0n,
+                value: BigInt(0),
             },
         },
     };
@@ -2464,11 +2460,11 @@ Precision ->
 RealPrecision ->
     Precision {% function (data) {
     const result = data[0];
-    if (result.precision.value == 0n || result.precision.value > 255n) {
+    if (result.precision.value == BigInt(0) || result.precision.value > BigInt(255)) {
         parse_util_1.pushSyntacticErrorAt(result.precision, result.precision.start, result.precision.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypePrecision);
     }
-    const maxScale = (result.precision.value > 30n ?
-        30n :
+    const maxScale = (result.precision.value > BigInt(30) ?
+        BigInt(30) :
         result.precision.value);
     if (result.scale.value > maxScale) {
         parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidRealDataTypeScale, maxScale.toString());
@@ -2482,11 +2478,11 @@ DecimalPrecision ->
     /**
      * https://dev.mysql.com/doc/refman/5.7/en/fixed-point-types.html
      */
-    if (result.precision.value > 65n) {
+    if (result.precision.value > BigInt(65)) {
         parse_util_1.pushSyntacticErrorAt(result.precision, result.precision.start, result.precision.end, [], diagnostic_messages_1.DiagnosticMessages.DecimalPrecisionTooHigh);
     }
-    const maxScale = (result.precision.value > 30n ?
-        30n :
+    const maxScale = (result.precision.value > BigInt(30) ?
+        BigInt(30) :
         result.precision.value);
     if (result.scale.value > maxScale) {
         parse_util_1.pushSyntacticErrorAt(result.scale, result.scale.start, result.scale.end, [], diagnostic_messages_1.DiagnosticMessages.InvalidDataTypeScale, maxScale.toString());
@@ -2638,13 +2634,13 @@ IndexDefinition ->
         indexClass: (indexClass[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
             parser_node_1.IndexClass.FULLTEXT :
             parser_node_1.IndexClass.SPATIAL),
-        indexName: indexName ?? undefined,
+        indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
         indexParts,
         ...indexOption,
         ...parse_util_1.getTextRange(data),
     };
     if (indexOption.indexType != undefined) {
-        parse_util_1.pushSyntacticErrorAt(indexName ?? result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
+        parse_util_1.pushSyntacticErrorAt(indexName !== null && indexName !== void 0 ? indexName : result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
     }
     return result;
 } %}
@@ -2767,7 +2763,7 @@ IndexDefinition ->
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: undefined,
         indexClass: parser_node_1.IndexClass.INDEX,
-        indexName: indexName ?? undefined,
+        indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
         indexParts,
         ...indexOption,
         ...parse_util_1.getTextRange(data),
@@ -2922,7 +2918,7 @@ IndexDefinition ->
             constraintName :
             undefined),
         indexClass: parser_node_1.IndexClass.UNIQUE,
-        indexName: indexName ?? undefined,
+        indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
         indexParts,
         ...indexOption,
         ...parse_util_1.getTextRange(data),
@@ -2960,14 +2956,16 @@ NonDelimiterStatement ->
 
 LeadingStatement ->
     NonDelimiterStatement %SemiColon %CustomDelimiter:? {% (data) => {
-    data[0].customDelimiter = data[2]?.value ?? undefined;
+    var _a, _b;
+    data[0].customDelimiter = (_b = (_a = data[2]) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : undefined;
     return data[0];
 } %}
     | DelimiterStatement {% (data) => data[0] %}
 
 TrailingStatement ->
     NonDelimiterStatement %SemiColon:? %CustomDelimiter:? {% (data) => {
-    data[0].customDelimiter = data[2]?.value ?? undefined;
+    var _a, _b;
+    data[0].customDelimiter = (_b = (_a = data[2]) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : undefined;
     return data[0];
 } %}
     | DelimiterStatement {% (data) => data[0] %}

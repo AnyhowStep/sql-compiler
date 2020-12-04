@@ -27,7 +27,7 @@ makeCustomRule(SyntaxKind.CurrentTimestamp)
                     length : {
                         ...textRange,
                         syntaxKind : SyntaxKind.IntegerLiteral,
-                        value : 0n,
+                        value : BigInt(0),
                     },
                 },
             };
@@ -52,7 +52,7 @@ makeCustomRule(SyntaxKind.CurrentTimestamp)
                     length : {
                         ...textRange,
                         syntaxKind : SyntaxKind.IntegerLiteral,
-                        value : 0n,
+                        value : BigInt(0),
                     },
                 },
             };

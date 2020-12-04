@@ -14,9 +14,9 @@ makeCustomRule(SyntaxKind.RealDataType)
         function (data) : RealDataType {
             const [, fieldLength, modifier] = data;
             const bytes = (
-                fieldLength.length.value <= 24n ?
+                fieldLength.length.value <= BigInt(24) ?
                 4 :
-                fieldLength.length.value <= 53n ?
+                fieldLength.length.value <= BigInt(53) ?
                 8 :
                 undefined
             );

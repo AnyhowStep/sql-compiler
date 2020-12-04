@@ -15,18 +15,18 @@ makeCustomRule(SyntaxKind.BlobDataType)
             const result : BlobDataType = {
                 syntaxKind : SyntaxKind.BlobDataType,
                 lengthBytes : (
-                    fieldLength.length.value < (1n << 8n) ?
+                    fieldLength.length.value < (BigInt(1) << BigInt(8)) ?
                     8 :
-                    fieldLength.length.value < (1n << 16n) ?
+                    fieldLength.length.value < (BigInt(1) << BigInt(16)) ?
                     16 :
-                    fieldLength.length.value < (1n << 24n) ?
+                    fieldLength.length.value < (BigInt(1) << BigInt(24)) ?
                     24 :
                     32
                 ),
                 ...getTextRange(data),
             };
 
-            if (fieldLength.length.value >= (1n << 32n)) {
+            if (fieldLength.length.value >= (BigInt(1) << BigInt(32))) {
                 pushSyntacticErrorAt(
                     result,
                     fieldLength.length.start,

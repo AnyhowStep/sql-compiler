@@ -39,7 +39,7 @@ makeCustomRule(SyntaxKind.YearDataType)
 
             if (
                 fieldLength != undefined &&
-                fieldLength.length.value != 4n
+                fieldLength.length.value != BigInt(4)
             ) {
                 pushSyntacticErrorAt(
                     result,

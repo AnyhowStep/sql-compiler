@@ -31,14 +31,14 @@ makeCustomRule(SyntaxKind.DecimalDataType)
                         syntaxKind : SyntaxKind.IntegerLiteral,
                         start : fieldLength.length.end,
                         end : fieldLength.length.end,
-                        value : 0n,
+                        value : BigInt(0),
                     },
                 },
                 ...modifier,
                 ...getTextRange(data),
             };
 
-            if (fieldLength.length.value > 65n) {
+            if (fieldLength.length.value > BigInt(65)) {
                 pushSyntacticErrorAt(
                     result,
                     fieldLength.length.start,
@@ -108,13 +108,13 @@ makeCustomRule(SyntaxKind.DecimalDataType)
                         syntaxKind : SyntaxKind.IntegerLiteral,
                         start : dataTextRange.end,
                         end : dataTextRange.end,
-                        value : 10n,
+                        value : BigInt(10),
                     },
                     scale : {
                         syntaxKind : SyntaxKind.IntegerLiteral,
                         start : dataTextRange.end,
                         end : dataTextRange.end,
-                        value : 0n,
+                        value : BigInt(0),
                     },
                 },
                 ...modifier,
