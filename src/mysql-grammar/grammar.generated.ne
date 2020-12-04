@@ -3030,6 +3030,12 @@ CreateTableOption ->
         maxRows: data[2],
     };
 } %}
+    | %MIN_ROWS %Equal:? IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        minRows: data[2],
+    };
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3047,6 +3053,7 @@ CreateTableOptions ->
     const result = {
         engine: undefined,
         maxRows: undefined,
+        minRows: undefined,
     };
     for (const item of arr) {
         for (const k of Object.keys(item)) {

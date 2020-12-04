@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    MIN_ROWS 1
+    MIN_ROWS 2;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    MIN_ROWS = 2;
+
+-----
+[]

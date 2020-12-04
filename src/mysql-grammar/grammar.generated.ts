@@ -3236,6 +3236,14 @@ export var ParserRules: NearleyRule[] = [
                 maxRows: data[2],
             };
         } },
+    {"name": "CreateTableOption$ebnf$3", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [MIN_ROWS, "CreateTableOption$ebnf$3", "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                minRows: data[2],
+            };
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3259,6 +3267,7 @@ export var ParserRules: NearleyRule[] = [
             const result = {
                 engine: undefined,
                 maxRows: undefined,
+                minRows: undefined,
             };
             for (const item of arr) {
                 for (const k of Object.keys(item)) {

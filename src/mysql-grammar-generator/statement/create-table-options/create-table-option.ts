@@ -35,3 +35,16 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             };
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.MIN_ROWS,
+            optional(TokenKind.Equal),
+            SyntaxKind.IntegerLiteral
+        ] as const,
+        (data) : CreateTableOption => {
+            return {
+                ...getTextRange(data),
+                minRows : data[2],
+            };
+        }
+    )

@@ -23,4 +23,15 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 .append("MAX_ROWS = ")
                 .appendBuilder(emitExpression(options.maxRows))
         })
+        .scope(builder => {
+            if (options.minRows == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("MIN_ROWS = ")
+                .appendBuilder(emitExpression(options.minRows))
+        })
 }

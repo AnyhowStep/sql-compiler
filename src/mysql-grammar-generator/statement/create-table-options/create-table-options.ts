@@ -35,6 +35,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
             const result : Omit<CreateTableOptions, keyof Node> = {
                 engine : undefined,
                 maxRows : undefined,
+                minRows : undefined,
             };
 
             for (const item of arr) {
