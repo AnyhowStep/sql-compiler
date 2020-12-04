@@ -29,6 +29,7 @@ script:
   - npm run build
   - npm run coverage
   - npm install codecov
+  - npm install c8
 
 after_success:
-  - ./node_modules/.bin/c8 report --reporter=text-lcov | ./node_modules/.bin/codecov --pipe
+  - ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/codecov --pipe
