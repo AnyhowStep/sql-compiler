@@ -3042,6 +3042,12 @@ CreateTableOption ->
         averageRowLength: data[2],
     };
 } %}
+    | %PASSWORD %Equal:? StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        password: data[2],
+    };
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3061,6 +3067,7 @@ CreateTableOptions ->
         maxRows: undefined,
         minRows: undefined,
         averageRowLength: undefined,
+        password: undefined,
     };
     for (const item of arr) {
         for (const k of Object.keys(item)) {

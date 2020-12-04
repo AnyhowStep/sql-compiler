@@ -61,3 +61,16 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             };
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.PASSWORD,
+            optional(TokenKind.Equal),
+            SyntaxKind.StringLiteral
+        ] as const,
+        (data) : CreateTableOption => {
+            return {
+                ...getTextRange(data),
+                password : data[2],
+            };
+        }
+    )

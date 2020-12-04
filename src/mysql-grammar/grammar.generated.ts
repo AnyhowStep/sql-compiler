@@ -3252,6 +3252,14 @@ export var ParserRules: NearleyRule[] = [
                 averageRowLength: data[2],
             };
         } },
+    {"name": "CreateTableOption$ebnf$5", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [PASSWORD, "CreateTableOption$ebnf$5", "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                password: data[2],
+            };
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3277,6 +3285,7 @@ export var ParserRules: NearleyRule[] = [
                 maxRows: undefined,
                 minRows: undefined,
                 averageRowLength: undefined,
+                password: undefined,
             };
             for (const item of arr) {
                 for (const k of Object.keys(item)) {

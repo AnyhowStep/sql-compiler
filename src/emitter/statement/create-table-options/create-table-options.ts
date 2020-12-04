@@ -45,4 +45,15 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 .append("AVG_ROW_LENGTH = ")
                 .appendBuilder(emitExpression(options.averageRowLength))
         })
+        .scope(builder => {
+            if (options.password == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("PASSWORD = ")
+                .appendBuilder(emitExpression(options.password))
+        })
 }

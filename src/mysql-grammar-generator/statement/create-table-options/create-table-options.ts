@@ -37,6 +37,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 maxRows : undefined,
                 minRows : undefined,
                 averageRowLength : undefined,
+                password : undefined,
             };
 
             for (const item of arr) {

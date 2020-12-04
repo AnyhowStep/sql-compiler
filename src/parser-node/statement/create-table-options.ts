@@ -54,7 +54,9 @@ export interface CreateTableOptions extends Node {
     minRows : IntegerLiteral|undefined;
     /*
     packKeys;
-    password;
+    */
+    password : StringLiteral|undefined;
+    /*
     rowFormat;
     statsAutoRecalc;
     statsPersistent;
