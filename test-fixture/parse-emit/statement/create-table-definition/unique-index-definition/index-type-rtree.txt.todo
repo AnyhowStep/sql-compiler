@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    UNIQUE USING RTREE (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    UNIQUE KEY (`X` ASC) USING RTREE
+);
+
+-----
+[]

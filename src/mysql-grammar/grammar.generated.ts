@@ -2626,28 +2626,23 @@ export var ParserRules: NearleyRule[] = [
                 createSchemaOptions,
             };
         } },
-    {"name": "CheckDefinition$ebnf$1$subexpression$1", "symbols": [CONSTRAINT, "Identifier"]},
-    {"name": "CheckDefinition$ebnf$1", "symbols": ["CheckDefinition$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CheckDefinition$ebnf$1", "symbols": ["Constraint"], "postprocess": id},
     {"name": "CheckDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "CheckDefinition", "symbols": ["CheckDefinition$ebnf$1", CHECK, OpenParentheses, "Expression", CloseParentheses], "postprocess":  (data) => {
-            const [constraint, , , expr,] = data;
+            const [constraintName, , , expr,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CheckDefinition,
-                constraintName: (constraint == undefined ?
-                    undefined :
-                    constraint[1]),
+                constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
+                    constraintName :
+                    undefined),
                 expr,
             };
         } },
     {"name": "ColumnCheckDefinition", "symbols": ["CheckDefinition"], "postprocess":  (data) => {
             const [checkDefinition] = data;
             if (checkDefinition.constraintName != undefined) {
-                parse_util_1.pushSyntacticErrorAt(checkDefinition, checkDefinition.start, 
-                /**
-                 * @todo Have tokens be part of the parse tree?
-                 */
-                checkDefinition.start + scanner_1.ReverseTokenKind[scanner_1.TokenKind.CONSTRAINT].length, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "CONSTRAINT");
+                parse_util_1.pushSyntacticErrorAt(checkDefinition.constraintName, checkDefinition.constraintName.start, checkDefinition.constraintName.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "CONSTRAINT");
             }
             return checkDefinition;
         } },
@@ -3095,14 +3090,30 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
-    {"name": "IndexDefinition$subexpression$3", "symbols": [INDEX]},
-    {"name": "IndexDefinition$subexpression$3", "symbols": [KEY]},
-    {"name": "IndexDefinition$ebnf$4", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$4", "symbols": ["Constraint"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition$ebnf$5", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$5$subexpression$1$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "IndexDefinition$ebnf$5$subexpression$1", "symbols": ["IndexDefinition$ebnf$5$subexpression$1$subexpression$1"]},
+    {"name": "IndexDefinition$ebnf$5$subexpression$1$subexpression$2$subexpression$1", "symbols": [INDEX]},
+    {"name": "IndexDefinition$ebnf$5$subexpression$1$subexpression$2$subexpression$1", "symbols": [KEY]},
+    {"name": "IndexDefinition$ebnf$5$subexpression$1$subexpression$2", "symbols": ["IndexDefinition$ebnf$5$subexpression$1$subexpression$2$subexpression$1", "Identifier"]},
+    {"name": "IndexDefinition$ebnf$5$subexpression$1", "symbols": ["IndexDefinition$ebnf$5$subexpression$1$subexpression$2"]},
+    {"name": "IndexDefinition$ebnf$5", "symbols": ["IndexDefinition$ebnf$5$subexpression$1"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$5", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["Constraint", UNIQUE, "IndexDefinition$subexpression$3", "IndexDefinition$ebnf$4", "IndexDefinition$ebnf$5", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
-            const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
+    {"name": "IndexDefinition$ebnf$6", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$ebnf$4", UNIQUE, "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+            const [constraintName, , rawIndexName, indexType, indexParts, rawIndexOption] = data;
+            const indexName = (rawIndexName == undefined ?
+                undefined :
+                rawIndexName[0].length == 2 ?
+                    rawIndexName[0][1] :
+                    rawIndexName[0][0].quoted ?
+                        rawIndexName[0][0] :
+                        (rawIndexName[0][0].identifier.toUpperCase() == "INDEX" ||
+                            rawIndexName[0][0].identifier.toUpperCase() == "KEY") ?
+                            undefined :
+                            rawIndexName[0][0]);
             const indexOption = (indexType == undefined ?
                 rawIndexOption :
                 rawIndexOption.indexType == undefined ?
@@ -3111,9 +3122,43 @@ export var ParserRules: NearleyRule[] = [
                         indexType: indexType.indexType,
                     } :
                     rawIndexOption);
+            if (indexOption.withParser != undefined) {
+                parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
+            }
             return {
                 syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
-                constraintName: ("syntaxKind" in constraintName ?
+                constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
+                    constraintName :
+                    undefined),
+                indexClass: parser_node_1.IndexClass.UNIQUE,
+                indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+                indexParts,
+                ...indexOption,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
+    {"name": "IndexDefinition$ebnf$7", "symbols": ["Constraint"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition$ebnf$8", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$8", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition$ebnf$9", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$9", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$ebnf$7", UNIQUE_KEY, "IndexDefinition$ebnf$8", "IndexDefinition$ebnf$9", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+            const [constraintName, , indexName, indexType, indexParts, rawIndexOption] = data;
+            const indexOption = (indexType == undefined ?
+                rawIndexOption :
+                rawIndexOption.indexType == undefined ?
+                    {
+                        ...rawIndexOption,
+                        indexType: indexType.indexType,
+                    } :
+                    rawIndexOption);
+            if (indexOption.withParser != undefined) {
+                parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
+            }
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
+                constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
                     constraintName :
                     undefined),
                 indexClass: parser_node_1.IndexClass.UNIQUE,

@@ -20,7 +20,7 @@ CREATE TABLE `T` (
     {
         "category": 0,
         "messageText": "Unexpected CONSTRAINT",
-        "start": 122,
-        "length": 10
+        "start": 133,
+        "length": 1
     }
 ]

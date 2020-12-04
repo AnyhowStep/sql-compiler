@@ -1,5 +1,5 @@
 import {CheckDefinition, SyntaxKind} from "../../../parser-node";
-import {ReverseTokenKind, TokenKind} from "../../../scanner";
+import {TokenKind} from "../../../scanner";
 import {getTextRange, pushSyntacticErrorAt} from "../../parse-util";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional} from "../../../nearley-wrapper";
@@ -12,24 +12,21 @@ import {DiagnosticMessages} from "../../diagnostic-messages";
 makeCustomRule(SyntaxKind.CheckDefinition)
     .addSubstitution(
         [
-            optional([
-                TokenKind.CONSTRAINT,
-                SyntaxKind.Identifier,
-            ] as const),
+            optional(CustomSyntaxKind.Constraint),
             TokenKind.CHECK,
             TokenKind.OpenParentheses,
             CustomSyntaxKind.Expression,
             TokenKind.CloseParentheses,
         ] as const,
         (data) : CheckDefinition => {
-            const [constraint, , , expr,] = data;
+            const [constraintName, , , expr,] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.CheckDefinition,
                 constraintName : (
-                    constraint == undefined ?
-                    undefined :
-                    constraint[1]
+                    constraintName != undefined && "syntaxKind" in constraintName ?
+                    constraintName :
+                    undefined
                 ),
                 expr,
             };
@@ -47,12 +44,9 @@ makeCustomRule(CustomSyntaxKind.ColumnCheckDefinition)
             const [checkDefinition] = data;
             if (checkDefinition.constraintName != undefined) {
                 pushSyntacticErrorAt(
-                    checkDefinition,
-                    checkDefinition.start,
-                    /**
-                     * @todo Have tokens be part of the parse tree?
-                     */
-                    checkDefinition.start + ReverseTokenKind[TokenKind.CONSTRAINT].length,
+                    checkDefinition.constraintName,
+                    checkDefinition.constraintName.start,
+                    checkDefinition.constraintName.end,
                     [],
                     DiagnosticMessages.UnexpectedSyntaxKind,
                     "CONSTRAINT"

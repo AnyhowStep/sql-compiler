@@ -2525,14 +2525,14 @@ CreateSchemaStatement ->
 } %}
 
 CheckDefinition ->
-    (%CONSTRAINT Identifier):? %CHECK %OpenParentheses Expression %CloseParentheses {% (data) => {
-    const [constraint, , , expr,] = data;
+    Constraint:? %CHECK %OpenParentheses Expression %CloseParentheses {% (data) => {
+    const [constraintName, , , expr,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CheckDefinition,
-        constraintName: (constraint == undefined ?
-            undefined :
-            constraint[1]),
+        constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
+            constraintName :
+            undefined),
         expr,
     };
 } %}
@@ -2541,11 +2541,7 @@ ColumnCheckDefinition ->
     CheckDefinition {% (data) => {
     const [checkDefinition] = data;
     if (checkDefinition.constraintName != undefined) {
-        parse_util_1.pushSyntacticErrorAt(checkDefinition, checkDefinition.start, 
-        /**
-         * @todo Have tokens be part of the parse tree?
-         */
-        checkDefinition.start + scanner_1.ReverseTokenKind[scanner_1.TokenKind.CONSTRAINT].length, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "CONSTRAINT");
+        parse_util_1.pushSyntacticErrorAt(checkDefinition.constraintName, checkDefinition.constraintName.start, checkDefinition.constraintName.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "CONSTRAINT");
     }
     return checkDefinition;
 } %}
@@ -2918,8 +2914,18 @@ ColumnDefinition ->
 } %}
 
 IndexDefinition ->
-    Constraint %UNIQUE (%INDEX | %KEY) Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
-    const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
+    Constraint:? %UNIQUE ((Identifier) | ((%INDEX | %KEY) Identifier)):? IndexType:? IndexPartList IndexOption {% function (data) {
+    const [constraintName, , rawIndexName, indexType, indexParts, rawIndexOption] = data;
+    const indexName = (rawIndexName == undefined ?
+        undefined :
+        rawIndexName[0].length == 2 ?
+            rawIndexName[0][1] :
+            rawIndexName[0][0].quoted ?
+                rawIndexName[0][0] :
+                (rawIndexName[0][0].identifier.toUpperCase() == "INDEX" ||
+                    rawIndexName[0][0].identifier.toUpperCase() == "KEY") ?
+                    undefined :
+                    rawIndexName[0][0]);
     const indexOption = (indexType == undefined ?
         rawIndexOption :
         rawIndexOption.indexType == undefined ?
@@ -2928,9 +2934,37 @@ IndexDefinition ->
                 indexType: indexType.indexType,
             } :
             rawIndexOption);
+    if (indexOption.withParser != undefined) {
+        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
+    }
     return {
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
-        constraintName: ("syntaxKind" in constraintName ?
+        constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
+            constraintName :
+            undefined),
+        indexClass: parser_node_1.IndexClass.UNIQUE,
+        indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+        indexParts,
+        ...indexOption,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+    | Constraint:? %UNIQUE_KEY Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
+    const [constraintName, , indexName, indexType, indexParts, rawIndexOption] = data;
+    const indexOption = (indexType == undefined ?
+        rawIndexOption :
+        rawIndexOption.indexType == undefined ?
+            {
+                ...rawIndexOption,
+                indexType: indexType.indexType,
+            } :
+            rawIndexOption);
+    if (indexOption.withParser != undefined) {
+        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
+    }
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
+        constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
             constraintName :
             undefined),
         indexClass: parser_node_1.IndexClass.UNIQUE,

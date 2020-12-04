@@ -1,0 +1,36 @@
+CREATE TABLE T (
+    X BOOL,
+    UNIQUE KEY CROSS (X)
+);
+
+CREATE TABLE T (
+    X BOOL,
+    UNIQUE INDEX CROSS (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    UNIQUE KEY `CROSS` (`X` ASC)
+);
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    UNIQUE KEY `CROSS` (`X` ASC)
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 44,
+        "length": 5
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 104,
+        "length": 5
+    }
+]

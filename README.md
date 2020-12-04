@@ -102,3 +102,9 @@ EXPAND_PARSE_EMIT_GET_EXPANSION_PATH_FILE=unnested-macro-2-twice/use-macro-thric
 https://github.com/kach/nearley/issues/420
 
 https://github.com/kach/nearley/issues/358
+
+-----
+
+### Notes on References
+
+https://github.com/pingcap/parser

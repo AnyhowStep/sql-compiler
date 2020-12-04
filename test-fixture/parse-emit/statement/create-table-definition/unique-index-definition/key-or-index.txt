@@ -1,0 +1,23 @@
+CREATE TABLE T (
+    X BOOL,
+    UNIQUE KEY (X)
+);
+
+CREATE TABLE T (
+    X BOOL,
+    UNIQUE INDEX (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    UNIQUE KEY (`X` ASC)
+);
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    UNIQUE KEY (`X` ASC)
+);
+
+-----
+[]
