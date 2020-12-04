@@ -2529,17 +2529,33 @@ CreateSchemaStatement ->
 } %}
 
 CheckDefinition ->
-    %CHECK %OpenParentheses Expression %CloseParentheses {% (data) => {
-    const [, , expr,] = data;
+    (%CONSTRAINT Identifier):? %CHECK %OpenParentheses Expression %CloseParentheses {% (data) => {
+    const [constraint, , , expr,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CheckDefinition,
+        constraintName: (constraint == undefined ?
+            undefined :
+            constraint[1]),
         expr,
     };
 } %}
 
+ColumnCheckDefinition ->
+    CheckDefinition {% (data) => {
+    const [checkDefinition] = data;
+    if (checkDefinition.constraintName != undefined) {
+        parse_util_1.pushSyntacticErrorAt(checkDefinition, checkDefinition.start, 
+        /**
+         * @todo Have tokens be part of the parse tree?
+         */
+        checkDefinition.start + scanner_1.ReverseTokenKind[scanner_1.TokenKind.CONSTRAINT].length, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "CONSTRAINT");
+    }
+    return checkDefinition;
+} %}
+
 CreateTableDefinition ->
-    (ColumnDefinition | IndexDefinition) {% (data) => data[0][0] %}
+    (ColumnDefinition | IndexDefinition | CheckDefinition) {% (data) => data[0][0] %}
 
 CreateTableDefinitionList ->
     %OpenParentheses CreateTableDefinition (%Comma CreateTableDefinition):* %CloseParentheses {% (data) => {
@@ -2827,7 +2843,7 @@ ColumnModifierElement ->
 } %}
 
 ColumnDefinitionModifier ->
-    ColumnModifierElement:* (CheckDefinition | ForeignKeyReferenceDefinition):? {% (data) => {
+    ColumnModifierElement:* (ColumnCheckDefinition | ForeignKeyReferenceDefinition):? {% (data) => {
     let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
     for (const ele of data[0]) {
         columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);

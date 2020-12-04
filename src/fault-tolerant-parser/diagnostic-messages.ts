@@ -11,4 +11,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 210001,
     }),
+    UnhandledError : makeDiagnosticMessage({
+        key : "Unhandled error: {0}",
+        category : DiagnosticCategory.Error,
+        code : 210002,
+    }),
 } as const;

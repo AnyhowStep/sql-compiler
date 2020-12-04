@@ -2,6 +2,7 @@ import {ParserState} from "../mysql-grammar";
 import {CustomSubstitutionToString, makeRuleFactory, TextRange} from "../nearley-wrapper";
 import {
     BitLiteral,
+    CheckDefinition,
     CreateTableDefinition,
     DataType,
     Expression,
@@ -47,6 +48,7 @@ export enum CustomSyntaxKind {
     TextString,
     StringList,
     IdentifierList,
+    ColumnCheckDefinition,
 }
 
 declare module "../nearley-wrapper" {
@@ -78,6 +80,7 @@ declare module "../nearley-wrapper" {
          */
         [CustomSyntaxKind.StringList] : NodeArray<StringLiteral|HexLiteral|BitLiteral>,
         [CustomSyntaxKind.IdentifierList] : NodeArray<Identifier>,
+        [CustomSyntaxKind.ColumnCheckDefinition] : CheckDefinition,
     }
 
     interface CustomToken extends Array<TokenKind> {

@@ -53,63 +53,74 @@ export function parseHelper<PartialParseT extends unknown> (
             parser.feed([tokens[tokenIndex]] as any);
             ++tokenIndex;
         } catch (err) {
-            const tokenObj : TokenObj<TokenKind> = err.token.value;
+            if (err.token == undefined) {
+                parserSyntacticErrors.push(makeDiagnosticAt(
+                    0,
+                    0,
+                    [],
+                    DiagnosticMessages.UnhandledError,
+                    //tokenObj.getTokenSourceText(),
+                    err.message
+                ));
+            } else {
+                const tokenObj : TokenObj<TokenKind> = err.token.value;
 
-            const parserColumn : {
-                scannable : {
-                    dot : number,
-                    rule : {
-                        symbols : {
-                            type : string,
-                        }[]
-                    }
-                }[]
-            } = (parser as any).table[parser.current];
-
-            const expected = [
-                ...new Set(parserColumn.scannable.map(state => {
-                    const expect = state.rule.symbols[state.dot];
-                    if (typeof expect == "string") {
-                        return expect;
-                    }
-                    let expectStr = expect.type;
-                    for (let i=state.dot+1; i<state.rule.symbols.length; ++i) {
-                        const cur = state.rule.symbols[i];
-                        if (typeof cur == "string") {
-                            break;
+                const parserColumn : {
+                    scannable : {
+                        dot : number,
+                        rule : {
+                            symbols : {
+                                type : string,
+                            }[]
                         }
-                        expectStr += " " + cur.type;
-                    }
-                    return expectStr;
-                })),
-            ].sort((a, b) => a.localeCompare(b));
+                    }[]
+                } = (parser as any).table[parser.current];
 
-            parserSyntacticErrors.push(makeDiagnosticAt(
-                tokenObj.start,
-                tokenObj.start,
-                [],
-                DiagnosticMessages.Expected,
-                //tokenObj.getTokenSourceText(),
-                expected.join("|")
-            ));
+                const expected = [
+                    ...new Set(parserColumn.scannable.map(state => {
+                        const expect = state.rule.symbols[state.dot];
+                        if (typeof expect == "string") {
+                            return expect;
+                        }
+                        let expectStr = expect.type;
+                        for (let i=state.dot+1; i<state.rule.symbols.length; ++i) {
+                            const cur = state.rule.symbols[i];
+                            if (typeof cur == "string") {
+                                break;
+                            }
+                            expectStr += " " + cur.type;
+                        }
+                        return expectStr;
+                    })),
+                ].sort((a, b) => a.localeCompare(b));
 
-            const partialParse : PartialParseT|undefined = (
-                parser.results == undefined ?
-                undefined :
-                parser.results.length == 1 ?
-                parser.results[0] :
-                undefined
-            );
-            if (parser.results != undefined && parser.results.length > 1) {
                 parserSyntacticErrors.push(makeDiagnosticAt(
                     tokenObj.start,
                     tokenObj.start,
                     [],
-                    DiagnosticMessages.InternalErrorGrammarIsAmbiguous
+                    DiagnosticMessages.Expected,
+                    //tokenObj.getTokenSourceText(),
+                    expected.join("|")
                 ));
-            }
-            if (partialParse != undefined) {
-                results.push(partialParse)
+
+                const partialParse : PartialParseT|undefined = (
+                    parser.results == undefined ?
+                    undefined :
+                    parser.results.length == 1 ?
+                    parser.results[0] :
+                    undefined
+                );
+                if (parser.results != undefined && parser.results.length > 1) {
+                    parserSyntacticErrors.push(makeDiagnosticAt(
+                        tokenObj.start,
+                        tokenObj.start,
+                        [],
+                        DiagnosticMessages.InternalErrorGrammarIsAmbiguous
+                    ));
+                }
+                if (partialParse != undefined) {
+                    results.push(partialParse)
+                }
             }
 
             //Skip until after a semicolon or custom delimiter

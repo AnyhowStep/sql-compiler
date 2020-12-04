@@ -2630,16 +2630,34 @@ export var ParserRules: NearleyRule[] = [
                 createSchemaOptions,
             };
         } },
-    {"name": "CheckDefinition", "symbols": [CHECK, OpenParentheses, "Expression", CloseParentheses], "postprocess":  (data) => {
-            const [, , expr,] = data;
+    {"name": "CheckDefinition$ebnf$1$subexpression$1", "symbols": [CONSTRAINT, "Identifier"]},
+    {"name": "CheckDefinition$ebnf$1", "symbols": ["CheckDefinition$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CheckDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CheckDefinition", "symbols": ["CheckDefinition$ebnf$1", CHECK, OpenParentheses, "Expression", CloseParentheses], "postprocess":  (data) => {
+            const [constraint, , , expr,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CheckDefinition,
+                constraintName: (constraint == undefined ?
+                    undefined :
+                    constraint[1]),
                 expr,
             };
         } },
+    {"name": "ColumnCheckDefinition", "symbols": ["CheckDefinition"], "postprocess":  (data) => {
+            const [checkDefinition] = data;
+            if (checkDefinition.constraintName != undefined) {
+                parse_util_1.pushSyntacticErrorAt(checkDefinition, checkDefinition.start, 
+                /**
+                 * @todo Have tokens be part of the parse tree?
+                 */
+                checkDefinition.start + scanner_1.ReverseTokenKind[scanner_1.TokenKind.CONSTRAINT].length, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "CONSTRAINT");
+            }
+            return checkDefinition;
+        } },
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["ColumnDefinition"]},
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["IndexDefinition"]},
+    {"name": "CreateTableDefinition$subexpression$1", "symbols": ["CheckDefinition"]},
     {"name": "CreateTableDefinition", "symbols": ["CreateTableDefinition$subexpression$1"], "postprocess": (data) => data[0][0]},
     {"name": "CreateTableDefinitionList$ebnf$1", "symbols": []},
     {"name": "CreateTableDefinitionList$ebnf$1$subexpression$1", "symbols": [Comma, "CreateTableDefinition"]},
@@ -3000,7 +3018,7 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": []},
     {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": ["ColumnDefinitionModifier$ebnf$1", "ColumnModifierElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "ColumnDefinitionModifier$ebnf$2$subexpression$1", "symbols": ["CheckDefinition"]},
+    {"name": "ColumnDefinitionModifier$ebnf$2$subexpression$1", "symbols": ["ColumnCheckDefinition"]},
     {"name": "ColumnDefinitionModifier$ebnf$2$subexpression$1", "symbols": ["ForeignKeyReferenceDefinition"]},
     {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": ["ColumnDefinitionModifier$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": [], "postprocess": () => null},

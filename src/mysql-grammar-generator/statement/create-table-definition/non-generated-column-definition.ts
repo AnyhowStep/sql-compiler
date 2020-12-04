@@ -47,7 +47,7 @@ makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifier)
         [
             zeroOrMore(ColumnModifierElementRule),
             optional(union(
-                SyntaxKind.CheckDefinition,
+                CustomSyntaxKind.ColumnCheckDefinition,
                 SyntaxKind.ForeignKeyReferenceDefinition,
             )),
         ] as const,

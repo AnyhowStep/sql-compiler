@@ -1,0 +1,23 @@
+CREATE TABLE T (
+    X BOOLEAN,
+    CHECK (1)
+);
+
+CREATE TABLE T (
+    X BOOLEAN,
+    CONSTRAINT AlwaysTrue CHECK (1)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    CHECK (1)
+);
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    CONSTRAINT `AlwaysTrue` CHECK (1)
+);
+
+-----
+[]
