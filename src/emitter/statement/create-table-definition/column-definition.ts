@@ -5,6 +5,7 @@ import {emitQuotedIdentifier} from "../../identifier";
 import {emitCurrentTimestamp} from "../../misc";
 import {StringBuilder} from "../../string-builder";
 import {emitCheckDefinition} from "./check-definition";
+import {emitForeignKeyReferenceDefinition} from "./foreign-key-reference-definition";
 import {emitGeneratedDefinition} from "./generated-definition";
 
 export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
@@ -90,5 +91,14 @@ export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
             builder
                 .append(" ")
                 .appendBuilder(emitCheckDefinition(def.checkDefinition));
+        })
+        //This should be at the end
+        .scope(builder => {
+            if (def.foreignKeyReferenceDefinition == undefined) {
+                return;
+            }
+            builder
+                .append(" ")
+                .appendBuilder(emitForeignKeyReferenceDefinition(def.foreignKeyReferenceDefinition));
         })
 }

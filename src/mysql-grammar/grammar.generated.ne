@@ -2407,6 +2407,17 @@ FieldLength ->
     };
 } %}
 
+IdentifierList ->
+    %OpenParentheses Identifier (%Comma Identifier):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IdentifierList, parse_util_1.getTextRange(data));
+} %}
+
 Precision ->
     %OpenParentheses (IntegerLiteral | DecimalLiteral | RealLiteral) %Comma (IntegerLiteral | DecimalLiteral | RealLiteral) %CloseParentheses {% (data) => {
     let [, [precision], , [scale],] = data;
@@ -2539,6 +2550,67 @@ CreateTableDefinitionList ->
         return "syntaxKind" in x;
     });
     return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, parse_util_1.getTextRange(data));
+} %}
+
+ReferenceOption ->
+    ((%RESTRICT) | (%CASCADE) | (%SET %NULL) | (%NO %ACTION) | (%SET %DEFAULT)) {% (data) => {
+    const tokens = data[0][0];
+    return {
+        ...parse_util_1.getTextRange(data),
+        referenceOption: (tokens.length == 1 ?
+            (tokens[0].tokenKind == scanner_1.TokenKind.RESTRICT ?
+                parser_node_1.ReferenceOption.RESTRICT :
+                parser_node_1.ReferenceOption.CASCADE) :
+            (tokens[1].tokenKind == scanner_1.TokenKind.NULL ?
+                parser_node_1.ReferenceOption.SET_NULL :
+                tokens[1].tokenKind == scanner_1.TokenKind.ACTION ?
+                    parser_node_1.ReferenceOption.NO_ACTION :
+                    parser_node_1.ReferenceOption.SET_DEFAULT)),
+    };
+} %}
+
+OnUpdateDelete ->
+    %ON %UPDATE ReferenceOption (%ON %DELETE ReferenceOption):? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        onUpdate: data[2].referenceOption,
+        onDelete: (data[3] == undefined ?
+            undefined :
+            data[3][2].referenceOption),
+    };
+} %}
+    | %ON %DELETE ReferenceOption (%ON %UPDATE ReferenceOption):? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        onDelete: data[2].referenceOption,
+        onUpdate: (data[3] == undefined ?
+            undefined :
+            data[3][2].referenceOption),
+    };
+} %}
+
+ForeignKeyReferenceDefinition ->
+    %REFERENCES TableIdentifier IdentifierList ((%MATCH %FULL) | (%MATCH %PARTIAL) | (%MATCH %SIMPLE)):? OnUpdateDelete:? {% (data) => {
+    const [, referencedTableName, referencedColumns, match, onUpdateDelete] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ForeignKeyReferenceDefinition,
+        referencedTableName,
+        referencedColumns,
+        match: (match == undefined ?
+            undefined :
+            match[0][1].tokenKind == scanner_1.TokenKind.FULL ?
+                parser_node_1.ReferenceMatch.FULL :
+                match[0][1].tokenKind == scanner_1.TokenKind.PARTIAL ?
+                    parser_node_1.ReferenceMatch.PARTIAL :
+                    parser_node_1.ReferenceMatch.SIMPLE),
+        onUpdate: (onUpdateDelete == undefined ?
+            undefined :
+            onUpdateDelete.onUpdate),
+        onDelete: (onUpdateDelete == undefined ?
+            undefined :
+            onUpdateDelete.onDelete),
+    };
 } %}
 
 IndexDefinition ->
@@ -2755,14 +2827,19 @@ ColumnModifierElement ->
 } %}
 
 ColumnDefinitionModifier ->
-    ColumnModifierElement:* CheckDefinition:? {% (data) => {
+    ColumnModifierElement:* (CheckDefinition | ForeignKeyReferenceDefinition):? {% (data) => {
     let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
     for (const ele of data[0]) {
         columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
     }
-    const checkDefinition = data[1];
-    if (checkDefinition != undefined) {
-        columnDefinitionModifier.checkDefinition = checkDefinition;
+    const checkOrForeignKeyReference = data[1];
+    if (checkOrForeignKeyReference != undefined) {
+        if (checkOrForeignKeyReference[0].syntaxKind == parser_node_1.SyntaxKind.CheckDefinition) {
+            columnDefinitionModifier.checkDefinition = checkOrForeignKeyReference[0];
+        }
+        else {
+            columnDefinitionModifier.foreignKeyReferenceDefinition = checkOrForeignKeyReference[0];
+        }
     }
     return columnDefinitionModifier;
 } %}

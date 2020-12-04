@@ -2501,6 +2501,18 @@ export var ParserRules: NearleyRule[] = [
                 length: literal,
             };
         } },
+    {"name": "IdentifierList$ebnf$1", "symbols": []},
+    {"name": "IdentifierList$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier"]},
+    {"name": "IdentifierList$ebnf$1", "symbols": ["IdentifierList$ebnf$1", "IdentifierList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IdentifierList", "symbols": [OpenParentheses, "Identifier", "IdentifierList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IdentifierList, parse_util_1.getTextRange(data));
+        } },
     {"name": "Precision$subexpression$1", "symbols": ["IntegerLiteral"]},
     {"name": "Precision$subexpression$1", "symbols": ["DecimalLiteral"]},
     {"name": "Precision$subexpression$1", "symbols": ["RealLiteral"]},
@@ -2640,6 +2652,87 @@ export var ParserRules: NearleyRule[] = [
                 return "syntaxKind" in x;
             });
             return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.CreateTableDefinitionList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "ReferenceOption$subexpression$1$subexpression$1", "symbols": [RESTRICT]},
+    {"name": "ReferenceOption$subexpression$1", "symbols": ["ReferenceOption$subexpression$1$subexpression$1"]},
+    {"name": "ReferenceOption$subexpression$1$subexpression$2", "symbols": [CASCADE]},
+    {"name": "ReferenceOption$subexpression$1", "symbols": ["ReferenceOption$subexpression$1$subexpression$2"]},
+    {"name": "ReferenceOption$subexpression$1$subexpression$3", "symbols": [SET, NULL]},
+    {"name": "ReferenceOption$subexpression$1", "symbols": ["ReferenceOption$subexpression$1$subexpression$3"]},
+    {"name": "ReferenceOption$subexpression$1$subexpression$4", "symbols": [NO, ACTION]},
+    {"name": "ReferenceOption$subexpression$1", "symbols": ["ReferenceOption$subexpression$1$subexpression$4"]},
+    {"name": "ReferenceOption$subexpression$1$subexpression$5", "symbols": [SET, DEFAULT]},
+    {"name": "ReferenceOption$subexpression$1", "symbols": ["ReferenceOption$subexpression$1$subexpression$5"]},
+    {"name": "ReferenceOption", "symbols": ["ReferenceOption$subexpression$1"], "postprocess":  (data) => {
+            const tokens = data[0][0];
+            return {
+                ...parse_util_1.getTextRange(data),
+                referenceOption: (tokens.length == 1 ?
+                    (tokens[0].tokenKind == scanner_1.TokenKind.RESTRICT ?
+                        parser_node_1.ReferenceOption.RESTRICT :
+                        parser_node_1.ReferenceOption.CASCADE) :
+                    (tokens[1].tokenKind == scanner_1.TokenKind.NULL ?
+                        parser_node_1.ReferenceOption.SET_NULL :
+                        tokens[1].tokenKind == scanner_1.TokenKind.ACTION ?
+                            parser_node_1.ReferenceOption.NO_ACTION :
+                            parser_node_1.ReferenceOption.SET_DEFAULT)),
+            };
+        } },
+    {"name": "OnUpdateDelete$ebnf$1$subexpression$1", "symbols": [ON, DELETE, "ReferenceOption"]},
+    {"name": "OnUpdateDelete$ebnf$1", "symbols": ["OnUpdateDelete$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "OnUpdateDelete$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "OnUpdateDelete", "symbols": [ON, UPDATE, "ReferenceOption", "OnUpdateDelete$ebnf$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                onUpdate: data[2].referenceOption,
+                onDelete: (data[3] == undefined ?
+                    undefined :
+                    data[3][2].referenceOption),
+            };
+        } },
+    {"name": "OnUpdateDelete$ebnf$2$subexpression$1", "symbols": [ON, UPDATE, "ReferenceOption"]},
+    {"name": "OnUpdateDelete$ebnf$2", "symbols": ["OnUpdateDelete$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "OnUpdateDelete$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "OnUpdateDelete", "symbols": [ON, DELETE, "ReferenceOption", "OnUpdateDelete$ebnf$2"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                onDelete: data[2].referenceOption,
+                onUpdate: (data[3] == undefined ?
+                    undefined :
+                    data[3][2].referenceOption),
+            };
+        } },
+    {"name": "ForeignKeyReferenceDefinition$ebnf$1$subexpression$1$subexpression$1", "symbols": [MATCH, FULL]},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$1$subexpression$1", "symbols": ["ForeignKeyReferenceDefinition$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$1$subexpression$1$subexpression$2", "symbols": [MATCH, PARTIAL]},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$1$subexpression$1", "symbols": ["ForeignKeyReferenceDefinition$ebnf$1$subexpression$1$subexpression$2"]},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$1$subexpression$1$subexpression$3", "symbols": [MATCH, SIMPLE]},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$1$subexpression$1", "symbols": ["ForeignKeyReferenceDefinition$ebnf$1$subexpression$1$subexpression$3"]},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$1", "symbols": ["ForeignKeyReferenceDefinition$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$2", "symbols": ["OnUpdateDelete"], "postprocess": id},
+    {"name": "ForeignKeyReferenceDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "ForeignKeyReferenceDefinition", "symbols": [REFERENCES, "TableIdentifier", "IdentifierList", "ForeignKeyReferenceDefinition$ebnf$1", "ForeignKeyReferenceDefinition$ebnf$2"], "postprocess":  (data) => {
+            const [, referencedTableName, referencedColumns, match, onUpdateDelete] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ForeignKeyReferenceDefinition,
+                referencedTableName,
+                referencedColumns,
+                match: (match == undefined ?
+                    undefined :
+                    match[0][1].tokenKind == scanner_1.TokenKind.FULL ?
+                        parser_node_1.ReferenceMatch.FULL :
+                        match[0][1].tokenKind == scanner_1.TokenKind.PARTIAL ?
+                            parser_node_1.ReferenceMatch.PARTIAL :
+                            parser_node_1.ReferenceMatch.SIMPLE),
+                onUpdate: (onUpdateDelete == undefined ?
+                    undefined :
+                    onUpdateDelete.onUpdate),
+                onDelete: (onUpdateDelete == undefined ?
+                    undefined :
+                    onUpdateDelete.onDelete),
+            };
         } },
     {"name": "IndexDefinition$subexpression$1", "symbols": [FULLTEXT]},
     {"name": "IndexDefinition$subexpression$1", "symbols": [SPATIAL]},
@@ -2907,16 +3000,23 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": []},
     {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": ["ColumnDefinitionModifier$ebnf$1", "ColumnModifierElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": ["CheckDefinition"], "postprocess": id},
+    {"name": "ColumnDefinitionModifier$ebnf$2$subexpression$1", "symbols": ["CheckDefinition"]},
+    {"name": "ColumnDefinitionModifier$ebnf$2$subexpression$1", "symbols": ["ForeignKeyReferenceDefinition"]},
+    {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": ["ColumnDefinitionModifier$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "ColumnDefinitionModifier", "symbols": ["ColumnDefinitionModifier$ebnf$1", "ColumnDefinitionModifier$ebnf$2"], "postprocess":  (data) => {
             let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
             for (const ele of data[0]) {
                 columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
             }
-            const checkDefinition = data[1];
-            if (checkDefinition != undefined) {
-                columnDefinitionModifier.checkDefinition = checkDefinition;
+            const checkOrForeignKeyReference = data[1];
+            if (checkOrForeignKeyReference != undefined) {
+                if (checkOrForeignKeyReference[0].syntaxKind == parser_node_1.SyntaxKind.CheckDefinition) {
+                    columnDefinitionModifier.checkDefinition = checkOrForeignKeyReference[0];
+                }
+                else {
+                    columnDefinitionModifier.foreignKeyReferenceDefinition = checkOrForeignKeyReference[0];
+                }
             }
             return columnDefinitionModifier;
         } },

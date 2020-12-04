@@ -46,6 +46,7 @@ export enum CustomSyntaxKind {
     TrailingStatement,
     TextString,
     StringList,
+    IdentifierList,
 }
 
 declare module "../nearley-wrapper" {
@@ -76,6 +77,7 @@ declare module "../nearley-wrapper" {
          * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7488-L7490
          */
         [CustomSyntaxKind.StringList] : NodeArray<StringLiteral|HexLiteral|BitLiteral>,
+        [CustomSyntaxKind.IdentifierList] : NodeArray<Identifier>,
     }
 
     interface CustomToken extends Array<TokenKind> {

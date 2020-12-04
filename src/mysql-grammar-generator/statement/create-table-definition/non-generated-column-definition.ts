@@ -32,7 +32,6 @@ const ColumnModifierElementRule = makeRule("ColumnModifierElement")
                  */
                 [TokenKind.SERIAL, TokenKind.DEFAULT, TokenKind.VALUE] as const,
                 [TokenKind.ON, TokenKind.UPDATE, SyntaxKind.CurrentTimestamp] as const,
-                //TODO SyntaxKind.ForeignKeyReferenceDefinition,
             )
         ] as const,
         (data) => {
@@ -47,7 +46,10 @@ makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifier)
     .addSubstitution(
         [
             zeroOrMore(ColumnModifierElementRule),
-            optional(SyntaxKind.CheckDefinition),
+            optional(union(
+                SyntaxKind.CheckDefinition,
+                SyntaxKind.ForeignKeyReferenceDefinition,
+            )),
         ] as const,
         (data) : ColumnDefinitionModifier => {
             let columnDefinitionModifier = createDefaultColumnDefinitionModifier();
@@ -59,9 +61,13 @@ makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifier)
                 );
             }
 
-            const checkDefinition = data[1];
-            if (checkDefinition != undefined) {
-                columnDefinitionModifier.checkDefinition = checkDefinition;
+            const checkOrForeignKeyReference = data[1];
+            if (checkOrForeignKeyReference != undefined) {
+                if (checkOrForeignKeyReference[0].syntaxKind == SyntaxKind.CheckDefinition) {
+                    columnDefinitionModifier.checkDefinition = checkOrForeignKeyReference[0];
+                } else {
+                    columnDefinitionModifier.foreignKeyReferenceDefinition = checkOrForeignKeyReference[0];
+                }
             }
 
             return columnDefinitionModifier;
