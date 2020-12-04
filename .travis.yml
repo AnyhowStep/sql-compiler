@@ -24,7 +24,7 @@ git:
 
 script:
   - npm run generate
-  - npm run generate-grammar-macro
+  - npm run generate-grammar-unexpanded-content
   - npm run generate-grammar-mysql
   - npm run build
   - npm run coverage

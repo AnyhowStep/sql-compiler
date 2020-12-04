@@ -1284,6 +1284,10 @@ const CustomDelimiter : Tester = { test: x => x.tokenKind == TokenKind.CustomDel
 //@ts-ignore
 const StringLiteral : Tester = { test: x => x.tokenKind == TokenKind.StringLiteral, type : "StringLiteral" };
 //@ts-ignore
+const HexLiteral : Tester = { test: x => x.tokenKind == TokenKind.HexLiteral, type : "HexLiteral" };
+//@ts-ignore
+const BitLiteral : Tester = { test: x => x.tokenKind == TokenKind.BitLiteral, type : "BitLiteral" };
+//@ts-ignore
 const IntegerLiteral : Tester = { test: x => x.tokenKind == TokenKind.IntegerLiteral, type : "IntegerLiteral" };
 //@ts-ignore
 const DecimalLiteral : Tester = { test: x => x.tokenKind == TokenKind.DecimalLiteral, type : "DecimalLiteral" };

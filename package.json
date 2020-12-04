@@ -9,7 +9,7 @@
     "scanner-generator": "ts-node ./src/scanner-generator/generator",
     "parser-node-generator": "cd ./src/parser-node-generator && ts-node -P ./tsconfig.json ./generator",
     "generate": "npm run scanner-generator && npm run parser-node-generator",
-    "generate-grammar-macro": "cd ./src/macro-grammar-generator && ts-node -P ./tsconfig.json ./generator",
+    "generate-grammar-unexpanded-content": "cd ./src/unexpanded-content-grammar-generator && ts-node -P ./tsconfig.json ./generator",
     "generate-grammar-mysql": "cd ./src/mysql-grammar-generator && ts-node -P ./tsconfig.json ./generator",
     "build": "tsc -b"
   },
