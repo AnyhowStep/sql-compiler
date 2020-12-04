@@ -2649,6 +2649,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["ColumnDefinition"]},
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["IndexDefinition"]},
     {"name": "CreateTableDefinition$subexpression$1", "symbols": ["CheckDefinition"]},
+    {"name": "CreateTableDefinition$subexpression$1", "symbols": ["PrimaryKeyDefinition"]},
     {"name": "CreateTableDefinition", "symbols": ["CreateTableDefinition$subexpression$1"], "postprocess": (data) => data[0][0]},
     {"name": "CreateTableDefinitionList$ebnf$1", "symbols": []},
     {"name": "CreateTableDefinitionList$ebnf$1$subexpression$1", "symbols": [Comma, "CreateTableDefinition"]},
@@ -3087,6 +3088,36 @@ export var ParserRules: NearleyRule[] = [
                 dataType,
                 generated: undefined,
                 ...modifier,
+                ...parse_util_1.getTextRange(data),
+            };
+        } },
+    {"name": "PrimaryKeyDefinition$ebnf$1", "symbols": ["Constraint"], "postprocess": id},
+    {"name": "PrimaryKeyDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "PrimaryKeyDefinition$ebnf$2", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "PrimaryKeyDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "PrimaryKeyDefinition$ebnf$3", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "PrimaryKeyDefinition$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "PrimaryKeyDefinition", "symbols": ["PrimaryKeyDefinition$ebnf$1", PRIMARY, KEY, "PrimaryKeyDefinition$ebnf$2", "PrimaryKeyDefinition$ebnf$3", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+            const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
+            const indexOption = (indexType == undefined ?
+                rawIndexOption :
+                rawIndexOption.indexType == undefined ?
+                    {
+                        ...rawIndexOption,
+                        indexType: indexType.indexType,
+                    } :
+                    rawIndexOption);
+            if (indexOption.withParser != undefined) {
+                parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
+            }
+            return {
+                syntaxKind: parser_node_1.SyntaxKind.PrimaryKeyDefinition,
+                constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
+                    constraintName :
+                    undefined),
+                indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+                indexParts,
+                ...indexOption,
                 ...parse_util_1.getTextRange(data),
             };
         } },

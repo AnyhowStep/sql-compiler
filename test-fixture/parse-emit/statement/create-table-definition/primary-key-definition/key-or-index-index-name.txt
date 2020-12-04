@@ -1,0 +1,23 @@
+CREATE TABLE T (
+    X BOOL,
+    PRIMARY KEY `CROSS` (X)
+);
+
+CREATE TABLE T (
+    X BOOL,
+    PRIMARY KEY SomeName (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    PRIMARY KEY `CROSS` (`X` ASC)
+);
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    PRIMARY KEY `SomeName` (`X` ASC)
+);
+
+-----
+[]

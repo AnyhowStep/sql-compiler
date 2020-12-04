@@ -13,6 +13,7 @@ makeCustomRule(CustomSyntaxKind.CreateTableDefinition)
             SyntaxKind.ColumnDefinition,
             SyntaxKind.IndexDefinition,
             SyntaxKind.CheckDefinition,
+            SyntaxKind.PrimaryKeyDefinition,
         )] as const,
         (data) : CreateTableDefinition => data[0][0]
     );

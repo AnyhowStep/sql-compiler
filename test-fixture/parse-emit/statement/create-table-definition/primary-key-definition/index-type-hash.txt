@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    PRIMARY KEY USING HASH (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    PRIMARY KEY (`X` ASC) USING HASH
+);
+
+-----
+[]

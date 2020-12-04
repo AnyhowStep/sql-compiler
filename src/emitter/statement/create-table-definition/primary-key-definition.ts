@@ -1,10 +1,10 @@
-import {IndexClass, IndexDefinition} from "../../../parser-node";
+import {PrimaryKeyDefinition} from "../../../parser-node";
 import {emitIdentifier} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
 import {emitIndexDefinitionOptions} from "./index-definition-options";
 import {emitIndexParts} from "./index-parts";
 
-export function emitIndexDefinition (def : IndexDefinition) : StringBuilder {
+export function emitPrimaryKeyDefinition (def : PrimaryKeyDefinition) : StringBuilder {
     return new StringBuilder()
         .scope(builder => {
             if (def.constraintName == undefined) {
@@ -15,15 +15,7 @@ export function emitIndexDefinition (def : IndexDefinition) : StringBuilder {
                 .appendBuilder(emitIdentifier(def.constraintName))
                 .append(" ")
         })
-        .append(
-            def.indexClass == IndexClass.INDEX ?
-            "INDEX" :
-            def.indexClass == IndexClass.FULLTEXT ?
-            "FULLTEXT INDEX" :
-            def.indexClass == IndexClass.SPATIAL ?
-            "SPATIAL INDEX" :
-            "UNIQUE KEY"
-        )
+        .append("PRIMARY KEY")
         .scope(builder => {
             if (def.indexName == undefined) {
                 return;

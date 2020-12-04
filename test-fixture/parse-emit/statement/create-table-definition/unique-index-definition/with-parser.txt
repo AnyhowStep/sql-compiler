@@ -3,7 +3,17 @@ CREATE TABLE T (
     UNIQUE (X) WITH PARSER lmao
 );
 
+CREATE TABLE T (
+    X BOOL,
+    UNIQUE KEY (X) WITH PARSER lmao
+);
+
 -----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    UNIQUE KEY (`X` ASC) WITH PARSER `lmao`
+);
+
 CREATE TABLE `T` (
     `X` BOOLEAN NULL,
     UNIQUE KEY (`X` ASC) WITH PARSER `lmao`
@@ -15,6 +25,12 @@ CREATE TABLE `T` (
         "category": 0,
         "messageText": "Unexpected WITH PARSER",
         "start": 56,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "Unexpected WITH PARSER",
+        "start": 125,
         "length": 4
     }
 ]

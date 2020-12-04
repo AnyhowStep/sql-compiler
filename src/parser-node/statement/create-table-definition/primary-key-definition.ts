@@ -10,9 +10,13 @@ export interface PrimaryKeyDefinition extends CreateTableDefinition {
 
     constraintName : Identifier|undefined;
 
+    indexName : Identifier|undefined;
     indexParts : NodeArray<IndexPart>;
 
-    indexType : IndexType;
+    /**
+     * BTREE is the default
+     */
+    indexType : IndexType|undefined;
     keyBlockSize : IntegerLiteral|undefined;
     comment : StringLiteral|undefined;
     withParser : Identifier|undefined;

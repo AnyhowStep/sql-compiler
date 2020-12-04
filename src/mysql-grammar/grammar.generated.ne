@@ -2547,7 +2547,7 @@ ColumnCheckDefinition ->
 } %}
 
 CreateTableDefinition ->
-    (ColumnDefinition | IndexDefinition | CheckDefinition) {% (data) => data[0][0] %}
+    (ColumnDefinition | IndexDefinition | CheckDefinition | PrimaryKeyDefinition) {% (data) => data[0][0] %}
 
 CreateTableDefinitionList ->
     %OpenParentheses CreateTableDefinition (%Comma CreateTableDefinition):* %CloseParentheses {% (data) => {
@@ -2909,6 +2909,32 @@ ColumnDefinition ->
         dataType,
         generated: undefined,
         ...modifier,
+        ...parse_util_1.getTextRange(data),
+    };
+} %}
+
+PrimaryKeyDefinition ->
+    Constraint:? %PRIMARY %KEY Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
+    const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
+    const indexOption = (indexType == undefined ?
+        rawIndexOption :
+        rawIndexOption.indexType == undefined ?
+            {
+                ...rawIndexOption,
+                indexType: indexType.indexType,
+            } :
+            rawIndexOption);
+    if (indexOption.withParser != undefined) {
+        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
+    }
+    return {
+        syntaxKind: parser_node_1.SyntaxKind.PrimaryKeyDefinition,
+        constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
+            constraintName :
+            undefined),
+        indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+        indexParts,
+        ...indexOption,
         ...parse_util_1.getTextRange(data),
     };
 } %}

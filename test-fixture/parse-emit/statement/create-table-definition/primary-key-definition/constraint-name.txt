@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    CONSTRAINT C PRIMARY KEY (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    CONSTRAINT `C` PRIMARY KEY (`X` ASC)
+);
+
+-----
+[]
