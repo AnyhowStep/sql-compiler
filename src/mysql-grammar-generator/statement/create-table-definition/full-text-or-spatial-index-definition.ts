@@ -9,13 +9,35 @@ makeCustomRule(SyntaxKind.IndexDefinition)
     .addSubstitution(
         [
             union(TokenKind.FULLTEXT, TokenKind.SPATIAL),
-            optional(union(TokenKind.INDEX, TokenKind.KEY)),
-            optional(SyntaxKind.Identifier),
+            optional(union(
+                /**
+                 * Can be unquoted `INDEX`/`KEY` or an identifier.
+                 */
+                [SyntaxKind.Identifier] as const,
+                [union(TokenKind.INDEX, TokenKind.KEY), SyntaxKind.Identifier] as const,
+            )),
+            //optional(union(TokenKind.INDEX, TokenKind.KEY)),
+            //optional(SyntaxKind.Identifier),
             CustomSyntaxKind.IndexPartList,
             CustomSyntaxKind.IndexOption,
         ] as const,
         function (data) : IndexDefinition {
-            const [indexClass, , indexName, indexParts, indexOption] = data;
+            const [indexClass, rawIndexName, indexParts, indexOption] = data;
+
+            const indexName = (
+                rawIndexName == undefined ?
+                undefined :
+                rawIndexName[0].length == 2 ?
+                rawIndexName[0][1] :
+                rawIndexName[0][0].quoted ?
+                rawIndexName[0][0] :
+                (
+                    rawIndexName[0][0].identifier.toUpperCase() == "INDEX" ||
+                    rawIndexName[0][0].identifier.toUpperCase() == "KEY"
+                ) ?
+                undefined :
+                rawIndexName[0][0]
+            );
 
             const result : IndexDefinition = {
                 syntaxKind : SyntaxKind.IndexDefinition,
@@ -25,7 +47,7 @@ makeCustomRule(SyntaxKind.IndexDefinition)
                     IndexClass.FULLTEXT :
                     IndexClass.SPATIAL
                 ),
-                indexName : indexName ?? undefined,
+                indexName,
                 indexParts,
                 ...indexOption,
                 ...getTextRange(data),
@@ -37,6 +59,17 @@ makeCustomRule(SyntaxKind.IndexDefinition)
                     indexClass[0].end,
                     [],
                     DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType
+                );
+            }
+
+            if (result.indexClass == IndexClass.SPATIAL && indexOption.withParser != undefined) {
+                pushSyntacticErrorAt(
+                    indexOption.withParser,
+                    indexOption.withParser.start,
+                    indexOption.withParser.end,
+                    [],
+                    DiagnosticMessages.UnexpectedSyntaxKind,
+                    "WITH PARSER"
                 );
             }
 

@@ -1,0 +1,23 @@
+CREATE TABLE T (
+    X BOOL,
+    SPATIAL KEY (X)
+);
+
+CREATE TABLE T (
+    X BOOL,
+    SPATIAL INDEX (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    SPATIAL INDEX (`X` ASC)
+);
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    SPATIAL INDEX (`X` ASC)
+);
+
+-----
+[]

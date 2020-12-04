@@ -1,0 +1,23 @@
+CREATE TABLE T (
+    X BOOL,
+    FULLTEXT `CROSS` (X)
+);
+
+CREATE TABLE T (
+    X BOOL,
+    FULLTEXT SomeName (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    FULLTEXT INDEX `CROSS` (`X` ASC)
+);
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    FULLTEXT INDEX `SomeName` (`X` ASC)
+);
+
+-----
+[]

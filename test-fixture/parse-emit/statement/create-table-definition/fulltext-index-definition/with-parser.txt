@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOL,
+    FULLTEXT INDEX (X) WITH PARSER lmao
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    FULLTEXT INDEX (`X` ASC) WITH PARSER `lmao`
+);
+
+-----
+[]

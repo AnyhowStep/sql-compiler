@@ -2626,21 +2626,34 @@ ForeignKeyReferenceDefinition ->
 } %}
 
 IndexDefinition ->
-    (%FULLTEXT | %SPATIAL) (%INDEX | %KEY):? Identifier:? IndexPartList IndexOption {% function (data) {
-    const [indexClass, , indexName, indexParts, indexOption] = data;
+    (%FULLTEXT | %SPATIAL) ((Identifier) | ((%INDEX | %KEY) Identifier)):? IndexPartList IndexOption {% function (data) {
+    const [indexClass, rawIndexName, indexParts, indexOption] = data;
+    const indexName = (rawIndexName == undefined ?
+        undefined :
+        rawIndexName[0].length == 2 ?
+            rawIndexName[0][1] :
+            rawIndexName[0][0].quoted ?
+                rawIndexName[0][0] :
+                (rawIndexName[0][0].identifier.toUpperCase() == "INDEX" ||
+                    rawIndexName[0][0].identifier.toUpperCase() == "KEY") ?
+                    undefined :
+                    rawIndexName[0][0]);
     const result = {
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: undefined,
         indexClass: (indexClass[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
             parser_node_1.IndexClass.FULLTEXT :
             parser_node_1.IndexClass.SPATIAL),
-        indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+        indexName,
         indexParts,
         ...indexOption,
         ...parse_util_1.getTextRange(data),
     };
     if (indexOption.indexType != undefined) {
         parse_util_1.pushSyntacticErrorAt(indexName !== null && indexName !== void 0 ? indexName : result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
+    }
+    if (result.indexClass == parser_node_1.IndexClass.SPATIAL && indexOption.withParser != undefined) {
+        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
     }
     return result;
 } %}
@@ -2759,6 +2772,9 @@ IndexDefinition ->
                 indexType: indexType.indexType,
             } :
             rawIndexOption);
+    if (indexOption.withParser != undefined) {
+        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
+    }
     return {
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: undefined,

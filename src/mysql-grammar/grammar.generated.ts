@@ -2750,27 +2750,42 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "IndexDefinition$subexpression$1", "symbols": [FULLTEXT]},
     {"name": "IndexDefinition$subexpression$1", "symbols": [SPATIAL]},
-    {"name": "IndexDefinition$ebnf$1$subexpression$1", "symbols": [INDEX]},
-    {"name": "IndexDefinition$ebnf$1$subexpression$1", "symbols": [KEY]},
+    {"name": "IndexDefinition$ebnf$1$subexpression$1$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "IndexDefinition$ebnf$1$subexpression$1", "symbols": ["IndexDefinition$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "IndexDefinition$ebnf$1$subexpression$1$subexpression$2$subexpression$1", "symbols": [INDEX]},
+    {"name": "IndexDefinition$ebnf$1$subexpression$1$subexpression$2$subexpression$1", "symbols": [KEY]},
+    {"name": "IndexDefinition$ebnf$1$subexpression$1$subexpression$2", "symbols": ["IndexDefinition$ebnf$1$subexpression$1$subexpression$2$subexpression$1", "Identifier"]},
+    {"name": "IndexDefinition$ebnf$1$subexpression$1", "symbols": ["IndexDefinition$ebnf$1$subexpression$1$subexpression$2"]},
     {"name": "IndexDefinition$ebnf$1", "symbols": ["IndexDefinition$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition$ebnf$2", "symbols": ["Identifier"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$1", "IndexDefinition$ebnf$1", "IndexDefinition$ebnf$2", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
-            const [indexClass, , indexName, indexParts, indexOption] = data;
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$1", "IndexDefinition$ebnf$1", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+            const [indexClass, rawIndexName, indexParts, indexOption] = data;
+            const indexName = (rawIndexName == undefined ?
+                undefined :
+                rawIndexName[0].length == 2 ?
+                    rawIndexName[0][1] :
+                    rawIndexName[0][0].quoted ?
+                        rawIndexName[0][0] :
+                        (rawIndexName[0][0].identifier.toUpperCase() == "INDEX" ||
+                            rawIndexName[0][0].identifier.toUpperCase() == "KEY") ?
+                            undefined :
+                            rawIndexName[0][0]);
             const result = {
                 syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
                 constraintName: undefined,
                 indexClass: (indexClass[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
                     parser_node_1.IndexClass.FULLTEXT :
                     parser_node_1.IndexClass.SPATIAL),
-                indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+                indexName,
                 indexParts,
                 ...indexOption,
                 ...parse_util_1.getTextRange(data),
             };
             if (indexOption.indexType != undefined) {
                 parse_util_1.pushSyntacticErrorAt(indexName !== null && indexName !== void 0 ? indexName : result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
+            }
+            if (result.indexClass == parser_node_1.IndexClass.SPATIAL && indexOption.withParser != undefined) {
+                parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
             }
             return result;
         } },
@@ -2882,11 +2897,11 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "IndexDefinition$subexpression$2", "symbols": [INDEX]},
     {"name": "IndexDefinition$subexpression$2", "symbols": [KEY]},
-    {"name": "IndexDefinition$ebnf$3", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$2", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition$ebnf$3", "symbols": ["IndexType"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition$ebnf$4", "symbols": ["IndexType"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$2", "IndexDefinition$ebnf$3", "IndexDefinition$ebnf$4", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$2", "IndexDefinition$ebnf$2", "IndexDefinition$ebnf$3", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
             const [, indexName, indexType, indexParts, rawIndexOption] = data;
             const indexOption = (indexType == undefined ?
                 rawIndexOption :
@@ -2896,6 +2911,9 @@ export var ParserRules: NearleyRule[] = [
                         indexType: indexType.indexType,
                     } :
                     rawIndexOption);
+            if (indexOption.withParser != undefined) {
+                parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
+            }
             return {
                 syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
                 constraintName: undefined,
@@ -3079,11 +3097,11 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "IndexDefinition$subexpression$3", "symbols": [INDEX]},
     {"name": "IndexDefinition$subexpression$3", "symbols": [KEY]},
-    {"name": "IndexDefinition$ebnf$5", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$4", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "IndexDefinition$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "IndexDefinition$ebnf$5", "symbols": ["IndexType"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$5", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition$ebnf$6", "symbols": ["IndexType"], "postprocess": id},
-    {"name": "IndexDefinition$ebnf$6", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["Constraint", UNIQUE, "IndexDefinition$subexpression$3", "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+    {"name": "IndexDefinition", "symbols": ["Constraint", UNIQUE, "IndexDefinition$subexpression$3", "IndexDefinition$ebnf$4", "IndexDefinition$ebnf$5", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
             const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
             const indexOption = (indexType == undefined ?
                 rawIndexOption :

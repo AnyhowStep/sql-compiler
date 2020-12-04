@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    X BOOL,
+    SPATIAL CROSS (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    SPATIAL INDEX `CROSS` (`X` ASC)
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 41,
+        "length": 5
+    }
+]

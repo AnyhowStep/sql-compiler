@@ -1,12 +1,12 @@
 CREATE TABLE T (
     X BOOL,
-    INDEX (X) WITH PARSER lmao
+    SPATIAL INDEX (X) WITH PARSER lmao
 );
 
 -----
 CREATE TABLE `T` (
     `X` BOOLEAN NULL,
-    INDEX (`X` ASC) WITH PARSER `lmao`
+    SPATIAL INDEX (`X` ASC) WITH PARSER `lmao`
 );
 
 -----
@@ -14,7 +14,7 @@ CREATE TABLE `T` (
     {
         "category": 0,
         "messageText": "Unexpected WITH PARSER",
-        "start": 55,
+        "start": 63,
         "length": 4
     }
 ]

@@ -1,0 +1,16 @@
+CREATE TABLE T (
+    X BOOL,
+    /*
+        RTREE is only for Spatial
+    */
+    INDEX USING RTREE (X)
+);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    INDEX (`X` ASC) USING RTREE
+);
+
+-----
+[]
