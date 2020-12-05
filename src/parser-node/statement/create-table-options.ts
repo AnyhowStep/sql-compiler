@@ -10,9 +10,11 @@ import {SyntaxKind} from "../syntax-kind.generated";
  */
 export interface CreateTableOptions extends Node {
     syntaxKind : SyntaxKind.CreateTableOptions;
-    /*
-    autoIncrement;
-    */
+
+    /**
+     * 
+     */
+    autoIncrement : IntegerLiteral|undefined;
     /**
      * The maximum MAX_ROWS value is 4294967295; larger values are **ignored**.
      */

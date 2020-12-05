@@ -3066,6 +3066,12 @@ CreateTableOption ->
         encryption: data[2],
     };
 } %}
+    | %AUTO_INCREMENT %Equal:? IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        autoIncrement: data[2],
+    };
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3089,6 +3095,7 @@ CreateTableOptions ->
         comment: undefined,
         compression: undefined,
         encryption: undefined,
+        autoIncrement: undefined,
     };
     for (const item of arr) {
         for (const k of Object.keys(item)) {

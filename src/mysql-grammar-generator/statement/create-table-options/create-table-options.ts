@@ -41,6 +41,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 comment : undefined,
                 compression : undefined,
                 encryption : undefined,
+                autoIncrement : undefined,
             };
 
             for (const item of arr) {

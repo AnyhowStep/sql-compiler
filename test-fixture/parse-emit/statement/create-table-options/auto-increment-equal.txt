@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    AUTO_INCREMENT = 1;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    AUTO_INCREMENT = 1;
+
+-----
+[]

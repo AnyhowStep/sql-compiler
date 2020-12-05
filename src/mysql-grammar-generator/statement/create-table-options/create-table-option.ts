@@ -113,3 +113,16 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             };
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.AUTO_INCREMENT,
+            optional(TokenKind.Equal),
+            SyntaxKind.IntegerLiteral
+        ] as const,
+        (data) : CreateTableOption => {
+            return {
+                ...getTextRange(data),
+                autoIncrement : data[2],
+            };
+        }
+    )

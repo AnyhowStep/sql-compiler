@@ -89,4 +89,15 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 .append("ENCRYPTION = ")
                 .appendBuilder(emitExpression(options.encryption))
         })
+        .scope(builder => {
+            if (options.autoIncrement == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("AUTO_INCREMENT = ")
+                .appendBuilder(emitExpression(options.autoIncrement))
+        })
 }
