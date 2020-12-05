@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    STATS_PERSISTENT 0
+    STATS_PERSISTENT 1;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    STATS_PERSISTENT = 1;
+
+-----
+[]

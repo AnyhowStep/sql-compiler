@@ -44,6 +44,8 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 encryption : undefined,
                 autoIncrement : undefined,
                 packKeys : undefined,
+                statsAutoRecalc : undefined,
+                statsPersistent : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

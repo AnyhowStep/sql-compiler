@@ -9,6 +9,18 @@ export enum PackKeys {
     DEFAULT,
 }
 
+export enum StatsAutoRecalc {
+    _0,
+    _1,
+    DEFAULT,
+}
+
+export enum StatsPersistent {
+    _0,
+    _1,
+    DEFAULT,
+}
+
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5911
  *
@@ -76,8 +88,10 @@ export interface CreateTableOptions extends Node {
     password : StringLiteral|undefined;
     /*
     rowFormat;
-    statsAutoRecalc;
-    statsPersistent;
+    */
+    statsAutoRecalc : StatsAutoRecalc|undefined;
+    statsPersistent : StatsPersistent|undefined;
+    /*
     statsSamplePages;
     tablespace;
     union;

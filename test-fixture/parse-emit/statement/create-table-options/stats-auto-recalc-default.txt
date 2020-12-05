@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    STATS_AUTO_RECALC DEFAULT;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    STATS_AUTO_RECALC = DEFAULT;
+
+-----
+[]

@@ -3313,6 +3313,48 @@ export var ParserRules: NearleyRule[] = [
             }
             return result;
         } },
+    {"name": "CreateTableOption$ebnf$11", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$11", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption$subexpression$3", "symbols": ["IntegerLiteral"]},
+    {"name": "CreateTableOption$subexpression$3", "symbols": [DEFAULT]},
+    {"name": "CreateTableOption", "symbols": [STATS_AUTO_RECALC, "CreateTableOption$ebnf$11", "CreateTableOption$subexpression$3"], "postprocess":  (data) => {
+            const statsAutoRecalc = ("tokenKind" in data[2][0] ?
+                parser_node_1.StatsAutoRecalc.DEFAULT :
+                data[2][0].value == BigInt(0) ?
+                    parser_node_1.StatsAutoRecalc._0 :
+                    data[2][0].value == BigInt(1) ?
+                        parser_node_1.StatsAutoRecalc._1 :
+                        undefined);
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                statsAutoRecalc,
+            };
+            if (statsAutoRecalc == undefined) {
+                parse_util_1.pushSyntacticErrorAt(result, data[2][0].start, data[2][0].end, [], diagnostic_messages_1.DiagnosticMessages.Unexpected_Expected, data[2][0].value.toString(), "0|1|DEFAULT");
+            }
+            return result;
+        } },
+    {"name": "CreateTableOption$ebnf$12", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$12", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption$subexpression$4", "symbols": ["IntegerLiteral"]},
+    {"name": "CreateTableOption$subexpression$4", "symbols": [DEFAULT]},
+    {"name": "CreateTableOption", "symbols": [STATS_PERSISTENT, "CreateTableOption$ebnf$12", "CreateTableOption$subexpression$4"], "postprocess":  (data) => {
+            const statsPersistent = ("tokenKind" in data[2][0] ?
+                parser_node_1.StatsPersistent.DEFAULT :
+                data[2][0].value == BigInt(0) ?
+                    parser_node_1.StatsPersistent._0 :
+                    data[2][0].value == BigInt(1) ?
+                        parser_node_1.StatsPersistent._1 :
+                        undefined);
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                statsPersistent,
+            };
+            if (statsPersistent == undefined) {
+                parse_util_1.pushSyntacticErrorAt(result, data[2][0].start, data[2][0].end, [], diagnostic_messages_1.DiagnosticMessages.Unexpected_Expected, data[2][0].value.toString(), "0|1|DEFAULT");
+            }
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3344,6 +3386,8 @@ export var ParserRules: NearleyRule[] = [
                 encryption: undefined,
                 autoIncrement: undefined,
                 packKeys: undefined,
+                statsAutoRecalc: undefined,
+                statsPersistent: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {

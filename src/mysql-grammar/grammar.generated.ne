@@ -3089,6 +3089,40 @@ CreateTableOption ->
     }
     return result;
 } %}
+    | %STATS_AUTO_RECALC %Equal:? (IntegerLiteral | %DEFAULT) {% (data) => {
+    const statsAutoRecalc = ("tokenKind" in data[2][0] ?
+        parser_node_1.StatsAutoRecalc.DEFAULT :
+        data[2][0].value == BigInt(0) ?
+            parser_node_1.StatsAutoRecalc._0 :
+            data[2][0].value == BigInt(1) ?
+                parser_node_1.StatsAutoRecalc._1 :
+                undefined);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        statsAutoRecalc,
+    };
+    if (statsAutoRecalc == undefined) {
+        parse_util_1.pushSyntacticErrorAt(result, data[2][0].start, data[2][0].end, [], diagnostic_messages_1.DiagnosticMessages.Unexpected_Expected, data[2][0].value.toString(), "0|1|DEFAULT");
+    }
+    return result;
+} %}
+    | %STATS_PERSISTENT %Equal:? (IntegerLiteral | %DEFAULT) {% (data) => {
+    const statsPersistent = ("tokenKind" in data[2][0] ?
+        parser_node_1.StatsPersistent.DEFAULT :
+        data[2][0].value == BigInt(0) ?
+            parser_node_1.StatsPersistent._0 :
+            data[2][0].value == BigInt(1) ?
+                parser_node_1.StatsPersistent._1 :
+                undefined);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        statsPersistent,
+    };
+    if (statsPersistent == undefined) {
+        parse_util_1.pushSyntacticErrorAt(result, data[2][0].start, data[2][0].end, [], diagnostic_messages_1.DiagnosticMessages.Unexpected_Expected, data[2][0].value.toString(), "0|1|DEFAULT");
+    }
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3114,6 +3148,8 @@ CreateTableOptions ->
         encryption: undefined,
         autoIncrement: undefined,
         packKeys: undefined,
+        statsAutoRecalc: undefined,
+        statsPersistent: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

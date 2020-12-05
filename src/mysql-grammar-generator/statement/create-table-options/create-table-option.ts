@@ -1,4 +1,4 @@
-import {PackKeys, SyntaxKind} from "../../../parser-node";
+import {PackKeys, StatsAutoRecalc, StatsPersistent, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union} from "../../../nearley-wrapper";
@@ -153,6 +153,86 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             };
 
             if (packKeys == undefined) {
+                pushSyntacticErrorAt(
+                    result,
+                    data[2][0].start,
+                    data[2][0].end,
+                    [],
+                    DiagnosticMessages.Unexpected_Expected,
+                    data[2][0].value.toString(),
+                    "0|1|DEFAULT"
+                );
+            }
+
+            return result;
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.STATS_AUTO_RECALC,
+            optional(TokenKind.Equal),
+            union(
+                SyntaxKind.IntegerLiteral,
+                TokenKind.DEFAULT,
+            ),
+        ] as const,
+        (data) : CreateTableOption => {
+            const statsAutoRecalc = (
+                "tokenKind" in data[2][0] ?
+                StatsAutoRecalc.DEFAULT :
+                data[2][0].value == BigInt(0) ?
+                StatsAutoRecalc._0 :
+                data[2][0].value == BigInt(1) ?
+                StatsAutoRecalc._1 :
+                undefined
+            );
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                statsAutoRecalc,
+            };
+
+            if (statsAutoRecalc == undefined) {
+                pushSyntacticErrorAt(
+                    result,
+                    data[2][0].start,
+                    data[2][0].end,
+                    [],
+                    DiagnosticMessages.Unexpected_Expected,
+                    data[2][0].value.toString(),
+                    "0|1|DEFAULT"
+                );
+            }
+
+            return result;
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.STATS_PERSISTENT,
+            optional(TokenKind.Equal),
+            union(
+                SyntaxKind.IntegerLiteral,
+                TokenKind.DEFAULT,
+            ),
+        ] as const,
+        (data) : CreateTableOption => {
+            const statsPersistent = (
+                "tokenKind" in data[2][0] ?
+                StatsPersistent.DEFAULT :
+                data[2][0].value == BigInt(0) ?
+                StatsPersistent._0 :
+                data[2][0].value == BigInt(1) ?
+                StatsPersistent._1 :
+                undefined
+            );
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                statsPersistent,
+            };
+
+            if (statsPersistent == undefined) {
                 pushSyntacticErrorAt(
                     result,
                     data[2][0].start,

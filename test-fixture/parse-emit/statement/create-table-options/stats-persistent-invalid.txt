@@ -1,0 +1,19 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    STATS_PERSISTENT 2;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Unexpected 2; Expected 0|1|DEFAULT",
+        "start": 54,
+        "length": 1
+    }
+]

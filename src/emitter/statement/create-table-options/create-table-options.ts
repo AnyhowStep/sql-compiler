@@ -1,4 +1,4 @@
-import {CreateTableOptions, PackKeys} from "../../../parser-node";
+import {CreateTableOptions, PackKeys, StatsAutoRecalc, StatsPersistent} from "../../../parser-node";
 import {emitExpression} from "../../expression";
 import {StringBuilder} from "../../string-builder";
 
@@ -113,6 +113,40 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                     options.packKeys == PackKeys._0 ?
                     "0" :
                     options.packKeys == PackKeys._1 ?
+                    "1" :
+                    "DEFAULT"
+                )
+        })
+        .scope(builder => {
+            if (options.statsAutoRecalc == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("STATS_AUTO_RECALC = ")
+                .append(
+                    options.statsAutoRecalc == StatsAutoRecalc._0 ?
+                    "0" :
+                    options.statsAutoRecalc == StatsAutoRecalc._1 ?
+                    "1" :
+                    "DEFAULT"
+                )
+        })
+        .scope(builder => {
+            if (options.statsPersistent == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("STATS_PERSISTENT = ")
+                .append(
+                    options.statsPersistent == StatsPersistent._0 ?
+                    "0" :
+                    options.statsPersistent == StatsPersistent._1 ?
                     "1" :
                     "DEFAULT"
                 )
