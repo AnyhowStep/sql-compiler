@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    CHECKSUM 2;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    CHECKSUM = 1;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Unexpected 2; Expected 0|1",
+        "start": 46,
+        "length": 1
+    }
+]

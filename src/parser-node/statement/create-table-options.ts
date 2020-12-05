@@ -39,7 +39,9 @@ export interface CreateTableOptions extends Node {
     averageRowLength : IntegerLiteral|undefined;
     /*
     characterSet;
-    checksum;
+    */
+    checksum : boolean|undefined;
+    /*
     collate;
     */
     comment : StringLiteral|undefined;

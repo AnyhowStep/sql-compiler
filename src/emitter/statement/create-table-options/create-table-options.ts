@@ -167,4 +167,15 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 builder.append("DEFAULT")
             }
         })
+        .scope(builder => {
+            if (options.checksum == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("CHECKSUM = ")
+                .append(options.checksum ? "1" : "0")
+        })
 }

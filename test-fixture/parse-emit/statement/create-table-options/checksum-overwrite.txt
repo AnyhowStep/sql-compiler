@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    CHECKSUM 0
+    CHECKSUM 1;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    CHECKSUM = 1;
+
+-----
+[]

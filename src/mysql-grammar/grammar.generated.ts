@@ -3374,6 +3374,31 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "CreateTableOption$subexpression$6", "symbols": [TABLE_CHECKSUM]},
+    {"name": "CreateTableOption$subexpression$6", "symbols": [CHECKSUM]},
+    {"name": "CreateTableOption$ebnf$14", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$14", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": ["CreateTableOption$subexpression$6", "CreateTableOption$ebnf$14", "IntegerLiteral"], "postprocess":  (data) => {
+            const checksum = (data[2].value == BigInt(0) ?
+                false :
+                data[2].value == BigInt(1) ?
+                    true :
+                    undefined);
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                /**
+                 * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6050
+                 */
+                checksum: (checksum == undefined ?
+                    //data[2].value > 1
+                    true :
+                    checksum),
+            };
+            if (checksum == undefined) {
+                parse_util_1.pushSyntacticErrorAt(result, data[2].start, data[2].end, [], diagnostic_messages_1.DiagnosticMessages.Unexpected_Expected, data[2].value.toString(), "0|1");
+            }
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3408,6 +3433,7 @@ export var ParserRules: NearleyRule[] = [
                 statsAutoRecalc: undefined,
                 statsPersistent: undefined,
                 statsSamplePages: undefined,
+                checksum: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {

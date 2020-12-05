@@ -276,3 +276,49 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            union(
+                TokenKind.TABLE_CHECKSUM,
+                TokenKind.CHECKSUM
+            ),
+            optional(TokenKind.Equal),
+            SyntaxKind.IntegerLiteral,
+        ] as const,
+        (data) : CreateTableOption => {
+            const checksum = (
+                data[2].value == BigInt(0) ?
+                false :
+                data[2].value == BigInt(1) ?
+                true :
+                undefined
+            );
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                /**
+                 * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6050
+                 */
+                checksum : (
+                    checksum == undefined ?
+                    //data[2].value > 1
+                    true :
+                    checksum
+                ),
+            };
+
+            if (checksum == undefined) {
+                pushSyntacticErrorAt(
+                    result,
+                    data[2].start,
+                    data[2].end,
+                    [],
+                    DiagnosticMessages.Unexpected_Expected,
+                    data[2].value.toString(),
+                    "0|1"
+                );
+            }
+
+            return result;
+        }
+    )
