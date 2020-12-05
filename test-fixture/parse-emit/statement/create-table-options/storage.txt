@@ -1,0 +1,23 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    STORAGE DISK;
+
+CREATE TABLE T (
+    X BOOLEAN
+)
+    STORAGE MEMORY;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    STORAGE DISK;
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    STORAGE MEMORY;
+
+-----
+[]

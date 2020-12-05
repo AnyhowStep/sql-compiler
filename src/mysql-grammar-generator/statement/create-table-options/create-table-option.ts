@@ -1,4 +1,4 @@
-import {InsertMethod, PackKeys, RowFormat, StatsAutoRecalc, StatsPersistent, SyntaxKind} from "../../../parser-node";
+import {InsertMethod, PackKeys, RowFormat, StatsAutoRecalc, StatsPersistent, Storage, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union} from "../../../nearley-wrapper";
@@ -523,6 +523,29 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             const result : CreateTableOption = {
                 ...getTextRange(data),
                 tablespace,
+            };
+
+            return result;
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.STORAGE,
+            union(
+                TokenKind.DISK,
+                TokenKind.MEMORY,
+            ),
+        ] as const,
+        (data) : CreateTableOption => {
+            const storage = (
+                data[1][0].tokenKind == TokenKind.DISK ?
+                Storage.DISK :
+                Storage.MEMORY
+            );
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                storage,
             };
 
             return result;

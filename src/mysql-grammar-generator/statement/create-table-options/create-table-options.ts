@@ -57,6 +57,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 dataDirectory : undefined,
                 indexDirectory : undefined,
                 tablespace : undefined,
+                storage : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

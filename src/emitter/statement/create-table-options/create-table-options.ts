@@ -5,6 +5,7 @@ import {
     RowFormat,
     StatsAutoRecalc,
     StatsPersistent,
+    Storage,
     SyntaxKind,
 } from "../../../parser-node";
 import {emitExpression} from "../../expression";
@@ -302,5 +303,20 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
             builder
                 .append("TABLESPACE = ")
                 .appendBuilder(emitIdentifier(options.tablespace))
+        })
+        .scope(builder => {
+            if (options.storage == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("STORAGE ")
+                .append(
+                    options.storage == Storage.DISK ?
+                    "DISK" :
+                    "MEMORY"
+                )
         })
 }

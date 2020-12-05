@@ -4,6 +4,7 @@ import {DefaultCharacterSet, DefaultCollation} from "../misc";
 import {Node, ValueNode} from "../node";
 import {NodeArray} from "../node-array";
 import {SyntaxKind} from "../syntax-kind.generated";
+import {Storage} from "./create-table-definition";
 
 export enum PackKeys {
     _0,
@@ -111,6 +112,7 @@ export interface CreateTableOptions extends Node {
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6027-L6034
      */
     statsSamplePages : IntegerLiteral|ValueNode<undefined>|undefined;
+    storage : Storage.DISK|Storage.MEMORY|undefined;
     tablespace : Identifier|undefined;
     /**
      * @todo

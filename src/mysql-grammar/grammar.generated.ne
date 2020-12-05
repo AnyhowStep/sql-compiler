@@ -3282,6 +3282,16 @@ CreateTableOption ->
     };
     return result;
 } %}
+    | %STORAGE (%DISK | %MEMORY) {% (data) => {
+    const storage = (data[1][0].tokenKind == scanner_1.TokenKind.DISK ?
+        parser_node_1.Storage.DISK :
+        parser_node_1.Storage.MEMORY);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        storage,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3320,6 +3330,7 @@ CreateTableOptions ->
         dataDirectory: undefined,
         indexDirectory: undefined,
         tablespace: undefined,
+        storage: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

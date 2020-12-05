@@ -3550,6 +3550,18 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "CreateTableOption$subexpression$9", "symbols": [DISK]},
+    {"name": "CreateTableOption$subexpression$9", "symbols": [MEMORY]},
+    {"name": "CreateTableOption", "symbols": [STORAGE, "CreateTableOption$subexpression$9"], "postprocess":  (data) => {
+            const storage = (data[1][0].tokenKind == scanner_1.TokenKind.DISK ?
+                parser_node_1.Storage.DISK :
+                parser_node_1.Storage.MEMORY);
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                storage,
+            };
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3594,6 +3606,7 @@ export var ParserRules: NearleyRule[] = [
                 dataDirectory: undefined,
                 indexDirectory: undefined,
                 tablespace: undefined,
+                storage: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {
