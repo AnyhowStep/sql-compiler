@@ -40,6 +40,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 password : undefined,
                 comment : undefined,
                 compression : undefined,
+                encryption : undefined,
             };
 
             for (const item of arr) {

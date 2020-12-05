@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    ENCRYPTION 'a'
+    ENCRYPTION 'b';
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    ENCRYPTION = 'b';
+
+-----
+[]

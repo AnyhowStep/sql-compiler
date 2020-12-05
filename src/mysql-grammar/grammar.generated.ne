@@ -3060,6 +3060,12 @@ CreateTableOption ->
         compression: data[2],
     };
 } %}
+    | %ENCRYPTION %Equal:? StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        encryption: data[2],
+    };
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3082,6 +3088,7 @@ CreateTableOptions ->
         password: undefined,
         comment: undefined,
         compression: undefined,
+        encryption: undefined,
     };
     for (const item of arr) {
         for (const k of Object.keys(item)) {

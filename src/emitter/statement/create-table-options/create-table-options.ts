@@ -78,4 +78,15 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 .append("COMPRESSION = ")
                 .appendBuilder(emitExpression(options.compression))
         })
+        .scope(builder => {
+            if (options.encryption == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("ENCRYPTION = ")
+                .appendBuilder(emitExpression(options.encryption))
+        })
 }

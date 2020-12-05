@@ -100,3 +100,16 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             };
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.ENCRYPTION,
+            optional(TokenKind.Equal),
+            SyntaxKind.StringLiteral
+        ] as const,
+        (data) : CreateTableOption => {
+            return {
+                ...getTextRange(data),
+                encryption : data[2],
+            };
+        }
+    )

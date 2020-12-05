@@ -3276,6 +3276,14 @@ export var ParserRules: NearleyRule[] = [
                 compression: data[2],
             };
         } },
+    {"name": "CreateTableOption$ebnf$8", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$8", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [ENCRYPTION, "CreateTableOption$ebnf$8", "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                encryption: data[2],
+            };
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3304,6 +3312,7 @@ export var ParserRules: NearleyRule[] = [
                 password: undefined,
                 comment: undefined,
                 compression: undefined,
+                encryption: undefined,
             };
             for (const item of arr) {
                 for (const k of Object.keys(item)) {
