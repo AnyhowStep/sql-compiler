@@ -1,5 +1,6 @@
 import {IntegerLiteral, StringLiteral} from "../expression";
 import {Identifier, TableIdentifier} from "../identifier";
+import {DefaultCharacterSet, DefaultCollation} from "../misc";
 import {Node, ValueNode} from "../node";
 import {NodeArray} from "../node-array";
 import {SyntaxKind} from "../syntax-kind.generated";
@@ -47,13 +48,7 @@ export interface CreateTableOptions extends Node {
      * The maximum MAX_ROWS value is 4294967295; larger values are **ignored**.
      */
     averageRowLength : IntegerLiteral|undefined;
-    /*
-    characterSet;
-    */
     checksum : boolean|undefined;
-    /*
-    collate;
-    */
     comment : StringLiteral|undefined;
     /**
      * Supported values include Zlib, LZ4, and None.
@@ -66,6 +61,8 @@ export interface CreateTableOptions extends Node {
     dataDirectory;
     indexDirectory;
     */
+    defaultCharacterSet : DefaultCharacterSet|undefined;
+    defaultCollation : DefaultCollation|undefined;
     delayKeyWrite : boolean|undefined;
     /**
      * Supported values include Y, and N.

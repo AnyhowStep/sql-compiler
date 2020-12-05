@@ -3230,6 +3230,22 @@ CreateTableOption ->
     };
     return result;
 } %}
+    | DefaultCharacterSet {% (data) => {
+    const defaultCharacterSet = data[0];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        defaultCharacterSet,
+    };
+    return result;
+} %}
+    | DefaultCollation {% (data) => {
+    const defaultCollation = data[0];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        defaultCollation,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3262,6 +3278,8 @@ CreateTableOptions ->
         delayKeyWrite: undefined,
         rowFormat: undefined,
         union: undefined,
+        defaultCharacterSet: undefined,
+        defaultCollation: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

@@ -3487,6 +3487,22 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "CreateTableOption", "symbols": ["DefaultCharacterSet"], "postprocess":  (data) => {
+            const defaultCharacterSet = data[0];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                defaultCharacterSet,
+            };
+            return result;
+        } },
+    {"name": "CreateTableOption", "symbols": ["DefaultCollation"], "postprocess":  (data) => {
+            const defaultCollation = data[0];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                defaultCollation,
+            };
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3525,6 +3541,8 @@ export var ParserRules: NearleyRule[] = [
                 delayKeyWrite: undefined,
                 rowFormat: undefined,
                 union: undefined,
+                defaultCharacterSet: undefined,
+                defaultCollation: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {

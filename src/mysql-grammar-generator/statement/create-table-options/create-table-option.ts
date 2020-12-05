@@ -418,3 +418,33 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            SyntaxKind.DefaultCharacterSet,
+        ] as const,
+        (data) : CreateTableOption => {
+            const defaultCharacterSet = data[0];
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                defaultCharacterSet,
+            };
+
+            return result;
+        }
+    )
+    .addSubstitution(
+        [
+            SyntaxKind.DefaultCollation,
+        ] as const,
+        (data) : CreateTableOption => {
+            const defaultCollation = data[0];
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                defaultCollation,
+            };
+
+            return result;
+        }
+    )

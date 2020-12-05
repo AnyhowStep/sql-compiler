@@ -8,6 +8,7 @@ import {
 } from "../../../parser-node";
 import {emitExpression} from "../../expression";
 import {emitTableIdentifierList} from "../../identifier";
+import {emitDefaultCharacterSet, emitDefaultCollation} from "../../misc";
 import {StringBuilder} from "../../string-builder";
 
 export function emitCreateTableOptions (options : CreateTableOptions) {
@@ -230,5 +231,25 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
             builder
                 .append("UNION = ")
                 .appendBuilder(emitTableIdentifierList(options.union))
+        })
+        .scope(builder => {
+            if (options.defaultCharacterSet == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .appendBuilder(emitDefaultCharacterSet(options.defaultCharacterSet))
+        })
+        .scope(builder => {
+            if (options.defaultCollation == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .appendBuilder(emitDefaultCollation(options.defaultCollation))
         })
 }

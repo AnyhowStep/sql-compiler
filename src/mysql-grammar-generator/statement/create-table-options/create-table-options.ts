@@ -51,6 +51,8 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 delayKeyWrite : undefined,
                 rowFormat : undefined,
                 union : undefined,
+                defaultCharacterSet : undefined,
+                defaultCollation : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];
