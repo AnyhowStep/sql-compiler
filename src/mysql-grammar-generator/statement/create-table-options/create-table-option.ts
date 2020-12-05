@@ -322,3 +322,46 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.DELAY_KEY_WRITE,
+            optional(TokenKind.Equal),
+            SyntaxKind.IntegerLiteral,
+        ] as const,
+        (data) : CreateTableOption => {
+            const delayKeyWrite = (
+                data[2].value == BigInt(0) ?
+                false :
+                data[2].value == BigInt(1) ?
+                true :
+                undefined
+            );
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                /**
+                 * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6060
+                 */
+                delayKeyWrite : (
+                    delayKeyWrite == undefined ?
+                    //data[2].value > 1
+                    true :
+                    delayKeyWrite
+                ),
+            };
+
+            if (delayKeyWrite == undefined) {
+                pushSyntacticErrorAt(
+                    result,
+                    data[2].start,
+                    data[2].end,
+                    [],
+                    DiagnosticMessages.Unexpected_Expected,
+                    data[2].value.toString(),
+                    "0|1"
+                );
+            }
+
+            return result;
+        }
+    )

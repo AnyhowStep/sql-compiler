@@ -178,4 +178,15 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 .append("CHECKSUM = ")
                 .append(options.checksum ? "1" : "0")
         })
+        .scope(builder => {
+            if (options.delayKeyWrite == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("DELAY_KEY_WRITE = ")
+                .append(options.delayKeyWrite ? "1" : "0")
+        })
 }

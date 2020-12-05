@@ -55,8 +55,8 @@ export interface CreateTableOptions extends Node {
     connection;
     dataDirectory;
     indexDirectory;
-    delayKeyWrite;
     */
+    delayKeyWrite : boolean|undefined;
     /**
      * Supported values include Y, and N.
      *

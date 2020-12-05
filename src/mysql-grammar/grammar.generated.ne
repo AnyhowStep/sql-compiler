@@ -3159,6 +3159,27 @@ CreateTableOption ->
     }
     return result;
 } %}
+    | %DELAY_KEY_WRITE %Equal:? IntegerLiteral {% (data) => {
+    const delayKeyWrite = (data[2].value == BigInt(0) ?
+        false :
+        data[2].value == BigInt(1) ?
+            true :
+            undefined);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6060
+         */
+        delayKeyWrite: (delayKeyWrite == undefined ?
+            //data[2].value > 1
+            true :
+            delayKeyWrite),
+    };
+    if (delayKeyWrite == undefined) {
+        parse_util_1.pushSyntacticErrorAt(result, data[2].start, data[2].end, [], diagnostic_messages_1.DiagnosticMessages.Unexpected_Expected, data[2].value.toString(), "0|1");
+    }
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3188,6 +3209,7 @@ CreateTableOptions ->
         statsPersistent: undefined,
         statsSamplePages: undefined,
         checksum: undefined,
+        delayKeyWrite: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

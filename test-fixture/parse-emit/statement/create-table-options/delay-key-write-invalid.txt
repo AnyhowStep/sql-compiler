@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    DELAY_KEY_WRITE 2;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    DELAY_KEY_WRITE = 1;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Unexpected 2; Expected 0|1",
+        "start": 53,
+        "length": 1
+    }
+]

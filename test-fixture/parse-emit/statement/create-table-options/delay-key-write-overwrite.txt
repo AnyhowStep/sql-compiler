@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    DELAY_KEY_WRITE 0
+    DELAY_KEY_WRITE 1;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    DELAY_KEY_WRITE = 1;
+
+-----
+[]
