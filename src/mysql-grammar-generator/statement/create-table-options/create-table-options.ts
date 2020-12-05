@@ -59,6 +59,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 tablespace : undefined,
                 storage : undefined,
                 connection : undefined,
+                keyBlockSize : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    KEY_BLOCK_SIZE 2
+    KEY_BLOCK_SIZE 4;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    KEY_BLOCK_SIZE = 4;
+
+-----
+[]

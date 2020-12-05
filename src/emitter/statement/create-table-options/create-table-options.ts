@@ -8,8 +8,8 @@ import {
     Storage,
     SyntaxKind,
 } from "../../../parser-node";
-import {emitExpression} from "../../expression";
-import {emitStringLiteral} from "../../expression/string-literal";
+import {emitExpression, emitIntegerLiteral, emitStringLiteral} from "../../expression";
+import {} from "../../expression/string-literal";
 import {emitIdentifier, emitTableIdentifierList} from "../../identifier";
 import {emitDefaultCharacterSet, emitDefaultCollation} from "../../misc";
 import {StringBuilder} from "../../string-builder";
@@ -330,5 +330,16 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
             builder
                 .append("CONNECTION = ")
                 .appendBuilder(emitStringLiteral(options.connection))
+        })
+        .scope(builder => {
+            if (options.keyBlockSize == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("KEY_BLOCK_SIZE = ")
+                .appendBuilder(emitIntegerLiteral(options.keyBlockSize))
         })
 }

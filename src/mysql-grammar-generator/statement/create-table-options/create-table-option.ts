@@ -568,3 +568,20 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.KEY_BLOCK_SIZE,
+            optional(TokenKind.Equal),
+            SyntaxKind.IntegerLiteral,
+        ] as const,
+        (data) : CreateTableOption => {
+            const keyBlockSize = data[2];
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                keyBlockSize,
+            };
+
+            return result;
+        }
+    )

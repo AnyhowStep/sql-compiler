@@ -83,9 +83,7 @@ export interface CreateTableOptions extends Node {
      */
     engine : Identifier|StringLiteral|undefined;
     insertMethod : InsertMethod|undefined;
-    /*
-    keyBlockSize;
-    */
+    keyBlockSize : IntegerLiteral|undefined;
     /**
      * The maximum MAX_ROWS value is 4294967295; larger values are truncated to this limit.
      *

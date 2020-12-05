@@ -3300,6 +3300,14 @@ CreateTableOption ->
     };
     return result;
 } %}
+    | %KEY_BLOCK_SIZE %Equal:? IntegerLiteral {% (data) => {
+    const keyBlockSize = data[2];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        keyBlockSize,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3340,6 +3348,7 @@ CreateTableOptions ->
         tablespace: undefined,
         storage: undefined,
         connection: undefined,
+        keyBlockSize: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

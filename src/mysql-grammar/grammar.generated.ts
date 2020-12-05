@@ -3572,6 +3572,16 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "CreateTableOption$ebnf$23", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$23", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [KEY_BLOCK_SIZE, "CreateTableOption$ebnf$23", "IntegerLiteral"], "postprocess":  (data) => {
+            const keyBlockSize = data[2];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                keyBlockSize,
+            };
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3618,6 +3628,7 @@ export var ParserRules: NearleyRule[] = [
                 tablespace: undefined,
                 storage: undefined,
                 connection: undefined,
+                keyBlockSize: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {
