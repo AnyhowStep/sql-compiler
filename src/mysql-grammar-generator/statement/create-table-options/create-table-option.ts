@@ -511,3 +511,20 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.TABLESPACE,
+            optional(TokenKind.Equal),
+            SyntaxKind.Identifier,
+        ] as const,
+        (data) : CreateTableOption => {
+            const tablespace = data[2];
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                tablespace,
+            };
+
+            return result;
+        }
+    )

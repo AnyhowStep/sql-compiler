@@ -56,6 +56,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 insertMethod : undefined,
                 dataDirectory : undefined,
                 indexDirectory : undefined,
+                tablespace : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

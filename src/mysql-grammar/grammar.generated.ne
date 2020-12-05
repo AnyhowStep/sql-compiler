@@ -3274,6 +3274,14 @@ CreateTableOption ->
     };
     return result;
 } %}
+    | %TABLESPACE %Equal:? Identifier {% (data) => {
+    const tablespace = data[2];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        tablespace,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3311,6 +3319,7 @@ CreateTableOptions ->
         insertMethod: undefined,
         dataDirectory: undefined,
         indexDirectory: undefined,
+        tablespace: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    TABLESPACE = a;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    TABLESPACE = `a`;
+
+-----
+[]

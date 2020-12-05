@@ -111,9 +111,7 @@ export interface CreateTableOptions extends Node {
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6027-L6034
      */
     statsSamplePages : IntegerLiteral|ValueNode<undefined>|undefined;
-    /*
-    tablespace;
-    */
+    tablespace : Identifier|undefined;
     /**
      * @todo
      * > Used to access a collection of identical MyISAM tables as one.

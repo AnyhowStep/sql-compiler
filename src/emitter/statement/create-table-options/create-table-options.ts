@@ -8,7 +8,7 @@ import {
     SyntaxKind,
 } from "../../../parser-node";
 import {emitExpression} from "../../expression";
-import {emitTableIdentifierList} from "../../identifier";
+import {emitIdentifier, emitTableIdentifierList} from "../../identifier";
 import {emitDefaultCharacterSet, emitDefaultCollation} from "../../misc";
 import {StringBuilder} from "../../string-builder";
 
@@ -291,5 +291,16 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
             builder
                 .append("INDEX DIRECTORY = ")
                 .appendBuilder(emitExpression(options.indexDirectory))
+        })
+        .scope(builder => {
+            if (options.tablespace == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("TABLESPACE = ")
+                .appendBuilder(emitIdentifier(options.tablespace))
         })
 }
