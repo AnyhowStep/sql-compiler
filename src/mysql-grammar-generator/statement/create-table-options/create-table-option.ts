@@ -1,4 +1,4 @@
-import {PackKeys, StatsAutoRecalc, StatsPersistent, SyntaxKind} from "../../../parser-node";
+import {PackKeys, RowFormat, StatsAutoRecalc, StatsPersistent, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union} from "../../../nearley-wrapper";
@@ -361,6 +361,42 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
                     "0|1"
                 );
             }
+
+            return result;
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.ROW_FORMAT,
+            optional(TokenKind.Equal),
+            union(
+                TokenKind.DEFAULT,
+                TokenKind.FIXED,
+                TokenKind.DYNAMIC,
+                TokenKind.COMPRESSED,
+                TokenKind.REDUNDANT,
+                TokenKind.COMPACT,
+            ),
+        ] as const,
+        (data) : CreateTableOption => {
+            const rowFormat = (
+                data[2][0].tokenKind == TokenKind.FIXED ?
+                RowFormat.FIXED :
+                data[2][0].tokenKind == TokenKind.DYNAMIC ?
+                RowFormat.DYNAMIC :
+                data[2][0].tokenKind == TokenKind.COMPRESSED ?
+                RowFormat.COMPRESSED :
+                data[2][0].tokenKind == TokenKind.REDUNDANT ?
+                RowFormat.REDUNDANT :
+                data[2][0].tokenKind == TokenKind.COMPACT ?
+                RowFormat.COMPACT :
+                RowFormat.DEFAULT
+            );
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                rowFormat,
+            };
 
             return result;
         }

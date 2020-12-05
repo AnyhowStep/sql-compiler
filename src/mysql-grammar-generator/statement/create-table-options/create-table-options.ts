@@ -49,6 +49,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 statsSamplePages : undefined,
                 checksum : undefined,
                 delayKeyWrite : undefined,
+                rowFormat : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

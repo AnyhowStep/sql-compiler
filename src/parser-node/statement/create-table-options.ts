@@ -21,6 +21,15 @@ export enum StatsPersistent {
     DEFAULT,
 }
 
+export enum RowFormat {
+    DEFAULT,
+    FIXED,
+    DYNAMIC,
+    COMPRESSED,
+    REDUNDANT,
+    COMPACT,
+}
+
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5911
  *
@@ -88,9 +97,7 @@ export interface CreateTableOptions extends Node {
     minRows : IntegerLiteral|undefined;
     packKeys : PackKeys|undefined;
     password : StringLiteral|undefined;
-    /*
-    rowFormat;
-    */
+    rowFormat : RowFormat|undefined;
     statsAutoRecalc : StatsAutoRecalc|undefined;
     statsPersistent : StatsPersistent|undefined;
     /**

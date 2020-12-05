@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    ROW_FORMAT DEFAULT
+    ROW_FORMAT FIXED;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    ROW_FORMAT = FIXED;
+
+-----
+[]

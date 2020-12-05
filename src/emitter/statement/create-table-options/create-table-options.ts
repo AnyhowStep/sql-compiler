@@ -1,4 +1,11 @@
-import {CreateTableOptions, PackKeys, StatsAutoRecalc, StatsPersistent, SyntaxKind} from "../../../parser-node";
+import {
+    CreateTableOptions,
+    PackKeys,
+    RowFormat,
+    StatsAutoRecalc,
+    StatsPersistent,
+    SyntaxKind,
+} from "../../../parser-node";
 import {emitExpression} from "../../expression";
 import {StringBuilder} from "../../string-builder";
 
@@ -188,5 +195,28 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
             builder
                 .append("DELAY_KEY_WRITE = ")
                 .append(options.delayKeyWrite ? "1" : "0")
+        })
+        .scope(builder => {
+            if (options.rowFormat == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("ROW_FORMAT = ")
+                .append(
+                    options.rowFormat == RowFormat.FIXED ?
+                    "FIXED" :
+                    options.rowFormat == RowFormat.DYNAMIC ?
+                    "DYNAMIC" :
+                    options.rowFormat == RowFormat.COMPRESSED ?
+                    "COMPRESSED" :
+                    options.rowFormat == RowFormat.REDUNDANT ?
+                    "REDUNDANT" :
+                    options.rowFormat == RowFormat.COMPACT ?
+                    "COMPACT" :
+                    "DEFAULT"
+                )
         })
 }

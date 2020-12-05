@@ -3180,6 +3180,24 @@ CreateTableOption ->
     }
     return result;
 } %}
+    | %ROW_FORMAT %Equal:? (%DEFAULT | %FIXED | %DYNAMIC | %COMPRESSED | %REDUNDANT | %COMPACT) {% (data) => {
+    const rowFormat = (data[2][0].tokenKind == scanner_1.TokenKind.FIXED ?
+        parser_node_1.RowFormat.FIXED :
+        data[2][0].tokenKind == scanner_1.TokenKind.DYNAMIC ?
+            parser_node_1.RowFormat.DYNAMIC :
+            data[2][0].tokenKind == scanner_1.TokenKind.COMPRESSED ?
+                parser_node_1.RowFormat.COMPRESSED :
+                data[2][0].tokenKind == scanner_1.TokenKind.REDUNDANT ?
+                    parser_node_1.RowFormat.REDUNDANT :
+                    data[2][0].tokenKind == scanner_1.TokenKind.COMPACT ?
+                        parser_node_1.RowFormat.COMPACT :
+                        parser_node_1.RowFormat.DEFAULT);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        rowFormat,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3210,6 +3228,7 @@ CreateTableOptions ->
         statsSamplePages: undefined,
         checksum: undefined,
         delayKeyWrite: undefined,
+        rowFormat: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

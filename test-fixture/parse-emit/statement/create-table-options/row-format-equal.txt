@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    ROW_FORMAT = DEFAULT;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    ROW_FORMAT = DEFAULT;
+
+-----
+[]

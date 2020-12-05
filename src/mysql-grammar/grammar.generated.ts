@@ -3422,6 +3422,32 @@ export var ParserRules: NearleyRule[] = [
             }
             return result;
         } },
+    {"name": "CreateTableOption$ebnf$16", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$16", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption$subexpression$7", "symbols": [DEFAULT]},
+    {"name": "CreateTableOption$subexpression$7", "symbols": [FIXED]},
+    {"name": "CreateTableOption$subexpression$7", "symbols": [DYNAMIC]},
+    {"name": "CreateTableOption$subexpression$7", "symbols": [COMPRESSED]},
+    {"name": "CreateTableOption$subexpression$7", "symbols": [REDUNDANT]},
+    {"name": "CreateTableOption$subexpression$7", "symbols": [COMPACT]},
+    {"name": "CreateTableOption", "symbols": [ROW_FORMAT, "CreateTableOption$ebnf$16", "CreateTableOption$subexpression$7"], "postprocess":  (data) => {
+            const rowFormat = (data[2][0].tokenKind == scanner_1.TokenKind.FIXED ?
+                parser_node_1.RowFormat.FIXED :
+                data[2][0].tokenKind == scanner_1.TokenKind.DYNAMIC ?
+                    parser_node_1.RowFormat.DYNAMIC :
+                    data[2][0].tokenKind == scanner_1.TokenKind.COMPRESSED ?
+                        parser_node_1.RowFormat.COMPRESSED :
+                        data[2][0].tokenKind == scanner_1.TokenKind.REDUNDANT ?
+                            parser_node_1.RowFormat.REDUNDANT :
+                            data[2][0].tokenKind == scanner_1.TokenKind.COMPACT ?
+                                parser_node_1.RowFormat.COMPACT :
+                                parser_node_1.RowFormat.DEFAULT);
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                rowFormat,
+            };
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3458,6 +3484,7 @@ export var ParserRules: NearleyRule[] = [
                 statsSamplePages: undefined,
                 checksum: undefined,
                 delayKeyWrite: undefined,
+                rowFormat: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {
