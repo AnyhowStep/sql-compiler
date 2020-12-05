@@ -73,6 +73,21 @@ export const syntaxKinds = [
     "CheckDefinition",
     "CreateTableOptions",
 
+    "HashPartition",
+    "KeyPartition",
+    "ListPartition",
+    "RangePartition",
+
+    "HashSubPartition",
+    "KeySubPartition",
+
+    "ListPartitionDefinition",
+    "RangePartitionDefinition",
+
+    "SubPartitionDefinition",
+
+    "PartitionDefinitionOptions",
+
     "SetStatement",
     "Assignment",
 

@@ -54,6 +54,16 @@ import {
     DeclareFunctionParameter,
     DeclareFunctionStatement,
     DelimiterStatement,
+    HashPartition,
+    HashSubPartition,
+    KeyPartition,
+    KeySubPartition,
+    ListPartitionDefinition,
+    ListPartition,
+    PartitionDefinitionOptions,
+    RangePartitionDefinition,
+    RangePartition,
+    SubPartitionDefinition,
     UnknownStatement,
 } from "../parser-node";
 
@@ -111,5 +121,15 @@ export type SyntaxKindToNode = {
     [SyntaxKind.DeclareFunctionParameter] : DeclareFunctionParameter;
     [SyntaxKind.DeclareFunctionStatement] : DeclareFunctionStatement;
     [SyntaxKind.DelimiterStatement] : DelimiterStatement;
+    [SyntaxKind.HashPartition] : HashPartition;
+    [SyntaxKind.HashSubPartition] : HashSubPartition;
+    [SyntaxKind.KeyPartition] : KeyPartition;
+    [SyntaxKind.KeySubPartition] : KeySubPartition;
+    [SyntaxKind.ListPartitionDefinition] : ListPartitionDefinition;
+    [SyntaxKind.ListPartition] : ListPartition;
+    [SyntaxKind.PartitionDefinitionOptions] : PartitionDefinitionOptions;
+    [SyntaxKind.RangePartitionDefinition] : RangePartitionDefinition;
+    [SyntaxKind.RangePartition] : RangePartition;
+    [SyntaxKind.SubPartitionDefinition] : SubPartitionDefinition;
     [SyntaxKind.UnknownStatement] : UnknownStatement;
 } & Record<SyntaxKind, unknown>;

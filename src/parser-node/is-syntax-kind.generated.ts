@@ -53,6 +53,16 @@ import {CreateTableStatement} from "./statement/create-table-statement";
 import {DeclareFunctionParameter} from "./statement/declare-function-parameter";
 import {DeclareFunctionStatement} from "./statement/declare-function-statement";
 import {DelimiterStatement} from "./statement/delimiter-statement";
+import {HashPartition} from "./statement/partition/hash-partition";
+import {HashSubPartition} from "./statement/partition/hash-sub-partition";
+import {KeyPartition} from "./statement/partition/key-partition";
+import {KeySubPartition} from "./statement/partition/key-sub-partition";
+import {ListPartitionDefinition} from "./statement/partition/list-partition-definition";
+import {ListPartition} from "./statement/partition/list-partition";
+import {PartitionDefinitionOptions} from "./statement/partition/partition-definition-options";
+import {RangePartitionDefinition} from "./statement/partition/range-partition-definition";
+import {RangePartition} from "./statement/partition/range-partition";
+import {SubPartitionDefinition} from "./statement/partition/sub-partition-definition";
 import {UnknownStatement} from "./statement/unknown-statement";
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BinaryDataType) : node is BinaryDataType;
@@ -108,6 +118,16 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableSt
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DeclareFunctionParameter) : node is DeclareFunctionParameter;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DeclareFunctionStatement) : node is DeclareFunctionStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DelimiterStatement) : node is DelimiterStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.HashPartition) : node is HashPartition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.HashSubPartition) : node is HashSubPartition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.KeyPartition) : node is KeyPartition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.KeySubPartition) : node is KeySubPartition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ListPartitionDefinition) : node is ListPartitionDefinition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ListPartition) : node is ListPartition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PartitionDefinitionOptions) : node is PartitionDefinitionOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RangePartitionDefinition) : node is RangePartitionDefinition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RangePartition) : node is RangePartition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SubPartitionDefinition) : node is SubPartitionDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownStatement) : node is UnknownStatement;
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean;
@@ -172,6 +192,16 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.DeclareFunctionParameter, callback : (node : DeclareFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DeclareFunctionStatement, callback : (node : DeclareFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DelimiterStatement, callback : (node : DelimiterStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.HashPartition, callback : (node : HashPartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.HashSubPartition, callback : (node : HashSubPartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.KeyPartition, callback : (node : KeyPartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.KeySubPartition, callback : (node : KeySubPartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.ListPartitionDefinition, callback : (node : ListPartitionDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.ListPartition, callback : (node : ListPartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.PartitionDefinitionOptions, callback : (node : PartitionDefinitionOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.RangePartitionDefinition, callback : (node : RangePartitionDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.RangePartition, callback : (node : RangePartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.SubPartitionDefinition, callback : (node : SubPartitionDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownStatement, callback : (node : UnknownStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
 
     default<ResultT> (callback : () => ResultT) : ResultT|ReturnT;
