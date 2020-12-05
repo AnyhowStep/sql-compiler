@@ -50,6 +50,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 checksum : undefined,
                 delayKeyWrite : undefined,
                 rowFormat : undefined,
+                union : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

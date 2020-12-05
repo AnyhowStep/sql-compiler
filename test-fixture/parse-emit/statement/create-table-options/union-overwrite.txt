@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    UNION (A, B)
+    UNION (X, Y, Z);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    UNION = (`X`, `Y`, `Z`);
+
+-----
+[]

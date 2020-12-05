@@ -7,6 +7,7 @@ import {
     SyntaxKind,
 } from "../../../parser-node";
 import {emitExpression} from "../../expression";
+import {emitTableIdentifierList} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
 
 export function emitCreateTableOptions (options : CreateTableOptions) {
@@ -218,5 +219,16 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                     "COMPACT" :
                     "DEFAULT"
                 )
+        })
+        .scope(builder => {
+            if (options.union == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("UNION = ")
+                .appendBuilder(emitTableIdentifierList(options.union))
         })
 }

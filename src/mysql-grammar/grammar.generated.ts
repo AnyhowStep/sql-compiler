@@ -2597,6 +2597,35 @@ export var ParserRules: NearleyRule[] = [
             });
             return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.StringList, parse_util_1.getTextRange(data));
         } },
+    {"name": "TableIdentifierList$ebnf$1", "symbols": []},
+    {"name": "TableIdentifierList$ebnf$1$subexpression$1", "symbols": [Comma, "TableIdentifier"]},
+    {"name": "TableIdentifierList$ebnf$1", "symbols": ["TableIdentifierList$ebnf$1", "TableIdentifierList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "TableIdentifierList", "symbols": [OpenParentheses, "TableIdentifier", "TableIdentifierList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.TableIdentifierList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "TableIdentifierList_AllowEmpty$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "TableIdentifierList_AllowEmpty$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Comma, "TableIdentifier"]},
+    {"name": "TableIdentifierList_AllowEmpty$ebnf$1$subexpression$1$ebnf$1", "symbols": ["TableIdentifierList_AllowEmpty$ebnf$1$subexpression$1$ebnf$1", "TableIdentifierList_AllowEmpty$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "TableIdentifierList_AllowEmpty$ebnf$1$subexpression$1", "symbols": ["TableIdentifier", "TableIdentifierList_AllowEmpty$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "TableIdentifierList_AllowEmpty$ebnf$1", "symbols": ["TableIdentifierList_AllowEmpty$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "TableIdentifierList_AllowEmpty$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "TableIdentifierList_AllowEmpty", "symbols": [OpenParentheses, "TableIdentifierList_AllowEmpty$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((x) => {
+                if (x == undefined) {
+                    return false;
+                }
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableIdentifierList, parse_util_1.getTextRange(data));
+        } },
     {"name": "TextString$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "TextString$subexpression$1", "symbols": ["HexLiteral"]},
     {"name": "TextString$subexpression$1", "symbols": ["BitLiteral"]},
@@ -3448,6 +3477,16 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "CreateTableOption$ebnf$17", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$17", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [UNION, "CreateTableOption$ebnf$17", "TableIdentifierList_AllowEmpty"], "postprocess":  (data) => {
+            const union = data[2];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                union,
+            };
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3485,6 +3524,7 @@ export var ParserRules: NearleyRule[] = [
                 checksum: undefined,
                 delayKeyWrite: undefined,
                 rowFormat: undefined,
+                union: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {

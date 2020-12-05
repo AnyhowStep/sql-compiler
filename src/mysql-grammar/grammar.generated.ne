@@ -2501,6 +2501,30 @@ StringList ->
     return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.StringList, parse_util_1.getTextRange(data));
 } %}
 
+TableIdentifierList ->
+    %OpenParentheses TableIdentifier (%Comma TableIdentifier):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.TableIdentifierList, parse_util_1.getTextRange(data));
+} %}
+
+TableIdentifierList_AllowEmpty ->
+    %OpenParentheses (TableIdentifier (%Comma TableIdentifier):*):? %CloseParentheses {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((x) => {
+        if (x == undefined) {
+            return false;
+        }
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableIdentifierList, parse_util_1.getTextRange(data));
+} %}
+
 TextString ->
     (StringLiteral | HexLiteral | BitLiteral) {% (data) => {
     let [[literal]] = data;
@@ -3198,6 +3222,14 @@ CreateTableOption ->
     };
     return result;
 } %}
+    | %UNION %Equal:? TableIdentifierList_AllowEmpty {% (data) => {
+    const union = data[2];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        union,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3229,6 +3261,7 @@ CreateTableOptions ->
         checksum: undefined,
         delayKeyWrite: undefined,
         rowFormat: undefined,
+        union: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

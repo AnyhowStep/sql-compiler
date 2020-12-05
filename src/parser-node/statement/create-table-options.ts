@@ -1,6 +1,7 @@
 import {IntegerLiteral, StringLiteral} from "../expression";
-import {Identifier} from "../identifier";
+import {Identifier, TableIdentifier} from "../identifier";
 import {Node, ValueNode} from "../node";
+import {NodeArray} from "../node-array";
 import {SyntaxKind} from "../syntax-kind.generated";
 
 export enum PackKeys {
@@ -107,6 +108,13 @@ export interface CreateTableOptions extends Node {
     statsSamplePages : IntegerLiteral|ValueNode<undefined>|undefined;
     /*
     tablespace;
-    union;
     */
+    /**
+     * @todo
+     * > Used to access a collection of identical MyISAM tables as one.
+     * > This works only with MERGE tables.
+     *
+     * https://dev.mysql.com/doc/refman/5.7/en/create-table.html
+     */
+    union : NodeArray<TableIdentifier>|undefined;
 }

@@ -105,6 +105,7 @@ export enum SyntaxKind {
     OrderItemList = 1103,
     IndexPartList = 1104,
     StringList = 1105,
+    TableIdentifierList = 1106,
 }
 
 //https://dev.mysql.com/doc/refman/5.7/en/manual-info.html
@@ -264,6 +265,7 @@ export const syntaxKinds = [
     "OrderItemList",
     "IndexPartList",
     "StringList",
+    "TableIdentifierList",
 
 ] as const;
 

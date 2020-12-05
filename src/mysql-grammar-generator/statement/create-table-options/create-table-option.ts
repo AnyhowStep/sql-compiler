@@ -401,3 +401,20 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.UNION,
+            optional(TokenKind.Equal),
+            CustomSyntaxKind.TableIdentifierList_AllowEmpty,
+        ] as const,
+        (data) : CreateTableOption => {
+            const union = data[2];
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                union,
+            };
+
+            return result;
+        }
+    )

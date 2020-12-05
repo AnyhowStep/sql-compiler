@@ -15,6 +15,7 @@ import {
     Statement,
     StringLiteral,
     SyntaxKind,
+    TableIdentifier,
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
@@ -51,6 +52,8 @@ export enum CustomSyntaxKind {
     IdentifierList,
     ColumnCheckDefinition,
     CreateTableOption,
+    TableIdentifierList,
+    TableIdentifierList_AllowEmpty,
 }
 
 declare module "../nearley-wrapper" {
@@ -84,6 +87,8 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.IdentifierList] : NodeArray<Identifier>,
         [CustomSyntaxKind.ColumnCheckDefinition] : CheckDefinition,
         [CustomSyntaxKind.CreateTableOption] : CreateTableOption,
+        [CustomSyntaxKind.TableIdentifierList] : NodeArray<TableIdentifier>,
+        [CustomSyntaxKind.TableIdentifierList_AllowEmpty] : NodeArray<TableIdentifier>,
     }
 
     interface CustomToken extends Array<TokenKind> {

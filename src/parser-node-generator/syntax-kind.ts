@@ -155,5 +155,6 @@ export const syntaxKinds = [
     "OrderItemList",
     "IndexPartList",
     "StringList",
+    "TableIdentifierList",
 
 ] as const;

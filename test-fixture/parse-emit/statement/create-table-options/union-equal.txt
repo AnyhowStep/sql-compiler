@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    UNION = (U);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    UNION = (`U`);
+
+-----
+[]
