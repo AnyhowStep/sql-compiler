@@ -3520,6 +3520,26 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "CreateTableOption$ebnf$19", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$19", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [DATA, DIRECTORY, "CreateTableOption$ebnf$19", "StringLiteral"], "postprocess":  (data) => {
+            const dataDirectory = data[3];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                dataDirectory,
+            };
+            return result;
+        } },
+    {"name": "CreateTableOption$ebnf$20", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$20", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [INDEX, DIRECTORY, "CreateTableOption$ebnf$20", "StringLiteral"], "postprocess":  (data) => {
+            const indexDirectory = data[3];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                indexDirectory,
+            };
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3561,6 +3581,8 @@ export var ParserRules: NearleyRule[] = [
                 defaultCharacterSet: undefined,
                 defaultCollation: undefined,
                 insertMethod: undefined,
+                dataDirectory: undefined,
+                indexDirectory: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {

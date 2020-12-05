@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    DATA DIRECTORY = 'test/path';
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    DATA DIRECTORY = 'test/path';
+
+-----
+[]

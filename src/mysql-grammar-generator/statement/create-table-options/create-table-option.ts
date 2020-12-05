@@ -475,3 +475,39 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.DATA,
+            TokenKind.DIRECTORY,
+            optional(TokenKind.Equal),
+            SyntaxKind.StringLiteral,
+        ] as const,
+        (data) : CreateTableOption => {
+            const dataDirectory = data[3];
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                dataDirectory,
+            };
+
+            return result;
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.INDEX,
+            TokenKind.DIRECTORY,
+            optional(TokenKind.Equal),
+            SyntaxKind.StringLiteral,
+        ] as const,
+        (data) : CreateTableOption => {
+            const indexDirectory = data[3];
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                indexDirectory,
+            };
+
+            return result;
+        }
+    )

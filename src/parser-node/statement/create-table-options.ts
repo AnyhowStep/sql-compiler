@@ -64,9 +64,11 @@ export interface CreateTableOptions extends Node {
     compression : StringLiteral|undefined;
     /*
     connection;
-    dataDirectory;
-    indexDirectory;
     */
+
+    dataDirectory : StringLiteral|undefined;
+    indexDirectory : StringLiteral|undefined;
+
     defaultCharacterSet : DefaultCharacterSet|undefined;
     defaultCollation : DefaultCollation|undefined;
     delayKeyWrite : boolean|undefined;

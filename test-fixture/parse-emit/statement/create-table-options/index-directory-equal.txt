@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    INDEX DIRECTORY = 'test/path';
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    INDEX DIRECTORY = 'test/path';
+
+-----
+[]

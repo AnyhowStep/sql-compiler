@@ -54,6 +54,8 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 defaultCharacterSet : undefined,
                 defaultCollation : undefined,
                 insertMethod : undefined,
+                dataDirectory : undefined,
+                indexDirectory : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

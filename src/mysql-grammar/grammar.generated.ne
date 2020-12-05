@@ -3258,6 +3258,22 @@ CreateTableOption ->
     };
     return result;
 } %}
+    | %DATA %DIRECTORY %Equal:? StringLiteral {% (data) => {
+    const dataDirectory = data[3];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        dataDirectory,
+    };
+    return result;
+} %}
+    | %INDEX %DIRECTORY %Equal:? StringLiteral {% (data) => {
+    const indexDirectory = data[3];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        indexDirectory,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3293,6 +3309,8 @@ CreateTableOptions ->
         defaultCharacterSet: undefined,
         defaultCollation: undefined,
         insertMethod: undefined,
+        dataDirectory: undefined,
+        indexDirectory: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

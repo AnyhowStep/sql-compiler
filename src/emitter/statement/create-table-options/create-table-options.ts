@@ -270,4 +270,26 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                     "NO"
                 )
         })
+        .scope(builder => {
+            if (options.dataDirectory == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("DATA DIRECTORY = ")
+                .appendBuilder(emitExpression(options.dataDirectory))
+        })
+        .scope(builder => {
+            if (options.indexDirectory == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("INDEX DIRECTORY = ")
+                .appendBuilder(emitExpression(options.indexDirectory))
+        })
 }
