@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    CONNECTION = 'a';
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    CONNECTION = 'a';
+
+-----
+[]

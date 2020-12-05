@@ -3292,6 +3292,14 @@ CreateTableOption ->
     };
     return result;
 } %}
+    | %CONNECTION %Equal:? StringLiteral {% (data) => {
+    const connection = data[2];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        connection,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3331,6 +3339,7 @@ CreateTableOptions ->
         indexDirectory: undefined,
         tablespace: undefined,
         storage: undefined,
+        connection: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

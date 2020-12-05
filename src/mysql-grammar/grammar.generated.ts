@@ -3562,6 +3562,16 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "CreateTableOption$ebnf$22", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$22", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption", "symbols": [CONNECTION, "CreateTableOption$ebnf$22", "StringLiteral"], "postprocess":  (data) => {
+            const connection = data[2];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                connection,
+            };
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3607,6 +3617,7 @@ export var ParserRules: NearleyRule[] = [
                 indexDirectory: undefined,
                 tablespace: undefined,
                 storage: undefined,
+                connection: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {

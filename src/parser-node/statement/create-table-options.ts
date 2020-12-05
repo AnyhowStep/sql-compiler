@@ -63,9 +63,7 @@ export interface CreateTableOptions extends Node {
      * https://dev.mysql.com/doc/refman/5.7/en/create-table.html
      */
     compression : StringLiteral|undefined;
-    /*
-    connection;
-    */
+    connection : StringLiteral|undefined;
 
     dataDirectory : StringLiteral|undefined;
     indexDirectory : StringLiteral|undefined;

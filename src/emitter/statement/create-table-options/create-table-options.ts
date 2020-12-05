@@ -9,6 +9,7 @@ import {
     SyntaxKind,
 } from "../../../parser-node";
 import {emitExpression} from "../../expression";
+import {emitStringLiteral} from "../../expression/string-literal";
 import {emitIdentifier, emitTableIdentifierList} from "../../identifier";
 import {emitDefaultCharacterSet, emitDefaultCollation} from "../../misc";
 import {StringBuilder} from "../../string-builder";
@@ -318,5 +319,16 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                     "DISK" :
                     "MEMORY"
                 )
+        })
+        .scope(builder => {
+            if (options.connection == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("CONNECTION = ")
+                .appendBuilder(emitStringLiteral(options.connection))
         })
 }

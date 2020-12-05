@@ -551,3 +551,20 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.CONNECTION,
+            optional(TokenKind.Equal),
+            SyntaxKind.StringLiteral,
+        ] as const,
+        (data) : CreateTableOption => {
+            const connection = data[2];
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                connection,
+            };
+
+            return result;
+        }
+    )
