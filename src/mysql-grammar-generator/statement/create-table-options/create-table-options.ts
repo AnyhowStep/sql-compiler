@@ -46,6 +46,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 packKeys : undefined,
                 statsAutoRecalc : undefined,
                 statsPersistent : undefined,
+                statsSamplePages : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

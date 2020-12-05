@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    STATS_SAMPLE_PAGES 0
+    STATS_SAMPLE_PAGES 1;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    STATS_SAMPLE_PAGES = 1;
+
+-----
+[]

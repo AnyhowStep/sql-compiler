@@ -247,3 +247,32 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.STATS_SAMPLE_PAGES,
+            optional(TokenKind.Equal),
+            union(
+                SyntaxKind.IntegerLiteral,
+                TokenKind.DEFAULT,
+            ),
+        ] as const,
+        (data) : CreateTableOption => {
+            const statsSamplePages = (
+                "tokenKind" in data[2][0] ?
+                {
+                    start : data[2][0].start,
+                    end : data[2][0].end,
+                    syntaxKind : SyntaxKind.Value,
+                    value : undefined,
+                } as const :
+                data[2][0]
+            );
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                statsSamplePages,
+            };
+
+            return result;
+        }
+    )

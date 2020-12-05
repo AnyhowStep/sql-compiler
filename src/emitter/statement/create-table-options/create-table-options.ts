@@ -1,4 +1,4 @@
-import {CreateTableOptions, PackKeys, StatsAutoRecalc, StatsPersistent} from "../../../parser-node";
+import {CreateTableOptions, PackKeys, StatsAutoRecalc, StatsPersistent, SyntaxKind} from "../../../parser-node";
 import {emitExpression} from "../../expression";
 import {StringBuilder} from "../../string-builder";
 
@@ -150,5 +150,21 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                     "1" :
                     "DEFAULT"
                 )
+        })
+        .scope(builder => {
+            if (options.statsSamplePages == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("STATS_SAMPLE_PAGES = ")
+
+            if (options.statsSamplePages.syntaxKind == SyntaxKind.IntegerLiteral) {
+                builder.appendBuilder(emitExpression(options.statsSamplePages))
+            } else {
+                builder.append("DEFAULT")
+            }
         })
 }

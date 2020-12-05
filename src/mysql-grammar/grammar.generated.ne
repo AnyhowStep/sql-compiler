@@ -3123,6 +3123,21 @@ CreateTableOption ->
     }
     return result;
 } %}
+    | %STATS_SAMPLE_PAGES %Equal:? (IntegerLiteral | %DEFAULT) {% (data) => {
+    const statsSamplePages = ("tokenKind" in data[2][0] ?
+        {
+            start: data[2][0].start,
+            end: data[2][0].end,
+            syntaxKind: parser_node_1.SyntaxKind.Value,
+            value: undefined,
+        } :
+        data[2][0]);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        statsSamplePages,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3150,6 +3165,7 @@ CreateTableOptions ->
         packKeys: undefined,
         statsAutoRecalc: undefined,
         statsPersistent: undefined,
+        statsSamplePages: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

@@ -3355,6 +3355,25 @@ export var ParserRules: NearleyRule[] = [
             }
             return result;
         } },
+    {"name": "CreateTableOption$ebnf$13", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTableOption$ebnf$13", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableOption$subexpression$5", "symbols": ["IntegerLiteral"]},
+    {"name": "CreateTableOption$subexpression$5", "symbols": [DEFAULT]},
+    {"name": "CreateTableOption", "symbols": [STATS_SAMPLE_PAGES, "CreateTableOption$ebnf$13", "CreateTableOption$subexpression$5"], "postprocess":  (data) => {
+            const statsSamplePages = ("tokenKind" in data[2][0] ?
+                {
+                    start: data[2][0].start,
+                    end: data[2][0].end,
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: undefined,
+                } :
+                data[2][0]);
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                statsSamplePages,
+            };
+            return result;
+        } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -3388,6 +3407,7 @@ export var ParserRules: NearleyRule[] = [
                 packKeys: undefined,
                 statsAutoRecalc: undefined,
                 statsPersistent: undefined,
+                statsSamplePages: undefined,
             };
             const syntacticErrors = [];
             for (const item of arr) {
