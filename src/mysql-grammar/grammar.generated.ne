@@ -3072,6 +3072,23 @@ CreateTableOption ->
         autoIncrement: data[2],
     };
 } %}
+    | %PACK_KEYS %Equal:? (IntegerLiteral | %DEFAULT) {% (data) => {
+    const packKeys = ("tokenKind" in data[2][0] ?
+        parser_node_1.PackKeys.DEFAULT :
+        data[2][0].value == BigInt(0) ?
+            parser_node_1.PackKeys._0 :
+            data[2][0].value == BigInt(1) ?
+                parser_node_1.PackKeys._1 :
+                undefined);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        packKeys,
+    };
+    if (packKeys == undefined) {
+        parse_util_1.pushSyntacticErrorAt(result, data[2][0].start, data[2][0].end, [], diagnostic_messages_1.DiagnosticMessages.Unexpected_Expected, data[2][0].value.toString(), "0|1|DEFAULT");
+    }
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3096,8 +3113,13 @@ CreateTableOptions ->
         compression: undefined,
         encryption: undefined,
         autoIncrement: undefined,
+        packKeys: undefined,
     };
+    const syntacticErrors = [];
     for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
         for (const k of Object.keys(item)) {
             if (k in result) {
                 result[k] = item[k];
@@ -3109,6 +3131,9 @@ CreateTableOptions ->
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateTableOptions,
         ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
     };
 } %}
 

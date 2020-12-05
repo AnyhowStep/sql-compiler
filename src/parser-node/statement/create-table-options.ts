@@ -3,6 +3,12 @@ import {Identifier} from "../identifier";
 import {Node} from "../node";
 import {SyntaxKind} from "../syntax-kind.generated";
 
+export enum PackKeys {
+    _0,
+    _1,
+    DEFAULT,
+}
+
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5911
  *
@@ -12,7 +18,7 @@ export interface CreateTableOptions extends Node {
     syntaxKind : SyntaxKind.CreateTableOptions;
 
     /**
-     * 
+     *
      */
     autoIncrement : IntegerLiteral|undefined;
     /**
@@ -66,9 +72,7 @@ export interface CreateTableOptions extends Node {
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5928
      */
     minRows : IntegerLiteral|undefined;
-    /*
-    packKeys;
-    */
+    packKeys : PackKeys|undefined;
     password : StringLiteral|undefined;
     /*
     rowFormat;

@@ -1,4 +1,4 @@
-import {CreateTableOptions, Node, TextRange} from "../../parser-node";
+import {CreateTableOptions, Node, SyntacticErrorContainer, TextRange} from "../../parser-node";
 
 type MakeCreateTableOption<T, K extends keyof T = Exclude<keyof T, keyof Node>> =
     K extends keyof T ?
@@ -6,4 +6,4 @@ type MakeCreateTableOption<T, K extends keyof T = Exclude<keyof T, keyof Node>> 
     never
 ;
 
-export type CreateTableOption = MakeCreateTableOption<CreateTableOptions> & TextRange
+export type CreateTableOption = MakeCreateTableOption<CreateTableOptions> & TextRange & SyntacticErrorContainer

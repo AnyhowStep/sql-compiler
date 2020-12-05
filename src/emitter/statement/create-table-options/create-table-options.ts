@@ -1,4 +1,4 @@
-import {CreateTableOptions} from "../../../parser-node";
+import {CreateTableOptions, PackKeys} from "../../../parser-node";
 import {emitExpression} from "../../expression";
 import {StringBuilder} from "../../string-builder";
 
@@ -99,5 +99,22 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
             builder
                 .append("AUTO_INCREMENT = ")
                 .appendBuilder(emitExpression(options.autoIncrement))
+        })
+        .scope(builder => {
+            if (options.packKeys == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("PACK_KEYS = ")
+                .append(
+                    options.packKeys == PackKeys._0 ?
+                    "0" :
+                    options.packKeys == PackKeys._1 ?
+                    "1" :
+                    "DEFAULT"
+                )
         })
 }

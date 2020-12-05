@@ -1,0 +1,19 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PACK_KEYS 2;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Unexpected 2; Expected 0|1|DEFAULT",
+        "start": 47,
+        "length": 1
+    }
+]

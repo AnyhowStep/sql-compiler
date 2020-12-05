@@ -1,9 +1,10 @@
-import {SyntaxKind} from "../../../parser-node";
+import {PackKeys, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union} from "../../../nearley-wrapper";
-import {getTextRange} from "../../parse-util";
+import {getTextRange, pushSyntacticErrorAt} from "../../parse-util";
 import {CreateTableOption} from "../../custom-data";
+import {DiagnosticMessages} from "../../diagnostic-messages";
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5917
@@ -124,5 +125,45 @@ makeCustomRule(CustomSyntaxKind.CreateTableOption)
                 ...getTextRange(data),
                 autoIncrement : data[2],
             };
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.PACK_KEYS,
+            optional(TokenKind.Equal),
+            union(
+                SyntaxKind.IntegerLiteral,
+                TokenKind.DEFAULT,
+            ),
+        ] as const,
+        (data) : CreateTableOption => {
+            const packKeys = (
+                "tokenKind" in data[2][0] ?
+                PackKeys.DEFAULT :
+                data[2][0].value == BigInt(0) ?
+                PackKeys._0 :
+                data[2][0].value == BigInt(1) ?
+                PackKeys._1 :
+                undefined
+            );
+
+            const result : CreateTableOption = {
+                ...getTextRange(data),
+                packKeys,
+            };
+
+            if (packKeys == undefined) {
+                pushSyntacticErrorAt(
+                    result,
+                    data[2][0].start,
+                    data[2][0].end,
+                    [],
+                    DiagnosticMessages.Unexpected_Expected,
+                    data[2][0].value.toString(),
+                    "0|1|DEFAULT"
+                );
+            }
+
+            return result;
         }
     )

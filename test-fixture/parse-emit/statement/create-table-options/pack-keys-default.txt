@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PACK_KEYS DEFAULT;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PACK_KEYS = DEFAULT;
+
+-----
+[]
