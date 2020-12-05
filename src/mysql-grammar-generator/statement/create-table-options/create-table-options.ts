@@ -53,6 +53,7 @@ makeCustomRule(SyntaxKind.CreateTableOptions)
                 union : undefined,
                 defaultCharacterSet : undefined,
                 defaultCollation : undefined,
+                insertMethod : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];

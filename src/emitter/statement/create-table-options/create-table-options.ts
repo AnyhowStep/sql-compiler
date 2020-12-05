@@ -1,5 +1,6 @@
 import {
     CreateTableOptions,
+    InsertMethod,
     PackKeys,
     RowFormat,
     StatsAutoRecalc,
@@ -251,5 +252,22 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
             }
             builder
                 .appendBuilder(emitDefaultCollation(options.defaultCollation))
+        })
+        .scope(builder => {
+            if (options.insertMethod == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder.appendNewLine();
+            }
+            builder
+                .append("INSERT_METHOD = ")
+                .append(
+                    options.insertMethod == InsertMethod.FIRST ?
+                    "FIRST" :
+                    options.insertMethod == InsertMethod.LAST ?
+                    "LAST" :
+                    "NO"
+                )
         })
 }

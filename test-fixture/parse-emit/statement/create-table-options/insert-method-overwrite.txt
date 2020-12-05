@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    INSERT_METHOD FIRST
+    INSERT_METHOD LAST;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    INSERT_METHOD = LAST;
+
+-----
+[]

@@ -3246,6 +3246,18 @@ CreateTableOption ->
     };
     return result;
 } %}
+    | %INSERT_METHOD %Equal:? (%NO | %FIRST | %LAST) {% (data) => {
+    const insertMethod = (data[2][0].tokenKind == scanner_1.TokenKind.FIRST ?
+        parser_node_1.InsertMethod.FIRST :
+        data[2][0].tokenKind == scanner_1.TokenKind.LAST ?
+            parser_node_1.InsertMethod.LAST :
+            parser_node_1.InsertMethod.NO);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        insertMethod,
+    };
+    return result;
+} %}
 
 CreateTableOptions ->
     (CreateTableOption (%Comma:? CreateTableOption):*):? {% (data) => {
@@ -3280,6 +3292,7 @@ CreateTableOptions ->
         union: undefined,
         defaultCharacterSet: undefined,
         defaultCollation: undefined,
+        insertMethod: undefined,
     };
     const syntacticErrors = [];
     for (const item of arr) {

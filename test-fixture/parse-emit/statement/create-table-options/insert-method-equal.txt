@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    INSERT_METHOD = NO;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    INSERT_METHOD = NO;
+
+-----
+[]

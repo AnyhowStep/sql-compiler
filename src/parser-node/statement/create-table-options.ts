@@ -32,6 +32,12 @@ export enum RowFormat {
     COMPACT,
 }
 
+export enum InsertMethod {
+    NO,
+    FIRST,
+    LAST,
+}
+
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5911
  *
@@ -75,8 +81,8 @@ export interface CreateTableOptions extends Node {
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13245
      */
     engine : Identifier|StringLiteral|undefined;
+    insertMethod : InsertMethod|undefined;
     /*
-    insertMethod;
     keyBlockSize;
     */
     /**
