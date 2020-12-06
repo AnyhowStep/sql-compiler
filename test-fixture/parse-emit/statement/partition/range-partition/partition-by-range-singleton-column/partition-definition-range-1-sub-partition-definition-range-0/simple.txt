@@ -1,0 +1,17 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE COLUMNS(`X`) (
+        PARTITION a VALUES LESS THAN (1)
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY RANGE COLUMNS(`X`) (
+        PARTITION `a` VALUES LESS THAN (1)
+    );
+
+-----
+[]

@@ -1,0 +1,33 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE COLUMNS(`X`) (
+        PARTITION a VALUES LESS THAN (1) (
+            SUBPARTITION a1
+        ),
+        PARTITION b VALUES LESS THAN (5) (
+            SUBPARTITION b1
+        ),
+        PARTITION c VALUES LESS THAN (42) (
+            SUBPARTITION c1
+        )
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY RANGE COLUMNS(`X`) (
+        PARTITION `a` VALUES LESS THAN (1) (
+            SUBPARTITION `a1`
+        ),
+        PARTITION `b` VALUES LESS THAN (5) (
+            SUBPARTITION `b1`
+        ),
+        PARTITION `c` VALUES LESS THAN (42) (
+            SUBPARTITION `c1`
+        )
+    );
+
+-----
+[]

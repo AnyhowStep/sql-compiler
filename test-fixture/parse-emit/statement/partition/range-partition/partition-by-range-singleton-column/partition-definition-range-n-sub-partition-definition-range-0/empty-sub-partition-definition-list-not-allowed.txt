@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE COLUMNS(`X`) (
+        PARTITION a VALUES LESS THAN (1) (),
+        PARTITION b VALUES LESS THAN (5) (),
+        PARTITION c VALUES LESS THAN (42) ()
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected SUBPARTITION",
+        "start": 113,
+        "length": 0
+    }
+]

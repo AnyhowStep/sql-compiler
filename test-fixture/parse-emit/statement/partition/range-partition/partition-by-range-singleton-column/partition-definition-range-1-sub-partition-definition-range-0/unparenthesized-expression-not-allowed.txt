@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE COLUMNS(`X`) (
+        PARTITION a VALUES LESS THAN 1
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected MAXVALUE|OpenParentheses",
+        "start": 108,
+        "length": 0
+    }
+]

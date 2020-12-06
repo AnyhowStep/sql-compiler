@@ -1,0 +1,51 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE COLUMNS(`X`) (
+        PARTITION a VALUES LESS THAN (1)(
+            SUBPARTITION a1
+                ENGINE = InnoDB,
+            SUBPARTITION a2
+                ENGINE = InnoDB
+        ),
+        PARTITION b VALUES LESS THAN (5) (
+            SUBPARTITION b1
+                ENGINE = InnoDB,
+            SUBPARTITION b2
+                ENGINE = InnoDB
+        ),
+        PARTITION c VALUES LESS THAN (42) (
+            SUBPARTITION c1
+                ENGINE = InnoDB,
+            SUBPARTITION c2
+                ENGINE = InnoDB
+        )
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY RANGE COLUMNS(`X`) (
+        PARTITION `a` VALUES LESS THAN (1) (
+            SUBPARTITION `a1`
+                ENGINE = `InnoDB`,
+            SUBPARTITION `a2`
+                ENGINE = `InnoDB`
+        ),
+        PARTITION `b` VALUES LESS THAN (5) (
+            SUBPARTITION `b1`
+                ENGINE = `InnoDB`,
+            SUBPARTITION `b2`
+                ENGINE = `InnoDB`
+        ),
+        PARTITION `c` VALUES LESS THAN (42) (
+            SUBPARTITION `c1`
+                ENGINE = `InnoDB`,
+            SUBPARTITION `c2`
+                ENGINE = `InnoDB`
+        )
+    );
+
+-----
+[]
