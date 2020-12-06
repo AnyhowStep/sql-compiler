@@ -1,0 +1,19 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST COLUMNS(`X`, `Y`)
+    PARTITIONS 1 (
+        PARTITION a VALUES IN ((1, 2), (3, 4))
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY LIST COLUMNS(`X`, `Y`)
+    PARTITIONS 1 (
+        PARTITION `a` VALUES IN ((1, 2), (3, 4))
+    );
+
+-----
+[]

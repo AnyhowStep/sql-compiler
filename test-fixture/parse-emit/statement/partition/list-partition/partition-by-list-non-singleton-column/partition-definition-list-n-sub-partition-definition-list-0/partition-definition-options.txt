@@ -1,0 +1,27 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST COLUMNS(`X`, `Y`) (
+        PARTITION a VALUES IN ((1, 2), (3, 4))
+            ENGINE = InnoDB,
+        PARTITION b VALUES IN ((5, 9001))
+            ENGINE = InnoDB,
+        PARTITION c VALUES IN ((42, 69), (54, 67), (88, 99))
+            ENGINE = InnoDB
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY LIST COLUMNS(`X`, `Y`) (
+        PARTITION `a` VALUES IN ((1, 2), (3, 4))
+            ENGINE = `InnoDB`,
+        PARTITION `b` VALUES IN ((5, 9001))
+            ENGINE = `InnoDB`,
+        PARTITION `c` VALUES IN ((42, 69), (54, 67), (88, 99))
+            ENGINE = `InnoDB`
+    );
+
+-----
+[]

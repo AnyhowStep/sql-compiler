@@ -1,0 +1,16 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST COLUMNS(`X`, `Y`) ();
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected PARTITION",
+        "start": 74,
+        "length": 0
+    }
+]
