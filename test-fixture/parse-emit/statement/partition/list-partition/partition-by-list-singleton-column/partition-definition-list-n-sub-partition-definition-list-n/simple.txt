@@ -1,0 +1,39 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST COLUMNS(`X`) (
+        PARTITION a VALUES IN (1, 2, 3, 4) (
+            SUBPARTITION a1,
+            SUBPARTITION a2
+        ),
+        PARTITION b VALUES IN (5, 9001) (
+            SUBPARTITION b1,
+            SUBPARTITION b2
+        ),
+        PARTITION c VALUES IN (42, 69, 54) (
+            SUBPARTITION c1,
+            SUBPARTITION c2
+        )
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY LIST COLUMNS(`X`) (
+        PARTITION `a` VALUES IN (1, 2, 3, 4) (
+            SUBPARTITION `a1`,
+            SUBPARTITION `a2`
+        ),
+        PARTITION `b` VALUES IN (5, 9001) (
+            SUBPARTITION `b1`,
+            SUBPARTITION `b2`
+        ),
+        PARTITION `c` VALUES IN (42, 69, 54) (
+            SUBPARTITION `c1`,
+            SUBPARTITION `c2`
+        )
+    );
+
+-----
+[]
