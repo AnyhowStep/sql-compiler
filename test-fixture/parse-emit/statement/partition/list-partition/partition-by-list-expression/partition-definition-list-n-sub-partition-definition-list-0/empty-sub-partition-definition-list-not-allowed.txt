@@ -1,0 +1,20 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST(1337) (
+        PARTITION a VALUES IN (1, 2, 3, 4) (),
+        PARTITION b VALUES IN (5, 9001) (),
+        PARTITION c VALUES IN (42, 69, 54) ()
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected SUBPARTITION",
+        "start": 107,
+        "length": 0
+    }
+]

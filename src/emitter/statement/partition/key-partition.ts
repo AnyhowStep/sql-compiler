@@ -15,8 +15,8 @@ export function emitKeyPartition (partition : KeyPartition) {
             builder
                 .append(" ALGORITHM = ")
                 .appendBuilder(emitIntegerLiteral(partition.algorithm))
-                .append(" ")
         })
+        .append(" ")
         .appendBuilder(emitIdentifierList(partition.partitionColumns))
         .scope(builder => {
             if (partition.partitionCount == undefined) {

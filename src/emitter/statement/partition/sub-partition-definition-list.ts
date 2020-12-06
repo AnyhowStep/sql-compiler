@@ -5,11 +5,15 @@ import {emitSubPartitionDefinition} from "./sub-partition-definition";
 export function emitSubPartitionDefinitionList (arr : NodeArray<SubPartitionDefinition>) {
     return new StringBuilder()
         .append("(")
-        .loop(
-            arr,
-            builder => builder.append(", "),
-            (builder, subPartitionDefinition) => builder
-                .appendBuilder(emitSubPartitionDefinition(subPartitionDefinition))
-        )
+        .indent(builder => {
+            builder
+                .loop(
+                    arr,
+                    builder => builder.append(",").appendNewLine(),
+                    (builder, subPartitionDefinition) => builder
+                        .appendBuilder(emitSubPartitionDefinition(subPartitionDefinition))
+                )
+        })
+        .appendNewLine()
         .append(")")
 }

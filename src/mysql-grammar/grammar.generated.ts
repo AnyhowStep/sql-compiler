@@ -3955,6 +3955,16 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "PartitionDefinitionOption$ebnf$9", "symbols": [Equal], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$9", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption", "symbols": [NODEGROUP, "PartitionDefinitionOption$ebnf$9", "IntegerLiteral"], "postprocess":  (data) => {
+            const nodeGroup = data[2];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                nodeGroup,
+            };
+            return result;
+        } },
     {"name": "PartitionDefinitionOptions$ebnf$1", "symbols": []},
     {"name": "PartitionDefinitionOptions$ebnf$1$subexpression$1", "symbols": ["PartitionDefinitionOption"]},
     {"name": "PartitionDefinitionOptions$ebnf$1", "symbols": ["PartitionDefinitionOptions$ebnf$1", "PartitionDefinitionOptions$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},

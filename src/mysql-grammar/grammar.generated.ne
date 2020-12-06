@@ -3611,6 +3611,14 @@ PartitionDefinitionOption ->
     };
     return result;
 } %}
+    | %NODEGROUP %Equal:? IntegerLiteral {% (data) => {
+    const nodeGroup = data[2];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        nodeGroup,
+    };
+    return result;
+} %}
 
 PartitionDefinitionOptions ->
     (PartitionDefinitionOption):* {% (data) => {

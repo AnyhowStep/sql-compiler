@@ -7,5 +7,14 @@ export function emitSubPartitionDefinition (def : SubPartitionDefinition) {
     return new StringBuilder()
         .append("SUBPARTITION ")
         .appendBuilder(emitExpression(def.subPartitionName))
-        .appendBuilder(emitPartitionDefinitionOptions(def.partitionDefinitionOptions))
+        .scope(builder => {
+            const partitionDefinitionOptions = emitPartitionDefinitionOptions(def.partitionDefinitionOptions);
+            if (partitionDefinitionOptions.isEmpty()) {
+                return;
+            }
+            builder.indent(builder => {
+                builder
+                    .appendBuilder(partitionDefinitionOptions);
+            })
+        })
 }

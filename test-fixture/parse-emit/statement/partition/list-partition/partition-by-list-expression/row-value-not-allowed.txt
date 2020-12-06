@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST(1337) (
+        PARTITION a VALUES IN ((1), (2))
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected Identifier|IntegerLiteral|StringLiteral",
+        "start": 94,
+        "length": 0
+    }
+]

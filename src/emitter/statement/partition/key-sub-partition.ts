@@ -15,8 +15,8 @@ export function emitKeySubPartition (subPartition : KeySubPartition) {
             builder
                 .append("ALGORITHM = ")
                 .appendBuilder(emitIntegerLiteral(subPartition.algorithm))
-                .append(" ")
         })
+        .append(" ")
         .appendBuilder(emitIdentifierList(subPartition.subPartitionColumns))
         .scope(builder => {
             if (subPartition.subPartitionCount == undefined) {

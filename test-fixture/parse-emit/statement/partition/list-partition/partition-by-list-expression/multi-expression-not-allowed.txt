@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST(1337, 1336) (
+        PARTITION a VALUES IN (1, 2, 3, 4)
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected CloseParentheses",
+        "start": 59,
+        "length": 0
+    }
+]

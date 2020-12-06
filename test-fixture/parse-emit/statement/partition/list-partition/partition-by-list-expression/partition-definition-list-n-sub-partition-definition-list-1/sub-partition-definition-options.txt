@@ -1,0 +1,39 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST(1337) (
+        PARTITION a VALUES IN (1, 2, 3, 4)(
+            SUBPARTITION a1
+                ENGINE = InnoDB
+        ),
+        PARTITION b VALUES IN (5, 9001) (
+            SUBPARTITION b1
+                ENGINE = InnoDB
+        ),
+        PARTITION c VALUES IN (42, 69, 54) (
+            SUBPARTITION c1
+                ENGINE = InnoDB
+        )
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY LIST(1337) (
+        PARTITION `a` VALUES IN (1, 2, 3, 4) (
+            SUBPARTITION `a1`
+                ENGINE = `InnoDB`
+        ),
+        PARTITION `b` VALUES IN (5, 9001) (
+            SUBPARTITION `b1`
+                ENGINE = `InnoDB`
+        ),
+        PARTITION `c` VALUES IN (42, 69, 54) (
+            SUBPARTITION `c1`
+                ENGINE = `InnoDB`
+        )
+    );
+
+-----
+[]

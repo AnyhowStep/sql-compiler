@@ -9,7 +9,7 @@ CREATE TABLE `T` (
     `X` BOOLEAN NULL,
     `Y` BOOLEAN NULL
 )
-    PARTITION BY KEY(`X`, `Y`);
+    PARTITION BY KEY (`X`, `Y`);
 
 -----
 []

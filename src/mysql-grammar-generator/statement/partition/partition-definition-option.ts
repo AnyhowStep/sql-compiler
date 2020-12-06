@@ -112,3 +112,20 @@ makeCustomRule(CustomSyntaxKind.PartitionDefinitionOption)
             return result;
         }
     )
+    .addSubstitution(
+        [
+            TokenKind.NODEGROUP,
+            optional(TokenKind.Equal),
+            SyntaxKind.IntegerLiteral,
+        ] as const,
+        (data) : PartitionDefinitionOption => {
+            const nodeGroup = data[2];
+
+            const result : PartitionDefinitionOption = {
+                ...getTextRange(data),
+                nodeGroup,
+            };
+
+            return result;
+        }
+    )

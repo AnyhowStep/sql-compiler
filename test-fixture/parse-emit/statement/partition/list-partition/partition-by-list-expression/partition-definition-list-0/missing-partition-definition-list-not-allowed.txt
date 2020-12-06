@@ -1,0 +1,16 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST(1337);
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected OpenParentheses|PARTITIONS|SUBPARTITION BY",
+        "start": 60,
+        "length": 0
+    }
+]

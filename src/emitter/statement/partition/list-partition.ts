@@ -34,14 +34,19 @@ export function emitListPartition (partition : ListPartition) {
                 return;
             }
             builder
+                .appendNewLine()
                 .appendBuilder(emitSubPartition(partition.subPartition))
         })
-        .append("(")
-        .loop(
-            partition.partitionDefinitions,
-            builder => builder.append(", "),
-            (builder, partitionDefinition) => builder
-                .appendBuilder(emitListPartitionDefinition(partitionDefinition))
-        )
+        .append(" (")
+        .indent(builder => {
+            builder
+                .loop(
+                    partition.partitionDefinitions,
+                    builder => builder.append(",").appendNewLine(),
+                    (builder, partitionDefinition) => builder
+                        .appendBuilder(emitListPartitionDefinition(partitionDefinition))
+                )
+        })
+        .appendNewLine()
         .append(")")
 }
