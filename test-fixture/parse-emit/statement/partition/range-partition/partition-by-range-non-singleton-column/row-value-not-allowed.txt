@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE COLUMNS(`X`, `Y`) (
+        PARTITION a VALUES LESS THAN ((1), (2))
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected Identifier|IntegerLiteral|StringLiteral",
+        "start": 114,
+        "length": 0
+    }
+]

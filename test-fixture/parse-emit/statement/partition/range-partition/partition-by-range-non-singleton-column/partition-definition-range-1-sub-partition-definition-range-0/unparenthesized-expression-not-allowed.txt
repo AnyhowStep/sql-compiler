@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE COLUMNS(`X`, `Y`) (
+        PARTITION a VALUES LESS THAN 1
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected OpenParentheses",
+        "start": 113,
+        "length": 0
+    }
+]
