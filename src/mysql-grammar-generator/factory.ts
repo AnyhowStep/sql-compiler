@@ -13,6 +13,7 @@ import {
     NodeArray,
     Partition,
     Precision,
+    RangePartitionDefinition,
     ReverseSyntaxKind,
     Statement,
     StringLiteral,
@@ -68,6 +69,8 @@ export enum CustomSyntaxKind {
     ExpressionListList,
     PartitionDefinitionOption,
     Partition,
+    SingletonRangePartitionDefinition,
+    NonSingletonRangePartitionDefinition,
 }
 
 declare module "../nearley-wrapper" {
@@ -112,6 +115,8 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.ExpressionListList] : NodeArray<NodeArray<Expression>>,
         [CustomSyntaxKind.PartitionDefinitionOption] : PartitionDefinitionOption,
         [CustomSyntaxKind.Partition] : Partition,
+        [CustomSyntaxKind.SingletonRangePartitionDefinition] : RangePartitionDefinition,
+        [CustomSyntaxKind.NonSingletonRangePartitionDefinition] : RangePartitionDefinition,
     }
 
     interface CustomToken extends Array<TokenKind> {

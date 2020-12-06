@@ -11,11 +11,11 @@ export function emitRangePartition (partition : RangePartition) {
         .scope(builder => {
             if (partition.partitionExprOrColumns instanceof Array) {
                 builder
-                    .append(" LIST COLUMNS")
+                    .append(" RANGE COLUMNS")
                     .appendBuilder(emitIdentifierList(partition.partitionExprOrColumns))
             } else {
                 builder
-                    .append(" LIST(")
+                    .append(" RANGE(")
                     .appendBuilder(emitExpression(partition.partitionExprOrColumns))
                     .append(")")
             }
@@ -34,14 +34,19 @@ export function emitRangePartition (partition : RangePartition) {
                 return;
             }
             builder
+                .appendNewLine()
                 .appendBuilder(emitSubPartition(partition.subPartition))
         })
-        .append("(")
-        .loop(
-            partition.partitionDefinitions,
-            builder => builder.append(", "),
-            (builder, partitionDefinition) => builder
-                .appendBuilder(emitRangePartitionDefinition(partitionDefinition))
-        )
+        .append(" (")
+        .indent(builder => {
+            builder
+                .loop(
+                    partition.partitionDefinitions,
+                    builder => builder.append(",").appendNewLine(),
+                    (builder, partitionDefinition) => builder
+                        .appendBuilder(emitRangePartitionDefinition(partitionDefinition))
+                )
+        })
+        .appendNewLine()
         .append(")")
 }

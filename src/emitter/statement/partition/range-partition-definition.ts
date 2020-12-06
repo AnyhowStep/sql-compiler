@@ -22,12 +22,31 @@ export function emitRangePartitionDefinition (def : RangePartitionDefinition) {
             }
         )
         .append(")")
-        .appendBuilder(emitPartitionDefinitionOptions(def.partitionDefinitionOptions))
         .scope(builder => {
-            if (def.subPartitionDefinitions == undefined) {
+            const partitionDefinitionOptions = emitPartitionDefinitionOptions(def.partitionDefinitionOptions);
+            if (partitionDefinitionOptions.isEmpty()) {
+                builder
+                    .scope(builder => {
+                        if (def.subPartitionDefinitions == undefined) {
+                            return;
+                        }
+                        builder
+                            .append(" ")
+                            .appendBuilder(emitSubPartitionDefinitionList(def.subPartitionDefinitions))
+                    })
                 return;
             }
-            builder
-                .appendBuilder(emitSubPartitionDefinitionList(def.subPartitionDefinitions))
+            builder.indent(builder => {
+                builder
+                    .appendBuilder(partitionDefinitionOptions)
+                    .scope(builder => {
+                        if (def.subPartitionDefinitions == undefined) {
+                            return;
+                        }
+                        builder
+                            .append(" ")
+                            .appendBuilder(emitSubPartitionDefinitionList(def.subPartitionDefinitions))
+                    });
+            })
         })
 }

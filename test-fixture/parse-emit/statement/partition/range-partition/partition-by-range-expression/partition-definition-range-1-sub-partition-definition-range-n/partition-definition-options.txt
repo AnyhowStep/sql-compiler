@@ -1,0 +1,25 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE(1337) (
+        PARTITION a VALUES LESS THAN (1)
+            ENGINE = InnoDB (
+                SUBPARTITION a1,
+                SUBPARTITION a2
+            )
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY RANGE(1337) (
+        PARTITION `a` VALUES LESS THAN (1)
+            ENGINE = `InnoDB` (
+                SUBPARTITION `a1`,
+                SUBPARTITION `a2`
+            )
+    );
+
+-----
+[]

@@ -1,0 +1,18 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY RANGE(1337) (
+        PARTITION a VALUES LESS THAN (1) ()
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected SUBPARTITION",
+        "start": 106,
+        "length": 0
+    }
+]

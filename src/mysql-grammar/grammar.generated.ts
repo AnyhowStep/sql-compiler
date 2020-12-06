@@ -3889,6 +3889,41 @@ export var ParserRules: NearleyRule[] = [
                     data[6]),
             };
         } },
+    {"name": "NonSingletonRangePartitionDefinition$ebnf$1$subexpression$1", "symbols": [Comma, "Expression"]},
+    {"name": "NonSingletonRangePartitionDefinition$ebnf$1", "symbols": ["NonSingletonRangePartitionDefinition$ebnf$1$subexpression$1"]},
+    {"name": "NonSingletonRangePartitionDefinition$ebnf$1$subexpression$2", "symbols": [Comma, "Expression"]},
+    {"name": "NonSingletonRangePartitionDefinition$ebnf$1", "symbols": ["NonSingletonRangePartitionDefinition$ebnf$1", "NonSingletonRangePartitionDefinition$ebnf$1$subexpression$2"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "NonSingletonRangePartitionDefinition$ebnf$2", "symbols": ["SubPartitionDefinitionList"], "postprocess": id},
+    {"name": "NonSingletonRangePartitionDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "NonSingletonRangePartitionDefinition", "symbols": [PARTITION, "Identifier", VALUES, LESS, THAN, OpenParentheses, "Expression", "NonSingletonRangePartitionDefinition$ebnf$1", CloseParentheses, "PartitionDefinitionOptions", "NonSingletonRangePartitionDefinition$ebnf$2"], "postprocess":  (data) => {
+            const exprOrMaxValueArray = [data[6], ...data[7]]
+                .flat(2)
+                .filter((item) => {
+                return "syntaxKind" in item;
+            })
+                .map((exprOrMaxValue) => {
+                return (!("syntaxKind" in exprOrMaxValue) ||
+                    (parser_node_1.isSyntaxKind(exprOrMaxValue, parser_node_1.SyntaxKind.Identifier) &&
+                        !exprOrMaxValue.quoted &&
+                        exprOrMaxValue.identifier.toUpperCase() == "MAXVALUE")) ?
+                    {
+                        ...parse_util_1.getTextRange(exprOrMaxValue),
+                        syntaxKind: parser_node_1.SyntaxKind.Value,
+                        value: "MAXVALUE"
+                    } :
+                    exprOrMaxValue;
+            });
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RangePartitionDefinition,
+                partitionName: data[1],
+                partitionValues: parse_util_1.toNodeArray(exprOrMaxValueArray, parser_node_1.SyntaxKind.ExpressionOrMaxValueList, parse_util_1.getTextRange(exprOrMaxValueArray)),
+                partitionDefinitionOptions: data[9],
+                subPartitionDefinitions: (data[10] == undefined ?
+                    undefined :
+                    data[10]),
+            };
+        } },
     {"name": "PartitionDefinitionOption$ebnf$1", "symbols": [STORAGE], "postprocess": id},
     {"name": "PartitionDefinitionOption$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "PartitionDefinitionOption$ebnf$2", "symbols": [Equal], "postprocess": id},
@@ -4014,6 +4049,88 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Partition", "symbols": ["HashPartition"], "postprocess": data => data[0]},
     {"name": "Partition", "symbols": ["KeyPartition"], "postprocess": data => data[0]},
     {"name": "Partition", "symbols": ["ListPartition"], "postprocess": data => data[0]},
+    {"name": "Partition", "symbols": ["RangePartition"], "postprocess": data => data[0]},
+    {"name": "RangePartition$ebnf$1$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
+    {"name": "RangePartition$ebnf$1", "symbols": ["RangePartition$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "RangePartition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "RangePartition$ebnf$2", "symbols": ["SubPartition"], "postprocess": id},
+    {"name": "RangePartition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "RangePartition$ebnf$3", "symbols": []},
+    {"name": "RangePartition$ebnf$3$subexpression$1", "symbols": [Comma, "SingletonRangePartitionDefinition"]},
+    {"name": "RangePartition$ebnf$3", "symbols": ["RangePartition$ebnf$3", "RangePartition$ebnf$3$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "RangePartition", "symbols": [PARTITION, BY, RANGE, OpenParentheses, "Expression", CloseParentheses, "RangePartition$ebnf$1", "RangePartition$ebnf$2", OpenParentheses, "SingletonRangePartitionDefinition", "RangePartition$ebnf$3", CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RangePartition,
+                partitionExprOrColumns: data[4],
+                partitionCount: (data[6] == undefined ?
+                    undefined :
+                    data[6][1]),
+                subPartition: (data[7] == undefined ?
+                    undefined :
+                    data[7]),
+                partitionDefinitions: parse_util_1.toNodeArray([
+                    data[9],
+                    ...data[10].flat(1).filter((item) => {
+                        return "syntaxKind" in item;
+                    })
+                ], parser_node_1.SyntaxKind.RangePartitionDefinitionList, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "RangePartition$ebnf$4$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
+    {"name": "RangePartition$ebnf$4", "symbols": ["RangePartition$ebnf$4$subexpression$1"], "postprocess": id},
+    {"name": "RangePartition$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "RangePartition$ebnf$5", "symbols": ["SubPartition"], "postprocess": id},
+    {"name": "RangePartition$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "RangePartition$ebnf$6", "symbols": []},
+    {"name": "RangePartition$ebnf$6$subexpression$1", "symbols": [Comma, "SingletonRangePartitionDefinition"]},
+    {"name": "RangePartition$ebnf$6", "symbols": ["RangePartition$ebnf$6", "RangePartition$ebnf$6$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "RangePartition", "symbols": [PARTITION, BY, RANGE, COLUMNS, OpenParentheses, "Identifier", CloseParentheses, "RangePartition$ebnf$4", "RangePartition$ebnf$5", OpenParentheses, "SingletonRangePartitionDefinition", "RangePartition$ebnf$6", CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RangePartition,
+                partitionExprOrColumns: parse_util_1.toNodeArray([data[5]], parser_node_1.SyntaxKind.IdentifierList, data[5]),
+                partitionCount: (data[7] == undefined ?
+                    undefined :
+                    data[7][1]),
+                subPartition: (data[8] == undefined ?
+                    undefined :
+                    data[8]),
+                partitionDefinitions: parse_util_1.toNodeArray([
+                    data[10],
+                    ...data[11].flat(1).filter((item) => {
+                        return "syntaxKind" in item;
+                    })
+                ], parser_node_1.SyntaxKind.RangePartitionDefinitionList, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "RangePartition$ebnf$7$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
+    {"name": "RangePartition$ebnf$7", "symbols": ["RangePartition$ebnf$7$subexpression$1"], "postprocess": id},
+    {"name": "RangePartition$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "RangePartition$ebnf$8", "symbols": ["SubPartition"], "postprocess": id},
+    {"name": "RangePartition$ebnf$8", "symbols": [], "postprocess": () => null},
+    {"name": "RangePartition$ebnf$9", "symbols": []},
+    {"name": "RangePartition$ebnf$9$subexpression$1", "symbols": [Comma, "NonSingletonRangePartitionDefinition"]},
+    {"name": "RangePartition$ebnf$9", "symbols": ["RangePartition$ebnf$9", "RangePartition$ebnf$9$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "RangePartition", "symbols": [PARTITION, BY, RANGE, COLUMNS, "IdentifierList_2OrMore", "RangePartition$ebnf$7", "RangePartition$ebnf$8", OpenParentheses, "NonSingletonRangePartitionDefinition", "RangePartition$ebnf$9", CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RangePartition,
+                partitionExprOrColumns: data[4],
+                partitionCount: (data[5] == undefined ?
+                    undefined :
+                    data[5][1]),
+                subPartition: (data[6] == undefined ?
+                    undefined :
+                    data[6]),
+                partitionDefinitions: parse_util_1.toNodeArray([
+                    data[8],
+                    ...data[9].flat(1).filter((item) => {
+                        return "syntaxKind" in item;
+                    })
+                ], parser_node_1.SyntaxKind.RangePartitionDefinitionList, parse_util_1.getTextRange(data)),
+            };
+        } },
     {"name": "SingletonListPartitionDefinition$ebnf$1", "symbols": ["SubPartitionDefinitionList"], "postprocess": id},
     {"name": "SingletonListPartitionDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "SingletonListPartitionDefinition", "symbols": [PARTITION, "Identifier", VALUES, IN, "ExpressionList", "PartitionDefinitionOptions", "SingletonListPartitionDefinition$ebnf$1"], "postprocess":  (data) => {
@@ -4028,6 +4145,43 @@ export var ParserRules: NearleyRule[] = [
                 subPartitionDefinitions: (data[6] == undefined ?
                     undefined :
                     data[6]),
+            };
+        } },
+    {"name": "SingletonRangePartitionDefinition$subexpression$1$subexpression$1", "symbols": [OpenParentheses, "Expression", CloseParentheses]},
+    {"name": "SingletonRangePartitionDefinition$subexpression$1", "symbols": ["SingletonRangePartitionDefinition$subexpression$1$subexpression$1"]},
+    {"name": "SingletonRangePartitionDefinition$subexpression$1$subexpression$2", "symbols": [MAXVALUE]},
+    {"name": "SingletonRangePartitionDefinition$subexpression$1", "symbols": ["SingletonRangePartitionDefinition$subexpression$1$subexpression$2"]},
+    {"name": "SingletonRangePartitionDefinition$ebnf$1", "symbols": ["SubPartitionDefinitionList"], "postprocess": id},
+    {"name": "SingletonRangePartitionDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "SingletonRangePartitionDefinition", "symbols": [PARTITION, "Identifier", VALUES, LESS, THAN, "SingletonRangePartitionDefinition$subexpression$1", "PartitionDefinitionOptions", "SingletonRangePartitionDefinition$ebnf$1"], "postprocess":  (data) => {
+            const exprOrMaxValue = data[5]
+                .flat(2)
+                .filter((item) => {
+                if ("syntaxKind" in item) {
+                    return true;
+                }
+                return item.tokenKind == scanner_1.TokenKind.MAXVALUE;
+            });
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RangePartitionDefinition,
+                partitionName: data[1],
+                partitionValues: parse_util_1.toNodeArray([
+                    (!("syntaxKind" in exprOrMaxValue[0]) ||
+                        (parser_node_1.isSyntaxKind(exprOrMaxValue[0], parser_node_1.SyntaxKind.Identifier) &&
+                            !exprOrMaxValue[0].quoted &&
+                            exprOrMaxValue[0].identifier.toUpperCase() == "MAXVALUE")) ?
+                        {
+                            ...parse_util_1.getTextRange(exprOrMaxValue[0]),
+                            syntaxKind: parser_node_1.SyntaxKind.Value,
+                            value: "MAXVALUE"
+                        } :
+                        exprOrMaxValue[0]
+                ], parser_node_1.SyntaxKind.ExpressionOrMaxValueList, parse_util_1.getTextRange(data[5])),
+                partitionDefinitionOptions: data[6],
+                subPartitionDefinitions: (data[7] == undefined ?
+                    undefined :
+                    data[7]),
             };
         } },
     {"name": "SubPartitionDefinitionList$ebnf$1", "symbols": []},

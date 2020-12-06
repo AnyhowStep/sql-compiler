@@ -121,6 +121,7 @@ export enum SyntaxKind {
     ExpressionList = 1119,
     ExpressionListList = 1120,
     SubPartitionDefinitionList = 1121,
+    ExpressionOrMaxValueList = 1122,
 }
 
 //https://dev.mysql.com/doc/refman/5.7/en/manual-info.html
@@ -301,6 +302,6 @@ export const syntaxKinds = [
     "ExpressionList",
     "ExpressionListList",
     "SubPartitionDefinitionList",
-
+    "ExpressionOrMaxValueList",
 ] as const;
 

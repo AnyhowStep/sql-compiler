@@ -14,12 +14,7 @@ makeCustomRule(CustomSyntaxKind.Partition)
         [SyntaxKind.ListPartition] as const,
         data => data[0]
     )
-    /**
-     * @todo
-     */
-    /*
     .addSubstitution(
         [SyntaxKind.RangePartition] as const,
         data => data[0]
     )
-    */

@@ -176,5 +176,5 @@ export const syntaxKinds = [
     "ExpressionList",
     "ExpressionListList",
     "SubPartitionDefinitionList",
-
+    "ExpressionOrMaxValueList",
 ] as const;
