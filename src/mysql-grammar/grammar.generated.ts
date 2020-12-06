@@ -2212,6 +2212,7 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "Expression$subexpression$1", "symbols": ["IntegerLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "Expression$subexpression$1", "symbols": ["Identifier"]},
     {"name": "Expression", "symbols": ["Expression$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

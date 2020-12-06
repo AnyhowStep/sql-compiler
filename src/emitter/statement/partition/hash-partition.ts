@@ -6,7 +6,7 @@ export function emitHashPartition (partition : HashPartition) {
     return new StringBuilder()
         .append("PARTITION BY")
         .append(partition.linear ? " LINEAR" : undefined)
-        .append(" HASH(")
+        .append(" HASH (")
         .appendBuilder(emitExpression(partition.partitionExpr))
         .append(")")
         .scope(builder => {

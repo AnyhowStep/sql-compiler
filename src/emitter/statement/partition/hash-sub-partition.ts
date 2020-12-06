@@ -6,7 +6,7 @@ export function emitHashSubPartition (subPartition : HashSubPartition) {
     return new StringBuilder()
         .append("SUBPARTITION BY")
         .append(subPartition.linear ? " LINEAR" : undefined)
-        .append(" HASH(")
+        .append(" HASH (")
         .appendBuilder(emitExpression(subPartition.subPartitionExpr))
         .append(")")
         .scope(builder => {

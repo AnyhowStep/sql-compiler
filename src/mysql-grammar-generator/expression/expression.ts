@@ -7,6 +7,7 @@ makeCustomRule(CustomSyntaxKind.Expression)
         [union(
             SyntaxKind.IntegerLiteral,
             SyntaxKind.StringLiteral,
+            SyntaxKind.Identifier,
         )] as const,
         (data) : Expression => {
             return data[0][0];

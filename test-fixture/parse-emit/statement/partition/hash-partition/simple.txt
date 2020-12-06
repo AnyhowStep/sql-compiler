@@ -1,0 +1,23 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY HASH(X);
+
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY HASH('qwerty');
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY HASH (`X`);
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY HASH ('qwerty');
+
+-----
+[]

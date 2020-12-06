@@ -1,0 +1,17 @@
+CREATE TABLE T (
+    X BOOLEAN,
+    Y BOOLEAN
+)
+    PARTITION BY HASH(X, Y);
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected CloseParentheses",
+        "start": 71,
+        "length": 0
+    }
+]

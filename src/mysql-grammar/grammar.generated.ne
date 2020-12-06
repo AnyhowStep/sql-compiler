@@ -2113,7 +2113,7 @@ DecimalLiteral ->
 } %}
 
 Expression ->
-    (IntegerLiteral | StringLiteral) {% (data) => {
+    (IntegerLiteral | StringLiteral | Identifier) {% (data) => {
     return data[0][0];
 } %}
 

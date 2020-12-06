@@ -1,0 +1,14 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY HASH(X) PARTITIONS 4;
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY HASH (`X`)
+    PARTITIONS 4;
+
+-----
+[]

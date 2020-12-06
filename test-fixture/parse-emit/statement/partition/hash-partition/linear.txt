@@ -1,0 +1,13 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LINEAR HASH(X);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY LINEAR HASH (`X`);
+
+-----
+[]
