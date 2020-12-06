@@ -13,7 +13,7 @@ export function emitKeySubPartition (subPartition : KeySubPartition) {
                 return;
             }
             builder
-                .append("ALGORITHM = ")
+                .append(" ALGORITHM = ")
                 .appendBuilder(emitIntegerLiteral(subPartition.algorithm))
         })
         .append(" ")
