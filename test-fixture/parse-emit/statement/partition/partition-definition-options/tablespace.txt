@@ -1,0 +1,19 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST(1337) (
+        PARTITION a VALUES IN (1, 2, 3, 4)
+            TABLESPACE a
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY LIST(1337) (
+        PARTITION `a` VALUES IN (1, 2, 3, 4)
+            TABLESPACE = `a`
+    );
+
+-----
+[]

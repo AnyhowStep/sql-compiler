@@ -1,0 +1,33 @@
+CREATE TABLE T (
+    X BOOLEAN
+)
+    PARTITION BY LIST(1337) (
+        PARTITION a VALUES IN (1, 2, 3, 4)
+            ENGINE InnoDB
+            MAX_ROWS 1
+            MIN_ROWS 2
+            COMMENT 'a'
+            DATA DIRECTORY 'b'
+            INDEX DIRECTORY 'c'
+            TABLESPACE d
+            NODEGROUP 3
+    );
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    PARTITION BY LIST(1337) (
+        PARTITION `a` VALUES IN (1, 2, 3, 4)
+            ENGINE = `InnoDB`
+            MAX_ROWS = 1
+            MIN_ROWS = 2
+            COMMENT = 'a'
+            DATA DIRECTORY = 'b'
+            INDEX DIRECTORY = 'c'
+            TABLESPACE = `d`
+            NODEGROUP = 3
+    );
+
+-----
+[]
