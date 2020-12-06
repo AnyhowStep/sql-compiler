@@ -9,11 +9,15 @@ import {
     HexLiteral,
     Identifier,
     IndexPart,
+    ListPartitionDefinition,
     NodeArray,
+    Partition,
     Precision,
     ReverseSyntaxKind,
     Statement,
     StringLiteral,
+    SubPartition,
+    SubPartitionDefinition,
     SyntaxKind,
     TableIdentifier,
 } from "../parser-node";
@@ -25,6 +29,7 @@ import {
     IndexTypeNode,
     IntegerDataTypeModifier,
     CreateTableOption,
+    PartitionDefinitionOption,
 } from "./custom-data";
 import {SyntaxKindToNode} from "./syntax-kind-to-node.generated";
 
@@ -50,10 +55,19 @@ export enum CustomSyntaxKind {
     TextString,
     StringList,
     IdentifierList,
+    IdentifierList_2OrMore,
     ColumnCheckDefinition,
     CreateTableOption,
     TableIdentifierList,
     TableIdentifierList_AllowEmpty,
+    SubPartition,
+    SubPartitionDefinitionList,
+    SingletonListPartitionDefinition,
+    NonSingletonListPartitionDefinition,
+    ExpressionList,
+    ExpressionListList,
+    PartitionDefinitionOption,
+    Partition,
 }
 
 declare module "../nearley-wrapper" {
@@ -85,10 +99,19 @@ declare module "../nearley-wrapper" {
          */
         [CustomSyntaxKind.StringList] : NodeArray<StringLiteral|HexLiteral|BitLiteral>,
         [CustomSyntaxKind.IdentifierList] : NodeArray<Identifier>,
+        [CustomSyntaxKind.IdentifierList_2OrMore] : NodeArray<Identifier>,
         [CustomSyntaxKind.ColumnCheckDefinition] : CheckDefinition,
         [CustomSyntaxKind.CreateTableOption] : CreateTableOption,
         [CustomSyntaxKind.TableIdentifierList] : NodeArray<TableIdentifier>,
         [CustomSyntaxKind.TableIdentifierList_AllowEmpty] : NodeArray<TableIdentifier>,
+        [CustomSyntaxKind.SubPartition] : SubPartition,
+        [CustomSyntaxKind.SingletonListPartitionDefinition] : ListPartitionDefinition,
+        [CustomSyntaxKind.NonSingletonListPartitionDefinition] : ListPartitionDefinition,
+        [CustomSyntaxKind.SubPartitionDefinitionList] : NodeArray<SubPartitionDefinition>,
+        [CustomSyntaxKind.ExpressionList] : NodeArray<Expression>,
+        [CustomSyntaxKind.ExpressionListList] : NodeArray<NodeArray<Expression>>,
+        [CustomSyntaxKind.PartitionDefinitionOption] : PartitionDefinitionOption,
+        [CustomSyntaxKind.Partition] : Partition,
     }
 
     interface CustomToken extends Array<TokenKind> {

@@ -16,9 +16,10 @@ makeCustomRule(SyntaxKind.CreateTableStatement)
             SyntaxKind.TableIdentifier,
             CustomSyntaxKind.CreateTableDefinitionList,
             SyntaxKind.CreateTableOptions,
+            optional(CustomSyntaxKind.Partition),
         ] as const,
         (data) : CreateTableStatement => {
-            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions] = data;
+            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.CreateTableStatement,
@@ -27,6 +28,7 @@ makeCustomRule(SyntaxKind.CreateTableStatement)
                 tableIdentifier,
                 createTableDefinitions,
                 createTableOptions,
+                partition : partition ?? undefined,
             };
         }
     );

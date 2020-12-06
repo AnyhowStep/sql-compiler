@@ -116,6 +116,11 @@ export enum SyntaxKind {
     IndexPartList = 1114,
     StringList = 1115,
     TableIdentifierList = 1116,
+    ListPartitionDefinitionList = 1117,
+    RangePartitionDefinitionList = 1118,
+    ExpressionList = 1119,
+    ExpressionListList = 1120,
+    SubPartitionDefinitionList = 1121,
 }
 
 //https://dev.mysql.com/doc/refman/5.7/en/manual-info.html
@@ -291,6 +296,11 @@ export const syntaxKinds = [
     "IndexPartList",
     "StringList",
     "TableIdentifierList",
+    "ListPartitionDefinitionList",
+    "RangePartitionDefinitionList",
+    "ExpressionList",
+    "ExpressionListList",
+    "SubPartitionDefinitionList",
 
 ] as const;
 

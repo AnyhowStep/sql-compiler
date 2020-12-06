@@ -10,8 +10,8 @@ export interface RangePartitionDefinition extends Node {
     syntaxKind : SyntaxKind.RangePartitionDefinition,
 
     partitionName : Identifier,
-    partitionValues : NodeArray<NodeArray<Expression|ValueNode<"MAXVALUE">>>,
+    partitionValues : NodeArray<Expression|ValueNode<"MAXVALUE">>,
     partitionDefinitionOptions : PartitionDefinitionOptions,
 
-    subPartitionDefinitions : NodeArray<SubPartitionDefinition>,
+    subPartitionDefinitions : NodeArray<SubPartitionDefinition>|undefined,
 }

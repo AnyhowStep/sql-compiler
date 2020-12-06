@@ -3,6 +3,7 @@ import {emitTableIdentifier} from "../identifier";
 import {StringBuilder} from "../string-builder";
 import {emitCreateTableDefinition} from "./create-table-definition";
 import {emitCreateTableOptions} from "./create-table-options";
+import {emitPartition} from "./partition";
 
 export function emitCreateTableStatement (statement : CreateTableStatement) : StringBuilder {
     const builder = new StringBuilder()
@@ -27,6 +28,15 @@ export function emitCreateTableStatement (statement : CreateTableStatement) : St
             }
             builder.indent(builder => {
                 builder.appendBuilder(createTableOptions);
+            })
+        })
+        .scope(builder => {
+            if (statement.partition == undefined) {
+                return;
+            }
+            const partition = statement.partition;
+            builder.indent(builder => {
+                builder.appendBuilder(emitPartition(partition));
             })
         })
         .append(";");

@@ -2470,6 +2470,30 @@ export var ParserRules: NearleyRule[] = [
                         collationName),
             };
         } },
+    {"name": "ExpressionListList$ebnf$1", "symbols": []},
+    {"name": "ExpressionListList$ebnf$1$subexpression$1", "symbols": [Comma, "ExpressionList"]},
+    {"name": "ExpressionListList$ebnf$1", "symbols": ["ExpressionListList$ebnf$1", "ExpressionListList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "ExpressionListList", "symbols": [OpenParentheses, "ExpressionList", "ExpressionListList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.ExpressionListList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "ExpressionList$ebnf$1", "symbols": []},
+    {"name": "ExpressionList$ebnf$1$subexpression$1", "symbols": [Comma, "Expression"]},
+    {"name": "ExpressionList$ebnf$1", "symbols": ["ExpressionList$ebnf$1", "ExpressionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "ExpressionList", "symbols": [OpenParentheses, "Expression", "ExpressionList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.ExpressionList, parse_util_1.getTextRange(data));
+        } },
     {"name": "FieldLength$subexpression$1", "symbols": ["IntegerLiteral"]},
     {"name": "FieldLength$subexpression$1", "symbols": ["DecimalLiteral"]},
     {"name": "FieldLength$subexpression$1", "symbols": ["RealLiteral"]},
@@ -2501,6 +2525,19 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IdentifierList$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier"]},
     {"name": "IdentifierList$ebnf$1", "symbols": ["IdentifierList$ebnf$1", "IdentifierList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "IdentifierList", "symbols": [OpenParentheses, "Identifier", "IdentifierList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IdentifierList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "IdentifierList_2OrMore$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier"]},
+    {"name": "IdentifierList_2OrMore$ebnf$1", "symbols": ["IdentifierList_2OrMore$ebnf$1$subexpression$1"]},
+    {"name": "IdentifierList_2OrMore$ebnf$1$subexpression$2", "symbols": [Comma, "Identifier"]},
+    {"name": "IdentifierList_2OrMore$ebnf$1", "symbols": ["IdentifierList_2OrMore$ebnf$1", "IdentifierList_2OrMore$ebnf$1$subexpression$2"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IdentifierList_2OrMore", "symbols": [OpenParentheses, "Identifier", "IdentifierList_2OrMore$ebnf$1", CloseParentheses], "postprocess":  (data) => {
             const [, first, more] = data;
             const arr = more
                 .flat(1)
@@ -3656,8 +3693,10 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateTableStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
     {"name": "CreateTableStatement$ebnf$2", "symbols": ["CreateTableStatement$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "CreateTableStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableDefinitionList", "CreateTableOptions"], "postprocess":  (data) => {
-            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions] = data;
+    {"name": "CreateTableStatement$ebnf$3", "symbols": ["Partition"], "postprocess": id},
+    {"name": "CreateTableStatement$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableDefinitionList", "CreateTableOptions", "CreateTableStatement$ebnf$3"], "postprocess":  (data) => {
+            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
@@ -3666,6 +3705,7 @@ export var ParserRules: NearleyRule[] = [
                 tableIdentifier,
                 createTableDefinitions,
                 createTableOptions,
+                partition: partition !== null && partition !== void 0 ? partition : undefined,
             };
         } },
     {"name": "DelimiterStatement", "symbols": [DELIMITER_STATEMENT, CustomDelimiter], "postprocess":  (data) => {
@@ -3677,6 +3717,332 @@ export var ParserRules: NearleyRule[] = [
                 customDelimiter: customDelimiter.value,
             };
         } },
+    {"name": "HashPartition$ebnf$1", "symbols": [LINEAR], "postprocess": id},
+    {"name": "HashPartition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "HashPartition$ebnf$2$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
+    {"name": "HashPartition$ebnf$2", "symbols": ["HashPartition$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "HashPartition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "HashPartition", "symbols": [PARTITION, BY, "HashPartition$ebnf$1", HASH, OpenParentheses, "Expression", CloseParentheses, "HashPartition$ebnf$2"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.HashPartition,
+                linear: data[2] != undefined,
+                partitionExpr: data[5],
+                partitionCount: (data[7] == undefined ?
+                    undefined :
+                    data[7][1]),
+            };
+        } },
+    {"name": "HashSubPartition$ebnf$1", "symbols": [LINEAR], "postprocess": id},
+    {"name": "HashSubPartition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "HashSubPartition$ebnf$2$subexpression$1", "symbols": [SUBPARTITIONS, "IntegerLiteral"]},
+    {"name": "HashSubPartition$ebnf$2", "symbols": ["HashSubPartition$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "HashSubPartition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "HashSubPartition", "symbols": [SUBPARTITION, BY, "HashSubPartition$ebnf$1", HASH, OpenParentheses, "Expression", CloseParentheses, "HashSubPartition$ebnf$2"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.HashSubPartition,
+                linear: data[2] != undefined,
+                subPartitionExpr: data[5],
+                subPartitionCount: (data[7] == undefined ?
+                    undefined :
+                    data[7][1]),
+            };
+        } },
+    {"name": "KeyPartition$ebnf$1", "symbols": [LINEAR], "postprocess": id},
+    {"name": "KeyPartition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "KeyPartition$ebnf$2$subexpression$1", "symbols": [ALGORITHM, Equal, "IntegerLiteral"]},
+    {"name": "KeyPartition$ebnf$2", "symbols": ["KeyPartition$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "KeyPartition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "KeyPartition$ebnf$3$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
+    {"name": "KeyPartition$ebnf$3", "symbols": ["KeyPartition$ebnf$3$subexpression$1"], "postprocess": id},
+    {"name": "KeyPartition$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "KeyPartition", "symbols": [PARTITION, BY, "KeyPartition$ebnf$1", KEY, "KeyPartition$ebnf$2", "IdentifierList", "KeyPartition$ebnf$3"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.KeyPartition,
+                linear: data[2] != undefined,
+                algorithm: (data[4] == undefined ?
+                    undefined :
+                    data[4][2]),
+                partitionColumns: data[5],
+                partitionCount: (data[6] == undefined ?
+                    undefined :
+                    data[6][1]),
+            };
+        } },
+    {"name": "KeySubPartition$ebnf$1", "symbols": [LINEAR], "postprocess": id},
+    {"name": "KeySubPartition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "KeySubPartition$ebnf$2$subexpression$1", "symbols": [ALGORITHM, Equal, "IntegerLiteral"]},
+    {"name": "KeySubPartition$ebnf$2", "symbols": ["KeySubPartition$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "KeySubPartition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "KeySubPartition$ebnf$3$subexpression$1", "symbols": [SUBPARTITIONS, "IntegerLiteral"]},
+    {"name": "KeySubPartition$ebnf$3", "symbols": ["KeySubPartition$ebnf$3$subexpression$1"], "postprocess": id},
+    {"name": "KeySubPartition$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "KeySubPartition", "symbols": [SUBPARTITION, BY, "KeySubPartition$ebnf$1", KEY, "KeySubPartition$ebnf$2", "IdentifierList", "KeySubPartition$ebnf$3"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.KeySubPartition,
+                linear: data[2] != undefined,
+                algorithm: (data[4] == undefined ?
+                    undefined :
+                    data[4][2]),
+                subPartitionColumns: data[5],
+                subPartitionCount: (data[6] == undefined ?
+                    undefined :
+                    data[6][1]),
+            };
+        } },
+    {"name": "ListPartition$ebnf$1$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
+    {"name": "ListPartition$ebnf$1", "symbols": ["ListPartition$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "ListPartition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "ListPartition$ebnf$2", "symbols": ["SubPartition"], "postprocess": id},
+    {"name": "ListPartition$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "ListPartition$ebnf$3", "symbols": []},
+    {"name": "ListPartition$ebnf$3$subexpression$1", "symbols": [Comma, "SingletonListPartitionDefinition"]},
+    {"name": "ListPartition$ebnf$3", "symbols": ["ListPartition$ebnf$3", "ListPartition$ebnf$3$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "ListPartition", "symbols": [PARTITION, BY, LIST, OpenParentheses, "Expression", CloseParentheses, "ListPartition$ebnf$1", "ListPartition$ebnf$2", OpenParentheses, "SingletonListPartitionDefinition", "ListPartition$ebnf$3", CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ListPartition,
+                partitionExprOrColumns: data[4],
+                partitionCount: (data[6] == undefined ?
+                    undefined :
+                    data[6][1]),
+                subPartition: (data[7] == undefined ?
+                    undefined :
+                    data[7]),
+                partitionDefinitions: parse_util_1.toNodeArray([
+                    data[9],
+                    ...data[10].flat(1).filter((item) => {
+                        return "syntaxKind" in item;
+                    })
+                ], parser_node_1.SyntaxKind.ListPartitionDefinitionList, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "ListPartition$ebnf$4$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
+    {"name": "ListPartition$ebnf$4", "symbols": ["ListPartition$ebnf$4$subexpression$1"], "postprocess": id},
+    {"name": "ListPartition$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "ListPartition$ebnf$5", "symbols": ["SubPartition"], "postprocess": id},
+    {"name": "ListPartition$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "ListPartition$ebnf$6", "symbols": []},
+    {"name": "ListPartition$ebnf$6$subexpression$1", "symbols": [Comma, "SingletonListPartitionDefinition"]},
+    {"name": "ListPartition$ebnf$6", "symbols": ["ListPartition$ebnf$6", "ListPartition$ebnf$6$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "ListPartition", "symbols": [PARTITION, BY, LIST, COLUMNS, OpenParentheses, "Identifier", CloseParentheses, "ListPartition$ebnf$4", "ListPartition$ebnf$5", OpenParentheses, "SingletonListPartitionDefinition", "ListPartition$ebnf$6", CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ListPartition,
+                partitionExprOrColumns: parse_util_1.toNodeArray([data[5]], parser_node_1.SyntaxKind.IdentifierList, data[5]),
+                partitionCount: (data[7] == undefined ?
+                    undefined :
+                    data[7][1]),
+                subPartition: (data[8] == undefined ?
+                    undefined :
+                    data[8]),
+                partitionDefinitions: parse_util_1.toNodeArray([
+                    data[10],
+                    ...data[11].flat(1).filter((item) => {
+                        return "syntaxKind" in item;
+                    })
+                ], parser_node_1.SyntaxKind.ListPartitionDefinitionList, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "ListPartition$ebnf$7$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
+    {"name": "ListPartition$ebnf$7", "symbols": ["ListPartition$ebnf$7$subexpression$1"], "postprocess": id},
+    {"name": "ListPartition$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "ListPartition$ebnf$8", "symbols": ["SubPartition"], "postprocess": id},
+    {"name": "ListPartition$ebnf$8", "symbols": [], "postprocess": () => null},
+    {"name": "ListPartition$ebnf$9", "symbols": []},
+    {"name": "ListPartition$ebnf$9$subexpression$1", "symbols": [Comma, "NonSingletonListPartitionDefinition"]},
+    {"name": "ListPartition$ebnf$9", "symbols": ["ListPartition$ebnf$9", "ListPartition$ebnf$9$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "ListPartition", "symbols": [PARTITION, BY, LIST, COLUMNS, "IdentifierList_2OrMore", "ListPartition$ebnf$7", "ListPartition$ebnf$8", OpenParentheses, "NonSingletonListPartitionDefinition", "ListPartition$ebnf$9", CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ListPartition,
+                partitionExprOrColumns: data[4],
+                partitionCount: (data[5] == undefined ?
+                    undefined :
+                    data[5][1]),
+                subPartition: (data[6] == undefined ?
+                    undefined :
+                    data[6]),
+                partitionDefinitions: parse_util_1.toNodeArray([
+                    data[8],
+                    ...data[9].flat(1).filter((item) => {
+                        return "syntaxKind" in item;
+                    })
+                ], parser_node_1.SyntaxKind.ListPartitionDefinitionList, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "NonSingletonListPartitionDefinition$ebnf$1", "symbols": ["SubPartitionDefinitionList"], "postprocess": id},
+    {"name": "NonSingletonListPartitionDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "NonSingletonListPartitionDefinition", "symbols": [PARTITION, "Identifier", VALUES, IN, "ExpressionListList", "PartitionDefinitionOptions", "NonSingletonListPartitionDefinition$ebnf$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ListPartitionDefinition,
+                partitionName: data[1],
+                partitionValues: data[4],
+                partitionDefinitionOptions: data[5],
+                subPartitionDefinitions: (data[6] == undefined ?
+                    undefined :
+                    data[6]),
+            };
+        } },
+    {"name": "PartitionDefinitionOption$ebnf$1", "symbols": [STORAGE], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption$ebnf$2", "symbols": [Equal], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "PartitionDefinitionOption$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "PartitionDefinitionOption", "symbols": ["PartitionDefinitionOption$ebnf$1", ENGINE, "PartitionDefinitionOption$ebnf$2", "PartitionDefinitionOption$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                engine: data[3][0],
+            };
+        } },
+    {"name": "PartitionDefinitionOption$ebnf$3", "symbols": [Equal], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption", "symbols": [MAX_ROWS, "PartitionDefinitionOption$ebnf$3", "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                maxRows: data[2],
+            };
+        } },
+    {"name": "PartitionDefinitionOption$ebnf$4", "symbols": [Equal], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption", "symbols": [MIN_ROWS, "PartitionDefinitionOption$ebnf$4", "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                minRows: data[2],
+            };
+        } },
+    {"name": "PartitionDefinitionOption$ebnf$5", "symbols": [Equal], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption", "symbols": [COMMENT, "PartitionDefinitionOption$ebnf$5", "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                comment: data[2],
+            };
+        } },
+    {"name": "PartitionDefinitionOption$ebnf$6", "symbols": [Equal], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption", "symbols": [DATA, DIRECTORY, "PartitionDefinitionOption$ebnf$6", "StringLiteral"], "postprocess":  (data) => {
+            const dataDirectory = data[3];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                dataDirectory,
+            };
+            return result;
+        } },
+    {"name": "PartitionDefinitionOption$ebnf$7", "symbols": [Equal], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption", "symbols": [INDEX, DIRECTORY, "PartitionDefinitionOption$ebnf$7", "StringLiteral"], "postprocess":  (data) => {
+            const indexDirectory = data[3];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                indexDirectory,
+            };
+            return result;
+        } },
+    {"name": "PartitionDefinitionOption$ebnf$8", "symbols": [Equal], "postprocess": id},
+    {"name": "PartitionDefinitionOption$ebnf$8", "symbols": [], "postprocess": () => null},
+    {"name": "PartitionDefinitionOption", "symbols": [TABLESPACE, "PartitionDefinitionOption$ebnf$8", "Identifier"], "postprocess":  (data) => {
+            const tablespace = data[2];
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                tablespace,
+            };
+            return result;
+        } },
+    {"name": "PartitionDefinitionOptions$ebnf$1", "symbols": []},
+    {"name": "PartitionDefinitionOptions$ebnf$1$subexpression$1", "symbols": ["PartitionDefinitionOption"]},
+    {"name": "PartitionDefinitionOptions$ebnf$1", "symbols": ["PartitionDefinitionOptions$ebnf$1", "PartitionDefinitionOptions$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "PartitionDefinitionOptions", "symbols": ["PartitionDefinitionOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                tablespace: undefined,
+                engine: undefined,
+                nodeGroup: undefined,
+                maxRows: undefined,
+                minRows: undefined,
+                dataDirectory: undefined,
+                indexDirectory: undefined,
+                comment: undefined,
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.PartitionDefinitionOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "Partition", "symbols": ["HashPartition"], "postprocess": data => data[0]},
+    {"name": "Partition", "symbols": ["KeyPartition"], "postprocess": data => data[0]},
+    {"name": "Partition", "symbols": ["ListPartition"], "postprocess": data => data[0]},
+    {"name": "SingletonListPartitionDefinition$ebnf$1", "symbols": ["SubPartitionDefinitionList"], "postprocess": id},
+    {"name": "SingletonListPartitionDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "SingletonListPartitionDefinition", "symbols": [PARTITION, "Identifier", VALUES, IN, "ExpressionList", "PartitionDefinitionOptions", "SingletonListPartitionDefinition$ebnf$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ListPartitionDefinition,
+                partitionName: data[1],
+                partitionValues: parse_util_1.toNodeArray(data[4].map(expression => {
+                    return parse_util_1.toNodeArray([expression], parser_node_1.SyntaxKind.ExpressionList, parse_util_1.getTextRange(expression));
+                }), parser_node_1.SyntaxKind.ExpressionListList, parse_util_1.getTextRange(data[4])),
+                partitionDefinitionOptions: data[5],
+                subPartitionDefinitions: (data[6] == undefined ?
+                    undefined :
+                    data[6]),
+            };
+        } },
+    {"name": "SubPartitionDefinitionList$ebnf$1", "symbols": []},
+    {"name": "SubPartitionDefinitionList$ebnf$1$subexpression$1", "symbols": [Comma, "SubPartitionDefinition"]},
+    {"name": "SubPartitionDefinitionList$ebnf$1", "symbols": ["SubPartitionDefinitionList$ebnf$1", "SubPartitionDefinitionList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "SubPartitionDefinitionList", "symbols": [OpenParentheses, "SubPartitionDefinition", "SubPartitionDefinitionList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const [, first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.SubPartitionDefinitionList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "SubPartitionDefinition$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "SubPartitionDefinition$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "SubPartitionDefinition", "symbols": [SUBPARTITION, "SubPartitionDefinition$subexpression$1", "PartitionDefinitionOptions"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.SubPartitionDefinition,
+                subPartitionName: data[1][0],
+                partitionDefinitionOptions: data[2],
+            };
+        } },
+    {"name": "SubPartition", "symbols": ["HashSubPartition"], "postprocess": data => data[0]},
+    {"name": "SubPartition", "symbols": ["KeySubPartition"], "postprocess": data => data[0]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateSchemaStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {

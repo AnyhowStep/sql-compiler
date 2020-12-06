@@ -171,5 +171,10 @@ export const syntaxKinds = [
     "IndexPartList",
     "StringList",
     "TableIdentifierList",
+    "ListPartitionDefinitionList",
+    "RangePartitionDefinitionList",
+    "ExpressionList",
+    "ExpressionListList",
+    "SubPartitionDefinitionList",
 
 ] as const;

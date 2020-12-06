@@ -1,0 +1,15 @@
+CREATE TABLE T (
+    X BOOLEAN,
+    Y BOOLEAN
+)
+    PARTITION BY KEY(X, Y);
+
+-----
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL,
+    `Y` BOOLEAN NULL
+)
+    PARTITION BY KEY(`X`, `Y`);
+
+-----
+[]

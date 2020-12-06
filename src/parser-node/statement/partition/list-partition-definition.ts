@@ -16,5 +16,5 @@ export interface ListPartitionDefinition extends Node {
     partitionValues : NodeArray<NodeArray<Expression>>,
     partitionDefinitionOptions : PartitionDefinitionOptions,
 
-    subPartitionDefinitions : NodeArray<SubPartitionDefinition>,
+    subPartitionDefinitions : NodeArray<SubPartitionDefinition>|undefined,
 }

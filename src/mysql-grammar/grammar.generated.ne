@@ -2377,6 +2377,28 @@ DefaultCollation ->
     };
 } %}
 
+ExpressionListList ->
+    %OpenParentheses ExpressionList (%Comma ExpressionList):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.ExpressionListList, parse_util_1.getTextRange(data));
+} %}
+
+ExpressionList ->
+    %OpenParentheses Expression (%Comma Expression):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.ExpressionList, parse_util_1.getTextRange(data));
+} %}
+
 FieldLength ->
     %OpenParentheses (IntegerLiteral | DecimalLiteral | RealLiteral) %CloseParentheses {% (data) => {
     let [, [literal],] = data;
@@ -2405,6 +2427,17 @@ FieldLength ->
 
 IdentifierList ->
     %OpenParentheses Identifier (%Comma Identifier):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IdentifierList, parse_util_1.getTextRange(data));
+} %}
+
+IdentifierList_2OrMore ->
+    %OpenParentheses Identifier (%Comma Identifier):+ %CloseParentheses {% (data) => {
     const [, first, more] = data;
     const arr = more
         .flat(1)
@@ -3373,8 +3406,8 @@ CreateTableOptions ->
 } %}
 
 CreateTableStatement ->
-    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList CreateTableOptions {% (data) => {
-    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions] = data;
+    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList CreateTableOptions Partition:? {% (data) => {
+    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
@@ -3383,6 +3416,7 @@ CreateTableStatement ->
         tableIdentifier,
         createTableDefinitions,
         createTableOptions,
+        partition: partition !== null && partition !== void 0 ? partition : undefined,
     };
 } %}
 
@@ -3396,6 +3430,278 @@ DelimiterStatement ->
         customDelimiter: customDelimiter.value,
     };
 } %}
+
+HashPartition ->
+    %PARTITION %BY %LINEAR:? %HASH %OpenParentheses Expression %CloseParentheses (%PARTITIONS IntegerLiteral):? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.HashPartition,
+        linear: data[2] != undefined,
+        partitionExpr: data[5],
+        partitionCount: (data[7] == undefined ?
+            undefined :
+            data[7][1]),
+    };
+} %}
+
+HashSubPartition ->
+    %SUBPARTITION %BY %LINEAR:? %HASH %OpenParentheses Expression %CloseParentheses (%SUBPARTITIONS IntegerLiteral):? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.HashSubPartition,
+        linear: data[2] != undefined,
+        subPartitionExpr: data[5],
+        subPartitionCount: (data[7] == undefined ?
+            undefined :
+            data[7][1]),
+    };
+} %}
+
+KeyPartition ->
+    %PARTITION %BY %LINEAR:? %KEY (%ALGORITHM %Equal IntegerLiteral):? IdentifierList (%PARTITIONS IntegerLiteral):? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.KeyPartition,
+        linear: data[2] != undefined,
+        algorithm: (data[4] == undefined ?
+            undefined :
+            data[4][2]),
+        partitionColumns: data[5],
+        partitionCount: (data[6] == undefined ?
+            undefined :
+            data[6][1]),
+    };
+} %}
+
+KeySubPartition ->
+    %SUBPARTITION %BY %LINEAR:? %KEY (%ALGORITHM %Equal IntegerLiteral):? IdentifierList (%SUBPARTITIONS IntegerLiteral):? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.KeySubPartition,
+        linear: data[2] != undefined,
+        algorithm: (data[4] == undefined ?
+            undefined :
+            data[4][2]),
+        subPartitionColumns: data[5],
+        subPartitionCount: (data[6] == undefined ?
+            undefined :
+            data[6][1]),
+    };
+} %}
+
+ListPartition ->
+    %PARTITION %BY %LIST %OpenParentheses Expression %CloseParentheses (%PARTITIONS IntegerLiteral):? SubPartition:? %OpenParentheses SingletonListPartitionDefinition (%Comma SingletonListPartitionDefinition):* %CloseParentheses {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ListPartition,
+        partitionExprOrColumns: data[4],
+        partitionCount: (data[6] == undefined ?
+            undefined :
+            data[6][1]),
+        subPartition: (data[7] == undefined ?
+            undefined :
+            data[7]),
+        partitionDefinitions: parse_util_1.toNodeArray([
+            data[9],
+            ...data[10].flat(1).filter((item) => {
+                return "syntaxKind" in item;
+            })
+        ], parser_node_1.SyntaxKind.ListPartitionDefinitionList, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %PARTITION %BY %LIST %COLUMNS %OpenParentheses Identifier %CloseParentheses (%PARTITIONS IntegerLiteral):? SubPartition:? %OpenParentheses SingletonListPartitionDefinition (%Comma SingletonListPartitionDefinition):* %CloseParentheses {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ListPartition,
+        partitionExprOrColumns: parse_util_1.toNodeArray([data[5]], parser_node_1.SyntaxKind.IdentifierList, data[5]),
+        partitionCount: (data[7] == undefined ?
+            undefined :
+            data[7][1]),
+        subPartition: (data[8] == undefined ?
+            undefined :
+            data[8]),
+        partitionDefinitions: parse_util_1.toNodeArray([
+            data[10],
+            ...data[11].flat(1).filter((item) => {
+                return "syntaxKind" in item;
+            })
+        ], parser_node_1.SyntaxKind.ListPartitionDefinitionList, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %PARTITION %BY %LIST %COLUMNS IdentifierList_2OrMore (%PARTITIONS IntegerLiteral):? SubPartition:? %OpenParentheses NonSingletonListPartitionDefinition (%Comma NonSingletonListPartitionDefinition):* %CloseParentheses {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ListPartition,
+        partitionExprOrColumns: data[4],
+        partitionCount: (data[5] == undefined ?
+            undefined :
+            data[5][1]),
+        subPartition: (data[6] == undefined ?
+            undefined :
+            data[6]),
+        partitionDefinitions: parse_util_1.toNodeArray([
+            data[8],
+            ...data[9].flat(1).filter((item) => {
+                return "syntaxKind" in item;
+            })
+        ], parser_node_1.SyntaxKind.ListPartitionDefinitionList, parse_util_1.getTextRange(data)),
+    };
+} %}
+
+NonSingletonListPartitionDefinition ->
+    %PARTITION Identifier %VALUES %IN ExpressionListList PartitionDefinitionOptions SubPartitionDefinitionList:? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ListPartitionDefinition,
+        partitionName: data[1],
+        partitionValues: data[4],
+        partitionDefinitionOptions: data[5],
+        subPartitionDefinitions: (data[6] == undefined ?
+            undefined :
+            data[6]),
+    };
+} %}
+
+PartitionDefinitionOption ->
+    %STORAGE:? %ENGINE %Equal:? (Identifier | StringLiteral) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        engine: data[3][0],
+    };
+} %}
+    | %MAX_ROWS %Equal:? IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        maxRows: data[2],
+    };
+} %}
+    | %MIN_ROWS %Equal:? IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        minRows: data[2],
+    };
+} %}
+    | %COMMENT %Equal:? StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        comment: data[2],
+    };
+} %}
+    | %DATA %DIRECTORY %Equal:? StringLiteral {% (data) => {
+    const dataDirectory = data[3];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        dataDirectory,
+    };
+    return result;
+} %}
+    | %INDEX %DIRECTORY %Equal:? StringLiteral {% (data) => {
+    const indexDirectory = data[3];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        indexDirectory,
+    };
+    return result;
+} %}
+    | %TABLESPACE %Equal:? Identifier {% (data) => {
+    const tablespace = data[2];
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        tablespace,
+    };
+    return result;
+} %}
+
+PartitionDefinitionOptions ->
+    (PartitionDefinitionOption):* {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        tablespace: undefined,
+        engine: undefined,
+        nodeGroup: undefined,
+        maxRows: undefined,
+        minRows: undefined,
+        dataDirectory: undefined,
+        indexDirectory: undefined,
+        comment: undefined,
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.PartitionDefinitionOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+Partition ->
+    HashPartition {% data => data[0] %}
+    | KeyPartition {% data => data[0] %}
+    | ListPartition {% data => data[0] %}
+
+SingletonListPartitionDefinition ->
+    %PARTITION Identifier %VALUES %IN ExpressionList PartitionDefinitionOptions SubPartitionDefinitionList:? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ListPartitionDefinition,
+        partitionName: data[1],
+        partitionValues: parse_util_1.toNodeArray(data[4].map(expression => {
+            return parse_util_1.toNodeArray([expression], parser_node_1.SyntaxKind.ExpressionList, parse_util_1.getTextRange(expression));
+        }), parser_node_1.SyntaxKind.ExpressionListList, parse_util_1.getTextRange(data[4])),
+        partitionDefinitionOptions: data[5],
+        subPartitionDefinitions: (data[6] == undefined ?
+            undefined :
+            data[6]),
+    };
+} %}
+
+SubPartitionDefinitionList ->
+    %OpenParentheses SubPartitionDefinition (%Comma SubPartitionDefinition):* %CloseParentheses {% (data) => {
+    const [, first, more] = data;
+    const arr = more
+        .flat(1)
+        .filter((x) => {
+        return "syntaxKind" in x;
+    });
+    return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.SubPartitionDefinitionList, parse_util_1.getTextRange(data));
+} %}
+
+SubPartitionDefinition ->
+    %SUBPARTITION (Identifier | StringLiteral) PartitionDefinitionOptions {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SubPartitionDefinition,
+        subPartitionName: data[1][0],
+        partitionDefinitionOptions: data[2],
+    };
+} %}
+
+SubPartition ->
+    HashSubPartition {% data => data[0] %}
+    | KeySubPartition {% data => data[0] %}
 
 NonDelimiterStatement ->
     (CreateSchemaStatement | CreateTableStatement) {% (data) => {
