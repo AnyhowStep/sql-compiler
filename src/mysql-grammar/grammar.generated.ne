@@ -2746,21 +2746,6 @@ ColumnDefinition ->
             undefined :
             [...columnIdentifierOriginal.syntacticErrors]),
     };
-    if (modifier.autoIncrement) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
-    }
-    if (modifier.columnFormat != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
-    }
-    if (modifier.storage != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
-    }
-    if (modifier.defaultValue != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
-    }
-    if (modifier.onUpdate != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp);
-    }
     return {
         syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
         columnIdentifier,
@@ -2800,21 +2785,6 @@ ColumnDefinition ->
     };
     modifier.autoIncrement = true;
     modifier.uniqueKey = true;
-    if (modifier.autoIncrement) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement);
-    }
-    if (modifier.columnFormat != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat);
-    }
-    if (modifier.storage != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyStorage);
-    }
-    if (modifier.defaultValue != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue);
-    }
-    if (modifier.onUpdate != undefined) {
-        parse_util_1.pushSyntacticErrorAtNode(columnIdentifier, [], diagnostic_messages_1.DiagnosticMessages.GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp);
-    }
     return {
         syntaxKind: parser_node_1.SyntaxKind.ColumnDefinition,
         columnIdentifier,

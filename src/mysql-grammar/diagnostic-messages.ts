@@ -60,26 +60,6 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200010,
     }),
-    GeneratedColumnCannotSpecifyAutoIncrement : makeDiagnosticMessage({
-        key : "Generated column cannot specify auto-increment",
-        category : DiagnosticCategory.Error,
-        code : 200011,
-    }),
-    GeneratedColumnCannotSpecifyColumnFormat : makeDiagnosticMessage({
-        key : "Generated column cannot specify column format",
-        category : DiagnosticCategory.Error,
-        code : 200012,
-    }),
-    GeneratedColumnCannotSpecifyStorage : makeDiagnosticMessage({
-        key : "Generated column cannot specify storage",
-        category : DiagnosticCategory.Error,
-        code : 200013,
-    }),
-    GeneratedColumnCannotSpecifyDefaultValue : makeDiagnosticMessage({
-        key : "Generated column cannot specify default value",
-        category : DiagnosticCategory.Error,
-        code : 200014,
-    }),
     IndexPartSortDirectionDescIgnored : makeDiagnosticMessage({
         key : "Index values are always stored in ascending order; DESC is ignored",
         category : DiagnosticCategory.Warning,
@@ -169,11 +149,6 @@ export const DiagnosticMessages = {
         key : "Invalid data type scale; max {0}",
         category : DiagnosticCategory.Error,
         code : 200031,
-    }),
-    GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp : makeDiagnosticMessage({
-        key : "Generated column cannot specify ON UPDATE CurrentTimestamp",
-        category : DiagnosticCategory.Error,
-        code : 200032,
     }),
 
     ExpectedSourceElement : makeDiagnosticMessage({

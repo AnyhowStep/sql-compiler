@@ -16,4 +16,30 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240002,
     }),
+
+    GeneratedColumnCannotSpecifyAutoIncrement : makeDiagnosticMessage({
+        key : "Generated column cannot specify auto-increment",
+        category : DiagnosticCategory.Error,
+        code : 240003,
+    }),
+    GeneratedColumnCannotSpecifyColumnFormat : makeDiagnosticMessage({
+        key : "Generated column cannot specify column format",
+        category : DiagnosticCategory.Error,
+        code : 240004,
+    }),
+    GeneratedColumnCannotSpecifyStorage : makeDiagnosticMessage({
+        key : "Generated column cannot specify storage",
+        category : DiagnosticCategory.Error,
+        code : 240005,
+    }),
+    GeneratedColumnCannotSpecifyDefaultValue : makeDiagnosticMessage({
+        key : "Generated column cannot specify default value",
+        category : DiagnosticCategory.Error,
+        code : 240006,
+    }),
+    GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp : makeDiagnosticMessage({
+        key : "Generated column cannot specify ON UPDATE CurrentTimestamp",
+        category : DiagnosticCategory.Error,
+        code : 240007,
+    }),
 } as const;

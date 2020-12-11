@@ -1,10 +1,8 @@
 import {ColumnIdentifier, IntegerDataType, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
-import {DiagnosticMessages} from "../../diagnostic-messages";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {
     getTextRange,
-    pushSyntacticErrorAtNode,
 } from "../../parse-util";
 
 makeCustomRule(SyntaxKind.ColumnDefinition)
@@ -29,46 +27,6 @@ makeCustomRule(SyntaxKind.ColumnDefinition)
                     undefined :
                     [...columnIdentifierOriginal.syntacticErrors]
                 ),
-            }
-
-            if (modifier.autoIncrement) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement
-                );
-            }
-
-            if (modifier.columnFormat != undefined) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat
-                );
-            }
-
-            if (modifier.storage != undefined) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyStorage
-                );
-            }
-
-            if (modifier.defaultValue != undefined) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue
-                );
-            }
-
-            if (modifier.onUpdate != undefined) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp
-                );
             }
 
             return {
@@ -124,46 +82,6 @@ makeCustomRule(SyntaxKind.ColumnDefinition)
             };
             modifier.autoIncrement = true;
             modifier.uniqueKey = true;
-
-            if (modifier.autoIncrement) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyAutoIncrement
-                );
-            }
-
-            if (modifier.columnFormat != undefined) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyColumnFormat
-                );
-            }
-
-            if (modifier.storage != undefined) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyStorage
-                );
-            }
-
-            if (modifier.defaultValue != undefined) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyDefaultValue
-                );
-            }
-
-            if (modifier.onUpdate != undefined) {
-                pushSyntacticErrorAtNode(
-                    columnIdentifier,
-                    [],
-                    DiagnosticMessages.GeneratedColumnCannotSpecifyOnUpdateCurrentTimestamp
-                );
-            }
 
             return {
                 syntaxKind : SyntaxKind.ColumnDefinition,

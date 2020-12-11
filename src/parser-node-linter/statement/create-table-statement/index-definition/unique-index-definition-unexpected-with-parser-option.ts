@@ -1,8 +1,7 @@
-import {SyntaxKind} from "../../../../parser-node";
+import {SyntaxKind, IndexClass, IndexDefinition} from "../../../../parser-node";
 import {LintRule} from "../../../linter";
 import {pushSyntacticErrorAt} from "../../../../parse-util";
 import {DiagnosticMessages} from "../../../diagnostic-messages";
-import {IndexClass, IndexDefinition} from "../../../../parser-node/statement";
 
 export const UniqueIndexDefinitionUnexpectedWithParserOption : LintRule<IndexDefinition> = {
     syntaxKind : SyntaxKind.IndexDefinition,
