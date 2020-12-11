@@ -1,0 +1,19 @@
+(SELECT 1 ORDER BY 1) UNION (SELECT 2 LIMIT 1)
+
+-----
+(
+    SELECT
+        1
+    ORDER BY
+        1 ASC
+)
+UNION DISTINCT
+(
+    SELECT
+        2
+    LIMIT
+        1
+);
+
+-----
+[]

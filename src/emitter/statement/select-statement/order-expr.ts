@@ -14,7 +14,7 @@ export function emitOrderExpr (orderExpr : OrderExpr) {
 
 export function emitOrderExprList(arr : NodeArray<OrderExpr>) {
     return new StringBuilder()
-        .append("ORDER BY ")
+        .append("ORDER BY")
         .indent(builder => {
             builder
                 .loop(

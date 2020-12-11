@@ -3,7 +3,7 @@ import {LintRule} from "../../../linter";
 import {pushSyntacticErrorAt} from "../../../../parse-util";
 import {DiagnosticMessages} from "../../../diagnostic-messages";
 
-export const UnionLhsSelectWithOrderMustBeParenthesized : LintRule<Union> = {
+export const UnionLhsSelectWithOrderByMustBeParenthesized : LintRule<Union> = {
     syntaxKind : SyntaxKind.Union,
     onEnter : (node, lintResult) => {
         if (node.lhs.syntaxKind != SyntaxKind.Select) {
@@ -15,7 +15,7 @@ export const UnionLhsSelectWithOrderMustBeParenthesized : LintRule<Union> = {
                 node.lhs.order.start,
                 node.lhs.order.end,
                 [],
-                DiagnosticMessages.UnionLhsSelectWithOrderMustBeParenthesized
+                DiagnosticMessages.UnionLhsSelectWithOrderByMustBeParenthesized
             );
         }
     },

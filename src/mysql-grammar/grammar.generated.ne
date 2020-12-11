@@ -3864,7 +3864,7 @@ OrderExprList ->
         .filter((data) => {
         return "syntaxKind" in data;
     });
-    return parse_util_2.toNodeArray(arr, parser_node_1.SyntaxKind.OrderExprList, parse_util_1.getTextRange(data));
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.OrderExprList, parse_util_1.getTextRange(data));
 } %}
 
 SelectItem ->

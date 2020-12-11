@@ -4238,7 +4238,7 @@ export var ParserRules: NearleyRule[] = [
                 .filter((data) => {
                 return "syntaxKind" in data;
             });
-            return parse_util_2.toNodeArray(arr, parser_node_1.SyntaxKind.OrderExprList, parse_util_1.getTextRange(data));
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.OrderExprList, parse_util_1.getTextRange(data));
         } },
     {"name": "SelectItem$ebnf$1$subexpression$1$ebnf$1", "symbols": [AS], "postprocess": id},
     {"name": "SelectItem$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},

@@ -6,8 +6,8 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240000,
     }),
-    UnionLhsSelectWithOrderMustBeParenthesized : makeDiagnosticMessage({
-        key : "SELECT with ORDER must be parenthesized when used with UNION",
+    UnionLhsSelectWithOrderByMustBeParenthesized : makeDiagnosticMessage({
+        key : "SELECT with ORDER BY must be parenthesized when used with UNION",
         category : DiagnosticCategory.Error,
         code : 240001,
     }),
