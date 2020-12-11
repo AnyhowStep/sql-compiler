@@ -75,11 +75,6 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 200019,
     }),
-    RealLiteralEvaluatesToNonFiniteValue : makeDiagnosticMessage({
-        key : "Real literal evaluates to non-finite value",
-        category : DiagnosticCategory.Error,
-        code : 200019,
-    }),
     InvalidRealDataTypePrecisionBits : makeDiagnosticMessage({
         key : "Invalid real data type precision bits; max 53",
         category : DiagnosticCategory.Error,

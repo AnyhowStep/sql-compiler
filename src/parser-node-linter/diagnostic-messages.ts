@@ -53,4 +53,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240009,
     }),
+    RealLiteralEvaluatesToNonFiniteValue : makeDiagnosticMessage({
+        key : "Real literal evaluates to non-finite value",
+        category : DiagnosticCategory.Error,
+        code : 240010,
+    }),
 } as const;

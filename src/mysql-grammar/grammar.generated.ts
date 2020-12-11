@@ -2213,6 +2213,7 @@ export var ParserRules: NearleyRule[] = [
             };
         } },
     {"name": "Expression$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "Expression$subexpression$1", "symbols": ["RealLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["Identifier"]},
     {"name": "Expression$subexpression$1", "symbols": ["ParamMarker"]},
@@ -2247,10 +2248,6 @@ export var ParserRules: NearleyRule[] = [
                 value: parseFloat(data[0].value),
                 sourceText: data[0].value,
             };
-            if (!isFinite(result.value)) {
-                result.value = 0;
-                parse_util_1.pushSyntacticErrorAt(result, result.start, result.end, [], diagnostic_messages_1.DiagnosticMessages.RealLiteralEvaluatesToNonFiniteValue);
-            }
             return result;
         } },
     {"name": "StringLiteral", "symbols": [StringLiteral], "postprocess":  (data) => {

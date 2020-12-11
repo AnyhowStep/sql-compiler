@@ -2115,7 +2115,7 @@ DecimalLiteral ->
 } %}
 
 Expression ->
-    (IntegerLiteral | StringLiteral | Identifier | ParamMarker) {% (data) => {
+    (IntegerLiteral | RealLiteral | StringLiteral | Identifier | ParamMarker) {% (data) => {
     return data[0][0];
 } %}
 
@@ -2154,10 +2154,6 @@ RealLiteral ->
         value: parseFloat(data[0].value),
         sourceText: data[0].value,
     };
-    if (!isFinite(result.value)) {
-        result.value = 0;
-        parse_util_1.pushSyntacticErrorAt(result, result.start, result.end, [], diagnostic_messages_1.DiagnosticMessages.RealLiteralEvaluatesToNonFiniteValue);
-    }
     return result;
 } %}
 

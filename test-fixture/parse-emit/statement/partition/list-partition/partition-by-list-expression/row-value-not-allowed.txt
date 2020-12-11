@@ -11,7 +11,7 @@ CREATE TABLE T (
 [
     {
         "category": 0,
-        "messageText": "Expected Identifier|IntegerLiteral|QuestionMark|StringLiteral",
+        "messageText": "Expected Identifier|IntegerLiteral|QuestionMark|RealLiteral|StringLiteral",
         "start": 94,
         "length": 0
     }

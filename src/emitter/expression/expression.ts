@@ -4,6 +4,7 @@ import {StringBuilder} from "../string-builder";
 import {emitBitLiteral} from "./bit-literal";
 import {emitHexLiteral} from "./hex-literal";
 import {emitIntegerLiteral} from "./integer-literal";
+import {emitRealLiteral} from "./real-literal";
 import {emitStringLiteral} from "./string-literal";
 
 export function emitExpression (expr : Expression) : StringBuilder {
@@ -13,6 +14,7 @@ export function emitExpression (expr : Expression) : StringBuilder {
         .case(SyntaxKind.BitLiteral, emitBitLiteral)
         .case(SyntaxKind.IntegerLiteral, emitIntegerLiteral)
         .case(SyntaxKind.Identifier, emitIdentifier)
+        .case(SyntaxKind.RealLiteral, emitRealLiteral)
         .default(() => new StringBuilder()
             .append(`TODO_EXPRESSION(${ReverseSyntaxKind[expr.syntaxKind]})`)
         );

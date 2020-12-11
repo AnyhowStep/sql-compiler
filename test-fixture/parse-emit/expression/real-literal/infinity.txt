@@ -1,0 +1,21 @@
+SELECT 1e309
+
+-----
+SELECT
+    1e309;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Real literal evaluates to Infinity",
+        "start": 7,
+        "length": 5
+    },
+    {
+        "category": 0,
+        "messageText": "Real literal evaluates to non-finite value",
+        "start": 7,
+        "length": 5
+    }
+]

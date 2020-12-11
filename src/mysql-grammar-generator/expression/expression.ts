@@ -6,6 +6,7 @@ makeCustomRule(CustomSyntaxKind.Expression)
     .addSubstitution(
         [union(
             SyntaxKind.IntegerLiteral,
+            SyntaxKind.RealLiteral,
             SyntaxKind.StringLiteral,
             SyntaxKind.Identifier,
             SyntaxKind.ParamMarker,
