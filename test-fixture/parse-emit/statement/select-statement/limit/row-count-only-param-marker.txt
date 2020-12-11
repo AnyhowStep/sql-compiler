@@ -1,0 +1,13 @@
+SELECT
+    1
+LIMIT
+    ?
+
+-----
+SELECT
+    1
+LIMIT
+    ?;
+
+-----
+[]

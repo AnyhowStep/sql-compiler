@@ -1,0 +1,13 @@
+SELECT
+    1
+LIMIT
+    x
+
+-----
+SELECT
+    1
+LIMIT
+    `x`;
+
+-----
+[]

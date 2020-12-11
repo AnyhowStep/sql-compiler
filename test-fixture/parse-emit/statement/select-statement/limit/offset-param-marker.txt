@@ -1,0 +1,17 @@
+SELECT
+    1
+LIMIT
+    ?
+OFFSET
+    ?
+
+-----
+SELECT
+    1
+LIMIT
+    ?
+OFFSET
+    ?;
+
+-----
+[]
