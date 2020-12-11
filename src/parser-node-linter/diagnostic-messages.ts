@@ -58,4 +58,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240010,
     }),
+    UnionDistinctOverwritesLhsUnionAll : makeDiagnosticMessage({
+        key : "UNION DISTINCT overwrites all previous UNION ALL",
+        category : DiagnosticCategory.Warning,
+        code : 240011,
+    }),
 } as const;

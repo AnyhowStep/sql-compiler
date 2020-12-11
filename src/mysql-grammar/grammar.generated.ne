@@ -4080,7 +4080,7 @@ UnionOrderLimit ->
     };
 } %}
     | (Union | Select | ParenthesizedSelect) %UNION (%ALL | %DISTINCT):? ParenthesizedSelect UnionOrderLimit_Helper {% (data) => {
-    const [lhs, , distinct, rhs, helper,] = data;
+    const [lhs, unionToken, distinct, rhs, helper,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
@@ -4088,8 +4088,17 @@ UnionOrderLimit ->
             ...parse_util_1.getTextRange([lhs, rhs]),
             syntaxKind: parser_node_1.SyntaxKind.Union,
             distinct: (distinct == undefined ?
-                true :
-                distinct[0].tokenKind == scanner_1.TokenKind.DISTINCT),
+                {
+                    start: unionToken.end,
+                    end: unionToken.end,
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: true,
+                } :
+                {
+                    ...parse_util_1.getTextRange(distinct[0]),
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: distinct[0].tokenKind == scanner_1.TokenKind.DISTINCT,
+                }),
             lhs: lhs[0],
             rhs,
         },
@@ -4105,8 +4114,17 @@ Union ->
         return {
             ...parse_util_1.getTextRange(item),
             distinct: (item[1] == undefined ?
-                true :
-                item[1][0].tokenKind == scanner_1.TokenKind.DISTINCT),
+                {
+                    start: item[0].end,
+                    end: item[0].end,
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: true,
+                } :
+                {
+                    ...parse_util_1.getTextRange(item[1][0]),
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: item[1][0].tokenKind == scanner_1.TokenKind.DISTINCT,
+                }),
             rhs: item[2][0],
         };
     });

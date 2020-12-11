@@ -30,8 +30,17 @@ makeCustomRule(SyntaxKind.Union)
                     ...getTextRange(item),
                     distinct : (
                         item[1] == undefined ?
-                        true :
-                        item[1][0].tokenKind == TokenKind.DISTINCT
+                        {
+                            start : item[0].end,
+                            end : item[0].end,
+                            syntaxKind : SyntaxKind.Value,
+                            value : true,
+                        } as const :
+                        {
+                            ...getTextRange(item[1][0]),
+                            syntaxKind : SyntaxKind.Value,
+                            value : item[1][0].tokenKind == TokenKind.DISTINCT,
+                        } as const
                     ),
                     rhs : item[2][0],
                 };

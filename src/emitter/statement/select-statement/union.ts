@@ -20,7 +20,7 @@ export function emitUnion (union : Union) {
         .appendNewLine()
         .append("UNION")
         .append(
-            union.distinct ?
+            union.distinct.value ?
             " DISTINCT" :
             " ALL"
         )

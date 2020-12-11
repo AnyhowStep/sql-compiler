@@ -1,5 +1,6 @@
 import {Node, SyntaxKind, walk} from "../parser-node";
 import {Diagnostic} from "../diagnostic";
+import {SourceFile} from "../parser-node/source-file";
 
 export interface LintResult {
     syntacticErrors : Diagnostic[],
@@ -14,7 +15,7 @@ export interface LintRule<NodeT extends Node> {
 export interface Linter {
     register<NodeT extends Node> (lintRule : LintRule<NodeT>) : Linter;
 
-    run (node : Node) : LintResult;
+    run (node : SourceFile) : LintResult;
 }
 
 export function makeLinter () : Linter {
@@ -58,6 +59,37 @@ export function makeLinter () : Linter {
                     }
                 }
             )
+
+            /**
+             * @todo Move to helper function
+             */
+            const filename = node.filename;
+            lintResult.syntacticErrors = lintResult.syntacticErrors
+                .sort((a, b) => {
+                    if (a.start == b.start) {
+                        return a.length - b.length;
+                    }
+                    return a.start - b.start;
+                })
+                .map((err) => {
+                    if (err.relatedRanges == undefined) {
+                        return err;
+                    }
+                    return {
+                        ...err,
+                        relatedRanges : err.relatedRanges.map(related => {
+                            return {
+                                ...related,
+                                filename : (
+                                    related.filename == undefined || related.filename == "" ?
+                                    filename :
+                                    related.filename
+                                ),
+                            };
+                        }),
+                    };
+                });
+
             return lintResult;
         },
     };

@@ -1,4 +1,4 @@
-import {Node} from "../../node";
+import {Node, ValueNode} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {Statement} from "../statement";
 import {Select} from "./select";
@@ -9,7 +9,7 @@ export interface Union extends Node, Statement {
     /**
      * Defaults to `true`
      */
-    distinct : boolean;
+    distinct : ValueNode<boolean>;
 
     lhs : Select|Union;
     rhs : Select;

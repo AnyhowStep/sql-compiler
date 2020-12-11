@@ -172,6 +172,9 @@ export function parseHelper<PartialParseT extends unknown> (
         results.push(partialParse)
     }
 
+    /**
+     * @todo Move to helper function
+     */
     const syntacticErrors = [
         ...parserSyntacticErrors,
         ...results.map(sourceFileLite => {

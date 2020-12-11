@@ -78,7 +78,7 @@ makeCustomRule(SyntaxKind.UnionOrderLimit)
         (data) : UnionOrderLimit => {
             const [
                 lhs,
-                ,
+                unionToken,
                 distinct,
                 rhs,
                 helper,
@@ -91,8 +91,17 @@ makeCustomRule(SyntaxKind.UnionOrderLimit)
                     syntaxKind : SyntaxKind.Union,
                     distinct : (
                         distinct == undefined ?
-                        true :
-                        distinct[0].tokenKind == TokenKind.DISTINCT
+                        {
+                            start : unionToken.end,
+                            end : unionToken.end,
+                            syntaxKind : SyntaxKind.Value,
+                            value : true,
+                        } :
+                        {
+                            ...getTextRange(distinct[0]),
+                            syntaxKind : SyntaxKind.Value,
+                            value : distinct[0].tokenKind == TokenKind.DISTINCT,
+                        }
                     ),
                     lhs : lhs[0],
                     rhs,
