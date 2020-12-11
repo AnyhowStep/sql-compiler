@@ -24,6 +24,7 @@ import {
 import {findAllMacros} from "../macro-definition-grammar";
 import {expandStringContent, traceDiagnostic} from "../macro";
 import {parse} from "../mysql-grammar";
+import * as parserNodeLinter from "../parser-node-linter";
 //import {emitSourceFile} from "../emitter";
 
 
@@ -173,6 +174,10 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
         {}
     );
 
+    const linter = parserNodeLinter.makeLinter();
+    parserNodeLinter.registerAllRules(linter);
+    const lintResult = linter.run(parsed.sourceFile);
+
     /*
     const binderState = bind(
         [parsed],
@@ -186,6 +191,7 @@ async function validateTextDocument(textDocument: TextDocument): Promise<void> {
     for (const error of [
         ...parsed.sourceFile.syntacticErrors,
         ...parsed.scanner.getSyntacticErrors(),
+        ...lintResult.syntacticErrors,
         //...parsed.semanticErrors,
         //...binderState.semanticErrors,
     ]) {

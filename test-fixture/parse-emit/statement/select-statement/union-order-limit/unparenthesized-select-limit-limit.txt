@@ -1,0 +1,17 @@
+SELECT 1 LIMIT 1 LIMIT 2
+
+-----
+SELECT
+    1
+LIMIT
+    1;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected Comma|CustomDelimiter|OFFSET|SemiColon|UNION",
+        "start": 17,
+        "length": 0
+    }
+]

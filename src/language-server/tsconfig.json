@@ -9,7 +9,8 @@
         { "path": "../macro-definition-grammar" },
         { "path": "../macro" },
         { "path": "../mysql-grammar" },
-        { "path": "../emitter" }
+        { "path": "../emitter" },
+        { "path": "../parser-node-linter" }
     ],
     "include" : [
         "./**/*.ts"
