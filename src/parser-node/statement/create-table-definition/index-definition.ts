@@ -1,6 +1,6 @@
 import {IntegerLiteral, StringLiteral} from "../../expression";
 import {Identifier} from "../../identifier";
-import {Node} from "../../node";
+import {Node, ValueNode} from "../../node";
 import {NodeArray} from "../../node-array";
 import {SortDirection} from "../../sort-direction";
 import {SyntaxKind} from "../../syntax-kind.generated";
@@ -27,7 +27,7 @@ export interface IndexPart extends Node {
      * Default `ASC`.
      * For now, parsed but never used. Always `ASC`.
      */
-    sortDirection : SortDirection;
+    sortDirection : ValueNode<SortDirection>;
 }
 
 export interface IndexDefinition extends CreateTableDefinition {

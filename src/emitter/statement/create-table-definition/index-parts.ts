@@ -21,7 +21,7 @@ export function emitIndexParts (indexParts : NodeArray<IndexPart>) : StringBuild
                             .append(")")
                     })
                     .append(
-                        indexPart.sortDirection == SortDirection.ASC ?
+                        indexPart.sortDirection.value == SortDirection.ASC ?
                         " ASC" :
                         " DESC"
                     )

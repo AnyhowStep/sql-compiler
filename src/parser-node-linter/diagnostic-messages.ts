@@ -42,4 +42,10 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240007,
     }),
+
+    IndexPartSortDirectionDescIgnored : makeDiagnosticMessage({
+        key : "Index values are always stored in ascending order; DESC is ignored",
+        category : DiagnosticCategory.Warning,
+        code : 240008,
+    }),
 } as const;

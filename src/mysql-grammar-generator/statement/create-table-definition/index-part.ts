@@ -1,8 +1,7 @@
 import {IndexPart, NodeArray, SortDirection, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
-import {DiagnosticMessages} from "../../diagnostic-messages";
 import {optional, union, zeroOrMore} from "../../../nearley-wrapper";
-import {getEnd, getStart, getTextRange, pushSyntacticErrorAt, toNodeArray} from "../../parse-util";
+import {getTextRange, getEnd, toNodeArray} from "../../parse-util";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 
 makeCustomRule(SyntaxKind.IndexPart)
@@ -25,15 +24,7 @@ makeCustomRule(SyntaxKind.IndexPart)
                 SortDirection.ASC :
                 SortDirection.DESC
             );
-            if (sortDirection == SortDirection.DESC) {
-                pushSyntacticErrorAt(
-                    columnName,
-                    getStart(rawSortDirection),
-                    getEnd(rawSortDirection),
-                    [],
-                    DiagnosticMessages.IndexPartSortDirectionDescIgnored
-                );
-            }
+
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.IndexPart,
@@ -43,7 +34,18 @@ makeCustomRule(SyntaxKind.IndexPart)
                     undefined :
                     indexLength[1]
                 ),
-                sortDirection,
+                sortDirection : {
+                    ...(
+                        rawSortDirection == undefined ?
+                        {
+                            start : getEnd(data),
+                            end : getEnd(data),
+                        } :
+                        getTextRange(rawSortDirection)
+                    ),
+                    syntaxKind : SyntaxKind.Value,
+                    value : sortDirection,
+                },
             }
         }
     )

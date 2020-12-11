@@ -3022,9 +3022,6 @@ export var ParserRules: NearleyRule[] = [
                 rawSortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
                     parser_node_1.SortDirection.ASC :
                     parser_node_1.SortDirection.DESC);
-            if (sortDirection == parser_node_1.SortDirection.DESC) {
-                parse_util_1.pushSyntacticErrorAt(columnName, parse_util_1.getStart(rawSortDirection), parse_util_1.getEnd(rawSortDirection), [], diagnostic_messages_1.DiagnosticMessages.IndexPartSortDirectionDescIgnored);
-            }
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IndexPart,
@@ -3032,7 +3029,16 @@ export var ParserRules: NearleyRule[] = [
                 indexLength: (indexLength == undefined ?
                     undefined :
                     indexLength[1]),
-                sortDirection,
+                sortDirection: {
+                    ...(rawSortDirection == undefined ?
+                        {
+                            start: parse_util_1.getEnd(data),
+                            end: parse_util_1.getEnd(data),
+                        } :
+                        parse_util_1.getTextRange(rawSortDirection)),
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: sortDirection,
+                },
             };
         } },
     {"name": "IndexPartList$ebnf$1", "symbols": []},
