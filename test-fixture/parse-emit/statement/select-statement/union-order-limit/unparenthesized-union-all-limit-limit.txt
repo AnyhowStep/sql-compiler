@@ -1,0 +1,24 @@
+SELECT 1 UNION ALL SELECT 2 LIMIT 1 LIMIT 2
+
+-----
+(
+    SELECT
+        1
+)
+UNION ALL
+(
+    SELECT
+        2
+    LIMIT
+        1
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected Comma|CustomDelimiter|OFFSET|SemiColon|UNION",
+        "start": 36,
+        "length": 0
+    }
+]

@@ -1,0 +1,23 @@
+(SELECT 1 UNION SELECT 2);
+
+(SELECT 1 UNION);
+
+-----
+SELECT
+    1 AS `UNION`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected CloseParentheses|Comma|LIMIT|ORDER BY",
+        "start": 16,
+        "length": 0
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword UNION as identifier; escape it with backticks",
+        "start": 38,
+        "length": 5
+    }
+]
