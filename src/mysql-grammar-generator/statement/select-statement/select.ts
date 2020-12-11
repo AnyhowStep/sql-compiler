@@ -51,6 +51,7 @@ makeCustomRule(SyntaxKind.Select)
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.Select,
+                parenthesized : false,
                 selectOptions,
                 selectItems,
                 order : order ?? undefined,
@@ -83,6 +84,9 @@ makeCustomRule(CustomSyntaxKind.ParenthesizedSelect)
             TokenKind.CloseParentheses,
         ] as const,
         (data) : Select => {
-            return data[1];
+            return {
+                ...data[1],
+                parenthesized : true,
+            };
         }
     )

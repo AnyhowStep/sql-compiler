@@ -4019,6 +4019,7 @@ Select ->
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.Select,
+        parenthesized: false,
         selectOptions,
         selectItems,
         order: order !== null && order !== void 0 ? order : undefined,
@@ -4031,7 +4032,10 @@ ParenthesizedSelect ->
     return data[1];
 } %}
     | %OpenParentheses Select %CloseParentheses {% (data) => {
-    return data[1];
+    return {
+        ...data[1],
+        parenthesized: true,
+    };
 } %}
 
 TableAsteriskSelectItem ->

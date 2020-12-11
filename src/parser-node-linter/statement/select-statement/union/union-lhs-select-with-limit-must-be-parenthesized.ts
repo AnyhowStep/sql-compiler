@@ -9,7 +9,7 @@ export const UnionLhsSelectWithLimitMustBeParenthesized : LintRule<Union> = {
         if (node.lhs.syntaxKind != SyntaxKind.Select) {
             return;
         }
-        if (node.lhs.limit != undefined) {
+        if (node.lhs.limit != undefined && !node.lhs.parenthesized) {
             pushSyntacticErrorAt(
                 lintResult,
                 node.lhs.limit.start,

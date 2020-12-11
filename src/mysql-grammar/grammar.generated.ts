@@ -4409,6 +4409,7 @@ export var ParserRules: NearleyRule[] = [
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.Select,
+                parenthesized: false,
                 selectOptions,
                 selectItems,
                 order: order !== null && order !== void 0 ? order : undefined,
@@ -4419,7 +4420,10 @@ export var ParserRules: NearleyRule[] = [
             return data[1];
         } },
     {"name": "ParenthesizedSelect", "symbols": [OpenParentheses, "Select", CloseParentheses], "postprocess":  (data) => {
-            return data[1];
+            return {
+                ...data[1],
+                parenthesized: true,
+            };
         } },
     {"name": "TableAsteriskSelectItem", "symbols": ["TableIdentifier", Dot, Asterisk], "postprocess":  (data) => {
             const [tableIdentifier] = data;

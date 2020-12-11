@@ -9,7 +9,7 @@ export const UnionLhsSelectWithOrderMustBeParenthesized : LintRule<Union> = {
         if (node.lhs.syntaxKind != SyntaxKind.Select) {
             return;
         }
-        if (node.lhs.order != undefined) {
+        if (node.lhs.order != undefined && !node.lhs.parenthesized) {
             pushSyntacticErrorAt(
                 lintResult,
                 node.lhs.order.start,

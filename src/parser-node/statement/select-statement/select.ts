@@ -12,6 +12,8 @@ import {TableAsteriskSelectItem} from "./table-asterisk-select-item";
 export interface Select extends Node, Statement {
     syntaxKind : SyntaxKind.Select,
 
+    parenthesized : boolean,
+
     selectOptions : SelectOptions,
     selectItems : NodeArray<SelectItem|AsteriskSelectItem|TableAsteriskSelectItem>,
 
