@@ -25,6 +25,7 @@ import {BitLiteral} from "./expression/bit-literal";
 import {DecimalLiteral} from "./expression/decimal-literal";
 import {HexLiteral} from "./expression/hex-literal";
 import {IntegerLiteral} from "./expression/integer-literal";
+import {ParamMarker} from "./expression/param-marker";
 import {RealLiteral} from "./expression/real-literal";
 import {StringLiteral} from "./expression/string-literal";
 import {UnknownExpression} from "./expression/unknown-expression";
@@ -63,6 +64,15 @@ import {PartitionDefinitionOptions} from "./statement/partition/partition-defini
 import {RangePartitionDefinition} from "./statement/partition/range-partition-definition";
 import {RangePartition} from "./statement/partition/range-partition";
 import {SubPartitionDefinition} from "./statement/partition/sub-partition-definition";
+import {AsteriskSelectItem} from "./statement/select-statement/asterisk-select-item";
+import {Limit} from "./statement/select-statement/limit";
+import {OrderExpr} from "./statement/select-statement/order-expr";
+import {SelectItem} from "./statement/select-statement/select-item";
+import {SelectOptions} from "./statement/select-statement/select-options";
+import {Select} from "./statement/select-statement/select";
+import {TableAsteriskSelectItem} from "./statement/select-statement/table-asterisk-select-item";
+import {UnionOrderLimit} from "./statement/select-statement/union-order-limit";
+import {Union} from "./statement/select-statement/union";
 import {UnknownStatement} from "./statement/unknown-statement";
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BinaryDataType) : node is BinaryDataType;
@@ -90,6 +100,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BitLiteral) :
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DecimalLiteral) : node is DecimalLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.HexLiteral) : node is HexLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IntegerLiteral) : node is IntegerLiteral;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ParamMarker) : node is ParamMarker;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RealLiteral) : node is RealLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StringLiteral) : node is StringLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownExpression) : node is UnknownExpression;
@@ -128,6 +139,15 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PartitionDefi
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RangePartitionDefinition) : node is RangePartitionDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RangePartition) : node is RangePartition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SubPartitionDefinition) : node is SubPartitionDefinition;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AsteriskSelectItem) : node is AsteriskSelectItem;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Limit) : node is Limit;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.OrderExpr) : node is OrderExpr;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SelectItem) : node is SelectItem;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SelectOptions) : node is SelectOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Select) : node is Select;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableAsteriskSelectItem) : node is TableAsteriskSelectItem;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnionOrderLimit) : node is UnionOrderLimit;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Union) : node is Union;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownStatement) : node is UnknownStatement;
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean;
@@ -164,6 +184,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.DecimalLiteral, callback : (node : DecimalLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.HexLiteral, callback : (node : HexLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.IntegerLiteral, callback : (node : IntegerLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.ParamMarker, callback : (node : ParamMarker) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RealLiteral, callback : (node : RealLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StringLiteral, callback : (node : StringLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownExpression, callback : (node : UnknownExpression) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
@@ -202,6 +223,15 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.RangePartitionDefinition, callback : (node : RangePartitionDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RangePartition, callback : (node : RangePartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SubPartitionDefinition, callback : (node : SubPartitionDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AsteriskSelectItem, callback : (node : AsteriskSelectItem) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.Limit, callback : (node : Limit) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.OrderExpr, callback : (node : OrderExpr) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.SelectItem, callback : (node : SelectItem) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.SelectOptions, callback : (node : SelectOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.Select, callback : (node : Select) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.TableAsteriskSelectItem, callback : (node : TableAsteriskSelectItem) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.UnionOrderLimit, callback : (node : UnionOrderLimit) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.Union, callback : (node : Union) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownStatement, callback : (node : UnknownStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
 
     default<ResultT> (callback : () => ResultT) : ResultT|ReturnT;

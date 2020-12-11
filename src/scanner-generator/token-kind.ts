@@ -59,6 +59,7 @@ export const tokenKinds = [
     "OpenParenthesesPound",
     "PoundCloseParentheses",
     "Backslash",
+    "QuestionMark",
 
     "ColonEqual",
     "AtAt",

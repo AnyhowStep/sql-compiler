@@ -221,6 +221,16 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 100028,
     }),
+    CannotUseDistinctAndAllAtTheSameTime : makeDiagnosticMessage({
+        key : "Cannot use DISTINCT and ALL at the same time",
+        category : DiagnosticCategory.Error,
+        code : 100029,
+    }),
+    CannotUseSqlCacheAndSqlNoCacheAtTheSameTime : makeDiagnosticMessage({
+        key : "Cannot use SQL_CACHE and SQL_NO_CACHE at the same time",
+        category : DiagnosticCategory.Error,
+        code : 100030,
+    }),
     UnknownStatement : makeDiagnosticMessage({
         key : "Unknown statement",
         category : DiagnosticCategory.Error,

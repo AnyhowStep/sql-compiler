@@ -1300,6 +1300,8 @@ const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.Pou
 //@ts-ignore
 const Backslash : Tester = { test: x => x.tokenKind == TokenKind.Backslash, type : "Backslash" };
 //@ts-ignore
+const QuestionMark : Tester = { test: x => x.tokenKind == TokenKind.QuestionMark, type : "QuestionMark" };
+//@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
 const AtAt : Tester = { test: x => x.tokenKind == TokenKind.AtAt, type : "AtAt" };

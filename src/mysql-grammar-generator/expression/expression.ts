@@ -8,6 +8,7 @@ makeCustomRule(CustomSyntaxKind.Expression)
             SyntaxKind.IntegerLiteral,
             SyntaxKind.StringLiteral,
             SyntaxKind.Identifier,
+            SyntaxKind.ParamMarker,
         )] as const,
         (data) : Expression => {
             return data[0][0];

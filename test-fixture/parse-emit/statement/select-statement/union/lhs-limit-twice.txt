@@ -1,0 +1,48 @@
+SELECT 1 LIMIT 1 UNION (SELECT 2 LIMIT 1);
+
+SELECT 1 LIMIT 1 UNION (SELECT 2 LIMIT 1)
+
+-----
+(
+    SELECT
+        1
+    LIMIT
+        1
+)
+UNION DISTINCT
+(
+    SELECT
+        2
+    LIMIT
+        1
+);
+
+(
+    SELECT
+        1
+    LIMIT
+        1
+)
+UNION DISTINCT
+(
+    SELECT
+        2
+    LIMIT
+        1
+);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "SELECT with LIMIT must be parenthesized when used with UNION",
+        "start": 9,
+        "length": 7
+    },
+    {
+        "category": 0,
+        "messageText": "SELECT with LIMIT must be parenthesized when used with UNION",
+        "start": 53,
+        "length": 7
+    }
+]

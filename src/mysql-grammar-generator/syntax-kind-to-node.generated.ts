@@ -26,6 +26,7 @@ import {
     DecimalLiteral,
     HexLiteral,
     IntegerLiteral,
+    ParamMarker,
     RealLiteral,
     StringLiteral,
     UnknownExpression,
@@ -64,6 +65,15 @@ import {
     RangePartitionDefinition,
     RangePartition,
     SubPartitionDefinition,
+    AsteriskSelectItem,
+    Limit,
+    OrderExpr,
+    SelectItem,
+    SelectOptions,
+    Select,
+    TableAsteriskSelectItem,
+    UnionOrderLimit,
+    Union,
     UnknownStatement,
 } from "../parser-node";
 
@@ -93,6 +103,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.DecimalLiteral] : DecimalLiteral;
     [SyntaxKind.HexLiteral] : HexLiteral;
     [SyntaxKind.IntegerLiteral] : IntegerLiteral;
+    [SyntaxKind.ParamMarker] : ParamMarker;
     [SyntaxKind.RealLiteral] : RealLiteral;
     [SyntaxKind.StringLiteral] : StringLiteral;
     [SyntaxKind.UnknownExpression] : UnknownExpression;
@@ -131,5 +142,14 @@ export type SyntaxKindToNode = {
     [SyntaxKind.RangePartitionDefinition] : RangePartitionDefinition;
     [SyntaxKind.RangePartition] : RangePartition;
     [SyntaxKind.SubPartitionDefinition] : SubPartitionDefinition;
+    [SyntaxKind.AsteriskSelectItem] : AsteriskSelectItem;
+    [SyntaxKind.Limit] : Limit;
+    [SyntaxKind.OrderExpr] : OrderExpr;
+    [SyntaxKind.SelectItem] : SelectItem;
+    [SyntaxKind.SelectOptions] : SelectOptions;
+    [SyntaxKind.Select] : Select;
+    [SyntaxKind.TableAsteriskSelectItem] : TableAsteriskSelectItem;
+    [SyntaxKind.UnionOrderLimit] : UnionOrderLimit;
+    [SyntaxKind.Union] : Union;
     [SyntaxKind.UnknownStatement] : UnknownStatement;
 } & Record<SyntaxKind, unknown>;

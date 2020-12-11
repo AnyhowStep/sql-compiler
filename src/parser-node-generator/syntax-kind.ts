@@ -92,8 +92,11 @@ export const syntaxKinds = [
     "Assignment",
 
     "SelectStatement",
-    "SelectExpression",
-    "AsteriskSelectExpression",
+    "Select",
+    "SelectOptions",
+    "SelectItem",
+    "AsteriskSelectItem",
+    "TableAsteriskSelectItem",
     "IntoOption",
     "NamedTableReference",
     "DerivedTableReference",
@@ -103,8 +106,10 @@ export const syntaxKinds = [
     "OnClause",
     "GroupByClause",
     "OrderByClause",
-    "OrderItem",
-    "LimitClause",
+    "OrderExpr",
+    "Limit",
+    "Union",
+    "UnionOrderLimit",
 
     /**
      * Custom statements
@@ -154,6 +159,7 @@ export const syntaxKinds = [
     "IntegerLiteral",
     "DecimalLiteral",
     "RealLiteral",
+    "ParamMarker",
 
     "DataTypeList",
     "DeclareFunctionParameterList",
@@ -164,7 +170,7 @@ export const syntaxKinds = [
     "IdentifierList",
     "IntoOptionVariableList",
     "JoinDefinitionList",
-    "SelectExpressionList",
+    "SelectItemList",
     "SourceElementList",
     "ColumnIdentifierList",
     "OrderItemList",
@@ -177,4 +183,5 @@ export const syntaxKinds = [
     "ExpressionListList",
     "SubPartitionDefinitionList",
     "ExpressionOrMaxValueList",
+    "OrderExprList",
 ] as const;

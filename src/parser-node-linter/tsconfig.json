@@ -1,0 +1,15 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/parser-node-linter",
+        "declarationDir": "../../dist/parser-node-linter",
+        "types": []
+    },
+    "references" : [
+        { "path": "../parser-node" },
+        { "path": "../parse-util" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

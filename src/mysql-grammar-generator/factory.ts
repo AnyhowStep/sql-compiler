@@ -1,4 +1,5 @@
 import {ParserState} from "../mysql-grammar";
+import {SelectOption} from "../mysql-grammar/custom-data";
 import {CustomSubstitutionToString, makeRuleFactory, TextRange} from "../nearley-wrapper";
 import {
     BitLiteral,
@@ -9,19 +10,25 @@ import {
     HexLiteral,
     Identifier,
     IndexPart,
+    IntegerLiteral,
     ListPartitionDefinition,
     NodeArray,
+    OrderExpr,
+    ParamMarker,
     Partition,
     Precision,
     RangePartitionDefinition,
     ReverseSyntaxKind,
+    SelectStatement,
     Statement,
     StringLiteral,
     SubPartition,
     SubPartitionDefinition,
     SyntaxKind,
     TableIdentifier,
+    UnionOrderLimit,
 } from "../parser-node";
+import {Select} from "../parser-node/statement/select-statement/select";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
     CharacterDataTypeModifier,
@@ -71,10 +78,17 @@ export enum CustomSyntaxKind {
     Partition,
     SingletonRangePartitionDefinition,
     NonSingletonRangePartitionDefinition,
+    SelectStatement,
+    ParenthesizedSelect,
+    UnionOrderLimit_Helper,
+    LimitOption,
+    SelectOption,
 }
 
 declare module "../nearley-wrapper" {
     interface CustomSubstitutionToData extends SyntaxKindToNode {
+        [SyntaxKind.OrderExprList] : NodeArray<OrderExpr>,
+
         [CustomSyntaxKind.CharacterSetName] : Identifier,
         [CustomSyntaxKind.Expression] : Expression,
         [CustomSyntaxKind.CharacterDataTypeModifier] : CharacterDataTypeModifier,
@@ -117,6 +131,11 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.Partition] : Partition,
         [CustomSyntaxKind.SingletonRangePartitionDefinition] : RangePartitionDefinition,
         [CustomSyntaxKind.NonSingletonRangePartitionDefinition] : RangePartitionDefinition,
+        [CustomSyntaxKind.SelectStatement] : SelectStatement,
+        [CustomSyntaxKind.ParenthesizedSelect] : Select,
+        [CustomSyntaxKind.UnionOrderLimit_Helper] : Omit<UnionOrderLimit, "select">,
+        [CustomSyntaxKind.LimitOption] : Identifier|IntegerLiteral|ParamMarker,
+        [CustomSyntaxKind.SelectOption] : SelectOption,
     }
 
     interface CustomToken extends Array<TokenKind> {

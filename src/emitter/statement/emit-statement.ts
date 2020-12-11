@@ -3,6 +3,7 @@ import {StringBuilder} from "../string-builder";
 import {emitCreateTableStatement} from "./create-table-statement";
 import {emitCreateSchemaStatement} from "./emit-create-schema-statement";
 import {emitDelimiterStatement} from "./emit-delimiter-statement";
+import {emitSelectStatement} from "./select-statement";
 
 export function emitStatement (statement : Statement) : StringBuilder {
     return switchSyntaxKind(statement)
@@ -23,6 +24,9 @@ export function emitStatement (statement : Statement) : StringBuilder {
             }
         ))*/
         .case(SyntaxKind.DelimiterStatement, emitDelimiterStatement)
+        .case(SyntaxKind.Select, emitSelectStatement)
+        .case(SyntaxKind.Union, emitSelectStatement)
+        .case(SyntaxKind.UnionOrderLimit, emitSelectStatement)
         .case(SyntaxKind.DeclareFunctionStatement, () => new StringBuilder())
         .case(SyntaxKind.UnknownStatement, () => new StringBuilder())
         .default(() => new StringBuilder().append("UNKNOWN_STATEMENT"));

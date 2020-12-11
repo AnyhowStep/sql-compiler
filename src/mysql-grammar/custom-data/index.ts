@@ -5,3 +5,4 @@ export * from "./index-type-node";
 export * from "./integer-data-type-modifier";
 export * from "./create-table-option";
 export * from "./partition-definition-option";
+export * from "./select-option";

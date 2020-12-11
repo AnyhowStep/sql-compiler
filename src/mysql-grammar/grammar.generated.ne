@@ -1320,6 +1320,8 @@ const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.Pou
 //@ts-ignore
 const Backslash : Tester = { test: x => x.tokenKind == TokenKind.Backslash, type : "Backslash" };
 //@ts-ignore
+const QuestionMark : Tester = { test: x => x.tokenKind == TokenKind.QuestionMark, type : "QuestionMark" };
+//@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
 const AtAt : Tester = { test: x => x.tokenKind == TokenKind.AtAt, type : "AtAt" };
@@ -2113,7 +2115,7 @@ DecimalLiteral ->
 } %}
 
 Expression ->
-    (IntegerLiteral | StringLiteral | Identifier) {% (data) => {
+    (IntegerLiteral | StringLiteral | Identifier | ParamMarker) {% (data) => {
     return data[0][0];
 } %}
 
@@ -2133,6 +2135,14 @@ IntegerLiteral ->
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
         value: BigInt(data[0].value),
+    };
+} %}
+
+ParamMarker ->
+    %QuestionMark {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ParamMarker,
     };
 } %}
 
@@ -3835,8 +3845,331 @@ SubPartition ->
     HashSubPartition {% data => data[0] %}
     | KeySubPartition {% data => data[0] %}
 
+AsteriskSelectItem ->
+    %Asterisk {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AsteriskSelectItem,
+    };
+} %}
+
+LimitOption ->
+    (Identifier | ParamMarker | IntegerLiteral) {% (data) => {
+    return data[0][0];
+} %}
+
+Limit ->
+    %LIMIT LimitOption {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Limit,
+        offset: undefined,
+        rowCount: data[1],
+    };
+} %}
+    | %LIMIT LimitOption %Comma LimitOption {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Limit,
+        offset: data[1],
+        rowCount: data[3],
+    };
+} %}
+    | %LIMIT LimitOption %OFFSET LimitOption {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Limit,
+        offset: data[3],
+        rowCount: data[1],
+    };
+} %}
+
+OrderExpr ->
+    Expression (%ASC | %DESC):? {% (data) => {
+    const [expr, orderingDirection] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.OrderExpr,
+        expr,
+        orderingDirection: (orderingDirection == undefined ?
+            parser_node_1.OrderingDirection.ASC :
+            orderingDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                parser_node_1.OrderingDirection.ASC :
+                parser_node_1.OrderingDirection.DESC),
+    };
+} %}
+
+OrderExprList ->
+    %ORDER %BY OrderExpr (%Comma OrderExpr):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((data) => {
+        return "syntaxKind" in data;
+    });
+    return parse_util_2.toNodeArray(arr, parser_node_1.SyntaxKind.OrderExprList, parse_util_1.getTextRange(data));
+} %}
+
+SelectItem ->
+    Expression (%AS:? (Identifier | StringLiteral)):? {% (data) => {
+    const [expr, alias] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SelectItem,
+        expr,
+        alias: (alias == undefined ?
+            undefined :
+            alias[1][0]),
+    };
+} %}
+
+SelectOption ->
+    %SQL_NO_CACHE {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        sqlCache: false,
+    };
+} %}
+    | %SQL_CACHE {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        sqlCache: true,
+    };
+} %}
+    | %STRAIGHT_JOIN {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        straightJoin: true,
+    };
+} %}
+    | %HIGH_PRIORITY {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        highPriority: true,
+    };
+} %}
+    | %DISTINCT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        distinct: true,
+    };
+} %}
+    | %DISTINCTROW {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        distinct: true,
+    };
+} %}
+    | %SQL_SMALL_RESULT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        sqlSmallResult: true,
+    };
+} %}
+    | %SQL_BIG_RESULT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        sqlBigResult: true,
+    };
+} %}
+    | %SQL_BUFFER_RESULT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        sqlBufferResult: true,
+    };
+} %}
+    | %SQL_CALC_FOUND_ROWS {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        sqlCalcFoundRows: true,
+    };
+} %}
+    | %ALL {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        distinct: false,
+    };
+} %}
+
+SelectOptions ->
+    (SelectOption):* {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        distinct: undefined,
+        highPriority: false,
+        straightJoin: false,
+        sqlSmallResult: false,
+        sqlBigResult: false,
+        sqlBufferResult: false,
+        sqlCache: undefined,
+        sqlCalcFoundRows: false,
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        if ("distinct" in item) {
+            if (result.distinct !== undefined && result.distinct !== item.distinct) {
+                syntacticErrors.push(parse_util_2.makeDiagnosticAt(item.start, item.end, [], diagnostic_messages_1.DiagnosticMessages.CannotUseDistinctAndAllAtTheSameTime));
+            }
+        }
+        if ("sqlCache" in item) {
+            if (result.sqlCache !== undefined && result.sqlCache !== item.sqlCache) {
+                syntacticErrors.push(parse_util_2.makeDiagnosticAt(item.start, item.end, [], diagnostic_messages_1.DiagnosticMessages.CannotUseSqlCacheAndSqlNoCacheAtTheSameTime));
+            }
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SelectOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+SelectStatement ->
+    (Select | ParenthesizedSelect | Union | UnionOrderLimit) {% (data) => {
+    return data[0][0];
+} %}
+
+Select ->
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (TableAsteriskSelectItem | SelectItem)):* OrderExprList:? Limit:? {% (data) => {
+    const [, selectOptions, firstSelectItem, trailingSelectItems, order, limit,] = data;
+    const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
+        .flat(2)
+        .filter((item) => {
+        return "syntaxKind" in item;
+    }), parser_node_1.SyntaxKind.SelectItemList, parse_util_1.getTextRange([firstSelectItem, trailingSelectItems]));
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Select,
+        selectOptions,
+        selectItems,
+        order: order !== null && order !== void 0 ? order : undefined,
+        limit: limit !== null && limit !== void 0 ? limit : undefined,
+    };
+} %}
+
+ParenthesizedSelect ->
+    %OpenParentheses ParenthesizedSelect %CloseParentheses {% (data) => {
+    return data[1];
+} %}
+    | %OpenParentheses Select %CloseParentheses {% (data) => {
+    return data[1];
+} %}
+
+TableAsteriskSelectItem ->
+    TableIdentifier %Dot %Asterisk {% (data) => {
+    const [tableIdentifier] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.TableAsteriskSelectItem,
+        tableIdentifier,
+    };
+} %}
+
+UnionOrderLimit_Helper ->
+    OrderExprList Limit:? {% (data) => {
+    const [order, limit,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+        order,
+        limit: limit !== null && limit !== void 0 ? limit : undefined,
+    };
+} %}
+    | Limit {% (data) => {
+    const [limit,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+        order: undefined,
+        limit,
+    };
+} %}
+
+UnionOrderLimit ->
+    ParenthesizedSelect UnionOrderLimit_Helper {% (data) => {
+    const [select, helper,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+        select,
+        order: helper.order,
+        limit: helper.limit,
+    };
+} %}
+    | (Union | Select | ParenthesizedSelect) %UNION (%ALL | %DISTINCT):? ParenthesizedSelect UnionOrderLimit_Helper {% (data) => {
+    const [lhs, , distinct, rhs, helper,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+        select: {
+            ...parse_util_1.getTextRange([lhs, rhs]),
+            syntaxKind: parser_node_1.SyntaxKind.Union,
+            distinct: (distinct == undefined ?
+                true :
+                distinct[0].tokenKind == scanner_1.TokenKind.DISTINCT),
+            lhs: lhs[0],
+            rhs,
+        },
+        order: helper.order,
+        limit: helper.limit,
+    };
+} %}
+
+Union ->
+    (Select | ParenthesizedSelect) (%UNION (%ALL | %DISTINCT):? (Select | ParenthesizedSelect)):+ {% (data) => {
+    const first = data[0][0];
+    const trailing = data[1].map(item => {
+        return {
+            ...parse_util_1.getTextRange(item),
+            distinct: (item[1] == undefined ?
+                true :
+                item[1][0].tokenKind == scanner_1.TokenKind.DISTINCT),
+            rhs: item[2][0],
+        };
+    });
+    const second = trailing.shift();
+    let result = {
+        ...parse_util_1.getTextRange([first, second]),
+        syntaxKind: parser_node_1.SyntaxKind.Union,
+        distinct: second.distinct,
+        lhs: first,
+        rhs: second.rhs,
+    };
+    for (const item of trailing) {
+        result = {
+            ...parse_util_1.getTextRange([result, item]),
+            syntaxKind: parser_node_1.SyntaxKind.Union,
+            distinct: item.distinct,
+            lhs: result,
+            rhs: item.rhs,
+        };
+    }
+    return result;
+} %}
+
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

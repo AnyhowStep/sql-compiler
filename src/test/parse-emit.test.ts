@@ -2,6 +2,7 @@ import * as assert from "assert";
 import {emitSourceFile} from "../emitter";
 import {testRecursive} from "./test-recursive";
 import {parse} from "../mysql-grammar";
+import * as parserNodeLinter from "../parser-node-linter";
 
 const root = `${__dirname}/../../test-fixture/parse-emit`;
 suite('Should parse-emit as expected', () => {
@@ -29,6 +30,10 @@ suite('Should parse-emit as expected', () => {
 
         //removeUnnecessaryParenthesesRecursively(file);
 
+        const linter = parserNodeLinter.makeLinter();
+        parserNodeLinter.registerAllRules(linter);
+        const lintResult = linter.run(file);
+
         assert.strictEqual(emitSourceFile(file).build(), output, errorMessage);
 
         assert.strictEqual(
@@ -36,6 +41,7 @@ suite('Should parse-emit as expected', () => {
                 [
                     ...file.syntacticErrors,
                     ...scanner.getSyntacticErrors(),
+                    ...lintResult.syntacticErrors,
                 ].map(err => {
                     return {
                         category : err.category,

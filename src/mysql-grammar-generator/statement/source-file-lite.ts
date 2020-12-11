@@ -13,6 +13,7 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
         [union(
             SyntaxKind.CreateSchemaStatement,
             SyntaxKind.CreateTableStatement,
+            CustomSyntaxKind.SelectStatement,
         )] as const,
         (data) : Statement => {
             return data[0][0];

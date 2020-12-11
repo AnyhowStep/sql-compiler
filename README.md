@@ -60,6 +60,12 @@
 
   Generates types related to the MySQL parse tree.
 
++ `parser-linter`
+
+  Checks a MySQL parse tree for errors.
+
+  Has code `240000` diagnostics.
+
 + `scanner`
 
   Scans tokens found in MySQL grammar.

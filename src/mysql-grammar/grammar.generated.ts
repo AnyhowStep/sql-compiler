@@ -1324,6 +1324,8 @@ const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.Pou
 //@ts-ignore
 const Backslash : Tester = { test: x => x.tokenKind == TokenKind.Backslash, type : "Backslash" };
 //@ts-ignore
+const QuestionMark : Tester = { test: x => x.tokenKind == TokenKind.QuestionMark, type : "QuestionMark" };
+//@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
 const AtAt : Tester = { test: x => x.tokenKind == TokenKind.AtAt, type : "AtAt" };
@@ -2213,6 +2215,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Expression$subexpression$1", "symbols": ["IntegerLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "Expression$subexpression$1", "symbols": ["ParamMarker"]},
     {"name": "Expression", "symbols": ["Expression$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -2229,6 +2232,12 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
                 value: BigInt(data[0].value),
+            };
+        } },
+    {"name": "ParamMarker", "symbols": [QuestionMark], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ParamMarker,
             };
         } },
     {"name": "RealLiteral", "symbols": [RealLiteral], "postprocess":  (data) => {
@@ -4208,8 +4217,365 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "SubPartition", "symbols": ["HashSubPartition"], "postprocess": data => data[0]},
     {"name": "SubPartition", "symbols": ["KeySubPartition"], "postprocess": data => data[0]},
+    {"name": "AsteriskSelectItem", "symbols": [Asterisk], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AsteriskSelectItem,
+            };
+        } },
+    {"name": "LimitOption$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "LimitOption$subexpression$1", "symbols": ["ParamMarker"]},
+    {"name": "LimitOption$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "LimitOption", "symbols": ["LimitOption$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
+    {"name": "Limit", "symbols": [LIMIT, "LimitOption"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Limit,
+                offset: undefined,
+                rowCount: data[1],
+            };
+        } },
+    {"name": "Limit", "symbols": [LIMIT, "LimitOption", Comma, "LimitOption"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Limit,
+                offset: data[1],
+                rowCount: data[3],
+            };
+        } },
+    {"name": "Limit", "symbols": [LIMIT, "LimitOption", OFFSET, "LimitOption"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Limit,
+                offset: data[3],
+                rowCount: data[1],
+            };
+        } },
+    {"name": "OrderExpr$ebnf$1$subexpression$1", "symbols": [ASC]},
+    {"name": "OrderExpr$ebnf$1$subexpression$1", "symbols": [DESC]},
+    {"name": "OrderExpr$ebnf$1", "symbols": ["OrderExpr$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "OrderExpr$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "OrderExpr", "symbols": ["Expression", "OrderExpr$ebnf$1"], "postprocess":  (data) => {
+            const [expr, orderingDirection] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.OrderExpr,
+                expr,
+                orderingDirection: (orderingDirection == undefined ?
+                    parser_node_1.OrderingDirection.ASC :
+                    orderingDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                        parser_node_1.OrderingDirection.ASC :
+                        parser_node_1.OrderingDirection.DESC),
+            };
+        } },
+    {"name": "OrderExprList$ebnf$1", "symbols": []},
+    {"name": "OrderExprList$ebnf$1$subexpression$1", "symbols": [Comma, "OrderExpr"]},
+    {"name": "OrderExprList$ebnf$1", "symbols": ["OrderExprList$ebnf$1", "OrderExprList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "OrderExprList", "symbols": [ORDER, BY, "OrderExpr", "OrderExprList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((data) => {
+                return "syntaxKind" in data;
+            });
+            return parse_util_2.toNodeArray(arr, parser_node_1.SyntaxKind.OrderExprList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "SelectItem$ebnf$1$subexpression$1$ebnf$1", "symbols": [AS], "postprocess": id},
+    {"name": "SelectItem$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "SelectItem$ebnf$1$subexpression$1$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "SelectItem$ebnf$1$subexpression$1$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "SelectItem$ebnf$1$subexpression$1", "symbols": ["SelectItem$ebnf$1$subexpression$1$ebnf$1", "SelectItem$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "SelectItem$ebnf$1", "symbols": ["SelectItem$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "SelectItem$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "SelectItem", "symbols": ["Expression", "SelectItem$ebnf$1"], "postprocess":  (data) => {
+            const [expr, alias] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.SelectItem,
+                expr,
+                alias: (alias == undefined ?
+                    undefined :
+                    alias[1][0]),
+            };
+        } },
+    {"name": "SelectOption", "symbols": [SQL_NO_CACHE], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                sqlCache: false,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [SQL_CACHE], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                sqlCache: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [STRAIGHT_JOIN], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                straightJoin: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [HIGH_PRIORITY], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                highPriority: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [DISTINCT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                distinct: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [DISTINCTROW], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                distinct: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [SQL_SMALL_RESULT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                sqlSmallResult: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [SQL_BIG_RESULT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                sqlBigResult: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [SQL_BUFFER_RESULT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                sqlBufferResult: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [SQL_CALC_FOUND_ROWS], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                sqlCalcFoundRows: true,
+            };
+        } },
+    {"name": "SelectOption", "symbols": [ALL], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                distinct: false,
+            };
+        } },
+    {"name": "SelectOptions$ebnf$1", "symbols": []},
+    {"name": "SelectOptions$ebnf$1$subexpression$1", "symbols": ["SelectOption"]},
+    {"name": "SelectOptions$ebnf$1", "symbols": ["SelectOptions$ebnf$1", "SelectOptions$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "SelectOptions", "symbols": ["SelectOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                distinct: undefined,
+                highPriority: false,
+                straightJoin: false,
+                sqlSmallResult: false,
+                sqlBigResult: false,
+                sqlBufferResult: false,
+                sqlCache: undefined,
+                sqlCalcFoundRows: false,
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                if ("distinct" in item) {
+                    if (result.distinct !== undefined && result.distinct !== item.distinct) {
+                        syntacticErrors.push(parse_util_2.makeDiagnosticAt(item.start, item.end, [], diagnostic_messages_1.DiagnosticMessages.CannotUseDistinctAndAllAtTheSameTime));
+                    }
+                }
+                if ("sqlCache" in item) {
+                    if (result.sqlCache !== undefined && result.sqlCache !== item.sqlCache) {
+                        syntacticErrors.push(parse_util_2.makeDiagnosticAt(item.start, item.end, [], diagnostic_messages_1.DiagnosticMessages.CannotUseSqlCacheAndSqlNoCacheAtTheSameTime));
+                    }
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.SelectOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "SelectStatement$subexpression$1", "symbols": ["Select"]},
+    {"name": "SelectStatement$subexpression$1", "symbols": ["ParenthesizedSelect"]},
+    {"name": "SelectStatement$subexpression$1", "symbols": ["Union"]},
+    {"name": "SelectStatement$subexpression$1", "symbols": ["UnionOrderLimit"]},
+    {"name": "SelectStatement", "symbols": ["SelectStatement$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
+    {"name": "Select$subexpression$1", "symbols": ["AsteriskSelectItem"]},
+    {"name": "Select$subexpression$1", "symbols": ["TableAsteriskSelectItem"]},
+    {"name": "Select$subexpression$1", "symbols": ["SelectItem"]},
+    {"name": "Select$ebnf$1", "symbols": []},
+    {"name": "Select$ebnf$1$subexpression$1$subexpression$1", "symbols": ["TableAsteriskSelectItem"]},
+    {"name": "Select$ebnf$1$subexpression$1$subexpression$1", "symbols": ["SelectItem"]},
+    {"name": "Select$ebnf$1$subexpression$1", "symbols": [Comma, "Select$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "Select$ebnf$1", "symbols": ["Select$ebnf$1", "Select$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "Select$ebnf$2", "symbols": ["OrderExprList"], "postprocess": id},
+    {"name": "Select$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "Select$ebnf$3", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3"], "postprocess":  (data) => {
+            const [, selectOptions, firstSelectItem, trailingSelectItems, order, limit,] = data;
+            const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
+                .flat(2)
+                .filter((item) => {
+                return "syntaxKind" in item;
+            }), parser_node_1.SyntaxKind.SelectItemList, parse_util_1.getTextRange([firstSelectItem, trailingSelectItems]));
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Select,
+                selectOptions,
+                selectItems,
+                order: order !== null && order !== void 0 ? order : undefined,
+                limit: limit !== null && limit !== void 0 ? limit : undefined,
+            };
+        } },
+    {"name": "ParenthesizedSelect", "symbols": [OpenParentheses, "ParenthesizedSelect", CloseParentheses], "postprocess":  (data) => {
+            return data[1];
+        } },
+    {"name": "ParenthesizedSelect", "symbols": [OpenParentheses, "Select", CloseParentheses], "postprocess":  (data) => {
+            return data[1];
+        } },
+    {"name": "TableAsteriskSelectItem", "symbols": ["TableIdentifier", Dot, Asterisk], "postprocess":  (data) => {
+            const [tableIdentifier] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.TableAsteriskSelectItem,
+                tableIdentifier,
+            };
+        } },
+    {"name": "UnionOrderLimit_Helper$ebnf$1", "symbols": ["Limit"], "postprocess": id},
+    {"name": "UnionOrderLimit_Helper$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "UnionOrderLimit_Helper", "symbols": ["OrderExprList", "UnionOrderLimit_Helper$ebnf$1"], "postprocess":  (data) => {
+            const [order, limit,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+                order,
+                limit: limit !== null && limit !== void 0 ? limit : undefined,
+            };
+        } },
+    {"name": "UnionOrderLimit_Helper", "symbols": ["Limit"], "postprocess":  (data) => {
+            const [limit,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+                order: undefined,
+                limit,
+            };
+        } },
+    {"name": "UnionOrderLimit", "symbols": ["ParenthesizedSelect", "UnionOrderLimit_Helper"], "postprocess":  (data) => {
+            const [select, helper,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+                select,
+                order: helper.order,
+                limit: helper.limit,
+            };
+        } },
+    {"name": "UnionOrderLimit$subexpression$1", "symbols": ["Union"]},
+    {"name": "UnionOrderLimit$subexpression$1", "symbols": ["Select"]},
+    {"name": "UnionOrderLimit$subexpression$1", "symbols": ["ParenthesizedSelect"]},
+    {"name": "UnionOrderLimit$ebnf$1$subexpression$1", "symbols": [ALL]},
+    {"name": "UnionOrderLimit$ebnf$1$subexpression$1", "symbols": [DISTINCT]},
+    {"name": "UnionOrderLimit$ebnf$1", "symbols": ["UnionOrderLimit$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "UnionOrderLimit$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "UnionOrderLimit", "symbols": ["UnionOrderLimit$subexpression$1", UNION, "UnionOrderLimit$ebnf$1", "ParenthesizedSelect", "UnionOrderLimit_Helper"], "postprocess":  (data) => {
+            const [lhs, , distinct, rhs, helper,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+                select: {
+                    ...parse_util_1.getTextRange([lhs, rhs]),
+                    syntaxKind: parser_node_1.SyntaxKind.Union,
+                    distinct: (distinct == undefined ?
+                        true :
+                        distinct[0].tokenKind == scanner_1.TokenKind.DISTINCT),
+                    lhs: lhs[0],
+                    rhs,
+                },
+                order: helper.order,
+                limit: helper.limit,
+            };
+        } },
+    {"name": "Union$subexpression$1", "symbols": ["Select"]},
+    {"name": "Union$subexpression$1", "symbols": ["ParenthesizedSelect"]},
+    {"name": "Union$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [ALL]},
+    {"name": "Union$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [DISTINCT]},
+    {"name": "Union$ebnf$1$subexpression$1$ebnf$1", "symbols": ["Union$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "Union$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "Union$ebnf$1$subexpression$1$subexpression$1", "symbols": ["Select"]},
+    {"name": "Union$ebnf$1$subexpression$1$subexpression$1", "symbols": ["ParenthesizedSelect"]},
+    {"name": "Union$ebnf$1$subexpression$1", "symbols": [UNION, "Union$ebnf$1$subexpression$1$ebnf$1", "Union$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "Union$ebnf$1", "symbols": ["Union$ebnf$1$subexpression$1"]},
+    {"name": "Union$ebnf$1$subexpression$2$ebnf$1$subexpression$1", "symbols": [ALL]},
+    {"name": "Union$ebnf$1$subexpression$2$ebnf$1$subexpression$1", "symbols": [DISTINCT]},
+    {"name": "Union$ebnf$1$subexpression$2$ebnf$1", "symbols": ["Union$ebnf$1$subexpression$2$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "Union$ebnf$1$subexpression$2$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "Union$ebnf$1$subexpression$2$subexpression$1", "symbols": ["Select"]},
+    {"name": "Union$ebnf$1$subexpression$2$subexpression$1", "symbols": ["ParenthesizedSelect"]},
+    {"name": "Union$ebnf$1$subexpression$2", "symbols": [UNION, "Union$ebnf$1$subexpression$2$ebnf$1", "Union$ebnf$1$subexpression$2$subexpression$1"]},
+    {"name": "Union$ebnf$1", "symbols": ["Union$ebnf$1", "Union$ebnf$1$subexpression$2"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "Union", "symbols": ["Union$subexpression$1", "Union$ebnf$1"], "postprocess":  (data) => {
+            const first = data[0][0];
+            const trailing = data[1].map(item => {
+                return {
+                    ...parse_util_1.getTextRange(item),
+                    distinct: (item[1] == undefined ?
+                        true :
+                        item[1][0].tokenKind == scanner_1.TokenKind.DISTINCT),
+                    rhs: item[2][0],
+                };
+            });
+            const second = trailing.shift();
+            let result = {
+                ...parse_util_1.getTextRange([first, second]),
+                syntaxKind: parser_node_1.SyntaxKind.Union,
+                distinct: second.distinct,
+                lhs: first,
+                rhs: second.rhs,
+            };
+            for (const item of trailing) {
+                result = {
+                    ...parse_util_1.getTextRange([result, item]),
+                    syntaxKind: parser_node_1.SyntaxKind.Union,
+                    distinct: item.distinct,
+                    lhs: result,
+                    rhs: item.rhs,
+                };
+            }
+            return result;
+        } },
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateSchemaStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
