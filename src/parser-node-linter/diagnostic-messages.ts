@@ -11,4 +11,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240001,
     }),
+    UnexpectedSyntaxKind : makeDiagnosticMessage({
+        key : "Unexpected {0}",
+        category : DiagnosticCategory.Error,
+        code : 240002,
+    }),
 } as const;

@@ -1,9 +1,8 @@
 import {PrimaryKeyDefinition, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {optional} from "../../../nearley-wrapper";
-import {getTextRange, pushSyntacticErrorAt} from "../../parse-util";
+import {getTextRange} from "../../parse-util";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
-import {DiagnosticMessages} from "../../diagnostic-messages";
 
 makeCustomRule(SyntaxKind.PrimaryKeyDefinition)
     .addSubstitution(
@@ -29,17 +28,6 @@ makeCustomRule(SyntaxKind.PrimaryKeyDefinition)
                 } :
                 rawIndexOption
             );
-
-            if (indexOption.withParser != undefined) {
-                pushSyntacticErrorAt(
-                    indexOption.withParser,
-                    indexOption.withParser.start,
-                    indexOption.withParser.end,
-                    [],
-                    DiagnosticMessages.UnexpectedSyntaxKind,
-                    "WITH PARSER"
-                );
-            }
 
             return {
                 syntaxKind : SyntaxKind.PrimaryKeyDefinition,

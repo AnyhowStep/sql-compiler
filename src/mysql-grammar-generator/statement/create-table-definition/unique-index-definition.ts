@@ -1,9 +1,8 @@
 import {IndexClass, IndexDefinition, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {union, optional} from "../../../nearley-wrapper";
-import {getTextRange, pushSyntacticErrorAt} from "../../parse-util";
+import {getTextRange} from "../../parse-util";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
-import {DiagnosticMessages} from "../../diagnostic-messages";
 
 makeCustomRule(SyntaxKind.IndexDefinition)
     .addSubstitution(
@@ -52,17 +51,6 @@ makeCustomRule(SyntaxKind.IndexDefinition)
                 rawIndexOption
             );
 
-            if (indexOption.withParser != undefined) {
-                pushSyntacticErrorAt(
-                    indexOption.withParser,
-                    indexOption.withParser.start,
-                    indexOption.withParser.end,
-                    [],
-                    DiagnosticMessages.UnexpectedSyntaxKind,
-                    "WITH PARSER"
-                );
-            }
-
             return {
                 syntaxKind : SyntaxKind.IndexDefinition,
                 constraintName : (
@@ -100,17 +88,6 @@ makeCustomRule(SyntaxKind.IndexDefinition)
                 } :
                 rawIndexOption
             );
-
-            if (indexOption.withParser != undefined) {
-                pushSyntacticErrorAt(
-                    indexOption.withParser,
-                    indexOption.withParser.start,
-                    indexOption.withParser.end,
-                    [],
-                    DiagnosticMessages.UnexpectedSyntaxKind,
-                    "WITH PARSER"
-                );
-            }
 
             return {
                 syntaxKind : SyntaxKind.IndexDefinition,

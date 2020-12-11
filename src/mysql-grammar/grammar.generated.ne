@@ -3007,9 +3007,6 @@ PrimaryKeyDefinition ->
                 indexType: indexType.indexType,
             } :
             rawIndexOption);
-    if (indexOption.withParser != undefined) {
-        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
-    }
     return {
         syntaxKind: parser_node_1.SyntaxKind.PrimaryKeyDefinition,
         constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
@@ -3043,9 +3040,6 @@ IndexDefinition ->
                 indexType: indexType.indexType,
             } :
             rawIndexOption);
-    if (indexOption.withParser != undefined) {
-        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
-    }
     return {
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
@@ -3068,9 +3062,6 @@ IndexDefinition ->
                 indexType: indexType.indexType,
             } :
             rawIndexOption);
-    if (indexOption.withParser != undefined) {
-        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
-    }
     return {
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: (constraintName != undefined && "syntaxKind" in constraintName ?
