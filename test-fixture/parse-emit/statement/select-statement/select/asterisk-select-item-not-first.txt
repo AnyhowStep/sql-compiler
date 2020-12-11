@@ -1,0 +1,23 @@
+SELECT *, *, *
+
+-----
+SELECT
+    *,
+    *,
+    *;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Asterisk select item must be first select item; did you mean `SELECT *`?",
+        "start": 10,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Asterisk select item must be first select item; did you mean `SELECT *`?",
+        "start": 13,
+        "length": 1
+    }
+]

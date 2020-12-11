@@ -1,0 +1,8 @@
+SELECT DISTINCT 1
+
+-----
+SELECT DISTINCT
+    1;
+
+-----
+[]

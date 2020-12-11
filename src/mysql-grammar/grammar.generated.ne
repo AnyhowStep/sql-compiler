@@ -4009,7 +4009,7 @@ SelectStatement ->
 } %}
 
 Select ->
-    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (TableAsteriskSelectItem | SelectItem)):* OrderExprList:? Limit:? {% (data) => {
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* OrderExprList:? Limit:? {% (data) => {
     const [, selectOptions, firstSelectItem, trailingSelectItems, order, limit,] = data;
     const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
         .flat(2)

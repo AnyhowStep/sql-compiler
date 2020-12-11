@@ -4391,6 +4391,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Select$subexpression$1", "symbols": ["TableAsteriskSelectItem"]},
     {"name": "Select$subexpression$1", "symbols": ["SelectItem"]},
     {"name": "Select$ebnf$1", "symbols": []},
+    {"name": "Select$ebnf$1$subexpression$1$subexpression$1", "symbols": ["AsteriskSelectItem"]},
     {"name": "Select$ebnf$1$subexpression$1$subexpression$1", "symbols": ["TableAsteriskSelectItem"]},
     {"name": "Select$ebnf$1$subexpression$1$subexpression$1", "symbols": ["SelectItem"]},
     {"name": "Select$ebnf$1$subexpression$1", "symbols": [Comma, "Select$ebnf$1$subexpression$1$subexpression$1"]},

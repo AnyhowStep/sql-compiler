@@ -21,6 +21,11 @@ makeCustomRule(SyntaxKind.Select)
             zeroOrMore([
                 TokenKind.Comma,
                 union(
+                    /**
+                     * `AsteriskSelectItem` is actually not allowed here.
+                     * But we allow it and catch it in `parser-node-linter`
+                     */
+                    SyntaxKind.AsteriskSelectItem,
                     SyntaxKind.TableAsteriskSelectItem,
                     SyntaxKind.SelectItem,
                 ),

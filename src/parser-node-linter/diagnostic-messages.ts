@@ -63,4 +63,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Warning,
         code : 240011,
     }),
+    AsteriskSelectItemMustBeFirstSelectItem : makeDiagnosticMessage({
+        key : "Asterisk select item must be first select item; did you mean `SELECT *`?",
+        category : DiagnosticCategory.Error,
+        code : 240012,
+    }),
 } as const;
