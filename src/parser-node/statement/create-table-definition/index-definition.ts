@@ -42,7 +42,7 @@ export interface IndexDefinition extends CreateTableDefinition {
     /**
      * BTREE is the default
      */
-    indexType : IndexType|undefined;
+    indexType : ValueNode<IndexType>|undefined;
     keyBlockSize : IntegerLiteral|undefined;
     comment : StringLiteral|undefined;
     withParser : Identifier|undefined;

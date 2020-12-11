@@ -1,5 +1,5 @@
-import {IndexType, TextRange} from "../../parser-node";
+import {IndexType, TextRange, ValueNode} from "../../parser-node";
 
 export interface IndexTypeNode extends TextRange {
-    indexType : IndexType,
+    indexType : ValueNode<IndexType>,
 }

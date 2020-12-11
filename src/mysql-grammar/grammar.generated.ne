@@ -2728,9 +2728,6 @@ IndexDefinition ->
         ...indexOption,
         ...parse_util_1.getTextRange(data),
     };
-    if (indexOption.indexType != undefined) {
-        parse_util_1.pushSyntacticErrorAt(indexName !== null && indexName !== void 0 ? indexName : result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
-    }
     return result;
 } %}
 
@@ -2889,9 +2886,13 @@ IndexType ->
     %USING (%BTREE | %HASH) {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
-            parser_node_1.IndexType.BTREE :
-            parser_node_1.IndexType.HASH),
+        indexType: {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Value,
+            value: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
+                parser_node_1.IndexType.BTREE :
+                parser_node_1.IndexType.HASH),
+        },
     };
 } %}
 

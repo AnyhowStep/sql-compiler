@@ -48,4 +48,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Warning,
         code : 240008,
     }),
+    FullTextAndSpatialIndexCannotSpecifyIndexType : makeDiagnosticMessage({
+        key : "FULLTEXT and SPATIAL index cannot specify index type",
+        category : DiagnosticCategory.Error,
+        code : 240009,
+    }),
 } as const;

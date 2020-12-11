@@ -1,5 +1,6 @@
 import {IntegerLiteral, StringLiteral} from "../../expression";
 import {Identifier} from "../../identifier";
+import {ValueNode} from "../../node";
 import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {CreateTableDefinition} from "./create-table-definition";
@@ -16,7 +17,7 @@ export interface PrimaryKeyDefinition extends CreateTableDefinition {
     /**
      * BTREE is the default
      */
-    indexType : IndexType|undefined;
+    indexType : ValueNode<IndexType>|undefined;
     keyBlockSize : IntegerLiteral|undefined;
     comment : StringLiteral|undefined;
     withParser : Identifier|undefined;

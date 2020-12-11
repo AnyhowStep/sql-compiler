@@ -20,7 +20,7 @@ export function emitIndexDefinitionOptions (
             builder
                 .append(" USING ")
                 .append(
-                    def.indexType == IndexType.BTREE ?
+                    def.indexType.value == IndexType.BTREE ?
                     "BTREE" :
                     "HASH"
                 )

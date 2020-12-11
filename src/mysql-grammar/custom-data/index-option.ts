@@ -1,7 +1,7 @@
-import {Identifier, IndexType, IntegerLiteral, StringLiteral, TextRange} from "../../parser-node";
+import {Identifier, IndexType, IntegerLiteral, StringLiteral, TextRange, ValueNode} from "../../parser-node";
 
 export interface IndexOption extends TextRange {
-    indexType : IndexType|undefined;
+    indexType : ValueNode<IndexType>|undefined;
     keyBlockSize : IntegerLiteral|undefined;
     comment : StringLiteral|undefined;
     withParser : Identifier|undefined;

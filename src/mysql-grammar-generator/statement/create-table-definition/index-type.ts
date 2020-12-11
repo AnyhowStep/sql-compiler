@@ -1,4 +1,4 @@
-import {IndexType} from "../../../parser-node";
+import {IndexType, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {union} from "../../../nearley-wrapper";
@@ -16,11 +16,15 @@ makeCustomRule(CustomSyntaxKind.IndexType)
         (data) => {
             return {
                 ...getTextRange(data),
-                indexType : (
-                    data[1][0].tokenKind == TokenKind.BTREE ?
-                    IndexType.BTREE :
-                    IndexType.HASH
-                ),
+                indexType : {
+                    ...getTextRange(data),
+                    syntaxKind : SyntaxKind.Value,
+                    value : (
+                        data[1][0].tokenKind == TokenKind.BTREE ?
+                        IndexType.BTREE :
+                        IndexType.HASH
+                    ),
+                },
             };
         }
     )

@@ -2872,9 +2872,6 @@ export var ParserRules: NearleyRule[] = [
                 ...indexOption,
                 ...parse_util_1.getTextRange(data),
             };
-            if (indexOption.indexType != undefined) {
-                parse_util_1.pushSyntacticErrorAt(indexName !== null && indexName !== void 0 ? indexName : result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
-            }
             return result;
         } },
     {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "GeneratedDefinition", "ColumnDefinitionModifier"], "postprocess":  function (data) {
@@ -3052,9 +3049,13 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IndexType", "symbols": [USING, "IndexType$subexpression$1"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                indexType: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
-                    parser_node_1.IndexType.BTREE :
-                    parser_node_1.IndexType.HASH),
+                indexType: {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: (data[1][0].tokenKind == scanner_1.TokenKind.BTREE ?
+                        parser_node_1.IndexType.BTREE :
+                        parser_node_1.IndexType.HASH),
+                },
             };
         } },
     {"name": "ColumnModifierElement$subexpression$1", "symbols": [AUTO_INCREMENT]},

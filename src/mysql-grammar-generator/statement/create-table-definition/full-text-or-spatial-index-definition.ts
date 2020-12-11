@@ -1,8 +1,7 @@
 import {IndexClass, IndexDefinition, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {union, optional} from "../../../nearley-wrapper";
-import {getTextRange, pushSyntacticErrorAt} from "../../parse-util";
-import {DiagnosticMessages} from "../../diagnostic-messages";
+import {getTextRange} from "../../parse-util";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 
 makeCustomRule(SyntaxKind.IndexDefinition)
@@ -52,15 +51,6 @@ makeCustomRule(SyntaxKind.IndexDefinition)
                 ...indexOption,
                 ...getTextRange(data),
             };
-            if (indexOption.indexType != undefined) {
-                pushSyntacticErrorAt(
-                    indexName ?? result,
-                    indexClass[0].start,
-                    indexClass[0].end,
-                    [],
-                    DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType
-                );
-            }
 
             return result;
         }
