@@ -1,0 +1,20 @@
+SELECT
+    1
+LIMIT
+    18446744073709551616
+
+-----
+SELECT
+    1
+LIMIT
+    18446744073709551616;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Integer literal value too high; max value is 18446744073709551615",
+        "start": 23,
+        "length": 20
+    }
+]

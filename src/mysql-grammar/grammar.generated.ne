@@ -6,6 +6,7 @@ const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
 const diagnostic_messages_1 = require("./diagnostic-messages");
 const parse_util_1 = require("./parse-util");
+const constants_1 = require("./constants");
 
 const KeywordOrIdentifier : Tester = {
     test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind),
@@ -2115,7 +2116,7 @@ DecimalLiteral ->
 } %}
 
 Expression ->
-    (IntegerLiteral | RealLiteral | StringLiteral | Identifier | ParamMarker) {% (data) => {
+    (IntegerLiteralOrDecimalLiteral | RealLiteral | StringLiteral | Identifier | ParamMarker) {% (data) => {
     return data[0][0];
 } %}
 
@@ -2129,13 +2130,32 @@ HexLiteral ->
     };
 } %}
 
-IntegerLiteral ->
+IntegerLiteralOrDecimalLiteral ->
     %IntegerLiteral {% (data) => {
+    const value = BigInt(data[0].value);
+    if (value > constants_1.BigIntUnsignedMaxValue) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.DecimalLiteral,
+            value: data[0].value,
+        };
+    }
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-        value: BigInt(data[0].value),
+        value,
     };
+} %}
+
+IntegerLiteral ->
+    %IntegerLiteral {% (data) => {
+    const value = BigInt(data[0].value);
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+        value,
+    };
+    return result;
 } %}
 
 ParamMarker ->

@@ -8,3 +8,5 @@ import * as grammar from "./grammar.generated";
 export {grammar}
 
 export * from "./parse";
+
+export * from "./constants";

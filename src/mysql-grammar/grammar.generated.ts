@@ -10,6 +10,7 @@ const scanner_1 = require("../scanner");
 const parser_node_1 = require("../parser-node");
 const diagnostic_messages_1 = require("./diagnostic-messages");
 const parse_util_1 = require("./parse-util");
+const constants_1 = require("./constants");
 
 const KeywordOrIdentifier : Tester = {
     test: x => x.tokenKind == TokenKind.Identifier || isKeyword(x.tokenKind),
@@ -2212,7 +2213,7 @@ export var ParserRules: NearleyRule[] = [
                 value: data[0].value,
             };
         } },
-    {"name": "Expression$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "Expression$subexpression$1", "symbols": ["IntegerLiteralOrDecimalLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["RealLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["Identifier"]},
@@ -2228,12 +2229,29 @@ export var ParserRules: NearleyRule[] = [
                 sourceText: data[0].getTokenSourceText(),
             };
         } },
-    {"name": "IntegerLiteral", "symbols": [IntegerLiteral], "postprocess":  (data) => {
+    {"name": "IntegerLiteralOrDecimalLiteral", "symbols": [IntegerLiteral], "postprocess":  (data) => {
+            const value = BigInt(data[0].value);
+            if (value > constants_1.BigIntUnsignedMaxValue) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.DecimalLiteral,
+                    value: data[0].value,
+                };
+            }
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
-                value: BigInt(data[0].value),
+                value,
             };
+        } },
+    {"name": "IntegerLiteral", "symbols": [IntegerLiteral], "postprocess":  (data) => {
+            const value = BigInt(data[0].value);
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                value,
+            };
+            return result;
         } },
     {"name": "ParamMarker", "symbols": [QuestionMark], "postprocess":  (data) => {
             return {

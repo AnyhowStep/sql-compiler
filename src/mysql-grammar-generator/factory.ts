@@ -6,6 +6,7 @@ import {
     CheckDefinition,
     CreateTableDefinition,
     DataType,
+    DecimalLiteral,
     Expression,
     HexLiteral,
     Identifier,
@@ -83,6 +84,7 @@ export enum CustomSyntaxKind {
     UnionOrderLimit_Helper,
     LimitOption,
     SelectOption,
+    IntegerLiteralOrDecimalLiteral,
 }
 
 declare module "../nearley-wrapper" {
@@ -136,6 +138,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.UnionOrderLimit_Helper] : Omit<UnionOrderLimit, "select">,
         [CustomSyntaxKind.LimitOption] : Identifier|IntegerLiteral|ParamMarker,
         [CustomSyntaxKind.SelectOption] : SelectOption,
+        [CustomSyntaxKind.IntegerLiteralOrDecimalLiteral] : IntegerLiteral|DecimalLiteral,
     }
 
     interface CustomToken extends Array<TokenKind> {

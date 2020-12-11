@@ -5,7 +5,7 @@ import {union} from "../../nearley-wrapper";
 makeCustomRule(CustomSyntaxKind.Expression)
     .addSubstitution(
         [union(
-            SyntaxKind.IntegerLiteral,
+            CustomSyntaxKind.IntegerLiteralOrDecimalLiteral,
             SyntaxKind.RealLiteral,
             SyntaxKind.StringLiteral,
             SyntaxKind.Identifier,

@@ -68,4 +68,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240012,
     }),
+    IntegerLiteralValueTooHigh : makeDiagnosticMessage({
+        key : "Integer literal value too high; max value is {0}",
+        category : DiagnosticCategory.Error,
+        code : 240013,
+    }),
 } as const;
