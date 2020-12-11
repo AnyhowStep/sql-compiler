@@ -6,7 +6,7 @@ import {DiagnosticMessages} from "../../../diagnostic-messages";
 export const UniqueIndexDefinitionUnexpectedWithParserOption : LintRule<IndexDefinition> = {
     syntaxKind : SyntaxKind.IndexDefinition,
     onEnter : (node, lintResult) => {
-        if (node.indexClass != IndexClass.UNIQUE) {
+        if (node.indexClass == IndexClass.FULLTEXT) {
             return;
         }
         if (node.withParser != undefined) {

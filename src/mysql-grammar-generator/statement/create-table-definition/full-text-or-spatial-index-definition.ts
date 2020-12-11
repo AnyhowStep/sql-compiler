@@ -62,17 +62,6 @@ makeCustomRule(SyntaxKind.IndexDefinition)
                 );
             }
 
-            if (result.indexClass == IndexClass.SPATIAL && indexOption.withParser != undefined) {
-                pushSyntacticErrorAt(
-                    indexOption.withParser,
-                    indexOption.withParser.start,
-                    indexOption.withParser.end,
-                    [],
-                    DiagnosticMessages.UnexpectedSyntaxKind,
-                    "WITH PARSER"
-                );
-            }
-
             return result;
         }
     )

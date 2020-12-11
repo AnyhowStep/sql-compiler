@@ -2731,9 +2731,6 @@ IndexDefinition ->
     if (indexOption.indexType != undefined) {
         parse_util_1.pushSyntacticErrorAt(indexName !== null && indexName !== void 0 ? indexName : result, indexClass[0].start, indexClass[0].end, [], diagnostic_messages_1.DiagnosticMessages.FullTextAndSpatialIndexCannotSpecifyIndexType);
     }
-    if (result.indexClass == parser_node_1.IndexClass.SPATIAL && indexOption.withParser != undefined) {
-        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
-    }
     return result;
 } %}
 
@@ -2821,9 +2818,6 @@ IndexDefinition ->
                 indexType: indexType.indexType,
             } :
             rawIndexOption);
-    if (indexOption.withParser != undefined) {
-        parse_util_1.pushSyntacticErrorAt(indexOption.withParser, indexOption.withParser.start, indexOption.withParser.end, [], diagnostic_messages_1.DiagnosticMessages.UnexpectedSyntaxKind, "WITH PARSER");
-    }
     return {
         syntaxKind: parser_node_1.SyntaxKind.IndexDefinition,
         constraintName: undefined,
