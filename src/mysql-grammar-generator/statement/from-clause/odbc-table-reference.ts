@@ -43,12 +43,22 @@ makeCustomRule(CustomSyntaxKind.OdbcNestedTableReference)
     .addSubstitution(
         [
             TokenKind.OpenParentheses,
+            CustomSyntaxKind.OdbcNestedTableReference,
+            TokenKind.CloseParentheses,
+        ] as const,
+        (data) : TableReference => {
+            return data[1];
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.OpenParentheses,
             union(
                 SyntaxKind.NamedTableFactor,
                 SyntaxKind.DerivedTableFactor,
                 SyntaxKind.Join,
                 SyntaxKind.OdbcTableReference,
-                SyntaxKind.TableReferenceList,
+                CustomSyntaxKind.TableReferenceList_2OrMore,
             ),
             TokenKind.CloseParentheses,
         ] as const,

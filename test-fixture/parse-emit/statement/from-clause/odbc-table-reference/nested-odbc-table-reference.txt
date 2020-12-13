@@ -1,0 +1,16 @@
+SELECT
+    *
+FROM
+    {oj {oj T} }
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected CROSS|INNER|JOIN|LEFT|NATURAL|NATURAL JOIN|RIGHT|STRAIGHT_JOIN",
+        "start": 33,
+        "length": 0
+    }
+]

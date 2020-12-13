@@ -105,6 +105,7 @@ export enum CustomSyntaxKind {
     TableAlias,
     JoinSpecification,
     IndexHintClause,
+    TableReferenceList_2OrMore,
 }
 
 declare module "../nearley-wrapper" {
@@ -172,6 +173,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.TableAlias] : Identifier,
         [CustomSyntaxKind.JoinSpecification] : JoinSpecification,
         [CustomSyntaxKind.IndexHintClause] : ValueNode<IndexHintClause>,
+        [CustomSyntaxKind.TableReferenceList_2OrMore] : TableReferenceList,
     }
 
     interface CustomToken extends Array<TokenKind> {

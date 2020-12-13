@@ -4,7 +4,10 @@ import {testRecursive} from "./test-recursive";
 import {parse} from "../mysql-grammar";
 import * as parserNodeLinter from "../parser-node-linter";
 
-const root = `${__dirname}/../../test-fixture/parse-emit`;
+let root = `${__dirname}/../../test-fixture/parse-emit`;
+if (process.env.PARSE_EMIT_FILE) {
+    root += "/" + process.env.PARSE_EMIT_FILE;
+}
 suite('Should parse-emit as expected', () => {
     testRecursive(root, ({
         //fileName,

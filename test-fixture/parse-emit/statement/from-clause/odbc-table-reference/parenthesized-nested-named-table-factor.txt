@@ -1,0 +1,13 @@
+SELECT
+    *
+FROM
+    {oj ((T))}
+
+-----
+SELECT
+    *
+FROM
+    {oj `T`};
+
+-----
+[]

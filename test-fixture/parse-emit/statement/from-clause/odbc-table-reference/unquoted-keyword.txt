@@ -1,0 +1,40 @@
+SELECT
+    *
+FROM
+    {CROSS T};
+
+SELECT
+    *
+FROM
+    {CROSS T JOIN U};
+
+-----
+SELECT
+    *
+FROM
+    {`CROSS` `T`};
+
+SELECT
+    *
+FROM
+    {`CROSS`
+        `T`
+        INNER JOIN
+        `U`
+    };
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 23,
+        "length": 5
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 57,
+        "length": 5
+    }
+]

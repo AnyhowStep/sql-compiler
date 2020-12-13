@@ -3552,7 +3552,7 @@ JoinRhsTableReference ->
     (NamedTableFactor | DerivedTableFactor | OdbcTableReference) {% (data) => {
     return data[0][0];
 } %}
-    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList) %CloseParentheses {% (data) => {
+    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList_2OrMore) %CloseParentheses {% (data) => {
     return data[1][0];
 } %}
 
@@ -3668,7 +3668,10 @@ OdbcNestedTableReference ->
     (NamedTableFactor | DerivedTableFactor | Join) {% (data) => {
     return data[0][0];
 } %}
-    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList) %CloseParentheses {% (data) => {
+    | %OpenParentheses OdbcNestedTableReference %CloseParentheses {% (data) => {
+    return data[1];
+} %}
+    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList_2OrMore) %CloseParentheses {% (data) => {
     return data[1][0];
 } %}
 
@@ -3687,11 +3690,21 @@ TableReferenceList ->
     return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableReferenceList, parse_util_1.getTextRange(data));
 } %}
 
+TableReferenceList_2OrMore ->
+    TableReference (%Comma TableReference):+ {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        return "syntaxKind" in item;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableReferenceList, parse_util_1.getTextRange(data));
+} %}
+
 TableReference ->
     (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference) {% (data) => {
     return data[0][0];
 } %}
-    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList) %CloseParentheses {% (data) => {
+    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList_2OrMore) %CloseParentheses {% (data) => {
     return data[1][0];
 } %}
 

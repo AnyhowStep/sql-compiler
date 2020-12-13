@@ -1,0 +1,20 @@
+SELECT
+    *
+FROM
+    {oj (SELECT * FROM T) AS tmp};
+
+-----
+SELECT
+    *
+FROM
+    {oj
+        (
+            SELECT
+                *
+            FROM
+                `T`
+        ) AS `tmp`
+    };
+
+-----
+[]

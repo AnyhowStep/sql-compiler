@@ -1,0 +1,16 @@
+SELECT
+    *
+FROM
+    {oj T, U}
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected AS|CloseBrace|CROSS|Dot|Equal|FORCE|Identifier|IGNORE|INNER|JOIN|LEFT|NATURAL|NATURAL JOIN|PARTITION|RIGHT|STRAIGHT_JOIN|USE",
+        "start": 27,
+        "length": 0
+    }
+]

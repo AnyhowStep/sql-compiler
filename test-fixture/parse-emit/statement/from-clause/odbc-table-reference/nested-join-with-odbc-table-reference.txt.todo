@@ -1,0 +1,10 @@
+SELECT
+    *
+FROM
+    /* This should be a syntax error according to MySQL */
+    {oj {oj T} JOIN {oj U}}
+
+-----
+
+-----
+[]

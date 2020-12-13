@@ -3858,7 +3858,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
     {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["Join"]},
     {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
-    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["TableReferenceList"]},
+    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["TableReferenceList_2OrMore"]},
     {"name": "JoinRhsTableReference", "symbols": [OpenParentheses, "JoinRhsTableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
             return data[1][0];
         } },
@@ -3990,11 +3990,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "OdbcNestedTableReference", "symbols": ["OdbcNestedTableReference$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
+    {"name": "OdbcNestedTableReference", "symbols": [OpenParentheses, "OdbcNestedTableReference", CloseParentheses], "postprocess":  (data) => {
+            return data[1];
+        } },
     {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["NamedTableFactor"]},
     {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
     {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["Join"]},
     {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
-    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["TableReferenceList"]},
+    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["TableReferenceList_2OrMore"]},
     {"name": "OdbcNestedTableReference", "symbols": [OpenParentheses, "OdbcNestedTableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
             return data[1][0];
         } },
@@ -4016,6 +4019,18 @@ export var ParserRules: NearleyRule[] = [
             });
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableReferenceList, parse_util_1.getTextRange(data));
         } },
+    {"name": "TableReferenceList_2OrMore$ebnf$1$subexpression$1", "symbols": [Comma, "TableReference"]},
+    {"name": "TableReferenceList_2OrMore$ebnf$1", "symbols": ["TableReferenceList_2OrMore$ebnf$1$subexpression$1"]},
+    {"name": "TableReferenceList_2OrMore$ebnf$1$subexpression$2", "symbols": [Comma, "TableReference"]},
+    {"name": "TableReferenceList_2OrMore$ebnf$1", "symbols": ["TableReferenceList_2OrMore$ebnf$1", "TableReferenceList_2OrMore$ebnf$1$subexpression$2"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "TableReferenceList_2OrMore", "symbols": ["TableReference", "TableReferenceList_2OrMore$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                return "syntaxKind" in item;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableReferenceList, parse_util_1.getTextRange(data));
+        } },
     {"name": "TableReference$subexpression$1", "symbols": ["NamedTableFactor"]},
     {"name": "TableReference$subexpression$1", "symbols": ["DerivedTableFactor"]},
     {"name": "TableReference$subexpression$1", "symbols": ["Join"]},
@@ -4027,7 +4042,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "TableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
     {"name": "TableReference$subexpression$2", "symbols": ["Join"]},
     {"name": "TableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
-    {"name": "TableReference$subexpression$2", "symbols": ["TableReferenceList"]},
+    {"name": "TableReference$subexpression$2", "symbols": ["TableReferenceList_2OrMore"]},
     {"name": "TableReference", "symbols": [OpenParentheses, "TableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
             return data[1][0];
         } },

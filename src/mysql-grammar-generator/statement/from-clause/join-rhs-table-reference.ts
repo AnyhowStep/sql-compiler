@@ -29,7 +29,7 @@ makeCustomRule(CustomSyntaxKind.JoinRhsTableReference)
                 SyntaxKind.DerivedTableFactor,
                 SyntaxKind.Join,
                 SyntaxKind.OdbcTableReference,
-                SyntaxKind.TableReferenceList,
+                CustomSyntaxKind.TableReferenceList_2OrMore,
             ),
             TokenKind.CloseParentheses,
         ] as const,

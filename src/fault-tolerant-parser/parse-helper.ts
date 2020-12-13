@@ -152,20 +152,33 @@ export function parseHelper<PartialParseT extends unknown> (
         }
     }
 
-    const partialParse : PartialParseT|undefined = (
+    let partialParse : PartialParseT|undefined = (
         parser.results == undefined ?
         undefined :
-        parser.results.length == 1 ?
-        parser.results[0] :
-        undefined
+        //parser.results.length == 1 ?
+        //parser.results[0] :
+        parser.results[0]
     );
+    /**
+     * @todo Figure out what is going on here.
+     * Why does `nearley` say we have multiple results?
+     * Debug with `test-fixture/parse-emit/statement/from-clause/odbc-table-reference/parenthesized-nested-derived-table-factor.txt`
+     */
     if (parser.results != undefined && parser.results.length > 1) {
-        parserSyntacticErrors.push(makeDiagnosticAt(
-            scanner.getText().length,
-            scanner.getText().length,
-            [],
-            DiagnosticMessages.InternalErrorGrammarIsAmbiguous
-        ));
+        const first = JSON.stringify(parser.results[0]);
+        for (let i=1; i<parser.results.length; ++i) {
+            const cur = JSON.stringify(parser.results[i]);
+            if (first != cur) {
+                parserSyntacticErrors.push(makeDiagnosticAt(
+                    scanner.getText().length,
+                    scanner.getText().length,
+                    [],
+                    DiagnosticMessages.InternalErrorGrammarIsAmbiguous
+                ));
+                partialParse = undefined;
+                break;
+            }
+        }
         //console.log(JSON.stringify(parser.results, null, 2));
     }
     if (partialParse != undefined) {
