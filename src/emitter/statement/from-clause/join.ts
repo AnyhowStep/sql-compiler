@@ -35,6 +35,7 @@ export function emitJoin (join : Join) {
                         builder
                             .appendBuilder(emitJoin(rhs))
                     })
+                    .appendNewLine()
                     .append(")")
             } else {
                 builder

@@ -1,0 +1,57 @@
+SELECT
+    *
+FROM
+    (T
+    INNER JOIN
+    U)
+    INNER JOIN
+    V;
+
+SELECT
+    *
+FROM
+    ((T
+    INNER JOIN
+    U))
+    INNER JOIN
+    V;
+
+SELECT
+    *
+FROM
+    (((T
+    INNER JOIN
+    U)))
+    INNER JOIN
+    V;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    `U`
+    INNER JOIN
+    `V`;
+
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    `U`
+    INNER JOIN
+    `V`;
+
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    `U`
+    INNER JOIN
+    `V`;
+
+-----
+[]
