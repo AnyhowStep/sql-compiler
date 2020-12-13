@@ -83,4 +83,14 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240015,
     }),
+    CrossJoinShouldNotHaveJoinSpecification : makeDiagnosticMessage({
+        key : "CROSS JOIN should not have join specification; consider using an INNER JOIN instead",
+        category : DiagnosticCategory.Warning,
+        code : 240016,
+    }),
+    InnerJoinShouldHaveJoinSpecification : makeDiagnosticMessage({
+        key : "INNER JOIN should have join specification; consider using a CROSS JOIN instead",
+        category : DiagnosticCategory.Warning,
+        code : 240017,
+    }),
 } as const;

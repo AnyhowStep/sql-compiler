@@ -1,7 +1,7 @@
 import {Join, JoinType, SyntaxKind} from "../../../parser-node";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union} from "../../../nearley-wrapper";
-import {getTextRange} from "../../../parse-util";
+import {getTextRange, toValueNode} from "../../parse-util";
 import {TokenKind} from "../../../scanner";
 
 makeCustomRule(SyntaxKind.Join)
@@ -31,17 +31,20 @@ makeCustomRule(SyntaxKind.Join)
                 lhs,
                 joinType,
                 ,
-                ,
+                joinToken,
                 rhs,
                 joinSpecification,
             ] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.Join,
-                joinType : (
-                    joinType[0].tokenKind == TokenKind.LEFT ?
-                    JoinType.LEFT :
-                    JoinType.RIGHT
+                joinType : toValueNode(
+                    (
+                        joinType[0].tokenKind == TokenKind.LEFT ?
+                        JoinType.LEFT :
+                        JoinType.RIGHT
+                    ),
+                    getTextRange([joinType, joinToken])
                 ),
                 lhs,
                 rhs,
@@ -69,19 +72,22 @@ makeCustomRule(SyntaxKind.Join)
         (data) : Join => {
             const [
                 lhs,
-                ,
+                naturalToken,
                 joinType,
                 ,
-                ,
+                joinToken,
                 rhs,
             ] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.Join,
-                joinType : (
-                    joinType[0].tokenKind == TokenKind.LEFT ?
-                    JoinType.NATURAL_LEFT :
-                    JoinType.NATURAL_RIGHT
+                joinType : toValueNode(
+                    (
+                        joinType[0].tokenKind == TokenKind.LEFT ?
+                        JoinType.NATURAL_LEFT :
+                        JoinType.NATURAL_RIGHT
+                    ),
+                    getTextRange([naturalToken, joinToken])
                 ),
                 lhs,
                 rhs,

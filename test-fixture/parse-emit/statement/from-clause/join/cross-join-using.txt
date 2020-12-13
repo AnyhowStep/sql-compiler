@@ -1,0 +1,33 @@
+SELECT
+    *
+FROM
+    T
+    CROSS JOIN
+    U
+    USING (X, Y, Z);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    CROSS JOIN
+    `U`
+    USING (`X`, `Y`, `Z`);
+
+-----
+[
+    {
+        "category": 1,
+        "messageText": "CROSS JOIN should not have join specification; consider using an INNER JOIN instead",
+        "start": 49,
+        "length": 15,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 28,
+                "length": 10
+            }
+        ]
+    }
+]

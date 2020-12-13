@@ -2,21 +2,21 @@ SELECT
     *
 FROM
     (T)
-    INNER JOIN
+    CROSS JOIN
     U;
 
 SELECT
     *
 FROM
     ((T))
-    INNER JOIN
+    CROSS JOIN
     U;
 
 SELECT
     *
 FROM
     (((T)))
-    INNER JOIN
+    CROSS JOIN
     U;
 
 -----
@@ -24,21 +24,21 @@ SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     `U`;
 
 SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     `U`;
 
 SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     `U`;
 
 -----

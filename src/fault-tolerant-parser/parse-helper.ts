@@ -22,28 +22,33 @@ export interface ParseHelperArgs<PartialParseT extends unknown> {
 
 function filterParseResults<PartialParseT extends unknown> (
     parser : nearley.Parser,
-    hasSyntacticErrors : (result : PartialParseT) => boolean,
+    countSyntacticErrors : (result : PartialParseT) => number,
 ) : PartialParseT[]|undefined {
     if (parser.results == undefined) {
         return undefined;
     }
+    if (parser.results.length == 1) {
+        return parser.results;
+    }
     const rawResults : PartialParseT[] = parser.results;
-    const withError : PartialParseT[] = [];
-    const withoutError : PartialParseT[] = [];
+    const errorCount2Results = new Map<number, PartialParseT[]>();
 
+    let minErrorCount = Infinity;
     for (const rawResult of rawResults) {
-        if (hasSyntacticErrors(rawResult)) {
-            withError.push(rawResult);
-        } else {
-            withoutError.push(rawResult);
+        const errorCount = countSyntacticErrors(rawResult);
+        let results = errorCount2Results.get(errorCount);
+        if (results == undefined) {
+            results = [];
+            errorCount2Results.set(errorCount, results);
+        }
+        results.push(rawResult);
+
+        if (errorCount < minErrorCount) {
+            minErrorCount = errorCount;
         }
     }
 
-    if (withoutError.length > 0) {
-        return withoutError;
-    } else {
-        return withError;
-    }
+    return errorCount2Results.get(minErrorCount);
 }
 
 export function parseHelper<PartialParseT extends unknown> (
@@ -132,7 +137,7 @@ export function parseHelper<PartialParseT extends unknown> (
                 const parserResults = filterParseResults<PartialParseT>(
                     parser,
                     (result) => {
-                        return findAllSyntacticErrors(result).length > 0;
+                        return findAllSyntacticErrors(result).length;
                     }
                 );
                 let partialParse : PartialParseT|undefined = (
@@ -196,7 +201,7 @@ export function parseHelper<PartialParseT extends unknown> (
     const parserResults = filterParseResults<PartialParseT>(
         parser,
         (result) => {
-            return findAllSyntacticErrors(result).length > 0;
+            return findAllSyntacticErrors(result).length;
         }
     );
     let partialParse : PartialParseT|undefined = (

@@ -9,19 +9,19 @@ export function emitJoin (join : Join) {
         .appendBuilder(emitTableReference(join.lhs, true))
         .appendNewLine()
         .append(
-            join.joinType == JoinType.INNER ?
+            join.joinType.value == JoinType.INNER ?
             "INNER JOIN" :
-            join.joinType == JoinType.CROSS ?
+            join.joinType.value == JoinType.CROSS ?
             "CROSS JOIN" :
-            join.joinType == JoinType.STRAIGHT ?
+            join.joinType.value == JoinType.STRAIGHT ?
             "STRAIGHT_JOIN" :
-            join.joinType == JoinType.LEFT ?
+            join.joinType.value == JoinType.LEFT ?
             "LEFT JOIN" :
-            join.joinType == JoinType.RIGHT ?
+            join.joinType.value == JoinType.RIGHT ?
             "RIGHT JOIN" :
-            join.joinType == JoinType.NATURAL_INNER ?
+            join.joinType.value == JoinType.NATURAL_INNER ?
             "NATURAL JOIN" :
-            join.joinType == JoinType.NATURAL_LEFT ?
+            join.joinType.value == JoinType.NATURAL_LEFT ?
             "NATURAL LEFT JOIN" :
             "NATURAL RIGHT JOIN"
         )

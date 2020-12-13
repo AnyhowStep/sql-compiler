@@ -2,7 +2,7 @@ SELECT
     *
 FROM
     T
-    INNER JOIN
+    CROSS JOIN
     ((
         SELECT
             *
@@ -14,7 +14,7 @@ SELECT
     *
 FROM
     T
-    INNER JOIN
+    CROSS JOIN
     (((
         SELECT
             *
@@ -26,7 +26,7 @@ SELECT
     *
 FROM
     T
-    INNER JOIN
+    CROSS JOIN
     ((((
         SELECT
             *
@@ -39,7 +39,7 @@ SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     (
         SELECT
             *
@@ -51,7 +51,7 @@ SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     (
         SELECT
             *
@@ -63,7 +63,7 @@ SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     (
         SELECT
             *

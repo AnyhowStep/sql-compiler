@@ -3511,37 +3511,37 @@ IndexHintDefinition ->
 
 Join ->
     TableReference (%INNER | %CROSS):? %JOIN JoinRhsTableReference JoinSpecification:? {% (data) => {
-    const [lhs, joinType, , rhs, joinSpecification,] = data;
+    const [lhs, joinType, joinToken, rhs, joinSpecification,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.Join,
-        joinType: (joinType == undefined ?
+        joinType: parse_util_1.toValueNode((joinType == undefined ?
             parser_node_1.JoinType.INNER :
             joinType[0].tokenKind == scanner_1.TokenKind.INNER ?
                 parser_node_1.JoinType.INNER :
-                parser_node_1.JoinType.CROSS),
+                parser_node_1.JoinType.CROSS), parse_util_1.getTextRange([joinType, joinToken])),
         lhs,
         rhs,
         joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
     };
 } %}
     | TableReference %STRAIGHT_JOIN JoinRhsTableReference JoinSpecificationOn:? {% (data) => {
-    const [lhs, , rhs, joinSpecification,] = data;
+    const [lhs, joinType, rhs, joinSpecification,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.Join,
-        joinType: parser_node_1.JoinType.STRAIGHT,
+        joinType: parse_util_1.toValueNode(parser_node_1.JoinType.STRAIGHT, parse_util_1.getTextRange(joinType)),
         lhs,
         rhs,
         joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
     };
 } %}
     | TableReference %NATURAL %JOIN JoinRhsTableReference {% (data) => {
-    const [lhs, , , rhs,] = data;
+    const [lhs, naturalToken, joinToken, rhs,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.Join,
-        joinType: parser_node_1.JoinType.NATURAL_INNER,
+        joinType: parse_util_1.toValueNode(parser_node_1.JoinType.NATURAL_INNER, parse_util_1.getTextRange([naturalToken, joinToken])),
         lhs,
         rhs,
         joinSpecification: undefined,
@@ -3628,26 +3628,26 @@ KeyUsageList ->
 
 Join ->
     TableReference (%LEFT | %RIGHT) %OUTER:? %JOIN JoinRhsTableReference JoinSpecification {% (data) => {
-    const [lhs, joinType, , , rhs, joinSpecification,] = data;
+    const [lhs, joinType, , joinToken, rhs, joinSpecification,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.Join,
-        joinType: (joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
+        joinType: parse_util_1.toValueNode((joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
             parser_node_1.JoinType.LEFT :
-            parser_node_1.JoinType.RIGHT),
+            parser_node_1.JoinType.RIGHT), parse_util_1.getTextRange([joinType, joinToken])),
         lhs,
         rhs,
         joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
     };
 } %}
     | TableReference %NATURAL (%LEFT | %RIGHT) %OUTER:? %JOIN JoinRhsTableReference {% (data) => {
-    const [lhs, , joinType, , , rhs,] = data;
+    const [lhs, naturalToken, joinType, , joinToken, rhs,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.Join,
-        joinType: (joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
+        joinType: parse_util_1.toValueNode((joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
             parser_node_1.JoinType.NATURAL_LEFT :
-            parser_node_1.JoinType.NATURAL_RIGHT),
+            parser_node_1.JoinType.NATURAL_RIGHT), parse_util_1.getTextRange([naturalToken, joinToken])),
         lhs,
         rhs,
         joinSpecification: undefined,

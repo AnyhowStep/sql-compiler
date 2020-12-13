@@ -1,7 +1,7 @@
 import {Join, JoinType, SyntaxKind} from "../../../parser-node";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union} from "../../../nearley-wrapper";
-import {getTextRange} from "../../../parse-util";
+import {getTextRange, toValueNode} from "../../parse-util";
 import {TokenKind} from "../../../scanner";
 
 makeCustomRule(SyntaxKind.Join)
@@ -27,19 +27,22 @@ makeCustomRule(SyntaxKind.Join)
             const [
                 lhs,
                 joinType,
-                ,
+                joinToken,
                 rhs,
                 joinSpecification,
             ] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.Join,
-                joinType : (
-                    joinType == undefined ?
-                    JoinType.INNER :
-                    joinType[0].tokenKind == TokenKind.INNER ?
-                    JoinType.INNER :
-                    JoinType.CROSS
+                joinType : toValueNode(
+                    (
+                        joinType == undefined ?
+                        JoinType.INNER :
+                        joinType[0].tokenKind == TokenKind.INNER ?
+                        JoinType.INNER :
+                        JoinType.CROSS
+                    ),
+                    getTextRange([joinType, joinToken])
                 ),
                 lhs,
                 rhs,
@@ -62,14 +65,17 @@ makeCustomRule(SyntaxKind.Join)
         (data) : Join => {
             const [
                 lhs,
-                ,
+                joinType,
                 rhs,
                 joinSpecification,
             ] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.Join,
-                joinType : JoinType.STRAIGHT,
+                joinType : toValueNode(
+                    JoinType.STRAIGHT,
+                    getTextRange(joinType)
+                ),
                 lhs,
                 rhs,
                 joinSpecification : joinSpecification ?? undefined,
@@ -89,14 +95,17 @@ makeCustomRule(SyntaxKind.Join)
         (data) : Join => {
             const [
                 lhs,
-                ,
-                ,
+                naturalToken,
+                joinToken,
                 rhs,
             ] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.Join,
-                joinType : JoinType.NATURAL_INNER,
+                joinType : toValueNode(
+                    JoinType.NATURAL_INNER,
+                    getTextRange([naturalToken, joinToken])
+                ),
                 lhs,
                 rhs,
                 joinSpecification : undefined,

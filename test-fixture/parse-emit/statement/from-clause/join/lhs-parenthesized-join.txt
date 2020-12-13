@@ -2,27 +2,27 @@ SELECT
     *
 FROM
     (T
-    INNER JOIN
+    CROSS JOIN
     U)
-    INNER JOIN
+    CROSS JOIN
     V;
 
 SELECT
     *
 FROM
     ((T
-    INNER JOIN
+    CROSS JOIN
     U))
-    INNER JOIN
+    CROSS JOIN
     V;
 
 SELECT
     *
 FROM
     (((T
-    INNER JOIN
+    CROSS JOIN
     U)))
-    INNER JOIN
+    CROSS JOIN
     V;
 
 -----
@@ -30,27 +30,27 @@ SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     `U`
-    INNER JOIN
+    CROSS JOIN
     `V`;
 
 SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     `U`
-    INNER JOIN
+    CROSS JOIN
     `V`;
 
 SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     `U`
-    INNER JOIN
+    CROSS JOIN
     `V`;
 
 -----

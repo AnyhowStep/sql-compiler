@@ -7,7 +7,7 @@ FROM
         FROM
             T
     ) AS tmp
-    INNER JOIN
+    CROSS JOIN
     U;
 
 -----
@@ -20,7 +20,7 @@ FROM
         FROM
             `T`
     ) AS `tmp`
-    INNER JOIN
+    CROSS JOIN
     `U`;
 
 -----

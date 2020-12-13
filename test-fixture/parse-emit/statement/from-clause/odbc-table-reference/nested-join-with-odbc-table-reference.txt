@@ -1,12 +1,12 @@
 SELECT
     *
 FROM
-    {oj {oj T} JOIN {oj U}};
+    {oj {oj T} CROSS JOIN {oj U}};
 
 SELECT
     *
 FROM
-    {oj ({oj T}) JOIN ({oj U})};
+    {oj ({oj T}) CROSS JOIN ({oj U})};
 
 -----
 SELECT
@@ -14,7 +14,7 @@ SELECT
 FROM
     {oj
         ({oj `T`})
-        INNER JOIN
+        CROSS JOIN
         ({oj `U`})
     };
 
@@ -23,7 +23,7 @@ SELECT
 FROM
     {oj
         ({oj `T`})
-        INNER JOIN
+        CROSS JOIN
         ({oj `U`})
     };
 
@@ -38,7 +38,7 @@ FROM
     {
         "category": 0,
         "messageText": "ODBC table reference operand of a join must be parenthesized",
-        "start": 38,
+        "start": 44,
         "length": 6
     }
 ]

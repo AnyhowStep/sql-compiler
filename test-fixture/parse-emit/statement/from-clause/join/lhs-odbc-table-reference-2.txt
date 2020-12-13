@@ -2,7 +2,7 @@ SELECT
     *
 FROM
     ({oj T})
-    INNER JOIN
+    CROSS JOIN
     U;
 
 -----
@@ -10,7 +10,7 @@ SELECT
     *
 FROM
     ({oj `T`})
-    INNER JOIN
+    CROSS JOIN
     `U`;
 
 -----

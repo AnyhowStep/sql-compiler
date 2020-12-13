@@ -1,0 +1,34 @@
+SELECT
+    *
+FROM
+    T
+    JOIN
+    U
+    INNER JOIN
+    V;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    `U`
+    INNER JOIN
+    `V`;
+
+-----
+[
+    {
+        "category": 1,
+        "messageText": "INNER JOIN should have join specification; consider using a CROSS JOIN instead",
+        "start": 28,
+        "length": 4
+    },
+    {
+        "category": 1,
+        "messageText": "INNER JOIN should have join specification; consider using a CROSS JOIN instead",
+        "start": 43,
+        "length": 10
+    }
+]

@@ -6,7 +6,7 @@ FROM
 SELECT
     *
 FROM
-    {CROSS T JOIN U};
+    {CROSS T CROSS JOIN U};
 
 -----
 SELECT
@@ -19,7 +19,7 @@ SELECT
 FROM
     {`CROSS`
         `T`
-        INNER JOIN
+        CROSS JOIN
         `U`
     };
 

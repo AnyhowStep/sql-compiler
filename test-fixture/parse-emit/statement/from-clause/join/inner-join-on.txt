@@ -2,20 +2,20 @@ SELECT
     *
 FROM
     T
-    CROSS JOIN
+    INNER JOIN
     U
-    CROSS JOIN
-    V;
+    ON
+        1;
 
 -----
 SELECT
     *
 FROM
     `T`
-    CROSS JOIN
+    INNER JOIN
     `U`
-    CROSS JOIN
-    `V`;
+    ON
+        1;
 
 -----
 []

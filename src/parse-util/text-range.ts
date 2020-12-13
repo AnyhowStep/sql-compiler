@@ -6,6 +6,10 @@ export function getStart (
     if (data == null) {
         return -1;
     }
+    if ("start" in data) {
+        return data.start;
+    }
+
     if (data instanceof Array) {
         for (let i=0; i<data.length; ++i) {
             const start = getStart(data[i]);
@@ -16,7 +20,7 @@ export function getStart (
         return -1;
     }
 
-    return data.start;
+    throw new Error(`Unable to get start`);
 }
 
 export function getEnd (
@@ -25,6 +29,10 @@ export function getEnd (
     if (data == null) {
         return -1;
     }
+    if ("end" in data) {
+        return data.end;
+    }
+
     if (data instanceof Array) {
         for (let i=data.length-1; i>=0; --i) {
             const end = getEnd(data[i]);
@@ -35,7 +43,7 @@ export function getEnd (
         return -1;
     }
 
-    return data.end;
+    throw new Error(`Unable to get end`);
 }
 
 export function getTextRange (data : Data) : TextRange {

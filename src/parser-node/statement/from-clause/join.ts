@@ -1,4 +1,4 @@
-import {Node} from "../../node";
+import {Node, ValueNode} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {JoinSpecification} from "./join-specification";
 import {TableReference} from "./table-reference";
@@ -25,7 +25,7 @@ export enum JoinType {
 export interface Join extends Node {
     syntaxKind : SyntaxKind.Join,
 
-    joinType : JoinType,
+    joinType : ValueNode<JoinType>,
 
     lhs : TableReference,
     rhs : TableReference,

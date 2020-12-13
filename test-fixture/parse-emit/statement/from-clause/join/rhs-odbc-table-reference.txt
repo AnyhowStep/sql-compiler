@@ -2,14 +2,14 @@ SELECT
     *
 FROM
     T
-    INNER JOIN
+    CROSS JOIN
     {oj U};
 
 SELECT
     *
 FROM
     T
-    INNER JOIN
+    CROSS JOIN
     ({oj U});
 
 -----
@@ -17,14 +17,14 @@ SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     ({oj `U`});
 
 SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     ({oj `U`});
 
 -----

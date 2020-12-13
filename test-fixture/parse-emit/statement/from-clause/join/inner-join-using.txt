@@ -2,20 +2,18 @@ SELECT
     *
 FROM
     T
-    CROSS JOIN
+    INNER JOIN
     U
-    CROSS JOIN
-    V;
+    USING (X, Y, Z);
 
 -----
 SELECT
     *
 FROM
     `T`
-    CROSS JOIN
+    INNER JOIN
     `U`
-    CROSS JOIN
-    `V`;
+    USING (`X`, `Y`, `Z`);
 
 -----
 []

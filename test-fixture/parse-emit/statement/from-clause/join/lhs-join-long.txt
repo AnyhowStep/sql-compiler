@@ -2,13 +2,13 @@ SELECT
     *
 FROM
     T
-    INNER JOIN
+    CROSS JOIN
     U
-    INNER JOIN
+    CROSS JOIN
     V
-    INNER JOIN
+    CROSS JOIN
     W
-    INNER JOIN
+    CROSS JOIN
     X;
 
 -----
@@ -16,13 +16,13 @@ SELECT
     *
 FROM
     `T`
-    INNER JOIN
+    CROSS JOIN
     `U`
-    INNER JOIN
+    CROSS JOIN
     `V`
-    INNER JOIN
+    CROSS JOIN
     `W`
-    INNER JOIN
+    CROSS JOIN
     `X`;
 
 -----

@@ -3810,15 +3810,15 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Join$ebnf$2", "symbols": ["JoinSpecification"], "postprocess": id},
     {"name": "Join$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "Join", "symbols": ["TableReference", "Join$ebnf$1", JOIN, "JoinRhsTableReference", "Join$ebnf$2"], "postprocess":  (data) => {
-            const [lhs, joinType, , rhs, joinSpecification,] = data;
+            const [lhs, joinType, joinToken, rhs, joinSpecification,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.Join,
-                joinType: (joinType == undefined ?
+                joinType: parse_util_1.toValueNode((joinType == undefined ?
                     parser_node_1.JoinType.INNER :
                     joinType[0].tokenKind == scanner_1.TokenKind.INNER ?
                         parser_node_1.JoinType.INNER :
-                        parser_node_1.JoinType.CROSS),
+                        parser_node_1.JoinType.CROSS), parse_util_1.getTextRange([joinType, joinToken])),
                 lhs,
                 rhs,
                 joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
@@ -3827,22 +3827,22 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Join$ebnf$3", "symbols": ["JoinSpecificationOn"], "postprocess": id},
     {"name": "Join$ebnf$3", "symbols": [], "postprocess": () => null},
     {"name": "Join", "symbols": ["TableReference", STRAIGHT_JOIN, "JoinRhsTableReference", "Join$ebnf$3"], "postprocess":  (data) => {
-            const [lhs, , rhs, joinSpecification,] = data;
+            const [lhs, joinType, rhs, joinSpecification,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.Join,
-                joinType: parser_node_1.JoinType.STRAIGHT,
+                joinType: parse_util_1.toValueNode(parser_node_1.JoinType.STRAIGHT, parse_util_1.getTextRange(joinType)),
                 lhs,
                 rhs,
                 joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
             };
         } },
     {"name": "Join", "symbols": ["TableReference", NATURAL, JOIN, "JoinRhsTableReference"], "postprocess":  (data) => {
-            const [lhs, , , rhs,] = data;
+            const [lhs, naturalToken, joinToken, rhs,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.Join,
-                joinType: parser_node_1.JoinType.NATURAL_INNER,
+                joinType: parse_util_1.toValueNode(parser_node_1.JoinType.NATURAL_INNER, parse_util_1.getTextRange([naturalToken, joinToken])),
                 lhs,
                 rhs,
                 joinSpecification: undefined,
@@ -3933,13 +3933,13 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Join$ebnf$4", "symbols": [OUTER], "postprocess": id},
     {"name": "Join$ebnf$4", "symbols": [], "postprocess": () => null},
     {"name": "Join", "symbols": ["TableReference", "Join$subexpression$1", "Join$ebnf$4", JOIN, "JoinRhsTableReference", "JoinSpecification"], "postprocess":  (data) => {
-            const [lhs, joinType, , , rhs, joinSpecification,] = data;
+            const [lhs, joinType, , joinToken, rhs, joinSpecification,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.Join,
-                joinType: (joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
+                joinType: parse_util_1.toValueNode((joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
                     parser_node_1.JoinType.LEFT :
-                    parser_node_1.JoinType.RIGHT),
+                    parser_node_1.JoinType.RIGHT), parse_util_1.getTextRange([joinType, joinToken])),
                 lhs,
                 rhs,
                 joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
@@ -3950,13 +3950,13 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Join$ebnf$5", "symbols": [OUTER], "postprocess": id},
     {"name": "Join$ebnf$5", "symbols": [], "postprocess": () => null},
     {"name": "Join", "symbols": ["TableReference", NATURAL, "Join$subexpression$2", "Join$ebnf$5", JOIN, "JoinRhsTableReference"], "postprocess":  (data) => {
-            const [lhs, , joinType, , , rhs,] = data;
+            const [lhs, naturalToken, joinType, , joinToken, rhs,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.Join,
-                joinType: (joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
+                joinType: parse_util_1.toValueNode((joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
                     parser_node_1.JoinType.NATURAL_LEFT :
-                    parser_node_1.JoinType.NATURAL_RIGHT),
+                    parser_node_1.JoinType.NATURAL_RIGHT), parse_util_1.getTextRange([naturalToken, joinToken])),
                 lhs,
                 rhs,
                 joinSpecification: undefined,
