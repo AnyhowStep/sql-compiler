@@ -1,0 +1,33 @@
+SELECT
+    *
+FROM
+    T U;
+
+SELECT
+    *
+FROM
+    T = U;
+
+SELECT
+    *
+FROM
+    T AS U;
+
+-----
+SELECT
+    *
+FROM
+    `T` AS `U`;
+
+SELECT
+    *
+FROM
+    `T` AS `U`;
+
+SELECT
+    *
+FROM
+    `T` AS `U`;
+
+-----
+[]

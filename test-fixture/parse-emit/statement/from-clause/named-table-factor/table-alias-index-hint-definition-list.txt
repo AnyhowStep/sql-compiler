@@ -1,0 +1,45 @@
+SELECT
+    *
+FROM
+    T U
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+SELECT
+    *
+FROM
+    T = U
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+SELECT
+    *
+FROM
+    T AS U
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+-----
+SELECT
+    *
+FROM
+    `T` AS `U`
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+SELECT
+    *
+FROM
+    `T` AS `U`
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+SELECT
+    *
+FROM
+    `T` AS `U`
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+-----
+[]

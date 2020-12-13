@@ -1,0 +1,29 @@
+SELECT
+    *
+FROM
+    T
+        USE INDEX ();
+
+SELECT
+    *
+FROM
+    T
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        USE INDEX ();
+
+SELECT
+    *
+FROM
+    `T`
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+-----
+[]

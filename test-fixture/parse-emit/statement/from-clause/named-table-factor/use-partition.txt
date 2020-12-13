@@ -1,0 +1,15 @@
+SELECT
+    *
+FROM
+    T
+        PARTITION (partitionA, partitionB)
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        PARTITION (`partitionA`, `partitionB`);
+
+-----
+[]

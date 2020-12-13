@@ -1,0 +1,19 @@
+SELECT
+    *
+FROM
+    T
+        PARTITION (partitionA, partitionB)
+        USE INDEX ()
+        FORCE INDEX (PRIMARY)
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        PARTITION (`partitionA`, `partitionB`)
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+-----
+[]

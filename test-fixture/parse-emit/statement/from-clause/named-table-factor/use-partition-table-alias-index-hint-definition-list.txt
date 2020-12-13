@@ -1,0 +1,57 @@
+SELECT
+    *
+FROM
+    T
+        PARTITION (partitionA, partitionB)
+        U
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+SELECT
+    *
+FROM
+    T
+        PARTITION (partitionA, partitionB)
+        = U
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+SELECT
+    *
+FROM
+    T
+        PARTITION (partitionA, partitionB)
+        AS U
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        PARTITION (`partitionA`, `partitionB`)
+        AS `U`
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+SELECT
+    *
+FROM
+    `T`
+        PARTITION (`partitionA`, `partitionB`)
+        AS `U`
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+SELECT
+    *
+FROM
+    `T`
+        PARTITION (`partitionA`, `partitionB`)
+        AS `U`
+        USE INDEX ()
+        FORCE INDEX (PRIMARY);
+
+-----
+[]

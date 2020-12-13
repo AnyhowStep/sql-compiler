@@ -1,0 +1,45 @@
+SELECT
+    *
+FROM
+    T
+        PARTITION (partitionA, partitionB)
+        U;
+
+SELECT
+    *
+FROM
+    T
+        PARTITION (partitionA, partitionB)
+        = U;
+
+SELECT
+    *
+FROM
+    T
+        PARTITION (partitionA, partitionB)
+        AS U;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        PARTITION (`partitionA`, `partitionB`)
+        AS `U`;
+
+SELECT
+    *
+FROM
+    `T`
+        PARTITION (`partitionA`, `partitionB`)
+        AS `U`;
+
+SELECT
+    *
+FROM
+    `T`
+        PARTITION (`partitionA`, `partitionB`)
+        AS `U`;
+
+-----
+[]

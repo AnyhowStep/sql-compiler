@@ -1,0 +1,13 @@
+SELECT
+    *
+FROM
+    test.T
+
+-----
+SELECT
+    *
+FROM
+    `test`.`T`;
+
+-----
+[]
