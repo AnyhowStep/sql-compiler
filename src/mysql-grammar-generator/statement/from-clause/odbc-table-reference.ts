@@ -19,13 +19,14 @@ makeCustomRule(SyntaxKind.OdbcTableReference)
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.OdbcTableReference,
+                parenthesized : false,
                 identifier : data[1],
                 tableReference : data[2],
             };
         }
     )
 
-makeCustomRule(CustomSyntaxKind.OdbcNestedTableReference)
+makeCustomRule(CustomSyntaxKind.OdbcNestedTableReference_Unparenthesized)
     .addSubstitution(
         [
             union(
@@ -40,10 +41,12 @@ makeCustomRule(CustomSyntaxKind.OdbcNestedTableReference)
             return data[0][0];
         }
     )
+
+makeCustomRule(CustomSyntaxKind.OdbcNestedTableReference_Parenthesized)
     .addSubstitution(
         [
             TokenKind.OpenParentheses,
-            CustomSyntaxKind.OdbcNestedTableReference,
+            CustomSyntaxKind.OdbcNestedTableReference_Parenthesized,
             TokenKind.CloseParentheses,
         ] as const,
         (data) : TableReference => {
@@ -63,6 +66,31 @@ makeCustomRule(CustomSyntaxKind.OdbcNestedTableReference)
             TokenKind.CloseParentheses,
         ] as const,
         (data) : TableReference => {
-            return data[1][0];
+            if (data[1][0].syntaxKind == SyntaxKind.OdbcTableReference) {
+                return {
+                    ...data[1][0],
+                    parenthesized : true,
+                };
+            } else {
+                return data[1][0];
+            }
+        }
+    )
+
+makeCustomRule(CustomSyntaxKind.OdbcNestedTableReference)
+    .addSubstitution(
+        [
+            CustomSyntaxKind.OdbcNestedTableReference_Unparenthesized,
+        ] as const,
+        (data) : TableReference => {
+            return data[0];
+        }
+    )
+    .addSubstitution(
+        [
+            CustomSyntaxKind.OdbcNestedTableReference_Parenthesized,
+        ] as const,
+        (data) : TableReference => {
+            return data[0];
         }
     )

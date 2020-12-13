@@ -24,6 +24,8 @@ import {TableReference} from "./table-reference";
 export interface OdbcTableReference extends Node {
     syntaxKind : SyntaxKind.OdbcTableReference,
 
+    parenthesized : boolean,
+
     /**
      * Typically the value `oj`.
      *

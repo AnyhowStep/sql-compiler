@@ -20,6 +20,32 @@ export interface ParseHelperArgs<PartialParseT extends unknown> {
     findAllSyntacticErrors : (partialParse : PartialParseT) => Diagnostic[],
 }
 
+function filterParseResults<PartialParseT extends unknown> (
+    parser : nearley.Parser,
+    hasSyntacticErrors : (result : PartialParseT) => boolean,
+) : PartialParseT[]|undefined {
+    if (parser.results == undefined) {
+        return undefined;
+    }
+    const rawResults : PartialParseT[] = parser.results;
+    const withError : PartialParseT[] = [];
+    const withoutError : PartialParseT[] = [];
+
+    for (const rawResult of rawResults) {
+        if (hasSyntacticErrors(rawResult)) {
+            withError.push(rawResult);
+        } else {
+            withoutError.push(rawResult);
+        }
+    }
+
+    if (withoutError.length > 0) {
+        return withoutError;
+    } else {
+        return withError;
+    }
+}
+
 export function parseHelper<PartialParseT extends unknown> (
     {
         state,
@@ -103,20 +129,35 @@ export function parseHelper<PartialParseT extends unknown> (
                     expected.join("|")
                 ));
 
-                const partialParse : PartialParseT|undefined = (
-                    parser.results == undefined ?
-                    undefined :
-                    parser.results.length == 1 ?
-                    parser.results[0] :
-                    undefined
+                const parserResults = filterParseResults<PartialParseT>(
+                    parser,
+                    (result) => {
+                        return findAllSyntacticErrors(result).length > 0;
+                    }
                 );
-                if (parser.results != undefined && parser.results.length > 1) {
-                    parserSyntacticErrors.push(makeDiagnosticAt(
-                        tokenObj.start,
-                        tokenObj.start,
-                        [],
-                        DiagnosticMessages.InternalErrorGrammarIsAmbiguous
-                    ));
+                let partialParse : PartialParseT|undefined = (
+                    parserResults == undefined ?
+                    undefined :
+                    //parserResults.length == 1 ?
+                    //parserResults[0] :
+                    parserResults[0]
+                );
+                if (parserResults != undefined && parserResults.length > 1) {
+                    const first = JSON.stringify(parserResults[0]);
+                    for (let i=1; i<parserResults.length; ++i) {
+                        const cur = JSON.stringify(parserResults[i]);
+                        if (first != cur) {
+                            parserSyntacticErrors.push(makeDiagnosticAt(
+                                tokenObj.start,
+                                tokenObj.start,
+                                [],
+                                DiagnosticMessages.InternalErrorGrammarIsAmbiguous
+                            ));
+                            partialParse = undefined;
+                            break;
+                        }
+                    }
+                    //console.log(JSON.stringify(parserResults, null, 2));
                 }
                 if (partialParse != undefined) {
                     results.push(partialParse)
@@ -152,22 +193,28 @@ export function parseHelper<PartialParseT extends unknown> (
         }
     }
 
+    const parserResults = filterParseResults<PartialParseT>(
+        parser,
+        (result) => {
+            return findAllSyntacticErrors(result).length > 0;
+        }
+    );
     let partialParse : PartialParseT|undefined = (
-        parser.results == undefined ?
+        parserResults == undefined ?
         undefined :
-        //parser.results.length == 1 ?
-        //parser.results[0] :
-        parser.results[0]
+        //parserResults.length == 1 ?
+        //parserResults[0] :
+        parserResults[0]
     );
     /**
      * @todo Figure out what is going on here.
      * Why does `nearley` say we have multiple results?
      * Debug with `test-fixture/parse-emit/statement/from-clause/odbc-table-reference/parenthesized-nested-derived-table-factor.txt`
      */
-    if (parser.results != undefined && parser.results.length > 1) {
-        const first = JSON.stringify(parser.results[0]);
-        for (let i=1; i<parser.results.length; ++i) {
-            const cur = JSON.stringify(parser.results[i]);
+    if (parserResults != undefined && parserResults.length > 1) {
+        const first = JSON.stringify(parserResults[0]);
+        for (let i=1; i<parserResults.length; ++i) {
+            const cur = JSON.stringify(parserResults[i]);
             if (first != cur) {
                 parserSyntacticErrors.push(makeDiagnosticAt(
                     scanner.getText().length,
@@ -179,7 +226,7 @@ export function parseHelper<PartialParseT extends unknown> (
                 break;
             }
         }
-        //console.log(JSON.stringify(parser.results, null, 2));
+        //console.log(JSON.stringify(parserResults, null, 2));
     }
     if (partialParse != undefined) {
         results.push(partialParse)

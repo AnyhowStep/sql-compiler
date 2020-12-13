@@ -6,7 +6,7 @@ import {emitTableReference} from "./table-reference";
 
 export function emitJoin (join : Join) {
     return new StringBuilder()
-        .appendBuilder(emitTableReference(join.lhs))
+        .appendBuilder(emitTableReference(join.lhs, true))
         .appendNewLine()
         .append(
             join.joinType == JoinType.INNER ?
@@ -38,7 +38,7 @@ export function emitJoin (join : Join) {
                     .append(")")
             } else {
                 builder
-                    .appendBuilder(emitTableReference(join.rhs))
+                    .appendBuilder(emitTableReference(join.rhs, true))
             }
         })
         .scope(builder => {

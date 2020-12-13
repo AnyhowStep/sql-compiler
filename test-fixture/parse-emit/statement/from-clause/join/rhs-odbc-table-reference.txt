@@ -1,0 +1,38 @@
+SELECT
+    *
+FROM
+    T
+    INNER JOIN
+    {oj U};
+
+SELECT
+    *
+FROM
+    T
+    INNER JOIN
+    ({oj U});
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    ({oj `U`});
+
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    ({oj `U`});
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "ODBC table reference operand of a join must be parenthesized",
+        "start": 43,
+        "length": 6
+    }
+]

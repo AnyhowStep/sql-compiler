@@ -78,4 +78,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240014,
     }),
+    JoinOperandOdbcTableReferenceMustBeParenthesized : makeDiagnosticMessage({
+        key : "ODBC table reference operand of a join must be parenthesized",
+        category : DiagnosticCategory.Error,
+        code : 240015,
+    }),
 } as const;

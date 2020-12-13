@@ -1,21 +1,15 @@
-import {OdbcTableReference, SyntaxKind} from "../../../parser-node";
+import {OdbcTableReference} from "../../../parser-node";
 import {emitIdentifier} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
 import {emitTableReference} from "./table-reference";
 
-export function emitOdbcTableReference (odbcTableReference : OdbcTableReference) : StringBuilder {
-    const nestedTableReference = (
-        odbcTableReference.tableReference.syntaxKind == SyntaxKind.OdbcTableReference ?
-        new StringBuilder()
-            .append("(")
-            .appendBuilder(emitOdbcTableReference(odbcTableReference.tableReference))
-            .append(")") :
-        new StringBuilder()
-            .appendBuilder(emitTableReference(odbcTableReference.tableReference))
-    )
+export function emitOdbcTableReference (odbcTableReference : OdbcTableReference, parenthesizeOdbcTableReference : boolean) : StringBuilder {
+    const nestedTableReference = new StringBuilder()
+        .appendBuilder(emitTableReference(odbcTableReference.tableReference, true))
 
-    if (nestedTableReference.shouldMultiLine()) {
-        return new StringBuilder()
+    const result = (
+        nestedTableReference.shouldMultiLine() ?
+        new StringBuilder()
             .append("{")
             .appendBuilder(
                 odbcTableReference.identifier.quoted || odbcTableReference.identifier.syntacticErrors != undefined ?
@@ -27,9 +21,8 @@ export function emitOdbcTableReference (odbcTableReference : OdbcTableReference)
                     .appendBuilder(nestedTableReference)
             })
             .appendNewLine()
-            .append("}")
-    } else {
-        return new StringBuilder()
+            .append("}") :
+        new StringBuilder()
             .append("{")
             .appendBuilder(
                 odbcTableReference.identifier.quoted || odbcTableReference.identifier.syntacticErrors != undefined ?
@@ -39,5 +32,9 @@ export function emitOdbcTableReference (odbcTableReference : OdbcTableReference)
             .append(" ")
             .appendBuilder(nestedTableReference)
             .append("}")
-    }
+    )
+    return new StringBuilder()
+        .append(parenthesizeOdbcTableReference || odbcTableReference.parenthesized ? "(" : undefined)
+        .appendBuilder(result)
+        .append(parenthesizeOdbcTableReference || odbcTableReference.parenthesized ? ")" : undefined)
 }

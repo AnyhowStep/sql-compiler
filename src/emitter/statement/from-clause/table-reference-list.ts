@@ -8,6 +8,6 @@ export function emitTableReferenceList (arr : TableReferenceList) {
             arr,
             builder => builder.append(",").appendNewLine(),
             (builder, tableReference) => builder
-                .appendBuilder(emitTableReference(tableReference))
+                .appendBuilder(emitTableReference(tableReference, false))
         )
 }

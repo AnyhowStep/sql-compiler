@@ -6,7 +6,7 @@ import {emitNamedTableFactor} from "./named-table-factor";
 import {emitOdbcTableReference} from "./odbc-table-reference";
 import {emitTableReferenceList} from "./table-reference-list";
 
-export function emitTableReference (tableReference : TableReference) : StringBuilder {
+export function emitTableReference (tableReference : TableReference, parenthesizeOdbcTableReference : boolean) : StringBuilder {
     switch (tableReference.syntaxKind) {
         case SyntaxKind.NamedTableFactor:
             return emitNamedTableFactor(tableReference);
@@ -15,7 +15,7 @@ export function emitTableReference (tableReference : TableReference) : StringBui
         case SyntaxKind.Join:
             return emitJoin(tableReference);
         case SyntaxKind.OdbcTableReference:
-            return emitOdbcTableReference(tableReference);
+            return emitOdbcTableReference(tableReference, parenthesizeOdbcTableReference);
         case SyntaxKind.TableReferenceList:
             return new StringBuilder()
                 .append("(")

@@ -1,0 +1,45 @@
+SELECT
+    *
+FROM
+    T
+    INNER JOIN
+    ({oj U});
+
+SELECT
+    *
+FROM
+    T
+    INNER JOIN
+    (({oj U}));
+
+SELECT
+    *
+FROM
+    T
+    INNER JOIN
+    ((({oj U})));
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    ({oj `U`});
+
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    ({oj `U`});
+
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    ({oj `U`});
+
+-----
+[]

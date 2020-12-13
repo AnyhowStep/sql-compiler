@@ -3548,12 +3548,33 @@ Join ->
     };
 } %}
 
-JoinRhsTableReference ->
+JoinRhsTableReference_Unparenthesized ->
     (NamedTableFactor | DerivedTableFactor | OdbcTableReference) {% (data) => {
     return data[0][0];
 } %}
+
+JoinRhsTableReference_Parenthesized ->
+    %OpenParentheses JoinRhsTableReference_Parenthesized %CloseParentheses {% (data) => {
+    return data[1];
+} %}
     | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList_2OrMore) %CloseParentheses {% (data) => {
-    return data[1][0];
+    if (data[1][0].syntaxKind == parser_node_1.SyntaxKind.OdbcTableReference) {
+        return {
+            ...data[1][0],
+            parenthesized: true,
+        };
+    }
+    else {
+        return data[1][0];
+    }
+} %}
+
+JoinRhsTableReference ->
+    JoinRhsTableReference_Unparenthesized {% (data) => {
+    return data[0];
+} %}
+    | JoinRhsTableReference_Parenthesized {% (data) => {
+    return data[0];
 } %}
 
 JoinSpecificationOn ->
@@ -3633,14 +3654,6 @@ Join ->
     };
 } %}
 
-JoinRhsTableReference ->
-    (NamedTableFactor | DerivedTableFactor | OdbcTableReference) {% (data) => {
-    return data[0][0];
-} %}
-    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList) %CloseParentheses {% (data) => {
-    return data[1][0];
-} %}
-
 NamedTableFactor ->
     TableIdentifier UsePartition:? TableAlias:? IndexHintDefinitionList:? {% (data) => {
     var _a, _b, _c;
@@ -3659,20 +3672,39 @@ OdbcTableReference ->
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.OdbcTableReference,
+        parenthesized: false,
         identifier: data[1],
         tableReference: data[2],
     };
 } %}
 
-OdbcNestedTableReference ->
+OdbcNestedTableReference_Unparenthesized ->
     (NamedTableFactor | DerivedTableFactor | Join) {% (data) => {
     return data[0][0];
 } %}
-    | %OpenParentheses OdbcNestedTableReference %CloseParentheses {% (data) => {
+
+OdbcNestedTableReference_Parenthesized ->
+    %OpenParentheses OdbcNestedTableReference_Parenthesized %CloseParentheses {% (data) => {
     return data[1];
 } %}
     | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList_2OrMore) %CloseParentheses {% (data) => {
-    return data[1][0];
+    if (data[1][0].syntaxKind == parser_node_1.SyntaxKind.OdbcTableReference) {
+        return {
+            ...data[1][0],
+            parenthesized: true,
+        };
+    }
+    else {
+        return data[1][0];
+    }
+} %}
+
+OdbcNestedTableReference ->
+    OdbcNestedTableReference_Unparenthesized {% (data) => {
+    return data[0];
+} %}
+    | OdbcNestedTableReference_Parenthesized {% (data) => {
+    return data[0];
 } %}
 
 TableAlias ->
@@ -3700,12 +3732,33 @@ TableReferenceList_2OrMore ->
     return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableReferenceList, parse_util_1.getTextRange(data));
 } %}
 
-TableReference ->
+TableReference_Unparenthesized ->
     (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference) {% (data) => {
     return data[0][0];
 } %}
+
+TableReference_Parenthesized ->
+    %OpenParentheses TableReference_Parenthesized %CloseParentheses {% (data) => {
+    return data[1];
+} %}
     | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList_2OrMore) %CloseParentheses {% (data) => {
-    return data[1][0];
+    if (data[1][0].syntaxKind == parser_node_1.SyntaxKind.OdbcTableReference) {
+        return {
+            ...data[1][0],
+            parenthesized: true,
+        };
+    }
+    else {
+        return data[1][0];
+    }
+} %}
+
+TableReference ->
+    TableReference_Unparenthesized {% (data) => {
+    return data[0];
+} %}
+    | TableReference_Parenthesized {% (data) => {
+    return data[0];
 } %}
 
 UsePartition ->

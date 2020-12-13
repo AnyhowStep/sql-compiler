@@ -3848,19 +3848,36 @@ export var ParserRules: NearleyRule[] = [
                 joinSpecification: undefined,
             };
         } },
-    {"name": "JoinRhsTableReference$subexpression$1", "symbols": ["NamedTableFactor"]},
-    {"name": "JoinRhsTableReference$subexpression$1", "symbols": ["DerivedTableFactor"]},
-    {"name": "JoinRhsTableReference$subexpression$1", "symbols": ["OdbcTableReference"]},
-    {"name": "JoinRhsTableReference", "symbols": ["JoinRhsTableReference$subexpression$1"], "postprocess":  (data) => {
+    {"name": "JoinRhsTableReference_Unparenthesized$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "JoinRhsTableReference_Unparenthesized$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "JoinRhsTableReference_Unparenthesized$subexpression$1", "symbols": ["OdbcTableReference"]},
+    {"name": "JoinRhsTableReference_Unparenthesized", "symbols": ["JoinRhsTableReference_Unparenthesized$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
-    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["NamedTableFactor"]},
-    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
-    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["Join"]},
-    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
-    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["TableReferenceList_2OrMore"]},
-    {"name": "JoinRhsTableReference", "symbols": [OpenParentheses, "JoinRhsTableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
-            return data[1][0];
+    {"name": "JoinRhsTableReference_Parenthesized", "symbols": [OpenParentheses, "JoinRhsTableReference_Parenthesized", CloseParentheses], "postprocess":  (data) => {
+            return data[1];
+        } },
+    {"name": "JoinRhsTableReference_Parenthesized$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "JoinRhsTableReference_Parenthesized$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "JoinRhsTableReference_Parenthesized$subexpression$1", "symbols": ["Join"]},
+    {"name": "JoinRhsTableReference_Parenthesized$subexpression$1", "symbols": ["OdbcTableReference"]},
+    {"name": "JoinRhsTableReference_Parenthesized$subexpression$1", "symbols": ["TableReferenceList_2OrMore"]},
+    {"name": "JoinRhsTableReference_Parenthesized", "symbols": [OpenParentheses, "JoinRhsTableReference_Parenthesized$subexpression$1", CloseParentheses], "postprocess":  (data) => {
+            if (data[1][0].syntaxKind == parser_node_1.SyntaxKind.OdbcTableReference) {
+                return {
+                    ...data[1][0],
+                    parenthesized: true,
+                };
+            }
+            else {
+                return data[1][0];
+            }
+        } },
+    {"name": "JoinRhsTableReference", "symbols": ["JoinRhsTableReference_Unparenthesized"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "JoinRhsTableReference", "symbols": ["JoinRhsTableReference_Parenthesized"], "postprocess":  (data) => {
+            return data[0];
         } },
     {"name": "JoinSpecificationOn", "symbols": [ON, "Expression"], "postprocess":  (data) => {
             return {
@@ -3945,20 +3962,6 @@ export var ParserRules: NearleyRule[] = [
                 joinSpecification: undefined,
             };
         } },
-    {"name": "JoinRhsTableReference$subexpression$3", "symbols": ["NamedTableFactor"]},
-    {"name": "JoinRhsTableReference$subexpression$3", "symbols": ["DerivedTableFactor"]},
-    {"name": "JoinRhsTableReference$subexpression$3", "symbols": ["OdbcTableReference"]},
-    {"name": "JoinRhsTableReference", "symbols": ["JoinRhsTableReference$subexpression$3"], "postprocess":  (data) => {
-            return data[0][0];
-        } },
-    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["NamedTableFactor"]},
-    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["DerivedTableFactor"]},
-    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["Join"]},
-    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["OdbcTableReference"]},
-    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["TableReferenceList"]},
-    {"name": "JoinRhsTableReference", "symbols": [OpenParentheses, "JoinRhsTableReference$subexpression$4", CloseParentheses], "postprocess":  (data) => {
-            return data[1][0];
-        } },
     {"name": "NamedTableFactor$ebnf$1", "symbols": ["UsePartition"], "postprocess": id},
     {"name": "NamedTableFactor$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "NamedTableFactor$ebnf$2", "symbols": ["TableAlias"], "postprocess": id},
@@ -3980,26 +3983,41 @@ export var ParserRules: NearleyRule[] = [
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.OdbcTableReference,
+                parenthesized: false,
                 identifier: data[1],
                 tableReference: data[2],
             };
         } },
-    {"name": "OdbcNestedTableReference$subexpression$1", "symbols": ["NamedTableFactor"]},
-    {"name": "OdbcNestedTableReference$subexpression$1", "symbols": ["DerivedTableFactor"]},
-    {"name": "OdbcNestedTableReference$subexpression$1", "symbols": ["Join"]},
-    {"name": "OdbcNestedTableReference", "symbols": ["OdbcNestedTableReference$subexpression$1"], "postprocess":  (data) => {
+    {"name": "OdbcNestedTableReference_Unparenthesized$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "OdbcNestedTableReference_Unparenthesized$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "OdbcNestedTableReference_Unparenthesized$subexpression$1", "symbols": ["Join"]},
+    {"name": "OdbcNestedTableReference_Unparenthesized", "symbols": ["OdbcNestedTableReference_Unparenthesized$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
-    {"name": "OdbcNestedTableReference", "symbols": [OpenParentheses, "OdbcNestedTableReference", CloseParentheses], "postprocess":  (data) => {
+    {"name": "OdbcNestedTableReference_Parenthesized", "symbols": [OpenParentheses, "OdbcNestedTableReference_Parenthesized", CloseParentheses], "postprocess":  (data) => {
             return data[1];
         } },
-    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["NamedTableFactor"]},
-    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
-    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["Join"]},
-    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
-    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["TableReferenceList_2OrMore"]},
-    {"name": "OdbcNestedTableReference", "symbols": [OpenParentheses, "OdbcNestedTableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
-            return data[1][0];
+    {"name": "OdbcNestedTableReference_Parenthesized$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "OdbcNestedTableReference_Parenthesized$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "OdbcNestedTableReference_Parenthesized$subexpression$1", "symbols": ["Join"]},
+    {"name": "OdbcNestedTableReference_Parenthesized$subexpression$1", "symbols": ["OdbcTableReference"]},
+    {"name": "OdbcNestedTableReference_Parenthesized$subexpression$1", "symbols": ["TableReferenceList_2OrMore"]},
+    {"name": "OdbcNestedTableReference_Parenthesized", "symbols": [OpenParentheses, "OdbcNestedTableReference_Parenthesized$subexpression$1", CloseParentheses], "postprocess":  (data) => {
+            if (data[1][0].syntaxKind == parser_node_1.SyntaxKind.OdbcTableReference) {
+                return {
+                    ...data[1][0],
+                    parenthesized: true,
+                };
+            }
+            else {
+                return data[1][0];
+            }
+        } },
+    {"name": "OdbcNestedTableReference", "symbols": ["OdbcNestedTableReference_Unparenthesized"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "OdbcNestedTableReference", "symbols": ["OdbcNestedTableReference_Parenthesized"], "postprocess":  (data) => {
+            return data[0];
         } },
     {"name": "TableAlias$ebnf$1$subexpression$1", "symbols": [AS]},
     {"name": "TableAlias$ebnf$1$subexpression$1", "symbols": [Equal]},
@@ -4031,20 +4049,37 @@ export var ParserRules: NearleyRule[] = [
             });
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableReferenceList, parse_util_1.getTextRange(data));
         } },
-    {"name": "TableReference$subexpression$1", "symbols": ["NamedTableFactor"]},
-    {"name": "TableReference$subexpression$1", "symbols": ["DerivedTableFactor"]},
-    {"name": "TableReference$subexpression$1", "symbols": ["Join"]},
-    {"name": "TableReference$subexpression$1", "symbols": ["OdbcTableReference"]},
-    {"name": "TableReference", "symbols": ["TableReference$subexpression$1"], "postprocess":  (data) => {
+    {"name": "TableReference_Unparenthesized$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "TableReference_Unparenthesized$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "TableReference_Unparenthesized$subexpression$1", "symbols": ["Join"]},
+    {"name": "TableReference_Unparenthesized$subexpression$1", "symbols": ["OdbcTableReference"]},
+    {"name": "TableReference_Unparenthesized", "symbols": ["TableReference_Unparenthesized$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
-    {"name": "TableReference$subexpression$2", "symbols": ["NamedTableFactor"]},
-    {"name": "TableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
-    {"name": "TableReference$subexpression$2", "symbols": ["Join"]},
-    {"name": "TableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
-    {"name": "TableReference$subexpression$2", "symbols": ["TableReferenceList_2OrMore"]},
-    {"name": "TableReference", "symbols": [OpenParentheses, "TableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
-            return data[1][0];
+    {"name": "TableReference_Parenthesized", "symbols": [OpenParentheses, "TableReference_Parenthesized", CloseParentheses], "postprocess":  (data) => {
+            return data[1];
+        } },
+    {"name": "TableReference_Parenthesized$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "TableReference_Parenthesized$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "TableReference_Parenthesized$subexpression$1", "symbols": ["Join"]},
+    {"name": "TableReference_Parenthesized$subexpression$1", "symbols": ["OdbcTableReference"]},
+    {"name": "TableReference_Parenthesized$subexpression$1", "symbols": ["TableReferenceList_2OrMore"]},
+    {"name": "TableReference_Parenthesized", "symbols": [OpenParentheses, "TableReference_Parenthesized$subexpression$1", CloseParentheses], "postprocess":  (data) => {
+            if (data[1][0].syntaxKind == parser_node_1.SyntaxKind.OdbcTableReference) {
+                return {
+                    ...data[1][0],
+                    parenthesized: true,
+                };
+            }
+            else {
+                return data[1][0];
+            }
+        } },
+    {"name": "TableReference", "symbols": ["TableReference_Unparenthesized"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "TableReference", "symbols": ["TableReference_Parenthesized"], "postprocess":  (data) => {
+            return data[0];
         } },
     {"name": "UsePartition", "symbols": [PARTITION, "IdentifierList"], "postprocess":  (data) => {
             return data[1];
