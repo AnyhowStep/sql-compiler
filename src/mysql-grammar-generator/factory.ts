@@ -10,8 +10,11 @@ import {
     Expression,
     HexLiteral,
     Identifier,
+    IndexHintClause,
+    IndexHintDefinition,
     IndexPart,
     IntegerLiteral,
+    JoinSpecification,
     ListPartitionDefinition,
     NodeArray,
     OrderExpr,
@@ -27,7 +30,10 @@ import {
     SubPartitionDefinition,
     SyntaxKind,
     TableIdentifier,
+    TableReference,
+    TableReferenceList,
     UnionOrderLimit,
+    ValueNode,
 } from "../parser-node";
 import {Select} from "../parser-node/statement/select-statement/select";
 import {ReverseTokenKind, TokenKind} from "../scanner";
@@ -85,11 +91,24 @@ export enum CustomSyntaxKind {
     LimitOption,
     SelectOption,
     IntegerLiteralOrDecimalLiteral,
+    TableReference,
+    OdbcNestedTableReference,
+    JoinRhsTableReference,
+    UsePartition,
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10772
+     */
+    TableAlias,
+    JoinSpecification,
+    IndexHintClause,
 }
 
 declare module "../nearley-wrapper" {
     interface CustomSubstitutionToData extends SyntaxKindToNode {
         [SyntaxKind.OrderExprList] : NodeArray<OrderExpr>,
+        [SyntaxKind.TableReferenceList] : TableReferenceList,
+        [SyntaxKind.IndexHintDefinitionList] : NodeArray<IndexHintDefinition>,
+        [SyntaxKind.KeyUsageList] : NodeArray<Identifier|ValueNode<"PRIMARY">>,
 
         [CustomSyntaxKind.CharacterSetName] : Identifier,
         [CustomSyntaxKind.Expression] : Expression,
@@ -139,6 +158,13 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.LimitOption] : Identifier|IntegerLiteral|ParamMarker,
         [CustomSyntaxKind.SelectOption] : SelectOption,
         [CustomSyntaxKind.IntegerLiteralOrDecimalLiteral] : IntegerLiteral|DecimalLiteral,
+        [CustomSyntaxKind.TableReference] : TableReference,
+        [CustomSyntaxKind.OdbcNestedTableReference] : TableReference,
+        [CustomSyntaxKind.JoinRhsTableReference] : TableReference,
+        [CustomSyntaxKind.UsePartition] : NodeArray<Identifier>,
+        [CustomSyntaxKind.TableAlias] : Identifier,
+        [CustomSyntaxKind.JoinSpecification] : JoinSpecification,
+        [CustomSyntaxKind.IndexHintClause] : ValueNode<IndexHintClause>,
     }
 
     interface CustomToken extends Array<TokenKind> {

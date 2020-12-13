@@ -1,4 +1,5 @@
 export * from "./create-table-definition";
+export * from "./from-clause";
 export * from "./partition";
 export * from "./select-statement";
 export * from "./create-schema-statement";

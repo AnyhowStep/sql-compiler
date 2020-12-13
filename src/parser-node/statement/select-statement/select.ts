@@ -1,6 +1,7 @@
 import {Node} from "../../node";
 import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
+import {FromClause} from "../from-clause";
 import {Statement} from "../statement";
 import {AsteriskSelectItem} from "./asterisk-select-item";
 import {Limit} from "./limit";
@@ -16,6 +17,8 @@ export interface Select extends Node, Statement {
 
     selectOptions : SelectOptions,
     selectItems : NodeArray<SelectItem|AsteriskSelectItem|TableAsteriskSelectItem>,
+
+    fromClause : FromClause|undefined,
 
     order : NodeArray<OrderExpr>|undefined,
     limit : Limit|undefined,

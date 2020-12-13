@@ -9,6 +9,10 @@ import {getTextRange, toNodeArray} from "../../parse-util";
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9051
  */
 makeCustomRule(SyntaxKind.Select)
+    /**
+     * We're being very lax with our parsing rules here.
+     * We'll check for parse errors with `parser-node-linter`.
+     */
     .addSubstitution(
         [
             TokenKind.SELECT,
@@ -31,6 +35,8 @@ makeCustomRule(SyntaxKind.Select)
                 ),
             ] as const),
 
+            optional(SyntaxKind.FromClause),
+
             optional(SyntaxKind.OrderExprList),
             optional(SyntaxKind.Limit),
         ] as const,
@@ -40,6 +46,7 @@ makeCustomRule(SyntaxKind.Select)
                 selectOptions,
                 firstSelectItem,
                 trailingSelectItems,
+                fromClause,
                 order,
                 limit,
             ] = data;
@@ -59,6 +66,7 @@ makeCustomRule(SyntaxKind.Select)
                 parenthesized : false,
                 selectOptions,
                 selectItems,
+                fromClause : fromClause ?? undefined,
                 order : order ?? undefined,
                 limit : limit ?? undefined,
             };

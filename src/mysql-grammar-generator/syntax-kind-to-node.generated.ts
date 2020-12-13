@@ -55,6 +55,14 @@ import {
     DeclareFunctionParameter,
     DeclareFunctionStatement,
     DelimiterStatement,
+    DerivedTableFactor,
+    FromClause,
+    IndexHintDefinition,
+    JoinSpecificationOn,
+    JoinSpecificationUsing,
+    Join,
+    NamedTableFactor,
+    OdbcTableReference,
     HashPartition,
     HashSubPartition,
     KeyPartition,
@@ -132,6 +140,14 @@ export type SyntaxKindToNode = {
     [SyntaxKind.DeclareFunctionParameter] : DeclareFunctionParameter;
     [SyntaxKind.DeclareFunctionStatement] : DeclareFunctionStatement;
     [SyntaxKind.DelimiterStatement] : DelimiterStatement;
+    [SyntaxKind.DerivedTableFactor] : DerivedTableFactor;
+    [SyntaxKind.FromClause] : FromClause;
+    [SyntaxKind.IndexHintDefinition] : IndexHintDefinition;
+    [SyntaxKind.JoinSpecificationOn] : JoinSpecificationOn;
+    [SyntaxKind.JoinSpecificationUsing] : JoinSpecificationUsing;
+    [SyntaxKind.Join] : Join;
+    [SyntaxKind.NamedTableFactor] : NamedTableFactor;
+    [SyntaxKind.OdbcTableReference] : OdbcTableReference;
     [SyntaxKind.HashPartition] : HashPartition;
     [SyntaxKind.HashSubPartition] : HashSubPartition;
     [SyntaxKind.KeyPartition] : KeyPartition;

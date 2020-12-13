@@ -3704,6 +3704,326 @@ export var ParserRules: NearleyRule[] = [
                 customDelimiter: customDelimiter.value,
             };
         } },
+    {"name": "DerivedTableFactor", "symbols": [OpenParentheses, "SelectStatement", CloseParentheses, "TableAlias"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.DerivedTableFactor,
+                select: data[1],
+                alias: data[3],
+            };
+        } },
+    {"name": "FromClause", "symbols": [FROM, "TableReferenceList"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.FromClause,
+                tableReferenceList: data[1],
+            };
+        } },
+    {"name": "FromClause", "symbols": [FROM, DUAL], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.FromClause,
+                tableReferenceList: {
+                    ...parse_util_1.getTextRange(data[1]),
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: "DUAL",
+                },
+            };
+        } },
+    {"name": "IndexHintClause$ebnf$1$subexpression$1$subexpression$1$subexpression$1", "symbols": [JOIN]},
+    {"name": "IndexHintClause$ebnf$1$subexpression$1$subexpression$1", "symbols": ["IndexHintClause$ebnf$1$subexpression$1$subexpression$1$subexpression$1"]},
+    {"name": "IndexHintClause$ebnf$1$subexpression$1$subexpression$1$subexpression$2", "symbols": [ORDER, BY]},
+    {"name": "IndexHintClause$ebnf$1$subexpression$1$subexpression$1", "symbols": ["IndexHintClause$ebnf$1$subexpression$1$subexpression$1$subexpression$2"]},
+    {"name": "IndexHintClause$ebnf$1$subexpression$1$subexpression$1$subexpression$3", "symbols": [GROUP, BY]},
+    {"name": "IndexHintClause$ebnf$1$subexpression$1$subexpression$1", "symbols": ["IndexHintClause$ebnf$1$subexpression$1$subexpression$1$subexpression$3"]},
+    {"name": "IndexHintClause$ebnf$1$subexpression$1", "symbols": [FOR, "IndexHintClause$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "IndexHintClause$ebnf$1", "symbols": ["IndexHintClause$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "IndexHintClause$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IndexHintClause", "symbols": ["IndexHintClause$ebnf$1"], "postprocess":  function (data) {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Value,
+                value: (data[0] == undefined ?
+                    (
+                    /**
+                     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10621
+                     */
+                    this.settings.indexHintClauseOldMode ?
+                        parser_node_1.IndexHintClause.JOIN :
+                        parser_node_1.IndexHintClause.ALL) :
+                    data[0][1][0][0].tokenKind == scanner_1.TokenKind.JOIN ?
+                        parser_node_1.IndexHintClause.JOIN :
+                        data[0][1][0][0].tokenKind == scanner_1.TokenKind.ORDER ?
+                            parser_node_1.IndexHintClause.ORDER_BY :
+                            parser_node_1.IndexHintClause.GROUP_BY),
+            };
+        } },
+    {"name": "IndexHintDefinitionList$ebnf$1", "symbols": []},
+    {"name": "IndexHintDefinitionList$ebnf$1", "symbols": ["IndexHintDefinitionList$ebnf$1", "IndexHintDefinition"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IndexHintDefinitionList", "symbols": ["IndexHintDefinition", "IndexHintDefinitionList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(1);
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.IndexHintDefinitionList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "IndexHintDefinition$subexpression$1", "symbols": [FORCE]},
+    {"name": "IndexHintDefinition$subexpression$1", "symbols": [IGNORE]},
+    {"name": "IndexHintDefinition$subexpression$2", "symbols": [KEY]},
+    {"name": "IndexHintDefinition$subexpression$2", "symbols": [INDEX]},
+    {"name": "IndexHintDefinition", "symbols": ["IndexHintDefinition$subexpression$1", "IndexHintDefinition$subexpression$2", "IndexHintClause", "KeyUsageList"], "postprocess":  (data) => {
+            const [indexHintType, , indexHintClause, indexes,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IndexHintDefinition,
+                indexHintType: (indexHintType[0].tokenKind == scanner_1.TokenKind.FORCE ?
+                    parser_node_1.IndexHintType.FORCE :
+                    parser_node_1.IndexHintType.IGNORE),
+                indexHintClause: indexHintClause.value,
+                indexes,
+            };
+        } },
+    {"name": "IndexHintDefinition$subexpression$3", "symbols": [KEY]},
+    {"name": "IndexHintDefinition$subexpression$3", "symbols": [INDEX]},
+    {"name": "IndexHintDefinition", "symbols": [USE, "IndexHintDefinition$subexpression$3", "IndexHintClause", "KeyUsageList"], "postprocess":  (data) => {
+            const [, , indexHintClause, indexes,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IndexHintDefinition,
+                indexHintType: parser_node_1.IndexHintType.USE,
+                indexHintClause: indexHintClause.value,
+                indexes,
+            };
+        } },
+    {"name": "Join$ebnf$1$subexpression$1", "symbols": [INNER]},
+    {"name": "Join$ebnf$1$subexpression$1", "symbols": [CROSS]},
+    {"name": "Join$ebnf$1", "symbols": ["Join$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "Join$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "Join$ebnf$2", "symbols": ["JoinSpecification"], "postprocess": id},
+    {"name": "Join$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "Join", "symbols": ["TableReference", "Join$ebnf$1", JOIN, "JoinRhsTableReference", "Join$ebnf$2"], "postprocess":  (data) => {
+            const [lhs, joinType, , rhs, joinSpecification,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Join,
+                joinType: (joinType == undefined ?
+                    parser_node_1.JoinType.INNER :
+                    joinType[0].tokenKind == scanner_1.TokenKind.INNER ?
+                        parser_node_1.JoinType.INNER :
+                        parser_node_1.JoinType.CROSS),
+                lhs,
+                rhs,
+                joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
+            };
+        } },
+    {"name": "Join$ebnf$3", "symbols": ["JoinSpecificationOn"], "postprocess": id},
+    {"name": "Join$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "Join", "symbols": ["TableReference", STRAIGHT_JOIN, "JoinRhsTableReference", "Join$ebnf$3"], "postprocess":  (data) => {
+            const [lhs, , rhs, joinSpecification,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Join,
+                joinType: parser_node_1.JoinType.STRAIGHT,
+                lhs,
+                rhs,
+                joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
+            };
+        } },
+    {"name": "Join", "symbols": ["TableReference", NATURAL, JOIN, "JoinRhsTableReference"], "postprocess":  (data) => {
+            const [lhs, , , rhs,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Join,
+                joinType: parser_node_1.JoinType.NATURAL_INNER,
+                lhs,
+                rhs,
+                joinSpecification: undefined,
+            };
+        } },
+    {"name": "JoinRhsTableReference$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "JoinRhsTableReference$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "JoinRhsTableReference$subexpression$1", "symbols": ["OdbcTableReference"]},
+    {"name": "JoinRhsTableReference", "symbols": ["JoinRhsTableReference$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
+    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["NamedTableFactor"]},
+    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
+    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["Join"]},
+    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
+    {"name": "JoinRhsTableReference$subexpression$2", "symbols": ["TableReferenceList"]},
+    {"name": "JoinRhsTableReference", "symbols": [OpenParentheses, "JoinRhsTableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
+            return data[1][0];
+        } },
+    {"name": "JoinSpecificationOn", "symbols": [ON, "Expression"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.JoinSpecificationOn,
+                expr: data[1],
+            };
+        } },
+    {"name": "JoinSpecificationUsing", "symbols": [USING, "IdentifierList"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.JoinSpecificationUsing,
+                identifiers: data[1],
+            };
+        } },
+    {"name": "JoinSpecification$subexpression$1", "symbols": ["JoinSpecificationOn"]},
+    {"name": "JoinSpecification$subexpression$1", "symbols": ["JoinSpecificationUsing"]},
+    {"name": "JoinSpecification", "symbols": ["JoinSpecification$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
+    {"name": "KeyUsageList$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "KeyUsageList$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Comma, "Identifier"]},
+    {"name": "KeyUsageList$ebnf$1$subexpression$1$ebnf$1", "symbols": ["KeyUsageList$ebnf$1$subexpression$1$ebnf$1", "KeyUsageList$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "KeyUsageList$ebnf$1$subexpression$1", "symbols": ["Identifier", "KeyUsageList$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "KeyUsageList$ebnf$1", "symbols": ["KeyUsageList$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "KeyUsageList$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "KeyUsageList", "symbols": [OpenParentheses, "KeyUsageList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                return "syntaxKind" in item;
+            })
+                .map((item) => {
+                if (item.quoted) {
+                    return item;
+                }
+                if (item.identifier.toUpperCase() != "PRIMARY") {
+                    return item;
+                }
+                return {
+                    ...parse_util_1.getTextRange(item),
+                    syntaxKind: parser_node_1.SyntaxKind.Value,
+                    value: "PRIMARY",
+                };
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.KeyUsageList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "Join$subexpression$1", "symbols": [LEFT]},
+    {"name": "Join$subexpression$1", "symbols": [RIGHT]},
+    {"name": "Join$ebnf$4", "symbols": [OUTER], "postprocess": id},
+    {"name": "Join$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "Join", "symbols": ["TableReference", "Join$subexpression$1", "Join$ebnf$4", JOIN, "JoinRhsTableReference", "JoinSpecification"], "postprocess":  (data) => {
+            const [lhs, joinType, , , rhs, joinSpecification,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Join,
+                joinType: (joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
+                    parser_node_1.JoinType.LEFT :
+                    parser_node_1.JoinType.RIGHT),
+                lhs,
+                rhs,
+                joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
+            };
+        } },
+    {"name": "Join$subexpression$2", "symbols": [LEFT]},
+    {"name": "Join$subexpression$2", "symbols": [RIGHT]},
+    {"name": "Join$ebnf$5", "symbols": [OUTER], "postprocess": id},
+    {"name": "Join$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "Join", "symbols": ["TableReference", NATURAL, "Join$subexpression$2", "Join$ebnf$5", JOIN, "JoinRhsTableReference"], "postprocess":  (data) => {
+            const [lhs, , joinType, , , rhs,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Join,
+                joinType: (joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
+                    parser_node_1.JoinType.NATURAL_LEFT :
+                    parser_node_1.JoinType.NATURAL_RIGHT),
+                lhs,
+                rhs,
+                joinSpecification: undefined,
+            };
+        } },
+    {"name": "JoinRhsTableReference$subexpression$3", "symbols": ["NamedTableFactor"]},
+    {"name": "JoinRhsTableReference$subexpression$3", "symbols": ["DerivedTableFactor"]},
+    {"name": "JoinRhsTableReference$subexpression$3", "symbols": ["OdbcTableReference"]},
+    {"name": "JoinRhsTableReference", "symbols": ["JoinRhsTableReference$subexpression$3"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
+    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["NamedTableFactor"]},
+    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["DerivedTableFactor"]},
+    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["Join"]},
+    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["OdbcTableReference"]},
+    {"name": "JoinRhsTableReference$subexpression$4", "symbols": ["TableReferenceList"]},
+    {"name": "JoinRhsTableReference", "symbols": [OpenParentheses, "JoinRhsTableReference$subexpression$4", CloseParentheses], "postprocess":  (data) => {
+            return data[1][0];
+        } },
+    {"name": "NamedTableFactor$ebnf$1", "symbols": ["UsePartition"], "postprocess": id},
+    {"name": "NamedTableFactor$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "NamedTableFactor$ebnf$2", "symbols": ["TableAlias"], "postprocess": id},
+    {"name": "NamedTableFactor$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "NamedTableFactor$ebnf$3", "symbols": ["IndexHintDefinitionList"], "postprocess": id},
+    {"name": "NamedTableFactor$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "NamedTableFactor", "symbols": ["TableIdentifier", "NamedTableFactor$ebnf$1", "NamedTableFactor$ebnf$2", "NamedTableFactor$ebnf$3"], "postprocess":  (data) => {
+            var _a, _b, _c;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.NamedTableFactor,
+                tableIdentifier: data[0],
+                usedPartitions: (_a = data[1]) !== null && _a !== void 0 ? _a : undefined,
+                alias: (_b = data[2]) !== null && _b !== void 0 ? _b : undefined,
+                indexHintDefinitions: (_c = data[3]) !== null && _c !== void 0 ? _c : undefined,
+            };
+        } },
+    {"name": "OdbcTableReference", "symbols": [OpenBrace, "Identifier", "OdbcNestedTableReference", CloseBrace], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.OdbcTableReference,
+                identifier: data[1],
+                tableReference: data[2],
+            };
+        } },
+    {"name": "OdbcNestedTableReference$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "OdbcNestedTableReference$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "OdbcNestedTableReference$subexpression$1", "symbols": ["Join"]},
+    {"name": "OdbcNestedTableReference", "symbols": ["OdbcNestedTableReference$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
+    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["NamedTableFactor"]},
+    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
+    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["Join"]},
+    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
+    {"name": "OdbcNestedTableReference$subexpression$2", "symbols": ["TableReferenceList"]},
+    {"name": "OdbcNestedTableReference", "symbols": [OpenParentheses, "OdbcNestedTableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
+            return data[1][0];
+        } },
+    {"name": "TableAlias$ebnf$1$subexpression$1", "symbols": [AS]},
+    {"name": "TableAlias$ebnf$1$subexpression$1", "symbols": [Equal]},
+    {"name": "TableAlias$ebnf$1", "symbols": ["TableAlias$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "TableAlias$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "TableAlias", "symbols": ["TableAlias$ebnf$1", "Identifier"], "postprocess":  (data) => {
+            return data[1];
+        } },
+    {"name": "TableReferenceList$ebnf$1", "symbols": []},
+    {"name": "TableReferenceList$ebnf$1$subexpression$1", "symbols": [Comma, "TableReference"]},
+    {"name": "TableReferenceList$ebnf$1", "symbols": ["TableReferenceList$ebnf$1", "TableReferenceList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "TableReferenceList", "symbols": ["TableReference", "TableReferenceList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                return "syntaxKind" in item;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableReferenceList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "TableReference$subexpression$1", "symbols": ["NamedTableFactor"]},
+    {"name": "TableReference$subexpression$1", "symbols": ["DerivedTableFactor"]},
+    {"name": "TableReference$subexpression$1", "symbols": ["Join"]},
+    {"name": "TableReference$subexpression$1", "symbols": ["OdbcTableReference"]},
+    {"name": "TableReference", "symbols": ["TableReference$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
+    {"name": "TableReference$subexpression$2", "symbols": ["NamedTableFactor"]},
+    {"name": "TableReference$subexpression$2", "symbols": ["DerivedTableFactor"]},
+    {"name": "TableReference$subexpression$2", "symbols": ["Join"]},
+    {"name": "TableReference$subexpression$2", "symbols": ["OdbcTableReference"]},
+    {"name": "TableReference$subexpression$2", "symbols": ["TableReferenceList"]},
+    {"name": "TableReference", "symbols": [OpenParentheses, "TableReference$subexpression$2", CloseParentheses], "postprocess":  (data) => {
+            return data[1][0];
+        } },
+    {"name": "UsePartition", "symbols": [PARTITION, "IdentifierList"], "postprocess":  (data) => {
+            return data[1];
+        } },
     {"name": "HashPartition$ebnf$1", "symbols": [LINEAR], "postprocess": id},
     {"name": "HashPartition$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "HashPartition$ebnf$2$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
@@ -4414,12 +4734,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Select$ebnf$1$subexpression$1$subexpression$1", "symbols": ["SelectItem"]},
     {"name": "Select$ebnf$1$subexpression$1", "symbols": [Comma, "Select$ebnf$1$subexpression$1$subexpression$1"]},
     {"name": "Select$ebnf$1", "symbols": ["Select$ebnf$1", "Select$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "Select$ebnf$2", "symbols": ["OrderExprList"], "postprocess": id},
+    {"name": "Select$ebnf$2", "symbols": ["FromClause"], "postprocess": id},
     {"name": "Select$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$3", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$3", "symbols": ["OrderExprList"], "postprocess": id},
     {"name": "Select$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3"], "postprocess":  (data) => {
-            const [, selectOptions, firstSelectItem, trailingSelectItems, order, limit,] = data;
+    {"name": "Select$ebnf$4", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4"], "postprocess":  (data) => {
+            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, order, limit,] = data;
             const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
                 .flat(2)
                 .filter((item) => {
@@ -4431,6 +4753,7 @@ export var ParserRules: NearleyRule[] = [
                 parenthesized: false,
                 selectOptions,
                 selectItems,
+                fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
                 order: order !== null && order !== void 0 ? order : undefined,
                 limit: limit !== null && limit !== void 0 ? limit : undefined,
             };

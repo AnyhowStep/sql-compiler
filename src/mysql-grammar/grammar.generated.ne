@@ -3419,6 +3419,279 @@ DelimiterStatement ->
     };
 } %}
 
+DerivedTableFactor ->
+    %OpenParentheses SelectStatement %CloseParentheses TableAlias {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.DerivedTableFactor,
+        select: data[1],
+        alias: data[3],
+    };
+} %}
+
+FromClause ->
+    %FROM TableReferenceList {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.FromClause,
+        tableReferenceList: data[1],
+    };
+} %}
+    | %FROM %DUAL {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.FromClause,
+        tableReferenceList: {
+            ...parse_util_1.getTextRange(data[1]),
+            syntaxKind: parser_node_1.SyntaxKind.Value,
+            value: "DUAL",
+        },
+    };
+} %}
+
+IndexHintClause ->
+    (%FOR ((%JOIN) | (%ORDER %BY) | (%GROUP %BY))):? {% function (data) {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Value,
+        value: (data[0] == undefined ?
+            (
+            /**
+             * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10621
+             */
+            this.settings.indexHintClauseOldMode ?
+                parser_node_1.IndexHintClause.JOIN :
+                parser_node_1.IndexHintClause.ALL) :
+            data[0][1][0][0].tokenKind == scanner_1.TokenKind.JOIN ?
+                parser_node_1.IndexHintClause.JOIN :
+                data[0][1][0][0].tokenKind == scanner_1.TokenKind.ORDER ?
+                    parser_node_1.IndexHintClause.ORDER_BY :
+                    parser_node_1.IndexHintClause.GROUP_BY),
+    };
+} %}
+
+IndexHintDefinitionList ->
+    IndexHintDefinition IndexHintDefinition:* {% (data) => {
+    const arr = data
+        .flat(1);
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.IndexHintDefinitionList, parse_util_1.getTextRange(data));
+} %}
+
+IndexHintDefinition ->
+    (%FORCE | %IGNORE) (%KEY | %INDEX) IndexHintClause KeyUsageList {% (data) => {
+    const [indexHintType, , indexHintClause, indexes,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IndexHintDefinition,
+        indexHintType: (indexHintType[0].tokenKind == scanner_1.TokenKind.FORCE ?
+            parser_node_1.IndexHintType.FORCE :
+            parser_node_1.IndexHintType.IGNORE),
+        indexHintClause: indexHintClause.value,
+        indexes,
+    };
+} %}
+    | %USE (%KEY | %INDEX) IndexHintClause KeyUsageList {% (data) => {
+    const [, , indexHintClause, indexes,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IndexHintDefinition,
+        indexHintType: parser_node_1.IndexHintType.USE,
+        indexHintClause: indexHintClause.value,
+        indexes,
+    };
+} %}
+
+Join ->
+    TableReference (%INNER | %CROSS):? %JOIN JoinRhsTableReference JoinSpecification:? {% (data) => {
+    const [lhs, joinType, , rhs, joinSpecification,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Join,
+        joinType: (joinType == undefined ?
+            parser_node_1.JoinType.INNER :
+            joinType[0].tokenKind == scanner_1.TokenKind.INNER ?
+                parser_node_1.JoinType.INNER :
+                parser_node_1.JoinType.CROSS),
+        lhs,
+        rhs,
+        joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
+    };
+} %}
+    | TableReference %STRAIGHT_JOIN JoinRhsTableReference JoinSpecificationOn:? {% (data) => {
+    const [lhs, , rhs, joinSpecification,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Join,
+        joinType: parser_node_1.JoinType.STRAIGHT,
+        lhs,
+        rhs,
+        joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
+    };
+} %}
+    | TableReference %NATURAL %JOIN JoinRhsTableReference {% (data) => {
+    const [lhs, , , rhs,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Join,
+        joinType: parser_node_1.JoinType.NATURAL_INNER,
+        lhs,
+        rhs,
+        joinSpecification: undefined,
+    };
+} %}
+
+JoinRhsTableReference ->
+    (NamedTableFactor | DerivedTableFactor | OdbcTableReference) {% (data) => {
+    return data[0][0];
+} %}
+    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList) %CloseParentheses {% (data) => {
+    return data[1][0];
+} %}
+
+JoinSpecificationOn ->
+    %ON Expression {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.JoinSpecificationOn,
+        expr: data[1],
+    };
+} %}
+
+JoinSpecificationUsing ->
+    %USING IdentifierList {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.JoinSpecificationUsing,
+        identifiers: data[1],
+    };
+} %}
+
+JoinSpecification ->
+    (JoinSpecificationOn | JoinSpecificationUsing) {% (data) => {
+    return data[0][0];
+} %}
+
+KeyUsageList ->
+    %OpenParentheses (Identifier (%Comma Identifier):*):? %CloseParentheses {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        return "syntaxKind" in item;
+    })
+        .map((item) => {
+        if (item.quoted) {
+            return item;
+        }
+        if (item.identifier.toUpperCase() != "PRIMARY") {
+            return item;
+        }
+        return {
+            ...parse_util_1.getTextRange(item),
+            syntaxKind: parser_node_1.SyntaxKind.Value,
+            value: "PRIMARY",
+        };
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.KeyUsageList, parse_util_1.getTextRange(data));
+} %}
+
+Join ->
+    TableReference (%LEFT | %RIGHT) %OUTER:? %JOIN JoinRhsTableReference JoinSpecification {% (data) => {
+    const [lhs, joinType, , , rhs, joinSpecification,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Join,
+        joinType: (joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
+            parser_node_1.JoinType.LEFT :
+            parser_node_1.JoinType.RIGHT),
+        lhs,
+        rhs,
+        joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
+    };
+} %}
+    | TableReference %NATURAL (%LEFT | %RIGHT) %OUTER:? %JOIN JoinRhsTableReference {% (data) => {
+    const [lhs, , joinType, , , rhs,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Join,
+        joinType: (joinType[0].tokenKind == scanner_1.TokenKind.LEFT ?
+            parser_node_1.JoinType.NATURAL_LEFT :
+            parser_node_1.JoinType.NATURAL_RIGHT),
+        lhs,
+        rhs,
+        joinSpecification: undefined,
+    };
+} %}
+
+JoinRhsTableReference ->
+    (NamedTableFactor | DerivedTableFactor | OdbcTableReference) {% (data) => {
+    return data[0][0];
+} %}
+    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList) %CloseParentheses {% (data) => {
+    return data[1][0];
+} %}
+
+NamedTableFactor ->
+    TableIdentifier UsePartition:? TableAlias:? IndexHintDefinitionList:? {% (data) => {
+    var _a, _b, _c;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.NamedTableFactor,
+        tableIdentifier: data[0],
+        usedPartitions: (_a = data[1]) !== null && _a !== void 0 ? _a : undefined,
+        alias: (_b = data[2]) !== null && _b !== void 0 ? _b : undefined,
+        indexHintDefinitions: (_c = data[3]) !== null && _c !== void 0 ? _c : undefined,
+    };
+} %}
+
+OdbcTableReference ->
+    %OpenBrace Identifier OdbcNestedTableReference %CloseBrace {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.OdbcTableReference,
+        identifier: data[1],
+        tableReference: data[2],
+    };
+} %}
+
+OdbcNestedTableReference ->
+    (NamedTableFactor | DerivedTableFactor | Join) {% (data) => {
+    return data[0][0];
+} %}
+    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList) %CloseParentheses {% (data) => {
+    return data[1][0];
+} %}
+
+TableAlias ->
+    (%AS | %Equal):? Identifier {% (data) => {
+    return data[1];
+} %}
+
+TableReferenceList ->
+    TableReference (%Comma TableReference):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        return "syntaxKind" in item;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableReferenceList, parse_util_1.getTextRange(data));
+} %}
+
+TableReference ->
+    (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference) {% (data) => {
+    return data[0][0];
+} %}
+    | %OpenParentheses (NamedTableFactor | DerivedTableFactor | Join | OdbcTableReference | TableReferenceList) %CloseParentheses {% (data) => {
+    return data[1][0];
+} %}
+
+UsePartition ->
+    %PARTITION IdentifierList {% (data) => {
+    return data[1];
+} %}
+
 HashPartition ->
     %PARTITION %BY %LINEAR:? %HASH %OpenParentheses Expression %CloseParentheses (%PARTITIONS IntegerLiteral):? {% (data) => {
     return {
@@ -4029,8 +4302,8 @@ SelectStatement ->
 } %}
 
 Select ->
-    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* OrderExprList:? Limit:? {% (data) => {
-    const [, selectOptions, firstSelectItem, trailingSelectItems, order, limit,] = data;
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? OrderExprList:? Limit:? {% (data) => {
+    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, order, limit,] = data;
     const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
         .flat(2)
         .filter((item) => {
@@ -4042,6 +4315,7 @@ Select ->
         parenthesized: false,
         selectOptions,
         selectItems,
+        fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
         order: order !== null && order !== void 0 ? order : undefined,
         limit: limit !== null && limit !== void 0 ? limit : undefined,
     };

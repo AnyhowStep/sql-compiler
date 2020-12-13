@@ -73,4 +73,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240013,
     }),
+    ForceIgnoreIndexHintDefinitionMustHaveNonEmptyKeyUsageList : makeDiagnosticMessage({
+        key : "FORCE|IGNORE index hint definition must have non-empty key usage list",
+        category : DiagnosticCategory.Error,
+        code : 240014,
+    }),
 } as const;

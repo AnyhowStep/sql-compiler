@@ -30,6 +30,11 @@ export interface ParserSettings {
      * Defaults to `false`
      */
     realAsFloat? : boolean,
+
+    /**
+     * Defaults to `false`
+     */
+    indexHintClauseOldMode? : boolean,
 }
 
 export type FullParserSettings = Required<ParserSettings>;
@@ -73,4 +78,15 @@ export const fullParserSettings : FullParserSettings = {
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6785
      */
     realAsFloat : false,
+
+    /**
+     * https://dev.mysql.com/doc/refman/5.7/en/index-hints.html
+     *
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10621
+     *
+     * > In MySQL 5.0, hint scope with no FOR clause was to apply only to row retrieval.
+     * > To cause the server to use this older behavior when no FOR clause is present,
+     * > enable the old system variable at server startup.
+     */
+    indexHintClauseOldMode : false,
 };
