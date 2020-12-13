@@ -60,7 +60,11 @@ makeCustomRule(SyntaxKind.Join)
             CustomSyntaxKind.TableReference,
             TokenKind.STRAIGHT_JOIN,
             CustomSyntaxKind.JoinRhsTableReference,
-            optional(SyntaxKind.JoinSpecificationOn),
+            /**
+             * `USING` is not allowed with `STRAIGHT_JOIN` but we catch it
+             * in `parser-node-linter`.
+             */
+            optional(CustomSyntaxKind.JoinSpecification),
         ] as const,
         (data) : Join => {
             const [

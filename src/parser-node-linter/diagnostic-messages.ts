@@ -93,4 +93,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Warning,
         code : 240017,
     }),
+    StraightJoinMustNotHaveJoinSpecificationUsing : makeDiagnosticMessage({
+        key : "STRAIGHT_JOIN must not have join specification USING",
+        category : DiagnosticCategory.Error,
+        code : 240018,
+    }),
 } as const;

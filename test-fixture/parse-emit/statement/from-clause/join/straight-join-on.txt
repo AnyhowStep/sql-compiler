@@ -1,0 +1,21 @@
+SELECT
+    *
+FROM
+    T
+    STRAIGHT_JOIN
+    U
+    ON
+        1;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    STRAIGHT_JOIN
+    `U`
+    ON
+        1;
+
+-----
+[]

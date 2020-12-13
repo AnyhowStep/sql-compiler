@@ -1,0 +1,33 @@
+SELECT
+    *
+FROM
+    T
+    STRAIGHT_JOIN
+    U
+    USING (X, Y, Z);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    STRAIGHT_JOIN
+    `U`
+    USING (`X`, `Y`, `Z`);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "STRAIGHT_JOIN must not have join specification USING",
+        "start": 52,
+        "length": 15,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 28,
+                "length": 13
+            }
+        ]
+    }
+]

@@ -3525,7 +3525,7 @@ Join ->
         joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
     };
 } %}
-    | TableReference %STRAIGHT_JOIN JoinRhsTableReference JoinSpecificationOn:? {% (data) => {
+    | TableReference %STRAIGHT_JOIN JoinRhsTableReference JoinSpecification:? {% (data) => {
     const [lhs, joinType, rhs, joinSpecification,] = data;
     return {
         ...parse_util_1.getTextRange(data),

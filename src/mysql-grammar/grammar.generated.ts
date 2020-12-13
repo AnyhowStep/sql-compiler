@@ -3824,7 +3824,7 @@ export var ParserRules: NearleyRule[] = [
                 joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
             };
         } },
-    {"name": "Join$ebnf$3", "symbols": ["JoinSpecificationOn"], "postprocess": id},
+    {"name": "Join$ebnf$3", "symbols": ["JoinSpecification"], "postprocess": id},
     {"name": "Join$ebnf$3", "symbols": [], "postprocess": () => null},
     {"name": "Join", "symbols": ["TableReference", STRAIGHT_JOIN, "JoinRhsTableReference", "Join$ebnf$3"], "postprocess":  (data) => {
             const [lhs, joinType, rhs, joinSpecification,] = data;
