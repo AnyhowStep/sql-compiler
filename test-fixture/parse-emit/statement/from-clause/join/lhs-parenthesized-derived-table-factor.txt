@@ -1,0 +1,75 @@
+SELECT
+    *
+FROM
+    ((
+        SELECT
+            *
+        FROM
+            T
+    ) AS tmp)
+    INNER JOIN
+    U;
+
+SELECT
+    *
+FROM
+    (((
+        SELECT
+            *
+        FROM
+            T
+    ) AS tmp))
+    INNER JOIN
+    U;
+
+SELECT
+    *
+FROM
+    ((((
+        SELECT
+            *
+        FROM
+            T
+    ) AS tmp)))
+    INNER JOIN
+    U;
+
+-----
+SELECT
+    *
+FROM
+    (
+        SELECT
+            *
+        FROM
+            `T`
+    ) AS `tmp`
+    INNER JOIN
+    `U`;
+
+SELECT
+    *
+FROM
+    (
+        SELECT
+            *
+        FROM
+            `T`
+    ) AS `tmp`
+    INNER JOIN
+    `U`;
+
+SELECT
+    *
+FROM
+    (
+        SELECT
+            *
+        FROM
+            `T`
+    ) AS `tmp`
+    INNER JOIN
+    `U`;
+
+-----
+[]
