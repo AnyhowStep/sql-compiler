@@ -1,0 +1,29 @@
+SELECT
+    *
+FROM
+    T
+    INNER JOIN
+    U
+    INNER JOIN
+    V
+    INNER JOIN
+    W
+    INNER JOIN
+    X;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    `U`
+    INNER JOIN
+    `V`
+    INNER JOIN
+    `W`
+    INNER JOIN
+    `X`;
+
+-----
+[]
