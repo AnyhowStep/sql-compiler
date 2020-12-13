@@ -3419,13 +3419,21 @@ DelimiterStatement ->
     };
 } %}
 
+DerivedTableFactorSelect ->
+    %OpenParentheses DerivedTableFactorSelect %CloseParentheses {% (data) => {
+    return data[1];
+} %}
+    | %OpenParentheses (Select | Union | UnionOrderLimit | ParenthesizedUnion_UnionOrderLimit) %CloseParentheses {% (data) => {
+    return data[1][0];
+} %}
+
 DerivedTableFactor ->
-    %OpenParentheses SelectStatement %CloseParentheses TableAlias {% (data) => {
+    DerivedTableFactorSelect TableAlias {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.DerivedTableFactor,
-        select: data[1],
-        alias: data[3],
+        select: data[0],
+        alias: data[1],
     };
 } %}
 
@@ -4401,6 +4409,18 @@ UnionOrderLimit ->
     };
 } %}
 
+ParenthesizedUnion_UnionOrderLimit ->
+    ParenthesizedUnion UnionOrderLimit_Helper {% (data) => {
+    const [select, helper,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+        select,
+        order: helper.order,
+        limit: helper.limit,
+    };
+} %}
+
 Union ->
     (Select | ParenthesizedSelect) (%UNION (%ALL | %DISTINCT):? (Select | ParenthesizedSelect)):+ {% (data) => {
     const first = data[0][0];
@@ -4440,6 +4460,14 @@ Union ->
         };
     }
     return result;
+} %}
+
+ParenthesizedUnion ->
+    %OpenParentheses ParenthesizedUnion %CloseParentheses {% (data) => {
+    return data[1];
+} %}
+    | %OpenParentheses Union %CloseParentheses {% (data) => {
+    return data[1];
 } %}
 
 NonDelimiterStatement ->

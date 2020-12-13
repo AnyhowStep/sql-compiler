@@ -1,0 +1,39 @@
+SELECT
+    *
+FROM
+    (
+        (
+            SELECT
+                *
+            FROM
+                T
+            UNION
+            SELECT
+                *
+            FROM
+                U
+        )
+    ) AS tmp;
+
+-----
+SELECT
+    *
+FROM
+    (
+        (
+            SELECT
+                *
+            FROM
+                `T`
+        )
+        UNION DISTINCT
+        (
+            SELECT
+                *
+            FROM
+                `U`
+        )
+    ) AS `tmp`;
+
+-----
+[]

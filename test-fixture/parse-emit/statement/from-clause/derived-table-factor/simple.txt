@@ -1,0 +1,23 @@
+SELECT
+    *
+FROM
+    (
+        SELECT
+            *
+        FROM
+            T
+    ) AS tmp;
+
+-----
+SELECT
+    *
+FROM
+    (
+        SELECT
+            *
+        FROM
+            `T`
+    ) AS `tmp`;
+
+-----
+[]

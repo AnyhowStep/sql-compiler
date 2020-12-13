@@ -1,0 +1,43 @@
+SELECT
+    *
+FROM
+    (((
+        (((
+            SELECT
+                *
+            FROM
+                T
+            UNION
+            SELECT
+                *
+            FROM
+                U
+        )))
+        LIMIT
+            1
+    ))) AS tmp;
+
+-----
+SELECT
+    *
+FROM
+    (
+        (
+            SELECT
+                *
+            FROM
+                `T`
+        )
+        UNION DISTINCT
+        (
+            SELECT
+                *
+            FROM
+                `U`
+        )
+        LIMIT
+            1
+    ) AS `tmp`;
+
+-----
+[]

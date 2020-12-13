@@ -3704,12 +3704,22 @@ export var ParserRules: NearleyRule[] = [
                 customDelimiter: customDelimiter.value,
             };
         } },
-    {"name": "DerivedTableFactor", "symbols": [OpenParentheses, "SelectStatement", CloseParentheses, "TableAlias"], "postprocess":  (data) => {
+    {"name": "DerivedTableFactorSelect", "symbols": [OpenParentheses, "DerivedTableFactorSelect", CloseParentheses], "postprocess":  (data) => {
+            return data[1];
+        } },
+    {"name": "DerivedTableFactorSelect$subexpression$1", "symbols": ["Select"]},
+    {"name": "DerivedTableFactorSelect$subexpression$1", "symbols": ["Union"]},
+    {"name": "DerivedTableFactorSelect$subexpression$1", "symbols": ["UnionOrderLimit"]},
+    {"name": "DerivedTableFactorSelect$subexpression$1", "symbols": ["ParenthesizedUnion_UnionOrderLimit"]},
+    {"name": "DerivedTableFactorSelect", "symbols": [OpenParentheses, "DerivedTableFactorSelect$subexpression$1", CloseParentheses], "postprocess":  (data) => {
+            return data[1][0];
+        } },
+    {"name": "DerivedTableFactor", "symbols": ["DerivedTableFactorSelect", "TableAlias"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.DerivedTableFactor,
-                select: data[1],
-                alias: data[3],
+                select: data[0],
+                alias: data[1],
             };
         } },
     {"name": "FromClause", "symbols": [FROM, "TableReferenceList"], "postprocess":  (data) => {
@@ -4839,6 +4849,16 @@ export var ParserRules: NearleyRule[] = [
                 limit: helper.limit,
             };
         } },
+    {"name": "ParenthesizedUnion_UnionOrderLimit", "symbols": ["ParenthesizedUnion", "UnionOrderLimit_Helper"], "postprocess":  (data) => {
+            const [select, helper,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.UnionOrderLimit,
+                select,
+                order: helper.order,
+                limit: helper.limit,
+            };
+        } },
     {"name": "Union$subexpression$1", "symbols": ["Select"]},
     {"name": "Union$subexpression$1", "symbols": ["ParenthesizedSelect"]},
     {"name": "Union$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [ALL]},
@@ -4895,6 +4915,12 @@ export var ParserRules: NearleyRule[] = [
                 };
             }
             return result;
+        } },
+    {"name": "ParenthesizedUnion", "symbols": [OpenParentheses, "ParenthesizedUnion", CloseParentheses], "postprocess":  (data) => {
+            return data[1];
+        } },
+    {"name": "ParenthesizedUnion", "symbols": [OpenParentheses, "Union", CloseParentheses], "postprocess":  (data) => {
+            return data[1];
         } },
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateSchemaStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},

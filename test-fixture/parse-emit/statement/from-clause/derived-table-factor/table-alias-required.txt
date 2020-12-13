@@ -1,0 +1,21 @@
+SELECT
+    *
+FROM
+    (
+        SELECT
+            *
+        FROM
+            T
+    );
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected AS|Equal|Identifier",
+        "start": 85,
+        "length": 0
+    }
+]

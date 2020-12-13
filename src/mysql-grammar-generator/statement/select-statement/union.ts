@@ -4,6 +4,9 @@ import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union, oneOrMore} from "../../../nearley-wrapper";
 import {getTextRange} from "../../parse-util";
 
+/**
+ * Unparenthesized `UNION`
+ */
 makeCustomRule(SyntaxKind.Union)
     .addSubstitution(
         [
@@ -65,5 +68,32 @@ makeCustomRule(SyntaxKind.Union)
             }
 
             return result;
+        }
+    )
+
+/**
+ * Parenthesized `UNION`.
+ * This is usually not allowed.
+ * But it seems to be allowed in derived tables... Why.
+ */
+makeCustomRule(CustomSyntaxKind.ParenthesizedUnion)
+    .addSubstitution(
+        [
+            TokenKind.OpenParentheses,
+            CustomSyntaxKind.ParenthesizedUnion,
+            TokenKind.CloseParentheses,
+        ] as const,
+        (data) : Union => {
+            return data[1];
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.OpenParentheses,
+            SyntaxKind.Union,
+            TokenKind.CloseParentheses,
+        ] as const,
+        (data) : Union => {
+            return data[1];
         }
     )

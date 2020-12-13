@@ -111,3 +111,28 @@ makeCustomRule(SyntaxKind.UnionOrderLimit)
             };
         }
     )
+
+/**
+ * This is usually not allowed.
+ * But it seems to be allowed in derived tables... Why.
+ */
+makeCustomRule(CustomSyntaxKind.ParenthesizedUnion_UnionOrderLimit)
+    .addSubstitution(
+        [
+            CustomSyntaxKind.ParenthesizedUnion,
+            CustomSyntaxKind.UnionOrderLimit_Helper,
+        ] as const,
+        (data) : UnionOrderLimit => {
+            const [
+                select,
+                helper,
+            ] = data;
+            return {
+                ...getTextRange(data),
+                syntaxKind : SyntaxKind.UnionOrderLimit,
+                select,
+                order : helper.order,
+                limit : helper.limit,
+            };
+        }
+    )

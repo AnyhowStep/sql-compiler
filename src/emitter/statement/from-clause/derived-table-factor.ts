@@ -10,6 +10,7 @@ export function emitDerivedTableFactor (table : DerivedTableFactor) {
             builder
                 .appendBuilder(emitSelectStatementNoSemicolon(table.select))
         })
+        .appendNewLine()
         .append(") AS ")
         .appendBuilder(emitIdentifier(table.alias))
 }
