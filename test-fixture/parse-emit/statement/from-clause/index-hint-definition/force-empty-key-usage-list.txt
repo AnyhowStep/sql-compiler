@@ -1,0 +1,22 @@
+SELECT
+    *
+FROM
+    T
+        FORCE INDEX ();
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        FORCE INDEX ();
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "FORCE|IGNORE index hint definition must have non-empty key usage list",
+        "start": 44,
+        "length": 2
+    }
+]

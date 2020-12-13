@@ -1,0 +1,21 @@
+SELECT
+    *
+FROM
+    T
+        FORCE INDEX (PRIMARY, partitionA)
+        FORCE INDEX FOR JOIN (PRIMARY, partitionA)
+        FORCE INDEX FOR ORDER BY (PRIMARY, partitionA)
+        FORCE INDEX FOR GROUP BY (PRIMARY, partitionA);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        FORCE INDEX (PRIMARY, `partitionA`)
+        FORCE INDEX FOR JOIN (PRIMARY, `partitionA`)
+        FORCE INDEX FOR ORDER BY (PRIMARY, `partitionA`)
+        FORCE INDEX FOR GROUP BY (PRIMARY, `partitionA`);
+
+-----
+[]

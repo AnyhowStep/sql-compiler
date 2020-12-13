@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+        USE INDEX (PRIMARY, partitionA)
+        USE KEY (PRIMARY, partitionA);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        USE INDEX (PRIMARY, `partitionA`)
+        USE INDEX (PRIMARY, `partitionA`);
+
+-----
+[]

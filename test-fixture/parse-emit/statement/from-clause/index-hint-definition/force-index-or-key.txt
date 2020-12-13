@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+        FORCE INDEX (PRIMARY, partitionA)
+        FORCE KEY (PRIMARY, partitionA);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        FORCE INDEX (PRIMARY, `partitionA`)
+        FORCE INDEX (PRIMARY, `partitionA`);
+
+-----
+[]

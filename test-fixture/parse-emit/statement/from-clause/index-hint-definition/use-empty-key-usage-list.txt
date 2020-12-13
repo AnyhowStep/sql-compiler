@@ -1,0 +1,15 @@
+SELECT
+    *
+FROM
+    T
+        USE INDEX ();
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        USE INDEX ();
+
+-----
+[]

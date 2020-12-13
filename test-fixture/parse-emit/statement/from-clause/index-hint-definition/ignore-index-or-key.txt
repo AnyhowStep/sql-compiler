@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+        IGNORE INDEX (PRIMARY, partitionA)
+        IGNORE KEY (PRIMARY, partitionA);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        IGNORE INDEX (PRIMARY, `partitionA`)
+        IGNORE INDEX (PRIMARY, `partitionA`);
+
+-----
+[]

@@ -1,0 +1,21 @@
+SELECT
+    *
+FROM
+    T
+        IGNORE INDEX (PRIMARY, partitionA)
+        IGNORE INDEX FOR JOIN (PRIMARY, partitionA)
+        IGNORE INDEX FOR ORDER BY (PRIMARY, partitionA)
+        IGNORE INDEX FOR GROUP BY (PRIMARY, partitionA);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        IGNORE INDEX (PRIMARY, `partitionA`)
+        IGNORE INDEX FOR JOIN (PRIMARY, `partitionA`)
+        IGNORE INDEX FOR ORDER BY (PRIMARY, `partitionA`)
+        IGNORE INDEX FOR GROUP BY (PRIMARY, `partitionA`);
+
+-----
+[]

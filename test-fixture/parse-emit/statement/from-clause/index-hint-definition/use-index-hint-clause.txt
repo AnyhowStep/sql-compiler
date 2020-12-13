@@ -1,0 +1,21 @@
+SELECT
+    *
+FROM
+    T
+        USE INDEX (PRIMARY, partitionA)
+        USE INDEX FOR JOIN (PRIMARY, partitionA)
+        USE INDEX FOR ORDER BY (PRIMARY, partitionA)
+        USE INDEX FOR GROUP BY (PRIMARY, partitionA);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+        USE INDEX (PRIMARY, `partitionA`)
+        USE INDEX FOR JOIN (PRIMARY, `partitionA`)
+        USE INDEX FOR ORDER BY (PRIMARY, `partitionA`)
+        USE INDEX FOR GROUP BY (PRIMARY, `partitionA`);
+
+-----
+[]
