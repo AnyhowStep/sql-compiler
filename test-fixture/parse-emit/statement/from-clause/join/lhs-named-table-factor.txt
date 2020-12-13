@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+    INNER JOIN
+    U;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    INNER JOIN
+    `U`;
+
+-----
+[]

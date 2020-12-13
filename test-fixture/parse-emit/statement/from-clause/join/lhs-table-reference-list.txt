@@ -1,0 +1,43 @@
+SELECT
+    *
+FROM
+    (T, U)
+    INNER JOIN
+    V;
+
+/*
+    This is not a table reference list on the LHS.
+    Just a regular named table factor (U) on the LHS.
+
+    The JOIN is the 2nd item on the top-level table reference list.
+    There is a named table factor (T) which is the 1st item on the top-level table reference list.
+*/
+SELECT
+    *
+FROM
+    T,
+    U
+    INNER JOIN
+    V;
+
+-----
+SELECT
+    *
+FROM
+    (
+        `T`,
+        `U`
+    )
+    INNER JOIN
+    `V`;
+
+SELECT
+    *
+FROM
+    `T`,
+    `U`
+    INNER JOIN
+    `V`;
+
+-----
+[]
