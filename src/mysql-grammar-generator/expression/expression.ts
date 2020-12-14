@@ -10,6 +10,7 @@ makeCustomRule(CustomSyntaxKind.Expression)
             SyntaxKind.StringLiteral,
             SyntaxKind.Identifier,
             SyntaxKind.ParamMarker,
+            SyntaxKind.UserVariableIdentifier,
         )] as const,
         (data) : Expression => {
             return data[0][0];

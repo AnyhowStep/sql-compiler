@@ -114,6 +114,10 @@ export const syntaxKinds = [
     "OrderExpr",
     "Limit",
     "ProcedureAnalyseClause",
+    "IntoClause",
+    "IntoDestinationDumpFile",
+    "IntoDestinationOutFile",
+    "IntoDestinationVariableList",
     "Union",
     "UnionOrderLimit",
 

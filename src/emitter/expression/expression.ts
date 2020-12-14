@@ -7,6 +7,7 @@ import {emitIntegerLiteral} from "./integer-literal";
 import {emitParamMarker} from "./param-marker";
 import {emitRealLiteral} from "./real-literal";
 import {emitStringLiteral} from "./string-literal";
+import {emitUserVariableIdentifier} from "./user-variable-identifier";
 
 export function emitExpression (expr : Expression) : StringBuilder {
     return switchSyntaxKind(expr)
@@ -17,6 +18,7 @@ export function emitExpression (expr : Expression) : StringBuilder {
         .case(SyntaxKind.Identifier, emitIdentifier)
         .case(SyntaxKind.RealLiteral, emitRealLiteral)
         .case(SyntaxKind.ParamMarker, emitParamMarker)
+        .case(SyntaxKind.UserVariableIdentifier, emitUserVariableIdentifier)
         .default(() => new StringBuilder()
             .append(`TODO_EXPRESSION(${ReverseSyntaxKind[expr.syntaxKind]})`)
         );

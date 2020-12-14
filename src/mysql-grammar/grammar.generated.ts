@@ -2218,6 +2218,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Expression$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "Expression$subexpression$1", "symbols": ["Identifier"]},
     {"name": "Expression$subexpression$1", "symbols": ["ParamMarker"]},
+    {"name": "Expression$subexpression$1", "symbols": ["UserVariableIdentifier"]},
     {"name": "Expression", "symbols": ["Expression$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -2275,6 +2276,15 @@ export var ParserRules: NearleyRule[] = [
                 value: data[0].value,
                 sourceText: data[0].getTokenSourceText(),
             };
+        } },
+    {"name": "UserVariableIdentifier", "symbols": [UserVariableIdentifier], "postprocess":  (data) => {
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.UserVariableIdentifier,
+                identifier: data[0].value,
+                sourceText: data[0].getTokenSourceText(),
+            };
+            return result;
         } },
     {"name": "CharacterSetName", "symbols": ["Identifier"], "postprocess":  function (data) {
             const identifier = data[0];

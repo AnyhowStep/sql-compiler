@@ -30,6 +30,7 @@ import {
     RealLiteral,
     StringLiteral,
     UnknownExpression,
+    UserVariableIdentifier,
     ColumnIdentifier,
     Identifier,
     TableIdentifier,
@@ -120,6 +121,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.RealLiteral] : RealLiteral;
     [SyntaxKind.StringLiteral] : StringLiteral;
     [SyntaxKind.UnknownExpression] : UnknownExpression;
+    [SyntaxKind.UserVariableIdentifier] : UserVariableIdentifier;
     [SyntaxKind.ColumnIdentifier] : ColumnIdentifier;
     [SyntaxKind.Identifier] : Identifier;
     [SyntaxKind.TableIdentifier] : TableIdentifier;

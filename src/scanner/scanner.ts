@@ -585,7 +585,8 @@ export class Scanner {
                     } else {
                         if (
                             this.text.charCodeAt(this.index+1) == CharacterCodes.doubleQuote ||
-                            this.text.charCodeAt(this.index+1) == CharacterCodes.backtick
+                            this.text.charCodeAt(this.index+1) == CharacterCodes.backtick ||
+                            this.text.charCodeAt(this.index+1) == CharacterCodes.singleQuote
                         ) {
                             ++this.index;
                             this.tokenValue = this.scanQuotedIdentifier();
@@ -593,12 +594,24 @@ export class Scanner {
                                 this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length)
                             }
                             return this.tokenKind = TokenKind.UserVariableIdentifier;
-                        } else {
+                        } else if (
+                            isUnquotedIdentifierCharacter(this.text.charCodeAt(this.index+1))
+                        ) {
                             ++this.index;
                             this.tokenValue = this.scanUnquotedUserVariableIdentifier();
                             if (this.tokenValue.length > MAX_IDENTIFIER_LENGTH) {
                                 this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length)
                             }
+                            return this.tokenKind = TokenKind.UserVariableIdentifier;
+                        } else {
+                            /**
+                             * @todo Investigate why MySQL allows this,
+                             * ```sql
+                             *  SELECT @;
+                             * ```
+                             */
+                            ++this.index;
+                            this.tokenValue = "";
                             return this.tokenKind = TokenKind.UserVariableIdentifier;
                         }
                     }

@@ -7,3 +7,4 @@ export * from "./param-marker";
 export * from "./real-literal";
 export * from "./string-literal";
 export * from "./unknown-expression";
+export * from "./user-variable-identifier";

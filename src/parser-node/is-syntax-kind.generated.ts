@@ -29,6 +29,7 @@ import {ParamMarker} from "./expression/param-marker";
 import {RealLiteral} from "./expression/real-literal";
 import {StringLiteral} from "./expression/string-literal";
 import {UnknownExpression} from "./expression/unknown-expression";
+import {UserVariableIdentifier} from "./expression/user-variable-identifier";
 import {ColumnIdentifier} from "./identifier/column-identifier";
 import {Identifier} from "./identifier/identifier";
 import {TableIdentifier} from "./identifier/table-identifier";
@@ -117,6 +118,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ParamMarker) 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RealLiteral) : node is RealLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StringLiteral) : node is StringLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownExpression) : node is UnknownExpression;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UserVariableIdentifier) : node is UserVariableIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnIdentifier) : node is ColumnIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Identifier) : node is Identifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableIdentifier) : node is TableIdentifier;
@@ -214,6 +216,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.RealLiteral, callback : (node : RealLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StringLiteral, callback : (node : StringLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownExpression, callback : (node : UnknownExpression) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.UserVariableIdentifier, callback : (node : UserVariableIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ColumnIdentifier, callback : (node : ColumnIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Identifier, callback : (node : Identifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TableIdentifier, callback : (node : TableIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

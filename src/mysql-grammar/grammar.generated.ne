@@ -2116,7 +2116,7 @@ DecimalLiteral ->
 } %}
 
 Expression ->
-    (IntegerLiteralOrDecimalLiteral | RealLiteral | StringLiteral | Identifier | ParamMarker) {% (data) => {
+    (IntegerLiteralOrDecimalLiteral | RealLiteral | StringLiteral | Identifier | ParamMarker | UserVariableIdentifier) {% (data) => {
     return data[0][0];
 } %}
 
@@ -2185,6 +2185,17 @@ StringLiteral ->
         value: data[0].value,
         sourceText: data[0].getTokenSourceText(),
     };
+} %}
+
+UserVariableIdentifier ->
+    %UserVariableIdentifier {% (data) => {
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.UserVariableIdentifier,
+        identifier: data[0].value,
+        sourceText: data[0].getTokenSourceText(),
+    };
+    return result;
 } %}
 
 CharacterSetName ->

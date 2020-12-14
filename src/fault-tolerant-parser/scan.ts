@@ -64,6 +64,8 @@ export function scanAll (scanner : Scanner) : TokenObj<TokenKind>[] {
                 scanner.getTokenValue() :
                 token == TokenKind.RealLiteral ?
                 scanner.getTokenValue() :
+                token == TokenKind.UserVariableIdentifier ?
+                scanner.getTokenValue() :
                 ReverseTokenKind[token]
             ),
             getTokenSourceText : () => {
