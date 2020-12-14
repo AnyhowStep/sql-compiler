@@ -24,6 +24,8 @@ makeCustomRule(SyntaxKind.DefaultCharacterSet)
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.DefaultCharacterSet,
                 characterSetName : (
+                    characterSetName.syntaxKind == SyntaxKind.StringLiteral ?
+                    characterSetName :
                     characterSetName.quoted ?
                     characterSetName :
                     characterSetName.identifier.toUpperCase() == "DEFAULT" ?

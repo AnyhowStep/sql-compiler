@@ -2,9 +2,25 @@ CREATE TABLE T (
     X TEXT COLLATE `binary`
 );
 
+CREATE TABLE T (
+    X TEXT COLLATE 'binary'
+);
+
+CREATE TABLE T (
+    X TEXT COLLATE 'BINary'
+);
+
 -----
 CREATE TABLE `T` (
     `X` TEXT CHARACTER SET `binary` COLLATE `binary` NULL
+);
+
+CREATE TABLE `T` (
+    `X` TEXT CHARACTER SET `binary` COLLATE 'binary' NULL
+);
+
+CREATE TABLE `T` (
+    `X` TEXT CHARACTER SET `binary` COLLATE 'BINary' NULL
 );
 
 -----

@@ -20,7 +20,7 @@ makeCustomRule(CustomSyntaxKind.CharacterDataTypeModifier)
             ] as const),
             optional([
                 TokenKind.COLLATE,
-                SyntaxKind.Identifier
+                union(SyntaxKind.Identifier, SyntaxKind.StringLiteral),
             ] as const),
         ] as const,
         function ([characterSet, collate]) : CharacterDataTypeModifier {
@@ -32,7 +32,7 @@ makeCustomRule(CustomSyntaxKind.CharacterDataTypeModifier)
                 },
                 {
                     characterSet : characterSet?.[1],
-                    collate : collate?.[1],
+                    collate : collate?.[1][0],
                 }
             );
         }

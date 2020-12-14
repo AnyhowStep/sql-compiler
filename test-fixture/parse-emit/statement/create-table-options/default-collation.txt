@@ -3,11 +3,61 @@ CREATE TABLE T (
 )
     DEFAULT COLLATE utf8mb4_unicode_ci;
 
+CREATE TABLE T (
+    X BOOLEAN
+)
+    DEFAULT COLLATE `utf8mb4_unicode_ci`;
+
+CREATE TABLE T (
+    X BOOLEAN
+)
+    DEFAULT COLLATE 'utf8mb4_unicode_ci';
+
+CREATE TABLE T (
+    X BOOLEAN
+)
+    DEFAULT COLLATE UTF8mb4_unicode_ci;
+
+CREATE TABLE T (
+    X BOOLEAN
+)
+    DEFAULT COLLATE `UTF8mb4_unicode_ci`;
+
+CREATE TABLE T (
+    X BOOLEAN
+)
+    DEFAULT COLLATE 'UTF8mb4_unicode_ci';
+
 -----
 CREATE TABLE `T` (
     `X` BOOLEAN NULL
 )
     DEFAULT COLLATE `utf8mb4_unicode_ci`;
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    DEFAULT COLLATE `utf8mb4_unicode_ci`;
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    DEFAULT COLLATE 'utf8mb4_unicode_ci';
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    DEFAULT COLLATE `utf8mb4_unicode_ci`;
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    DEFAULT COLLATE `utf8mb4_unicode_ci`;
+
+CREATE TABLE `T` (
+    `X` BOOLEAN NULL
+)
+    DEFAULT COLLATE 'UTF8mb4_unicode_ci';
 
 -----
 []

@@ -1473,14 +1473,14 @@ BooleanDataType ->
 } %}
 
 CharacterDataTypeModifier ->
-    (((%CHARACTER %SET) | %CHARSET) CharacterSetName):? (%COLLATE Identifier):? {% function ([characterSet, collate]) {
+    (((%CHARACTER %SET) | %CHARSET) CharacterSetName):? (%COLLATE (Identifier | StringLiteral)):? {% function ([characterSet, collate]) {
     return parse_util_1.processCharacterDataTypeModifier({
         characterSet: undefined,
         collate: undefined,
         ...parse_util_1.getTextRange([characterSet, collate]),
     }, {
         characterSet: characterSet === null || characterSet === void 0 ? void 0 : characterSet[1],
-        collate: collate === null || collate === void 0 ? void 0 : collate[1],
+        collate: collate === null || collate === void 0 ? void 0 : collate[1][0],
     });
 } %}
     | %ASCII {% function (data) {
@@ -2218,6 +2218,9 @@ CharacterSetName ->
         };
     }
 } %}
+    | StringLiteral {% function (data) {
+    return data[0];
+} %}
 
 
 
@@ -2388,29 +2391,38 @@ DefaultCharacterSet ->
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
-        characterSetName: (characterSetName.quoted ?
+        characterSetName: (characterSetName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
             characterSetName :
-            characterSetName.identifier.toUpperCase() == "DEFAULT" ?
-                undefined :
-                characterSetName),
+            characterSetName.quoted ?
+                characterSetName :
+                characterSetName.identifier.toUpperCase() == "DEFAULT" ?
+                    undefined :
+                    characterSetName),
     };
 } %}
 
 DefaultCollation ->
-    %DEFAULT:? %COLLATE %Equal:? Identifier {% (data) => {
-    let [, , , collationName] = data;
-    collationName = {
-        ...collationName,
-        identifier: collationName.identifier.toLowerCase(),
-    };
+    %DEFAULT:? %COLLATE %Equal:? (Identifier | StringLiteral) {% (data) => {
+    let [, , , [collationName]] = data;
+    collationName = (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
+        {
+            ...collationName,
+            value: collationName.value.toLowerCase(),
+        } :
+        {
+            ...collationName,
+            identifier: collationName.identifier.toLowerCase(),
+        });
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.DefaultCollation,
-        collationName: (collationName.quoted ?
+        collationName: (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
             collationName :
-            collationName.identifier.toUpperCase() == "DEFAULT" ?
-                undefined :
-                collationName),
+            collationName.quoted ?
+                collationName :
+                collationName.identifier.toUpperCase() == "DEFAULT" ?
+                    undefined :
+                    collationName),
     };
 } %}
 

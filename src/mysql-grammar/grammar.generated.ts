@@ -1501,7 +1501,9 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CharacterDataTypeModifier$ebnf$1$subexpression$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1$subexpression$1", "CharacterSetName"]},
     {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": ["CharacterDataTypeModifier$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CharacterDataTypeModifier$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CharacterDataTypeModifier$ebnf$2$subexpression$1", "symbols": [COLLATE, "Identifier"]},
+    {"name": "CharacterDataTypeModifier$ebnf$2$subexpression$1$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "CharacterDataTypeModifier$ebnf$2$subexpression$1$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "CharacterDataTypeModifier$ebnf$2$subexpression$1", "symbols": [COLLATE, "CharacterDataTypeModifier$ebnf$2$subexpression$1$subexpression$1"]},
     {"name": "CharacterDataTypeModifier$ebnf$2", "symbols": ["CharacterDataTypeModifier$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "CharacterDataTypeModifier$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "CharacterDataTypeModifier", "symbols": ["CharacterDataTypeModifier$ebnf$1", "CharacterDataTypeModifier$ebnf$2"], "postprocess":  function ([characterSet, collate]) {
@@ -1511,7 +1513,7 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange([characterSet, collate]),
             }, {
                 characterSet: characterSet === null || characterSet === void 0 ? void 0 : characterSet[1],
-                collate: collate === null || collate === void 0 ? void 0 : collate[1],
+                collate: collate === null || collate === void 0 ? void 0 : collate[1][0],
             });
         } },
     {"name": "CharacterDataTypeModifier", "symbols": [ASCII], "postprocess":  function (data) {
@@ -2305,6 +2307,9 @@ export var ParserRules: NearleyRule[] = [
                 };
             }
         } },
+    {"name": "CharacterSetName", "symbols": ["StringLiteral"], "postprocess":  function (data) {
+            return data[0];
+        } },
     {"name": "Identifier", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
             const [tokenObj] = data;
             if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
@@ -2478,31 +2483,42 @@ export var ParserRules: NearleyRule[] = [
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
-                characterSetName: (characterSetName.quoted ?
+                characterSetName: (characterSetName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
                     characterSetName :
-                    characterSetName.identifier.toUpperCase() == "DEFAULT" ?
-                        undefined :
-                        characterSetName),
+                    characterSetName.quoted ?
+                        characterSetName :
+                        characterSetName.identifier.toUpperCase() == "DEFAULT" ?
+                            undefined :
+                            characterSetName),
             };
         } },
     {"name": "DefaultCollation$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
     {"name": "DefaultCollation$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "DefaultCollation$ebnf$2", "symbols": [Equal], "postprocess": id},
     {"name": "DefaultCollation$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCollation", "symbols": ["DefaultCollation$ebnf$1", COLLATE, "DefaultCollation$ebnf$2", "Identifier"], "postprocess":  (data) => {
-            let [, , , collationName] = data;
-            collationName = {
-                ...collationName,
-                identifier: collationName.identifier.toLowerCase(),
-            };
+    {"name": "DefaultCollation$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "DefaultCollation$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "DefaultCollation", "symbols": ["DefaultCollation$ebnf$1", COLLATE, "DefaultCollation$ebnf$2", "DefaultCollation$subexpression$1"], "postprocess":  (data) => {
+            let [, , , [collationName]] = data;
+            collationName = (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
+                {
+                    ...collationName,
+                    value: collationName.value.toLowerCase(),
+                } :
+                {
+                    ...collationName,
+                    identifier: collationName.identifier.toLowerCase(),
+                });
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.DefaultCollation,
-                collationName: (collationName.quoted ?
+                collationName: (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
                     collationName :
-                    collationName.identifier.toUpperCase() == "DEFAULT" ?
-                        undefined :
-                        collationName),
+                    collationName.quoted ?
+                        collationName :
+                        collationName.identifier.toUpperCase() == "DEFAULT" ?
+                            undefined :
+                            collationName),
             };
         } },
     {"name": "ExpressionListList$ebnf$1", "symbols": []},

@@ -1,5 +1,5 @@
 import {DefaultCollation} from "../../parser-node";
-import {emitIdentifier} from "../identifier";
+import {emitExpression} from "../expression";
 import {StringBuilder} from "../string-builder";
 
 export function emitDefaultCollation (node : DefaultCollation) : StringBuilder {
@@ -11,7 +11,7 @@ export function emitDefaultCollation (node : DefaultCollation) : StringBuilder {
             } else {
                 builder
                     .append(" ")
-                    .appendBuilder(emitIdentifier(node.collationName));
+                    .appendBuilder(emitExpression(node.collationName));
             }
         });
 }

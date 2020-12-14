@@ -1,4 +1,4 @@
-import {Identifier, SyntaxKind} from "../../parser-node";
+import {Identifier, StringLiteral, SyntaxKind} from "../../parser-node";
 import {CustomSyntaxKind, makeCustomRule} from "../factory";
 
 makeCustomRule(CustomSyntaxKind.CharacterSetName)
@@ -22,5 +22,11 @@ makeCustomRule(CustomSyntaxKind.CharacterSetName)
                     identifier : identifier.identifier.toLowerCase(),
                 };
             }
+        }
+    )
+    .addSubstitution(
+        [SyntaxKind.StringLiteral] as const,
+        function (data) : StringLiteral {
+            return data[0];
         }
     );

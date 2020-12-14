@@ -1,3 +1,4 @@
+import {StringLiteral} from "../expression";
 import {Identifier} from "../identifier";
 import {Node} from "../node";
 import {SyntaxKind} from "../syntax-kind.generated";
@@ -7,5 +8,5 @@ import {SyntaxKind} from "../syntax-kind.generated";
  */
 export interface DefaultCollation extends Node {
     syntaxKind : SyntaxKind.DefaultCollation;
-    collationName : Identifier|undefined;
+    collationName : Identifier|StringLiteral|undefined;
 }

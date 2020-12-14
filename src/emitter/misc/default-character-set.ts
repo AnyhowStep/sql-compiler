@@ -1,5 +1,5 @@
 import {DefaultCharacterSet} from "../../parser-node";
-import {emitIdentifier} from "../identifier";
+import {emitExpression} from "../expression";
 import {StringBuilder} from "../string-builder";
 
 export function emitDefaultCharacterSet (node : DefaultCharacterSet) : StringBuilder {
@@ -11,7 +11,7 @@ export function emitDefaultCharacterSet (node : DefaultCharacterSet) : StringBui
             } else {
                 builder
                     .append(" ")
-                    .appendBuilder(emitIdentifier(node.characterSetName));
+                    .appendBuilder(emitExpression(node.characterSetName));
             }
         });
 }

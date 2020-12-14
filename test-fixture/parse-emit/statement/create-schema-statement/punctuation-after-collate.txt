@@ -6,7 +6,7 @@ CREATE SCHEMA A COLLATE (;
 [
     {
         "category": 0,
-        "messageText": "Expected Equal|Identifier",
+        "messageText": "Expected Equal|Identifier|StringLiteral",
         "start": 24,
         "length": 0
     }

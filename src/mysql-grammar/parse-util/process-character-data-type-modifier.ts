@@ -1,4 +1,4 @@
-import {Identifier, SyntaxKind} from "../../parser-node";
+import {Identifier, StringLiteral, SyntaxKind} from "../../parser-node";
 import {CharacterDataTypeModifier} from "../custom-data";
 import {DiagnosticMessages} from "../diagnostic-messages";
 import {pushSyntacticErrorAtNode} from "./syntactic-error";
@@ -7,8 +7,8 @@ import {getTextRange} from "./text-range";
 export function processCharacterDataTypeModifier (
     current : CharacterDataTypeModifier,
     next : {
-        readonly characterSet : Identifier|undefined;
-        readonly collate : Identifier|undefined;
+        readonly characterSet : Identifier|StringLiteral|undefined;
+        readonly collate : Identifier|StringLiteral|undefined;
     }
 ) : CharacterDataTypeModifier {
     let {
@@ -21,23 +21,46 @@ export function processCharacterDataTypeModifier (
         if (characterSet == undefined) {
             characterSet = newCharacterSet;
         } else {
-            if (characterSet.identifier != newCharacterSet.identifier) {
+            const characterSetIdentifier = (
+                characterSet.syntaxKind == SyntaxKind.Identifier ?
+                characterSet.identifier :
+                characterSet.value
+            );
+            const newCharacterSetIdentifier = (
+                newCharacterSet.syntaxKind == SyntaxKind.Identifier ?
+                newCharacterSet.identifier :
+                newCharacterSet.value
+            );
+
+            if (characterSetIdentifier != newCharacterSetIdentifier) {
                 pushSyntacticErrorAtNode(
                     characterSet,
                     [],
                     DiagnosticMessages.ConflictingDeclarations,
-                    `CHARACTER SET ${characterSet.identifier}`,
-                    `CHARACTER SET ${newCharacterSet.identifier}`
+                    `CHARACTER SET ${characterSetIdentifier}`,
+                    `CHARACTER SET ${newCharacterSetIdentifier}`
                 );
             }
         }
     }
 
     if (next.collate != undefined) {
-        const newCollate = {
-            ...next.collate,
-            identifier : next.collate.identifier.toLowerCase(),
-        };
+        const newCollateIdentifier = (
+            next.collate.syntaxKind == SyntaxKind.Identifier ?
+            next.collate.identifier.toLowerCase() :
+            next.collate.value.toLowerCase()
+        );
+        const newCollate : Identifier|StringLiteral = (
+            next.collate.syntaxKind == SyntaxKind.Identifier ?
+            {
+                ...next.collate,
+                identifier : newCollateIdentifier,
+            } :
+            {
+                ...next.collate,
+                value : newCollateIdentifier,
+            }
+        );
 
         if (collate == undefined) {
             collate = newCollate;
@@ -47,12 +70,12 @@ export function processCharacterDataTypeModifier (
              * the binary collation.
              */
             const characterSetEnd = (
-                collate.identifier == "binary" ?
-                collate.identifier.length :
-                collate.identifier.indexOf("_")
+                newCollateIdentifier == "binary" ?
+                newCollateIdentifier.length :
+                newCollateIdentifier.indexOf("_")
             );
             if (characterSetEnd >= 0) {
-                const newCharacterSet = collate.identifier.substring(0, characterSetEnd);
+                const newCharacterSet = newCollateIdentifier.substring(0, characterSetEnd);
                 if (characterSet == undefined) {
                     characterSet = {
                         start : collate.start,
@@ -62,12 +85,17 @@ export function processCharacterDataTypeModifier (
                         quoted : false,
                     };
                 } else {
-                    if (characterSet.identifier != newCharacterSet) {
+                    const characterSetIdentifier = (
+                        characterSet.syntaxKind == SyntaxKind.Identifier ?
+                        characterSet.identifier :
+                        characterSet.value
+                    );
+                    if (characterSetIdentifier.toLowerCase() != newCharacterSet) {
                         pushSyntacticErrorAtNode(
                             characterSet,
                             [],
                             DiagnosticMessages.ConflictingDeclarations,
-                            `CHARACTER SET ${characterSet.identifier}`,
+                            `CHARACTER SET ${characterSetIdentifier}`,
                             `CHARACTER SET ${newCharacterSet}`
                         );
                     }
@@ -77,17 +105,22 @@ export function processCharacterDataTypeModifier (
                     collate,
                     [],
                     DiagnosticMessages.UnknownCollation,
-                    collate.identifier
+                    newCollateIdentifier
                 );
             }
         } else {
-            if (collate.identifier != newCollate.identifier) {
+            const collateIdentifier = (
+                collate.syntaxKind == SyntaxKind.Identifier ?
+                collate.identifier :
+                collate.value
+            );
+            if (collateIdentifier != newCollateIdentifier) {
                 pushSyntacticErrorAtNode(
                     collate,
                     [],
                     DiagnosticMessages.ConflictingDeclarations,
-                    `COLLATE ${collate.identifier}`,
-                    `COLLATE ${newCollate.identifier}`
+                    `COLLATE ${collateIdentifier}`,
+                    `COLLATE ${newCollateIdentifier}`
                 );
             }
         }

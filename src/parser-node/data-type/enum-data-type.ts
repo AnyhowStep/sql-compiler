@@ -13,8 +13,8 @@ export interface EnumDataType extends Node {
     syntaxKind : SyntaxKind.EnumDataType;
     elements : NodeArray<StringLiteral|HexLiteral|BitLiteral>;
 
-    characterSet : Identifier|undefined,
-    collate : Identifier|undefined,
+    characterSet : Identifier|StringLiteral|undefined,
+    collate : Identifier|StringLiteral|undefined,
 
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7138

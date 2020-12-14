@@ -1,5 +1,5 @@
 import {CharacterDataType} from "../../parser-node";
-import {emitIdentifier} from "../identifier";
+import {emitExpression} from "../expression";
 import {StringBuilder} from "../string-builder";
 
 export function emitCharacterDataTypeModifier (dataType : Pick<CharacterDataType, "characterSet"|"collate"|"binary">) : StringBuilder {
@@ -10,7 +10,7 @@ export function emitCharacterDataTypeModifier (dataType : Pick<CharacterDataType
             }
             builder
                 .append(" CHARACTER SET ")
-                .appendBuilder(emitIdentifier(dataType.characterSet));
+                .appendBuilder(emitExpression(dataType.characterSet));
         })
         .scope(builder => {
             if (dataType.collate == undefined) {
@@ -18,7 +18,7 @@ export function emitCharacterDataTypeModifier (dataType : Pick<CharacterDataType
             }
             builder
                 .append(" COLLATE ")
-                .appendBuilder(emitIdentifier(dataType.collate));
+                .appendBuilder(emitExpression(dataType.collate));
         })
         .append(
             dataType.binary == undefined ?

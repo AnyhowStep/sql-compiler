@@ -124,7 +124,7 @@ declare module "../nearley-wrapper" {
         [SyntaxKind.KeyUsageList] : NodeArray<Identifier|ValueNode<"PRIMARY">>,
         [SyntaxKind.GroupingExprList] : NodeArray2<SyntaxKind.GroupingExprList, GroupingExpr>,
 
-        [CustomSyntaxKind.CharacterSetName] : Identifier,
+        [CustomSyntaxKind.CharacterSetName] : Identifier|StringLiteral,
         [CustomSyntaxKind.Expression] : Expression,
         [CustomSyntaxKind.CharacterDataTypeModifier] : CharacterDataTypeModifier,
         [CustomSyntaxKind.DataType] : DataType,
