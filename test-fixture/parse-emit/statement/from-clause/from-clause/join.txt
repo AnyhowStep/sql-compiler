@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+    CROSS JOIN
+    U;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    CROSS JOIN
+    `U`;
+
+-----
+[]

@@ -1,0 +1,13 @@
+SELECT
+    *
+FROM
+    T;
+
+-----
+SELECT
+    *
+FROM
+    `T`;
+
+-----
+[]

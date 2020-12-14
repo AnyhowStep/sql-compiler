@@ -1,0 +1,82 @@
+SELECT
+    *
+FROM
+    (DUAL);
+
+SELECT
+    *
+FROM
+    ((DUAL));
+
+SELECT
+    *
+FROM
+    (((DUAL)));
+
+SELECT
+    *
+FROM
+    (`DUAL`);
+
+SELECT
+    *
+FROM
+    ((`DUAL`));
+
+SELECT
+    *
+FROM
+    (((`DUAL`)));
+
+-----
+SELECT
+    *
+FROM
+    `DUAL`;
+
+SELECT
+    *
+FROM
+    `DUAL`;
+
+SELECT
+    *
+FROM
+    `DUAL`;
+
+SELECT
+    *
+FROM
+    `DUAL`;
+
+SELECT
+    *
+FROM
+    `DUAL`;
+
+SELECT
+    *
+FROM
+    `DUAL`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword DUAL as identifier; escape it with backticks",
+        "start": 23,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword DUAL as identifier; escape it with backticks",
+        "start": 55,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword DUAL as identifier; escape it with backticks",
+        "start": 89,
+        "length": 4
+    }
+]

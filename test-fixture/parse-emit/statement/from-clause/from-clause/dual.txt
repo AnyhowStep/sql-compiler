@@ -1,0 +1,23 @@
+SELECT
+    *
+FROM
+    DUAL;
+
+SELECT
+    *
+FROM
+    `DUAL`;
+
+-----
+SELECT
+    *
+FROM
+    DUAL;
+
+SELECT
+    *
+FROM
+    `DUAL`;
+
+-----
+[]
