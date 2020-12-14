@@ -98,4 +98,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240018,
     }),
+    NaturalJoinMustNotHaveJoinSpecification : makeDiagnosticMessage({
+        key : "NATURAL JOIN must not have join specification",
+        category : DiagnosticCategory.Error,
+        code : 240019,
+    }),
 } as const;

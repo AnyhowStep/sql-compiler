@@ -3536,15 +3536,15 @@ Join ->
         joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
     };
 } %}
-    | TableReference %NATURAL %JOIN JoinRhsTableReference {% (data) => {
-    const [lhs, naturalToken, joinToken, rhs,] = data;
+    | TableReference %NATURAL %JOIN JoinRhsTableReference JoinSpecification:? {% (data) => {
+    const [lhs, naturalToken, joinToken, rhs, joinSpecification,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.Join,
         joinType: parse_util_1.toValueNode(parser_node_1.JoinType.NATURAL_INNER, parse_util_1.getTextRange([naturalToken, joinToken])),
         lhs,
         rhs,
-        joinSpecification: undefined,
+        joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
     };
 } %}
 
@@ -3627,7 +3627,7 @@ KeyUsageList ->
 } %}
 
 Join ->
-    TableReference (%LEFT | %RIGHT) %OUTER:? %JOIN JoinRhsTableReference JoinSpecification {% (data) => {
+    TableReference (%LEFT | %RIGHT) %OUTER:? %JOIN JoinRhsTableReference JoinSpecification:? {% (data) => {
     const [lhs, joinType, , joinToken, rhs, joinSpecification,] = data;
     return {
         ...parse_util_1.getTextRange(data),

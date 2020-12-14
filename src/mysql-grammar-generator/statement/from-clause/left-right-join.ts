@@ -24,7 +24,11 @@ makeCustomRule(SyntaxKind.Join)
             optional(TokenKind.OUTER),
             TokenKind.JOIN,
             CustomSyntaxKind.JoinRhsTableReference,
-            CustomSyntaxKind.JoinSpecification,
+            /**
+             * `USING/ON` is required for `LEFT/RIGHT` join.
+             * We check this in `parser-node-linter`.
+             */
+            optional(CustomSyntaxKind.JoinSpecification),
         ] as const,
         (data) : Join => {
             const [

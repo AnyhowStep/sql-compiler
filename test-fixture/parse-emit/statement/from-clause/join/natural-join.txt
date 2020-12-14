@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+    NATURAL JOIN
+    U;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    NATURAL JOIN
+    `U`;
+
+-----
+[]
