@@ -128,4 +128,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Warning,
         code : 240024,
     }),
+    HavingClauseRequiresFromClause : makeDiagnosticMessage({
+        key : "Cannot use HAVING clause without FROM clause",
+        category : DiagnosticCategory.Error,
+        code : 240025,
+    }),
 } as const;

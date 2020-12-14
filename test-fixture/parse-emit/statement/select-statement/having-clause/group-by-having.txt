@@ -1,0 +1,21 @@
+SELECT
+    *
+FROM
+    T
+GROUP BY
+    X
+HAVING
+    1;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+GROUP BY
+    `X`
+HAVING
+    1;
+
+-----
+[]

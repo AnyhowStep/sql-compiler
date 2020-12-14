@@ -4217,11 +4217,11 @@ AsteriskSelectItem ->
     };
 } %}
 
-WhereClause ->
-    %WHERE Expression {% (data) => {
+HavingClause ->
+    %HAVING Expression {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        syntaxKind: parser_node_1.SyntaxKind.WhereClause,
+        syntaxKind: parser_node_1.SyntaxKind.HavingClause,
         expr: data[1],
     };
 } %}
@@ -4424,8 +4424,8 @@ SelectStatement ->
 } %}
 
 Select ->
-    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? WhereClause:? GroupByClause:? OrderExprList:? Limit:? {% (data) => {
-    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, order, limit,] = data;
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? WhereClause:? GroupByClause:? HavingClause:? OrderExprList:? Limit:? {% (data) => {
+    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, havingClause, order, limit,] = data;
     const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
         .flat(2)
         .filter((item) => {
@@ -4440,6 +4440,7 @@ Select ->
         fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
         whereClause: whereClause !== null && whereClause !== void 0 ? whereClause : undefined,
         groupByClause: groupByClause !== null && groupByClause !== void 0 ? groupByClause : undefined,
+        havingClause: havingClause !== null && havingClause !== void 0 ? havingClause : undefined,
         order: order !== null && order !== void 0 ? order : undefined,
         limit: limit !== null && limit !== void 0 ? limit : undefined,
     };
@@ -4584,6 +4585,15 @@ ParenthesizedUnion ->
 } %}
     | %OpenParentheses Union %CloseParentheses {% (data) => {
     return data[1];
+} %}
+
+WhereClause ->
+    %WHERE Expression {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.WhereClause,
+        expr: data[1],
+    };
 } %}
 
 NonDelimiterStatement ->

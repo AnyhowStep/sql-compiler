@@ -4631,10 +4631,10 @@ export var ParserRules: NearleyRule[] = [
                 syntaxKind: parser_node_1.SyntaxKind.AsteriskSelectItem,
             };
         } },
-    {"name": "WhereClause", "symbols": [WHERE, "Expression"], "postprocess":  (data) => {
+    {"name": "HavingClause", "symbols": [HAVING, "Expression"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.WhereClause,
+                syntaxKind: parser_node_1.SyntaxKind.HavingClause,
                 expr: data[1],
             };
         } },
@@ -4858,12 +4858,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Select$ebnf$3", "symbols": [], "postprocess": () => null},
     {"name": "Select$ebnf$4", "symbols": ["GroupByClause"], "postprocess": id},
     {"name": "Select$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$5", "symbols": ["OrderExprList"], "postprocess": id},
+    {"name": "Select$ebnf$5", "symbols": ["HavingClause"], "postprocess": id},
     {"name": "Select$ebnf$5", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$6", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$6", "symbols": ["OrderExprList"], "postprocess": id},
     {"name": "Select$ebnf$6", "symbols": [], "postprocess": () => null},
-    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6"], "postprocess":  (data) => {
-            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, order, limit,] = data;
+    {"name": "Select$ebnf$7", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6", "Select$ebnf$7"], "postprocess":  (data) => {
+            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, havingClause, order, limit,] = data;
             const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
                 .flat(2)
                 .filter((item) => {
@@ -4878,6 +4880,7 @@ export var ParserRules: NearleyRule[] = [
                 fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
                 whereClause: whereClause !== null && whereClause !== void 0 ? whereClause : undefined,
                 groupByClause: groupByClause !== null && groupByClause !== void 0 ? groupByClause : undefined,
+                havingClause: havingClause !== null && havingClause !== void 0 ? havingClause : undefined,
                 order: order !== null && order !== void 0 ? order : undefined,
                 limit: limit !== null && limit !== void 0 ? limit : undefined,
             };
@@ -5035,6 +5038,13 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "ParenthesizedUnion", "symbols": [OpenParentheses, "Union", CloseParentheses], "postprocess":  (data) => {
             return data[1];
+        } },
+    {"name": "WhereClause", "symbols": [WHERE, "Expression"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.WhereClause,
+                expr: data[1],
+            };
         } },
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateSchemaStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},

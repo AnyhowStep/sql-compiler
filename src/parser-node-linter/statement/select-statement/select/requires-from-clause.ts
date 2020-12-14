@@ -29,5 +29,15 @@ export const RequiresFromClause : LintRule<Select> = {
                 DiagnosticMessages.GroupByClauseRequiresFromClause
             );
         }
+
+        if (node.havingClause != undefined) {
+            pushSyntacticErrorAt(
+                lintResult,
+                node.havingClause.start,
+                node.havingClause.end,
+                [],
+                DiagnosticMessages.HavingClauseRequiresFromClause
+            );
+        }
     },
 }

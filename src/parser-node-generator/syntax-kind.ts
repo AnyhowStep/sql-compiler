@@ -109,6 +109,7 @@ export const syntaxKinds = [
     "WhereClause",
     "GroupByClause",
     "GroupingExpr",
+    "HavingClause",
     "OrderByClause",
     "OrderExpr",
     "Limit",

@@ -75,6 +75,7 @@ import {RangePartitionDefinition} from "./statement/partition/range-partition-de
 import {RangePartition} from "./statement/partition/range-partition";
 import {SubPartitionDefinition} from "./statement/partition/sub-partition-definition";
 import {AsteriskSelectItem} from "./statement/select-statement/asterisk-select-item";
+import {HavingClause} from "./statement/select-statement/having-clause";
 import {Limit} from "./statement/select-statement/limit";
 import {OrderExpr} from "./statement/select-statement/order-expr";
 import {SelectItem} from "./statement/select-statement/select-item";
@@ -161,6 +162,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RangePartitio
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RangePartition) : node is RangePartition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SubPartitionDefinition) : node is SubPartitionDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AsteriskSelectItem) : node is AsteriskSelectItem;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.HavingClause) : node is HavingClause;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Limit) : node is Limit;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.OrderExpr) : node is OrderExpr;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SelectItem) : node is SelectItem;
@@ -256,6 +258,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.RangePartition, callback : (node : RangePartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SubPartitionDefinition, callback : (node : SubPartitionDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AsteriskSelectItem, callback : (node : AsteriskSelectItem) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.HavingClause, callback : (node : HavingClause) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Limit, callback : (node : Limit) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.OrderExpr, callback : (node : OrderExpr) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SelectItem, callback : (node : SelectItem) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

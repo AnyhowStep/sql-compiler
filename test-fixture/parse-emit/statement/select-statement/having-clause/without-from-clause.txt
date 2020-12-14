@@ -1,0 +1,20 @@
+SELECT
+    1
+HAVING
+    2;
+
+-----
+SELECT
+    1
+HAVING
+    2;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use HAVING clause without FROM clause",
+        "start": 13,
+        "length": 12
+    }
+]

@@ -3,6 +3,7 @@ import {StringBuilder} from "../../string-builder";
 import {emitFromClause} from "../from-clause";
 import {emitGroupByClause} from "../group-by-clause";
 import {emitAsteriskSelectItem} from "./asterisk-select-item";
+import {emitHavingClause} from "./having-clause";
 import {emitLimit} from "./limit";
 import {emitOrderExprList} from "./order-expr";
 import {emitSelectItem} from "./select-item";
@@ -59,6 +60,14 @@ export function emitSelect (select : Select) {
             builder
                 .appendNewLine()
                 .appendBuilder(emitGroupByClause(select.groupByClause))
+        })
+        .scope(builder => {
+            if (select.havingClause == undefined) {
+                return;
+            }
+            builder
+                .appendNewLine()
+                .appendBuilder(emitHavingClause(select.havingClause))
         })
         .scope(builder => {
             if (select.order == undefined) {

@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+HAVING
+    1;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+HAVING
+    1;
+
+-----
+[]

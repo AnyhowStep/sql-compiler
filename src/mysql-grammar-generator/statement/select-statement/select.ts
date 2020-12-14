@@ -38,6 +38,7 @@ makeCustomRule(SyntaxKind.Select)
             optional(SyntaxKind.FromClause),
             optional(SyntaxKind.WhereClause),
             optional(SyntaxKind.GroupByClause),
+            optional(SyntaxKind.HavingClause),
 
             optional(SyntaxKind.OrderExprList),
             optional(SyntaxKind.Limit),
@@ -51,6 +52,7 @@ makeCustomRule(SyntaxKind.Select)
                 fromClause,
                 whereClause,
                 groupByClause,
+                havingClause,
                 order,
                 limit,
             ] = data;
@@ -73,6 +75,7 @@ makeCustomRule(SyntaxKind.Select)
                 fromClause : fromClause ?? undefined,
                 whereClause : whereClause ?? undefined,
                 groupByClause : groupByClause ?? undefined,
+                havingClause : havingClause ?? undefined,
                 order : order ?? undefined,
                 limit : limit ?? undefined,
             };

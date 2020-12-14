@@ -1,4 +1,5 @@
 export * from "./asterisk-select-item";
+export * from "./having-clause";
 export * from "./limit";
 export * from "./order-expr";
 export * from "./select-item";

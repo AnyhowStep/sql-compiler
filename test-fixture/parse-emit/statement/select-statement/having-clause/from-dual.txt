@@ -1,0 +1,20 @@
+SELECT
+    *
+FROM
+    /*
+        DUAL acts as a table with one row.
+    */
+    DUAL
+HAVING
+    1;
+
+-----
+SELECT
+    *
+FROM
+    DUAL
+HAVING
+    1;
+
+-----
+[]

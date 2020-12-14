@@ -1,0 +1,21 @@
+SELECT
+    *
+FROM
+    T
+WHERE
+    1
+GROUP BY
+    1;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+WHERE
+    1
+GROUP BY
+    1;
+
+-----
+[]

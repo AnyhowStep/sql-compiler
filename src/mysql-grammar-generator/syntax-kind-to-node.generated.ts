@@ -76,6 +76,7 @@ import {
     RangePartition,
     SubPartitionDefinition,
     AsteriskSelectItem,
+    HavingClause,
     Limit,
     OrderExpr,
     SelectItem,
@@ -164,6 +165,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.RangePartition] : RangePartition;
     [SyntaxKind.SubPartitionDefinition] : SubPartitionDefinition;
     [SyntaxKind.AsteriskSelectItem] : AsteriskSelectItem;
+    [SyntaxKind.HavingClause] : HavingClause;
     [SyntaxKind.Limit] : Limit;
     [SyntaxKind.OrderExpr] : OrderExpr;
     [SyntaxKind.SelectItem] : SelectItem;
