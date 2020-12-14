@@ -4282,6 +4282,35 @@ OrderExprList ->
     return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.OrderExprList, parse_util_1.getTextRange(data));
 } %}
 
+ProcedureAnalyseClause ->
+    %PROCEDURE %ANALYSE %OpenParentheses %CloseParentheses {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ProcedureAnalyseClause,
+        args: undefined,
+    };
+} %}
+    | %PROCEDURE %ANALYSE %OpenParentheses IntegerLiteral %CloseParentheses {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ProcedureAnalyseClause,
+        args: {
+            maxElements: data[3],
+            maxMemory: undefined,
+        },
+    };
+} %}
+    | %PROCEDURE %ANALYSE %OpenParentheses IntegerLiteral %Comma IntegerLiteral %CloseParentheses {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ProcedureAnalyseClause,
+        args: {
+            maxElements: data[3],
+            maxMemory: data[5],
+        },
+    };
+} %}
+
 SelectItem ->
     Expression (%AS:? (Identifier | StringLiteral)):? {% (data) => {
     const [expr, alias] = data;
@@ -4424,8 +4453,8 @@ SelectStatement ->
 } %}
 
 Select ->
-    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? WhereClause:? GroupByClause:? HavingClause:? OrderExprList:? Limit:? {% (data) => {
-    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, havingClause, order, limit,] = data;
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? WhereClause:? GroupByClause:? HavingClause:? OrderExprList:? Limit:? ProcedureAnalyseClause:? {% (data) => {
+    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause,] = data;
     const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
         .flat(2)
         .filter((item) => {
@@ -4443,6 +4472,7 @@ Select ->
         havingClause: havingClause !== null && havingClause !== void 0 ? havingClause : undefined,
         order: order !== null && order !== void 0 ? order : undefined,
         limit: limit !== null && limit !== void 0 ? limit : undefined,
+        procedureAnalyseClause: procedureAnalyseClause !== null && procedureAnalyseClause !== void 0 ? procedureAnalyseClause : undefined,
     };
 } %}
 

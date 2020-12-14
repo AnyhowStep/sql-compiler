@@ -1,0 +1,25 @@
+SELECT
+    1
+FROM
+    T
+HAVING
+    1
+ORDER BY
+    1,
+    1 ASC,
+    1 DESC
+
+-----
+SELECT
+    1
+FROM
+    `T`
+HAVING
+    1
+ORDER BY
+    1 ASC,
+    1 ASC,
+    1 DESC;
+
+-----
+[]

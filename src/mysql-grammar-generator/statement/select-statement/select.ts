@@ -42,6 +42,8 @@ makeCustomRule(SyntaxKind.Select)
 
             optional(SyntaxKind.OrderExprList),
             optional(SyntaxKind.Limit),
+
+            optional(SyntaxKind.ProcedureAnalyseClause),
         ] as const,
         (data) : Select => {
             const [
@@ -55,6 +57,7 @@ makeCustomRule(SyntaxKind.Select)
                 havingClause,
                 order,
                 limit,
+                procedureAnalyseClause,
             ] = data;
 
             const selectItems = toNodeArray(
@@ -78,6 +81,7 @@ makeCustomRule(SyntaxKind.Select)
                 havingClause : havingClause ?? undefined,
                 order : order ?? undefined,
                 limit : limit ?? undefined,
+                procedureAnalyseClause : procedureAnalyseClause ?? undefined,
             };
         }
     );

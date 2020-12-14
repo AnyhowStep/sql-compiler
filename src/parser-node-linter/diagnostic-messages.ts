@@ -133,4 +133,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240025,
     }),
+    ProcedureAnalyseClauseRequiresFromClause : makeDiagnosticMessage({
+        key : "Cannot use PROCEDURE ANALYSE clause without FROM clause",
+        category : DiagnosticCategory.Error,
+        code : 240026,
+    }),
 } as const;

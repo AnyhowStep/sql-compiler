@@ -4696,6 +4696,33 @@ export var ParserRules: NearleyRule[] = [
             });
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.OrderExprList, parse_util_1.getTextRange(data));
         } },
+    {"name": "ProcedureAnalyseClause", "symbols": [PROCEDURE, ANALYSE, OpenParentheses, CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ProcedureAnalyseClause,
+                args: undefined,
+            };
+        } },
+    {"name": "ProcedureAnalyseClause", "symbols": [PROCEDURE, ANALYSE, OpenParentheses, "IntegerLiteral", CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ProcedureAnalyseClause,
+                args: {
+                    maxElements: data[3],
+                    maxMemory: undefined,
+                },
+            };
+        } },
+    {"name": "ProcedureAnalyseClause", "symbols": [PROCEDURE, ANALYSE, OpenParentheses, "IntegerLiteral", Comma, "IntegerLiteral", CloseParentheses], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ProcedureAnalyseClause,
+                args: {
+                    maxElements: data[3],
+                    maxMemory: data[5],
+                },
+            };
+        } },
     {"name": "SelectItem$ebnf$1$subexpression$1$ebnf$1", "symbols": [AS], "postprocess": id},
     {"name": "SelectItem$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "SelectItem$ebnf$1$subexpression$1$subexpression$1", "symbols": ["Identifier"]},
@@ -4864,8 +4891,10 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Select$ebnf$6", "symbols": [], "postprocess": () => null},
     {"name": "Select$ebnf$7", "symbols": ["Limit"], "postprocess": id},
     {"name": "Select$ebnf$7", "symbols": [], "postprocess": () => null},
-    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6", "Select$ebnf$7"], "postprocess":  (data) => {
-            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, havingClause, order, limit,] = data;
+    {"name": "Select$ebnf$8", "symbols": ["ProcedureAnalyseClause"], "postprocess": id},
+    {"name": "Select$ebnf$8", "symbols": [], "postprocess": () => null},
+    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6", "Select$ebnf$7", "Select$ebnf$8"], "postprocess":  (data) => {
+            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause,] = data;
             const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
                 .flat(2)
                 .filter((item) => {
@@ -4883,6 +4912,7 @@ export var ParserRules: NearleyRule[] = [
                 havingClause: havingClause !== null && havingClause !== void 0 ? havingClause : undefined,
                 order: order !== null && order !== void 0 ? order : undefined,
                 limit: limit !== null && limit !== void 0 ? limit : undefined,
+                procedureAnalyseClause: procedureAnalyseClause !== null && procedureAnalyseClause !== void 0 ? procedureAnalyseClause : undefined,
             };
         } },
     {"name": "ParenthesizedSelect", "symbols": [OpenParentheses, "ParenthesizedSelect", CloseParentheses], "postprocess":  (data) => {

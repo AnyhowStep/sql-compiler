@@ -39,5 +39,15 @@ export const RequiresFromClause : LintRule<Select> = {
                 DiagnosticMessages.HavingClauseRequiresFromClause
             );
         }
+
+        if (node.procedureAnalyseClause != undefined) {
+            pushSyntacticErrorAt(
+                lintResult,
+                node.procedureAnalyseClause.start,
+                node.procedureAnalyseClause.end,
+                [],
+                DiagnosticMessages.ProcedureAnalyseClauseRequiresFromClause
+            );
+        }
     },
 }

@@ -17,7 +17,7 @@ UNION ALL
 [
     {
         "category": 0,
-        "messageText": "Expected Comma|CustomDelimiter|OFFSET|SemiColon|UNION",
+        "messageText": "Expected Comma|CustomDelimiter|OFFSET|PROCEDURE ANALYSE OpenParentheses|PROCEDURE ANALYSE OpenParentheses CloseParentheses|SemiColon|UNION",
         "start": 36,
         "length": 0
     }

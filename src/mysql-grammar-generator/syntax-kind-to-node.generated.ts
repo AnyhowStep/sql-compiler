@@ -79,6 +79,7 @@ import {
     HavingClause,
     Limit,
     OrderExpr,
+    ProcedureAnalyseClause,
     SelectItem,
     SelectOptions,
     Select,
@@ -168,6 +169,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.HavingClause] : HavingClause;
     [SyntaxKind.Limit] : Limit;
     [SyntaxKind.OrderExpr] : OrderExpr;
+    [SyntaxKind.ProcedureAnalyseClause] : ProcedureAnalyseClause;
     [SyntaxKind.SelectItem] : SelectItem;
     [SyntaxKind.SelectOptions] : SelectOptions;
     [SyntaxKind.Select] : Select;

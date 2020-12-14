@@ -113,6 +113,7 @@ export const syntaxKinds = [
     "OrderByClause",
     "OrderExpr",
     "Limit",
+    "ProcedureAnalyseClause",
     "Union",
     "UnionOrderLimit",
 

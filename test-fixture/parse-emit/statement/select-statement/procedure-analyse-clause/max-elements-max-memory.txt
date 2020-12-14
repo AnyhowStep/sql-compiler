@@ -1,0 +1,15 @@
+SELECT
+    *
+FROM
+    T
+PROCEDURE ANALYSE(123, 456);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+PROCEDURE ANALYSE(123, 456);
+
+-----
+[]

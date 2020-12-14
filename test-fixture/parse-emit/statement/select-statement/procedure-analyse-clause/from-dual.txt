@@ -1,0 +1,18 @@
+SELECT
+    *
+FROM
+    /*
+        DUAL acts as a table with one row.
+    */
+    DUAL
+PROCEDURE ANALYSE();
+
+-----
+SELECT
+    *
+FROM
+    DUAL
+PROCEDURE ANALYSE();
+
+-----
+[]

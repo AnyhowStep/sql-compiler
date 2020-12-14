@@ -78,6 +78,7 @@ import {AsteriskSelectItem} from "./statement/select-statement/asterisk-select-i
 import {HavingClause} from "./statement/select-statement/having-clause";
 import {Limit} from "./statement/select-statement/limit";
 import {OrderExpr} from "./statement/select-statement/order-expr";
+import {ProcedureAnalyseClause} from "./statement/select-statement/procedure-analyse-clause";
 import {SelectItem} from "./statement/select-statement/select-item";
 import {SelectOptions} from "./statement/select-statement/select-options";
 import {Select} from "./statement/select-statement/select";
@@ -165,6 +166,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AsteriskSelec
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.HavingClause) : node is HavingClause;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Limit) : node is Limit;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.OrderExpr) : node is OrderExpr;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ProcedureAnalyseClause) : node is ProcedureAnalyseClause;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SelectItem) : node is SelectItem;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SelectOptions) : node is SelectOptions;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Select) : node is Select;
@@ -261,6 +263,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.HavingClause, callback : (node : HavingClause) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Limit, callback : (node : Limit) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.OrderExpr, callback : (node : OrderExpr) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.ProcedureAnalyseClause, callback : (node : ProcedureAnalyseClause) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SelectItem, callback : (node : SelectItem) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SelectOptions, callback : (node : SelectOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Select, callback : (node : Select) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

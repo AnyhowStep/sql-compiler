@@ -1,0 +1,19 @@
+SELECT
+    *
+FROM
+    T
+LIMIT
+    1
+PROCEDURE ANALYSE();
+
+-----
+SELECT
+    *
+FROM
+    `T`
+LIMIT
+    1
+PROCEDURE ANALYSE();
+
+-----
+[]

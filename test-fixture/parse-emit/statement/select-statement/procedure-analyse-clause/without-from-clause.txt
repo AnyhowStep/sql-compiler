@@ -1,0 +1,18 @@
+SELECT
+    1
+PROCEDURE ANALYSE();
+
+-----
+SELECT
+    1
+PROCEDURE ANALYSE();
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use PROCEDURE ANALYSE clause without FROM clause",
+        "start": 13,
+        "length": 19
+    }
+]

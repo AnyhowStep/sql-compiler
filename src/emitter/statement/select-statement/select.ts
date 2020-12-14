@@ -6,6 +6,7 @@ import {emitAsteriskSelectItem} from "./asterisk-select-item";
 import {emitHavingClause} from "./having-clause";
 import {emitLimit} from "./limit";
 import {emitOrderExprList} from "./order-expr";
+import {emitProcedureAnalyseClause} from "./procedure-analyse-clause";
 import {emitSelectItem} from "./select-item";
 import {emitSelectOptions} from "./select-options";
 import {emitTableAsteriskSelectItem} from "./table-asterisk-select-item";
@@ -84,5 +85,13 @@ export function emitSelect (select : Select) {
             builder
                 .appendNewLine()
                 .appendBuilder(emitLimit(select.limit))
+        })
+        .scope(builder => {
+            if (select.procedureAnalyseClause == undefined) {
+                return;
+            }
+            builder
+                .appendNewLine()
+                .appendBuilder(emitProcedureAnalyseClause(select.procedureAnalyseClause))
         })
 }
