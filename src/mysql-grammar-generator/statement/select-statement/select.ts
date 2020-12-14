@@ -37,6 +37,7 @@ makeCustomRule(SyntaxKind.Select)
 
             optional(SyntaxKind.FromClause),
             optional(SyntaxKind.WhereClause),
+            optional(SyntaxKind.GroupByClause),
 
             optional(SyntaxKind.OrderExprList),
             optional(SyntaxKind.Limit),
@@ -49,6 +50,7 @@ makeCustomRule(SyntaxKind.Select)
                 trailingSelectItems,
                 fromClause,
                 whereClause,
+                groupByClause,
                 order,
                 limit,
             ] = data;
@@ -70,6 +72,7 @@ makeCustomRule(SyntaxKind.Select)
                 selectItems,
                 fromClause : fromClause ?? undefined,
                 whereClause : whereClause ?? undefined,
+                groupByClause : groupByClause ?? undefined,
                 order : order ?? undefined,
                 limit : limit ?? undefined,
             };

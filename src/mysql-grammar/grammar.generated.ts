@@ -4090,6 +4090,51 @@ export var ParserRules: NearleyRule[] = [
     {"name": "UsePartition", "symbols": [PARTITION, "IdentifierList"], "postprocess":  (data) => {
             return data[1];
         } },
+    {"name": "GroupByClause$ebnf$1$subexpression$1$subexpression$1", "symbols": [CUBE]},
+    {"name": "GroupByClause$ebnf$1$subexpression$1$subexpression$1", "symbols": [ROLLUP]},
+    {"name": "GroupByClause$ebnf$1$subexpression$1", "symbols": [WITH, "GroupByClause$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "GroupByClause$ebnf$1", "symbols": ["GroupByClause$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "GroupByClause$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "GroupByClause", "symbols": [GROUP, BY, "GroupingExprList", "GroupByClause$ebnf$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.GroupByClause,
+                groupingExprs: data[2],
+                olapOption: (data[3] == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode((data[3][1][0].tokenKind == scanner_1.TokenKind.CUBE ?
+                        parser_node_1.OlapOption.WITH_CUBE :
+                        parser_node_1.OlapOption.WITH_ROLLUP), parse_util_1.getTextRange(data[3]))),
+            };
+        } },
+    {"name": "GroupingExpr$ebnf$1$subexpression$1", "symbols": [ASC]},
+    {"name": "GroupingExpr$ebnf$1$subexpression$1", "symbols": [DESC]},
+    {"name": "GroupingExpr$ebnf$1", "symbols": ["GroupingExpr$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "GroupingExpr$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "GroupingExpr", "symbols": ["Expression", "GroupingExpr$ebnf$1"], "postprocess":  (data) => {
+            const [expr, sortDirection] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.GroupingExpr,
+                expr,
+                sortDirection: (sortDirection == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode((sortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                        parser_node_1.SortDirection.ASC :
+                        parser_node_1.SortDirection.DESC), sortDirection[0])),
+            };
+        } },
+    {"name": "GroupingExprList$ebnf$1", "symbols": []},
+    {"name": "GroupingExprList$ebnf$1$subexpression$1", "symbols": [Comma, "GroupingExpr"]},
+    {"name": "GroupingExprList$ebnf$1", "symbols": ["GroupingExprList$ebnf$1", "GroupingExprList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "GroupingExprList", "symbols": ["GroupingExpr", "GroupingExprList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((data) => {
+                return "syntaxKind" in data;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.GroupingExprList, parse_util_1.getTextRange(data));
+        } },
     {"name": "HashPartition$ebnf$1", "symbols": [LINEAR], "postprocess": id},
     {"name": "HashPartition$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "HashPartition$ebnf$2$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
@@ -4811,12 +4856,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Select$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "Select$ebnf$3", "symbols": ["WhereClause"], "postprocess": id},
     {"name": "Select$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$4", "symbols": ["OrderExprList"], "postprocess": id},
+    {"name": "Select$ebnf$4", "symbols": ["GroupByClause"], "postprocess": id},
     {"name": "Select$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$5", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$5", "symbols": ["OrderExprList"], "postprocess": id},
     {"name": "Select$ebnf$5", "symbols": [], "postprocess": () => null},
-    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5"], "postprocess":  (data) => {
-            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, order, limit,] = data;
+    {"name": "Select$ebnf$6", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6"], "postprocess":  (data) => {
+            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, order, limit,] = data;
             const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
                 .flat(2)
                 .filter((item) => {
@@ -4830,6 +4877,7 @@ export var ParserRules: NearleyRule[] = [
                 selectItems,
                 fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
                 whereClause: whereClause !== null && whereClause !== void 0 ? whereClause : undefined,
+                groupByClause: groupByClause !== null && groupByClause !== void 0 ? groupByClause : undefined,
                 order: order !== null && order !== void 0 ? order : undefined,
                 limit: limit !== null && limit !== void 0 ? limit : undefined,
             };

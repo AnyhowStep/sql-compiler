@@ -2,6 +2,9 @@ import {Expression} from "../../expression";
 import {Node} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
+/**
+ * @todo Combine `SortDirection` and `OrderingDirection`
+ */
 export enum OrderingDirection {
     ASC,
     DESC,

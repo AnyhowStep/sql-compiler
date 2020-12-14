@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+GROUP BY
+    X, Y, Z;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+GROUP BY
+    `X`, `Y`, `Z`;
+
+-----
+[]

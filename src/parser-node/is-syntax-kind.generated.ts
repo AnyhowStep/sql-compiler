@@ -62,6 +62,8 @@ import {JoinSpecificationUsing} from "./statement/from-clause/join-specification
 import {Join} from "./statement/from-clause/join";
 import {NamedTableFactor} from "./statement/from-clause/named-table-factor";
 import {OdbcTableReference} from "./statement/from-clause/odbc-table-reference";
+import {GroupByClause} from "./statement/group-by-clause/group-by-clause";
+import {GroupingExpr} from "./statement/group-by-clause/grouping-expr";
 import {HashPartition} from "./statement/partition/hash-partition";
 import {HashSubPartition} from "./statement/partition/hash-sub-partition";
 import {KeyPartition} from "./statement/partition/key-partition";
@@ -146,6 +148,8 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.JoinSpecifica
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Join) : node is Join;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.NamedTableFactor) : node is NamedTableFactor;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.OdbcTableReference) : node is OdbcTableReference;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.GroupByClause) : node is GroupByClause;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.GroupingExpr) : node is GroupingExpr;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.HashPartition) : node is HashPartition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.HashSubPartition) : node is HashSubPartition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.KeyPartition) : node is KeyPartition;
@@ -239,6 +243,8 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.Join, callback : (node : Join) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.NamedTableFactor, callback : (node : NamedTableFactor) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.OdbcTableReference, callback : (node : OdbcTableReference) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.GroupByClause, callback : (node : GroupByClause) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.GroupingExpr, callback : (node : GroupingExpr) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.HashPartition, callback : (node : HashPartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.HashSubPartition, callback : (node : HashSubPartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.KeyPartition, callback : (node : KeyPartition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

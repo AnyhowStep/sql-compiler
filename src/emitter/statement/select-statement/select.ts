@@ -1,6 +1,7 @@
 import {Select, SyntaxKind} from "../../../parser-node";
 import {StringBuilder} from "../../string-builder";
 import {emitFromClause} from "../from-clause";
+import {emitGroupByClause} from "../group-by-clause";
 import {emitAsteriskSelectItem} from "./asterisk-select-item";
 import {emitLimit} from "./limit";
 import {emitOrderExprList} from "./order-expr";
@@ -50,6 +51,14 @@ export function emitSelect (select : Select) {
             builder
                 .appendNewLine()
                 .appendBuilder(emitWhereClause(select.whereClause))
+        })
+        .scope(builder => {
+            if (select.groupByClause == undefined) {
+                return;
+            }
+            builder
+                .appendNewLine()
+                .appendBuilder(emitGroupByClause(select.groupByClause))
         })
         .scope(builder => {
             if (select.order == undefined) {

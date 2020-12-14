@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+GROUP BY
+    1;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+GROUP BY
+    1;
+
+-----
+[]

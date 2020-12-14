@@ -108,6 +108,7 @@ export const syntaxKinds = [
     "JoinSpecificationOn",
     "WhereClause",
     "GroupByClause",
+    "GroupingExpr",
     "OrderByClause",
     "OrderExpr",
     "Limit",
@@ -190,4 +191,5 @@ export const syntaxKinds = [
     "TableReferenceList",
     "IndexHintDefinitionList",
     "KeyUsageList",
+    "GroupingExprList",
 ] as const;

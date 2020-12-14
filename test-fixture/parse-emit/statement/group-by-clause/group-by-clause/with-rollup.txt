@@ -1,0 +1,19 @@
+SELECT
+    *
+FROM
+    T
+GROUP BY
+    1
+    WITH ROLLUP;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+GROUP BY
+    1
+    WITH ROLLUP;
+
+-----
+[]

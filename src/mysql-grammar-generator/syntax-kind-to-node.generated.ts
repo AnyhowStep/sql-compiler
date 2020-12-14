@@ -63,6 +63,8 @@ import {
     Join,
     NamedTableFactor,
     OdbcTableReference,
+    GroupByClause,
+    GroupingExpr,
     HashPartition,
     HashSubPartition,
     KeyPartition,
@@ -149,6 +151,8 @@ export type SyntaxKindToNode = {
     [SyntaxKind.Join] : Join;
     [SyntaxKind.NamedTableFactor] : NamedTableFactor;
     [SyntaxKind.OdbcTableReference] : OdbcTableReference;
+    [SyntaxKind.GroupByClause] : GroupByClause;
+    [SyntaxKind.GroupingExpr] : GroupingExpr;
     [SyntaxKind.HashPartition] : HashPartition;
     [SyntaxKind.HashSubPartition] : HashSubPartition;
     [SyntaxKind.KeyPartition] : KeyPartition;

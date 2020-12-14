@@ -3,16 +3,30 @@ import {LintRule} from "../../../linter";
 import {pushSyntacticErrorAt} from "../../../../parse-util";
 import {DiagnosticMessages} from "../../../diagnostic-messages";
 
-export const WhereClauseRequiresFromClause : LintRule<Select> = {
+export const RequiresFromClause : LintRule<Select> = {
     syntaxKind : SyntaxKind.Select,
     onEnter : (node, lintResult) => {
-        if (node.whereClause != undefined && node.fromClause == undefined) {
+        if (node.fromClause != undefined) {
+            return;
+        }
+
+        if (node.whereClause != undefined) {
             pushSyntacticErrorAt(
                 lintResult,
                 node.whereClause.start,
                 node.whereClause.end,
                 [],
                 DiagnosticMessages.WhereClauseRequiresFromClause
+            );
+        }
+
+        if (node.groupByClause != undefined) {
+            pushSyntacticErrorAt(
+                lintResult,
+                node.groupByClause.start,
+                node.groupByClause.end,
+                [],
+                DiagnosticMessages.GroupByClauseRequiresFromClause
             );
         }
     },

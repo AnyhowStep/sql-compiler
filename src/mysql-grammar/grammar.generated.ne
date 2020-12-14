@@ -3766,6 +3766,45 @@ UsePartition ->
     return data[1];
 } %}
 
+GroupByClause ->
+    %GROUP %BY GroupingExprList (%WITH (%CUBE | %ROLLUP)):? {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.GroupByClause,
+        groupingExprs: data[2],
+        olapOption: (data[3] == undefined ?
+            undefined :
+            parse_util_1.toValueNode((data[3][1][0].tokenKind == scanner_1.TokenKind.CUBE ?
+                parser_node_1.OlapOption.WITH_CUBE :
+                parser_node_1.OlapOption.WITH_ROLLUP), parse_util_1.getTextRange(data[3]))),
+    };
+} %}
+
+GroupingExpr ->
+    Expression (%ASC | %DESC):? {% (data) => {
+    const [expr, sortDirection] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.GroupingExpr,
+        expr,
+        sortDirection: (sortDirection == undefined ?
+            undefined :
+            parse_util_1.toValueNode((sortDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                parser_node_1.SortDirection.ASC :
+                parser_node_1.SortDirection.DESC), sortDirection[0])),
+    };
+} %}
+
+GroupingExprList ->
+    GroupingExpr (%Comma GroupingExpr):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((data) => {
+        return "syntaxKind" in data;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.GroupingExprList, parse_util_1.getTextRange(data));
+} %}
+
 HashPartition ->
     %PARTITION %BY %LINEAR:? %HASH %OpenParentheses Expression %CloseParentheses (%PARTITIONS IntegerLiteral):? {% (data) => {
     return {
@@ -4385,8 +4424,8 @@ SelectStatement ->
 } %}
 
 Select ->
-    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? WhereClause:? OrderExprList:? Limit:? {% (data) => {
-    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, order, limit,] = data;
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? WhereClause:? GroupByClause:? OrderExprList:? Limit:? {% (data) => {
+    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, order, limit,] = data;
     const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
         .flat(2)
         .filter((item) => {
@@ -4400,6 +4439,7 @@ Select ->
         selectItems,
         fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
         whereClause: whereClause !== null && whereClause !== void 0 ? whereClause : undefined,
+        groupByClause: groupByClause !== null && groupByClause !== void 0 ? groupByClause : undefined,
         order: order !== null && order !== void 0 ? order : undefined,
         limit: limit !== null && limit !== void 0 ? limit : undefined,
     };

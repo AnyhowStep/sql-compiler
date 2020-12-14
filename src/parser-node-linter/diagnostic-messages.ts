@@ -113,4 +113,19 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240021,
     }),
+    GroupByClauseRequiresFromClause : makeDiagnosticMessage({
+        key : "Cannot use GROUP BY clause without FROM clause",
+        category : DiagnosticCategory.Error,
+        code : 240022,
+    }),
+    WithCubeUnimplemented : makeDiagnosticMessage({
+        key : "WITH CUBE is unimplemented",
+        category : DiagnosticCategory.Error,
+        code : 240023,
+    }),
+    GroupingExprSortDirectionDeprecated : makeDiagnosticMessage({
+        key : "ASC/DESC in GROUP BY clause is deprecated; use the ORDER BY clause",
+        category : DiagnosticCategory.Warning,
+        code : 240024,
+    }),
 } as const;

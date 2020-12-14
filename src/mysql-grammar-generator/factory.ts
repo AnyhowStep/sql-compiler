@@ -36,6 +36,8 @@ import {
     UnionOrderLimit,
     ValueNode,
     Select,
+    NodeArray2,
+    GroupingExpr,
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
@@ -120,6 +122,7 @@ declare module "../nearley-wrapper" {
         [SyntaxKind.TableReferenceList] : TableReferenceList,
         [SyntaxKind.IndexHintDefinitionList] : NodeArray<IndexHintDefinition>,
         [SyntaxKind.KeyUsageList] : NodeArray<Identifier|ValueNode<"PRIMARY">>,
+        [SyntaxKind.GroupingExprList] : NodeArray2<SyntaxKind.GroupingExprList, GroupingExpr>,
 
         [CustomSyntaxKind.CharacterSetName] : Identifier,
         [CustomSyntaxKind.Expression] : Expression,

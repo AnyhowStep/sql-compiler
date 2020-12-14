@@ -1,0 +1,31 @@
+SELECT
+    *
+FROM
+    T
+GROUP BY
+    X ASC,
+    Y DESC;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+GROUP BY
+    `X` ASC, `Y` DESC;
+
+-----
+[
+    {
+        "category": 1,
+        "messageText": "ASC/DESC in GROUP BY clause is deprecated; use the ORDER BY clause",
+        "start": 39,
+        "length": 3
+    },
+    {
+        "category": 1,
+        "messageText": "ASC/DESC in GROUP BY clause is deprecated; use the ORDER BY clause",
+        "start": 50,
+        "length": 4
+    }
+]

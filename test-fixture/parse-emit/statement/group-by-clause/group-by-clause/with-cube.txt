@@ -1,0 +1,26 @@
+SELECT
+    *
+FROM
+    T
+GROUP BY
+    1
+    WITH CUBE;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+GROUP BY
+    1
+    WITH CUBE;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "WITH CUBE is unimplemented",
+        "start": 43,
+        "length": 9
+    }
+]
