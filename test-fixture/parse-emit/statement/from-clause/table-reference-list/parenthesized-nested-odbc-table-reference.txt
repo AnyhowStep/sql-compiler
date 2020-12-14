@@ -1,0 +1,45 @@
+SELECT
+    *
+FROM
+    T,
+    ({oj U}),
+    V;
+
+SELECT
+    *
+FROM
+    T,
+    (({oj U})),
+    V;
+
+SELECT
+    *
+FROM
+    T,
+    ((({oj U}))),
+    V;
+
+-----
+SELECT
+    *
+FROM
+    `T`,
+    {oj `U`},
+    `V`;
+
+SELECT
+    *
+FROM
+    `T`,
+    {oj `U`},
+    `V`;
+
+SELECT
+    *
+FROM
+    `T`,
+    {oj `U`},
+    `V`;
+
+-----
+[]

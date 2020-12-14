@@ -1,0 +1,71 @@
+SELECT
+    *
+FROM
+    T,
+    (U, V),
+    X;
+
+SELECT
+    *
+FROM
+    T,
+    ((U, V)),
+    X;
+
+SELECT
+    *
+FROM
+    T,
+    (((U, V))),
+    X;
+
+SELECT
+    *
+FROM
+    T,
+    ((((U, V)))),
+    X;
+
+-----
+SELECT
+    *
+FROM
+    `T`,
+    (
+        `U`,
+        `V`
+    ),
+    `X`;
+
+SELECT
+    *
+FROM
+    `T`,
+    (
+        `U`,
+        `V`
+    ),
+    `X`;
+
+SELECT
+    *
+FROM
+    `T`,
+    (
+        `U`,
+        `V`
+    ),
+    `X`;
+
+SELECT
+    *
+FROM
+    `T`,
+    (
+        `U`,
+        `V`
+    ),
+    `X`;
+
+-----
+[]

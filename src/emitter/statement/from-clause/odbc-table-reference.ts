@@ -34,7 +34,7 @@ export function emitOdbcTableReference (odbcTableReference : OdbcTableReference,
             .append("}")
     )
     return new StringBuilder()
-        .append(parenthesizeOdbcTableReference || odbcTableReference.parenthesized ? "(" : undefined)
+        .append(parenthesizeOdbcTableReference ? "(" : undefined)
         .appendBuilder(result)
-        .append(parenthesizeOdbcTableReference || odbcTableReference.parenthesized ? ")" : undefined)
+        .append(parenthesizeOdbcTableReference ? ")" : undefined)
 }

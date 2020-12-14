@@ -1,0 +1,45 @@
+SELECT
+    *
+FROM
+    T,
+    (U AS tmp),
+    V;
+
+SELECT
+    *
+FROM
+    T,
+    ((U AS tmp)),
+    V;
+
+SELECT
+    *
+FROM
+    T,
+    (((U AS tmp))),
+    V;
+
+-----
+SELECT
+    *
+FROM
+    `T`,
+    `U` AS `tmp`,
+    `V`;
+
+SELECT
+    *
+FROM
+    `T`,
+    `U` AS `tmp`,
+    `V`;
+
+SELECT
+    *
+FROM
+    `T`,
+    `U` AS `tmp`,
+    `V`;
+
+-----
+[]
