@@ -36,6 +36,7 @@ makeCustomRule(SyntaxKind.Select)
             ] as const),
 
             optional(SyntaxKind.FromClause),
+            optional(SyntaxKind.WhereClause),
 
             optional(SyntaxKind.OrderExprList),
             optional(SyntaxKind.Limit),
@@ -47,6 +48,7 @@ makeCustomRule(SyntaxKind.Select)
                 firstSelectItem,
                 trailingSelectItems,
                 fromClause,
+                whereClause,
                 order,
                 limit,
             ] = data;
@@ -67,6 +69,7 @@ makeCustomRule(SyntaxKind.Select)
                 selectOptions,
                 selectItems,
                 fromClause : fromClause ?? undefined,
+                whereClause : whereClause ?? undefined,
                 order : order ?? undefined,
                 limit : limit ?? undefined,
             };

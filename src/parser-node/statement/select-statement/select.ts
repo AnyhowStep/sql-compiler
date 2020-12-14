@@ -9,6 +9,7 @@ import {OrderExpr} from "./order-expr";
 import {SelectItem} from "./select-item";
 import {SelectOptions} from "./select-options";
 import {TableAsteriskSelectItem} from "./table-asterisk-select-item";
+import {WhereClause} from "./where-clause";
 
 export interface Select extends Node, Statement {
     syntaxKind : SyntaxKind.Select,
@@ -19,6 +20,7 @@ export interface Select extends Node, Statement {
     selectItems : NodeArray<SelectItem|AsteriskSelectItem|TableAsteriskSelectItem>,
 
     fromClause : FromClause|undefined,
+    whereClause : WhereClause|undefined,
 
     order : NodeArray<OrderExpr>|undefined,
     limit : Limit|undefined,

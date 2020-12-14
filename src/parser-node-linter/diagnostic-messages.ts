@@ -108,4 +108,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240020,
     }),
+    WhereClauseRequiresFromClause : makeDiagnosticMessage({
+        key : "Cannot use WHERE clause without FROM clause",
+        category : DiagnosticCategory.Error,
+        code : 240021,
+    }),
 } as const;

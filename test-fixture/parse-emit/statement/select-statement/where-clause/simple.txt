@@ -1,0 +1,17 @@
+SELECT
+    *
+FROM
+    T
+WHERE
+    1;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+WHERE
+    1;
+
+-----
+[]

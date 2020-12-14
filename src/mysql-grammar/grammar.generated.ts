@@ -4586,6 +4586,13 @@ export var ParserRules: NearleyRule[] = [
                 syntaxKind: parser_node_1.SyntaxKind.AsteriskSelectItem,
             };
         } },
+    {"name": "WhereClause", "symbols": [WHERE, "Expression"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.WhereClause,
+                expr: data[1],
+            };
+        } },
     {"name": "LimitOption$subexpression$1", "symbols": ["Identifier"]},
     {"name": "LimitOption$subexpression$1", "symbols": ["ParamMarker"]},
     {"name": "LimitOption$subexpression$1", "symbols": ["IntegerLiteral"]},
@@ -4802,12 +4809,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Select$ebnf$1", "symbols": ["Select$ebnf$1", "Select$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "Select$ebnf$2", "symbols": ["FromClause"], "postprocess": id},
     {"name": "Select$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$3", "symbols": ["OrderExprList"], "postprocess": id},
+    {"name": "Select$ebnf$3", "symbols": ["WhereClause"], "postprocess": id},
     {"name": "Select$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$4", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$4", "symbols": ["OrderExprList"], "postprocess": id},
     {"name": "Select$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4"], "postprocess":  (data) => {
-            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, order, limit,] = data;
+    {"name": "Select$ebnf$5", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5"], "postprocess":  (data) => {
+            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, order, limit,] = data;
             const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
                 .flat(2)
                 .filter((item) => {
@@ -4820,6 +4829,7 @@ export var ParserRules: NearleyRule[] = [
                 selectOptions,
                 selectItems,
                 fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
+                whereClause: whereClause !== null && whereClause !== void 0 ? whereClause : undefined,
                 order: order !== null && order !== void 0 ? order : undefined,
                 limit: limit !== null && limit !== void 0 ? limit : undefined,
             };

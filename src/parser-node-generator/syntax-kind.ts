@@ -106,6 +106,7 @@ export const syntaxKinds = [
     "Join",
     "JoinSpecificationUsing",
     "JoinSpecificationOn",
+    "WhereClause",
     "GroupByClause",
     "OrderByClause",
     "OrderExpr",

@@ -1,6 +1,5 @@
-import {Node, SyntaxKind, walk} from "../parser-node";
+import {SourceFile, Node, SyntaxKind, walk} from "../parser-node";
 import {Diagnostic} from "../diagnostic";
-import {SourceFile} from "../parser-node/source-file";
 
 export interface LintResult {
     syntacticErrors : Diagnostic[],

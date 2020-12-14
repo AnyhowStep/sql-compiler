@@ -7,6 +7,7 @@ import {emitOrderExprList} from "./order-expr";
 import {emitSelectItem} from "./select-item";
 import {emitSelectOptions} from "./select-options";
 import {emitTableAsteriskSelectItem} from "./table-asterisk-select-item";
+import {emitWhereClause} from "./where-clause";
 
 export function emitSelect (select : Select) {
     return new StringBuilder()
@@ -41,6 +42,14 @@ export function emitSelect (select : Select) {
             builder
                 .appendNewLine()
                 .appendBuilder(emitFromClause(select.fromClause))
+        })
+        .scope(builder => {
+            if (select.whereClause == undefined) {
+                return;
+            }
+            builder
+                .appendNewLine()
+                .appendBuilder(emitWhereClause(select.whereClause))
         })
         .scope(builder => {
             if (select.order == undefined) {

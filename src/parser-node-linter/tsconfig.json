@@ -6,6 +6,7 @@
         "types": []
     },
     "references" : [
+        { "path": "../diagnostic" },
         { "path": "../parser-node" },
         { "path": "../parse-util" }
     ],

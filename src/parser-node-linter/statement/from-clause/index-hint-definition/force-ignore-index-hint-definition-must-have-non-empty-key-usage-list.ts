@@ -1,8 +1,7 @@
-import {SyntaxKind, IndexHintDefinition} from "../../../../parser-node";
+import {IndexHintType, SyntaxKind, IndexHintDefinition} from "../../../../parser-node";
 import {LintRule} from "../../../linter";
 import {pushSyntacticErrorAt} from "../../../../parse-util";
 import {DiagnosticMessages} from "../../../diagnostic-messages";
-import {IndexHintType} from "../../../../parser-node/statement";
 
 export const ForceIgnoreIndexHintDefinitionMustHaveNonEmptyKeyUsageList : LintRule<IndexHintDefinition> = {
     syntaxKind : SyntaxKind.IndexHintDefinition,

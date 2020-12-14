@@ -35,8 +35,8 @@ import {
     Union,
     UnionOrderLimit,
     ValueNode,
+    Select,
 } from "../parser-node";
-import {Select} from "../parser-node/statement/select-statement/select";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
     CharacterDataTypeModifier,

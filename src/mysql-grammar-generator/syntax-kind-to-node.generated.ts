@@ -82,6 +82,7 @@ import {
     TableAsteriskSelectItem,
     UnionOrderLimit,
     Union,
+    WhereClause,
     UnknownStatement,
 } from "../parser-node";
 
@@ -167,5 +168,6 @@ export type SyntaxKindToNode = {
     [SyntaxKind.TableAsteriskSelectItem] : TableAsteriskSelectItem;
     [SyntaxKind.UnionOrderLimit] : UnionOrderLimit;
     [SyntaxKind.Union] : Union;
+    [SyntaxKind.WhereClause] : WhereClause;
     [SyntaxKind.UnknownStatement] : UnknownStatement;
 } & Record<SyntaxKind, unknown>;

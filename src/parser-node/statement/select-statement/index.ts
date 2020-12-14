@@ -8,3 +8,4 @@ export * from "./select";
 export * from "./table-asterisk-select-item";
 export * from "./union-order-limit";
 export * from "./union";
+export * from "./where-clause";

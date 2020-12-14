@@ -4178,6 +4178,15 @@ AsteriskSelectItem ->
     };
 } %}
 
+WhereClause ->
+    %WHERE Expression {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.WhereClause,
+        expr: data[1],
+    };
+} %}
+
 LimitOption ->
     (Identifier | ParamMarker | IntegerLiteral) {% (data) => {
     return data[0][0];
@@ -4376,8 +4385,8 @@ SelectStatement ->
 } %}
 
 Select ->
-    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? OrderExprList:? Limit:? {% (data) => {
-    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, order, limit,] = data;
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? WhereClause:? OrderExprList:? Limit:? {% (data) => {
+    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, order, limit,] = data;
     const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
         .flat(2)
         .filter((item) => {
@@ -4390,6 +4399,7 @@ Select ->
         selectOptions,
         selectItems,
         fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
+        whereClause: whereClause !== null && whereClause !== void 0 ? whereClause : undefined,
         order: order !== null && order !== void 0 ? order : undefined,
         limit: limit !== null && limit !== void 0 ? limit : undefined,
     };

@@ -81,6 +81,7 @@ import {Select} from "./statement/select-statement/select";
 import {TableAsteriskSelectItem} from "./statement/select-statement/table-asterisk-select-item";
 import {UnionOrderLimit} from "./statement/select-statement/union-order-limit";
 import {Union} from "./statement/select-statement/union";
+import {WhereClause} from "./statement/select-statement/where-clause";
 import {UnknownStatement} from "./statement/unknown-statement";
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BinaryDataType) : node is BinaryDataType;
@@ -164,6 +165,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Select) : nod
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableAsteriskSelectItem) : node is TableAsteriskSelectItem;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnionOrderLimit) : node is UnionOrderLimit;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Union) : node is Union;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.WhereClause) : node is WhereClause;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownStatement) : node is UnknownStatement;
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean;
@@ -256,6 +258,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.TableAsteriskSelectItem, callback : (node : TableAsteriskSelectItem) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnionOrderLimit, callback : (node : UnionOrderLimit) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Union, callback : (node : Union) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.WhereClause, callback : (node : WhereClause) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownStatement, callback : (node : UnknownStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
 
     default<ResultT> (callback : () => ResultT) : ResultT|ReturnT;

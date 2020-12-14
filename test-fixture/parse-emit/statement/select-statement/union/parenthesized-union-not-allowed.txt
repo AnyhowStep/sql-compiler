@@ -10,7 +10,7 @@ SELECT
 [
     {
         "category": 0,
-        "messageText": "Expected CloseParentheses|Comma|FROM|FROM DUAL|LIMIT|ORDER BY",
+        "messageText": "Expected CloseParentheses|Comma|FROM|FROM DUAL|LIMIT|ORDER BY|WHERE",
         "start": 16,
         "length": 0
     },
