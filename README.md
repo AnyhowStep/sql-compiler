@@ -101,6 +101,10 @@ EXPAND_PARSE_EMIT_FILE=depth-0/crazy-thing-6.txt ./node_modules/.bin/mocha -- ./
 EXPAND_PARSE_EMIT_GET_EXPANSION_PATH_FILE=unnested-macro-2-twice/use-macro-thrice-2.txt ./node_modules/.bin/mocha -- ./dist/test/expand-parse-emit-get-expansion-path.test.js -u tdd --recursive
 ```
 
+```
+PARSE_EMIT_FILE=statement/from-clause/join/rhs-parenthesized-join-long.txt ./node_modules/.bin/mocha -- ./dist/test/parse-emit.test.js -u tdd --recursive
+```
+
 -----
 
 ### Notes on `nearley` problems

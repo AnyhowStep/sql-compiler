@@ -25,8 +25,12 @@ export function testRecursive (dirOrPath : string, callback : (args : CallbackAr
         }
     } else {
         const curPath = dirOrPath;
-        test(curPath, () => {
+        test(curPath, function () {
             const raw = fs.readFileSync(curPath, "utf-8").toString();
+            const timeoutMatch = /timeout\s+(\d+)/.exec(raw);
+            if (timeoutMatch != undefined) {
+                this.timeout(parseInt(timeoutMatch[1]));
+            }
             callback({
                 fileName : path.basename(dirOrPath),
                 curPath,
