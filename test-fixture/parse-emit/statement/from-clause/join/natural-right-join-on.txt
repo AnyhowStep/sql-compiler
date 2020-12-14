@@ -1,0 +1,35 @@
+SELECT
+    *
+FROM
+    T
+    NATURAL RIGHT JOIN
+    U
+    ON
+        1;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    NATURAL RIGHT JOIN
+    `U`
+    ON
+        1;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "NATURAL JOIN must not have join specification",
+        "start": 57,
+        "length": 12,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 28,
+                "length": 18
+            }
+        ]
+    }
+]

@@ -7,7 +7,11 @@ import {JoinType} from "../../../../parser-node/statement";
 export const NaturalJoinMustNotHaveJoinSpecification : LintRule<Join> = {
     syntaxKind : SyntaxKind.Join,
     onEnter : (node, lintResult) => {
-        if (node.joinType.value != JoinType.NATURAL_INNER) {
+        if (
+            node.joinType.value != JoinType.NATURAL_INNER &&
+            node.joinType.value != JoinType.NATURAL_LEFT &&
+            node.joinType.value != JoinType.NATURAL_RIGHT
+        ) {
             return;
         }
         if (node.joinSpecification != undefined) {

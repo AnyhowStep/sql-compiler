@@ -3640,8 +3640,8 @@ Join ->
         joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
     };
 } %}
-    | TableReference %NATURAL (%LEFT | %RIGHT) %OUTER:? %JOIN JoinRhsTableReference {% (data) => {
-    const [lhs, naturalToken, joinType, , joinToken, rhs,] = data;
+    | TableReference %NATURAL (%LEFT | %RIGHT) %OUTER:? %JOIN JoinRhsTableReference JoinSpecification:? {% (data) => {
+    const [lhs, naturalToken, joinType, , joinToken, rhs, joinSpecification,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.Join,
@@ -3650,7 +3650,7 @@ Join ->
             parser_node_1.JoinType.NATURAL_RIGHT), parse_util_1.getTextRange([naturalToken, joinToken])),
         lhs,
         rhs,
-        joinSpecification: undefined,
+        joinSpecification: joinSpecification !== null && joinSpecification !== void 0 ? joinSpecification : undefined,
     };
 } %}
 

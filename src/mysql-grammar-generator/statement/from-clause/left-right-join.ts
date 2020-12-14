@@ -72,6 +72,11 @@ makeCustomRule(SyntaxKind.Join)
             optional(TokenKind.OUTER),
             TokenKind.JOIN,
             CustomSyntaxKind.JoinRhsTableReference,
+            /**
+             * `ON/USING` is not allowed with `NATURAL LEFT/RIGHT JOIN` but we catch it
+             * in `parser-node-linter`.
+             */
+            optional(CustomSyntaxKind.JoinSpecification),
         ] as const,
         (data) : Join => {
             const [
@@ -81,6 +86,7 @@ makeCustomRule(SyntaxKind.Join)
                 ,
                 joinToken,
                 rhs,
+                joinSpecification,
             ] = data;
             return {
                 ...getTextRange(data),
@@ -95,7 +101,7 @@ makeCustomRule(SyntaxKind.Join)
                 ),
                 lhs,
                 rhs,
-                joinSpecification : undefined,
+                joinSpecification : joinSpecification ?? undefined,
             };
         }
     )

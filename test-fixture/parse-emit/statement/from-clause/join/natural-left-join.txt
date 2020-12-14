@@ -1,0 +1,21 @@
+SELECT
+    *
+FROM
+    T
+    NATURAL LEFT JOIN
+    U
+    NATURAL LEFT OUTER JOIN
+    V;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    NATURAL LEFT JOIN
+    `U`
+    NATURAL LEFT JOIN
+    `V`;
+
+-----
+[]
