@@ -35,9 +35,11 @@ SELECT
     *
 FROM
     `T`,
-    `U`
-    CROSS JOIN
-    `V`;
+    (
+        `U`
+        CROSS JOIN
+        `V`
+    );
 
 -----
 []

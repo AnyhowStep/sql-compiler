@@ -1,0 +1,40 @@
+SELECT
+    *
+FROM
+    T,
+    (U, V),
+    X;
+
+/*
+    The `U, V` here is not a nested table reference list.
+    Just two named table factors.
+    To nest table reference lists, you need to wrap them in parentheses.
+*/
+SELECT
+    *
+FROM
+    T,
+    U, V,
+    X;
+
+-----
+SELECT
+    *
+FROM
+    `T`,
+    (
+        `U`,
+        `V`
+    ),
+    `X`;
+
+SELECT
+    *
+FROM
+    `T`,
+    `U`,
+    `V`,
+    `X`;
+
+-----
+[]
