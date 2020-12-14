@@ -103,4 +103,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240019,
     }),
+    LeftRightJoinMustHaveJoinSpecification : makeDiagnosticMessage({
+        key : "LEFT/RIGHT JOIN must have join specification",
+        category : DiagnosticCategory.Error,
+        code : 240020,
+    }),
 } as const;

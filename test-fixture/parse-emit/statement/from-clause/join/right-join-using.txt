@@ -1,0 +1,19 @@
+SELECT
+    *
+FROM
+    T
+    RIGHT JOIN
+    U
+    USING (X, Y, Z);
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    RIGHT JOIN
+    `U`
+    USING (`X`, `Y`, `Z`);
+
+-----
+[]

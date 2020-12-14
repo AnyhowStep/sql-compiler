@@ -1,0 +1,34 @@
+SELECT
+    *
+FROM
+    T
+    LEFT JOIN
+    U
+    LEFT OUTER JOIN
+    V;
+
+-----
+SELECT
+    *
+FROM
+    `T`
+    LEFT JOIN
+    `U`
+    LEFT JOIN
+    `V`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "LEFT/RIGHT JOIN must have join specification",
+        "start": 28,
+        "length": 9
+    },
+    {
+        "category": 0,
+        "messageText": "LEFT/RIGHT JOIN must have join specification",
+        "start": 48,
+        "length": 15
+    }
+]
