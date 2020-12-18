@@ -1,0 +1,27 @@
+SELECT
+    1
+INTO
+    @x;
+
+SELECT
+    1
+INTO
+    @x
+FROM
+    T;
+
+-----
+SELECT
+    1
+INTO
+    @x;
+
+SELECT
+    1
+INTO
+    @x
+FROM
+    `T`;
+
+-----
+[]

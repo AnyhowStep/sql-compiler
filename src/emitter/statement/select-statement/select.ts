@@ -2,6 +2,7 @@ import {Select, SyntaxKind} from "../../../parser-node";
 import {StringBuilder} from "../../string-builder";
 import {emitFromClause} from "../from-clause";
 import {emitGroupByClause} from "../group-by-clause";
+import {emitIntoClause} from "../into-clause";
 import {emitAsteriskSelectItem} from "./asterisk-select-item";
 import {emitHavingClause} from "./having-clause";
 import {emitLimit} from "./limit";
@@ -37,6 +38,14 @@ export function emitSelect (select : Select) {
                         emitSelectItem(selectItem)
                     )
             )
+        })
+        .scope(builder => {
+            if (select.preIntoClause == undefined) {
+                return;
+            }
+            builder
+                .appendNewLine()
+                .appendBuilder(emitIntoClause(select.preIntoClause))
         })
         .scope(builder => {
             if (select.fromClause == undefined) {
@@ -93,5 +102,13 @@ export function emitSelect (select : Select) {
             builder
                 .appendNewLine()
                 .appendBuilder(emitProcedureAnalyseClause(select.procedureAnalyseClause))
+        })
+        .scope(builder => {
+            if (select.postIntoClause == undefined) {
+                return;
+            }
+            builder
+                .appendNewLine()
+                .appendBuilder(emitIntoClause(select.postIntoClause))
         })
 }

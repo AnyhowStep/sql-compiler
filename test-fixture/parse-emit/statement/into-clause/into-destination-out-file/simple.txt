@@ -1,0 +1,11 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file';
+
+-----
+[]

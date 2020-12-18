@@ -1,0 +1,18 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    CHARACTER SET utf8mb4
+    LINES
+        TERMINATED BY '-';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    CHARACTER SET `utf8mb4`
+    LINES
+        STARTING BY ''
+        TERMINATED BY '-';
+
+-----
+[]

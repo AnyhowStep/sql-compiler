@@ -1,0 +1,17 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    LINES
+        STARTING BY '11'
+        TERMINATED BY '22';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    LINES
+        STARTING BY '11'
+        TERMINATED BY '22';
+
+-----
+[]

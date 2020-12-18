@@ -1,0 +1,35 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY ''
+        ENCLOSED BY ''
+        ESCAPED BY '';
+
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY ''
+        OPTIONALLY ENCLOSED BY ''
+        ESCAPED BY '';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY ''
+        ENCLOSED BY ''
+        ESCAPED BY '';
+
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY ''
+        OPTIONALLY ENCLOSED BY ''
+        ESCAPED BY '';
+
+-----
+[]

@@ -1,0 +1,60 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '11'
+        ENCLOSED BY '22'
+        ESCAPED BY '33';
+
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '11'
+        OPTIONALLY ENCLOSED BY '22'
+        ESCAPED BY '33';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '11'
+        ENCLOSED BY '22'
+        ESCAPED BY '33';
+
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '11'
+        OPTIONALLY ENCLOSED BY '22'
+        ESCAPED BY '33';
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "ENCLOSED BY/ESCAPED BY must be length zero or one",
+        "start": 99,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "ENCLOSED BY/ESCAPED BY must be length zero or one",
+        "start": 123,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "ENCLOSED BY/ESCAPED BY must be length zero or one",
+        "start": 240,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "ENCLOSED BY/ESCAPED BY must be length zero or one",
+        "start": 264,
+        "length": 4
+    }
+]

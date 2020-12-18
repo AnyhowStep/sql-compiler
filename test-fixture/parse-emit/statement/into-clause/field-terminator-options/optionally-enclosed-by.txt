@@ -1,0 +1,17 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        OPTIONALLY ENCLOSED BY '-';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '\t'
+        OPTIONALLY ENCLOSED BY '-'
+        ESCAPED BY '\\';
+
+-----
+[]

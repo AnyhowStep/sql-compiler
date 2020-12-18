@@ -1,5 +1,5 @@
 import {ParserState} from "../mysql-grammar";
-import {SelectOption} from "../mysql-grammar/custom-data";
+import {FieldTerminatorOption, LineTerminatorOption, SelectOption} from "../mysql-grammar/custom-data";
 import {CustomSubstitutionToString, makeRuleFactory, TextRange} from "../nearley-wrapper";
 import {
     BitLiteral,
@@ -38,6 +38,8 @@ import {
     Select,
     NodeArray2,
     GroupingExpr,
+    IntoDestination,
+    IntoDestinationVariableList,
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
@@ -114,6 +116,10 @@ export enum CustomSyntaxKind {
     JoinSpecification,
     IndexHintClause,
     TableReferenceList_2OrMore,
+    FieldTerminatorOption,
+    LineTerminatorOption,
+    CharacterSetNameOrDefault,
+    IntoDestination,
 }
 
 declare module "../nearley-wrapper" {
@@ -123,6 +129,7 @@ declare module "../nearley-wrapper" {
         [SyntaxKind.IndexHintDefinitionList] : NodeArray<IndexHintDefinition>,
         [SyntaxKind.KeyUsageList] : NodeArray<Identifier|ValueNode<"PRIMARY">>,
         [SyntaxKind.GroupingExprList] : NodeArray2<SyntaxKind.GroupingExprList, GroupingExpr>,
+        [SyntaxKind.IntoDestinationVariableList] : IntoDestinationVariableList,
 
         [CustomSyntaxKind.CharacterSetName] : Identifier|StringLiteral,
         [CustomSyntaxKind.Expression] : Expression,
@@ -189,6 +196,10 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.JoinSpecification] : JoinSpecification,
         [CustomSyntaxKind.IndexHintClause] : ValueNode<IndexHintClause>,
         [CustomSyntaxKind.TableReferenceList_2OrMore] : TableReferenceList,
+        [CustomSyntaxKind.FieldTerminatorOption] : FieldTerminatorOption,
+        [CustomSyntaxKind.LineTerminatorOption] : LineTerminatorOption,
+        [CustomSyntaxKind.CharacterSetNameOrDefault] : Identifier|StringLiteral|ValueNode<"DEFAULT">,
+        [CustomSyntaxKind.IntoDestination] : IntoDestination,
     }
 
     interface CustomToken extends Array<TokenKind> {

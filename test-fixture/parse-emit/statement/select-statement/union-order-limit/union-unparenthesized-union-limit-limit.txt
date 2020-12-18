@@ -22,7 +22,7 @@ UNION DISTINCT
 [
     {
         "category": 0,
-        "messageText": "Expected Comma|CustomDelimiter|OFFSET|PROCEDURE ANALYSE OpenParentheses|PROCEDURE ANALYSE OpenParentheses CloseParentheses|SemiColon|UNION",
+        "messageText": "Expected Comma|CustomDelimiter|INTO|OFFSET|PROCEDURE ANALYSE OpenParentheses|PROCEDURE ANALYSE OpenParentheses CloseParentheses|SemiColon|UNION",
         "start": 47,
         "length": 0
     }

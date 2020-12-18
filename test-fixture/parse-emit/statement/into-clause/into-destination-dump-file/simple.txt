@@ -1,0 +1,11 @@
+SELECT
+    1
+INTO DUMPFILE 'path/to/file';
+
+-----
+SELECT
+    1
+INTO DUMPFILE 'path/to/file';
+
+-----
+[]

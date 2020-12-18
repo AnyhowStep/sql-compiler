@@ -35,6 +35,8 @@ makeCustomRule(SyntaxKind.Select)
                 ),
             ] as const),
 
+            optional(SyntaxKind.IntoClause),
+
             optional(SyntaxKind.FromClause),
             optional(SyntaxKind.WhereClause),
             optional(SyntaxKind.GroupByClause),
@@ -44,6 +46,9 @@ makeCustomRule(SyntaxKind.Select)
             optional(SyntaxKind.Limit),
 
             optional(SyntaxKind.ProcedureAnalyseClause),
+
+            optional(SyntaxKind.IntoClause),
+
         ] as const,
         (data) : Select => {
             const [
@@ -51,6 +56,7 @@ makeCustomRule(SyntaxKind.Select)
                 selectOptions,
                 firstSelectItem,
                 trailingSelectItems,
+                intoClauseA,
                 fromClause,
                 whereClause,
                 groupByClause,
@@ -58,7 +64,25 @@ makeCustomRule(SyntaxKind.Select)
                 order,
                 limit,
                 procedureAnalyseClause,
+                intoClauseB,
             ] = data;
+
+            /**
+             * Hack to resolve ambiguities related to `INTO` clause.
+             */
+            const [
+                preIntoClause,
+                postIntoClause
+            ] = (
+                (
+                    intoClauseA == undefined &&
+                    intoClauseB != undefined &&
+                    [fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause]
+                        .every(item => item == undefined)
+                ) ?
+                [intoClauseB, undefined] :
+                [intoClauseA, intoClauseB]
+            );
 
             const selectItems = toNodeArray(
                 [...firstSelectItem, ...trailingSelectItems]
@@ -75,6 +99,7 @@ makeCustomRule(SyntaxKind.Select)
                 parenthesized : false,
                 selectOptions,
                 selectItems,
+                preIntoClause : preIntoClause ?? undefined,
                 fromClause : fromClause ?? undefined,
                 whereClause : whereClause ?? undefined,
                 groupByClause : groupByClause ?? undefined,
@@ -82,6 +107,7 @@ makeCustomRule(SyntaxKind.Select)
                 order : order ?? undefined,
                 limit : limit ?? undefined,
                 procedureAnalyseClause : procedureAnalyseClause ?? undefined,
+                postIntoClause : postIntoClause ?? undefined,
             };
         }
     );

@@ -118,6 +118,8 @@ export const syntaxKinds = [
     "IntoDestinationDumpFile",
     "IntoDestinationOutFile",
     "IntoDestinationVariableList",
+    "FieldTerminatorOptions",
+    "LineTerminatorOptions",
     "Union",
     "UnionOrderLimit",
 

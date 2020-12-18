@@ -2288,6 +2288,36 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "CharacterSetNameOrDefault", "symbols": ["Identifier"], "postprocess":  function (data) {
+            const identifier = data[0];
+            if (!identifier.quoted &&
+                identifier.identifier.toUpperCase() == "DEFAULT") {
+                /**
+                 * We allow `DEFAULT` here.
+                 * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7028
+                 */
+                return parse_util_1.toValueNode("DEFAULT", parse_util_1.getTextRange(data));
+            }
+            //We allow `BINARY` here
+            //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
+            if (identifier.identifier.toUpperCase() == "BINARY") {
+                return {
+                    ...identifier,
+                    identifier: identifier.identifier.toLowerCase(),
+                    //Hack; remove the syntactic error
+                    syntacticErrors: undefined,
+                };
+            }
+            else {
+                return {
+                    ...identifier,
+                    identifier: identifier.identifier.toLowerCase(),
+                };
+            }
+        } },
+    {"name": "CharacterSetNameOrDefault", "symbols": ["StringLiteral"], "postprocess":  function (data) {
+            return data[0];
+        } },
     {"name": "CharacterSetName", "symbols": ["Identifier"], "postprocess":  function (data) {
             const identifier = data[0];
             //We allow `BINARY` here
@@ -4161,6 +4191,208 @@ export var ParserRules: NearleyRule[] = [
             });
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.GroupingExprList, parse_util_1.getTextRange(data));
         } },
+    {"name": "FieldTerminatorOption", "symbols": [TERMINATED, BY, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                terminatedBy: data[2],
+            };
+        } },
+    {"name": "FieldTerminatorOption", "symbols": [OPTIONALLY, ENCLOSED, BY, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                optionallyEnclosed: true,
+                enclosedBy: data[3],
+            };
+        } },
+    {"name": "FieldTerminatorOption", "symbols": [ENCLOSED, BY, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                enclosedBy: data[2],
+            };
+        } },
+    {"name": "FieldTerminatorOption", "symbols": [ESCAPED, BY, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                escapedBy: data[2],
+            };
+        } },
+    {"name": "FieldTerminatorOptions$subexpression$1", "symbols": [FIELDS]},
+    {"name": "FieldTerminatorOptions$subexpression$1", "symbols": [COLUMNS]},
+    {"name": "FieldTerminatorOptions$ebnf$1", "symbols": []},
+    {"name": "FieldTerminatorOptions$ebnf$1", "symbols": ["FieldTerminatorOptions$ebnf$1", "FieldTerminatorOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "FieldTerminatorOptions", "symbols": ["FieldTerminatorOptions$subexpression$1", "FieldTerminatorOption", "FieldTerminatorOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(1)
+                .filter((item) => {
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                terminatedBy: {
+                    start: data[0][0].start,
+                    end: data[0][0].end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "\t",
+                    sourceText: "'\\t'",
+                },
+                optionallyEnclosed: false,
+                enclosedBy: {
+                    start: data[0][0].start,
+                    end: data[0][0].end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: "''",
+                },
+                escapedBy: {
+                    start: data[0][0].start,
+                    end: data[0][0].end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "\\",
+                    sourceText: "'\\\\'",
+                },
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.FieldTerminatorOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "IntoClause", "symbols": [INTO, "IntoDestination"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IntoClause,
+                intoDestination: data[1],
+            };
+        } },
+    {"name": "IntoDestinationDumpFile", "symbols": [DUMPFILE, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IntoDestinationDumpFile,
+                path: data[1],
+            };
+        } },
+    {"name": "IntoDestinationOutFile$ebnf$1$subexpression$1$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
+    {"name": "IntoDestinationOutFile$ebnf$1$subexpression$1$subexpression$1", "symbols": ["IntoDestinationOutFile$ebnf$1$subexpression$1$subexpression$1$subexpression$1"]},
+    {"name": "IntoDestinationOutFile$ebnf$1$subexpression$1$subexpression$1", "symbols": [CHARSET]},
+    {"name": "IntoDestinationOutFile$ebnf$1$subexpression$1", "symbols": ["IntoDestinationOutFile$ebnf$1$subexpression$1$subexpression$1", "CharacterSetNameOrDefault"]},
+    {"name": "IntoDestinationOutFile$ebnf$1", "symbols": ["IntoDestinationOutFile$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "IntoDestinationOutFile$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IntoDestinationOutFile$ebnf$2", "symbols": ["FieldTerminatorOptions"], "postprocess": id},
+    {"name": "IntoDestinationOutFile$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "IntoDestinationOutFile$ebnf$3", "symbols": ["LineTerminatorOptions"], "postprocess": id},
+    {"name": "IntoDestinationOutFile$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "IntoDestinationOutFile", "symbols": [OUTFILE, "StringLiteral", "IntoDestinationOutFile$ebnf$1", "IntoDestinationOutFile$ebnf$2", "IntoDestinationOutFile$ebnf$3"], "postprocess":  (data) => {
+            const [, path, characterSet, fieldTerminatorOptions, lineTerminatorOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IntoDestinationOutFile,
+                path: path,
+                characterSet: (characterSet == undefined ?
+                    undefined :
+                    characterSet[1]),
+                fieldTerminatorOptions: fieldTerminatorOptions !== null && fieldTerminatorOptions !== void 0 ? fieldTerminatorOptions : undefined,
+                lineTerminatorOptions: lineTerminatorOptions !== null && lineTerminatorOptions !== void 0 ? lineTerminatorOptions : undefined,
+            };
+        } },
+    {"name": "IntoDestinationVariableList$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "IntoDestinationVariableList$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "IntoDestinationVariableList$subexpression$1", "symbols": ["UserVariableIdentifier"]},
+    {"name": "IntoDestinationVariableList$ebnf$1", "symbols": []},
+    {"name": "IntoDestinationVariableList$ebnf$1$subexpression$1$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "IntoDestinationVariableList$ebnf$1$subexpression$1$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "IntoDestinationVariableList$ebnf$1$subexpression$1$subexpression$1", "symbols": ["UserVariableIdentifier"]},
+    {"name": "IntoDestinationVariableList$ebnf$1$subexpression$1", "symbols": [Comma, "IntoDestinationVariableList$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "IntoDestinationVariableList$ebnf$1", "symbols": ["IntoDestinationVariableList$ebnf$1", "IntoDestinationVariableList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IntoDestinationVariableList", "symbols": ["IntoDestinationVariableList$subexpression$1", "IntoDestinationVariableList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((data) => {
+                return "syntaxKind" in data;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.IntoDestinationVariableList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "IntoDestination$subexpression$1", "symbols": ["IntoDestinationDumpFile"]},
+    {"name": "IntoDestination$subexpression$1", "symbols": ["IntoDestinationOutFile"]},
+    {"name": "IntoDestination$subexpression$1", "symbols": ["IntoDestinationVariableList"]},
+    {"name": "IntoDestination", "symbols": ["IntoDestination$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
+    {"name": "LineTerminatorOption", "symbols": [TERMINATED, BY, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                terminatedBy: data[2],
+            };
+        } },
+    {"name": "LineTerminatorOption", "symbols": [STARTING, BY, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                startingBy: data[2],
+            };
+        } },
+    {"name": "LineTerminatorOptions$ebnf$1", "symbols": []},
+    {"name": "LineTerminatorOptions$ebnf$1", "symbols": ["LineTerminatorOptions$ebnf$1", "LineTerminatorOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "LineTerminatorOptions", "symbols": [LINES, "LineTerminatorOption", "LineTerminatorOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(1)
+                .filter((item) => {
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                terminatedBy: {
+                    start: data[0].start,
+                    end: data[0].end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "\n",
+                    sourceText: "'\\n'",
+                },
+                startingBy: {
+                    start: data[0].start,
+                    end: data[0].end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: "''",
+                },
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.LineTerminatorOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
     {"name": "HashPartition$ebnf$1", "symbols": [LINEAR], "postprocess": id},
     {"name": "HashPartition$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "HashPartition$ebnf$2$subexpression$1", "symbols": [PARTITIONS, "IntegerLiteral"]},
@@ -4905,22 +5137,35 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Select$ebnf$1$subexpression$1$subexpression$1", "symbols": ["SelectItem"]},
     {"name": "Select$ebnf$1$subexpression$1", "symbols": [Comma, "Select$ebnf$1$subexpression$1$subexpression$1"]},
     {"name": "Select$ebnf$1", "symbols": ["Select$ebnf$1", "Select$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "Select$ebnf$2", "symbols": ["FromClause"], "postprocess": id},
+    {"name": "Select$ebnf$2", "symbols": ["IntoClause"], "postprocess": id},
     {"name": "Select$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$3", "symbols": ["WhereClause"], "postprocess": id},
+    {"name": "Select$ebnf$3", "symbols": ["FromClause"], "postprocess": id},
     {"name": "Select$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$4", "symbols": ["GroupByClause"], "postprocess": id},
+    {"name": "Select$ebnf$4", "symbols": ["WhereClause"], "postprocess": id},
     {"name": "Select$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$5", "symbols": ["HavingClause"], "postprocess": id},
+    {"name": "Select$ebnf$5", "symbols": ["GroupByClause"], "postprocess": id},
     {"name": "Select$ebnf$5", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$6", "symbols": ["OrderExprList"], "postprocess": id},
+    {"name": "Select$ebnf$6", "symbols": ["HavingClause"], "postprocess": id},
     {"name": "Select$ebnf$6", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$7", "symbols": ["Limit"], "postprocess": id},
+    {"name": "Select$ebnf$7", "symbols": ["OrderExprList"], "postprocess": id},
     {"name": "Select$ebnf$7", "symbols": [], "postprocess": () => null},
-    {"name": "Select$ebnf$8", "symbols": ["ProcedureAnalyseClause"], "postprocess": id},
+    {"name": "Select$ebnf$8", "symbols": ["Limit"], "postprocess": id},
     {"name": "Select$ebnf$8", "symbols": [], "postprocess": () => null},
-    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6", "Select$ebnf$7", "Select$ebnf$8"], "postprocess":  (data) => {
-            const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause,] = data;
+    {"name": "Select$ebnf$9", "symbols": ["ProcedureAnalyseClause"], "postprocess": id},
+    {"name": "Select$ebnf$9", "symbols": [], "postprocess": () => null},
+    {"name": "Select$ebnf$10", "symbols": ["IntoClause"], "postprocess": id},
+    {"name": "Select$ebnf$10", "symbols": [], "postprocess": () => null},
+    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6", "Select$ebnf$7", "Select$ebnf$8", "Select$ebnf$9", "Select$ebnf$10"], "postprocess":  (data) => {
+            const [, selectOptions, firstSelectItem, trailingSelectItems, intoClauseA, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause, intoClauseB,] = data;
+            /**
+             * Hack to resolve ambiguities related to `INTO` clause.
+             */
+            const [preIntoClause, postIntoClause] = ((intoClauseA == undefined &&
+                intoClauseB != undefined &&
+                [fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause]
+                    .every(item => item == undefined)) ?
+                [intoClauseB, undefined] :
+                [intoClauseA, intoClauseB]);
             const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
                 .flat(2)
                 .filter((item) => {
@@ -4932,6 +5177,7 @@ export var ParserRules: NearleyRule[] = [
                 parenthesized: false,
                 selectOptions,
                 selectItems,
+                preIntoClause: preIntoClause !== null && preIntoClause !== void 0 ? preIntoClause : undefined,
                 fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
                 whereClause: whereClause !== null && whereClause !== void 0 ? whereClause : undefined,
                 groupByClause: groupByClause !== null && groupByClause !== void 0 ? groupByClause : undefined,
@@ -4939,6 +5185,7 @@ export var ParserRules: NearleyRule[] = [
                 order: order !== null && order !== void 0 ? order : undefined,
                 limit: limit !== null && limit !== void 0 ? limit : undefined,
                 procedureAnalyseClause: procedureAnalyseClause !== null && procedureAnalyseClause !== void 0 ? procedureAnalyseClause : undefined,
+                postIntoClause: postIntoClause !== null && postIntoClause !== void 0 ? postIntoClause : undefined,
             };
         } },
     {"name": "ParenthesizedSelect", "symbols": [OpenParentheses, "ParenthesizedSelect", CloseParentheses], "postprocess":  (data) => {

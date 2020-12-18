@@ -66,6 +66,11 @@ import {
     OdbcTableReference,
     GroupByClause,
     GroupingExpr,
+    FieldTerminatorOptions,
+    IntoClause,
+    IntoDestinationDumpFile,
+    IntoDestinationOutFile,
+    LineTerminatorOptions,
     HashPartition,
     HashSubPartition,
     KeyPartition,
@@ -157,6 +162,11 @@ export type SyntaxKindToNode = {
     [SyntaxKind.OdbcTableReference] : OdbcTableReference;
     [SyntaxKind.GroupByClause] : GroupByClause;
     [SyntaxKind.GroupingExpr] : GroupingExpr;
+    [SyntaxKind.FieldTerminatorOptions] : FieldTerminatorOptions;
+    [SyntaxKind.IntoClause] : IntoClause;
+    [SyntaxKind.IntoDestinationDumpFile] : IntoDestinationDumpFile;
+    [SyntaxKind.IntoDestinationOutFile] : IntoDestinationOutFile;
+    [SyntaxKind.LineTerminatorOptions] : LineTerminatorOptions;
     [SyntaxKind.HashPartition] : HashPartition;
     [SyntaxKind.HashSubPartition] : HashSubPartition;
     [SyntaxKind.KeyPartition] : KeyPartition;

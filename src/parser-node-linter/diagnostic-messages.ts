@@ -138,4 +138,14 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240026,
     }),
+    EnclosedByEscapedByMustBeLengthZeroOrOne : makeDiagnosticMessage({
+        key : "ENCLOSED BY/ESCAPED BY must be length zero or one",
+        category : DiagnosticCategory.Error,
+        code : 240027,
+    }),
+    CannotSpecifyTwoIntoClauses : makeDiagnosticMessage({
+        key : "Cannot specify two INTO clauses",
+        category : DiagnosticCategory.Error,
+        code : 240028,
+    }),
 } as const;

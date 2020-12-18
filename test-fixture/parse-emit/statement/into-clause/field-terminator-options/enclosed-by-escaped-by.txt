@@ -1,0 +1,32 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        ENCLOSED BY '2'
+        ESCAPED BY '3';
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        ESCAPED BY '3'
+        ENCLOSED BY '2';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '\t'
+        ENCLOSED BY '2'
+        ESCAPED BY '3';
+
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '\t'
+        ENCLOSED BY '2'
+        ESCAPED BY '3';
+
+-----
+[]

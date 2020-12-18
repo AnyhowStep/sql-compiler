@@ -1,0 +1,62 @@
+SELECT
+    1
+INTO
+    @x
+INTO
+    @y;
+
+SELECT
+    1
+INTO
+    @x
+FROM
+    T
+INTO
+    @y;
+
+-----
+SELECT
+    1
+INTO
+    @x
+INTO
+    @y;
+
+SELECT
+    1
+INTO
+    @x
+FROM
+    `T`
+INTO
+    @y;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot specify two INTO clauses",
+        "start": 25,
+        "length": 11,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 13,
+                "length": 11
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot specify two INTO clauses",
+        "start": 75,
+        "length": 11,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 52,
+                "length": 11
+            }
+        ]
+    }
+]

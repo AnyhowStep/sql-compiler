@@ -1,0 +1,22 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '-'
+    LINES
+        TERMINATED BY '-';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    FIELDS
+        TERMINATED BY '-'
+        ENCLOSED BY ''
+        ESCAPED BY '\\'
+    LINES
+        STARTING BY ''
+        TERMINATED BY '-';
+
+-----
+[]

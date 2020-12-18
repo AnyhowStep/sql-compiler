@@ -2198,6 +2198,38 @@ UserVariableIdentifier ->
     return result;
 } %}
 
+CharacterSetNameOrDefault ->
+    Identifier {% function (data) {
+    const identifier = data[0];
+    if (!identifier.quoted &&
+        identifier.identifier.toUpperCase() == "DEFAULT") {
+        /**
+         * We allow `DEFAULT` here.
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7028
+         */
+        return parse_util_1.toValueNode("DEFAULT", parse_util_1.getTextRange(data));
+    }
+    //We allow `BINARY` here
+    //https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
+    if (identifier.identifier.toUpperCase() == "BINARY") {
+        return {
+            ...identifier,
+            identifier: identifier.identifier.toLowerCase(),
+            //Hack; remove the syntactic error
+            syntacticErrors: undefined,
+        };
+    }
+    else {
+        return {
+            ...identifier,
+            identifier: identifier.identifier.toLowerCase(),
+        };
+    }
+} %}
+    | StringLiteral {% function (data) {
+    return data[0];
+} %}
+
 CharacterSetName ->
     Identifier {% function (data) {
     const identifier = data[0];
@@ -3828,6 +3860,198 @@ GroupingExprList ->
     return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.GroupingExprList, parse_util_1.getTextRange(data));
 } %}
 
+FieldTerminatorOption ->
+    %TERMINATED %BY StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        terminatedBy: data[2],
+    };
+} %}
+    | %OPTIONALLY %ENCLOSED %BY StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        optionallyEnclosed: true,
+        enclosedBy: data[3],
+    };
+} %}
+    | %ENCLOSED %BY StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        enclosedBy: data[2],
+    };
+} %}
+    | %ESCAPED %BY StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        escapedBy: data[2],
+    };
+} %}
+
+FieldTerminatorOptions ->
+    (%FIELDS | %COLUMNS) FieldTerminatorOption FieldTerminatorOption:* {% (data) => {
+    const arr = data
+        .flat(1)
+        .filter((item) => {
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        terminatedBy: {
+            start: data[0][0].start,
+            end: data[0][0].end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "\t",
+            sourceText: "'\\t'",
+        },
+        optionallyEnclosed: false,
+        enclosedBy: {
+            start: data[0][0].start,
+            end: data[0][0].end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: "''",
+        },
+        escapedBy: {
+            start: data[0][0].start,
+            end: data[0][0].end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "\\",
+            sourceText: "'\\\\'",
+        },
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.FieldTerminatorOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+IntoClause ->
+    %INTO IntoDestination {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IntoClause,
+        intoDestination: data[1],
+    };
+} %}
+
+IntoDestinationDumpFile ->
+    %DUMPFILE StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IntoDestinationDumpFile,
+        path: data[1],
+    };
+} %}
+
+IntoDestinationOutFile ->
+    %OUTFILE StringLiteral (((%CHARACTER %SET) | %CHARSET) CharacterSetNameOrDefault):? FieldTerminatorOptions:? LineTerminatorOptions:? {% (data) => {
+    const [, path, characterSet, fieldTerminatorOptions, lineTerminatorOptions,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IntoDestinationOutFile,
+        path: path,
+        characterSet: (characterSet == undefined ?
+            undefined :
+            characterSet[1]),
+        fieldTerminatorOptions: fieldTerminatorOptions !== null && fieldTerminatorOptions !== void 0 ? fieldTerminatorOptions : undefined,
+        lineTerminatorOptions: lineTerminatorOptions !== null && lineTerminatorOptions !== void 0 ? lineTerminatorOptions : undefined,
+    };
+} %}
+
+IntoDestinationVariableList ->
+    (Identifier | StringLiteral | UserVariableIdentifier) (%Comma (Identifier | StringLiteral | UserVariableIdentifier)):* {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((data) => {
+        return "syntaxKind" in data;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.IntoDestinationVariableList, parse_util_1.getTextRange(data));
+} %}
+
+IntoDestination ->
+    (IntoDestinationDumpFile | IntoDestinationOutFile | IntoDestinationVariableList) {% (data) => {
+    return data[0][0];
+} %}
+
+LineTerminatorOption ->
+    %TERMINATED %BY StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        terminatedBy: data[2],
+    };
+} %}
+    | %STARTING %BY StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        startingBy: data[2],
+    };
+} %}
+
+LineTerminatorOptions ->
+    %LINES LineTerminatorOption LineTerminatorOption:* {% (data) => {
+    const arr = data
+        .flat(1)
+        .filter((item) => {
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        terminatedBy: {
+            start: data[0].start,
+            end: data[0].end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "\n",
+            sourceText: "'\\n'",
+        },
+        startingBy: {
+            start: data[0].start,
+            end: data[0].end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: "''",
+        },
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.LineTerminatorOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
 HashPartition ->
     %PARTITION %BY %LINEAR:? %HASH %OpenParentheses Expression %CloseParentheses (%PARTITIONS IntegerLiteral):? {% (data) => {
     return {
@@ -4476,8 +4700,17 @@ SelectStatement ->
 } %}
 
 Select ->
-    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* FromClause:? WhereClause:? GroupByClause:? HavingClause:? OrderExprList:? Limit:? ProcedureAnalyseClause:? {% (data) => {
-    const [, selectOptions, firstSelectItem, trailingSelectItems, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause,] = data;
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* IntoClause:? FromClause:? WhereClause:? GroupByClause:? HavingClause:? OrderExprList:? Limit:? ProcedureAnalyseClause:? IntoClause:? {% (data) => {
+    const [, selectOptions, firstSelectItem, trailingSelectItems, intoClauseA, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause, intoClauseB,] = data;
+    /**
+     * Hack to resolve ambiguities related to `INTO` clause.
+     */
+    const [preIntoClause, postIntoClause] = ((intoClauseA == undefined &&
+        intoClauseB != undefined &&
+        [fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause]
+            .every(item => item == undefined)) ?
+        [intoClauseB, undefined] :
+        [intoClauseA, intoClauseB]);
     const selectItems = parse_util_1.toNodeArray([...firstSelectItem, ...trailingSelectItems]
         .flat(2)
         .filter((item) => {
@@ -4489,6 +4722,7 @@ Select ->
         parenthesized: false,
         selectOptions,
         selectItems,
+        preIntoClause: preIntoClause !== null && preIntoClause !== void 0 ? preIntoClause : undefined,
         fromClause: fromClause !== null && fromClause !== void 0 ? fromClause : undefined,
         whereClause: whereClause !== null && whereClause !== void 0 ? whereClause : undefined,
         groupByClause: groupByClause !== null && groupByClause !== void 0 ? groupByClause : undefined,
@@ -4496,6 +4730,7 @@ Select ->
         order: order !== null && order !== void 0 ? order : undefined,
         limit: limit !== null && limit !== void 0 ? limit : undefined,
         procedureAnalyseClause: procedureAnalyseClause !== null && procedureAnalyseClause !== void 0 ? procedureAnalyseClause : undefined,
+        postIntoClause: postIntoClause !== null && postIntoClause !== void 0 ? postIntoClause : undefined,
     };
 } %}
 

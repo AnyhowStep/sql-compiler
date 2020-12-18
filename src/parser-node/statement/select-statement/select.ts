@@ -3,6 +3,7 @@ import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {FromClause} from "../from-clause";
 import {GroupByClause} from "../group-by-clause";
+import {IntoClause} from "../into-clause";
 import {Statement} from "../statement";
 import {AsteriskSelectItem} from "./asterisk-select-item";
 import {HavingClause} from "./having-clause";
@@ -22,6 +23,8 @@ export interface Select extends Node, Statement {
     selectOptions : SelectOptions,
     selectItems : NodeArray<SelectItem|AsteriskSelectItem|TableAsteriskSelectItem>,
 
+    preIntoClause : IntoClause|undefined,
+
     fromClause : FromClause|undefined,
     whereClause : WhereClause|undefined,
     groupByClause : GroupByClause|undefined,
@@ -31,5 +34,7 @@ export interface Select extends Node, Statement {
     limit : Limit|undefined,
 
     procedureAnalyseClause : ProcedureAnalyseClause|undefined,
+
+    postIntoClause : IntoClause|undefined,
 
 }

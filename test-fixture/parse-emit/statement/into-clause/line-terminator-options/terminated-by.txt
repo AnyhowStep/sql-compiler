@@ -1,0 +1,16 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    LINES
+        TERMINATED BY '2';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    LINES
+        STARTING BY ''
+        TERMINATED BY '2';
+
+-----
+[]

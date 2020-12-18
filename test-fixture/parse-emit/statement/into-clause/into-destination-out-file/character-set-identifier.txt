@@ -1,0 +1,23 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    CHARACTER SET utf8mb4;
+
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    CHARSET UTF8mb4;
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    CHARACTER SET `utf8mb4`;
+
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    CHARACTER SET `utf8mb4`;
+
+-----
+[]

@@ -1,0 +1,31 @@
+SELECT
+    1
+ORDER BY
+    1
+INTO
+    @x;
+
+SELECT
+    1
+FROM
+    T
+INTO
+    @x;
+
+-----
+SELECT
+    1
+ORDER BY
+    1 ASC
+INTO
+    @x;
+
+SELECT
+    1
+FROM
+    `T`
+INTO
+    @x;
+
+-----
+[]

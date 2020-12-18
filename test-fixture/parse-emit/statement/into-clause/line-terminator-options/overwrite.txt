@@ -1,0 +1,19 @@
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    LINES
+        STARTING BY '1'
+        TERMINATED BY '2'
+        STARTING BY 'a'
+        TERMINATED BY 'b';
+
+-----
+SELECT
+    1
+INTO OUTFILE 'path/to/file'
+    LINES
+        STARTING BY 'a'
+        TERMINATED BY 'b';
+
+-----
+[]
