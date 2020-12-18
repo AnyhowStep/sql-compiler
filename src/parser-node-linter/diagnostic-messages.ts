@@ -148,4 +148,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240028,
     }),
+    CannotUseProcedureAnalyseClauseAndIntoClauseTogether : makeDiagnosticMessage({
+        key : "Cannot use PROCEDURE ANALYSE clause and INTO clause together",
+        category : DiagnosticCategory.Error,
+        code : 240029,
+    }),
 } as const;

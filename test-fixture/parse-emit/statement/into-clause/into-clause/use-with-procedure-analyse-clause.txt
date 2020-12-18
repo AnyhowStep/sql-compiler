@@ -1,0 +1,62 @@
+SELECT
+    1
+INTO
+    @x
+FROM
+    T
+PROCEDURE ANALYSE();
+
+SELECT
+    1
+FROM
+    T
+PROCEDURE ANALYSE()
+INTO
+    @x;
+
+-----
+SELECT
+    1
+INTO
+    @x
+FROM
+    `T`
+PROCEDURE ANALYSE();
+
+SELECT
+    1
+FROM
+    `T`
+PROCEDURE ANALYSE()
+INTO
+    @x;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use PROCEDURE ANALYSE clause and INTO clause together",
+        "start": 13,
+        "length": 11,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 36,
+                "length": 19
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use PROCEDURE ANALYSE clause and INTO clause together",
+        "start": 102,
+        "length": 11,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 82,
+                "length": 19
+            }
+        ]
+    }
+]
