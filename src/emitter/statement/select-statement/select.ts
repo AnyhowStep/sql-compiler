@@ -1,4 +1,4 @@
-import {Select, SyntaxKind} from "../../../parser-node";
+import {Select, SelectLockType, SyntaxKind} from "../../../parser-node";
 import {StringBuilder} from "../../string-builder";
 import {emitFromClause} from "../from-clause";
 import {emitGroupByClause} from "../group-by-clause";
@@ -110,5 +110,17 @@ export function emitSelect (select : Select) {
             builder
                 .appendNewLine()
                 .appendBuilder(emitIntoClause(select.postIntoClause))
+        })
+        .scope(builder => {
+            if (select.selectLockType == undefined) {
+                return;
+            }
+            builder
+                .appendNewLine()
+                .append(
+                    select.selectLockType.value == SelectLockType.FOR_UPDATE ?
+                    "FOR UPDATE" :
+                    "LOCK IN SHARE MODE"
+                )
         })
 }

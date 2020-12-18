@@ -4700,8 +4700,13 @@ SelectStatement ->
 } %}
 
 Select ->
-    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* IntoClause:? FromClause:? WhereClause:? GroupByClause:? HavingClause:? OrderExprList:? Limit:? ProcedureAnalyseClause:? IntoClause:? {% (data) => {
-    const [, selectOptions, firstSelectItem, trailingSelectItems, intoClauseA, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause, intoClauseB,] = data;
+    %SELECT SelectOptions (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem) (%Comma (AsteriskSelectItem | TableAsteriskSelectItem | SelectItem)):* IntoClause:? FromClause:? WhereClause:? GroupByClause:? HavingClause:? OrderExprList:? Limit:? ProcedureAnalyseClause:? IntoClause:? ((%FOR %UPDATE) | (%LOCK %IN %SHARE %MODE)):? {% (data) => {
+    const [, selectOptions, firstSelectItem, trailingSelectItems, intoClauseA, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause, intoClauseB, rawSelectLockType,] = data;
+    const selectLockType = (rawSelectLockType == undefined ?
+        undefined :
+        parse_util_1.toValueNode((rawSelectLockType[0][0].tokenKind == scanner_1.TokenKind.FOR ?
+            parser_node_1.SelectLockType.FOR_UPDATE :
+            parser_node_1.SelectLockType.LOCK_IN_SHARE_MODE), parse_util_1.getTextRange(rawSelectLockType)));
     /**
      * Hack to resolve ambiguities related to `INTO` clause.
      */
@@ -4731,6 +4736,7 @@ Select ->
         limit: limit !== null && limit !== void 0 ? limit : undefined,
         procedureAnalyseClause: procedureAnalyseClause !== null && procedureAnalyseClause !== void 0 ? procedureAnalyseClause : undefined,
         postIntoClause: postIntoClause !== null && postIntoClause !== void 0 ? postIntoClause : undefined,
+        selectLockType,
     };
 } %}
 

@@ -1,4 +1,4 @@
-import {Node} from "../../node";
+import {Node, ValueNode} from "../../node";
 import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {FromClause} from "../from-clause";
@@ -14,6 +14,14 @@ import {SelectItem} from "./select-item";
 import {SelectOptions} from "./select-options";
 import {TableAsteriskSelectItem} from "./table-asterisk-select-item";
 import {WhereClause} from "./where-clause";
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9189
+ */
+export enum SelectLockType {
+    FOR_UPDATE,
+    LOCK_IN_SHARE_MODE,
+}
 
 export interface Select extends Node, Statement {
     syntaxKind : SyntaxKind.Select,
@@ -37,4 +45,5 @@ export interface Select extends Node, Statement {
 
     postIntoClause : IntoClause|undefined,
 
+    selectLockType : ValueNode<SelectLockType>|undefined,
 }

@@ -1,0 +1,19 @@
+SELECT
+    1
+FROM
+    `T`
+INTO
+    @x
+FOR UPDATE;
+
+-----
+SELECT
+    1
+FROM
+    `T`
+INTO
+    @x
+FOR UPDATE;
+
+-----
+[]

@@ -1,8 +1,8 @@
-import {AsteriskSelectItem, Select, SelectItem, SyntaxKind, TableAsteriskSelectItem} from "../../../parser-node";
+import {AsteriskSelectItem, Select, SelectItem, SelectLockType, SyntaxKind, TableAsteriskSelectItem} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union, zeroOrMore} from "../../../nearley-wrapper";
-import {getTextRange, toNodeArray} from "../../parse-util";
+import {getTextRange, toNodeArray, toValueNode} from "../../parse-util";
 
 /**
  * Unparenthesized `SELECT`.
@@ -49,6 +49,10 @@ makeCustomRule(SyntaxKind.Select)
 
             optional(SyntaxKind.IntoClause),
 
+            optional(union(
+                [TokenKind.FOR, TokenKind.UPDATE] as const,
+                [TokenKind.LOCK, TokenKind.IN, TokenKind.SHARE, TokenKind.MODE] as const,
+            )),
         ] as const,
         (data) : Select => {
             const [
@@ -65,7 +69,21 @@ makeCustomRule(SyntaxKind.Select)
                 limit,
                 procedureAnalyseClause,
                 intoClauseB,
+                rawSelectLockType,
             ] = data;
+
+            const selectLockType = (
+                rawSelectLockType == undefined ?
+                undefined :
+                toValueNode(
+                    (
+                        rawSelectLockType[0][0].tokenKind == TokenKind.FOR ?
+                        SelectLockType.FOR_UPDATE :
+                        SelectLockType.LOCK_IN_SHARE_MODE
+                    ),
+                    getTextRange(rawSelectLockType)
+                )
+            );
 
             /**
              * Hack to resolve ambiguities related to `INTO` clause.
@@ -108,6 +126,7 @@ makeCustomRule(SyntaxKind.Select)
                 limit : limit ?? undefined,
                 procedureAnalyseClause : procedureAnalyseClause ?? undefined,
                 postIntoClause : postIntoClause ?? undefined,
+                selectLockType,
             };
         }
     );

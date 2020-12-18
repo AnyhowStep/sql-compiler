@@ -5155,8 +5155,19 @@ export var ParserRules: NearleyRule[] = [
     {"name": "Select$ebnf$9", "symbols": [], "postprocess": () => null},
     {"name": "Select$ebnf$10", "symbols": ["IntoClause"], "postprocess": id},
     {"name": "Select$ebnf$10", "symbols": [], "postprocess": () => null},
-    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6", "Select$ebnf$7", "Select$ebnf$8", "Select$ebnf$9", "Select$ebnf$10"], "postprocess":  (data) => {
-            const [, selectOptions, firstSelectItem, trailingSelectItems, intoClauseA, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause, intoClauseB,] = data;
+    {"name": "Select$ebnf$11$subexpression$1$subexpression$1", "symbols": [FOR, UPDATE]},
+    {"name": "Select$ebnf$11$subexpression$1", "symbols": ["Select$ebnf$11$subexpression$1$subexpression$1"]},
+    {"name": "Select$ebnf$11$subexpression$1$subexpression$2", "symbols": [LOCK, IN, SHARE, MODE]},
+    {"name": "Select$ebnf$11$subexpression$1", "symbols": ["Select$ebnf$11$subexpression$1$subexpression$2"]},
+    {"name": "Select$ebnf$11", "symbols": ["Select$ebnf$11$subexpression$1"], "postprocess": id},
+    {"name": "Select$ebnf$11", "symbols": [], "postprocess": () => null},
+    {"name": "Select", "symbols": [SELECT, "SelectOptions", "Select$subexpression$1", "Select$ebnf$1", "Select$ebnf$2", "Select$ebnf$3", "Select$ebnf$4", "Select$ebnf$5", "Select$ebnf$6", "Select$ebnf$7", "Select$ebnf$8", "Select$ebnf$9", "Select$ebnf$10", "Select$ebnf$11"], "postprocess":  (data) => {
+            const [, selectOptions, firstSelectItem, trailingSelectItems, intoClauseA, fromClause, whereClause, groupByClause, havingClause, order, limit, procedureAnalyseClause, intoClauseB, rawSelectLockType,] = data;
+            const selectLockType = (rawSelectLockType == undefined ?
+                undefined :
+                parse_util_1.toValueNode((rawSelectLockType[0][0].tokenKind == scanner_1.TokenKind.FOR ?
+                    parser_node_1.SelectLockType.FOR_UPDATE :
+                    parser_node_1.SelectLockType.LOCK_IN_SHARE_MODE), parse_util_1.getTextRange(rawSelectLockType)));
             /**
              * Hack to resolve ambiguities related to `INTO` clause.
              */
@@ -5186,6 +5197,7 @@ export var ParserRules: NearleyRule[] = [
                 limit: limit !== null && limit !== void 0 ? limit : undefined,
                 procedureAnalyseClause: procedureAnalyseClause !== null && procedureAnalyseClause !== void 0 ? procedureAnalyseClause : undefined,
                 postIntoClause: postIntoClause !== null && postIntoClause !== void 0 ? postIntoClause : undefined,
+                selectLockType,
             };
         } },
     {"name": "ParenthesizedSelect", "symbols": [OpenParentheses, "ParenthesizedSelect", CloseParentheses], "postprocess":  (data) => {
