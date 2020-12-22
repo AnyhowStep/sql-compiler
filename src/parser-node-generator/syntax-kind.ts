@@ -73,6 +73,11 @@ export const syntaxKinds = [
     "CheckDefinition",
     "CreateTableOptions",
 
+    "CreateFunctionStatement",
+    "StoredFunctionParameter",
+    "StoredFunctionParameterList",
+    "StoredProcedureCharacteristics",
+
     "HashPartition",
     "KeyPartition",
     "ListPartition",
@@ -124,6 +129,11 @@ export const syntaxKinds = [
     "UnionOrderLimit",
 
     /**
+     * Stored procedure statements
+     */
+    "ReturnStatement",
+
+    /**
      * Custom statements
      */
     "DeclareFunctionStatement",
@@ -147,6 +157,8 @@ export const syntaxKinds = [
     "ColumnIdentifier",
     "FunctionIdentifier",
     "MacroIdentifier",
+    "StoredProcedureIdentifier",
+    "AccountIdentifier",
 
     /**
      * Expression

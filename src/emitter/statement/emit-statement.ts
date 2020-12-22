@@ -1,19 +1,16 @@
-import {Statement, switchSyntaxKind, SyntaxKind} from "../../parser-node";
+import {Statement, SwitchSyntaxKind, switchSyntaxKind, SyntaxKind} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
+import {emitCreateFunctionStatement} from "./create-function-statement";
 import {emitCreateTableStatement} from "./create-table-statement";
 import {emitCreateSchemaStatement} from "./emit-create-schema-statement";
 import {emitDelimiterStatement} from "./emit-delimiter-statement";
 import {emitSelectStatement} from "./select-statement";
 
-export function emitStatement (statement : Statement) : StringBuilder {
-    return switchSyntaxKind(statement)
+export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : SwitchSyntaxKind<StringBuilder> {
+    return switchBuilder
         .case(SyntaxKind.CreateSchemaStatement, emitCreateSchemaStatement)
         .case(SyntaxKind.CreateTableStatement, emitCreateTableStatement)
-        /**
-         * We do not emit this because this is our custom syntax
-         * that gets erased.
-         */
-        //.case(SyntaxKind.CreateMacroStatement, () => new StringBuilder())
+        .case(SyntaxKind.CreateFunctionStatement, emitCreateFunctionStatement)
         //.case(SyntaxKind.SetStatement, emitSetStatement)
         /*.case(SyntaxKind.SelectStatement, statement => emitSelectStatement(
             statement,
@@ -29,5 +26,9 @@ export function emitStatement (statement : Statement) : StringBuilder {
         .case(SyntaxKind.UnionOrderLimit, emitSelectStatement)
         .case(SyntaxKind.DeclareFunctionStatement, () => new StringBuilder())
         .case(SyntaxKind.UnknownStatement, () => new StringBuilder())
+}
+
+export function emitStatement (statement : Statement) : StringBuilder {
+    return addStatementCases(switchSyntaxKind(statement))
         .default(() => new StringBuilder().append("UNKNOWN_STATEMENT"));
 }

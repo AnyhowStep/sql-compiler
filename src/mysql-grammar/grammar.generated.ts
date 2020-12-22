@@ -2288,6 +2288,44 @@ export var ParserRules: NearleyRule[] = [
             };
             return result;
         } },
+    {"name": "AccountIdentifier$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "AccountIdentifier$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "AccountIdentifier$ebnf$1", "symbols": ["UserVariableIdentifier"], "postprocess": id},
+    {"name": "AccountIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AccountIdentifier", "symbols": ["AccountIdentifier$subexpression$1", "AccountIdentifier$ebnf$1"], "postprocess":  (data) => {
+            const [userName, hostName] = data;
+            if (hostName == null) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.AccountIdentifier,
+                    userName: userName[0],
+                    hostName: {
+                        start: userName[0].end,
+                        end: userName[0].end,
+                        syntaxKind: parser_node_1.SyntaxKind.UserVariableIdentifier,
+                        identifier: "%",
+                        sourceText: "@'%'",
+                    },
+                };
+            }
+            else {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.AccountIdentifier,
+                    userName: userName[0],
+                    hostName: hostName,
+                };
+            }
+        } },
+    {"name": "AccountIdentifierOrCurrentUser", "symbols": ["AccountIdentifier"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "AccountIdentifierOrCurrentUser$ebnf$1$subexpression$1", "symbols": [OpenParentheses, CloseParentheses]},
+    {"name": "AccountIdentifierOrCurrentUser$ebnf$1", "symbols": ["AccountIdentifierOrCurrentUser$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AccountIdentifierOrCurrentUser$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AccountIdentifierOrCurrentUser", "symbols": [CURRENT_USER, "AccountIdentifierOrCurrentUser$ebnf$1"], "postprocess":  (data) => {
+            return parse_util_1.toValueNode("CURRENT_USER", parse_util_1.getTextRange(data));
+        } },
     {"name": "CharacterSetNameOrDefault", "symbols": ["Identifier"], "postprocess":  function (data) {
             const identifier = data[0];
             if (!identifier.quoted &&
@@ -2423,6 +2461,28 @@ export var ParserRules: NearleyRule[] = [
                         columnName: nameC[1],
                     };
                 }
+            }
+        } },
+    {"name": "StoredProcedureIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
+    {"name": "StoredProcedureIdentifier$ebnf$1", "symbols": ["StoredProcedureIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "StoredProcedureIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "StoredProcedureIdentifier", "symbols": ["Identifier", "StoredProcedureIdentifier$ebnf$1"], "postprocess":  (data) => {
+            const [nameA, nameB] = data;
+            if (nameB == null) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.StoredProcedureIdentifier,
+                    schemaName: undefined,
+                    storedProcedureName: nameA,
+                };
+            }
+            else {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.StoredProcedureIdentifier,
+                    schemaName: nameA,
+                    storedProcedureName: nameB[1],
+                };
             }
         } },
     {"name": "TableIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
@@ -2750,6 +2810,156 @@ export var ParserRules: NearleyRule[] = [
     {"name": "TextString", "symbols": ["TextString$subexpression$1"], "postprocess":  (data) => {
             let [[literal]] = data;
             return literal;
+        } },
+    {"name": "CreateFunctionStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
+    {"name": "CreateFunctionStatement$ebnf$1", "symbols": ["CreateFunctionStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateFunctionStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateFunctionStatement", "symbols": [CREATE, "CreateFunctionStatement$ebnf$1", FUNCTION, "StoredProcedureIdentifier", "StoredFunctionParameterList", RETURNS, "DataType", "StoredProcedureCharacteristics", "StoredProcedureStatement"], "postprocess":  (data) => {
+            const [, definer, functionToken, storedProcedureIdentifier, parameters, , returnType, characteristics, statement,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateFunctionStatement,
+                definer: (definer == undefined ?
+                    parse_util_1.toValueNode("CURRENT_USER", {
+                        start: functionToken.start,
+                        end: functionToken.start,
+                    }) :
+                    definer[2]),
+                storedProcedureIdentifier,
+                parameters,
+                returnType,
+                characteristics,
+                statement,
+            };
+        } },
+    {"name": "StoredFunctionParameter", "symbols": ["Identifier", "DataType"], "postprocess":  (data) => {
+            const [identifier, dataType,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.StoredFunctionParameter,
+                identifier,
+                dataType,
+            };
+        } },
+    {"name": "StoredFunctionParameterList$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "StoredFunctionParameterList$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Comma, "StoredFunctionParameter"]},
+    {"name": "StoredFunctionParameterList$ebnf$1$subexpression$1$ebnf$1", "symbols": ["StoredFunctionParameterList$ebnf$1$subexpression$1$ebnf$1", "StoredFunctionParameterList$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "StoredFunctionParameterList$ebnf$1$subexpression$1", "symbols": ["StoredFunctionParameter", "StoredFunctionParameterList$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "StoredFunctionParameterList$ebnf$1", "symbols": ["StoredFunctionParameterList$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "StoredFunctionParameterList$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "StoredFunctionParameterList", "symbols": [OpenParentheses, "StoredFunctionParameterList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                return "syntaxKind" in item;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredFunctionParameterList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [DETERMINISTIC], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                deterministic: parse_util_1.toValueNode(true, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [NOT, DETERMINISTIC], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                deterministic: parse_util_1.toValueNode(false, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [COMMENT, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                comment: data[1],
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [LANGUAGE, SQL], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                language: parse_util_1.toValueNode("SQL", parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [NO, SQL], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                databaseAccessCharacteristic: parse_util_1.toValueNode(parser_node_1.DatabaseAccessCharacteristic.NO_SQL, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [CONTAINS, SQL], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                databaseAccessCharacteristic: parse_util_1.toValueNode(parser_node_1.DatabaseAccessCharacteristic.CONTAINS_SQL, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [READS, SQL, DATA], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                databaseAccessCharacteristic: parse_util_1.toValueNode(parser_node_1.DatabaseAccessCharacteristic.READS_SQL_DATA, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [MODIFIES, SQL, DATA], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                databaseAccessCharacteristic: parse_util_1.toValueNode(parser_node_1.DatabaseAccessCharacteristic.MODIFIES_SQL_DATA, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [SQL, SECURITY, DEFINER], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                storedProcedureSecurityContext: parse_util_1.toValueNode(parser_node_1.StoredProcedureSecurityContext.DEFINER, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristic", "symbols": [SQL, SECURITY, INVOKER], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                storedProcedureSecurityContext: parse_util_1.toValueNode(parser_node_1.StoredProcedureSecurityContext.INVOKER, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "StoredProcedureCharacteristics$ebnf$1", "symbols": []},
+    {"name": "StoredProcedureCharacteristics$ebnf$1", "symbols": ["StoredProcedureCharacteristics$ebnf$1", "StoredProcedureCharacteristic"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "StoredProcedureCharacteristics", "symbols": ["StoredProcedureCharacteristics$ebnf$1"], "postprocess":  (data) => {
+            const arr = data[0];
+            const result = {
+                comment: undefined,
+                language: undefined,
+                databaseAccessCharacteristic: undefined,
+                deterministic: parse_util_1.toValueNode(false, {
+                    start: -1,
+                    end: -1,
+                }),
+                storedProcedureSecurityContext: parse_util_1.toValueNode(parser_node_1.StoredProcedureSecurityContext.DEFINER, {
+                    start: -1,
+                    end: -1,
+                }),
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.StoredProcedureCharacteristics,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "StoredProcedureStatement", "symbols": ["NonDelimiterStatement"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "StoredProcedureStatement", "symbols": ["ReturnStatement"], "postprocess":  (data) => {
+            return data[0];
         } },
     {"name": "CreateSchemaOptionList$ebnf$1", "symbols": []},
     {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCharacterSet"]},
@@ -5363,6 +5573,7 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateSchemaStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateFunctionStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
@@ -5395,6 +5606,13 @@ export var ParserRules: NearleyRule[] = [
                 end: statements.end,
                 syntaxKind: parser_node_1.SyntaxKind.SourceFileLite,
                 statements,
+            };
+        } },
+    {"name": "ReturnStatement", "symbols": [RETURN, "Expression"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ReturnStatement,
+                expr: data[1],
             };
         } }
 ];

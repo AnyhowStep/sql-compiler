@@ -8,6 +8,7 @@ requireRecursive([
     `${__dirname}/identifier`,
     `${__dirname}/misc`,
     `${__dirname}/statement`,
+    `${__dirname}/stored-procedure-statement`,
 ]);
 
 const testers = fs

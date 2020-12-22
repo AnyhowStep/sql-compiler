@@ -3,6 +3,7 @@ export * from "./expression";
 export * from "./identifier";
 export * from "./misc";
 export * from "./statement";
+export * from "./stored-procedure-statement";
 export * from "./find-all-syntactic-errors";
 export * from "./is-syntax-kind.generated";
 export * from "./node-array";

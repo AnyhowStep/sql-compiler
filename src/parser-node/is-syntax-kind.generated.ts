@@ -30,8 +30,10 @@ import {RealLiteral} from "./expression/real-literal";
 import {StringLiteral} from "./expression/string-literal";
 import {UnknownExpression} from "./expression/unknown-expression";
 import {UserVariableIdentifier} from "./expression/user-variable-identifier";
+import {AccountIdentifier} from "./identifier/account-identifier";
 import {ColumnIdentifier} from "./identifier/column-identifier";
 import {Identifier} from "./identifier/identifier";
+import {StoredProcedureIdentifier} from "./identifier/stored-procedure-identifier";
 import {TableIdentifier} from "./identifier/table-identifier";
 import {CurrentTimestamp} from "./misc/current-timestamp";
 import {DefaultCharacterSet} from "./misc/default-character-set";
@@ -40,6 +42,9 @@ import {FieldLength} from "./misc/field-length";
 import {Precision} from "./misc/precision";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
+import {CreateFunctionStatement} from "./statement/create-function-statement/create-function-statement";
+import {StoredFunctionParameter} from "./statement/create-function-statement/stored-function-parameter";
+import {StoredProcedureCharacteristics} from "./statement/create-function-statement/stored-procedure-characteristics";
 import {CreateSchemaOptionList} from "./statement/create-schema-statement";
 import {CreateSchemaStatement} from "./statement/create-schema-statement";
 import {CheckDefinition} from "./statement/create-table-definition/check-definition";
@@ -93,6 +98,7 @@ import {UnionOrderLimit} from "./statement/select-statement/union-order-limit";
 import {Union} from "./statement/select-statement/union";
 import {WhereClause} from "./statement/select-statement/where-clause";
 import {UnknownStatement} from "./statement/unknown-statement";
+import {ReturnStatement} from "./stored-procedure-statement/return-statement";
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BinaryDataType) : node is BinaryDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BitDataType) : node is BitDataType;
@@ -124,8 +130,10 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RealLiteral) 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StringLiteral) : node is StringLiteral;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownExpression) : node is UnknownExpression;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UserVariableIdentifier) : node is UserVariableIdentifier;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AccountIdentifier) : node is AccountIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnIdentifier) : node is ColumnIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Identifier) : node is Identifier;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureIdentifier) : node is StoredProcedureIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableIdentifier) : node is TableIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CurrentTimestamp) : node is CurrentTimestamp;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DefaultCharacterSet) : node is DefaultCharacterSet;
@@ -134,6 +142,9 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.FieldLength) 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Precision) : node is Precision;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateFunctionStatement) : node is CreateFunctionStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredFunctionParameter) : node is StoredFunctionParameter;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureCharacteristics) : node is StoredProcedureCharacteristics;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateSchemaOptionList) : node is CreateSchemaOptionList;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateSchemaStatement) : node is CreateSchemaStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CheckDefinition) : node is CheckDefinition;
@@ -187,6 +198,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnionOrderLim
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Union) : node is Union;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.WhereClause) : node is WhereClause;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownStatement) : node is UnknownStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ReturnStatement) : node is ReturnStatement;
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean {
@@ -195,7 +207,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean {
 
 
 
-interface SwitchSyntaxKind<ReturnT> {
+export interface SwitchSyntaxKind<ReturnT> {
 
     case<ResultT> (syntaxKind : SyntaxKind.BinaryDataType, callback : (node : BinaryDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.BitDataType, callback : (node : BitDataType) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
@@ -227,8 +239,10 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.StringLiteral, callback : (node : StringLiteral) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownExpression, callback : (node : UnknownExpression) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UserVariableIdentifier, callback : (node : UserVariableIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AccountIdentifier, callback : (node : AccountIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ColumnIdentifier, callback : (node : ColumnIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Identifier, callback : (node : Identifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureIdentifier, callback : (node : StoredProcedureIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TableIdentifier, callback : (node : TableIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CurrentTimestamp, callback : (node : CurrentTimestamp) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DefaultCharacterSet, callback : (node : DefaultCharacterSet) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
@@ -237,6 +251,9 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.Precision, callback : (node : Precision) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateFunctionStatement, callback : (node : CreateFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.StoredFunctionParameter, callback : (node : StoredFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureCharacteristics, callback : (node : StoredProcedureCharacteristics) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateSchemaOptionList, callback : (node : CreateSchemaOptionList) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateSchemaStatement, callback : (node : CreateSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CheckDefinition, callback : (node : CheckDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
@@ -290,6 +307,7 @@ interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.Union, callback : (node : Union) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.WhereClause, callback : (node : WhereClause) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownStatement, callback : (node : UnknownStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.ReturnStatement, callback : (node : ReturnStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
 
     default<ResultT> (callback : () => ResultT) : ResultT|ReturnT;
 }

@@ -1,0 +1,15 @@
+SELECT
+    1
+INTO
+    @x
+FOR UPDATE;
+
+-----
+SELECT
+    1
+INTO
+    @x
+FOR UPDATE;
+
+-----
+[]

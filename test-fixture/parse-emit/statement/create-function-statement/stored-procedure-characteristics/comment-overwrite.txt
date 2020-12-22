@@ -1,0 +1,16 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    COMMENT 'hello world'
+    COMMENT 'hello world2'
+    RETURN 1;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    COMMENT 'hello world2'
+    SQL SECURITY DEFINER
+    RETURN 1;
+
+-----
+[]

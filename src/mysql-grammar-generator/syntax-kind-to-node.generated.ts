@@ -31,8 +31,10 @@ import {
     StringLiteral,
     UnknownExpression,
     UserVariableIdentifier,
+    AccountIdentifier,
     ColumnIdentifier,
     Identifier,
+    StoredProcedureIdentifier,
     TableIdentifier,
     CurrentTimestamp,
     DefaultCharacterSet,
@@ -41,6 +43,9 @@ import {
     Precision,
     SourceFile,
     SourceFileLite,
+    CreateFunctionStatement,
+    StoredFunctionParameter,
+    StoredProcedureCharacteristics,
     CreateSchemaOptionList,
     CreateSchemaStatement,
     CheckDefinition,
@@ -94,6 +99,7 @@ import {
     Union,
     WhereClause,
     UnknownStatement,
+    ReturnStatement,
 } from "../parser-node";
 
 export type SyntaxKindToNode = {
@@ -127,8 +133,10 @@ export type SyntaxKindToNode = {
     [SyntaxKind.StringLiteral] : StringLiteral;
     [SyntaxKind.UnknownExpression] : UnknownExpression;
     [SyntaxKind.UserVariableIdentifier] : UserVariableIdentifier;
+    [SyntaxKind.AccountIdentifier] : AccountIdentifier;
     [SyntaxKind.ColumnIdentifier] : ColumnIdentifier;
     [SyntaxKind.Identifier] : Identifier;
+    [SyntaxKind.StoredProcedureIdentifier] : StoredProcedureIdentifier;
     [SyntaxKind.TableIdentifier] : TableIdentifier;
     [SyntaxKind.CurrentTimestamp] : CurrentTimestamp;
     [SyntaxKind.DefaultCharacterSet] : DefaultCharacterSet;
@@ -137,6 +145,9 @@ export type SyntaxKindToNode = {
     [SyntaxKind.Precision] : Precision;
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
+    [SyntaxKind.CreateFunctionStatement] : CreateFunctionStatement;
+    [SyntaxKind.StoredFunctionParameter] : StoredFunctionParameter;
+    [SyntaxKind.StoredProcedureCharacteristics] : StoredProcedureCharacteristics;
     [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;
     [SyntaxKind.CreateSchemaStatement] : CreateSchemaStatement;
     [SyntaxKind.CheckDefinition] : CheckDefinition;
@@ -190,4 +201,5 @@ export type SyntaxKindToNode = {
     [SyntaxKind.Union] : Union;
     [SyntaxKind.WhereClause] : WhereClause;
     [SyntaxKind.UnknownStatement] : UnknownStatement;
+    [SyntaxKind.ReturnStatement] : ReturnStatement;
 } & Record<SyntaxKind, unknown>;

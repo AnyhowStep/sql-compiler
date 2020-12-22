@@ -1,5 +1,10 @@
 import {ParserState} from "../mysql-grammar";
-import {FieldTerminatorOption, LineTerminatorOption, SelectOption} from "../mysql-grammar/custom-data";
+import {
+    FieldTerminatorOption,
+    LineTerminatorOption,
+    SelectOption,
+    StoredProcedureCharacteristic,
+} from "../mysql-grammar/custom-data";
 import {CustomSubstitutionToString, makeRuleFactory, TextRange} from "../nearley-wrapper";
 import {
     BitLiteral,
@@ -40,6 +45,9 @@ import {
     GroupingExpr,
     IntoDestination,
     IntoDestinationVariableList,
+    AccountIdentifierOrCurrentUser,
+    StoredProcedureStatement,
+    StoredFunctionParameter,
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
@@ -120,6 +128,9 @@ export enum CustomSyntaxKind {
     LineTerminatorOption,
     CharacterSetNameOrDefault,
     IntoDestination,
+    AccountIdentifierOrCurrentUser,
+    StoredProcedureStatement,
+    StoredProcedureCharacteristic,
 }
 
 declare module "../nearley-wrapper" {
@@ -130,6 +141,7 @@ declare module "../nearley-wrapper" {
         [SyntaxKind.KeyUsageList] : NodeArray<Identifier|ValueNode<"PRIMARY">>,
         [SyntaxKind.GroupingExprList] : NodeArray2<SyntaxKind.GroupingExprList, GroupingExpr>,
         [SyntaxKind.IntoDestinationVariableList] : IntoDestinationVariableList,
+        [SyntaxKind.StoredFunctionParameterList] : NodeArray2<SyntaxKind.StoredFunctionParameterList, StoredFunctionParameter>,
 
         [CustomSyntaxKind.CharacterSetName] : Identifier|StringLiteral,
         [CustomSyntaxKind.Expression] : Expression,
@@ -200,6 +212,9 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.LineTerminatorOption] : LineTerminatorOption,
         [CustomSyntaxKind.CharacterSetNameOrDefault] : Identifier|StringLiteral|ValueNode<"DEFAULT">,
         [CustomSyntaxKind.IntoDestination] : IntoDestination,
+        [CustomSyntaxKind.AccountIdentifierOrCurrentUser] : AccountIdentifierOrCurrentUser,
+        [CustomSyntaxKind.StoredProcedureStatement] : StoredProcedureStatement,
+        [CustomSyntaxKind.StoredProcedureCharacteristic] : StoredProcedureCharacteristic,
     }
 
     interface CustomToken extends Array<TokenKind> {

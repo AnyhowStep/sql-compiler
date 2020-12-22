@@ -124,7 +124,8 @@ export class Scanner {
                     result += this.text.substring(start, index);
                     ++index;
                     if (result.length == 0) {
-                        this.onError(DiagnosticMessages.IdentifierCannotHaveLengthZero);
+                        //@todo
+                        //this.onError(DiagnosticMessages.IdentifierCannotHaveLengthZero);
                     } else {
                         let lastCh = result.charCodeAt(result.length-1);
                         if (isWhiteSpace(lastCh) || isLineBreak(lastCh)) {
@@ -608,6 +609,11 @@ export class Scanner {
                              * @todo Investigate why MySQL allows this,
                              * ```sql
                              *  SELECT @;
+                             * ```
+                             *
+                             * @todo Investigate why MySQL allows this,
+                             * ```sql
+                             *  CREATE DEFINER=root @ FUNCTION FOO () RETURNS BOOLEAN RETURN TRUE;
                              * ```
                              */
                             ++this.index;

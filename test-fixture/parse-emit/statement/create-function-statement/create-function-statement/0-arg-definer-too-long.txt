@@ -1,0 +1,12 @@
+CREATE DEFINER = xxxxxxxxxxxxxxxxxxxxxxxx@yyyyyyyyyyyyyyyyyyyyyyyy FUNCTION FOO () RETURNS BOOLEAN RETURN 1;
+
+-----
+CREATE DEFINER = `xxxxxxxxxxxxxxxxxxxxxxxx`@yyyyyyyyyyyyyyyyyyyyyyyy
+    FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    RETURN 1;
+
+-----
+[]

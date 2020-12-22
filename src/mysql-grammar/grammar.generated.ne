@@ -2198,6 +2198,41 @@ UserVariableIdentifier ->
     return result;
 } %}
 
+AccountIdentifier ->
+    (Identifier | StringLiteral) UserVariableIdentifier:? {% (data) => {
+    const [userName, hostName] = data;
+    if (hostName == null) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.AccountIdentifier,
+            userName: userName[0],
+            hostName: {
+                start: userName[0].end,
+                end: userName[0].end,
+                syntaxKind: parser_node_1.SyntaxKind.UserVariableIdentifier,
+                identifier: "%",
+                sourceText: "@'%'",
+            },
+        };
+    }
+    else {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.AccountIdentifier,
+            userName: userName[0],
+            hostName: hostName,
+        };
+    }
+} %}
+
+AccountIdentifierOrCurrentUser ->
+    AccountIdentifier {% (data) => {
+    return data[0];
+} %}
+    | %CURRENT_USER (%OpenParentheses %CloseParentheses):? {% (data) => {
+    return parse_util_1.toValueNode("CURRENT_USER", parse_util_1.getTextRange(data));
+} %}
+
 CharacterSetNameOrDefault ->
     Identifier {% function (data) {
     const identifier = data[0];
@@ -2338,6 +2373,27 @@ ColumnIdentifier ->
                 columnName: nameC[1],
             };
         }
+    }
+} %}
+
+StoredProcedureIdentifier ->
+    Identifier (%Dot IdentifierAllowReserved):? {% (data) => {
+    const [nameA, nameB] = data;
+    if (nameB == null) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.StoredProcedureIdentifier,
+            schemaName: undefined,
+            storedProcedureName: nameA,
+        };
+    }
+    else {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.StoredProcedureIdentifier,
+            schemaName: nameA,
+            storedProcedureName: nameB[1],
+        };
     }
 } %}
 
@@ -2643,6 +2699,157 @@ TextString ->
     (StringLiteral | HexLiteral | BitLiteral) {% (data) => {
     let [[literal]] = data;
     return literal;
+} %}
+
+CreateFunctionStatement ->
+    %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %FUNCTION StoredProcedureIdentifier StoredFunctionParameterList %RETURNS DataType StoredProcedureCharacteristics StoredProcedureStatement {% (data) => {
+    const [, definer, functionToken, storedProcedureIdentifier, parameters, , returnType, characteristics, statement,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateFunctionStatement,
+        definer: (definer == undefined ?
+            parse_util_1.toValueNode("CURRENT_USER", {
+                start: functionToken.start,
+                end: functionToken.start,
+            }) :
+            definer[2]),
+        storedProcedureIdentifier,
+        parameters,
+        returnType,
+        characteristics,
+        statement,
+    };
+} %}
+
+StoredFunctionParameter ->
+    Identifier DataType {% (data) => {
+    const [identifier, dataType,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.StoredFunctionParameter,
+        identifier,
+        dataType,
+    };
+} %}
+
+StoredFunctionParameterList ->
+    %OpenParentheses (StoredFunctionParameter (%Comma StoredFunctionParameter):*):? %CloseParentheses {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        return "syntaxKind" in item;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredFunctionParameterList, parse_util_1.getTextRange(data));
+} %}
+
+StoredProcedureCharacteristic ->
+    %DETERMINISTIC {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        deterministic: parse_util_1.toValueNode(true, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %NOT %DETERMINISTIC {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        deterministic: parse_util_1.toValueNode(false, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %COMMENT StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        comment: data[1],
+    };
+} %}
+    | %LANGUAGE %SQL {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        language: parse_util_1.toValueNode("SQL", parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %NO %SQL {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        databaseAccessCharacteristic: parse_util_1.toValueNode(parser_node_1.DatabaseAccessCharacteristic.NO_SQL, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %CONTAINS %SQL {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        databaseAccessCharacteristic: parse_util_1.toValueNode(parser_node_1.DatabaseAccessCharacteristic.CONTAINS_SQL, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %READS %SQL %DATA {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        databaseAccessCharacteristic: parse_util_1.toValueNode(parser_node_1.DatabaseAccessCharacteristic.READS_SQL_DATA, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %MODIFIES %SQL %DATA {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        databaseAccessCharacteristic: parse_util_1.toValueNode(parser_node_1.DatabaseAccessCharacteristic.MODIFIES_SQL_DATA, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %SQL %SECURITY %DEFINER {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        storedProcedureSecurityContext: parse_util_1.toValueNode(parser_node_1.StoredProcedureSecurityContext.DEFINER, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %SQL %SECURITY %INVOKER {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        storedProcedureSecurityContext: parse_util_1.toValueNode(parser_node_1.StoredProcedureSecurityContext.INVOKER, parse_util_1.getTextRange(data)),
+    };
+} %}
+
+StoredProcedureCharacteristics ->
+    StoredProcedureCharacteristic:* {% (data) => {
+    const arr = data[0];
+    const result = {
+        comment: undefined,
+        language: undefined,
+        databaseAccessCharacteristic: undefined,
+        deterministic: parse_util_1.toValueNode(false, {
+            start: -1,
+            end: -1,
+        }),
+        storedProcedureSecurityContext: parse_util_1.toValueNode(parser_node_1.StoredProcedureSecurityContext.DEFINER, {
+            start: -1,
+            end: -1,
+        }),
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.StoredProcedureCharacteristics,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+StoredProcedureStatement ->
+    NonDelimiterStatement {% (data) => {
+    return data[0];
+} %}
+    | ReturnStatement {% (data) => {
+    return data[0];
 } %}
 
 CreateSchemaOptionList ->
@@ -4891,7 +5098,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 
@@ -4920,5 +5127,14 @@ SourceFileLite ->
         end: statements.end,
         syntaxKind: parser_node_1.SyntaxKind.SourceFileLite,
         statements,
+    };
+} %}
+
+ReturnStatement ->
+    %RETURN Expression {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ReturnStatement,
+        expr: data[1],
     };
 } %}

@@ -63,7 +63,7 @@ lines.push(``);
 
 lines.push(
 `
-interface SwitchSyntaxKind<ReturnT> {
+export interface SwitchSyntaxKind<ReturnT> {
 `);
 
 for (const [syntaxKind] of syntaxKinds) {

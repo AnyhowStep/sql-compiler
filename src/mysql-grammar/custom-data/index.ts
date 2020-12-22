@@ -8,3 +8,4 @@ export * from "./integer-data-type-modifier";
 export * from "./line-terminator-option";
 export * from "./partition-definition-option";
 export * from "./select-option";
+export * from "./stored-procedure-characteristic";
