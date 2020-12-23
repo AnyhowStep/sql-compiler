@@ -4,7 +4,7 @@ import {emitAccountIdentifierOrCurrentUser, emitStoredProcedureIdentifier} from 
 import {shouldMultiLine, StringBuilder} from "../../string-builder";
 import {emitStoredFunctionParameterList} from "./stored-function-parameter";
 import {emitStoredProcedureCharacteristics} from "./stored-procedure-characteristics";
-import {emitStoredProcedureStatement} from "./stored-procedure-statement";
+import {emitStoredProcedureStatement} from "../../stored-procedure-statement";
 
 function emitCreateFunctionStatementStart (statement : CreateFunctionStatement) : StringBuilder {
     const startA = new StringBuilder()

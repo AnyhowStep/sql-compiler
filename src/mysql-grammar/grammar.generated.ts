@@ -2471,6 +2471,8 @@ export var ParserRules: NearleyRule[] = [
             }
             /**
              * @todo Should this check be in linter instead?
+             *
+             * It shouldn't introduce an ambiguous grammar.
              */
             if (constants_1.labelIdentifierNonReservedKeywords.includes(data[0].identifier.toUpperCase())) {
                 /**
@@ -2977,7 +2979,7 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["NonDelimiterStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["ReturnStatement"]},
-    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["BlockStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["LabelStatement"]},
     {"name": "StoredProcedureStatement", "symbols": ["StoredProcedureStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -5628,28 +5630,40 @@ export var ParserRules: NearleyRule[] = [
                 statements,
             };
         } },
-    {"name": "BlockStatement$ebnf$1", "symbols": ["LabelIdentifier"], "postprocess": id},
-    {"name": "BlockStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "BlockStatement", "symbols": ["LabelIdentifier", Colon, BEGIN, "StoredProcedureStatementList", END, "BlockStatement$ebnf$1"], "postprocess":  (data) => {
-            var _a;
+    {"name": "BlockStatement", "symbols": [BEGIN, "StoredProcedureStatementList", END], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.BlockStatement,
-                beginLabel: data[0],
-                statements: data[3],
-                endLabel: (_a = data[5]) !== null && _a !== void 0 ? _a : undefined,
+                statements: data[1],
             };
         } },
-    {"name": "BlockStatement$ebnf$2", "symbols": ["LabelIdentifier"], "postprocess": id},
-    {"name": "BlockStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "BlockStatement", "symbols": [BEGIN, "StoredProcedureStatementList", END, "BlockStatement$ebnf$2"], "postprocess":  (data) => {
+    {"name": "LabelStatement$subexpression$1", "symbols": ["BlockStatement"]},
+    {"name": "LabelStatement$ebnf$1", "symbols": ["LabelIdentifier"], "postprocess": id},
+    {"name": "LabelStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "LabelStatement", "symbols": ["LabelIdentifier", Colon, "LabelStatement$subexpression$1", "LabelStatement$ebnf$1"], "postprocess":  (data) => {
             var _a;
             return {
                 ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.BlockStatement,
-                beginLabel: undefined,
-                statements: data[1],
+                syntaxKind: parser_node_1.SyntaxKind.LabelStatement,
+                beginLabel: data[0],
+                statement: data[2][0],
                 endLabel: (_a = data[3]) !== null && _a !== void 0 ? _a : undefined,
+            };
+        } },
+    {"name": "LabelStatement$subexpression$2", "symbols": ["BlockStatement"]},
+    {"name": "LabelStatement$ebnf$2", "symbols": ["LabelIdentifier"], "postprocess": id},
+    {"name": "LabelStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "LabelStatement", "symbols": ["LabelStatement$subexpression$2", "LabelStatement$ebnf$2"], "postprocess":  (data) => {
+            var _a;
+            if (data[1] == undefined) {
+                return data[0][0];
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.LabelStatement,
+                beginLabel: undefined,
+                statement: data[0][0],
+                endLabel: (_a = data[1]) !== null && _a !== void 0 ? _a : undefined,
             };
         } },
     {"name": "ReturnStatement", "symbols": [RETURN, "Expression"], "postprocess":  (data) => {

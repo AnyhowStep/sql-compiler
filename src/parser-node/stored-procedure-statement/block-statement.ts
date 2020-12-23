@@ -1,4 +1,3 @@
-import {Identifier} from "../identifier";
 import {Node} from "../node";
 import {NodeArray2} from "../node-array";
 import {StoredProcedureStatement} from "../statement";
@@ -17,14 +16,6 @@ export interface BlockStatement extends Node {
     syntaxKind : SyntaxKind.BlockStatement,
 
     /**
-     * We allow certain unquoted keywords,
-     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13232
-     *
-     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13394
-     */
-    beginLabel : Identifier|undefined,
-
-    /**
      * We will allow a mix of statements and declarations here.
      * @todo We will use linting to check that all declarations are at the beginning of the block.
      *
@@ -33,14 +24,4 @@ export interface BlockStatement extends Node {
      *
      */
     statements : NodeArray2<SyntaxKind.StoredProcedureStatementList, StoredProcedureStatement>,
-
-    /**
-     * We allow certain unquoted keywords,
-     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13232
-     *
-     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13394
-     *
-     * Must match `startLabel` (case insensitive)
-     */
-    endLabel : Identifier|undefined,
 }

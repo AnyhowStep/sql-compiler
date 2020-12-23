@@ -132,6 +132,7 @@ export const syntaxKinds = [
      * Stored procedure statements
      */
     "ReturnStatement",
+    "LabelStatement",
     "BlockStatement",
 
     /**

@@ -9,7 +9,7 @@ makeCustomRule(CustomSyntaxKind.StoredProcedureStatement)
             union(
                 CustomSyntaxKind.NonDelimiterStatement,
                 SyntaxKind.ReturnStatement,
-                SyntaxKind.BlockStatement,
+                CustomSyntaxKind.LabelStatement,
             ),
         ] as const,
         (data) : StoredProcedureStatement => {

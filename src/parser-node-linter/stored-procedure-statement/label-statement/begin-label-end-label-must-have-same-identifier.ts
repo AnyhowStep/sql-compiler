@@ -1,10 +1,10 @@
-import {BlockStatement, SyntaxKind} from "../../../parser-node";
+import {LabelStatement, SyntaxKind} from "../../../parser-node";
 import {LintRule} from "../../linter";
 import {pushSyntacticErrorAt} from "../../../parse-util";
 import {DiagnosticMessages} from "../../diagnostic-messages";
 
-export const BlockStatementBeginLabelEndLabelMustHaveSameIdentifier : LintRule<BlockStatement> = {
-    syntaxKind : SyntaxKind.BlockStatement,
+export const BeginLabelEndLabelMustHaveSameIdentifier : LintRule<LabelStatement> = {
+    syntaxKind : SyntaxKind.LabelStatement,
     onEnter : (node, lintResult) => {
         if (node.beginLabel == undefined || node.endLabel == undefined) {
             return;

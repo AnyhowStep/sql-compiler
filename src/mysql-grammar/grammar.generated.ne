@@ -2385,6 +2385,8 @@ LabelIdentifier ->
     }
     /**
      * @todo Should this check be in linter instead?
+     *
+     * It shouldn't introduce an ambiguous grammar.
      */
     if (constants_1.labelIdentifierNonReservedKeywords.includes(data[0].identifier.toUpperCase())) {
         /**
@@ -2867,7 +2869,7 @@ StoredProcedureCharacteristics ->
 } %}
 
 StoredProcedureStatement ->
-    (NonDelimiterStatement | ReturnStatement | BlockStatement) {% (data) => {
+    (NonDelimiterStatement | ReturnStatement | LabelStatement) {% (data) => {
     return data[0][0];
 } %}
 
@@ -5150,24 +5152,36 @@ SourceFileLite ->
 } %}
 
 BlockStatement ->
-    LabelIdentifier %Colon %BEGIN StoredProcedureStatementList %END LabelIdentifier:? {% (data) => {
-    var _a;
+    %BEGIN StoredProcedureStatementList %END {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.BlockStatement,
-        beginLabel: data[0],
-        statements: data[3],
-        endLabel: (_a = data[5]) !== null && _a !== void 0 ? _a : undefined,
+        statements: data[1],
     };
 } %}
-    | %BEGIN StoredProcedureStatementList %END LabelIdentifier:? {% (data) => {
+
+LabelStatement ->
+    LabelIdentifier %Colon (BlockStatement) LabelIdentifier:? {% (data) => {
     var _a;
     return {
         ...parse_util_1.getTextRange(data),
-        syntaxKind: parser_node_1.SyntaxKind.BlockStatement,
-        beginLabel: undefined,
-        statements: data[1],
+        syntaxKind: parser_node_1.SyntaxKind.LabelStatement,
+        beginLabel: data[0],
+        statement: data[2][0],
         endLabel: (_a = data[3]) !== null && _a !== void 0 ? _a : undefined,
+    };
+} %}
+    | (BlockStatement) LabelIdentifier:? {% (data) => {
+    var _a;
+    if (data[1] == undefined) {
+        return data[0][0];
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.LabelStatement,
+        beginLabel: undefined,
+        statement: data[0][0],
+        endLabel: (_a = data[1]) !== null && _a !== void 0 ? _a : undefined,
     };
 } %}
 

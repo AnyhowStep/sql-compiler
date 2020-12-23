@@ -1,1 +1,1 @@
-export * from "./block-statement";
+export * from "./label-statement";

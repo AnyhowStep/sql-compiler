@@ -100,6 +100,7 @@ import {
     WhereClause,
     UnknownStatement,
     BlockStatement,
+    LabelStatement,
     ReturnStatement,
 } from "../parser-node";
 
@@ -203,5 +204,6 @@ export type SyntaxKindToNode = {
     [SyntaxKind.WhereClause] : WhereClause;
     [SyntaxKind.UnknownStatement] : UnknownStatement;
     [SyntaxKind.BlockStatement] : BlockStatement;
+    [SyntaxKind.LabelStatement] : LabelStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;
 } & Record<SyntaxKind, unknown>;

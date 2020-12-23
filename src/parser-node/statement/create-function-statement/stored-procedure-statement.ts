@@ -1,5 +1,6 @@
 import {
     BlockStatement,
+    LabelStatement,
     ReturnStatement,
 } from "../../stored-procedure-statement";
 import {Statement} from "../statement";
@@ -10,5 +11,6 @@ import {Statement} from "../statement";
 export type StoredProcedureStatement =
     | Statement
     | BlockStatement
+    | LabelStatement
     | ReturnStatement
 ;
