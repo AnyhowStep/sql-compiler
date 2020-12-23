@@ -1,0 +1,30 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    CROSS: BEGIN
+        RETURN 1;
+    END CROSS;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    `CROSS`: BEGIN
+        RETURN 1;
+    END `CROSS`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 47,
+        "length": 5
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot use keyword CROSS as identifier; escape it with backticks",
+        "start": 86,
+        "length": 5
+    }
+]

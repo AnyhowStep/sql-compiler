@@ -29,7 +29,7 @@ makeCustomRule(SyntaxKind.Identifier)
                 return {
                     ...getTextRange(data),
                     syntaxKind : SyntaxKind.Identifier,
-                    identifier : tokenObj.value,
+                    identifier : tokenObj.getTokenSourceText(),
                     quoted : false,
                 };
             }
@@ -37,7 +37,7 @@ makeCustomRule(SyntaxKind.Identifier)
             const result : Identifier = {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.Identifier,
-                identifier : tokenObj.value,
+                identifier : tokenObj.getTokenSourceText(),
                 quoted : false,
             };
             pushSyntacticErrorAtNode(
@@ -69,7 +69,7 @@ export const IdentifierAllowReservedRule = makeRule("IdentifierAllowReserved")
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.Identifier,
-                identifier : tokenObj.value,
+                identifier : tokenObj.getTokenSourceText(),
                 quoted : false,
             };
         }

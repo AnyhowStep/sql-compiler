@@ -2395,14 +2395,14 @@ export var ParserRules: NearleyRule[] = [
                 return {
                     ...parse_util_1.getTextRange(data),
                     syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: tokenObj.value,
+                    identifier: tokenObj.getTokenSourceText(),
                     quoted: false,
                 };
             }
             const result = {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                identifier: tokenObj.value,
+                identifier: tokenObj.getTokenSourceText(),
                 quoted: false,
             };
             parse_util_1.pushSyntacticErrorAtNode(result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
@@ -2422,7 +2422,7 @@ export var ParserRules: NearleyRule[] = [
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                identifier: tokenObj.value,
+                identifier: tokenObj.getTokenSourceText(),
                 quoted: false,
             };
         } },
