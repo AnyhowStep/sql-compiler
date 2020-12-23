@@ -14,7 +14,7 @@ export function emitStatementList (statements : NodeArray<Statement>) : StringBu
                 }
             })
             .filter(item => !item.statementStr.isEmpty()),
-        builder => builder.append("\n\n"),
+        builder => builder.appendNewLine().appendNewLine(),
         (builder, {statement, statementStr}) => builder
             .appendBuilder(statementStr)
             .append(

@@ -1311,6 +1311,8 @@ const Percent : Tester = { test: x => x.tokenKind == TokenKind.Percent, type : "
 //@ts-ignore
 const Slash : Tester = { test: x => x.tokenKind == TokenKind.Slash, type : "Slash" };
 //@ts-ignore
+const Colon : Tester = { test: x => x.tokenKind == TokenKind.Colon, type : "Colon" };
+//@ts-ignore
 const Dot : Tester = { test: x => x.tokenKind == TokenKind.Dot, type : "Dot" };
 //@ts-ignore
 const SemiColon : Tester = { test: x => x.tokenKind == TokenKind.SemiColon, type : "SemiColon" };
@@ -2463,6 +2465,24 @@ export var ParserRules: NearleyRule[] = [
                 }
             }
         } },
+    {"name": "LabelIdentifier", "symbols": ["Identifier"], "postprocess":  function (data) {
+            if (data[0].quoted) {
+                return data[0];
+            }
+            /**
+             * @todo Should this check be in linter instead?
+             */
+            if (constants_1.labelIdentifierNonReservedKeywords.includes(data[0].identifier.toUpperCase())) {
+                /**
+                 * We allow certain keywords for label identifiers
+                 */
+                return {
+                    ...data[0],
+                    syntacticErrors: undefined,
+                };
+            }
+            return data[0];
+        } },
     {"name": "StoredProcedureIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
     {"name": "StoredProcedureIdentifier$ebnf$1", "symbols": ["StoredProcedureIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "StoredProcedureIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -2955,11 +2975,11 @@ export var ParserRules: NearleyRule[] = [
                     undefined),
             };
         } },
-    {"name": "StoredProcedureStatement", "symbols": ["NonDelimiterStatement"], "postprocess":  (data) => {
-            return data[0];
-        } },
-    {"name": "StoredProcedureStatement", "symbols": ["ReturnStatement"], "postprocess":  (data) => {
-            return data[0];
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["NonDelimiterStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["ReturnStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["BlockStatement"]},
+    {"name": "StoredProcedureStatement", "symbols": ["StoredProcedureStatement$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
         } },
     {"name": "CreateSchemaOptionList$ebnf$1", "symbols": []},
     {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCharacterSet"]},
@@ -5608,12 +5628,43 @@ export var ParserRules: NearleyRule[] = [
                 statements,
             };
         } },
+    {"name": "BlockStatement$ebnf$1", "symbols": ["LabelIdentifier"], "postprocess": id},
+    {"name": "BlockStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "BlockStatement", "symbols": ["LabelIdentifier", Colon, BEGIN, "StoredProcedureStatementList", END, "BlockStatement$ebnf$1"], "postprocess":  (data) => {
+            var _a;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.BlockStatement,
+                beginLabel: data[0],
+                statements: data[3],
+                endLabel: (_a = data[5]) !== null && _a !== void 0 ? _a : undefined,
+            };
+        } },
+    {"name": "BlockStatement$ebnf$2", "symbols": ["LabelIdentifier"], "postprocess": id},
+    {"name": "BlockStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "BlockStatement", "symbols": [BEGIN, "StoredProcedureStatementList", END, "BlockStatement$ebnf$2"], "postprocess":  (data) => {
+            var _a;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.BlockStatement,
+                beginLabel: undefined,
+                statements: data[1],
+                endLabel: (_a = data[3]) !== null && _a !== void 0 ? _a : undefined,
+            };
+        } },
     {"name": "ReturnStatement", "symbols": [RETURN, "Expression"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.ReturnStatement,
                 expr: data[1],
             };
+        } },
+    {"name": "StoredProcedureStatementList$ebnf$1", "symbols": []},
+    {"name": "StoredProcedureStatementList$ebnf$1$subexpression$1", "symbols": ["StoredProcedureStatement", SemiColon]},
+    {"name": "StoredProcedureStatementList$ebnf$1", "symbols": ["StoredProcedureStatementList$ebnf$1", "StoredProcedureStatementList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "StoredProcedureStatementList", "symbols": ["StoredProcedureStatementList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data[0].map(item => item[0]);
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureStatementList, parse_util_1.getTextRange(data));
         } }
 ];
 

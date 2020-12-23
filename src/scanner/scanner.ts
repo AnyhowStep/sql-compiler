@@ -544,9 +544,8 @@ export class Scanner {
                         this.index += 2;
                         return this.tokenKind = TokenKind.ColonEqual;
                     }
-                    this.onError(DiagnosticMessages.InvalidCharacter);
                     ++this.index;
-                    return this.tokenKind = TokenKind.UnknownToken;
+                    return this.tokenKind = TokenKind.Colon;
                 }
                 case CharacterCodes.pound: {
                     if (isUnquotedIdentifierCharacter(this.text.charCodeAt(this.index+1))) {

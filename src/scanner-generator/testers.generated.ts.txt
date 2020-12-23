@@ -1286,6 +1286,8 @@ const Percent : Tester = { test: x => x.tokenKind == TokenKind.Percent, type : "
 //@ts-ignore
 const Slash : Tester = { test: x => x.tokenKind == TokenKind.Slash, type : "Slash" };
 //@ts-ignore
+const Colon : Tester = { test: x => x.tokenKind == TokenKind.Colon, type : "Colon" };
+//@ts-ignore
 const Dot : Tester = { test: x => x.tokenKind == TokenKind.Dot, type : "Dot" };
 //@ts-ignore
 const SemiColon : Tester = { test: x => x.tokenKind == TokenKind.SemiColon, type : "SemiColon" };

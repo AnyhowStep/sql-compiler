@@ -153,4 +153,19 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240029,
     }),
+    EndLabelMustHaveBeginLabel : makeDiagnosticMessage({
+        key : "END label must have BEGIN label",
+        category : DiagnosticCategory.Error,
+        code : 240030,
+    }),
+    BeginLabelEndLabelMustHaveSameIdentifier : makeDiagnosticMessage({
+        key : "BEGIN label and END label must have the same identifier",
+        category : DiagnosticCategory.Error,
+        code : 240031,
+    }),
+    BeginLabelEndLabelShouldHaveSameIdentifierCaseSensitive : makeDiagnosticMessage({
+        key : "BEGIN label and END label should have the same identifier; do they have the same case?",
+        category : DiagnosticCategory.Warning,
+        code : 240031,
+    }),
 } as const;

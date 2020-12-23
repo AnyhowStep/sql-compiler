@@ -1307,6 +1307,8 @@ const Percent : Tester = { test: x => x.tokenKind == TokenKind.Percent, type : "
 //@ts-ignore
 const Slash : Tester = { test: x => x.tokenKind == TokenKind.Slash, type : "Slash" };
 //@ts-ignore
+const Colon : Tester = { test: x => x.tokenKind == TokenKind.Colon, type : "Colon" };
+//@ts-ignore
 const Dot : Tester = { test: x => x.tokenKind == TokenKind.Dot, type : "Dot" };
 //@ts-ignore
 const SemiColon : Tester = { test: x => x.tokenKind == TokenKind.SemiColon, type : "SemiColon" };
@@ -2376,6 +2378,26 @@ ColumnIdentifier ->
     }
 } %}
 
+LabelIdentifier ->
+    Identifier {% function (data) {
+    if (data[0].quoted) {
+        return data[0];
+    }
+    /**
+     * @todo Should this check be in linter instead?
+     */
+    if (constants_1.labelIdentifierNonReservedKeywords.includes(data[0].identifier.toUpperCase())) {
+        /**
+         * We allow certain keywords for label identifiers
+         */
+        return {
+            ...data[0],
+            syntacticErrors: undefined,
+        };
+    }
+    return data[0];
+} %}
+
 StoredProcedureIdentifier ->
     Identifier (%Dot IdentifierAllowReserved):? {% (data) => {
     const [nameA, nameB] = data;
@@ -2845,11 +2867,8 @@ StoredProcedureCharacteristics ->
 } %}
 
 StoredProcedureStatement ->
-    NonDelimiterStatement {% (data) => {
-    return data[0];
-} %}
-    | ReturnStatement {% (data) => {
-    return data[0];
+    (NonDelimiterStatement | ReturnStatement | BlockStatement) {% (data) => {
+    return data[0][0];
 } %}
 
 CreateSchemaOptionList ->
@@ -5130,6 +5149,28 @@ SourceFileLite ->
     };
 } %}
 
+BlockStatement ->
+    LabelIdentifier %Colon %BEGIN StoredProcedureStatementList %END LabelIdentifier:? {% (data) => {
+    var _a;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.BlockStatement,
+        beginLabel: data[0],
+        statements: data[3],
+        endLabel: (_a = data[5]) !== null && _a !== void 0 ? _a : undefined,
+    };
+} %}
+    | %BEGIN StoredProcedureStatementList %END LabelIdentifier:? {% (data) => {
+    var _a;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.BlockStatement,
+        beginLabel: undefined,
+        statements: data[1],
+        endLabel: (_a = data[3]) !== null && _a !== void 0 ? _a : undefined,
+    };
+} %}
+
 ReturnStatement ->
     %RETURN Expression {% (data) => {
     return {
@@ -5137,4 +5178,10 @@ ReturnStatement ->
         syntaxKind: parser_node_1.SyntaxKind.ReturnStatement,
         expr: data[1],
     };
+} %}
+
+StoredProcedureStatementList ->
+    (StoredProcedureStatement %SemiColon):* {% (data) => {
+    const arr = data[0].map(item => item[0]);
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureStatementList, parse_util_1.getTextRange(data));
 } %}

@@ -1,0 +1,61 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    a: BEGIN
+        RETURN 1;
+    END b;
+
+/*
+    This is not a mismatch because they are the same if you ignore case-sensitivity
+*/
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    aA: BEGIN
+        RETURN 1;
+    END Aa;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    `a`: BEGIN
+        RETURN 1;
+    END `b`;
+
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    `aA`: BEGIN
+        RETURN 1;
+    END `Aa`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "BEGIN label and END label must have the same identifier",
+        "start": 82,
+        "length": 1,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 47,
+                "length": 1
+            }
+        ]
+    },
+    {
+        "category": 1,
+        "messageText": "BEGIN label and END label should have the same identifier; do they have the same case?",
+        "start": 259,
+        "length": 2,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 223,
+                "length": 2
+            }
+        ]
+    }
+]

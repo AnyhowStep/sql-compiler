@@ -51,6 +51,7 @@ export const tokenKinds = [
     "Asterisk",
     "Percent",
     "Slash",
+    "Colon",
 
     "Dot",
     "SemiColon",

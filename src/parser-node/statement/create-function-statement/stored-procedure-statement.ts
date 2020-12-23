@@ -1,4 +1,7 @@
-import {ReturnStatement} from "../../stored-procedure-statement";
+import {
+    BlockStatement,
+    ReturnStatement,
+} from "../../stored-procedure-statement";
 import {Statement} from "../statement";
 
 /**
@@ -6,5 +9,6 @@ import {Statement} from "../statement";
  */
 export type StoredProcedureStatement =
     | Statement
+    | BlockStatement
     | ReturnStatement
 ;

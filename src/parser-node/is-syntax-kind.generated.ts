@@ -98,6 +98,7 @@ import {UnionOrderLimit} from "./statement/select-statement/union-order-limit";
 import {Union} from "./statement/select-statement/union";
 import {WhereClause} from "./statement/select-statement/where-clause";
 import {UnknownStatement} from "./statement/unknown-statement";
+import {BlockStatement} from "./stored-procedure-statement/block-statement";
 import {ReturnStatement} from "./stored-procedure-statement/return-statement";
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BinaryDataType) : node is BinaryDataType;
@@ -198,6 +199,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnionOrderLim
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Union) : node is Union;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.WhereClause) : node is WhereClause;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownStatement) : node is UnknownStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BlockStatement) : node is BlockStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ReturnStatement) : node is ReturnStatement;
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean;
@@ -307,6 +309,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.Union, callback : (node : Union) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.WhereClause, callback : (node : WhereClause) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownStatement, callback : (node : UnknownStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.BlockStatement, callback : (node : BlockStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ReturnStatement, callback : (node : ReturnStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
 
     default<ResultT> (callback : () => ResultT) : ResultT|ReturnT;

@@ -131,6 +131,7 @@ export enum CustomSyntaxKind {
     AccountIdentifierOrCurrentUser,
     StoredProcedureStatement,
     StoredProcedureCharacteristic,
+    LabelIdentifier,
 }
 
 declare module "../nearley-wrapper" {
@@ -142,6 +143,7 @@ declare module "../nearley-wrapper" {
         [SyntaxKind.GroupingExprList] : NodeArray2<SyntaxKind.GroupingExprList, GroupingExpr>,
         [SyntaxKind.IntoDestinationVariableList] : IntoDestinationVariableList,
         [SyntaxKind.StoredFunctionParameterList] : NodeArray2<SyntaxKind.StoredFunctionParameterList, StoredFunctionParameter>,
+        [SyntaxKind.StoredProcedureStatementList] : NodeArray2<SyntaxKind.StoredProcedureStatementList, StoredProcedureStatement>,
 
         [CustomSyntaxKind.CharacterSetName] : Identifier|StringLiteral,
         [CustomSyntaxKind.Expression] : Expression,
@@ -215,6 +217,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.AccountIdentifierOrCurrentUser] : AccountIdentifierOrCurrentUser,
         [CustomSyntaxKind.StoredProcedureStatement] : StoredProcedureStatement,
         [CustomSyntaxKind.StoredProcedureCharacteristic] : StoredProcedureCharacteristic,
+        [CustomSyntaxKind.LabelIdentifier] : Identifier,
     }
 
     interface CustomToken extends Array<TokenKind> {

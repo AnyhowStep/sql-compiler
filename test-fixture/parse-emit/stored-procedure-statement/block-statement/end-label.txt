@@ -1,0 +1,24 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    BEGIN
+        RETURN 1;
+    END a;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    BEGIN
+        RETURN 1;
+    END `a`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "END label must have BEGIN label",
+        "start": 79,
+        "length": 1
+    }
+]

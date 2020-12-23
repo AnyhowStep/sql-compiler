@@ -1,0 +1,17 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    a: BEGIN
+        RETURN 1;
+    END a;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    `a`: BEGIN
+        RETURN 1;
+    END `a`;
+
+-----
+[]

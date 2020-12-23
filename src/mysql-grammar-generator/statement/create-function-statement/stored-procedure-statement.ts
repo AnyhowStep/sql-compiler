@@ -1,21 +1,18 @@
 import {SyntaxKind} from "../../../parser-node";
 import {StoredProcedureStatement} from "../../../parser-node";
+import {union} from "../../../nearley-wrapper";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 
 makeCustomRule(CustomSyntaxKind.StoredProcedureStatement)
     .addSubstitution(
         [
-            CustomSyntaxKind.NonDelimiterStatement,
+            union(
+                CustomSyntaxKind.NonDelimiterStatement,
+                SyntaxKind.ReturnStatement,
+                SyntaxKind.BlockStatement,
+            ),
         ] as const,
         (data) : StoredProcedureStatement => {
-            return data[0];
-        }
-    )
-    .addSubstitution(
-        [
-            SyntaxKind.ReturnStatement,
-        ] as const,
-        (data) : StoredProcedureStatement => {
-            return data[0];
+            return data[0][0];
         }
     );

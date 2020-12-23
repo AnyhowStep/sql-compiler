@@ -132,6 +132,7 @@ export const syntaxKinds = [
      * Stored procedure statements
      */
     "ReturnStatement",
+    "BlockStatement",
 
     /**
      * Custom statements
@@ -212,4 +213,5 @@ export const syntaxKinds = [
     "IndexHintDefinitionList",
     "KeyUsageList",
     "GroupingExprList",
+    "StoredProcedureStatementList",
 ] as const;
