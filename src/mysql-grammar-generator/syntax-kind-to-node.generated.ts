@@ -101,6 +101,7 @@ import {
     UnknownStatement,
     BlockStatement,
     LabelStatement,
+    LoopStatement,
     ReturnStatement,
 } from "../parser-node";
 
@@ -205,5 +206,6 @@ export type SyntaxKindToNode = {
     [SyntaxKind.UnknownStatement] : UnknownStatement;
     [SyntaxKind.BlockStatement] : BlockStatement;
     [SyntaxKind.LabelStatement] : LabelStatement;
+    [SyntaxKind.LoopStatement] : LoopStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;
 } & Record<SyntaxKind, unknown>;

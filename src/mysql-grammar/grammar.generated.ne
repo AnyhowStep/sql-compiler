@@ -5160,28 +5160,42 @@ BlockStatement ->
     };
 } %}
 
+UnlabeledStatement ->
+    (BlockStatement | LoopStatement) {% (data) => {
+    return data[0][0];
+} %}
+
 LabelStatement ->
-    LabelIdentifier %Colon (BlockStatement) LabelIdentifier:? {% (data) => {
+    LabelIdentifier %Colon UnlabeledStatement LabelIdentifier:? {% (data) => {
     var _a;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.LabelStatement,
         beginLabel: data[0],
-        statement: data[2][0],
+        statement: data[2],
         endLabel: (_a = data[3]) !== null && _a !== void 0 ? _a : undefined,
     };
 } %}
-    | (BlockStatement) LabelIdentifier:? {% (data) => {
+    | UnlabeledStatement LabelIdentifier:? {% (data) => {
     var _a;
     if (data[1] == undefined) {
-        return data[0][0];
+        return data[0];
     }
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.LabelStatement,
         beginLabel: undefined,
-        statement: data[0][0],
+        statement: data[0],
         endLabel: (_a = data[1]) !== null && _a !== void 0 ? _a : undefined,
+    };
+} %}
+
+LoopStatement ->
+    %LOOP StoredProcedureStatementList %END %LOOP {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.LoopStatement,
+        statements: data[1],
     };
 } %}
 

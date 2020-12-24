@@ -1,0 +1,29 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    LOOP
+        LOOP
+        END LOOP;
+        RETURN 1;
+    END LOOP;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    LOOP
+        LOOP
+        END LOOP;
+
+        RETURN 1;
+    END LOOP;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "LOOP must have at least one statement",
+        "start": 60,
+        "length": 21
+    }
+]

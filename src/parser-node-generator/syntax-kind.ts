@@ -134,6 +134,7 @@ export const syntaxKinds = [
     "ReturnStatement",
     "LabelStatement",
     "BlockStatement",
+    "LoopStatement",
 
     /**
      * Custom statements

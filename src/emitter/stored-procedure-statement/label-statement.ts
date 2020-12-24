@@ -1,9 +1,9 @@
 import {LabelStatement} from "../../parser-node";
 import {emitIdentifier} from "../identifier";
 import {StringBuilder} from "../string-builder";
-import {emitBlockStatement} from "./block-statement";
+import {emitStoredProcedureStatement} from "./stored-procedure-statement";
 
-export function emitLabelStatement (statement : LabelStatement) {
+export function emitLabelStatement (statement : LabelStatement) : StringBuilder {
     return new StringBuilder()
         .scope(builder => {
             if (statement.beginLabel == undefined) {
@@ -14,7 +14,7 @@ export function emitLabelStatement (statement : LabelStatement) {
                 .append(": ")
         })
         .appendBuilder(
-            emitBlockStatement(statement.statement)
+            emitStoredProcedureStatement(statement.statement)
         )
         .scope(builder => {
             if (statement.endLabel == undefined) {

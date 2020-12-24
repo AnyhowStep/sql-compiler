@@ -49,7 +49,6 @@ import {
     StoredProcedureStatement,
     StoredFunctionParameter,
     LabelStatement,
-    BlockStatement,
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
@@ -135,6 +134,7 @@ export enum CustomSyntaxKind {
     StoredProcedureCharacteristic,
     LabelIdentifier,
     LabelStatement,
+    UnlabeledStatement,
 }
 
 declare module "../nearley-wrapper" {
@@ -221,7 +221,8 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.StoredProcedureStatement] : StoredProcedureStatement,
         [CustomSyntaxKind.StoredProcedureCharacteristic] : StoredProcedureCharacteristic,
         [CustomSyntaxKind.LabelIdentifier] : Identifier,
-        [CustomSyntaxKind.LabelStatement] : LabelStatement|BlockStatement,
+        [CustomSyntaxKind.LabelStatement] : LabelStatement|LabelStatement["statement"],
+        [CustomSyntaxKind.UnlabeledStatement] : LabelStatement["statement"],
     }
 
     interface CustomToken extends Array<TokenKind> {

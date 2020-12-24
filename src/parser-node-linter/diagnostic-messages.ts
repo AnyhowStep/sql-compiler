@@ -168,4 +168,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Warning,
         code : 240031,
     }),
+    MustHaveAtLeastOneStatement : makeDiagnosticMessage({
+        key : "{0} must have at least one statement",
+        category : DiagnosticCategory.Error,
+        code : 240032
+    }),
 } as const;

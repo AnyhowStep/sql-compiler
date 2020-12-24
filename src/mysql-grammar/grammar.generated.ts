@@ -5637,33 +5637,43 @@ export var ParserRules: NearleyRule[] = [
                 statements: data[1],
             };
         } },
-    {"name": "LabelStatement$subexpression$1", "symbols": ["BlockStatement"]},
+    {"name": "UnlabeledStatement$subexpression$1", "symbols": ["BlockStatement"]},
+    {"name": "UnlabeledStatement$subexpression$1", "symbols": ["LoopStatement"]},
+    {"name": "UnlabeledStatement", "symbols": ["UnlabeledStatement$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
+        } },
     {"name": "LabelStatement$ebnf$1", "symbols": ["LabelIdentifier"], "postprocess": id},
     {"name": "LabelStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "LabelStatement", "symbols": ["LabelIdentifier", Colon, "LabelStatement$subexpression$1", "LabelStatement$ebnf$1"], "postprocess":  (data) => {
+    {"name": "LabelStatement", "symbols": ["LabelIdentifier", Colon, "UnlabeledStatement", "LabelStatement$ebnf$1"], "postprocess":  (data) => {
             var _a;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.LabelStatement,
                 beginLabel: data[0],
-                statement: data[2][0],
+                statement: data[2],
                 endLabel: (_a = data[3]) !== null && _a !== void 0 ? _a : undefined,
             };
         } },
-    {"name": "LabelStatement$subexpression$2", "symbols": ["BlockStatement"]},
     {"name": "LabelStatement$ebnf$2", "symbols": ["LabelIdentifier"], "postprocess": id},
     {"name": "LabelStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "LabelStatement", "symbols": ["LabelStatement$subexpression$2", "LabelStatement$ebnf$2"], "postprocess":  (data) => {
+    {"name": "LabelStatement", "symbols": ["UnlabeledStatement", "LabelStatement$ebnf$2"], "postprocess":  (data) => {
             var _a;
             if (data[1] == undefined) {
-                return data[0][0];
+                return data[0];
             }
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.LabelStatement,
                 beginLabel: undefined,
-                statement: data[0][0],
+                statement: data[0],
                 endLabel: (_a = data[1]) !== null && _a !== void 0 ? _a : undefined,
+            };
+        } },
+    {"name": "LoopStatement", "symbols": [LOOP, "StoredProcedureStatementList", END, LOOP], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.LoopStatement,
+                statements: data[1],
             };
         } },
     {"name": "ReturnStatement", "symbols": [RETURN, "Expression"], "postprocess":  (data) => {
