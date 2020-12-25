@@ -1,5 +1,6 @@
 export * from "./create-function-statement";
 export * from "./create-table-definition";
+export * from "./create-trigger-statement";
 export * from "./from-clause";
 export * from "./group-by-clause";
 export * from "./into-clause";

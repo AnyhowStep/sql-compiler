@@ -7,11 +7,11 @@ import {emitUnionOrderLimit} from "./union-order-limit";
 export function emitSelectStatement (statement : SelectStatement) : StringBuilder {
     switch (statement.syntaxKind) {
         case SyntaxKind.Select:
-            return emitSelect(statement).append(";");
+            return emitSelect(statement)
         case SyntaxKind.Union:
-            return emitUnion(statement).append(";");
+            return emitUnion(statement)
         case SyntaxKind.UnionOrderLimit:
-            return emitUnionOrderLimit(statement).append(";");
+            return emitUnionOrderLimit(statement)
     }
 }
 

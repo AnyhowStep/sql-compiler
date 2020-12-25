@@ -2551,6 +2551,28 @@ export var ParserRules: NearleyRule[] = [
                 };
             }
         } },
+    {"name": "TriggerIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
+    {"name": "TriggerIdentifier$ebnf$1", "symbols": ["TriggerIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "TriggerIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "TriggerIdentifier", "symbols": ["Identifier", "TriggerIdentifier$ebnf$1"], "postprocess":  (data) => {
+            const [nameA, nameB] = data;
+            if (nameB == null) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.TriggerIdentifier,
+                    schemaName: undefined,
+                    triggerName: nameA,
+                };
+            }
+            else {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.TriggerIdentifier,
+                    schemaName: nameA,
+                    triggerName: nameB[1],
+                };
+            }
+        } },
     {"name": "Comment", "symbols": [COMMENT, "StringLiteral"], "postprocess":  (data) => {
             return data[1];
         } },
@@ -4058,6 +4080,56 @@ export var ParserRules: NearleyRule[] = [
                 createTableDefinitions,
                 createTableOptions,
                 partition: partition !== null && partition !== void 0 ? partition : undefined,
+            };
+        } },
+    {"name": "CreateTriggerStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
+    {"name": "CreateTriggerStatement$ebnf$1", "symbols": ["CreateTriggerStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateTriggerStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTriggerStatement$subexpression$1", "symbols": [BEFORE]},
+    {"name": "CreateTriggerStatement$subexpression$1", "symbols": [AFTER]},
+    {"name": "CreateTriggerStatement$subexpression$2", "symbols": [INSERT]},
+    {"name": "CreateTriggerStatement$subexpression$2", "symbols": [UPDATE]},
+    {"name": "CreateTriggerStatement$subexpression$2", "symbols": [DELETE]},
+    {"name": "CreateTriggerStatement$ebnf$2", "symbols": ["TriggerOrder"], "postprocess": id},
+    {"name": "CreateTriggerStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTriggerStatement", "symbols": [CREATE, "CreateTriggerStatement$ebnf$1", TRIGGER, "TriggerIdentifier", "CreateTriggerStatement$subexpression$1", "CreateTriggerStatement$subexpression$2", ON, "TableIdentifier", FOR, EACH, ROW, "CreateTriggerStatement$ebnf$2", "StoredProcedureStatement"], "postprocess":  (data) => {
+            const [, definer, triggerToken, triggerIdentifier, triggerActionTime, triggerEvent, , tableIdentifier, , , , triggerOrder, statement,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTriggerStatement,
+                definer: (definer == undefined ?
+                    parse_util_1.toValueNode("CURRENT_USER", {
+                        start: triggerToken.start,
+                        end: triggerToken.start,
+                    }) :
+                    definer[2]),
+                triggerIdentifier,
+                triggerActionTime: parse_util_1.toValueNode((triggerActionTime[0].tokenKind == scanner_1.TokenKind.BEFORE ?
+                    parser_node_1.TriggerActionTime.BEFORE :
+                    parser_node_1.TriggerActionTime.AFTER), parse_util_1.getTextRange(triggerActionTime)),
+                triggerEvent: parse_util_1.toValueNode((triggerEvent[0].tokenKind == scanner_1.TokenKind.INSERT ?
+                    parser_node_1.TriggerEvent.INSERT :
+                    triggerEvent[0].tokenKind == scanner_1.TokenKind.UPDATE ?
+                        parser_node_1.TriggerEvent.UPDATE :
+                        parser_node_1.TriggerEvent.DELETE), parse_util_1.getTextRange(triggerActionTime)),
+                tableIdentifier,
+                triggerOrder: triggerOrder !== null && triggerOrder !== void 0 ? triggerOrder : undefined,
+                statement,
+            };
+        } },
+    {"name": "TriggerOrder$subexpression$1", "symbols": [FOLLOWS]},
+    {"name": "TriggerOrder$subexpression$1", "symbols": [PRECEDES]},
+    {"name": "TriggerOrder$subexpression$2", "symbols": ["Identifier"]},
+    {"name": "TriggerOrder$subexpression$2", "symbols": ["StringLiteral"]},
+    {"name": "TriggerOrder", "symbols": ["TriggerOrder$subexpression$1", "TriggerOrder$subexpression$2"], "postprocess":  (data) => {
+            const [triggerActionOrder, otherTriggerName,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.TriggerOrder,
+                triggerActionOrder: parse_util_1.toValueNode((triggerActionOrder[0].tokenKind == scanner_1.TokenKind.FOLLOWS ?
+                    parser_node_1.TriggerActionOrder.FOLLOWS :
+                    parser_node_1.TriggerActionOrder.PRECEDES), parse_util_1.getTextRange(triggerActionOrder)),
+                otherTriggerName: otherTriggerName[0],
             };
         } },
     {"name": "DelimiterStatement", "symbols": [DELIMITER_STATEMENT, CustomDelimiter], "postprocess":  (data) => {
@@ -5674,6 +5746,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateFunctionStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateProcedureStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTriggerStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];

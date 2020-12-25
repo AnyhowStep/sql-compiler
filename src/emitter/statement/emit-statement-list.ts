@@ -20,6 +20,11 @@ export function emitStatementList (statements : SourceElementList) : StringBuild
             .append(
                 isSyntaxKind(statement, SyntaxKind.DelimiterStatement) ?
                 undefined :
+                ";"
+            )
+            .append(
+                isSyntaxKind(statement, SyntaxKind.DelimiterStatement) ?
+                undefined :
                 statement.customDelimiter
             )
     );

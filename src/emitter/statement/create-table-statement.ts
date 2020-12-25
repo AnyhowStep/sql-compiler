@@ -39,6 +39,5 @@ export function emitCreateTableStatement (statement : CreateTableStatement) : St
                 builder.appendBuilder(emitPartition(partition));
             })
         })
-        .append(";");
     return builder;
 }

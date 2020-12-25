@@ -1,0 +1,21 @@
+CREATE PROCEDURE FOO ()
+    BEGIN
+        SELECT 1;
+
+        SELECT 2;
+    END;
+
+-----
+CREATE DEFINER = CURRENT_USER() PROCEDURE `FOO` ()
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    BEGIN
+        SELECT
+            1;
+
+        SELECT
+            2;
+    END;
+
+-----
+[]

@@ -80,6 +80,8 @@ export const syntaxKinds = [
     "CreateProcedureStatement",
     "StoredProcedureParameter",
     "StoredProcedureParameterList",
+    "CreateTriggerStatement",
+    "TriggerOrder",
 
     "HashPartition",
     "KeyPartition",
@@ -182,6 +184,7 @@ export const syntaxKinds = [
     "StoredFunctionIdentifier",
     "StoredProcedureIdentifier",
     "AccountIdentifier",
+    "TriggerIdentifier",
 
     /**
      * Expression

@@ -28,5 +28,5 @@ export function emitCreateSchemaStatement (statement : CreateSchemaStatement) : 
         }
     }
 
-    return result.append(";");
+    return result;
 }

@@ -2,6 +2,7 @@ import {Statement, SwitchSyntaxKind, switchSyntaxKind, SyntaxKind} from "../../p
 import {StringBuilder} from "../string-builder";
 import {emitCreateFunctionStatement, emitCreateProcedureStatement} from "./create-function-statement";
 import {emitCreateTableStatement} from "./create-table-statement";
+import {emitCreateTriggerStatement} from "./create-trigger-statement";
 import {emitCreateSchemaStatement} from "./emit-create-schema-statement";
 import {emitDelimiterStatement} from "./emit-delimiter-statement";
 import {emitSelectStatement} from "./select-statement";
@@ -12,6 +13,7 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.CreateTableStatement, emitCreateTableStatement)
         .case(SyntaxKind.CreateFunctionStatement, emitCreateFunctionStatement)
         .case(SyntaxKind.CreateProcedureStatement, emitCreateProcedureStatement)
+        .case(SyntaxKind.CreateTriggerStatement, emitCreateTriggerStatement)
         //.case(SyntaxKind.SetStatement, emitSetStatement)
         /*.case(SyntaxKind.SelectStatement, statement => emitSelectStatement(
             statement,

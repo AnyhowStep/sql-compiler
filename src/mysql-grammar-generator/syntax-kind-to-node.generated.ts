@@ -41,6 +41,7 @@ import {
     StoredProcedureIdentifier,
     TableIdentifier,
     TableIdentifierList,
+    TriggerIdentifier,
     CurrentTimestamp,
     DefaultCharacterSet,
     DefaultCollation,
@@ -71,6 +72,8 @@ import {
     PrimaryKeyDefinition,
     CreateTableOptions,
     CreateTableStatement,
+    CreateTriggerStatement,
+    TriggerOrder,
     DeclareFunctionParameter,
     DeclareFunctionParameterList,
     DeclareFunctionStatement,
@@ -190,6 +193,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.StoredProcedureIdentifier] : StoredProcedureIdentifier;
     [SyntaxKind.TableIdentifier] : TableIdentifier;
     [SyntaxKind.TableIdentifierList] : TableIdentifierList;
+    [SyntaxKind.TriggerIdentifier] : TriggerIdentifier;
     [SyntaxKind.CurrentTimestamp] : CurrentTimestamp;
     [SyntaxKind.DefaultCharacterSet] : DefaultCharacterSet;
     [SyntaxKind.DefaultCollation] : DefaultCollation;
@@ -220,6 +224,8 @@ export type SyntaxKindToNode = {
     [SyntaxKind.PrimaryKeyDefinition] : PrimaryKeyDefinition;
     [SyntaxKind.CreateTableOptions] : CreateTableOptions;
     [SyntaxKind.CreateTableStatement] : CreateTableStatement;
+    [SyntaxKind.CreateTriggerStatement] : CreateTriggerStatement;
+    [SyntaxKind.TriggerOrder] : TriggerOrder;
     [SyntaxKind.DeclareFunctionParameter] : DeclareFunctionParameter;
     [SyntaxKind.DeclareFunctionParameterList] : DeclareFunctionParameterList;
     [SyntaxKind.DeclareFunctionStatement] : DeclareFunctionStatement;

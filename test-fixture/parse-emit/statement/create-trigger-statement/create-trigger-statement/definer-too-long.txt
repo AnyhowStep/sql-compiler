@@ -1,0 +1,16 @@
+CREATE DEFINER = xxxxxxxxxxxxxxxxxxxxxxxx@yyyyyyyyyyyyyyyyyyyyyyyy TRIGGER FOO
+    BEFORE INSERT
+    ON T FOR EACH ROW
+    BEGIN
+    END;
+
+-----
+CREATE DEFINER = `xxxxxxxxxxxxxxxxxxxxxxxx`@yyyyyyyyyyyyyyyyyyyyyyyy
+    TRIGGER `FOO`
+    BEFORE INSERT
+    ON `T` FOR EACH ROW
+    BEGIN
+    END;
+
+-----
+[]

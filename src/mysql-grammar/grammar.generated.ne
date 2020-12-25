@@ -2463,6 +2463,27 @@ TableIdentifier ->
     }
 } %}
 
+TriggerIdentifier ->
+    Identifier (%Dot IdentifierAllowReserved):? {% (data) => {
+    const [nameA, nameB] = data;
+    if (nameB == null) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.TriggerIdentifier,
+            schemaName: undefined,
+            triggerName: nameA,
+        };
+    }
+    else {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.TriggerIdentifier,
+            schemaName: nameA,
+            triggerName: nameB[1],
+        };
+    }
+} %}
+
 Comment ->
     %COMMENT StringLiteral {% (data) => {
     return data[1];
@@ -3757,6 +3778,46 @@ CreateTableStatement ->
         createTableDefinitions,
         createTableOptions,
         partition: partition !== null && partition !== void 0 ? partition : undefined,
+    };
+} %}
+
+CreateTriggerStatement ->
+    %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %TRIGGER TriggerIdentifier (%BEFORE | %AFTER) (%INSERT | %UPDATE | %DELETE) %ON TableIdentifier %FOR %EACH %ROW TriggerOrder:? StoredProcedureStatement {% (data) => {
+    const [, definer, triggerToken, triggerIdentifier, triggerActionTime, triggerEvent, , tableIdentifier, , , , triggerOrder, statement,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTriggerStatement,
+        definer: (definer == undefined ?
+            parse_util_1.toValueNode("CURRENT_USER", {
+                start: triggerToken.start,
+                end: triggerToken.start,
+            }) :
+            definer[2]),
+        triggerIdentifier,
+        triggerActionTime: parse_util_1.toValueNode((triggerActionTime[0].tokenKind == scanner_1.TokenKind.BEFORE ?
+            parser_node_1.TriggerActionTime.BEFORE :
+            parser_node_1.TriggerActionTime.AFTER), parse_util_1.getTextRange(triggerActionTime)),
+        triggerEvent: parse_util_1.toValueNode((triggerEvent[0].tokenKind == scanner_1.TokenKind.INSERT ?
+            parser_node_1.TriggerEvent.INSERT :
+            triggerEvent[0].tokenKind == scanner_1.TokenKind.UPDATE ?
+                parser_node_1.TriggerEvent.UPDATE :
+                parser_node_1.TriggerEvent.DELETE), parse_util_1.getTextRange(triggerActionTime)),
+        tableIdentifier,
+        triggerOrder: triggerOrder !== null && triggerOrder !== void 0 ? triggerOrder : undefined,
+        statement,
+    };
+} %}
+
+TriggerOrder ->
+    (%FOLLOWS | %PRECEDES) (Identifier | StringLiteral) {% (data) => {
+    const [triggerActionOrder, otherTriggerName,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.TriggerOrder,
+        triggerActionOrder: parse_util_1.toValueNode((triggerActionOrder[0].tokenKind == scanner_1.TokenKind.FOLLOWS ?
+            parser_node_1.TriggerActionOrder.FOLLOWS :
+            parser_node_1.TriggerActionOrder.PRECEDES), parse_util_1.getTextRange(triggerActionOrder)),
+        otherTriggerName: otherTriggerName[0],
     };
 } %}
 
@@ -5188,7 +5249,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

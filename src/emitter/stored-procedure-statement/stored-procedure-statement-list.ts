@@ -1,4 +1,4 @@
-import {StoredProcedureStatementList} from "../../parser-node";
+import {isSyntaxKind, StoredProcedureStatementList, SyntaxKind} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
 import {emitStoredProcedureStatement} from "./stored-procedure-statement";
 
@@ -15,9 +15,13 @@ export function emitStoredProcedureStatementList (statements : StoredProcedureSt
             })
             .filter(item => !item.statementStr.isEmpty()),
         builder => builder.appendNewLine().appendNewLine(),
-        (builder, {statementStr}) => builder
+        (builder, {statement, statementStr}) => builder
             .appendBuilder(statementStr)
-            .append(";")
+            .append(
+                isSyntaxKind(statement, SyntaxKind.DelimiterStatement) ?
+                undefined :
+                ";"
+            )
     );
 
     return result;

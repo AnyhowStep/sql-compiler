@@ -36,6 +36,7 @@ import {Identifier} from "./identifier/identifier";
 import {StoredFunctionIdentifier} from "./identifier/stored-function-identifier";
 import {StoredProcedureIdentifier} from "./identifier/stored-procedure-identifier";
 import {TableIdentifier} from "./identifier/table-identifier";
+import {TriggerIdentifier} from "./identifier/trigger-identifier";
 import {CurrentTimestamp} from "./misc/current-timestamp";
 import {DefaultCharacterSet} from "./misc/default-character-set";
 import {DefaultCollation} from "./misc/default-collation";
@@ -59,6 +60,8 @@ import {IndexDefinition} from "./statement/create-table-definition/index-definit
 import {PrimaryKeyDefinition} from "./statement/create-table-definition/primary-key-definition";
 import {CreateTableOptions} from "./statement/create-table-options";
 import {CreateTableStatement} from "./statement/create-table-statement";
+import {CreateTriggerStatement} from "./statement/create-trigger-statement/create-trigger-statement";
+import {TriggerOrder} from "./statement/create-trigger-statement/trigger-order";
 import {DeclareFunctionParameter} from "./statement/declare-function-parameter";
 import {DeclareFunctionStatement} from "./statement/declare-function-statement";
 import {DelimiterStatement} from "./statement/delimiter-statement";
@@ -155,6 +158,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Identifier) :
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredFunctionIdentifier) : node is StoredFunctionIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureIdentifier) : node is StoredProcedureIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableIdentifier) : node is TableIdentifier;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TriggerIdentifier) : node is TriggerIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CurrentTimestamp) : node is CurrentTimestamp;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DefaultCharacterSet) : node is DefaultCharacterSet;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DefaultCollation) : node is DefaultCollation;
@@ -178,6 +182,8 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IndexDefiniti
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PrimaryKeyDefinition) : node is PrimaryKeyDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableOptions) : node is CreateTableOptions;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableStatement) : node is CreateTableStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTriggerStatement) : node is CreateTriggerStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TriggerOrder) : node is TriggerOrder;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DeclareFunctionParameter) : node is DeclareFunctionParameter;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DeclareFunctionStatement) : node is DeclareFunctionStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DelimiterStatement) : node is DelimiterStatement;
@@ -283,6 +289,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.StoredFunctionIdentifier, callback : (node : StoredFunctionIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureIdentifier, callback : (node : StoredProcedureIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TableIdentifier, callback : (node : TableIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.TriggerIdentifier, callback : (node : TriggerIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CurrentTimestamp, callback : (node : CurrentTimestamp) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DefaultCharacterSet, callback : (node : DefaultCharacterSet) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DefaultCollation, callback : (node : DefaultCollation) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
@@ -306,6 +313,8 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.PrimaryKeyDefinition, callback : (node : PrimaryKeyDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableOptions, callback : (node : CreateTableOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableStatement, callback : (node : CreateTableStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateTriggerStatement, callback : (node : CreateTriggerStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.TriggerOrder, callback : (node : TriggerOrder) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DeclareFunctionParameter, callback : (node : DeclareFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DeclareFunctionStatement, callback : (node : DeclareFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DelimiterStatement, callback : (node : DelimiterStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

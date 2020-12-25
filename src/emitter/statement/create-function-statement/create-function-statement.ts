@@ -72,5 +72,4 @@ export function emitCreateFunctionStatement (statement : CreateFunctionStatement
             builder
                 .appendBuilder(emitStoredProcedureStatement(statement.statement))
         })
-        .append(";")
 }
