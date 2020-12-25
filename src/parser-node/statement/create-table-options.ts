@@ -1,8 +1,7 @@
 import {IntegerLiteral, StringLiteral} from "../expression";
-import {Identifier, TableIdentifier} from "../identifier";
+import {Identifier, TableIdentifierList} from "../identifier";
 import {DefaultCharacterSet, DefaultCollation} from "../misc";
 import {Node, ValueNode} from "../node";
-import {NodeArray} from "../node-array";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {Storage} from "./create-table-definition";
 
@@ -117,5 +116,5 @@ export interface CreateTableOptions extends Node {
      *
      * https://dev.mysql.com/doc/refman/5.7/en/create-table.html
      */
-    union : NodeArray<TableIdentifier>|undefined;
+    union : TableIdentifierList|undefined;
 }

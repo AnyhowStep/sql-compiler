@@ -19,7 +19,7 @@ makeCustomRule(SyntaxKind.IndexDefinition)
             //optional(union(TokenKind.INDEX, TokenKind.KEY)),
             //optional(SyntaxKind.Identifier),
             optional(CustomSyntaxKind.IndexType),
-            CustomSyntaxKind.IndexPartList,
+            SyntaxKind.IndexPartList,
             CustomSyntaxKind.IndexOption,
         ] as const,
         function (data) : IndexDefinition {
@@ -72,7 +72,7 @@ makeCustomRule(SyntaxKind.IndexDefinition)
             TokenKind.UNIQUE_KEY,
             optional(SyntaxKind.Identifier),
             optional(CustomSyntaxKind.IndexType),
-            CustomSyntaxKind.IndexPartList,
+            SyntaxKind.IndexPartList,
             CustomSyntaxKind.IndexOption,
         ] as const,
         function (data) : IndexDefinition {

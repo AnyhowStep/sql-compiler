@@ -1,10 +1,10 @@
-import {TableIdentifier, NodeArray, SyntaxKind} from "../../parser-node";
+import {TableIdentifier, SyntaxKind, TableIdentifierList} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../factory";
 import {optional, zeroOrMore} from "../../nearley-wrapper";
 import {getTextRange, toNodeArray} from "../parse-util";
 
-makeCustomRule(CustomSyntaxKind.TableIdentifierList)
+makeCustomRule(SyntaxKind.TableIdentifierList)
     .addSubstitution(
         [
             TokenKind.OpenParentheses,
@@ -15,7 +15,7 @@ makeCustomRule(CustomSyntaxKind.TableIdentifierList)
             ] as const),
             TokenKind.CloseParentheses,
         ] as const,
-        (data) : NodeArray<TableIdentifier> => {
+        (data) : TableIdentifierList => {
             const [, first, more] = data;
             const arr = more
                 .flat(1)
@@ -43,7 +43,7 @@ makeCustomRule(CustomSyntaxKind.TableIdentifierList_AllowEmpty)
             ] as const),
             TokenKind.CloseParentheses,
         ] as const,
-        (data) : NodeArray<TableIdentifier> => {
+        (data) : TableIdentifierList => {
             const arr = data
                 .flat(3)
                 .filter((x) : x is TableIdentifier => {

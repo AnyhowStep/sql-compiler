@@ -1,9 +1,8 @@
 import {DataType} from "../../data-type";
 import {AccountIdentifierOrCurrentUser, StoredProcedureIdentifier} from "../../identifier";
-import {NodeArray2} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {Statement} from "../statement";
-import {StoredFunctionParameter} from "./stored-function-parameter";
+import {StoredFunctionParameterList} from "./stored-function-parameter";
 import {StoredProcedureCharacteristics} from "./stored-procedure-characteristics";
 import {StoredProcedureStatement} from "./stored-procedure-statement";
 
@@ -18,7 +17,7 @@ export interface CreateFunctionStatement extends Statement {
      */
     definer : AccountIdentifierOrCurrentUser,
     storedProcedureIdentifier : StoredProcedureIdentifier,
-    parameters : NodeArray2<SyntaxKind.StoredFunctionParameterList, StoredFunctionParameter>,
+    parameters : StoredFunctionParameterList,
     returnType : DataType,
     characteristics : StoredProcedureCharacteristics,
 

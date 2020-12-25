@@ -15,7 +15,7 @@ makeCustomRule(SyntaxKind.ForeignKeyDefinition)
             TokenKind.FOREIGN,
             TokenKind.KEY,
             optional(SyntaxKind.Identifier),
-            CustomSyntaxKind.IdentifierList,
+            SyntaxKind.IdentifierList,
             SyntaxKind.ForeignKeyReferenceDefinition,
         ] as const,
         function (data) : ForeignKeyDefinition {

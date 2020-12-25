@@ -1,15 +1,14 @@
 import {Expression, IntegerLiteral} from "../../expression";
-import {Identifier} from "../../identifier";
+import {IdentifierList} from "../../identifier";
 import {Node} from "../../node";
-import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
-import {ListPartitionDefinition} from "./list-partition-definition";
+import {ListPartitionDefinitionList} from "./list-partition-definition";
 import {SubPartition} from "./sub-partition";
 
 export interface ListPartition extends Node {
     syntaxKind : SyntaxKind.ListPartition,
 
-    partitionExprOrColumns : Expression|NodeArray<Identifier>,
+    partitionExprOrColumns : Expression|IdentifierList,
     /**
      * If set, must equal `partitionDefinitions.length`
      */
@@ -17,5 +16,5 @@ export interface ListPartition extends Node {
 
     subPartition : SubPartition|undefined,
 
-    partitionDefinitions : NodeArray<ListPartitionDefinition>,
+    partitionDefinitions : ListPartitionDefinitionList,
 }

@@ -1,7 +1,7 @@
 import {ReferenceOption, ForeignKeyReferenceDefinition, ReferenceMatch, SyntaxKind, TextRange} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {getTextRange} from "../../parse-util";
-import {CustomSyntaxKind, makeCustomRule, makeRule} from "../../factory";
+import {makeCustomRule, makeRule} from "../../factory";
 import {optional, union} from "../../../nearley-wrapper";
 
 /**
@@ -93,7 +93,7 @@ makeCustomRule(SyntaxKind.ForeignKeyReferenceDefinition)
         [
             TokenKind.REFERENCES,
             SyntaxKind.TableIdentifier,
-            CustomSyntaxKind.IdentifierList,
+            SyntaxKind.IdentifierList,
             optional(union(
                 [TokenKind.MATCH, TokenKind.FULL] as const,
                 [TokenKind.MATCH, TokenKind.PARTIAL] as const,

@@ -1,4 +1,4 @@
-import {NodeArray2, StoredFunctionParameter, SyntaxKind} from "../../../parser-node";
+import {StoredFunctionParameter, StoredFunctionParameterList} from "../../../parser-node";
 import {emitDataType} from "../../data-type";
 import {emitIdentifier} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
@@ -11,7 +11,7 @@ export function emitStoredFunctionParameter (parameter : StoredFunctionParameter
 }
 
 export function emitStoredFunctionParameterList (
-    parameters : NodeArray2<SyntaxKind.StoredFunctionParameterList, StoredFunctionParameter>,
+    parameters : StoredFunctionParameterList,
     forceMultiLine : boolean
 ) {
     if (parameters.length == 0) {

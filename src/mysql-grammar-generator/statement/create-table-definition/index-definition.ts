@@ -10,7 +10,7 @@ makeCustomRule(SyntaxKind.IndexDefinition)
             union(TokenKind.INDEX, TokenKind.KEY),
             optional(SyntaxKind.Identifier),
             optional(CustomSyntaxKind.IndexType),
-            CustomSyntaxKind.IndexPartList,
+            SyntaxKind.IndexPartList,
             CustomSyntaxKind.IndexOption,
         ] as const,
         function (data) : IndexDefinition {

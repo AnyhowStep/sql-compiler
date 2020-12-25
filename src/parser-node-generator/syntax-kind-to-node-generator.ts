@@ -16,19 +16,38 @@ function readRecursive (path : string) {
     }
     const raw = fs.readFileSync(path, "utf-8").toString();
 
-    const regex = /export\s+interface\s+\w+\s+.+?\{[^}]+?syntaxKind\s*\:\s*SyntaxKind\.(\w+)(?:.|\n)+?\}/gm;
+    {
+        const regex = /export\s+interface\s+\w+\s+.+?\{[^}]+?syntaxKind\s*\:\s*SyntaxKind\.(\w+)(?:.|\n)+?\}/gm;
 
-    while (true) {
-        const m = regex.exec(raw);
-        if (m == undefined) {
-            break;
+        while (true) {
+            const m = regex.exec(raw);
+            if (m == undefined) {
+                break;
+            }
+            syntaxKinds.set(
+                m[1],
+                path
+                    .replace(`${__dirname}/../parser-node/`, "")
+                    .replace(/\.ts$/, "")
+            );
         }
-        syntaxKinds.set(
-            m[1],
-            path
-                .replace(`${__dirname}/../parser-node/`, "")
-                .replace(/\.ts$/, "")
-        );
+    }
+
+    {
+        const regex = /export\s+interface\s+\w+\s+extends\s+NodeArray2<\s*SyntaxKind\.(\w+)/gm;
+
+        while (true) {
+            const m = regex.exec(raw);
+            if (m == undefined) {
+                break;
+            }
+            syntaxKinds.set(
+                m[1],
+                path
+                    .replace(`${__dirname}/../parser-node/`, "")
+                    .replace(/\.ts$/, "")
+            );
+        }
     }
 }
 

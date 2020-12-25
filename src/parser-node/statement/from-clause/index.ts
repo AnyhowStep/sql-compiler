@@ -3,6 +3,7 @@ export * from "./from-clause";
 export * from "./index-hint-definition";
 export * from "./join-specification";
 export * from "./join";
+export * from "./key-usage-list";
 export * from "./named-table-factor";
 export * from "./odbc-table-reference";
 export * from "./table-factor";

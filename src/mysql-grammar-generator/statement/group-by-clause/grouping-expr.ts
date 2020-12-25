@@ -1,4 +1,4 @@
-import {NodeArray2, GroupingExpr, SortDirection, SyntaxKind} from "../../../parser-node";
+import {GroupingExpr, SortDirection, SyntaxKind, GroupingExprList} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union, zeroOrMore} from "../../../nearley-wrapper";
@@ -55,7 +55,7 @@ makeCustomRule(SyntaxKind.GroupingExprList)
                 SyntaxKind.GroupingExpr,
             ] as const),
         ] as const,
-        (data) : NodeArray2<SyntaxKind.GroupingExprList, GroupingExpr> => {
+        (data) : GroupingExprList => {
             const arr = data
                 .flat(2)
                 .filter((data) : data is GroupingExpr => {

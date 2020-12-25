@@ -26,7 +26,7 @@ makeCustomRule(CustomSyntaxKind.SingletonRangePartitionDefinition)
                 ] as const,
             ),
             SyntaxKind.PartitionDefinitionOptions,
-            optional(CustomSyntaxKind.SubPartitionDefinitionList),
+            optional(SyntaxKind.SubPartitionDefinitionList),
         ] as const,
         (data) : RangePartitionDefinition => {
             const exprOrMaxValue = data[5]

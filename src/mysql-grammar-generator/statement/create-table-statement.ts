@@ -14,7 +14,7 @@ makeCustomRule(SyntaxKind.CreateTableStatement)
             TokenKind.TABLE,
             optional([TokenKind.IF, TokenKind.NOT, TokenKind.EXISTS]),
             SyntaxKind.TableIdentifier,
-            CustomSyntaxKind.CreateTableDefinitionList,
+            SyntaxKind.CreateTableDefinitionList,
             SyntaxKind.CreateTableOptions,
             optional(CustomSyntaxKind.Partition),
         ] as const,

@@ -1,4 +1,4 @@
-import {Identifier, NodeArray} from "../../../parser-node";
+import {IdentifierList, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 
@@ -9,9 +9,9 @@ makeCustomRule(CustomSyntaxKind.UsePartition)
     .addSubstitution(
         [
             TokenKind.PARTITION,
-            CustomSyntaxKind.IdentifierList,
+            SyntaxKind.IdentifierList,
         ] as const,
-        (data) : NodeArray<Identifier> => {
+        (data) : IdentifierList => {
             return data[1];
         }
     )

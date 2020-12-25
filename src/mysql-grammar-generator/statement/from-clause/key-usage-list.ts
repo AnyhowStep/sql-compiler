@@ -1,8 +1,9 @@
-import {SyntaxKind, NodeArray, Identifier, ValueNode} from "../../../parser-node";
+import {SyntaxKind, Identifier, ValueNode} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {makeCustomRule} from "../../factory";
 import {getTextRange, toNodeArray} from "../../parse-util";
 import {optional, zeroOrMore} from "../../../nearley-wrapper";
+import {KeyUsageList} from "../../../parser-node/statement/from-clause/key-usage-list";
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10692
@@ -26,7 +27,7 @@ makeCustomRule(SyntaxKind.KeyUsageList)
             ] as const),
             TokenKind.CloseParentheses,
         ] as const,
-        (data) : NodeArray<Identifier|ValueNode<"PRIMARY">> => {
+        (data) : KeyUsageList => {
             const arr = data
                 .flat(3)
                 .filter((item) : item is Identifier => {

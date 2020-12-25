@@ -1,4 +1,4 @@
-import {NodeArray, OrderExpr, OrderingDirection, SyntaxKind} from "../../../parser-node";
+import {OrderExpr, OrderExprList, OrderingDirection, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, union, zeroOrMore} from "../../../nearley-wrapper";
@@ -49,7 +49,7 @@ makeCustomRule(SyntaxKind.OrderExprList)
                 SyntaxKind.OrderExpr,
             ] as const),
         ] as const,
-        (data) : NodeArray<OrderExpr> => {
+        (data) : OrderExprList => {
             const arr = data
                 .flat(2)
                 .filter((data) : data is OrderExpr => {

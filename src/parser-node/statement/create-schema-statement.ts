@@ -1,6 +1,6 @@
 import {Identifier} from "../identifier";
 import {DefaultCharacterSet, DefaultCollation} from "../misc";
-import {NodeArray} from "../node-array";
+import {NodeArray2} from "../node-array";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {Statement} from "./statement";
 
@@ -12,8 +12,8 @@ export type CreateSchemaOption =
     | DefaultCollation
 ;
 
-export interface CreateSchemaOptionList extends NodeArray<CreateSchemaOption> {
-    syntaxKind : SyntaxKind.CreateSchemaOptionList;
+export interface CreateSchemaOptionList extends NodeArray2<SyntaxKind.CreateSchemaOptionList, CreateSchemaOption> {
+
 }
 
 /**

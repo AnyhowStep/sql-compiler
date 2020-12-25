@@ -1,10 +1,9 @@
 import {IntegerLiteral, StringLiteral} from "../../expression";
 import {Identifier} from "../../identifier";
 import {ValueNode} from "../../node";
-import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {CreateTableDefinition} from "./create-table-definition";
-import {IndexPart, IndexType} from "./index-definition";
+import {IndexPartList, IndexType} from "./index-definition";
 
 export interface PrimaryKeyDefinition extends CreateTableDefinition {
     syntaxKind : SyntaxKind.PrimaryKeyDefinition;
@@ -12,7 +11,7 @@ export interface PrimaryKeyDefinition extends CreateTableDefinition {
     constraintName : Identifier|undefined;
 
     indexName : Identifier|undefined;
-    indexParts : NodeArray<IndexPart>;
+    indexParts : IndexPartList;
 
     /**
      * BTREE is the default

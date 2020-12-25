@@ -1,8 +1,7 @@
 import {DataType} from "../data-type";
 import {Identifier} from "../identifier";
-import {NodeArray} from "../node-array";
 import {SyntaxKind} from "../syntax-kind.generated";
-import {DeclareFunctionParameter} from "./declare-function-parameter";
+import {DeclareFunctionParameterList} from "./declare-function-parameter";
 import {Statement} from "./statement";
 
 export interface DeclareFunctionStatement extends Statement {
@@ -10,7 +9,7 @@ export interface DeclareFunctionStatement extends Statement {
 
     readonly functionName : Identifier,
 
-    readonly parameters : NodeArray<DeclareFunctionParameter>,
+    readonly parameters : DeclareFunctionParameterList,
 
     readonly returns : DataType,
 

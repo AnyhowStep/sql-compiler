@@ -1,6 +1,7 @@
 import {DataType} from "../../data-type";
 import {Identifier} from "../../identifier";
 import {Node} from "../../node";
+import {NodeArray2} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
 /**
@@ -11,4 +12,8 @@ export interface StoredFunctionParameter extends Node {
 
     identifier : Identifier,
     dataType : DataType,
+}
+
+export interface StoredFunctionParameterList extends NodeArray2<SyntaxKind.StoredFunctionParameterList, StoredFunctionParameter> {
+
 }

@@ -1,4 +1,4 @@
-import {GroupingExpr, SortDirection, SyntaxKind, NodeArray2} from "../../../parser-node";
+import {GroupingExpr, SortDirection, GroupingExprList} from "../../../parser-node";
 import {emitExpression} from "../../expression";
 import {shouldMultiLine, StringBuilder} from "../../string-builder";
 
@@ -14,7 +14,7 @@ export function emitGroupingExpr (groupingExpr : GroupingExpr) {
         )
 }
 
-export function emitGroupingExprList (arr : NodeArray2<SyntaxKind.GroupingExprList, GroupingExpr>) {
+export function emitGroupingExprList (arr : GroupingExprList) {
     const groupingExprs = arr.map(groupingExpr => emitGroupingExpr(groupingExpr));
 
     if (shouldMultiLine(...groupingExprs)) {

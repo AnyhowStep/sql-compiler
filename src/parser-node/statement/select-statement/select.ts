@@ -8,7 +8,7 @@ import {Statement} from "../statement";
 import {AsteriskSelectItem} from "./asterisk-select-item";
 import {HavingClause} from "./having-clause";
 import {Limit} from "./limit";
-import {OrderExpr} from "./order-expr";
+import {OrderExprList} from "./order-expr";
 import {ProcedureAnalyseClause} from "./procedure-analyse-clause";
 import {SelectItem} from "./select-item";
 import {SelectOptions} from "./select-options";
@@ -38,7 +38,7 @@ export interface Select extends Node, Statement {
     groupByClause : GroupByClause|undefined,
     havingClause : HavingClause|undefined,
 
-    order : NodeArray<OrderExpr>|undefined,
+    order : OrderExprList|undefined,
     limit : Limit|undefined,
 
     procedureAnalyseClause : ProcedureAnalyseClause|undefined,

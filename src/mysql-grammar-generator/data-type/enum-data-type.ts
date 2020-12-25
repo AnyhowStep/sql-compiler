@@ -7,7 +7,7 @@ makeCustomRule(SyntaxKind.EnumDataType)
     .addSubstitution(
         [
             TokenKind.ENUM,
-            CustomSyntaxKind.StringList,
+            SyntaxKind.StringList,
             CustomSyntaxKind.CharacterDataTypeModifier,
         ] as const,
         (data) : EnumDataType => {

@@ -12,7 +12,7 @@ makeCustomRule(SyntaxKind.PrimaryKeyDefinition)
             TokenKind.KEY,
             optional(SyntaxKind.Identifier),
             optional(CustomSyntaxKind.IndexType),
-            CustomSyntaxKind.IndexPartList,
+            SyntaxKind.IndexPartList,
             CustomSyntaxKind.IndexOption,
         ] as const,
         function (data) : PrimaryKeyDefinition {

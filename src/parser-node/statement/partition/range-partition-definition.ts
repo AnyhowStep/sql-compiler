@@ -1,5 +1,5 @@
-import {NodeArray} from "../../node-array";
-import {SubPartitionDefinition} from "./sub-partition-definition";
+import {NodeArray, NodeArray2} from "../../node-array";
+import {SubPartitionDefinitionList} from "./sub-partition-definition";
 import {PartitionDefinitionOptions} from "./partition-definition-options";
 import {Identifier} from "../../identifier";
 import {Node, ValueNode} from "../../node";
@@ -13,5 +13,9 @@ export interface RangePartitionDefinition extends Node {
     partitionValues : NodeArray<Expression|ValueNode<"MAXVALUE">>,
     partitionDefinitionOptions : PartitionDefinitionOptions,
 
-    subPartitionDefinitions : NodeArray<SubPartitionDefinition>|undefined,
+    subPartitionDefinitions : SubPartitionDefinitionList|undefined,
+}
+
+export interface RangePartitionDefinitionList extends NodeArray2<SyntaxKind.RangePartitionDefinitionList, RangePartitionDefinition> {
+
 }

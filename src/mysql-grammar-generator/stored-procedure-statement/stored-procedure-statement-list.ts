@@ -1,4 +1,4 @@
-import {NodeArray2, StoredProcedureStatement, SyntaxKind} from "../../parser-node";
+import {StoredProcedureStatementList, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {zeroOrMore} from "../../nearley-wrapper";
 import {getTextRange, toNodeArray} from "../parse-util";
@@ -15,7 +15,7 @@ makeCustomRule(SyntaxKind.StoredProcedureStatementList)
                 TokenKind.SemiColon,
             ] as const),
         ] as const,
-        (data) : NodeArray2<SyntaxKind.StoredProcedureStatementList, StoredProcedureStatement> => {
+        (data) : StoredProcedureStatementList => {
             const arr = data[0].map(item => item[0]);
             return toNodeArray(
                 arr,

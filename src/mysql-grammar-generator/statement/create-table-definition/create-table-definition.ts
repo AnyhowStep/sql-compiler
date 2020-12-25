@@ -1,4 +1,4 @@
-import {CreateTableDefinition, NodeArray, SyntaxKind} from "../../../parser-node";
+import {CreateTableDefinition, CreateTableDefinitionList, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {union, zeroOrMore} from "../../../nearley-wrapper";
@@ -19,7 +19,7 @@ makeCustomRule(CustomSyntaxKind.CreateTableDefinition)
         (data) : CreateTableDefinition => data[0][0]
     );
 
-makeCustomRule(CustomSyntaxKind.CreateTableDefinitionList)
+makeCustomRule(SyntaxKind.CreateTableDefinitionList)
     .addSubstitution(
         [
             TokenKind.OpenParentheses,
@@ -30,7 +30,7 @@ makeCustomRule(CustomSyntaxKind.CreateTableDefinitionList)
             ] as const),
             TokenKind.CloseParentheses,
         ] as const,
-        (data) : NodeArray<CreateTableDefinition> => {
+        (data) : CreateTableDefinitionList => {
             const [, first, more] = data;
             const arr = more
                 .flat(1)

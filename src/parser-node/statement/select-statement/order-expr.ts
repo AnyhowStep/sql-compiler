@@ -1,5 +1,6 @@
 import {Expression} from "../../expression";
 import {Node} from "../../node";
+import {NodeArray2} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
 /**
@@ -21,4 +22,8 @@ export interface OrderExpr extends Node {
      * Defaults to `ASC`
      */
     orderingDirection : OrderingDirection;
+}
+
+export interface OrderExprList extends NodeArray2<SyntaxKind.OrderExprList, OrderExpr> {
+
 }

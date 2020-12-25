@@ -14,7 +14,7 @@ makeCustomRule(SyntaxKind.SetDataType)
     .addSubstitution(
         [
             TokenKind.SET,
-            CustomSyntaxKind.StringList,
+            SyntaxKind.StringList,
             CustomSyntaxKind.CharacterDataTypeModifier,
         ] as const,
         (data) : SetDataType => {

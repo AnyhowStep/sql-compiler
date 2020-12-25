@@ -1,8 +1,8 @@
-import {IndexPart, NodeArray, SortDirection, SyntaxKind} from "../../../parser-node";
+import {IndexPart, IndexPartList, SortDirection, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {optional, union, zeroOrMore} from "../../../nearley-wrapper";
 import {getTextRange, getEnd, toNodeArray} from "../../parse-util";
-import {CustomSyntaxKind, makeCustomRule} from "../../factory";
+import {makeCustomRule} from "../../factory";
 
 makeCustomRule(SyntaxKind.IndexPart)
     .addSubstitution(
@@ -50,7 +50,7 @@ makeCustomRule(SyntaxKind.IndexPart)
         }
     )
 
-makeCustomRule(CustomSyntaxKind.IndexPartList)
+makeCustomRule(SyntaxKind.IndexPartList)
     .addSubstitution(
         [
             TokenKind.OpenParentheses,
@@ -61,7 +61,7 @@ makeCustomRule(CustomSyntaxKind.IndexPartList)
             ] as const),
             TokenKind.CloseParentheses,
         ] as const,
-        (data) : NodeArray<IndexPart> => {
+        (data) : IndexPartList => {
             const [, first, more] = data;
             const arr = more
                 .flat(1)

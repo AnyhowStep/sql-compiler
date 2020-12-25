@@ -1,4 +1,4 @@
-import {IndexHintDefinition, NodeArray, SyntaxKind} from "../../../parser-node";
+import {IndexHintDefinitionList, SyntaxKind} from "../../../parser-node";
 import {makeCustomRule} from "../../factory";
 import {getTextRange, toNodeArray} from "../../parse-util";
 import {zeroOrMore} from "../../../nearley-wrapper";
@@ -12,7 +12,7 @@ makeCustomRule(SyntaxKind.IndexHintDefinitionList)
             SyntaxKind.IndexHintDefinition,
             zeroOrMore(SyntaxKind.IndexHintDefinition),
         ] as const,
-        (data) : NodeArray<IndexHintDefinition> => {
+        (data) : IndexHintDefinitionList => {
             const arr = data
                 .flat(1);
             return toNodeArray(

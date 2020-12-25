@@ -1,8 +1,7 @@
-import {Identifier, TableIdentifier} from "../../identifier";
+import {Identifier, IdentifierList, TableIdentifier} from "../../identifier";
 import {Node} from "../../node";
-import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
-import {IndexHintDefinition} from "./index-hint-definition";
+import {IndexHintDefinitionList} from "./index-hint-definition";
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10528
@@ -15,7 +14,7 @@ export interface NamedTableFactor extends Node {
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10512
      */
-    usedPartitions : NodeArray<Identifier>|undefined;
+    usedPartitions : IdentifierList|undefined;
 
     alias : Identifier|undefined;
 
@@ -24,5 +23,5 @@ export interface NamedTableFactor extends Node {
      *
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10633
      */
-    indexHintDefinitions : NodeArray<IndexHintDefinition>|undefined,
+    indexHintDefinitions : IndexHintDefinitionList|undefined,
 }

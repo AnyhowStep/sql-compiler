@@ -1,6 +1,5 @@
-import {Identifier, TableIdentifier} from "../../identifier";
+import {IdentifierList, TableIdentifier} from "../../identifier";
 import {Node} from "../../node";
-import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
 export enum ReferenceMatch {
@@ -22,7 +21,7 @@ export interface ForeignKeyReferenceDefinition extends Node {
     /**
      * @todo Make this optional for column def
      */
-    referencedColumns : NodeArray<Identifier>,
+    referencedColumns : IdentifierList,
     /**
      * https://dev.mysql.com/doc/refman/5.7/en/constraint-foreign-key.html
      *

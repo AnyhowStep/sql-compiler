@@ -23,7 +23,7 @@ makeCustomRule(SyntaxKind.JoinSpecificationUsing)
     .addSubstitution(
         [
             TokenKind.USING,
-            CustomSyntaxKind.IdentifierList,
+            SyntaxKind.IdentifierList,
         ] as const,
         (data) : JoinSpecificationUsing => {
             return {

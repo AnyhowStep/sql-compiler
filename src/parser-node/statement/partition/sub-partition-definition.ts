@@ -1,6 +1,7 @@
 import {StringLiteral} from "../../expression";
 import {Identifier} from "../../identifier";
 import {Node} from "../../node";
+import {NodeArray2} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {PartitionDefinitionOptions} from "./partition-definition-options";
 
@@ -14,4 +15,8 @@ export interface SubPartitionDefinition extends Node {
 
     subPartitionName : Identifier|StringLiteral,
     partitionDefinitionOptions : PartitionDefinitionOptions,
+}
+
+export interface SubPartitionDefinitionList extends NodeArray2<SyntaxKind.SubPartitionDefinitionList, SubPartitionDefinition> {
+
 }

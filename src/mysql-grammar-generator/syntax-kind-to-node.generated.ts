@@ -24,6 +24,8 @@ import {
     YearDataType,
     BitLiteral,
     DecimalLiteral,
+    ExpressionList,
+    ExpressionListList,
     HexLiteral,
     IntegerLiteral,
     ParamMarker,
@@ -34,47 +36,60 @@ import {
     AccountIdentifier,
     ColumnIdentifier,
     Identifier,
+    IdentifierList,
     StoredProcedureIdentifier,
     TableIdentifier,
+    TableIdentifierList,
     CurrentTimestamp,
     DefaultCharacterSet,
     DefaultCollation,
     FieldLength,
     Precision,
+    StringList,
     SourceFile,
     SourceFileLite,
+    SourceElementList,
     CreateFunctionStatement,
     StoredFunctionParameter,
+    StoredFunctionParameterList,
     StoredProcedureCharacteristics,
-    CreateSchemaOptionList,
     CreateSchemaStatement,
+    CreateSchemaOptionList,
     CheckDefinition,
     ColumnDefinition,
+    CreateTableDefinitionList,
     ForeignKeyDefinition,
     ForeignKeyReferenceDefinition,
     GeneratedDefinition,
     IndexPart,
     IndexDefinition,
+    IndexPartList,
     PrimaryKeyDefinition,
     CreateTableOptions,
     CreateTableStatement,
     DeclareFunctionParameter,
+    DeclareFunctionParameterList,
     DeclareFunctionStatement,
     DelimiterStatement,
     DerivedTableFactor,
     FromClause,
     IndexHintDefinition,
+    IndexHintDefinitionList,
     JoinSpecificationOn,
     JoinSpecificationUsing,
     Join,
+    KeyUsageList,
     NamedTableFactor,
     OdbcTableReference,
+    TableReferenceList,
     GroupByClause,
     GroupingExpr,
+    GroupingExprList,
     FieldTerminatorOptions,
     IntoClause,
     IntoDestinationDumpFile,
     IntoDestinationOutFile,
+    IntoDestinationVariableList,
     LineTerminatorOptions,
     HashPartition,
     HashSubPartition,
@@ -86,10 +101,12 @@ import {
     RangePartitionDefinition,
     RangePartition,
     SubPartitionDefinition,
+    SubPartitionDefinitionList,
     AsteriskSelectItem,
     HavingClause,
     Limit,
     OrderExpr,
+    OrderExprList,
     ProcedureAnalyseClause,
     SelectItem,
     SelectOptions,
@@ -100,10 +117,14 @@ import {
     WhereClause,
     UnknownStatement,
     BlockStatement,
+    ElseIf,
+    IfStatement,
+    ElseIfList,
     LabelStatement,
     LoopStatement,
     RepeatStatement,
     ReturnStatement,
+    StoredProcedureStatementList,
     WhileStatement,
 } from "../parser-node";
 
@@ -131,6 +152,8 @@ export type SyntaxKindToNode = {
     [SyntaxKind.YearDataType] : YearDataType;
     [SyntaxKind.BitLiteral] : BitLiteral;
     [SyntaxKind.DecimalLiteral] : DecimalLiteral;
+    [SyntaxKind.ExpressionList] : ExpressionList;
+    [SyntaxKind.ExpressionListList] : ExpressionListList;
     [SyntaxKind.HexLiteral] : HexLiteral;
     [SyntaxKind.IntegerLiteral] : IntegerLiteral;
     [SyntaxKind.ParamMarker] : ParamMarker;
@@ -141,47 +164,60 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AccountIdentifier] : AccountIdentifier;
     [SyntaxKind.ColumnIdentifier] : ColumnIdentifier;
     [SyntaxKind.Identifier] : Identifier;
+    [SyntaxKind.IdentifierList] : IdentifierList;
     [SyntaxKind.StoredProcedureIdentifier] : StoredProcedureIdentifier;
     [SyntaxKind.TableIdentifier] : TableIdentifier;
+    [SyntaxKind.TableIdentifierList] : TableIdentifierList;
     [SyntaxKind.CurrentTimestamp] : CurrentTimestamp;
     [SyntaxKind.DefaultCharacterSet] : DefaultCharacterSet;
     [SyntaxKind.DefaultCollation] : DefaultCollation;
     [SyntaxKind.FieldLength] : FieldLength;
     [SyntaxKind.Precision] : Precision;
+    [SyntaxKind.StringList] : StringList;
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
+    [SyntaxKind.SourceElementList] : SourceElementList;
     [SyntaxKind.CreateFunctionStatement] : CreateFunctionStatement;
     [SyntaxKind.StoredFunctionParameter] : StoredFunctionParameter;
+    [SyntaxKind.StoredFunctionParameterList] : StoredFunctionParameterList;
     [SyntaxKind.StoredProcedureCharacteristics] : StoredProcedureCharacteristics;
-    [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;
     [SyntaxKind.CreateSchemaStatement] : CreateSchemaStatement;
+    [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;
     [SyntaxKind.CheckDefinition] : CheckDefinition;
     [SyntaxKind.ColumnDefinition] : ColumnDefinition;
+    [SyntaxKind.CreateTableDefinitionList] : CreateTableDefinitionList;
     [SyntaxKind.ForeignKeyDefinition] : ForeignKeyDefinition;
     [SyntaxKind.ForeignKeyReferenceDefinition] : ForeignKeyReferenceDefinition;
     [SyntaxKind.GeneratedDefinition] : GeneratedDefinition;
     [SyntaxKind.IndexPart] : IndexPart;
     [SyntaxKind.IndexDefinition] : IndexDefinition;
+    [SyntaxKind.IndexPartList] : IndexPartList;
     [SyntaxKind.PrimaryKeyDefinition] : PrimaryKeyDefinition;
     [SyntaxKind.CreateTableOptions] : CreateTableOptions;
     [SyntaxKind.CreateTableStatement] : CreateTableStatement;
     [SyntaxKind.DeclareFunctionParameter] : DeclareFunctionParameter;
+    [SyntaxKind.DeclareFunctionParameterList] : DeclareFunctionParameterList;
     [SyntaxKind.DeclareFunctionStatement] : DeclareFunctionStatement;
     [SyntaxKind.DelimiterStatement] : DelimiterStatement;
     [SyntaxKind.DerivedTableFactor] : DerivedTableFactor;
     [SyntaxKind.FromClause] : FromClause;
     [SyntaxKind.IndexHintDefinition] : IndexHintDefinition;
+    [SyntaxKind.IndexHintDefinitionList] : IndexHintDefinitionList;
     [SyntaxKind.JoinSpecificationOn] : JoinSpecificationOn;
     [SyntaxKind.JoinSpecificationUsing] : JoinSpecificationUsing;
     [SyntaxKind.Join] : Join;
+    [SyntaxKind.KeyUsageList] : KeyUsageList;
     [SyntaxKind.NamedTableFactor] : NamedTableFactor;
     [SyntaxKind.OdbcTableReference] : OdbcTableReference;
+    [SyntaxKind.TableReferenceList] : TableReferenceList;
     [SyntaxKind.GroupByClause] : GroupByClause;
     [SyntaxKind.GroupingExpr] : GroupingExpr;
+    [SyntaxKind.GroupingExprList] : GroupingExprList;
     [SyntaxKind.FieldTerminatorOptions] : FieldTerminatorOptions;
     [SyntaxKind.IntoClause] : IntoClause;
     [SyntaxKind.IntoDestinationDumpFile] : IntoDestinationDumpFile;
     [SyntaxKind.IntoDestinationOutFile] : IntoDestinationOutFile;
+    [SyntaxKind.IntoDestinationVariableList] : IntoDestinationVariableList;
     [SyntaxKind.LineTerminatorOptions] : LineTerminatorOptions;
     [SyntaxKind.HashPartition] : HashPartition;
     [SyntaxKind.HashSubPartition] : HashSubPartition;
@@ -193,10 +229,12 @@ export type SyntaxKindToNode = {
     [SyntaxKind.RangePartitionDefinition] : RangePartitionDefinition;
     [SyntaxKind.RangePartition] : RangePartition;
     [SyntaxKind.SubPartitionDefinition] : SubPartitionDefinition;
+    [SyntaxKind.SubPartitionDefinitionList] : SubPartitionDefinitionList;
     [SyntaxKind.AsteriskSelectItem] : AsteriskSelectItem;
     [SyntaxKind.HavingClause] : HavingClause;
     [SyntaxKind.Limit] : Limit;
     [SyntaxKind.OrderExpr] : OrderExpr;
+    [SyntaxKind.OrderExprList] : OrderExprList;
     [SyntaxKind.ProcedureAnalyseClause] : ProcedureAnalyseClause;
     [SyntaxKind.SelectItem] : SelectItem;
     [SyntaxKind.SelectOptions] : SelectOptions;
@@ -207,9 +245,13 @@ export type SyntaxKindToNode = {
     [SyntaxKind.WhereClause] : WhereClause;
     [SyntaxKind.UnknownStatement] : UnknownStatement;
     [SyntaxKind.BlockStatement] : BlockStatement;
+    [SyntaxKind.ElseIf] : ElseIf;
+    [SyntaxKind.IfStatement] : IfStatement;
+    [SyntaxKind.ElseIfList] : ElseIfList;
     [SyntaxKind.LabelStatement] : LabelStatement;
     [SyntaxKind.LoopStatement] : LoopStatement;
     [SyntaxKind.RepeatStatement] : RepeatStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;
+    [SyntaxKind.StoredProcedureStatementList] : StoredProcedureStatementList;
     [SyntaxKind.WhileStatement] : WhileStatement;
 } & Record<SyntaxKind, unknown>;

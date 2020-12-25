@@ -1,4 +1,4 @@
-import {NodeArray2, StoredFunctionParameter, SyntaxKind} from "../../../parser-node";
+import {StoredFunctionParameter, StoredFunctionParameterList, SyntaxKind} from "../../../parser-node";
 import {getTextRange, toNodeArray} from "../../parse-util";
 import {optional, zeroOrMore} from "../../../nearley-wrapper";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
@@ -38,7 +38,7 @@ makeCustomRule(SyntaxKind.StoredFunctionParameterList)
             ] as const),
             TokenKind.CloseParentheses,
         ] as const,
-        (data) : NodeArray2<SyntaxKind.StoredFunctionParameterList, StoredFunctionParameter> => {
+        (data) : StoredFunctionParameterList => {
             const arr = data
                 .flat(3)
                 .filter((item) : item is StoredFunctionParameter => {

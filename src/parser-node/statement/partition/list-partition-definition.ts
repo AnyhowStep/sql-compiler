@@ -1,10 +1,10 @@
-import {NodeArray} from "../../node-array";
-import {SubPartitionDefinition} from "./sub-partition-definition";
+import {NodeArray2} from "../../node-array";
+import {SubPartitionDefinitionList} from "./sub-partition-definition";
 import {PartitionDefinitionOptions} from "./partition-definition-options";
 import {Identifier} from "../../identifier";
 import {Node} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
-import {Expression} from "../../expression";
+import {ExpressionListList} from "../../expression";
 
 export interface ListPartitionDefinition extends Node {
     syntaxKind : SyntaxKind.ListPartitionDefinition,
@@ -13,8 +13,12 @@ export interface ListPartitionDefinition extends Node {
     /**
      * Cannot use `MAXVALUE`
      */
-    partitionValues : NodeArray<NodeArray<Expression>>,
+    partitionValues : ExpressionListList,
     partitionDefinitionOptions : PartitionDefinitionOptions,
 
-    subPartitionDefinitions : NodeArray<SubPartitionDefinition>|undefined,
+    subPartitionDefinitions : SubPartitionDefinitionList|undefined,
+}
+
+export interface ListPartitionDefinitionList extends NodeArray2<SyntaxKind.ListPartitionDefinitionList, ListPartitionDefinition> {
+
 }

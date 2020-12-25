@@ -1,7 +1,7 @@
-import {BitLiteral, HexLiteral, StringLiteral} from "../expression";
+import {StringLiteral} from "../expression";
 import {Identifier} from "../identifier";
+import {StringList} from "../misc";
 import {Node, TextRange} from "../node";
-import {NodeArray} from "../node-array";
 import {SyntaxKind} from "../syntax-kind.generated";
 
 /**
@@ -11,7 +11,7 @@ import {SyntaxKind} from "../syntax-kind.generated";
  */
 export interface SetDataType extends Node {
     syntaxKind : SyntaxKind.SetDataType;
-    elements : NodeArray<StringLiteral|HexLiteral|BitLiteral>;
+    elements : StringList;
 
     characterSet : Identifier|StringLiteral|undefined,
     collate : Identifier|StringLiteral|undefined,

@@ -1,10 +1,10 @@
-import {BitLiteral, HexLiteral, NodeArray, StringLiteral, SyntaxKind} from "../../parser-node";
+import {BitLiteral, HexLiteral, StringList, StringLiteral, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../factory";
 import {zeroOrMore} from "../../nearley-wrapper";
 import {getTextRange, toNodeArray} from "../parse-util";
 
-makeCustomRule(CustomSyntaxKind.StringList)
+makeCustomRule(SyntaxKind.StringList)
     .addSubstitution(
         [
             TokenKind.OpenParentheses,
@@ -15,7 +15,7 @@ makeCustomRule(CustomSyntaxKind.StringList)
             ] as const),
             TokenKind.CloseParentheses,
         ] as const,
-        (data) : NodeArray<StringLiteral|HexLiteral|BitLiteral> => {
+        (data) : StringList => {
             const [, first, more] = data;
             const arr = more
                 .flat(1)

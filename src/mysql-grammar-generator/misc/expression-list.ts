@@ -1,10 +1,10 @@
-import {Expression, NodeArray, SyntaxKind} from "../../parser-node";
+import {Expression, ExpressionList, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../factory";
 import {zeroOrMore} from "../../nearley-wrapper";
 import {getTextRange, toNodeArray} from "../parse-util";
 
-makeCustomRule(CustomSyntaxKind.ExpressionList)
+makeCustomRule(SyntaxKind.ExpressionList)
     .addSubstitution(
         [
             TokenKind.OpenParentheses,
@@ -15,7 +15,7 @@ makeCustomRule(CustomSyntaxKind.ExpressionList)
             ] as const),
             TokenKind.CloseParentheses,
         ] as const,
-        (data) : NodeArray<Expression> => {
+        (data) : ExpressionList => {
             const [, first, more] = data;
             const arr = more
                 .flat(1)

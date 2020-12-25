@@ -1,7 +1,6 @@
 import {Expression} from "../../expression";
-import {Identifier} from "../../identifier";
+import {IdentifierList} from "../../identifier";
 import {Node} from "../../node";
-import {NodeArray} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
 export interface JoinSpecificationOn extends Node {
@@ -13,7 +12,7 @@ export interface JoinSpecificationOn extends Node {
 export interface JoinSpecificationUsing extends Node {
     syntaxKind : SyntaxKind.JoinSpecificationUsing,
 
-    identifiers : NodeArray<Identifier>,
+    identifiers : IdentifierList,
 }
 
 export type JoinSpecification =

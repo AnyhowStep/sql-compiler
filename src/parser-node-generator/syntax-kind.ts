@@ -137,6 +137,8 @@ export const syntaxKinds = [
     "LoopStatement",
     "WhileStatement",
     "RepeatStatement",
+    "IfStatement",
+    "ElseIf",
 
     /**
      * Custom statements
@@ -218,4 +220,5 @@ export const syntaxKinds = [
     "KeyUsageList",
     "GroupingExprList",
     "StoredProcedureStatementList",
+    "ElseIfList",
 ] as const;

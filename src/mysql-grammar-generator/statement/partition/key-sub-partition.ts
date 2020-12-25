@@ -1,6 +1,6 @@
 import {KeySubPartition, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
-import {CustomSyntaxKind, makeCustomRule} from "../../factory";
+import {makeCustomRule} from "../../factory";
 import {optional} from "../../../nearley-wrapper";
 import {getTextRange} from "../../parse-util";
 
@@ -16,7 +16,7 @@ makeCustomRule(SyntaxKind.KeySubPartition)
                 TokenKind.Equal,
                 SyntaxKind.IntegerLiteral,
             ] as const),
-            CustomSyntaxKind.IdentifierList,
+            SyntaxKind.IdentifierList,
             optional([
                 TokenKind.SUBPARTITIONS,
                 SyntaxKind.IntegerLiteral,

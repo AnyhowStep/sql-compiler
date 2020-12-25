@@ -11,9 +11,9 @@ makeCustomRule(CustomSyntaxKind.NonSingletonListPartitionDefinition)
             SyntaxKind.Identifier,
             TokenKind.VALUES,
             TokenKind.IN,
-            CustomSyntaxKind.ExpressionListList,
+            SyntaxKind.ExpressionListList,
             SyntaxKind.PartitionDefinitionOptions,
-            optional(CustomSyntaxKind.SubPartitionDefinitionList),
+            optional(SyntaxKind.SubPartitionDefinitionList),
         ] as const,
         (data) : ListPartitionDefinition => {
             return {

@@ -1,7 +1,7 @@
 import {IntegerLiteral, StringLiteral} from "../../expression";
 import {Identifier} from "../../identifier";
 import {Node, ValueNode} from "../../node";
-import {NodeArray} from "../../node-array";
+import {NodeArray2} from "../../node-array";
 import {SortDirection} from "../../sort-direction";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {CreateTableDefinition} from "./create-table-definition";
@@ -30,6 +30,10 @@ export interface IndexPart extends Node {
     sortDirection : ValueNode<SortDirection>;
 }
 
+export interface IndexPartList extends NodeArray2<SyntaxKind.IndexPartList, IndexPart> {
+
+}
+
 export interface IndexDefinition extends CreateTableDefinition {
     syntaxKind : SyntaxKind.IndexDefinition;
 
@@ -37,7 +41,7 @@ export interface IndexDefinition extends CreateTableDefinition {
 
     indexClass : IndexClass;
     indexName : Identifier|undefined;
-    indexParts : NodeArray<IndexPart>;
+    indexParts : IndexPartList;
 
     /**
      * BTREE is the default
