@@ -5640,6 +5640,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["BlockStatement"]},
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["LoopStatement"]},
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["WhileStatement"]},
+    {"name": "UnlabeledStatement$subexpression$1", "symbols": ["RepeatStatement"]},
     {"name": "UnlabeledStatement", "symbols": ["UnlabeledStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -5675,6 +5676,14 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.LoopStatement,
                 statements: data[1],
+            };
+        } },
+    {"name": "RepeatStatement", "symbols": [REPEAT, "StoredProcedureStatementList", UNTIL, "Expression", END, REPEAT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RepeatStatement,
+                statements: data[1],
+                expr: data[3],
             };
         } },
     {"name": "ReturnStatement", "symbols": [RETURN, "Expression"], "postprocess":  (data) => {

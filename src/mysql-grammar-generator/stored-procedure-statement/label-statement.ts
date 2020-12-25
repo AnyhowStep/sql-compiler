@@ -1,4 +1,4 @@
-import {BlockStatement, LabelStatement, LoopStatement, SyntaxKind, WhileStatement} from "../../parser-node";
+import {BlockStatement, LabelStatement, LoopStatement, RepeatStatement, SyntaxKind, WhileStatement} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {optional, union} from "../../nearley-wrapper";
 import {getTextRange} from "../parse-util";
@@ -11,6 +11,7 @@ makeCustomRule(CustomSyntaxKind.UnlabeledStatement)
                 SyntaxKind.BlockStatement,
                 SyntaxKind.LoopStatement,
                 SyntaxKind.WhileStatement,
+                SyntaxKind.RepeatStatement,
             ),
         ] as const,
         (data) => {
@@ -50,7 +51,7 @@ makeCustomRule(CustomSyntaxKind.LabelStatement)
              */
             optional(CustomSyntaxKind.LabelIdentifier),
         ] as const,
-        (data) : LabelStatement|BlockStatement|LoopStatement|WhileStatement => {
+        (data) : LabelStatement|BlockStatement|LoopStatement|WhileStatement|RepeatStatement => {
             if (data[1] == undefined) {
                 return data[0];
             }

@@ -1,0 +1,33 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    REPEAT
+        REPEAT
+        UNTIL 1
+        END REPEAT;
+        RETURN 1;
+    UNTIL 1
+    END REPEAT;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    REPEAT
+        REPEAT
+        UNTIL 1
+        END REPEAT;
+
+        RETURN 1;
+    UNTIL 1
+    END REPEAT;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "REPEAT must have at least one statement",
+        "start": 62,
+        "length": 41
+    }
+]

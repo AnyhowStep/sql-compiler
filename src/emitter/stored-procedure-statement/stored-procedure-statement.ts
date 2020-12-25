@@ -6,6 +6,7 @@ import {emitBlockStatement} from "./block-statement";
 import {emitLabelStatement} from "./label-statement";
 import {emitLoopStatement} from "./loop-statement";
 import {emitWhileStatement} from "./whilte-statement";
+import {emitRepeatStatement} from "./repeat-statement";
 
 export function emitStoredProcedureStatement (statement : StoredProcedureStatement) : StringBuilder {
     return addStatementCases(switchSyntaxKind(statement))
@@ -14,5 +15,6 @@ export function emitStoredProcedureStatement (statement : StoredProcedureStateme
         .case(SyntaxKind.LabelStatement, emitLabelStatement)
         .case(SyntaxKind.LoopStatement, emitLoopStatement)
         .case(SyntaxKind.WhileStatement, emitWhileStatement)
+        .case(SyntaxKind.RepeatStatement, emitRepeatStatement)
         .default(() => new StringBuilder().append("UNKNOWN_STORED_PROCEDURE_STATEMENT"));
 }

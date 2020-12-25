@@ -102,6 +102,7 @@ import {
     BlockStatement,
     LabelStatement,
     LoopStatement,
+    RepeatStatement,
     ReturnStatement,
     WhileStatement,
 } from "../parser-node";
@@ -208,6 +209,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.BlockStatement] : BlockStatement;
     [SyntaxKind.LabelStatement] : LabelStatement;
     [SyntaxKind.LoopStatement] : LoopStatement;
+    [SyntaxKind.RepeatStatement] : RepeatStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;
     [SyntaxKind.WhileStatement] : WhileStatement;
 } & Record<SyntaxKind, unknown>;

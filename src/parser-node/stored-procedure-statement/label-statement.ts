@@ -3,6 +3,7 @@ import {Node} from "../node";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {BlockStatement} from "./block-statement";
 import {LoopStatement} from "./loop-statement";
+import {RepeatStatement} from "./repeat-statement";
 import {WhileStatement} from "./while-statement";
 
 /**
@@ -19,7 +20,7 @@ export interface LabelStatement extends Node {
      */
     beginLabel : Identifier|undefined,
 
-    statement : BlockStatement|LoopStatement|WhileStatement,
+    statement : BlockStatement|LoopStatement|WhileStatement|RepeatStatement,
 
     /**
      * We allow certain unquoted keywords,

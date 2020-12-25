@@ -5161,7 +5161,7 @@ BlockStatement ->
 } %}
 
 UnlabeledStatement ->
-    (BlockStatement | LoopStatement | WhileStatement) {% (data) => {
+    (BlockStatement | LoopStatement | WhileStatement | RepeatStatement) {% (data) => {
     return data[0][0];
 } %}
 
@@ -5196,6 +5196,16 @@ LoopStatement ->
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.LoopStatement,
         statements: data[1],
+    };
+} %}
+
+RepeatStatement ->
+    %REPEAT StoredProcedureStatementList %UNTIL Expression %END %REPEAT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.RepeatStatement,
+        statements: data[1],
+        expr: data[3],
     };
 } %}
 
