@@ -9,9 +9,6 @@ function emitCreateProcedureStatementStart (statement : CreateProcedureStatement
     const startA = new StringBuilder()
         .append("CREATE")
         .scope(builder => {
-            if (statement.definer == undefined) {
-                return;
-            }
             builder
                 .append(" DEFINER = ")
                 .appendBuilder(emitAccountIdentifierOrCurrentUser(statement.definer))
@@ -26,9 +23,6 @@ function emitCreateProcedureStatementStart (statement : CreateProcedureStatement
         return new StringBuilder()
             .append("CREATE")
             .scope(builder => {
-                if (statement.definer == undefined) {
-                    return;
-                }
                 builder
                     .append(" DEFINER = ")
                     .appendBuilder(emitAccountIdentifierOrCurrentUser(statement.definer))
