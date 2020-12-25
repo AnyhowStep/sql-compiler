@@ -135,6 +135,7 @@ export const syntaxKinds = [
     "LabelStatement",
     "BlockStatement",
     "LoopStatement",
+    "WhileStatement",
 
     /**
      * Custom statements

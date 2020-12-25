@@ -103,6 +103,7 @@ import {
     LabelStatement,
     LoopStatement,
     ReturnStatement,
+    WhileStatement,
 } from "../parser-node";
 
 export type SyntaxKindToNode = {
@@ -208,4 +209,5 @@ export type SyntaxKindToNode = {
     [SyntaxKind.LabelStatement] : LabelStatement;
     [SyntaxKind.LoopStatement] : LoopStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;
+    [SyntaxKind.WhileStatement] : WhileStatement;
 } & Record<SyntaxKind, unknown>;

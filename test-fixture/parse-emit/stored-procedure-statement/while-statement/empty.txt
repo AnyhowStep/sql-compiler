@@ -1,0 +1,29 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    WHILE 1 DO
+        WHILE 1 DO
+        END WHILE;
+        RETURN 1;
+    END WHILE;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    WHILE 1 DO
+        WHILE 1 DO
+        END WHILE;
+
+        RETURN 1;
+    END WHILE;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "WHILE must have at least one statement",
+        "start": 66,
+        "length": 28
+    }
+]

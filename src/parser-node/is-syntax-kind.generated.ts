@@ -102,6 +102,7 @@ import {BlockStatement} from "./stored-procedure-statement/block-statement";
 import {LabelStatement} from "./stored-procedure-statement/label-statement";
 import {LoopStatement} from "./stored-procedure-statement/loop-statement";
 import {ReturnStatement} from "./stored-procedure-statement/return-statement";
+import {WhileStatement} from "./stored-procedure-statement/while-statement";
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BinaryDataType) : node is BinaryDataType;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BitDataType) : node is BitDataType;
@@ -205,6 +206,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BlockStatemen
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LabelStatement) : node is LabelStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LoopStatement) : node is LoopStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ReturnStatement) : node is ReturnStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.WhileStatement) : node is WhileStatement;
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean {
@@ -317,6 +319,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.LabelStatement, callback : (node : LabelStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.LoopStatement, callback : (node : LoopStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ReturnStatement, callback : (node : ReturnStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.WhileStatement, callback : (node : WhileStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
 
     default<ResultT> (callback : () => ResultT) : ResultT|ReturnT;
 }

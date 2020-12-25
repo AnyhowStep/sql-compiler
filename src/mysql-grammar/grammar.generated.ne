@@ -5161,7 +5161,7 @@ BlockStatement ->
 } %}
 
 UnlabeledStatement ->
-    (BlockStatement | LoopStatement) {% (data) => {
+    (BlockStatement | LoopStatement | WhileStatement) {% (data) => {
     return data[0][0];
 } %}
 
@@ -5212,4 +5212,14 @@ StoredProcedureStatementList ->
     (StoredProcedureStatement %SemiColon):* {% (data) => {
     const arr = data[0].map(item => item[0]);
     return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureStatementList, parse_util_1.getTextRange(data));
+} %}
+
+WhileStatement ->
+    %WHILE Expression %DO StoredProcedureStatementList %END %WHILE {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.WhileStatement,
+        expr: data[1],
+        statements: data[3],
+    };
 } %}

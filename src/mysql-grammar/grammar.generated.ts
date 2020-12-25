@@ -5639,6 +5639,7 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["BlockStatement"]},
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["LoopStatement"]},
+    {"name": "UnlabeledStatement$subexpression$1", "symbols": ["WhileStatement"]},
     {"name": "UnlabeledStatement", "symbols": ["UnlabeledStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -5689,6 +5690,14 @@ export var ParserRules: NearleyRule[] = [
     {"name": "StoredProcedureStatementList", "symbols": ["StoredProcedureStatementList$ebnf$1"], "postprocess":  (data) => {
             const arr = data[0].map(item => item[0]);
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureStatementList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "WhileStatement", "symbols": [WHILE, "Expression", DO, "StoredProcedureStatementList", END, WHILE], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.WhileStatement,
+                expr: data[1],
+                statements: data[3],
+            };
         } }
 ];
 
