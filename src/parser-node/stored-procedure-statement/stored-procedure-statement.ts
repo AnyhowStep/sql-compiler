@@ -4,6 +4,7 @@ import {IfStatement} from "./if-statement";
 import {LabelStatement} from "./label-statement";
 import {RepeatStatement} from "./repeat-statement";
 import {ReturnStatement} from "./return-statement";
+import {SearchedCaseStatement} from "./searched-case-statement";
 import {SimpleCaseStatement} from "./simple-case-statement";
 import {WhileStatement} from "./while-statement";
 
@@ -17,6 +18,7 @@ export type StoredProcedureStatement =
     | LabelStatement
     | RepeatStatement
     | ReturnStatement
+    | SearchedCaseStatement
     | SimpleCaseStatement
     | WhileStatement
 ;

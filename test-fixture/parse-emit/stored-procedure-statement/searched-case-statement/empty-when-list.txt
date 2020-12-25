@@ -1,0 +1,44 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    CASE
+    END CASE;
+
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    CASE
+        ELSE
+            RETURN '';
+    END CASE;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    CASE
+    END CASE;
+
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    CASE
+        ELSE
+            RETURN '';
+    END CASE;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "CASE must have at least one WHEN clause",
+        "start": 47,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "CASE must have at least one WHEN clause",
+        "start": 114,
+        "length": 4
+    }
+]

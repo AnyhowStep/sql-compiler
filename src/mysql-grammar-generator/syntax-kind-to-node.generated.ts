@@ -129,6 +129,9 @@ import {
     LoopStatement,
     RepeatStatement,
     ReturnStatement,
+    SearchedWhen,
+    SearchedCaseStatement,
+    SearchedWhenList,
     SimpleWhen,
     SimpleCaseStatement,
     SimpleWhenList,
@@ -265,6 +268,9 @@ export type SyntaxKindToNode = {
     [SyntaxKind.LoopStatement] : LoopStatement;
     [SyntaxKind.RepeatStatement] : RepeatStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;
+    [SyntaxKind.SearchedWhen] : SearchedWhen;
+    [SyntaxKind.SearchedCaseStatement] : SearchedCaseStatement;
+    [SyntaxKind.SearchedWhenList] : SearchedWhenList;
     [SyntaxKind.SimpleWhen] : SimpleWhen;
     [SyntaxKind.SimpleCaseStatement] : SimpleCaseStatement;
     [SyntaxKind.SimpleWhenList] : SimpleWhenList;

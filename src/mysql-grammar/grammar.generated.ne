@@ -5253,6 +5253,34 @@ ReturnStatement ->
     };
 } %}
 
+SearchedWhen ->
+    %WHEN Expression %THEN StoredProcedureStatementList {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SearchedWhen,
+        whenToken: parse_util_1.toValueNode("WHEN", parse_util_1.getTextRange(data[0])),
+        expr: data[1],
+        statements: data[3],
+    };
+} %}
+
+SearchedWhenList ->
+    SearchedWhen:+ {% (data) => {
+    return parse_util_1.toNodeArray(data[0], parser_node_1.SyntaxKind.SearchedWhenList, parse_util_1.getTextRange(data));
+} %}
+
+SearchedCaseStatement ->
+    %CASE SearchedWhenList:? ElseBranch:? %END %CASE {% (data) => {
+    const [, searchedWhens, elseBranch,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SearchedCaseStatement,
+        caseToken: parse_util_1.toValueNode("CASE", parse_util_1.getTextRange(data[0])),
+        searchedWhens: searchedWhens !== null && searchedWhens !== void 0 ? searchedWhens : undefined,
+        elseBranch: elseBranch !== null && elseBranch !== void 0 ? elseBranch : undefined,
+    };
+} %}
+
 SimpleWhen ->
     %WHEN Expression %THEN StoredProcedureStatementList {% (data) => {
     return {
@@ -5289,7 +5317,7 @@ StoredProcedureStatementList ->
 } %}
 
 StoredProcedureStatement ->
-    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement) {% (data) => {
+    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement | SearchedCaseStatement) {% (data) => {
     return data[0][0];
 } %}
 
