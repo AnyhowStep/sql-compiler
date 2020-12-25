@@ -2485,6 +2485,28 @@ export var ParserRules: NearleyRule[] = [
             }
             return data[0];
         } },
+    {"name": "StoredFunctionIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
+    {"name": "StoredFunctionIdentifier$ebnf$1", "symbols": ["StoredFunctionIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "StoredFunctionIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "StoredFunctionIdentifier", "symbols": ["Identifier", "StoredFunctionIdentifier$ebnf$1"], "postprocess":  (data) => {
+            const [nameA, nameB] = data;
+            if (nameB == null) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.StoredFunctionIdentifier,
+                    schemaName: undefined,
+                    storedFunctionName: nameA,
+                };
+            }
+            else {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.StoredFunctionIdentifier,
+                    schemaName: nameA,
+                    storedFunctionName: nameB[1],
+                };
+            }
+        } },
     {"name": "StoredProcedureIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
     {"name": "StoredProcedureIdentifier$ebnf$1", "symbols": ["StoredProcedureIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "StoredProcedureIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -2836,8 +2858,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateFunctionStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
     {"name": "CreateFunctionStatement$ebnf$1", "symbols": ["CreateFunctionStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CreateFunctionStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CreateFunctionStatement", "symbols": [CREATE, "CreateFunctionStatement$ebnf$1", FUNCTION, "StoredProcedureIdentifier", "StoredFunctionParameterList", RETURNS, "DataType", "StoredProcedureCharacteristics", "StoredProcedureStatement"], "postprocess":  (data) => {
-            const [, definer, functionToken, storedProcedureIdentifier, parameters, , returnType, characteristics, statement,] = data;
+    {"name": "CreateFunctionStatement", "symbols": [CREATE, "CreateFunctionStatement$ebnf$1", FUNCTION, "StoredFunctionIdentifier", "StoredFunctionParameterList", RETURNS, "DataType", "StoredProcedureCharacteristics", "StoredProcedureStatement"], "postprocess":  (data) => {
+            const [, definer, functionToken, storedFunctionIdentifier, parameters, , returnType, characteristics, statement,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CreateFunctionStatement,
@@ -2847,7 +2869,7 @@ export var ParserRules: NearleyRule[] = [
                         end: functionToken.start,
                     }) :
                     definer[2]),
-                storedProcedureIdentifier,
+                storedFunctionIdentifier,
                 parameters,
                 returnType,
                 characteristics,

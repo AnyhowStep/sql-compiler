@@ -37,6 +37,7 @@ import {
     ColumnIdentifier,
     Identifier,
     IdentifierList,
+    StoredFunctionIdentifier,
     StoredProcedureIdentifier,
     TableIdentifier,
     TableIdentifierList,
@@ -185,6 +186,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.ColumnIdentifier] : ColumnIdentifier;
     [SyntaxKind.Identifier] : Identifier;
     [SyntaxKind.IdentifierList] : IdentifierList;
+    [SyntaxKind.StoredFunctionIdentifier] : StoredFunctionIdentifier;
     [SyntaxKind.StoredProcedureIdentifier] : StoredProcedureIdentifier;
     [SyntaxKind.TableIdentifier] : TableIdentifier;
     [SyntaxKind.TableIdentifierList] : TableIdentifierList;

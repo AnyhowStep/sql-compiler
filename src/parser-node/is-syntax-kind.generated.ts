@@ -33,6 +33,7 @@ import {UserVariableIdentifier} from "./expression/user-variable-identifier";
 import {AccountIdentifier} from "./identifier/account-identifier";
 import {ColumnIdentifier} from "./identifier/column-identifier";
 import {Identifier} from "./identifier/identifier";
+import {StoredFunctionIdentifier} from "./identifier/stored-function-identifier";
 import {StoredProcedureIdentifier} from "./identifier/stored-procedure-identifier";
 import {TableIdentifier} from "./identifier/table-identifier";
 import {CurrentTimestamp} from "./misc/current-timestamp";
@@ -151,6 +152,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UserVariableI
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AccountIdentifier) : node is AccountIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnIdentifier) : node is ColumnIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Identifier) : node is Identifier;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredFunctionIdentifier) : node is StoredFunctionIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureIdentifier) : node is StoredProcedureIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TableIdentifier) : node is TableIdentifier;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CurrentTimestamp) : node is CurrentTimestamp;
@@ -278,6 +280,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AccountIdentifier, callback : (node : AccountIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ColumnIdentifier, callback : (node : ColumnIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Identifier, callback : (node : Identifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.StoredFunctionIdentifier, callback : (node : StoredFunctionIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureIdentifier, callback : (node : StoredProcedureIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TableIdentifier, callback : (node : TableIdentifier) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CurrentTimestamp, callback : (node : CurrentTimestamp) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

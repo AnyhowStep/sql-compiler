@@ -1,6 +1,6 @@
 import {CreateFunctionStatement} from "../../../parser-node";
 import {emitDataType} from "../../data-type";
-import {emitAccountIdentifierOrCurrentUser, emitStoredProcedureIdentifier} from "../../identifier";
+import {emitAccountIdentifierOrCurrentUser, emitStoredFunctionIdentifier} from "../../identifier";
 import {shouldMultiLine, StringBuilder} from "../../string-builder";
 import {emitStoredFunctionParameterList} from "./stored-function-parameter";
 import {emitStoredProcedureCharacteristics} from "./stored-procedure-characteristics";
@@ -15,7 +15,7 @@ function emitCreateFunctionStatementStart (statement : CreateFunctionStatement) 
                 .appendBuilder(emitAccountIdentifierOrCurrentUser(statement.definer))
         })
         .append(" FUNCTION ")
-        .appendBuilder(emitStoredProcedureIdentifier(statement.storedProcedureIdentifier))
+        .appendBuilder(emitStoredFunctionIdentifier(statement.storedFunctionIdentifier))
         .append(" ");
 
     const startB = emitStoredFunctionParameterList(statement.parameters, false);
@@ -31,14 +31,14 @@ function emitCreateFunctionStatementStart (statement : CreateFunctionStatement) 
             .indent(builder => {
                 let part = new StringBuilder()
                     .append("FUNCTION ")
-                    .appendBuilder(emitStoredProcedureIdentifier(statement.storedProcedureIdentifier))
+                    .appendBuilder(emitStoredFunctionIdentifier(statement.storedFunctionIdentifier))
                     .append(" ")
                     .appendBuilder(emitStoredFunctionParameterList(statement.parameters, false));
 
                 if (part.shouldMultiLine() && statement.parameters.length == 1) {
                     part = new StringBuilder()
                         .append("FUNCTION ")
-                        .appendBuilder(emitStoredProcedureIdentifier(statement.storedProcedureIdentifier))
+                        .appendBuilder(emitStoredFunctionIdentifier(statement.storedFunctionIdentifier))
                         .append(" ")
                         .appendBuilder(emitStoredFunctionParameterList(statement.parameters, true))
                 }

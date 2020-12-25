@@ -14,7 +14,7 @@ makeCustomRule(SyntaxKind.CreateFunctionStatement)
                 CustomSyntaxKind.AccountIdentifierOrCurrentUser,
             ] as const),
             TokenKind.FUNCTION,
-            SyntaxKind.StoredProcedureIdentifier,
+            SyntaxKind.StoredFunctionIdentifier,
             SyntaxKind.StoredFunctionParameterList,
             TokenKind.RETURNS,
             CustomSyntaxKind.DataType,
@@ -26,7 +26,7 @@ makeCustomRule(SyntaxKind.CreateFunctionStatement)
                 ,
                 definer,
                 functionToken,
-                storedProcedureIdentifier,
+                storedFunctionIdentifier,
                 parameters,
                 ,
                 returnType,
@@ -48,7 +48,7 @@ makeCustomRule(SyntaxKind.CreateFunctionStatement)
                     ) :
                     definer[2]
                 ),
-                storedProcedureIdentifier,
+                storedFunctionIdentifier,
                 parameters,
                 returnType,
                 characteristics,

@@ -2400,6 +2400,27 @@ LabelIdentifier ->
     return data[0];
 } %}
 
+StoredFunctionIdentifier ->
+    Identifier (%Dot IdentifierAllowReserved):? {% (data) => {
+    const [nameA, nameB] = data;
+    if (nameB == null) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.StoredFunctionIdentifier,
+            schemaName: undefined,
+            storedFunctionName: nameA,
+        };
+    }
+    else {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.StoredFunctionIdentifier,
+            schemaName: nameA,
+            storedFunctionName: nameB[1],
+        };
+    }
+} %}
+
 StoredProcedureIdentifier ->
     Identifier (%Dot IdentifierAllowReserved):? {% (data) => {
     const [nameA, nameB] = data;
@@ -2726,8 +2747,8 @@ TextString ->
 } %}
 
 CreateFunctionStatement ->
-    %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %FUNCTION StoredProcedureIdentifier StoredFunctionParameterList %RETURNS DataType StoredProcedureCharacteristics StoredProcedureStatement {% (data) => {
-    const [, definer, functionToken, storedProcedureIdentifier, parameters, , returnType, characteristics, statement,] = data;
+    %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %FUNCTION StoredFunctionIdentifier StoredFunctionParameterList %RETURNS DataType StoredProcedureCharacteristics StoredProcedureStatement {% (data) => {
+    const [, definer, functionToken, storedFunctionIdentifier, parameters, , returnType, characteristics, statement,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateFunctionStatement,
@@ -2737,7 +2758,7 @@ CreateFunctionStatement ->
                 end: functionToken.start,
             }) :
             definer[2]),
-        storedProcedureIdentifier,
+        storedFunctionIdentifier,
         parameters,
         returnType,
         characteristics,

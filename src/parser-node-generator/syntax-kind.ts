@@ -179,6 +179,7 @@ export const syntaxKinds = [
     "ColumnIdentifier",
     "FunctionIdentifier",
     "MacroIdentifier",
+    "StoredFunctionIdentifier",
     "StoredProcedureIdentifier",
     "AccountIdentifier",
 

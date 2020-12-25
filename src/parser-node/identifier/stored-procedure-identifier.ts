@@ -3,7 +3,7 @@ import {SyntaxKind} from "../syntax-kind.generated";
 import {Identifier} from "./identifier";
 
 /**
- * Stored procedures and stored functions both use this.
+ * Stored functions and stored procedures have different namespaces
  */
 export interface StoredProcedureIdentifier extends Node {
     syntaxKind : SyntaxKind.StoredProcedureIdentifier,

@@ -1,5 +1,5 @@
 import {DataType} from "../../data-type";
-import {AccountIdentifierOrCurrentUser, StoredProcedureIdentifier} from "../../identifier";
+import {AccountIdentifierOrCurrentUser, StoredFunctionIdentifier} from "../../identifier";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {Statement} from "../statement";
 import {StoredFunctionParameterList} from "./stored-function-parameter";
@@ -16,7 +16,7 @@ export interface CreateFunctionStatement extends Statement {
      * Defaults to `CURRENT_USER`
      */
     definer : AccountIdentifierOrCurrentUser,
-    storedProcedureIdentifier : StoredProcedureIdentifier,
+    storedFunctionIdentifier : StoredFunctionIdentifier,
     parameters : StoredFunctionParameterList,
     returnType : DataType,
     characteristics : StoredProcedureCharacteristics,
