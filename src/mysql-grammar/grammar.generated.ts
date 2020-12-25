@@ -5631,11 +5631,34 @@ export var ParserRules: NearleyRule[] = [
                 statements: data[1],
             };
         } },
-    {"name": "CloseStatement", "symbols": [CLOSE, "LabelIdentifier"], "postprocess":  (data) => {
+    {"name": "CloseStatement", "symbols": [CLOSE, "Identifier"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CloseStatement,
                 cursorName: data[1],
+            };
+        } },
+    {"name": "FetchStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [NEXT, FROM]},
+    {"name": "FetchStatement$ebnf$1$subexpression$1", "symbols": ["FetchStatement$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "FetchStatement$ebnf$1$subexpression$1$subexpression$2", "symbols": [FROM]},
+    {"name": "FetchStatement$ebnf$1$subexpression$1", "symbols": ["FetchStatement$ebnf$1$subexpression$1$subexpression$2"]},
+    {"name": "FetchStatement$ebnf$1", "symbols": ["FetchStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "FetchStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "FetchStatement$ebnf$2", "symbols": []},
+    {"name": "FetchStatement$ebnf$2$subexpression$1", "symbols": [Comma, "Identifier"]},
+    {"name": "FetchStatement$ebnf$2", "symbols": ["FetchStatement$ebnf$2", "FetchStatement$ebnf$2$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "FetchStatement", "symbols": [FETCH, "FetchStatement$ebnf$1", "Identifier", INTO, "Identifier", "FetchStatement$ebnf$2"], "postprocess":  (data) => {
+            const [, , cursorName, , firstIdentifier, trailingIdentifiers,] = data;
+            const arr = [firstIdentifier, ...trailingIdentifiers]
+                .flat(1)
+                .filter((item) => {
+                return "syntaxKind" in item;
+            });
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.FetchStatement,
+                cursorName,
+                identifiers: parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.FetchIdentifierList, parse_util_1.getTextRange(arr)),
             };
         } },
     {"name": "ElseIf", "symbols": [ELSEIF, "Expression", THEN, "StoredProcedureStatementList"], "postprocess":  (data) => {
@@ -5731,7 +5754,7 @@ export var ParserRules: NearleyRule[] = [
                 statements: data[1],
             };
         } },
-    {"name": "OpenStatement", "symbols": [OPEN, "LabelIdentifier"], "postprocess":  (data) => {
+    {"name": "OpenStatement", "symbols": [OPEN, "Identifier"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.OpenStatement,
@@ -5827,6 +5850,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["IterateStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["OpenStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["CloseStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["FetchStatement"]},
     {"name": "StoredProcedureStatement", "symbols": ["StoredProcedureStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

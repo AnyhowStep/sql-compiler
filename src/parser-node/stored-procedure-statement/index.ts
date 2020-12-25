@@ -1,5 +1,6 @@
 export * from "./block-statement";
 export * from "./close-statement";
+export * from "./fetch-statement";
 export * from "./if-statement";
 export * from "./iterate-statement";
 export * from "./label-statement";

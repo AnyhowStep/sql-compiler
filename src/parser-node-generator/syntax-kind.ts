@@ -150,6 +150,7 @@ export const syntaxKinds = [
     "IterateStatement",
     "OpenStatement",
     "CloseStatement",
+    "FetchStatement",
 
     /**
      * Custom statements
@@ -232,4 +233,5 @@ export const syntaxKinds = [
     "GroupingExprList",
     "StoredProcedureStatementList",
     "ElseIfList",
+    "FetchIdentifierList",
 ] as const;

@@ -122,6 +122,8 @@ import {
     UnknownStatement,
     BlockStatement,
     CloseStatement,
+    FetchStatement,
+    FetchIdentifierList,
     ElseIf,
     ElseBranch,
     IfStatement,
@@ -265,6 +267,8 @@ export type SyntaxKindToNode = {
     [SyntaxKind.UnknownStatement] : UnknownStatement;
     [SyntaxKind.BlockStatement] : BlockStatement;
     [SyntaxKind.CloseStatement] : CloseStatement;
+    [SyntaxKind.FetchStatement] : FetchStatement;
+    [SyntaxKind.FetchIdentifierList] : FetchIdentifierList;
     [SyntaxKind.ElseIf] : ElseIf;
     [SyntaxKind.ElseBranch] : ElseBranch;
     [SyntaxKind.IfStatement] : IfStatement;

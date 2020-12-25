@@ -5156,11 +5156,27 @@ BlockStatement ->
 } %}
 
 CloseStatement ->
-    %CLOSE LabelIdentifier {% (data) => {
+    %CLOSE Identifier {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CloseStatement,
         cursorName: data[1],
+    };
+} %}
+
+FetchStatement ->
+    %FETCH ((%NEXT %FROM) | (%FROM)):? Identifier %INTO Identifier (%Comma Identifier):* {% (data) => {
+    const [, , cursorName, , firstIdentifier, trailingIdentifiers,] = data;
+    const arr = [firstIdentifier, ...trailingIdentifiers]
+        .flat(1)
+        .filter((item) => {
+        return "syntaxKind" in item;
+    });
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.FetchStatement,
+        cursorName,
+        identifiers: parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.FetchIdentifierList, parse_util_1.getTextRange(arr)),
     };
 } %}
 
@@ -5262,7 +5278,7 @@ LoopStatement ->
 } %}
 
 OpenStatement ->
-    %OPEN LabelIdentifier {% (data) => {
+    %OPEN Identifier {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.OpenStatement,
@@ -5353,7 +5369,7 @@ StoredProcedureStatementList ->
 } %}
 
 StoredProcedureStatement ->
-    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement | SearchedCaseStatement | LeaveStatement | IterateStatement | OpenStatement | CloseStatement) {% (data) => {
+    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement | SearchedCaseStatement | LeaveStatement | IterateStatement | OpenStatement | CloseStatement | FetchStatement) {% (data) => {
     return data[0][0];
 } %}
 

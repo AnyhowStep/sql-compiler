@@ -1,13 +1,13 @@
 import {CloseStatement, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {getTextRange} from "../parse-util";
-import {CustomSyntaxKind, makeCustomRule} from "../factory";
+import {makeCustomRule} from "../factory";
 
 makeCustomRule(SyntaxKind.CloseStatement)
     .addSubstitution(
         [
             TokenKind.CLOSE,
-            CustomSyntaxKind.LabelIdentifier,
+            SyntaxKind.Identifier,
         ] as const,
         (data) : CloseStatement => {
             return {

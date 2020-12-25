@@ -1,6 +1,7 @@
 import {Statement} from "../statement";
 import {BlockStatement} from "./block-statement";
 import {CloseStatement} from "./close-statement";
+import {FetchStatement} from "./fetch-statement";
 import {IfStatement} from "./if-statement";
 import {IterateStatement} from "./iterate-statement";
 import {LabelStatement} from "./label-statement";
@@ -20,6 +21,7 @@ export type StoredProcedureStatement =
     | Statement
     | BlockStatement
     | CloseStatement
+    | FetchStatement
     | IfStatement
     | IterateStatement
     | LabelStatement
