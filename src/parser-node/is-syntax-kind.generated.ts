@@ -98,6 +98,7 @@ import {Union} from "./statement/select-statement/union";
 import {WhereClause} from "./statement/select-statement/where-clause";
 import {UnknownStatement} from "./statement/unknown-statement";
 import {BlockStatement} from "./stored-procedure-statement/block-statement";
+import {CloseStatement} from "./stored-procedure-statement/close-statement";
 import {ElseIf} from "./stored-procedure-statement/if-statement";
 import {ElseBranch} from "./stored-procedure-statement/if-statement";
 import {IfStatement} from "./stored-procedure-statement/if-statement";
@@ -105,6 +106,7 @@ import {IterateStatement} from "./stored-procedure-statement/iterate-statement";
 import {LabelStatement} from "./stored-procedure-statement/label-statement";
 import {LeaveStatement} from "./stored-procedure-statement/leave-statement";
 import {LoopStatement} from "./stored-procedure-statement/loop-statement";
+import {OpenStatement} from "./stored-procedure-statement/open-statement";
 import {RepeatStatement} from "./stored-procedure-statement/repeat-statement";
 import {ReturnStatement} from "./stored-procedure-statement/return-statement";
 import {SearchedWhen} from "./stored-procedure-statement/searched-case-statement";
@@ -211,6 +213,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Union) : node
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.WhereClause) : node is WhereClause;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownStatement) : node is UnknownStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BlockStatement) : node is BlockStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CloseStatement) : node is CloseStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ElseIf) : node is ElseIf;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ElseBranch) : node is ElseBranch;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IfStatement) : node is IfStatement;
@@ -218,6 +221,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IterateStatem
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LabelStatement) : node is LabelStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LeaveStatement) : node is LeaveStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LoopStatement) : node is LoopStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.OpenStatement) : node is OpenStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RepeatStatement) : node is RepeatStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ReturnStatement) : node is ReturnStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SearchedWhen) : node is SearchedWhen;
@@ -333,6 +337,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.WhereClause, callback : (node : WhereClause) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.UnknownStatement, callback : (node : UnknownStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.BlockStatement, callback : (node : BlockStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CloseStatement, callback : (node : CloseStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ElseIf, callback : (node : ElseIf) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ElseBranch, callback : (node : ElseBranch) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.IfStatement, callback : (node : IfStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
@@ -340,6 +345,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.LabelStatement, callback : (node : LabelStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.LeaveStatement, callback : (node : LeaveStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.LoopStatement, callback : (node : LoopStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.OpenStatement, callback : (node : OpenStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RepeatStatement, callback : (node : RepeatStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ReturnStatement, callback : (node : ReturnStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SearchedWhen, callback : (node : SearchedWhen) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

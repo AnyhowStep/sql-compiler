@@ -5155,6 +5155,15 @@ BlockStatement ->
     };
 } %}
 
+CloseStatement ->
+    %CLOSE LabelIdentifier {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CloseStatement,
+        cursorName: data[1],
+    };
+} %}
+
 ElseIf ->
     %ELSEIF Expression %THEN StoredProcedureStatementList {% (data) => {
     return {
@@ -5252,6 +5261,15 @@ LoopStatement ->
     };
 } %}
 
+OpenStatement ->
+    %OPEN LabelIdentifier {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.OpenStatement,
+        cursorName: data[1],
+    };
+} %}
+
 RepeatStatement ->
     %REPEAT StoredProcedureStatementList %UNTIL Expression %END %REPEAT {% (data) => {
     return {
@@ -5335,7 +5353,7 @@ StoredProcedureStatementList ->
 } %}
 
 StoredProcedureStatement ->
-    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement | SearchedCaseStatement | LeaveStatement | IterateStatement) {% (data) => {
+    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement | SearchedCaseStatement | LeaveStatement | IterateStatement | OpenStatement | CloseStatement) {% (data) => {
     return data[0][0];
 } %}
 

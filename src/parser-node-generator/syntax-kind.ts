@@ -148,6 +148,8 @@ export const syntaxKinds = [
     "SearchedWhenList",
     "LeaveStatement",
     "IterateStatement",
+    "OpenStatement",
+    "CloseStatement",
 
     /**
      * Custom statements

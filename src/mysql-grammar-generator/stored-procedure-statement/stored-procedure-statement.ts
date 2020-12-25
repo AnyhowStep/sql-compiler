@@ -15,6 +15,8 @@ makeCustomRule(CustomSyntaxKind.StoredProcedureStatement)
                 SyntaxKind.SearchedCaseStatement,
                 SyntaxKind.LeaveStatement,
                 SyntaxKind.IterateStatement,
+                SyntaxKind.OpenStatement,
+                SyntaxKind.CloseStatement,
             ),
         ] as const,
         (data) : StoredProcedureStatement => {

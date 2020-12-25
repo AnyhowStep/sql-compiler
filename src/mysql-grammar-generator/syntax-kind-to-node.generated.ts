@@ -121,6 +121,7 @@ import {
     WhereClause,
     UnknownStatement,
     BlockStatement,
+    CloseStatement,
     ElseIf,
     ElseBranch,
     IfStatement,
@@ -129,6 +130,7 @@ import {
     LabelStatement,
     LeaveStatement,
     LoopStatement,
+    OpenStatement,
     RepeatStatement,
     ReturnStatement,
     SearchedWhen,
@@ -262,6 +264,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.WhereClause] : WhereClause;
     [SyntaxKind.UnknownStatement] : UnknownStatement;
     [SyntaxKind.BlockStatement] : BlockStatement;
+    [SyntaxKind.CloseStatement] : CloseStatement;
     [SyntaxKind.ElseIf] : ElseIf;
     [SyntaxKind.ElseBranch] : ElseBranch;
     [SyntaxKind.IfStatement] : IfStatement;
@@ -270,6 +273,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.LabelStatement] : LabelStatement;
     [SyntaxKind.LeaveStatement] : LeaveStatement;
     [SyntaxKind.LoopStatement] : LoopStatement;
+    [SyntaxKind.OpenStatement] : OpenStatement;
     [SyntaxKind.RepeatStatement] : RepeatStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;
     [SyntaxKind.SearchedWhen] : SearchedWhen;

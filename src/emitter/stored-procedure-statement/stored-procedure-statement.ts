@@ -12,6 +12,8 @@ import {emitSimpleCaseStatement} from "./simple-case-statement";
 import {emitSearchedCaseStatement} from "./searched-case-statement";
 import {emitLeaveStatement} from "./leave-statement";
 import {emitIterateStatement} from "./iterate-statement";
+import {emitOpenStatement} from "./open-statement";
+import {emitCloseStatement} from "./close-statement";
 
 export function emitStoredProcedureStatement (statement : StoredProcedureStatement) : StringBuilder {
     return addStatementCases(switchSyntaxKind(statement))
@@ -26,5 +28,7 @@ export function emitStoredProcedureStatement (statement : StoredProcedureStateme
         .case(SyntaxKind.SearchedCaseStatement, emitSearchedCaseStatement)
         .case(SyntaxKind.LeaveStatement, emitLeaveStatement)
         .case(SyntaxKind.IterateStatement, emitIterateStatement)
+        .case(SyntaxKind.OpenStatement, emitOpenStatement)
+        .case(SyntaxKind.CloseStatement, emitCloseStatement)
         .default(() => new StringBuilder().append("UNKNOWN_STORED_PROCEDURE_STATEMENT"));
 }

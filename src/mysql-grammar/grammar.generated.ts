@@ -5631,6 +5631,13 @@ export var ParserRules: NearleyRule[] = [
                 statements: data[1],
             };
         } },
+    {"name": "CloseStatement", "symbols": [CLOSE, "LabelIdentifier"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CloseStatement,
+                cursorName: data[1],
+            };
+        } },
     {"name": "ElseIf", "symbols": [ELSEIF, "Expression", THEN, "StoredProcedureStatementList"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -5724,6 +5731,13 @@ export var ParserRules: NearleyRule[] = [
                 statements: data[1],
             };
         } },
+    {"name": "OpenStatement", "symbols": [OPEN, "LabelIdentifier"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.OpenStatement,
+                cursorName: data[1],
+            };
+        } },
     {"name": "RepeatStatement", "symbols": [REPEAT, "StoredProcedureStatementList", UNTIL, "Expression", END, REPEAT], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -5811,6 +5825,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["SearchedCaseStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["LeaveStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["IterateStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["OpenStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["CloseStatement"]},
     {"name": "StoredProcedureStatement", "symbols": ["StoredProcedureStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
