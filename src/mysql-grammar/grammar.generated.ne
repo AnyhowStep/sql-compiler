@@ -5195,6 +5195,15 @@ IfStatement ->
     };
 } %}
 
+IterateStatement ->
+    %ITERATE LabelIdentifier {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IterateStatement,
+        label: data[1],
+    };
+} %}
+
 UnlabeledStatement ->
     (BlockStatement | LoopStatement | WhileStatement | RepeatStatement) {% (data) => {
     return data[0][0];
@@ -5222,6 +5231,15 @@ LabelStatement ->
         beginLabel: undefined,
         statement: data[0],
         endLabel: (_a = data[1]) !== null && _a !== void 0 ? _a : undefined,
+    };
+} %}
+
+LeaveStatement ->
+    %LEAVE LabelIdentifier {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.LeaveStatement,
+        label: data[1],
     };
 } %}
 
@@ -5317,7 +5335,7 @@ StoredProcedureStatementList ->
 } %}
 
 StoredProcedureStatement ->
-    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement | SearchedCaseStatement) {% (data) => {
+    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement | SearchedCaseStatement | LeaveStatement | IterateStatement) {% (data) => {
     return data[0][0];
 } %}
 

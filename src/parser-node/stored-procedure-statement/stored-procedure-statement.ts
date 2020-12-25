@@ -1,7 +1,9 @@
 import {Statement} from "../statement";
 import {BlockStatement} from "./block-statement";
 import {IfStatement} from "./if-statement";
+import {IterateStatement} from "./iterate-statement";
 import {LabelStatement} from "./label-statement";
+import {LeaveStatement} from "./leave-statement";
 import {RepeatStatement} from "./repeat-statement";
 import {ReturnStatement} from "./return-statement";
 import {SearchedCaseStatement} from "./searched-case-statement";
@@ -15,7 +17,9 @@ export type StoredProcedureStatement =
     | Statement
     | BlockStatement
     | IfStatement
+    | IterateStatement
     | LabelStatement
+    | LeaveStatement
     | RepeatStatement
     | ReturnStatement
     | SearchedCaseStatement

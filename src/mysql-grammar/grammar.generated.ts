@@ -5669,6 +5669,13 @@ export var ParserRules: NearleyRule[] = [
                 elseBranch: elseBranch !== null && elseBranch !== void 0 ? elseBranch : undefined,
             };
         } },
+    {"name": "IterateStatement", "symbols": [ITERATE, "LabelIdentifier"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IterateStatement,
+                label: data[1],
+            };
+        } },
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["BlockStatement"]},
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["LoopStatement"]},
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["WhileStatement"]},
@@ -5701,6 +5708,13 @@ export var ParserRules: NearleyRule[] = [
                 beginLabel: undefined,
                 statement: data[0],
                 endLabel: (_a = data[1]) !== null && _a !== void 0 ? _a : undefined,
+            };
+        } },
+    {"name": "LeaveStatement", "symbols": [LEAVE, "LabelIdentifier"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.LeaveStatement,
+                label: data[1],
             };
         } },
     {"name": "LoopStatement", "symbols": [LOOP, "StoredProcedureStatementList", END, LOOP], "postprocess":  (data) => {
@@ -5795,6 +5809,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["IfStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["SimpleCaseStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["SearchedCaseStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["LeaveStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["IterateStatement"]},
     {"name": "StoredProcedureStatement", "symbols": ["StoredProcedureStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

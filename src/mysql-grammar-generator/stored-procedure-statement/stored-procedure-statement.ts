@@ -13,6 +13,8 @@ makeCustomRule(CustomSyntaxKind.StoredProcedureStatement)
                 SyntaxKind.IfStatement,
                 SyntaxKind.SimpleCaseStatement,
                 SyntaxKind.SearchedCaseStatement,
+                SyntaxKind.LeaveStatement,
+                SyntaxKind.IterateStatement,
             ),
         ] as const,
         (data) : StoredProcedureStatement => {

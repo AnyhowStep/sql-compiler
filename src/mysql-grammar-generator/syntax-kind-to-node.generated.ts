@@ -125,7 +125,9 @@ import {
     ElseBranch,
     IfStatement,
     ElseIfList,
+    IterateStatement,
     LabelStatement,
+    LeaveStatement,
     LoopStatement,
     RepeatStatement,
     ReturnStatement,
@@ -264,7 +266,9 @@ export type SyntaxKindToNode = {
     [SyntaxKind.ElseBranch] : ElseBranch;
     [SyntaxKind.IfStatement] : IfStatement;
     [SyntaxKind.ElseIfList] : ElseIfList;
+    [SyntaxKind.IterateStatement] : IterateStatement;
     [SyntaxKind.LabelStatement] : LabelStatement;
+    [SyntaxKind.LeaveStatement] : LeaveStatement;
     [SyntaxKind.LoopStatement] : LoopStatement;
     [SyntaxKind.RepeatStatement] : RepeatStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;

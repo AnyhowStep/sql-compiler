@@ -146,6 +146,8 @@ export const syntaxKinds = [
     "SearchedCaseStatement",
     "SearchedWhen",
     "SearchedWhenList",
+    "LeaveStatement",
+    "IterateStatement",
 
     /**
      * Custom statements

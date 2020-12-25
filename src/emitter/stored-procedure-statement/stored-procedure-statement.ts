@@ -10,6 +10,8 @@ import {emitRepeatStatement} from "./repeat-statement";
 import {emitIfStatement} from "./if-statement";
 import {emitSimpleCaseStatement} from "./simple-case-statement";
 import {emitSearchedCaseStatement} from "./searched-case-statement";
+import {emitLeaveStatement} from "./leave-statement";
+import {emitIterateStatement} from "./iterate-statement";
 
 export function emitStoredProcedureStatement (statement : StoredProcedureStatement) : StringBuilder {
     return addStatementCases(switchSyntaxKind(statement))
@@ -22,5 +24,7 @@ export function emitStoredProcedureStatement (statement : StoredProcedureStateme
         .case(SyntaxKind.IfStatement, emitIfStatement)
         .case(SyntaxKind.SimpleCaseStatement, emitSimpleCaseStatement)
         .case(SyntaxKind.SearchedCaseStatement, emitSearchedCaseStatement)
+        .case(SyntaxKind.LeaveStatement, emitLeaveStatement)
+        .case(SyntaxKind.IterateStatement, emitIterateStatement)
         .default(() => new StringBuilder().append("UNKNOWN_STORED_PROCEDURE_STATEMENT"));
 }
