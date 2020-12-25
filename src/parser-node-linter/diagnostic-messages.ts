@@ -173,4 +173,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240032
     }),
+    CaseMustHaveAtLeastOneWhenClause : makeDiagnosticMessage({
+        key : "CASE must have at least one WHEN clause",
+        category : DiagnosticCategory.Error,
+        code : 240033
+    }),
 } as const;

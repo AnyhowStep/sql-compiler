@@ -105,6 +105,8 @@ import {LabelStatement} from "./stored-procedure-statement/label-statement";
 import {LoopStatement} from "./stored-procedure-statement/loop-statement";
 import {RepeatStatement} from "./stored-procedure-statement/repeat-statement";
 import {ReturnStatement} from "./stored-procedure-statement/return-statement";
+import {SimpleWhen} from "./stored-procedure-statement/simple-case-statement";
+import {SimpleCaseStatement} from "./stored-procedure-statement/simple-case-statement";
 import {WhileStatement} from "./stored-procedure-statement/while-statement";
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BinaryDataType) : node is BinaryDataType;
@@ -212,6 +214,8 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LabelStatemen
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LoopStatement) : node is LoopStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RepeatStatement) : node is RepeatStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ReturnStatement) : node is ReturnStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SimpleWhen) : node is SimpleWhen;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SimpleCaseStatement) : node is SimpleCaseStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.WhileStatement) : node is WhileStatement;
 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind) : boolean;
@@ -328,6 +332,8 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.LoopStatement, callback : (node : LoopStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RepeatStatement, callback : (node : RepeatStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ReturnStatement, callback : (node : ReturnStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.SimpleWhen, callback : (node : SimpleWhen) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.SimpleCaseStatement, callback : (node : SimpleCaseStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.WhileStatement, callback : (node : WhileStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
 
     default<ResultT> (callback : () => ResultT) : ResultT|ReturnT;

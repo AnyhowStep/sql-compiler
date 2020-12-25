@@ -140,6 +140,9 @@ export const syntaxKinds = [
     "IfStatement",
     "ElseIf",
     "ElseBranch",
+    "SimpleCaseStatement",
+    "SimpleWhen",
+    "SimpleWhenList",
 
     /**
      * Custom statements

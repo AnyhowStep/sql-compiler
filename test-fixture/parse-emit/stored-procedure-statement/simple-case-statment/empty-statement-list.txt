@@ -1,0 +1,40 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    CASE 1
+        WHEN 2 THEN
+        WHEN 3 THEN
+        ELSE
+    END CASE;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    CASE 1
+        WHEN 2 THEN
+        WHEN 3 THEN
+        ELSE
+    END CASE;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "WHEN must have at least one statement",
+        "start": 62,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "WHEN must have at least one statement",
+        "start": 82,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "ELSE must have at least one statement",
+        "start": 102,
+        "length": 4
+    }
+]

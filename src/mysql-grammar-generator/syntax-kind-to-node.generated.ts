@@ -129,6 +129,9 @@ import {
     LoopStatement,
     RepeatStatement,
     ReturnStatement,
+    SimpleWhen,
+    SimpleCaseStatement,
+    SimpleWhenList,
     StoredProcedureStatementList,
     WhileStatement,
 } from "../parser-node";
@@ -262,6 +265,9 @@ export type SyntaxKindToNode = {
     [SyntaxKind.LoopStatement] : LoopStatement;
     [SyntaxKind.RepeatStatement] : RepeatStatement;
     [SyntaxKind.ReturnStatement] : ReturnStatement;
+    [SyntaxKind.SimpleWhen] : SimpleWhen;
+    [SyntaxKind.SimpleCaseStatement] : SimpleCaseStatement;
+    [SyntaxKind.SimpleWhenList] : SimpleWhenList;
     [SyntaxKind.StoredProcedureStatementList] : StoredProcedureStatementList;
     [SyntaxKind.WhileStatement] : WhileStatement;
 } & Record<SyntaxKind, unknown>;

@@ -5725,6 +5725,35 @@ export var ParserRules: NearleyRule[] = [
                 expr: data[1],
             };
         } },
+    {"name": "SimpleWhen", "symbols": [WHEN, "Expression", THEN, "StoredProcedureStatementList"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.SimpleWhen,
+                whenToken: parse_util_1.toValueNode("WHEN", parse_util_1.getTextRange(data[0])),
+                expr: data[1],
+                statements: data[3],
+            };
+        } },
+    {"name": "SimpleWhenList$ebnf$1", "symbols": ["SimpleWhen"]},
+    {"name": "SimpleWhenList$ebnf$1", "symbols": ["SimpleWhenList$ebnf$1", "SimpleWhen"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "SimpleWhenList", "symbols": ["SimpleWhenList$ebnf$1"], "postprocess":  (data) => {
+            return parse_util_1.toNodeArray(data[0], parser_node_1.SyntaxKind.SimpleWhenList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "SimpleCaseStatement$ebnf$1", "symbols": ["SimpleWhenList"], "postprocess": id},
+    {"name": "SimpleCaseStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "SimpleCaseStatement$ebnf$2", "symbols": ["ElseBranch"], "postprocess": id},
+    {"name": "SimpleCaseStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "SimpleCaseStatement", "symbols": [CASE, "Expression", "SimpleCaseStatement$ebnf$1", "SimpleCaseStatement$ebnf$2", END, CASE], "postprocess":  (data) => {
+            const [, expr, simpleWhens, elseBranch,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.SimpleCaseStatement,
+                caseToken: parse_util_1.toValueNode("CASE", parse_util_1.getTextRange(data[0])),
+                expr,
+                simpleWhens: simpleWhens !== null && simpleWhens !== void 0 ? simpleWhens : undefined,
+                elseBranch: elseBranch !== null && elseBranch !== void 0 ? elseBranch : undefined,
+            };
+        } },
     {"name": "StoredProcedureStatementList$ebnf$1", "symbols": []},
     {"name": "StoredProcedureStatementList$ebnf$1$subexpression$1", "symbols": ["StoredProcedureStatement", SemiColon]},
     {"name": "StoredProcedureStatementList$ebnf$1", "symbols": ["StoredProcedureStatementList$ebnf$1", "StoredProcedureStatementList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
@@ -5736,6 +5765,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["ReturnStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["LabelStatement"]},
     {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["IfStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["SimpleCaseStatement"]},
     {"name": "StoredProcedureStatement", "symbols": ["StoredProcedureStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

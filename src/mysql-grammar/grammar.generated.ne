@@ -5253,6 +5253,35 @@ ReturnStatement ->
     };
 } %}
 
+SimpleWhen ->
+    %WHEN Expression %THEN StoredProcedureStatementList {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SimpleWhen,
+        whenToken: parse_util_1.toValueNode("WHEN", parse_util_1.getTextRange(data[0])),
+        expr: data[1],
+        statements: data[3],
+    };
+} %}
+
+SimpleWhenList ->
+    SimpleWhen:+ {% (data) => {
+    return parse_util_1.toNodeArray(data[0], parser_node_1.SyntaxKind.SimpleWhenList, parse_util_1.getTextRange(data));
+} %}
+
+SimpleCaseStatement ->
+    %CASE Expression SimpleWhenList:? ElseBranch:? %END %CASE {% (data) => {
+    const [, expr, simpleWhens, elseBranch,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SimpleCaseStatement,
+        caseToken: parse_util_1.toValueNode("CASE", parse_util_1.getTextRange(data[0])),
+        expr,
+        simpleWhens: simpleWhens !== null && simpleWhens !== void 0 ? simpleWhens : undefined,
+        elseBranch: elseBranch !== null && elseBranch !== void 0 ? elseBranch : undefined,
+    };
+} %}
+
 StoredProcedureStatementList ->
     (StoredProcedureStatement %SemiColon):* {% (data) => {
     const arr = data[0].map(item => item[0]);
@@ -5260,7 +5289,7 @@ StoredProcedureStatementList ->
 } %}
 
 StoredProcedureStatement ->
-    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement) {% (data) => {
+    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement | SimpleCaseStatement) {% (data) => {
     return data[0][0];
 } %}
 

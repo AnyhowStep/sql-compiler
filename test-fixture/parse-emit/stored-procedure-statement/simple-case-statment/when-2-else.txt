@@ -1,0 +1,27 @@
+CREATE FUNCTION FOO ()
+    RETURNS BOOLEAN
+    CASE 1
+        WHEN 2 THEN
+            RETURN 2;
+        WHEN 3 THEN
+            RETURN 3;
+        ELSE
+            RETURN '';
+    END CASE;
+
+-----
+CREATE DEFINER = CURRENT_USER() FUNCTION `FOO` ()
+    RETURNS BOOLEAN
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    CASE 1
+        WHEN 2 THEN
+            RETURN 2;
+        WHEN 3 THEN
+            RETURN 3;
+        ELSE
+            RETURN '';
+    END CASE;
+
+-----
+[]
