@@ -50,9 +50,12 @@ import {
     SourceFileLite,
     SourceElementList,
     CreateFunctionStatement,
+    CreateProcedureStatement,
     StoredFunctionParameter,
     StoredFunctionParameterList,
     StoredProcedureCharacteristics,
+    StoredProcedureParameter,
+    StoredProcedureParameterList,
     CreateSchemaStatement,
     CreateSchemaOptionList,
     CheckDefinition,
@@ -195,9 +198,12 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.SourceElementList] : SourceElementList;
     [SyntaxKind.CreateFunctionStatement] : CreateFunctionStatement;
+    [SyntaxKind.CreateProcedureStatement] : CreateProcedureStatement;
     [SyntaxKind.StoredFunctionParameter] : StoredFunctionParameter;
     [SyntaxKind.StoredFunctionParameterList] : StoredFunctionParameterList;
     [SyntaxKind.StoredProcedureCharacteristics] : StoredProcedureCharacteristics;
+    [SyntaxKind.StoredProcedureParameter] : StoredProcedureParameter;
+    [SyntaxKind.StoredProcedureParameterList] : StoredProcedureParameterList;
     [SyntaxKind.CreateSchemaStatement] : CreateSchemaStatement;
     [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;
     [SyntaxKind.CheckDefinition] : CheckDefinition;

@@ -2854,6 +2854,26 @@ export var ParserRules: NearleyRule[] = [
                 statement,
             };
         } },
+    {"name": "CreateProcedureStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
+    {"name": "CreateProcedureStatement$ebnf$1", "symbols": ["CreateProcedureStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateProcedureStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateProcedureStatement", "symbols": [CREATE, "CreateProcedureStatement$ebnf$1", PROCEDURE, "StoredProcedureIdentifier", "StoredProcedureParameterList", "StoredProcedureCharacteristics", "StoredProcedureStatement"], "postprocess":  (data) => {
+            const [, definer, functionToken, storedProcedureIdentifier, parameters, characteristics, statement,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateProcedureStatement,
+                definer: (definer == undefined ?
+                    parse_util_1.toValueNode("CURRENT_USER", {
+                        start: functionToken.start,
+                        end: functionToken.start,
+                    }) :
+                    definer[2]),
+                storedProcedureIdentifier,
+                parameters,
+                characteristics,
+                statement,
+            };
+        } },
     {"name": "StoredFunctionParameter", "symbols": ["Identifier", "DataType"], "postprocess":  (data) => {
             const [identifier, dataType,] = data;
             return {
@@ -2976,6 +2996,47 @@ export var ParserRules: NearleyRule[] = [
                     syntacticErrors :
                     undefined),
             };
+        } },
+    {"name": "StoredProcedureParameter$ebnf$1$subexpression$1", "symbols": [IN]},
+    {"name": "StoredProcedureParameter$ebnf$1$subexpression$1", "symbols": [OUT]},
+    {"name": "StoredProcedureParameter$ebnf$1$subexpression$1", "symbols": [INOUT]},
+    {"name": "StoredProcedureParameter$ebnf$1", "symbols": ["StoredProcedureParameter$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "StoredProcedureParameter$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "StoredProcedureParameter", "symbols": ["StoredProcedureParameter$ebnf$1", "Identifier", "DataType"], "postprocess":  (data) => {
+            const [parameterMode, identifier, dataType,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.StoredProcedureParameter,
+                parameterMode: (parameterMode == undefined ?
+                    parse_util_1.toValueNode(parser_node_1.ParameterMode.IN, {
+                        start: identifier.start,
+                        end: identifier.start,
+                    }) :
+                    parse_util_1.toValueNode((parameterMode[0].tokenKind == scanner_1.TokenKind.IN ?
+                        parser_node_1.ParameterMode.IN :
+                        parameterMode[0].tokenKind == scanner_1.TokenKind.OUT ?
+                            parser_node_1.ParameterMode.OUT :
+                            parser_node_1.ParameterMode.INOUT), parse_util_1.getTextRange(parameterMode))),
+                identifier,
+                dataType,
+            };
+        } },
+    {"name": "StoredProcedureParameterList$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "StoredProcedureParameterList$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Comma, "StoredProcedureParameter"]},
+    {"name": "StoredProcedureParameterList$ebnf$1$subexpression$1$ebnf$1", "symbols": ["StoredProcedureParameterList$ebnf$1$subexpression$1$ebnf$1", "StoredProcedureParameterList$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "StoredProcedureParameterList$ebnf$1$subexpression$1", "symbols": ["StoredProcedureParameter", "StoredProcedureParameterList$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "StoredProcedureParameterList$ebnf$1", "symbols": ["StoredProcedureParameterList$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "StoredProcedureParameterList$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "StoredProcedureParameterList", "symbols": [OpenParentheses, "StoredProcedureParameterList$ebnf$1", CloseParentheses], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                return "syntaxKind" in item;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureParameterList, parse_util_1.getTextRange(data));
         } },
     {"name": "CreateSchemaOptionList$ebnf$1", "symbols": []},
     {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCharacterSet"]},
@@ -5590,6 +5651,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateSchemaStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateFunctionStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateProcedureStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];

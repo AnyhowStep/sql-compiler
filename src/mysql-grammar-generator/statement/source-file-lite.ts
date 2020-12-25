@@ -14,6 +14,7 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.CreateSchemaStatement,
             SyntaxKind.CreateTableStatement,
             SyntaxKind.CreateFunctionStatement,
+            SyntaxKind.CreateProcedureStatement,
             CustomSyntaxKind.SelectStatement,
         )] as const,
         (data) : Statement => {

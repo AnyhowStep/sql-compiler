@@ -2745,6 +2745,25 @@ CreateFunctionStatement ->
     };
 } %}
 
+CreateProcedureStatement ->
+    %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %PROCEDURE StoredProcedureIdentifier StoredProcedureParameterList StoredProcedureCharacteristics StoredProcedureStatement {% (data) => {
+    const [, definer, functionToken, storedProcedureIdentifier, parameters, characteristics, statement,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateProcedureStatement,
+        definer: (definer == undefined ?
+            parse_util_1.toValueNode("CURRENT_USER", {
+                start: functionToken.start,
+                end: functionToken.start,
+            }) :
+            definer[2]),
+        storedProcedureIdentifier,
+        parameters,
+        characteristics,
+        statement,
+    };
+} %}
+
 StoredFunctionParameter ->
     Identifier DataType {% (data) => {
     const [identifier, dataType,] = data;
@@ -2866,6 +2885,40 @@ StoredProcedureCharacteristics ->
             syntacticErrors :
             undefined),
     };
+} %}
+
+StoredProcedureParameter ->
+    (%IN | %OUT | %INOUT):? Identifier DataType {% (data) => {
+    const [parameterMode, identifier, dataType,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.StoredProcedureParameter,
+        parameterMode: (parameterMode == undefined ?
+            parse_util_1.toValueNode(parser_node_1.ParameterMode.IN, {
+                start: identifier.start,
+                end: identifier.start,
+            }) :
+            parse_util_1.toValueNode((parameterMode[0].tokenKind == scanner_1.TokenKind.IN ?
+                parser_node_1.ParameterMode.IN :
+                parameterMode[0].tokenKind == scanner_1.TokenKind.OUT ?
+                    parser_node_1.ParameterMode.OUT :
+                    parser_node_1.ParameterMode.INOUT), parse_util_1.getTextRange(parameterMode))),
+        identifier,
+        dataType,
+    };
+} %}
+
+StoredProcedureParameterList ->
+    %OpenParentheses (StoredProcedureParameter (%Comma StoredProcedureParameter):*):? %CloseParentheses {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        return "syntaxKind" in item;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureParameterList, parse_util_1.getTextRange(data));
 } %}
 
 CreateSchemaOptionList ->
@@ -5114,7 +5167,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

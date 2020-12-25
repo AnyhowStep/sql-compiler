@@ -1,0 +1,15 @@
+CREATE DEFINER = xxxxxxxxxxxxxxxxxxxxxxxx@yyyyyyyyyyyyyyyyyyyyyyyy
+    PROCEDURE FOO (X BOOLEAN, Y BOOLEAN) RETURN 1;
+
+-----
+CREATE DEFINER = `xxxxxxxxxxxxxxxxxxxxxxxx`@yyyyyyyyyyyyyyyyyyyyyyyy
+    PROCEDURE `FOO` (
+        IN `X` BOOLEAN,
+        IN `Y` BOOLEAN
+    )
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    RETURN 1;
+
+-----
+[]

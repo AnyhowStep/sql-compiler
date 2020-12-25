@@ -77,6 +77,9 @@ export const syntaxKinds = [
     "StoredFunctionParameter",
     "StoredFunctionParameterList",
     "StoredProcedureCharacteristics",
+    "CreateProcedureStatement",
+    "StoredProcedureParameter",
+    "StoredProcedureParameterList",
 
     "HashPartition",
     "KeyPartition",

@@ -1,0 +1,11 @@
+CREATE DEFINER = xxxxxxxxxxxxxxxxxxxxxxxx@yyyyyyyyyyyyyyyyyyyyyyyy PROCEDURE FOO () RETURN 1;
+
+-----
+CREATE DEFINER = `xxxxxxxxxxxxxxxxxxxxxxxx`@yyyyyyyyyyyyyyyyyyyyyyyy
+    PROCEDURE `FOO` ()
+    NOT DETERMINISTIC
+    SQL SECURITY DEFINER
+    RETURN 1;
+
+-----
+[]
