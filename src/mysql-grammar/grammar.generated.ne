@@ -2868,11 +2868,6 @@ StoredProcedureCharacteristics ->
     };
 } %}
 
-StoredProcedureStatement ->
-    (NonDelimiterStatement | ReturnStatement | LabelStatement) {% (data) => {
-    return data[0][0];
-} %}
-
 CreateSchemaOptionList ->
     (DefaultCharacterSet | DefaultCollation):* {% (data) => {
     return parse_util_1.toNodeArray(data.flat(2), parser_node_1.SyntaxKind.CreateSchemaOptionList, parse_util_1.getTextRange(data));
@@ -5160,6 +5155,46 @@ BlockStatement ->
     };
 } %}
 
+ElseIf ->
+    %ELSEIF Expression %THEN StoredProcedureStatementList {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ElseIf,
+        elseIfToken: parse_util_1.toValueNode("ELSEIF", parse_util_1.getTextRange(data[0])),
+        expr: data[1],
+        statements: data[3],
+    };
+} %}
+
+ElseIfList ->
+    ElseIf:+ {% (data) => {
+    return parse_util_1.toNodeArray(data[0], parser_node_1.SyntaxKind.ElseIfList, parse_util_1.getTextRange(data));
+} %}
+
+ElseBranch ->
+    %ELSE StoredProcedureStatementList {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ElseBranch,
+        elseToken: parse_util_1.toValueNode("ELSE", parse_util_1.getTextRange(data[0])),
+        statements: data[1],
+    };
+} %}
+
+IfStatement ->
+    %IF Expression %THEN StoredProcedureStatementList ElseIfList:? ElseBranch:? %END %IF {% (data) => {
+    const [, expr, , statements, elseIfs, elseBranch,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IfStatement,
+        ifToken: parse_util_1.toValueNode("IF", parse_util_1.getTextRange(data[0])),
+        expr,
+        statements,
+        elseIfs: elseIfs !== null && elseIfs !== void 0 ? elseIfs : undefined,
+        elseBranch: elseBranch !== null && elseBranch !== void 0 ? elseBranch : undefined,
+    };
+} %}
+
 UnlabeledStatement ->
     (BlockStatement | LoopStatement | WhileStatement | RepeatStatement) {% (data) => {
     return data[0][0];
@@ -5222,6 +5257,11 @@ StoredProcedureStatementList ->
     (StoredProcedureStatement %SemiColon):* {% (data) => {
     const arr = data[0].map(item => item[0]);
     return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureStatementList, parse_util_1.getTextRange(data));
+} %}
+
+StoredProcedureStatement ->
+    (NonDelimiterStatement | ReturnStatement | LabelStatement | IfStatement) {% (data) => {
+    return data[0][0];
 } %}
 
 WhileStatement ->

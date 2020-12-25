@@ -99,6 +99,7 @@ import {WhereClause} from "./statement/select-statement/where-clause";
 import {UnknownStatement} from "./statement/unknown-statement";
 import {BlockStatement} from "./stored-procedure-statement/block-statement";
 import {ElseIf} from "./stored-procedure-statement/if-statement";
+import {ElseBranch} from "./stored-procedure-statement/if-statement";
 import {IfStatement} from "./stored-procedure-statement/if-statement";
 import {LabelStatement} from "./stored-procedure-statement/label-statement";
 import {LoopStatement} from "./stored-procedure-statement/loop-statement";
@@ -205,6 +206,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.WhereClause) 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.UnknownStatement) : node is UnknownStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.BlockStatement) : node is BlockStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ElseIf) : node is ElseIf;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ElseBranch) : node is ElseBranch;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IfStatement) : node is IfStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LabelStatement) : node is LabelStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.LoopStatement) : node is LoopStatement;
@@ -320,6 +322,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.UnknownStatement, callback : (node : UnknownStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.BlockStatement, callback : (node : BlockStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ElseIf, callback : (node : ElseIf) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.ElseBranch, callback : (node : ElseBranch) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.IfStatement, callback : (node : IfStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.LabelStatement, callback : (node : LabelStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.LoopStatement, callback : (node : LoopStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

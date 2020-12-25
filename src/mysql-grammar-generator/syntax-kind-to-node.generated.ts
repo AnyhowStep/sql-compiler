@@ -122,6 +122,7 @@ import {
     UnknownStatement,
     BlockStatement,
     ElseIf,
+    ElseBranch,
     IfStatement,
     ElseIfList,
     LabelStatement,
@@ -254,6 +255,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.UnknownStatement] : UnknownStatement;
     [SyntaxKind.BlockStatement] : BlockStatement;
     [SyntaxKind.ElseIf] : ElseIf;
+    [SyntaxKind.ElseBranch] : ElseBranch;
     [SyntaxKind.IfStatement] : IfStatement;
     [SyntaxKind.ElseIfList] : ElseIfList;
     [SyntaxKind.LabelStatement] : LabelStatement;

@@ -1,7 +1,7 @@
-import {SyntaxKind} from "../../../parser-node";
-import {StoredProcedureStatement} from "../../../parser-node";
-import {union} from "../../../nearley-wrapper";
-import {CustomSyntaxKind, makeCustomRule} from "../../factory";
+import {SyntaxKind} from "../../parser-node";
+import {StoredProcedureStatement} from "../../parser-node";
+import {union} from "../../nearley-wrapper";
+import {CustomSyntaxKind, makeCustomRule} from "../factory";
 
 makeCustomRule(CustomSyntaxKind.StoredProcedureStatement)
     .addSubstitution(
@@ -10,6 +10,7 @@ makeCustomRule(CustomSyntaxKind.StoredProcedureStatement)
                 CustomSyntaxKind.NonDelimiterStatement,
                 SyntaxKind.ReturnStatement,
                 CustomSyntaxKind.LabelStatement,
+                SyntaxKind.IfStatement,
             ),
         ] as const,
         (data) : StoredProcedureStatement => {

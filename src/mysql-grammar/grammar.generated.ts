@@ -2977,12 +2977,6 @@ export var ParserRules: NearleyRule[] = [
                     undefined),
             };
         } },
-    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["NonDelimiterStatement"]},
-    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["ReturnStatement"]},
-    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["LabelStatement"]},
-    {"name": "StoredProcedureStatement", "symbols": ["StoredProcedureStatement$subexpression$1"], "postprocess":  (data) => {
-            return data[0][0];
-        } },
     {"name": "CreateSchemaOptionList$ebnf$1", "symbols": []},
     {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCharacterSet"]},
     {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCollation"]},
@@ -5637,6 +5631,44 @@ export var ParserRules: NearleyRule[] = [
                 statements: data[1],
             };
         } },
+    {"name": "ElseIf", "symbols": [ELSEIF, "Expression", THEN, "StoredProcedureStatementList"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ElseIf,
+                elseIfToken: parse_util_1.toValueNode("ELSEIF", parse_util_1.getTextRange(data[0])),
+                expr: data[1],
+                statements: data[3],
+            };
+        } },
+    {"name": "ElseIfList$ebnf$1", "symbols": ["ElseIf"]},
+    {"name": "ElseIfList$ebnf$1", "symbols": ["ElseIfList$ebnf$1", "ElseIf"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "ElseIfList", "symbols": ["ElseIfList$ebnf$1"], "postprocess":  (data) => {
+            return parse_util_1.toNodeArray(data[0], parser_node_1.SyntaxKind.ElseIfList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "ElseBranch", "symbols": [ELSE, "StoredProcedureStatementList"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ElseBranch,
+                elseToken: parse_util_1.toValueNode("ELSE", parse_util_1.getTextRange(data[0])),
+                statements: data[1],
+            };
+        } },
+    {"name": "IfStatement$ebnf$1", "symbols": ["ElseIfList"], "postprocess": id},
+    {"name": "IfStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IfStatement$ebnf$2", "symbols": ["ElseBranch"], "postprocess": id},
+    {"name": "IfStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "IfStatement", "symbols": [IF, "Expression", THEN, "StoredProcedureStatementList", "IfStatement$ebnf$1", "IfStatement$ebnf$2", END, IF], "postprocess":  (data) => {
+            const [, expr, , statements, elseIfs, elseBranch,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IfStatement,
+                ifToken: parse_util_1.toValueNode("IF", parse_util_1.getTextRange(data[0])),
+                expr,
+                statements,
+                elseIfs: elseIfs !== null && elseIfs !== void 0 ? elseIfs : undefined,
+                elseBranch: elseBranch !== null && elseBranch !== void 0 ? elseBranch : undefined,
+            };
+        } },
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["BlockStatement"]},
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["LoopStatement"]},
     {"name": "UnlabeledStatement$subexpression$1", "symbols": ["WhileStatement"]},
@@ -5699,6 +5731,13 @@ export var ParserRules: NearleyRule[] = [
     {"name": "StoredProcedureStatementList", "symbols": ["StoredProcedureStatementList$ebnf$1"], "postprocess":  (data) => {
             const arr = data[0].map(item => item[0]);
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureStatementList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["NonDelimiterStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["ReturnStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["LabelStatement"]},
+    {"name": "StoredProcedureStatement$subexpression$1", "symbols": ["IfStatement"]},
+    {"name": "StoredProcedureStatement", "symbols": ["StoredProcedureStatement$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
         } },
     {"name": "WhileStatement", "symbols": [WHILE, "Expression", DO, "StoredProcedureStatementList", END, WHILE], "postprocess":  (data) => {
             return {

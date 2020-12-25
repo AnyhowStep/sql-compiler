@@ -139,6 +139,7 @@ export const syntaxKinds = [
     "RepeatStatement",
     "IfStatement",
     "ElseIf",
+    "ElseBranch",
 
     /**
      * Custom statements

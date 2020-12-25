@@ -1,3 +1,4 @@
+export * from "./if-statement";
 export * from "./label-statement";
 export * from "./loop-statement";
 export * from "./repeat-statement";
