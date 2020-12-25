@@ -1,8 +1,8 @@
-import {NodeArray, StoredProcedureStatement} from "../../parser-node";
+import {StoredProcedureStatementList} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
 import {emitStoredProcedureStatement} from "./stored-procedure-statement";
 
-export function emitStoredProcedureStatementList (statements : NodeArray<StoredProcedureStatement>) : StringBuilder {
+export function emitStoredProcedureStatementList (statements : StoredProcedureStatementList) : StringBuilder {
     const result = new StringBuilder();
 
     result.loop(

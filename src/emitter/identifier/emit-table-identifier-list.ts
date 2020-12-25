@@ -1,8 +1,8 @@
-import {TableIdentifier, NodeArray} from "../../parser-node";
+import {TableIdentifierList} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
 import {emitTableIdentifier} from "./emit-table-identifier";
 
-export function emitTableIdentifierList (tableIdentifiers : NodeArray<TableIdentifier>) {
+export function emitTableIdentifierList (tableIdentifiers : TableIdentifierList) {
     return new StringBuilder()
         .append("(")
         .loop(

@@ -1,8 +1,8 @@
-import {IndexPart, NodeArray, SortDirection} from "../../../parser-node";
+import {IndexPartList, SortDirection} from "../../../parser-node";
 import {emitIdentifier} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
 
-export function emitIndexParts (indexParts : NodeArray<IndexPart>) : StringBuilder {
+export function emitIndexParts (indexParts : IndexPartList) : StringBuilder {
     return new StringBuilder()
         .append("(")
         .loop(

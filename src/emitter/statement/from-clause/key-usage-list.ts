@@ -1,8 +1,8 @@
-import {Identifier, NodeArray, SyntaxKind, ValueNode} from "../../../parser-node";
+import {KeyUsageList, SyntaxKind} from "../../../parser-node";
 import {emitIdentifier} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
 
-export function emitKeyUsageList (arr : NodeArray<Identifier|ValueNode<"PRIMARY">>) {
+export function emitKeyUsageList (arr : KeyUsageList) {
     return new StringBuilder()
         .append("(")
         .loop(

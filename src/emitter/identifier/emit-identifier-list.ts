@@ -1,8 +1,8 @@
-import {Identifier, NodeArray} from "../../parser-node";
+import {IdentifierList} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
 import {emitIdentifier} from "./emit-identifier";
 
-export function emitIdentifierList (identifiers : NodeArray<Identifier>) {
+export function emitIdentifierList (identifiers : IdentifierList) {
     return new StringBuilder()
         .append("(")
         .loop(

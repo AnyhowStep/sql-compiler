@@ -1,8 +1,8 @@
-import {isSyntaxKind, NodeArray, Statement, SyntaxKind} from "../../parser-node";
+import {isSyntaxKind, SourceElementList, SyntaxKind} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
 import {emitStatement} from "./emit-statement";
 
-export function emitStatementList (statements : NodeArray<Statement>) : StringBuilder {
+export function emitStatementList (statements : SourceElementList) : StringBuilder {
     const result = new StringBuilder();
 
     result.loop(

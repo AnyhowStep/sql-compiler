@@ -96,9 +96,12 @@ import {
     KeyPartition,
     KeySubPartition,
     ListPartitionDefinition,
+    ListPartitionDefinitionList,
     ListPartition,
     PartitionDefinitionOptions,
     RangePartitionDefinition,
+    ExpressionOrMaxValueList,
+    RangePartitionDefinitionList,
     RangePartition,
     SubPartitionDefinition,
     SubPartitionDefinitionList,
@@ -111,6 +114,7 @@ import {
     SelectItem,
     SelectOptions,
     Select,
+    SelectItemList,
     TableAsteriskSelectItem,
     UnionOrderLimit,
     Union,
@@ -224,9 +228,12 @@ export type SyntaxKindToNode = {
     [SyntaxKind.KeyPartition] : KeyPartition;
     [SyntaxKind.KeySubPartition] : KeySubPartition;
     [SyntaxKind.ListPartitionDefinition] : ListPartitionDefinition;
+    [SyntaxKind.ListPartitionDefinitionList] : ListPartitionDefinitionList;
     [SyntaxKind.ListPartition] : ListPartition;
     [SyntaxKind.PartitionDefinitionOptions] : PartitionDefinitionOptions;
     [SyntaxKind.RangePartitionDefinition] : RangePartitionDefinition;
+    [SyntaxKind.ExpressionOrMaxValueList] : ExpressionOrMaxValueList;
+    [SyntaxKind.RangePartitionDefinitionList] : RangePartitionDefinitionList;
     [SyntaxKind.RangePartition] : RangePartition;
     [SyntaxKind.SubPartitionDefinition] : SubPartitionDefinition;
     [SyntaxKind.SubPartitionDefinitionList] : SubPartitionDefinitionList;
@@ -239,6 +246,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SelectItem] : SelectItem;
     [SyntaxKind.SelectOptions] : SelectOptions;
     [SyntaxKind.Select] : Select;
+    [SyntaxKind.SelectItemList] : SelectItemList;
     [SyntaxKind.TableAsteriskSelectItem] : TableAsteriskSelectItem;
     [SyntaxKind.UnionOrderLimit] : UnionOrderLimit;
     [SyntaxKind.Union] : Union;

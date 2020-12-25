@@ -1,5 +1,5 @@
 import {Node, ValueNode} from "../../node";
-import {NodeArray} from "../../node-array";
+import {NodeArray2} from "../../node-array";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {FromClause} from "../from-clause";
 import {GroupByClause} from "../group-by-clause";
@@ -23,13 +23,17 @@ export enum SelectLockType {
     LOCK_IN_SHARE_MODE,
 }
 
+export interface SelectItemList extends NodeArray2<SyntaxKind.SelectItemList, SelectItem|AsteriskSelectItem|TableAsteriskSelectItem> {
+
+}
+
 export interface Select extends Node, Statement {
     syntaxKind : SyntaxKind.Select,
 
     parenthesized : boolean,
 
     selectOptions : SelectOptions,
-    selectItems : NodeArray<SelectItem|AsteriskSelectItem|TableAsteriskSelectItem>,
+    selectItems : SelectItemList,
 
     preIntoClause : IntoClause|undefined,
 

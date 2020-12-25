@@ -1,4 +1,4 @@
-import {NodeArray, OrderExpr, OrderingDirection} from "../../../parser-node";
+import {OrderExpr, OrderExprList, OrderingDirection} from "../../../parser-node";
 import {emitExpression} from "../../expression";
 import {StringBuilder} from "../../string-builder";
 
@@ -12,7 +12,7 @@ export function emitOrderExpr (orderExpr : OrderExpr) {
         )
 }
 
-export function emitOrderExprList(arr : NodeArray<OrderExpr>) {
+export function emitOrderExprList(arr : OrderExprList) {
     return new StringBuilder()
         .append("ORDER BY")
         .indent(builder => {
