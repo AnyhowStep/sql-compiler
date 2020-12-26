@@ -3092,6 +3092,34 @@ export var ParserRules: NearleyRule[] = [
                 statement,
             };
         } },
+    {"name": "CreateUserDefinedFunctionStatement$ebnf$1", "symbols": [AGGREGATE], "postprocess": id},
+    {"name": "CreateUserDefinedFunctionStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateUserDefinedFunctionStatement$subexpression$1", "symbols": [STRING]},
+    {"name": "CreateUserDefinedFunctionStatement$subexpression$1", "symbols": [INTEGER]},
+    {"name": "CreateUserDefinedFunctionStatement$subexpression$1", "symbols": [REAL]},
+    {"name": "CreateUserDefinedFunctionStatement$subexpression$1", "symbols": [DECIMAL]},
+    {"name": "CreateUserDefinedFunctionStatement", "symbols": [CREATE, "CreateUserDefinedFunctionStatement$ebnf$1", FUNCTION, "Identifier", RETURNS, "CreateUserDefinedFunctionStatement$subexpression$1", SONAME, "StringLiteral"], "postprocess":  (data) => {
+            const [, aggregate, functionToken, identifier, , returnType, , sharedLibraryName,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateUserDefinedFunctionStatement,
+                aggregate: (aggregate == undefined ?
+                    parse_util_1.toValueNode(false, {
+                        start: functionToken.start,
+                        end: functionToken.start,
+                    }) :
+                    parse_util_1.toValueNode(true, parse_util_1.getTextRange(aggregate))),
+                identifier,
+                returnType: parse_util_1.toValueNode((returnType[0].tokenKind == scanner_1.TokenKind.STRING ?
+                    parser_node_1.UserDefinedFunctionReturnType.STRING :
+                    returnType[0].tokenKind == scanner_1.TokenKind.INTEGER ?
+                        parser_node_1.UserDefinedFunctionReturnType.INTEGER :
+                        returnType[0].tokenKind == scanner_1.TokenKind.REAL ?
+                            parser_node_1.UserDefinedFunctionReturnType.REAL :
+                            parser_node_1.UserDefinedFunctionReturnType.DECIMAL), parse_util_1.getTextRange(returnType)),
+                sharedLibraryName,
+            };
+        } },
     {"name": "StoredFunctionParameter", "symbols": ["Identifier", "DataType"], "postprocess":  (data) => {
             const [identifier, dataType,] = data;
             return {
@@ -5922,6 +5950,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateProcedureStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTriggerStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateEventStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateUserDefinedFunctionStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];

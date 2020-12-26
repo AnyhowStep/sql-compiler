@@ -86,6 +86,7 @@ export const syntaxKinds = [
     "CreateEventStatement",
     "ExecuteAtSchedule",
     "IntervalSchedule",
+    "CreateUserDefinedFunctionStatement",
 
     "HashPartition",
     "KeyPartition",

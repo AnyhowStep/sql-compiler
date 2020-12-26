@@ -51,6 +51,7 @@ import {ExecuteAtSchedule} from "./statement/create-event-statement/execute-at-s
 import {IntervalSchedule} from "./statement/create-event-statement/interval-schedule";
 import {CreateFunctionStatement} from "./statement/create-function-statement/create-function-statement";
 import {CreateProcedureStatement} from "./statement/create-function-statement/create-procedure-statement";
+import {CreateUserDefinedFunctionStatement} from "./statement/create-function-statement/create-user-defined-function-statement";
 import {StoredFunctionParameter} from "./statement/create-function-statement/stored-function-parameter";
 import {StoredProcedureCharacteristics} from "./statement/create-function-statement/stored-procedure-characteristics";
 import {StoredProcedureParameter} from "./statement/create-function-statement/stored-procedure-parameter";
@@ -178,6 +179,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ExecuteAtSche
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IntervalSchedule) : node is IntervalSchedule;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateFunctionStatement) : node is CreateFunctionStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateProcedureStatement) : node is CreateProcedureStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateUserDefinedFunctionStatement) : node is CreateUserDefinedFunctionStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredFunctionParameter) : node is StoredFunctionParameter;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureCharacteristics) : node is StoredProcedureCharacteristics;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureParameter) : node is StoredProcedureParameter;
@@ -314,6 +316,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.IntervalSchedule, callback : (node : IntervalSchedule) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateFunctionStatement, callback : (node : CreateFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateProcedureStatement, callback : (node : CreateProcedureStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateUserDefinedFunctionStatement, callback : (node : CreateUserDefinedFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredFunctionParameter, callback : (node : StoredFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureCharacteristics, callback : (node : StoredProcedureCharacteristics) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureParameter, callback : (node : StoredProcedureParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

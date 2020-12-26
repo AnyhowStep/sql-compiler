@@ -1,0 +1,11 @@
+CREATE FUNCTION FOO
+    RETURNS STRING
+    SONAME 'mylib.so';
+
+-----
+CREATE FUNCTION `FOO`
+    RETURNS STRING
+    SONAME 'mylib.so';
+
+-----
+[]

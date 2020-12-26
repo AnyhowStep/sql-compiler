@@ -58,6 +58,7 @@ import {
     IntervalSchedule,
     CreateFunctionStatement,
     CreateProcedureStatement,
+    CreateUserDefinedFunctionStatement,
     StoredFunctionParameter,
     StoredFunctionParameterList,
     StoredProcedureCharacteristics,
@@ -215,6 +216,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.IntervalSchedule] : IntervalSchedule;
     [SyntaxKind.CreateFunctionStatement] : CreateFunctionStatement;
     [SyntaxKind.CreateProcedureStatement] : CreateProcedureStatement;
+    [SyntaxKind.CreateUserDefinedFunctionStatement] : CreateUserDefinedFunctionStatement;
     [SyntaxKind.StoredFunctionParameter] : StoredFunctionParameter;
     [SyntaxKind.StoredFunctionParameterList] : StoredFunctionParameterList;
     [SyntaxKind.StoredProcedureCharacteristics] : StoredProcedureCharacteristics;

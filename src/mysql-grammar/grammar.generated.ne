@@ -2941,6 +2941,30 @@ CreateProcedureStatement ->
     };
 } %}
 
+CreateUserDefinedFunctionStatement ->
+    %CREATE %AGGREGATE:? %FUNCTION Identifier %RETURNS (%STRING | %INTEGER | %REAL | %DECIMAL) %SONAME StringLiteral {% (data) => {
+    const [, aggregate, functionToken, identifier, , returnType, , sharedLibraryName,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateUserDefinedFunctionStatement,
+        aggregate: (aggregate == undefined ?
+            parse_util_1.toValueNode(false, {
+                start: functionToken.start,
+                end: functionToken.start,
+            }) :
+            parse_util_1.toValueNode(true, parse_util_1.getTextRange(aggregate))),
+        identifier,
+        returnType: parse_util_1.toValueNode((returnType[0].tokenKind == scanner_1.TokenKind.STRING ?
+            parser_node_1.UserDefinedFunctionReturnType.STRING :
+            returnType[0].tokenKind == scanner_1.TokenKind.INTEGER ?
+                parser_node_1.UserDefinedFunctionReturnType.INTEGER :
+                returnType[0].tokenKind == scanner_1.TokenKind.REAL ?
+                    parser_node_1.UserDefinedFunctionReturnType.REAL :
+                    parser_node_1.UserDefinedFunctionReturnType.DECIMAL), parse_util_1.getTextRange(returnType)),
+        sharedLibraryName,
+    };
+} %}
+
 StoredFunctionParameter ->
     Identifier DataType {% (data) => {
     const [identifier, dataType,] = data;
@@ -5384,7 +5408,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

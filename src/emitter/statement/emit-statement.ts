@@ -1,7 +1,7 @@
 import {Statement, SwitchSyntaxKind, switchSyntaxKind, SyntaxKind} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
 import {emitCreateEventStatement} from "./create-event-statement";
-import {emitCreateFunctionStatement, emitCreateProcedureStatement} from "./create-function-statement";
+import {emitCreateFunctionStatement, emitCreateProcedureStatement, emitCreateUserDefinedFunctionStatement} from "./create-function-statement";
 import {emitCreateTableStatement} from "./create-table-statement";
 import {emitCreateTriggerStatement} from "./create-trigger-statement";
 import {emitCreateSchemaStatement} from "./emit-create-schema-statement";
@@ -16,6 +16,7 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.CreateProcedureStatement, emitCreateProcedureStatement)
         .case(SyntaxKind.CreateTriggerStatement, emitCreateTriggerStatement)
         .case(SyntaxKind.CreateEventStatement, emitCreateEventStatement)
+        .case(SyntaxKind.CreateUserDefinedFunctionStatement, emitCreateUserDefinedFunctionStatement)
         //.case(SyntaxKind.SetStatement, emitSetStatement)
         /*.case(SyntaxKind.SelectStatement, statement => emitSelectStatement(
             statement,
