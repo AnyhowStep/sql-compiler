@@ -55,6 +55,7 @@ export const syntaxKinds = [
     "DefaultCharacterSet",
     "FieldLength",
     "Precision",
+    "Interval",
 
     /**
      * Statements
@@ -82,6 +83,9 @@ export const syntaxKinds = [
     "StoredProcedureParameterList",
     "CreateTriggerStatement",
     "TriggerOrder",
+    "CreateEventStatement",
+    "ExecuteAtSchedule",
+    "IntervalSchedule",
 
     "HashPartition",
     "KeyPartition",
@@ -185,6 +189,7 @@ export const syntaxKinds = [
     "StoredProcedureIdentifier",
     "AccountIdentifier",
     "TriggerIdentifier",
+    "EventIdentifier",
 
     /**
      * Expression

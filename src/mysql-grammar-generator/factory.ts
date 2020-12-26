@@ -42,6 +42,7 @@ import {
     TableIdentifierList,
     IdentifierList,
 } from "../parser-node";
+import {Schedule} from "../parser-node/statement/create-event-statement/schedule";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
     CharacterDataTypeModifier,
@@ -119,6 +120,7 @@ export enum CustomSyntaxKind {
     LabelIdentifier,
     LabelStatement,
     UnlabeledStatement,
+    Schedule,
 }
 
 declare module "../nearley-wrapper" {
@@ -187,6 +189,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.LabelIdentifier] : Identifier,
         [CustomSyntaxKind.LabelStatement] : LabelStatement|LabelStatement["statement"],
         [CustomSyntaxKind.UnlabeledStatement] : LabelStatement["statement"],
+        [CustomSyntaxKind.Schedule] : Schedule,
     }
 
     interface CustomToken extends Array<TokenKind> {

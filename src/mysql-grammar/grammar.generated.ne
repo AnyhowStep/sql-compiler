@@ -2378,6 +2378,27 @@ ColumnIdentifier ->
     }
 } %}
 
+EventIdentifier ->
+    Identifier (%Dot IdentifierAllowReserved):? {% (data) => {
+    const [nameA, nameB] = data;
+    if (nameB == null) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.EventIdentifier,
+            schemaName: undefined,
+            eventName: nameA,
+        };
+    }
+    else {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.EventIdentifier,
+            schemaName: nameA,
+            eventName: nameB[1],
+        };
+    }
+} %}
+
 LabelIdentifier ->
     Identifier {% function (data) {
     if (data[0].quoted) {
@@ -2650,6 +2671,54 @@ IdentifierList_2OrMore ->
     return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IdentifierList, parse_util_1.getTextRange(data));
 } %}
 
+Interval ->
+    (%DAY | %WEEK | %HOUR | %MINUTE | %MONTH | %QUARTER | %SECOND | %MICROSECOND | %YEAR | %DAY_HOUR | %DAY_MICROSECOND | %DAY_MINUTE | %DAY_SECOND | %HOUR_MICROSECOND | %HOUR_MINUTE | %HOUR_SECOND | %MINUTE_MICROSECOND | %MINUTE_SECOND | %SECOND_MICROSECOND | %YEAR_MONTH) {% (data) => {
+    const [[intervalType]] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Interval,
+        intervalType: (intervalType.tokenKind == scanner_1.TokenKind.DAY ?
+            parser_node_1.IntervalType.DAY :
+            intervalType.tokenKind == scanner_1.TokenKind.WEEK ?
+                parser_node_1.IntervalType.WEEK :
+                intervalType.tokenKind == scanner_1.TokenKind.HOUR ?
+                    parser_node_1.IntervalType.HOUR :
+                    intervalType.tokenKind == scanner_1.TokenKind.MINUTE ?
+                        parser_node_1.IntervalType.MINUTE :
+                        intervalType.tokenKind == scanner_1.TokenKind.MONTH ?
+                            parser_node_1.IntervalType.MONTH :
+                            intervalType.tokenKind == scanner_1.TokenKind.QUARTER ?
+                                parser_node_1.IntervalType.QUARTER :
+                                intervalType.tokenKind == scanner_1.TokenKind.SECOND ?
+                                    parser_node_1.IntervalType.SECOND :
+                                    intervalType.tokenKind == scanner_1.TokenKind.MICROSECOND ?
+                                        parser_node_1.IntervalType.MICROSECOND :
+                                        intervalType.tokenKind == scanner_1.TokenKind.YEAR ?
+                                            parser_node_1.IntervalType.YEAR :
+                                            intervalType.tokenKind == scanner_1.TokenKind.DAY_HOUR ?
+                                                parser_node_1.IntervalType.DAY_HOUR :
+                                                intervalType.tokenKind == scanner_1.TokenKind.DAY_MICROSECOND ?
+                                                    parser_node_1.IntervalType.DAY_MICROSECOND :
+                                                    intervalType.tokenKind == scanner_1.TokenKind.DAY_MINUTE ?
+                                                        parser_node_1.IntervalType.DAY_MINUTE :
+                                                        intervalType.tokenKind == scanner_1.TokenKind.DAY_SECOND ?
+                                                            parser_node_1.IntervalType.DAY_SECOND :
+                                                            intervalType.tokenKind == scanner_1.TokenKind.HOUR_MICROSECOND ?
+                                                                parser_node_1.IntervalType.HOUR_MICROSECOND :
+                                                                intervalType.tokenKind == scanner_1.TokenKind.HOUR_MINUTE ?
+                                                                    parser_node_1.IntervalType.HOUR_MINUTE :
+                                                                    intervalType.tokenKind == scanner_1.TokenKind.HOUR_SECOND ?
+                                                                        parser_node_1.IntervalType.HOUR_SECOND :
+                                                                        intervalType.tokenKind == scanner_1.TokenKind.MINUTE_MICROSECOND ?
+                                                                            parser_node_1.IntervalType.MINUTE_MICROSECOND :
+                                                                            intervalType.tokenKind == scanner_1.TokenKind.MINUTE_SECOND ?
+                                                                                parser_node_1.IntervalType.MINUTE_SECOND :
+                                                                                intervalType.tokenKind == scanner_1.TokenKind.SECOND_MICROSECOND ?
+                                                                                    parser_node_1.IntervalType.SECOND_MICROSECOND :
+                                                                                    parser_node_1.IntervalType.YEAR_MONTH)
+    };
+} %}
+
 Precision ->
     %OpenParentheses (IntegerLiteral | DecimalLiteral | RealLiteral) %Comma (IntegerLiteral | DecimalLiteral | RealLiteral) %CloseParentheses {% (data) => {
     let [, [precision], , [scale],] = data;
@@ -2765,6 +2834,72 @@ TextString ->
     (StringLiteral | HexLiteral | BitLiteral) {% (data) => {
     let [[literal]] = data;
     return literal;
+} %}
+
+CreateEventStatement ->
+    %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %EVENT (%IF %NOT %EXISTS):? EventIdentifier %ON %SCHEDULE Schedule (%ON %COMPLETION %NOT:? %PRESERVE):? ((%ENABLE) | (%DISABLE) | (%DISABLE %ON %SLAVE)):? (%COMMENT StringLiteral):? %DO StoredProcedureStatement {% (data) => {
+    const [, definer, eventToken, ifNotExists, eventIdentifier, , , schedule, onCompletionPreserve, eventStatus, comment, , statement,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateEventStatement,
+        definer: (definer == undefined ?
+            parse_util_1.toValueNode("CURRENT_USER", {
+                start: eventToken.start,
+                end: eventToken.start,
+            }) :
+            definer[2]),
+        ifNotExists: ifNotExists != undefined,
+        eventIdentifier,
+        schedule,
+        onCompletionPreserve: (onCompletionPreserve == undefined ?
+            false :
+            onCompletionPreserve[2] == undefined),
+        eventStatus: (eventStatus == undefined ?
+            parser_node_1.EventStatus.ENABLE :
+            eventStatus[0].length == 3 ?
+                parser_node_1.EventStatus.DISABLE_ON_SLAVE :
+                eventStatus[0][0].tokenKind == scanner_1.TokenKind.ENABLE ?
+                    parser_node_1.EventStatus.ENABLE :
+                    parser_node_1.EventStatus.DISABLE),
+        comment: (comment == undefined ?
+            undefined :
+            comment[1]),
+        statement,
+    };
+} %}
+
+ExecuteAtSchedule ->
+    %AT Expression {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.ExecuteAtSchedule,
+        executeAt: data[1],
+    };
+} %}
+
+IntervalSchedule ->
+    %EVERY Expression Interval (%STARTS Expression):? (%ENDS Expression):? {% (data) => {
+    const [, intervalExpr, interval, startsAt, endsAt,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.IntervalSchedule,
+        intervalExpr,
+        interval,
+        startsAt: (startsAt == undefined ?
+            undefined :
+            startsAt[1]),
+        endsAt: (endsAt == undefined ?
+            undefined :
+            endsAt[1]),
+    };
+} %}
+
+Schedule ->
+    ExecuteAtSchedule {% (data) => {
+    return data[0];
+} %}
+    | IntervalSchedule {% (data) => {
+    return data[0];
 } %}
 
 CreateFunctionStatement ->
@@ -5249,7 +5384,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

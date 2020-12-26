@@ -35,6 +35,7 @@ import {
     UserVariableIdentifier,
     AccountIdentifier,
     ColumnIdentifier,
+    EventIdentifier,
     Identifier,
     IdentifierList,
     StoredFunctionIdentifier,
@@ -46,11 +47,15 @@ import {
     DefaultCharacterSet,
     DefaultCollation,
     FieldLength,
+    Interval,
     Precision,
     StringList,
     SourceFile,
     SourceFileLite,
     SourceElementList,
+    CreateEventStatement,
+    ExecuteAtSchedule,
+    IntervalSchedule,
     CreateFunctionStatement,
     CreateProcedureStatement,
     StoredFunctionParameter,
@@ -187,6 +192,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.UserVariableIdentifier] : UserVariableIdentifier;
     [SyntaxKind.AccountIdentifier] : AccountIdentifier;
     [SyntaxKind.ColumnIdentifier] : ColumnIdentifier;
+    [SyntaxKind.EventIdentifier] : EventIdentifier;
     [SyntaxKind.Identifier] : Identifier;
     [SyntaxKind.IdentifierList] : IdentifierList;
     [SyntaxKind.StoredFunctionIdentifier] : StoredFunctionIdentifier;
@@ -198,11 +204,15 @@ export type SyntaxKindToNode = {
     [SyntaxKind.DefaultCharacterSet] : DefaultCharacterSet;
     [SyntaxKind.DefaultCollation] : DefaultCollation;
     [SyntaxKind.FieldLength] : FieldLength;
+    [SyntaxKind.Interval] : Interval;
     [SyntaxKind.Precision] : Precision;
     [SyntaxKind.StringList] : StringList;
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.SourceElementList] : SourceElementList;
+    [SyntaxKind.CreateEventStatement] : CreateEventStatement;
+    [SyntaxKind.ExecuteAtSchedule] : ExecuteAtSchedule;
+    [SyntaxKind.IntervalSchedule] : IntervalSchedule;
     [SyntaxKind.CreateFunctionStatement] : CreateFunctionStatement;
     [SyntaxKind.CreateProcedureStatement] : CreateProcedureStatement;
     [SyntaxKind.StoredFunctionParameter] : StoredFunctionParameter;

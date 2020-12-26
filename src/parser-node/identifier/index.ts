@@ -1,5 +1,6 @@
 export * from "./account-identifier";
 export * from "./column-identifier";
+export * from "./event-identifier";
 export * from "./identifier";
 export * from "./stored-function-identifier";
 export * from "./stored-procedure-identifier";

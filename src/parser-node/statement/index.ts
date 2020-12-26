@@ -1,3 +1,4 @@
+export * from "./create-event-statement";
 export * from "./create-function-statement";
 export * from "./create-table-definition";
 export * from "./create-trigger-statement";

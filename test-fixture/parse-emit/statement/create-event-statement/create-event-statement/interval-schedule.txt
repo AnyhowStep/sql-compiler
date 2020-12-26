@@ -1,0 +1,17 @@
+CREATE EVENT FOO
+    ON SCHEDULE EVERY 1 DAY
+    DO
+        BEGIN
+        END;
+
+-----
+CREATE DEFINER = CURRENT_USER() EVENT `FOO`
+    ON SCHEDULE EVERY 1 DAY
+    ON COMPLETION NOT PRESERVE
+    ENABLE
+    DO
+        BEGIN
+        END;
+
+-----
+[]

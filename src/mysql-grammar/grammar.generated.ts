@@ -2465,6 +2465,28 @@ export var ParserRules: NearleyRule[] = [
                 }
             }
         } },
+    {"name": "EventIdentifier$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
+    {"name": "EventIdentifier$ebnf$1", "symbols": ["EventIdentifier$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "EventIdentifier$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "EventIdentifier", "symbols": ["Identifier", "EventIdentifier$ebnf$1"], "postprocess":  (data) => {
+            const [nameA, nameB] = data;
+            if (nameB == null) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.EventIdentifier,
+                    schemaName: undefined,
+                    eventName: nameA,
+                };
+            }
+            else {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.EventIdentifier,
+                    schemaName: nameA,
+                    eventName: nameB[1],
+                };
+            }
+        } },
     {"name": "LabelIdentifier", "symbols": ["Identifier"], "postprocess":  function (data) {
             if (data[0].quoted) {
                 return data[0];
@@ -2753,6 +2775,72 @@ export var ParserRules: NearleyRule[] = [
             });
             return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.IdentifierList, parse_util_1.getTextRange(data));
         } },
+    {"name": "Interval$subexpression$1", "symbols": [DAY]},
+    {"name": "Interval$subexpression$1", "symbols": [WEEK]},
+    {"name": "Interval$subexpression$1", "symbols": [HOUR]},
+    {"name": "Interval$subexpression$1", "symbols": [MINUTE]},
+    {"name": "Interval$subexpression$1", "symbols": [MONTH]},
+    {"name": "Interval$subexpression$1", "symbols": [QUARTER]},
+    {"name": "Interval$subexpression$1", "symbols": [SECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [MICROSECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [YEAR]},
+    {"name": "Interval$subexpression$1", "symbols": [DAY_HOUR]},
+    {"name": "Interval$subexpression$1", "symbols": [DAY_MICROSECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [DAY_MINUTE]},
+    {"name": "Interval$subexpression$1", "symbols": [DAY_SECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [HOUR_MICROSECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [HOUR_MINUTE]},
+    {"name": "Interval$subexpression$1", "symbols": [HOUR_SECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [MINUTE_MICROSECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [MINUTE_SECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [SECOND_MICROSECOND]},
+    {"name": "Interval$subexpression$1", "symbols": [YEAR_MONTH]},
+    {"name": "Interval", "symbols": ["Interval$subexpression$1"], "postprocess":  (data) => {
+            const [[intervalType]] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Interval,
+                intervalType: (intervalType.tokenKind == scanner_1.TokenKind.DAY ?
+                    parser_node_1.IntervalType.DAY :
+                    intervalType.tokenKind == scanner_1.TokenKind.WEEK ?
+                        parser_node_1.IntervalType.WEEK :
+                        intervalType.tokenKind == scanner_1.TokenKind.HOUR ?
+                            parser_node_1.IntervalType.HOUR :
+                            intervalType.tokenKind == scanner_1.TokenKind.MINUTE ?
+                                parser_node_1.IntervalType.MINUTE :
+                                intervalType.tokenKind == scanner_1.TokenKind.MONTH ?
+                                    parser_node_1.IntervalType.MONTH :
+                                    intervalType.tokenKind == scanner_1.TokenKind.QUARTER ?
+                                        parser_node_1.IntervalType.QUARTER :
+                                        intervalType.tokenKind == scanner_1.TokenKind.SECOND ?
+                                            parser_node_1.IntervalType.SECOND :
+                                            intervalType.tokenKind == scanner_1.TokenKind.MICROSECOND ?
+                                                parser_node_1.IntervalType.MICROSECOND :
+                                                intervalType.tokenKind == scanner_1.TokenKind.YEAR ?
+                                                    parser_node_1.IntervalType.YEAR :
+                                                    intervalType.tokenKind == scanner_1.TokenKind.DAY_HOUR ?
+                                                        parser_node_1.IntervalType.DAY_HOUR :
+                                                        intervalType.tokenKind == scanner_1.TokenKind.DAY_MICROSECOND ?
+                                                            parser_node_1.IntervalType.DAY_MICROSECOND :
+                                                            intervalType.tokenKind == scanner_1.TokenKind.DAY_MINUTE ?
+                                                                parser_node_1.IntervalType.DAY_MINUTE :
+                                                                intervalType.tokenKind == scanner_1.TokenKind.DAY_SECOND ?
+                                                                    parser_node_1.IntervalType.DAY_SECOND :
+                                                                    intervalType.tokenKind == scanner_1.TokenKind.HOUR_MICROSECOND ?
+                                                                        parser_node_1.IntervalType.HOUR_MICROSECOND :
+                                                                        intervalType.tokenKind == scanner_1.TokenKind.HOUR_MINUTE ?
+                                                                            parser_node_1.IntervalType.HOUR_MINUTE :
+                                                                            intervalType.tokenKind == scanner_1.TokenKind.HOUR_SECOND ?
+                                                                                parser_node_1.IntervalType.HOUR_SECOND :
+                                                                                intervalType.tokenKind == scanner_1.TokenKind.MINUTE_MICROSECOND ?
+                                                                                    parser_node_1.IntervalType.MINUTE_MICROSECOND :
+                                                                                    intervalType.tokenKind == scanner_1.TokenKind.MINUTE_SECOND ?
+                                                                                        parser_node_1.IntervalType.MINUTE_SECOND :
+                                                                                        intervalType.tokenKind == scanner_1.TokenKind.SECOND_MICROSECOND ?
+                                                                                            parser_node_1.IntervalType.SECOND_MICROSECOND :
+                                                                                            parser_node_1.IntervalType.YEAR_MONTH)
+            };
+        } },
     {"name": "Precision$subexpression$1", "symbols": ["IntegerLiteral"]},
     {"name": "Precision$subexpression$1", "symbols": ["DecimalLiteral"]},
     {"name": "Precision$subexpression$1", "symbols": ["RealLiteral"]},
@@ -2876,6 +2964,92 @@ export var ParserRules: NearleyRule[] = [
     {"name": "TextString", "symbols": ["TextString$subexpression$1"], "postprocess":  (data) => {
             let [[literal]] = data;
             return literal;
+        } },
+    {"name": "CreateEventStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
+    {"name": "CreateEventStatement$ebnf$1", "symbols": ["CreateEventStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateEventStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateEventStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
+    {"name": "CreateEventStatement$ebnf$2", "symbols": ["CreateEventStatement$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "CreateEventStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateEventStatement$ebnf$3$subexpression$1$ebnf$1", "symbols": [NOT], "postprocess": id},
+    {"name": "CreateEventStatement$ebnf$3$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateEventStatement$ebnf$3$subexpression$1", "symbols": [ON, COMPLETION, "CreateEventStatement$ebnf$3$subexpression$1$ebnf$1", PRESERVE]},
+    {"name": "CreateEventStatement$ebnf$3", "symbols": ["CreateEventStatement$ebnf$3$subexpression$1"], "postprocess": id},
+    {"name": "CreateEventStatement$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "CreateEventStatement$ebnf$4$subexpression$1$subexpression$1", "symbols": [ENABLE]},
+    {"name": "CreateEventStatement$ebnf$4$subexpression$1", "symbols": ["CreateEventStatement$ebnf$4$subexpression$1$subexpression$1"]},
+    {"name": "CreateEventStatement$ebnf$4$subexpression$1$subexpression$2", "symbols": [DISABLE]},
+    {"name": "CreateEventStatement$ebnf$4$subexpression$1", "symbols": ["CreateEventStatement$ebnf$4$subexpression$1$subexpression$2"]},
+    {"name": "CreateEventStatement$ebnf$4$subexpression$1$subexpression$3", "symbols": [DISABLE, ON, SLAVE]},
+    {"name": "CreateEventStatement$ebnf$4$subexpression$1", "symbols": ["CreateEventStatement$ebnf$4$subexpression$1$subexpression$3"]},
+    {"name": "CreateEventStatement$ebnf$4", "symbols": ["CreateEventStatement$ebnf$4$subexpression$1"], "postprocess": id},
+    {"name": "CreateEventStatement$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "CreateEventStatement$ebnf$5$subexpression$1", "symbols": [COMMENT, "StringLiteral"]},
+    {"name": "CreateEventStatement$ebnf$5", "symbols": ["CreateEventStatement$ebnf$5$subexpression$1"], "postprocess": id},
+    {"name": "CreateEventStatement$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "CreateEventStatement", "symbols": [CREATE, "CreateEventStatement$ebnf$1", EVENT, "CreateEventStatement$ebnf$2", "EventIdentifier", ON, SCHEDULE, "Schedule", "CreateEventStatement$ebnf$3", "CreateEventStatement$ebnf$4", "CreateEventStatement$ebnf$5", DO, "StoredProcedureStatement"], "postprocess":  (data) => {
+            const [, definer, eventToken, ifNotExists, eventIdentifier, , , schedule, onCompletionPreserve, eventStatus, comment, , statement,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateEventStatement,
+                definer: (definer == undefined ?
+                    parse_util_1.toValueNode("CURRENT_USER", {
+                        start: eventToken.start,
+                        end: eventToken.start,
+                    }) :
+                    definer[2]),
+                ifNotExists: ifNotExists != undefined,
+                eventIdentifier,
+                schedule,
+                onCompletionPreserve: (onCompletionPreserve == undefined ?
+                    false :
+                    onCompletionPreserve[2] == undefined),
+                eventStatus: (eventStatus == undefined ?
+                    parser_node_1.EventStatus.ENABLE :
+                    eventStatus[0].length == 3 ?
+                        parser_node_1.EventStatus.DISABLE_ON_SLAVE :
+                        eventStatus[0][0].tokenKind == scanner_1.TokenKind.ENABLE ?
+                            parser_node_1.EventStatus.ENABLE :
+                            parser_node_1.EventStatus.DISABLE),
+                comment: (comment == undefined ?
+                    undefined :
+                    comment[1]),
+                statement,
+            };
+        } },
+    {"name": "ExecuteAtSchedule", "symbols": [AT, "Expression"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.ExecuteAtSchedule,
+                executeAt: data[1],
+            };
+        } },
+    {"name": "IntervalSchedule$ebnf$1$subexpression$1", "symbols": [STARTS, "Expression"]},
+    {"name": "IntervalSchedule$ebnf$1", "symbols": ["IntervalSchedule$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "IntervalSchedule$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IntervalSchedule$ebnf$2$subexpression$1", "symbols": [ENDS, "Expression"]},
+    {"name": "IntervalSchedule$ebnf$2", "symbols": ["IntervalSchedule$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "IntervalSchedule$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "IntervalSchedule", "symbols": [EVERY, "Expression", "Interval", "IntervalSchedule$ebnf$1", "IntervalSchedule$ebnf$2"], "postprocess":  (data) => {
+            const [, intervalExpr, interval, startsAt, endsAt,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.IntervalSchedule,
+                intervalExpr,
+                interval,
+                startsAt: (startsAt == undefined ?
+                    undefined :
+                    startsAt[1]),
+                endsAt: (endsAt == undefined ?
+                    undefined :
+                    endsAt[1]),
+            };
+        } },
+    {"name": "Schedule", "symbols": ["ExecuteAtSchedule"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "Schedule", "symbols": ["IntervalSchedule"], "postprocess":  (data) => {
+            return data[0];
         } },
     {"name": "CreateFunctionStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
     {"name": "CreateFunctionStatement$ebnf$1", "symbols": ["CreateFunctionStatement$ebnf$1$subexpression$1"], "postprocess": id},
@@ -5747,6 +5921,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateFunctionStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateProcedureStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTriggerStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateEventStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];

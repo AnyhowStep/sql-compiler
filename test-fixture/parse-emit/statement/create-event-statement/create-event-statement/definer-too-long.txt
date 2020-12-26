@@ -1,0 +1,33 @@
+CREATE DEFINER = xxxxxxxxxxxxxxxxxxxxxxxxxx@yyyyyyyyyyyyyyyyyyyyyyyyyy EVENT FOO
+    ON SCHEDULE AT '2020-01-01 00:00:00'
+    DO
+        BEGIN
+        END;
+
+CREATE DEFINER = xxxxxxxxxxxxxxxxxxxxxxxxxx@yyyyyyyyyyyyyyyyyyyyyyyyyy EVENT IF NOT EXISTS FOO
+    ON SCHEDULE AT '2020-01-01 00:00:00'
+    DO
+        BEGIN
+        END;
+
+-----
+CREATE DEFINER = `xxxxxxxxxxxxxxxxxxxxxxxxxx`@yyyyyyyyyyyyyyyyyyyyyyyyyy
+    EVENT `FOO`
+    ON SCHEDULE AT '2020-01-01 00:00:00'
+    ON COMPLETION NOT PRESERVE
+    ENABLE
+    DO
+        BEGIN
+        END;
+
+CREATE DEFINER = `xxxxxxxxxxxxxxxxxxxxxxxxxx`@yyyyyyyyyyyyyyyyyyyyyyyyyy
+    EVENT IF NOT EXISTS `FOO`
+    ON SCHEDULE AT '2020-01-01 00:00:00'
+    ON COMPLETION NOT PRESERVE
+    ENABLE
+    DO
+        BEGIN
+        END;
+
+-----
+[]
