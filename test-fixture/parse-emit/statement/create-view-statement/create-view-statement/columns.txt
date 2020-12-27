@@ -1,0 +1,25 @@
+CREATE VIEW FOO (x) AS
+    SELECT
+        1;
+
+CREATE VIEW FOO (x, y) AS
+    SELECT
+        1;
+
+-----
+CREATE
+    DEFINER = CURRENT_USER()
+    SQL SECURITY DEFINER
+    VIEW `FOO` (`x`) AS
+    SELECT
+        1;
+
+CREATE
+    DEFINER = CURRENT_USER()
+    SQL SECURITY DEFINER
+    VIEW `FOO` (`x`, `y`) AS
+    SELECT
+        1;
+
+-----
+[]

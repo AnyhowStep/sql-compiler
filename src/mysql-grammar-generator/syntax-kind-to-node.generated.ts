@@ -80,6 +80,7 @@ import {
     CreateTableStatement,
     CreateTriggerStatement,
     TriggerOrder,
+    CreateViewStatement,
     DeclareFunctionParameter,
     DeclareFunctionParameterList,
     DeclareFunctionStatement,
@@ -238,6 +239,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.CreateTableStatement] : CreateTableStatement;
     [SyntaxKind.CreateTriggerStatement] : CreateTriggerStatement;
     [SyntaxKind.TriggerOrder] : TriggerOrder;
+    [SyntaxKind.CreateViewStatement] : CreateViewStatement;
     [SyntaxKind.DeclareFunctionParameter] : DeclareFunctionParameter;
     [SyntaxKind.DeclareFunctionParameterList] : DeclareFunctionParameterList;
     [SyntaxKind.DeclareFunctionStatement] : DeclareFunctionStatement;

@@ -1,0 +1,15 @@
+CREATE OR REPLACE VIEW FOO AS
+    SELECT
+        1;
+
+-----
+CREATE
+    OR REPLACE
+    DEFINER = CURRENT_USER()
+    SQL SECURITY DEFINER
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+-----
+[]

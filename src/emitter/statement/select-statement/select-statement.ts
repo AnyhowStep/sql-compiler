@@ -14,14 +14,3 @@ export function emitSelectStatement (statement : SelectStatement) : StringBuilde
             return emitUnionOrderLimit(statement)
     }
 }
-
-export function emitSelectStatementNoSemicolon (statement : SelectStatement) : StringBuilder {
-    switch (statement.syntaxKind) {
-        case SyntaxKind.Select:
-            return emitSelect(statement);
-        case SyntaxKind.Union:
-            return emitUnion(statement);
-        case SyntaxKind.UnionOrderLimit:
-            return emitUnionOrderLimit(statement);
-    }
-}

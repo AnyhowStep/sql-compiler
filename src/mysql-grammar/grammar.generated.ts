@@ -4334,6 +4334,76 @@ export var ParserRules: NearleyRule[] = [
                 otherTriggerName: otherTriggerName[0],
             };
         } },
+    {"name": "CreateViewStatement$ebnf$1$subexpression$1", "symbols": [OR, REPLACE]},
+    {"name": "CreateViewStatement$ebnf$1", "symbols": ["CreateViewStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateViewStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateViewStatement$ebnf$2$subexpression$1$subexpression$1", "symbols": [UNDEFINED]},
+    {"name": "CreateViewStatement$ebnf$2$subexpression$1$subexpression$1", "symbols": [MERGE]},
+    {"name": "CreateViewStatement$ebnf$2$subexpression$1$subexpression$1", "symbols": [TEMPTABLE]},
+    {"name": "CreateViewStatement$ebnf$2$subexpression$1", "symbols": [ALGORITHM, Equal, "CreateViewStatement$ebnf$2$subexpression$1$subexpression$1"]},
+    {"name": "CreateViewStatement$ebnf$2", "symbols": ["CreateViewStatement$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "CreateViewStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateViewStatement$ebnf$3$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
+    {"name": "CreateViewStatement$ebnf$3", "symbols": ["CreateViewStatement$ebnf$3$subexpression$1"], "postprocess": id},
+    {"name": "CreateViewStatement$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "CreateViewStatement$ebnf$4$subexpression$1$subexpression$1", "symbols": [DEFINER]},
+    {"name": "CreateViewStatement$ebnf$4$subexpression$1$subexpression$1", "symbols": [INVOKER]},
+    {"name": "CreateViewStatement$ebnf$4$subexpression$1", "symbols": [SQL, SECURITY, "CreateViewStatement$ebnf$4$subexpression$1$subexpression$1"]},
+    {"name": "CreateViewStatement$ebnf$4", "symbols": ["CreateViewStatement$ebnf$4$subexpression$1"], "postprocess": id},
+    {"name": "CreateViewStatement$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "CreateViewStatement$ebnf$5", "symbols": ["IdentifierList"], "postprocess": id},
+    {"name": "CreateViewStatement$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "CreateViewStatement$ebnf$6$subexpression$1$ebnf$1$subexpression$1", "symbols": [CASCADED]},
+    {"name": "CreateViewStatement$ebnf$6$subexpression$1$ebnf$1$subexpression$1", "symbols": [LOCAL]},
+    {"name": "CreateViewStatement$ebnf$6$subexpression$1$ebnf$1", "symbols": ["CreateViewStatement$ebnf$6$subexpression$1$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateViewStatement$ebnf$6$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateViewStatement$ebnf$6$subexpression$1", "symbols": [WITH, "CreateViewStatement$ebnf$6$subexpression$1$ebnf$1", CHECK, OPTION]},
+    {"name": "CreateViewStatement$ebnf$6", "symbols": ["CreateViewStatement$ebnf$6$subexpression$1"], "postprocess": id},
+    {"name": "CreateViewStatement$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "CreateViewStatement", "symbols": [CREATE, "CreateViewStatement$ebnf$1", "CreateViewStatement$ebnf$2", "CreateViewStatement$ebnf$3", "CreateViewStatement$ebnf$4", VIEW, "TableIdentifier", "CreateViewStatement$ebnf$5", AS, "SelectStatement", "CreateViewStatement$ebnf$6"], "postprocess":  (data) => {
+            const [, createOrReplace, algorithm, definer, viewSecurityContext, viewToken, tableIdentifier, columns, , selectStatement, checkOption,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateViewStatement,
+                createOrReplace: (createOrReplace == undefined ?
+                    parse_util_1.toValueNode(false, {
+                        start: parse_util_1.getStart([algorithm, definer, viewSecurityContext, viewToken]),
+                        end: parse_util_1.getStart([algorithm, definer, viewSecurityContext, viewToken]),
+                    }) :
+                    parse_util_1.toValueNode(true, parse_util_1.getTextRange(createOrReplace))),
+                algorithm: (algorithm == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode((algorithm[2][0].tokenKind == scanner_1.TokenKind.MERGE ?
+                        parser_node_1.ViewAlgorithm.MERGE :
+                        algorithm[2][0].tokenKind == scanner_1.TokenKind.TEMPTABLE ?
+                            parser_node_1.ViewAlgorithm.TEMPTABLE :
+                            parser_node_1.ViewAlgorithm.UNDEFINED), parse_util_1.getTextRange(algorithm[2]))),
+                definer: (definer == undefined ?
+                    parse_util_1.toValueNode("CURRENT_USER", {
+                        start: viewToken.start,
+                        end: viewToken.start,
+                    }) :
+                    definer[2]),
+                viewSecurityContext: (viewSecurityContext == undefined ?
+                    parse_util_1.toValueNode(parser_node_1.ViewSecurityContext.DEFINER, {
+                        start: viewToken.start,
+                        end: viewToken.start,
+                    }) :
+                    parse_util_1.toValueNode((viewSecurityContext[2][0].tokenKind == scanner_1.TokenKind.DEFINER ?
+                        parser_node_1.ViewSecurityContext.DEFINER :
+                        parser_node_1.ViewSecurityContext.INVOKER), parse_util_1.getTextRange(viewSecurityContext[2]))),
+                tableIdentifier,
+                columns: columns !== null && columns !== void 0 ? columns : undefined,
+                selectStatement,
+                checkOption: (checkOption == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode((checkOption[1] == undefined ?
+                        parser_node_1.ViewCheckOption.CASCADED :
+                        checkOption[1][0].tokenKind == scanner_1.TokenKind.CASCADED ?
+                            parser_node_1.ViewCheckOption.CASCADED :
+                            parser_node_1.ViewCheckOption.LOCAL), parse_util_1.getTextRange(checkOption))),
+            };
+        } },
     {"name": "DelimiterStatement", "symbols": [DELIMITER_STATEMENT, CustomDelimiter], "postprocess":  (data) => {
             const [identifier, customDelimiter] = data;
             return {
@@ -5951,6 +6021,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTriggerStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateEventStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateUserDefinedFunctionStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateViewStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];

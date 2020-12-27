@@ -3980,6 +3980,52 @@ TriggerOrder ->
     };
 } %}
 
+CreateViewStatement ->
+    %CREATE (%OR %REPLACE):? (%ALGORITHM %Equal (%UNDEFINED | %MERGE | %TEMPTABLE)):? (%DEFINER %Equal AccountIdentifierOrCurrentUser):? (%SQL %SECURITY (%DEFINER | %INVOKER)):? %VIEW TableIdentifier IdentifierList:? %AS SelectStatement (%WITH (%CASCADED | %LOCAL):? %CHECK %OPTION):? {% (data) => {
+    const [, createOrReplace, algorithm, definer, viewSecurityContext, viewToken, tableIdentifier, columns, , selectStatement, checkOption,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateViewStatement,
+        createOrReplace: (createOrReplace == undefined ?
+            parse_util_1.toValueNode(false, {
+                start: parse_util_1.getStart([algorithm, definer, viewSecurityContext, viewToken]),
+                end: parse_util_1.getStart([algorithm, definer, viewSecurityContext, viewToken]),
+            }) :
+            parse_util_1.toValueNode(true, parse_util_1.getTextRange(createOrReplace))),
+        algorithm: (algorithm == undefined ?
+            undefined :
+            parse_util_1.toValueNode((algorithm[2][0].tokenKind == scanner_1.TokenKind.MERGE ?
+                parser_node_1.ViewAlgorithm.MERGE :
+                algorithm[2][0].tokenKind == scanner_1.TokenKind.TEMPTABLE ?
+                    parser_node_1.ViewAlgorithm.TEMPTABLE :
+                    parser_node_1.ViewAlgorithm.UNDEFINED), parse_util_1.getTextRange(algorithm[2]))),
+        definer: (definer == undefined ?
+            parse_util_1.toValueNode("CURRENT_USER", {
+                start: viewToken.start,
+                end: viewToken.start,
+            }) :
+            definer[2]),
+        viewSecurityContext: (viewSecurityContext == undefined ?
+            parse_util_1.toValueNode(parser_node_1.ViewSecurityContext.DEFINER, {
+                start: viewToken.start,
+                end: viewToken.start,
+            }) :
+            parse_util_1.toValueNode((viewSecurityContext[2][0].tokenKind == scanner_1.TokenKind.DEFINER ?
+                parser_node_1.ViewSecurityContext.DEFINER :
+                parser_node_1.ViewSecurityContext.INVOKER), parse_util_1.getTextRange(viewSecurityContext[2]))),
+        tableIdentifier,
+        columns: columns !== null && columns !== void 0 ? columns : undefined,
+        selectStatement,
+        checkOption: (checkOption == undefined ?
+            undefined :
+            parse_util_1.toValueNode((checkOption[1] == undefined ?
+                parser_node_1.ViewCheckOption.CASCADED :
+                checkOption[1][0].tokenKind == scanner_1.TokenKind.CASCADED ?
+                    parser_node_1.ViewCheckOption.CASCADED :
+                    parser_node_1.ViewCheckOption.LOCAL), parse_util_1.getTextRange(checkOption))),
+    };
+} %}
+
 DelimiterStatement ->
     %DELIMITER_STATEMENT %CustomDelimiter {% (data) => {
     const [identifier, customDelimiter] = data;
@@ -5408,7 +5454,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

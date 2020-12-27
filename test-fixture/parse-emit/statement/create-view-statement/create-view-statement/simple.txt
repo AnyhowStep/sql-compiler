@@ -1,0 +1,14 @@
+CREATE VIEW FOO AS
+    SELECT
+        1;
+
+-----
+CREATE
+    DEFINER = CURRENT_USER()
+    SQL SECURITY DEFINER
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+-----
+[]

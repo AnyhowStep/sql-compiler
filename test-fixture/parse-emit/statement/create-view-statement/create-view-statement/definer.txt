@@ -1,0 +1,14 @@
+CREATE DEFINER = `xxx` VIEW FOO AS
+    SELECT
+        1;
+
+-----
+CREATE
+    DEFINER = `xxx`@'%'
+    SQL SECURITY DEFINER
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+-----
+[]
