@@ -1,0 +1,13 @@
+CREATE USER FOO
+    REQUIRE SSL;
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        BY ''
+    REQUIRE SSL
+    ACCOUNT UNLOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[]

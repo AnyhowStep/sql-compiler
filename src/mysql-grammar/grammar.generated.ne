@@ -3980,6 +3980,321 @@ TriggerOrder ->
     };
 } %}
 
+AccountLockAndPasswordExpiryOption ->
+    %ACCOUNT %UNLOCK {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        accountLocked: false,
+    };
+} %}
+    | %ACCOUNT %LOCK {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        accountLocked: true,
+    };
+} %}
+    | %PASSWORD %EXPIRE {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        passwordExpiry: parse_util_1.toValueNode("ON_FIRST_CONNECT", parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %PASSWORD %EXPIRE %NEVER {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        passwordExpiry: parse_util_1.toValueNode("NEVER", parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %PASSWORD %EXPIRE %DEFAULT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        passwordExpiry: parse_util_1.toValueNode("DEFAULT", parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %PASSWORD %EXPIRE %INTERVAL IntegerLiteral %DAY {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        passwordExpiry: data[3],
+    };
+} %}
+
+AccountLockAndPasswordExpiryOptions ->
+    AccountLockAndPasswordExpiryOption:* {% (data) => {
+    const arr = data[0];
+    const result = {
+        accountLocked: false,
+        passwordExpiry: parse_util_1.toValueNode("DEFAULT", {
+            start: -1,
+            end: -1,
+        }),
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AccountLockAndPasswordExpiryOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+CreateUserStatement ->
+    %CREATE %USER (%IF %NOT %EXISTS):? GrantUserList RequiredEncryptedConnectionOptions2 RateLimitOptions AccountLockAndPasswordExpiryOptions {% (data) => {
+    const [, , ifNotExists, grantUserList, requiredEncryptedConnectionOptions, rateLimitOptions, accountLockAndPasswordExpiryOptions,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateUserStatement,
+        ifNotExists: ifNotExists != undefined,
+        grantUserList,
+        requiredEncryptedConnectionOptions,
+        rateLimitOptions,
+        accountLockAndPasswordExpiryOptions,
+    };
+} %}
+
+GrantUser ->
+    AccountIdentifier {% (data) => {
+    const end = data[0].end;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.GrantUser,
+        accountIdentifier: data[0],
+        authenticationPlugin: undefined,
+        identifiedByPasswordToken: undefined,
+        password: {
+            start: end,
+            end: end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: `''`,
+        },
+    };
+} %}
+    | AccountIdentifier %IDENTIFIED %BY %PASSWORD:? StringLiteral {% (data) => {
+    const [accountIdentifier, identifiedToken, , passwordToken, password,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.GrantUser,
+        accountIdentifier,
+        authenticationPlugin: undefined,
+        identifiedByPasswordToken: (passwordToken == undefined ?
+            undefined :
+            parse_util_1.toValueNode("IDENTIFIED BY PASSWORD", parse_util_1.getTextRange([identifiedToken, passwordToken]))),
+        password,
+    };
+} %}
+    | AccountIdentifier %IDENTIFIED %WITH (Identifier | StringLiteral) ((%AS | %BY) StringLiteral):? {% (data) => {
+    const [accountIdentifier, , , authenticationPlugin, password,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.GrantUser,
+        accountIdentifier,
+        authenticationPlugin: authenticationPlugin[0],
+        identifiedByPasswordToken: undefined,
+        password: (password == undefined ?
+            {
+                start: authenticationPlugin[0].end,
+                end: authenticationPlugin[0].end,
+                syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                value: "",
+                sourceText: `''`,
+            } :
+            password[1]),
+    };
+} %}
+
+GrantUserList ->
+    GrantUser (%Comma GrantUser):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        return "syntaxKind" in item;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.GrantUserList, parse_util_1.getTextRange(data));
+} %}
+
+RateLimitOption ->
+    %MAX_QUERIES_PER_HOUR IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        maxQueriesPerHour: data[1],
+    };
+} %}
+    | %MAX_UPDATES_PER_HOUR IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        maxUpdatesPerHour: data[1],
+    };
+} %}
+    | %MAX_CONNECTIONS_PER_HOUR IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        maxConnectionsPerHour: data[1],
+    };
+} %}
+    | %MAX_USER_CONNECTIONS IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        maxUserConnections: data[1],
+    };
+} %}
+
+RateLimitOptions ->
+    (%WITH RateLimitOption:+):? {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        maxQueriesPerHour: {
+            start: -1,
+            end: -1,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(0),
+        },
+        maxUpdatesPerHour: {
+            start: -1,
+            end: -1,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(0),
+        },
+        maxConnectionsPerHour: {
+            start: -1,
+            end: -1,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(0),
+        },
+        maxUserConnections: {
+            start: -1,
+            end: -1,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(0),
+        },
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.RateLimitOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+RequiredEncryptedConnectionOption ->
+    %SUBJECT StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        x509Subject: data[1],
+    };
+} %}
+    | %ISSUER StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        x509Issuer: data[1],
+    };
+} %}
+    | %CIPHER StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        sslCipher: data[1],
+    };
+} %}
+
+RequiredEncryptedConnectionOptions2 ->
+    (%REQUIRE (%NONE | %SSL | %X509 | RequiredEncryptedConnectionOptions)):? {% (data) => {
+    const item = data[0];
+    if (item == undefined) {
+        return parse_util_1.toValueNode("NONE", {
+            start: -1,
+            end: -1,
+        });
+    }
+    const options = item[1][0];
+    if ("syntaxKind" in options) {
+        return options;
+    }
+    return parse_util_1.toValueNode((options.tokenKind == scanner_1.TokenKind.NONE ?
+        "NONE" :
+        options.tokenKind == scanner_1.TokenKind.SSL ?
+            "SSL" :
+            "X509"), options);
+} %}
+
+RequiredEncryptedConnectionOptions ->
+    RequiredEncryptedConnectionOption (%AND:? RequiredEncryptedConnectionOption):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        x509Subject: undefined,
+        x509Issuer: undefined,
+        sslCipher: undefined,
+    };
+    const syntacticErrors = [];
+    const optionLocations = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                optionLocations.push(parse_util_1.toValueNode(k, item));
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.RequiredEncryptedConnectionOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+        optionLocations,
+    };
+} %}
+
 CreateViewStatement ->
     %CREATE (%OR %REPLACE):? (%ALGORITHM %Equal (%UNDEFINED | %MERGE | %TEMPTABLE)):? (%DEFINER %Equal AccountIdentifierOrCurrentUser):? (%SQL %SECURITY (%DEFINER | %INVOKER)):? %VIEW TableIdentifier IdentifierList:? %AS SelectStatement (%WITH (%CASCADED | %LOCAL):? %CHECK %OPTION):? {% (data) => {
     const [, createOrReplace, algorithm, definer, viewSecurityContext, viewToken, tableIdentifier, columns, , selectStatement, checkOption,] = data;
@@ -5454,7 +5769,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

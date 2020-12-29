@@ -1,0 +1,44 @@
+CREATE USER FOO
+    REQUIRE
+        ISSUER 'qwerty-1'
+        ISSUER 'qwerty-2'
+        ISSUER 'qwerty-3';
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        BY ''
+    REQUIRE
+        ISSUER 'qwerty-3'
+    ACCOUNT UNLOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Option must not be repeated",
+        "start": 62,
+        "length": 17,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 36,
+                "length": 17
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Option must not be repeated",
+        "start": 88,
+        "length": 17,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 36,
+                "length": 17
+            }
+        ]
+    }
+]

@@ -19,6 +19,7 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.CreateEventStatement,
             SyntaxKind.CreateUserDefinedFunctionStatement,
             SyntaxKind.CreateViewStatement,
+            SyntaxKind.CreateUserStatement,
             CustomSyntaxKind.SelectStatement,
         )] as const,
         (data) : Statement => {

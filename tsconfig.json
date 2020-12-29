@@ -5,6 +5,8 @@
     "references" : [
         { "path" : "src/diagnostic" },
         { "path" : "src/scanner" },
+        { "path" : "src/parser-node" },
+        { "path" : "src/parser-node-linter" },
         { "path" : "src/emitter" },
         { "path" : "src/nearley-wrapper" },
         { "path" : "src/unexpanded-content-grammar" },

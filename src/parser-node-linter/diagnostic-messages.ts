@@ -178,4 +178,19 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240033
     }),
+    IdentifiedByPasswordSyntaxDeprecated : makeDiagnosticMessage({
+        key : "IDENTIFIED BY PASSWORD syntax is deprecated; use IDENTIFIED BY instead",
+        category : DiagnosticCategory.Error,
+        code : 240034
+    }),
+    MustNotRepeatOption : makeDiagnosticMessage({
+        key : "Option must not be repeated",
+        category : DiagnosticCategory.Error,
+        code : 240035
+    }),
+    PasswordExpireInterval0DayInvalid : makeDiagnosticMessage({
+        key : "PASSWORD EXPIRE INTERVAL 0 DAY invalid; did you mean PASSWORD EXPIRE?",
+        category : DiagnosticCategory.Error,
+        code : 240036
+    }),
 } as const;

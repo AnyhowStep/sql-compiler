@@ -88,6 +88,12 @@ export const syntaxKinds = [
     "IntervalSchedule",
     "CreateUserDefinedFunctionStatement",
     "CreateViewStatement",
+    "CreateUserStatement",
+    "GrantUser",
+    "GrantUserList",
+    "RequiredEncryptedConnectionOptions",
+    "RateLimitOptions",
+    "AccountLockAndPasswordExpiryOptions",
 
     "HashPartition",
     "KeyPartition",

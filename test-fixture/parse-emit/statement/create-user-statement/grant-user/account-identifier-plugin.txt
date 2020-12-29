@@ -1,0 +1,20 @@
+CREATE USER
+    FOO IDENTIFIED
+        WITH 'some-plugin',
+    BAR@BAZ IDENTIFIED
+        WITH somePlugin;
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        WITH 'some-plugin'
+        BY '',
+    `BAR`@BAZ IDENTIFIED
+        WITH `somePlugin`
+        BY ''
+    REQUIRE NONE
+    ACCOUNT UNLOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[]

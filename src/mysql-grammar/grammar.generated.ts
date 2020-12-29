@@ -4334,6 +4334,335 @@ export var ParserRules: NearleyRule[] = [
                 otherTriggerName: otherTriggerName[0],
             };
         } },
+    {"name": "AccountLockAndPasswordExpiryOption", "symbols": [ACCOUNT, UNLOCK], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                accountLocked: false,
+            };
+        } },
+    {"name": "AccountLockAndPasswordExpiryOption", "symbols": [ACCOUNT, LOCK], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                accountLocked: true,
+            };
+        } },
+    {"name": "AccountLockAndPasswordExpiryOption", "symbols": [PASSWORD, EXPIRE], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                passwordExpiry: parse_util_1.toValueNode("ON_FIRST_CONNECT", parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "AccountLockAndPasswordExpiryOption", "symbols": [PASSWORD, EXPIRE, NEVER], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                passwordExpiry: parse_util_1.toValueNode("NEVER", parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "AccountLockAndPasswordExpiryOption", "symbols": [PASSWORD, EXPIRE, DEFAULT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                passwordExpiry: parse_util_1.toValueNode("DEFAULT", parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "AccountLockAndPasswordExpiryOption", "symbols": [PASSWORD, EXPIRE, INTERVAL, "IntegerLiteral", DAY], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                passwordExpiry: data[3],
+            };
+        } },
+    {"name": "AccountLockAndPasswordExpiryOptions$ebnf$1", "symbols": []},
+    {"name": "AccountLockAndPasswordExpiryOptions$ebnf$1", "symbols": ["AccountLockAndPasswordExpiryOptions$ebnf$1", "AccountLockAndPasswordExpiryOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "AccountLockAndPasswordExpiryOptions", "symbols": ["AccountLockAndPasswordExpiryOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data[0];
+            const result = {
+                accountLocked: false,
+                passwordExpiry: parse_util_1.toValueNode("DEFAULT", {
+                    start: -1,
+                    end: -1,
+                }),
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AccountLockAndPasswordExpiryOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "CreateUserStatement$ebnf$1$subexpression$1", "symbols": [IF, NOT, EXISTS]},
+    {"name": "CreateUserStatement$ebnf$1", "symbols": ["CreateUserStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateUserStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateUserStatement", "symbols": [CREATE, USER, "CreateUserStatement$ebnf$1", "GrantUserList", "RequiredEncryptedConnectionOptions2", "RateLimitOptions", "AccountLockAndPasswordExpiryOptions"], "postprocess":  (data) => {
+            const [, , ifNotExists, grantUserList, requiredEncryptedConnectionOptions, rateLimitOptions, accountLockAndPasswordExpiryOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateUserStatement,
+                ifNotExists: ifNotExists != undefined,
+                grantUserList,
+                requiredEncryptedConnectionOptions,
+                rateLimitOptions,
+                accountLockAndPasswordExpiryOptions,
+            };
+        } },
+    {"name": "GrantUser", "symbols": ["AccountIdentifier"], "postprocess":  (data) => {
+            const end = data[0].end;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.GrantUser,
+                accountIdentifier: data[0],
+                authenticationPlugin: undefined,
+                identifiedByPasswordToken: undefined,
+                password: {
+                    start: end,
+                    end: end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: `''`,
+                },
+            };
+        } },
+    {"name": "GrantUser$ebnf$1", "symbols": [PASSWORD], "postprocess": id},
+    {"name": "GrantUser$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "GrantUser", "symbols": ["AccountIdentifier", IDENTIFIED, BY, "GrantUser$ebnf$1", "StringLiteral"], "postprocess":  (data) => {
+            const [accountIdentifier, identifiedToken, , passwordToken, password,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.GrantUser,
+                accountIdentifier,
+                authenticationPlugin: undefined,
+                identifiedByPasswordToken: (passwordToken == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode("IDENTIFIED BY PASSWORD", parse_util_1.getTextRange([identifiedToken, passwordToken]))),
+                password,
+            };
+        } },
+    {"name": "GrantUser$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "GrantUser$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "GrantUser$ebnf$2$subexpression$1$subexpression$1", "symbols": [AS]},
+    {"name": "GrantUser$ebnf$2$subexpression$1$subexpression$1", "symbols": [BY]},
+    {"name": "GrantUser$ebnf$2$subexpression$1", "symbols": ["GrantUser$ebnf$2$subexpression$1$subexpression$1", "StringLiteral"]},
+    {"name": "GrantUser$ebnf$2", "symbols": ["GrantUser$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "GrantUser$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "GrantUser", "symbols": ["AccountIdentifier", IDENTIFIED, WITH, "GrantUser$subexpression$1", "GrantUser$ebnf$2"], "postprocess":  (data) => {
+            const [accountIdentifier, , , authenticationPlugin, password,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.GrantUser,
+                accountIdentifier,
+                authenticationPlugin: authenticationPlugin[0],
+                identifiedByPasswordToken: undefined,
+                password: (password == undefined ?
+                    {
+                        start: authenticationPlugin[0].end,
+                        end: authenticationPlugin[0].end,
+                        syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                        value: "",
+                        sourceText: `''`,
+                    } :
+                    password[1]),
+            };
+        } },
+    {"name": "GrantUserList$ebnf$1", "symbols": []},
+    {"name": "GrantUserList$ebnf$1$subexpression$1", "symbols": [Comma, "GrantUser"]},
+    {"name": "GrantUserList$ebnf$1", "symbols": ["GrantUserList$ebnf$1", "GrantUserList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "GrantUserList", "symbols": ["GrantUser", "GrantUserList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                return "syntaxKind" in item;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.GrantUserList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "RateLimitOption", "symbols": [MAX_QUERIES_PER_HOUR, "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                maxQueriesPerHour: data[1],
+            };
+        } },
+    {"name": "RateLimitOption", "symbols": [MAX_UPDATES_PER_HOUR, "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                maxUpdatesPerHour: data[1],
+            };
+        } },
+    {"name": "RateLimitOption", "symbols": [MAX_CONNECTIONS_PER_HOUR, "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                maxConnectionsPerHour: data[1],
+            };
+        } },
+    {"name": "RateLimitOption", "symbols": [MAX_USER_CONNECTIONS, "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                maxUserConnections: data[1],
+            };
+        } },
+    {"name": "RateLimitOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": ["RateLimitOption"]},
+    {"name": "RateLimitOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": ["RateLimitOptions$ebnf$1$subexpression$1$ebnf$1", "RateLimitOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "RateLimitOptions$ebnf$1$subexpression$1", "symbols": [WITH, "RateLimitOptions$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "RateLimitOptions$ebnf$1", "symbols": ["RateLimitOptions$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "RateLimitOptions$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "RateLimitOptions", "symbols": ["RateLimitOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                maxQueriesPerHour: {
+                    start: -1,
+                    end: -1,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(0),
+                },
+                maxUpdatesPerHour: {
+                    start: -1,
+                    end: -1,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(0),
+                },
+                maxConnectionsPerHour: {
+                    start: -1,
+                    end: -1,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(0),
+                },
+                maxUserConnections: {
+                    start: -1,
+                    end: -1,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(0),
+                },
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RateLimitOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "RequiredEncryptedConnectionOption", "symbols": [SUBJECT, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                x509Subject: data[1],
+            };
+        } },
+    {"name": "RequiredEncryptedConnectionOption", "symbols": [ISSUER, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                x509Issuer: data[1],
+            };
+        } },
+    {"name": "RequiredEncryptedConnectionOption", "symbols": [CIPHER, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                sslCipher: data[1],
+            };
+        } },
+    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1", "symbols": [NONE]},
+    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1", "symbols": [SSL]},
+    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1", "symbols": [X509]},
+    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1", "symbols": ["RequiredEncryptedConnectionOptions"]},
+    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1", "symbols": [REQUIRE, "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1", "symbols": ["RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "RequiredEncryptedConnectionOptions2", "symbols": ["RequiredEncryptedConnectionOptions2$ebnf$1"], "postprocess":  (data) => {
+            const item = data[0];
+            if (item == undefined) {
+                return parse_util_1.toValueNode("NONE", {
+                    start: -1,
+                    end: -1,
+                });
+            }
+            const options = item[1][0];
+            if ("syntaxKind" in options) {
+                return options;
+            }
+            return parse_util_1.toValueNode((options.tokenKind == scanner_1.TokenKind.NONE ?
+                "NONE" :
+                options.tokenKind == scanner_1.TokenKind.SSL ?
+                    "SSL" :
+                    "X509"), options);
+        } },
+    {"name": "RequiredEncryptedConnectionOptions$ebnf$1", "symbols": []},
+    {"name": "RequiredEncryptedConnectionOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": [AND], "postprocess": id},
+    {"name": "RequiredEncryptedConnectionOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "RequiredEncryptedConnectionOptions$ebnf$1$subexpression$1", "symbols": ["RequiredEncryptedConnectionOptions$ebnf$1$subexpression$1$ebnf$1", "RequiredEncryptedConnectionOption"]},
+    {"name": "RequiredEncryptedConnectionOptions$ebnf$1", "symbols": ["RequiredEncryptedConnectionOptions$ebnf$1", "RequiredEncryptedConnectionOptions$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "RequiredEncryptedConnectionOptions", "symbols": ["RequiredEncryptedConnectionOption", "RequiredEncryptedConnectionOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                x509Subject: undefined,
+                x509Issuer: undefined,
+                sslCipher: undefined,
+            };
+            const syntacticErrors = [];
+            const optionLocations = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        optionLocations.push(parse_util_1.toValueNode(k, item));
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.RequiredEncryptedConnectionOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+                optionLocations,
+            };
+        } },
     {"name": "CreateViewStatement$ebnf$1$subexpression$1", "symbols": [OR, REPLACE]},
     {"name": "CreateViewStatement$ebnf$1", "symbols": ["CreateViewStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CreateViewStatement$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -6022,6 +6351,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateEventStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateUserDefinedFunctionStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateViewStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateUserStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];

@@ -1,0 +1,44 @@
+CREATE USER FOO
+    REQUIRE
+        CIPHER 'qwerty-1'
+        CIPHER 'qwerty-2'
+        CIPHER 'qwerty-3';
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        BY ''
+    REQUIRE
+        CIPHER 'qwerty-3'
+    ACCOUNT UNLOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Option must not be repeated",
+        "start": 62,
+        "length": 17,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 36,
+                "length": 17
+            }
+        ]
+    },
+    {
+        "category": 0,
+        "messageText": "Option must not be repeated",
+        "start": 88,
+        "length": 17,
+        "relatedRanges": [
+            {
+                "filename": "file-0",
+                "start": 36,
+                "length": 17
+            }
+        ]
+    }
+]

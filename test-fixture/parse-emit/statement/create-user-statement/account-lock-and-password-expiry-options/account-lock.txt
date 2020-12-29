@@ -1,0 +1,13 @@
+CREATE USER FOO
+    ACCOUNT LOCK;
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        BY ''
+    REQUIRE NONE
+    ACCOUNT LOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[]

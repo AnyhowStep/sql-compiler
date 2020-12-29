@@ -1,0 +1,15 @@
+CREATE USER FOO
+    REQUIRE
+        CIPHER 'qwerty';
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        BY ''
+    REQUIRE
+        CIPHER 'qwerty'
+    ACCOUNT UNLOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[]

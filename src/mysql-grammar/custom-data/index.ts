@@ -1,3 +1,4 @@
+export * from "./account-lock-and-password-expiry-option";
 export * from "./character-data-type-modifier";
 export * from "./column-definition-modifier";
 export * from "./create-table-option";
@@ -7,5 +8,7 @@ export * from "./index-type-node";
 export * from "./integer-data-type-modifier";
 export * from "./line-terminator-option";
 export * from "./partition-definition-option";
+export * from "./rate-limit-option";
+export * from "./required-encrypted-connection-option";
 export * from "./select-option";
 export * from "./stored-procedure-characteristic";

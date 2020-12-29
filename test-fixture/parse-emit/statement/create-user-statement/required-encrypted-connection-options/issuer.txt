@@ -1,0 +1,15 @@
+CREATE USER FOO
+    REQUIRE
+        ISSUER 'qwerty';
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        BY ''
+    REQUIRE
+        ISSUER 'qwerty'
+    ACCOUNT UNLOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[]

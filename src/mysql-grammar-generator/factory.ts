@@ -1,7 +1,10 @@
 import {ParserState} from "../mysql-grammar";
 import {
+    AccountLockAndPasswordExpiryOption,
     FieldTerminatorOption,
     LineTerminatorOption,
+    RateLimitOption,
+    RequiredEncryptedConnectionOption,
     SelectOption,
     StoredProcedureCharacteristic,
 } from "../mysql-grammar/custom-data";
@@ -41,8 +44,9 @@ import {
     LabelStatement,
     TableIdentifierList,
     IdentifierList,
+    CreateUserStatement,
+    Schedule,
 } from "../parser-node";
-import {Schedule} from "../parser-node/statement/create-event-statement/schedule";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
     CharacterDataTypeModifier,
@@ -121,6 +125,10 @@ export enum CustomSyntaxKind {
     LabelStatement,
     UnlabeledStatement,
     Schedule,
+    RequiredEncryptedConnectionOptions2,
+    RateLimitOption,
+    AccountLockAndPasswordExpiryOption,
+    RequiredEncryptedConnectionOption,
 }
 
 declare module "../nearley-wrapper" {
@@ -190,6 +198,10 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.LabelStatement] : LabelStatement|LabelStatement["statement"],
         [CustomSyntaxKind.UnlabeledStatement] : LabelStatement["statement"],
         [CustomSyntaxKind.Schedule] : Schedule,
+        [CustomSyntaxKind.RequiredEncryptedConnectionOptions2] : CreateUserStatement["requiredEncryptedConnectionOptions"],
+        [CustomSyntaxKind.RateLimitOption] : RateLimitOption,
+        [CustomSyntaxKind.AccountLockAndPasswordExpiryOption] : AccountLockAndPasswordExpiryOption,
+        [CustomSyntaxKind.RequiredEncryptedConnectionOption] : RequiredEncryptedConnectionOption,
     }
 
     interface CustomToken extends Array<TokenKind> {

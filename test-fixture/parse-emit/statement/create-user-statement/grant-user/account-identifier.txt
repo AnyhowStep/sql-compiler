@@ -1,0 +1,14 @@
+CREATE USER FOO, BAR@BAZ;
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        BY '',
+    `BAR`@BAZ IDENTIFIED
+        BY ''
+    REQUIRE NONE
+    ACCOUNT UNLOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[]

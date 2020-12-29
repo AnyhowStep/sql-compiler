@@ -1,4 +1,4 @@
-import {getTextRange, toValueNode} from "../../mysql-grammar/parse-util";
+import {getTextRange, toValueNode} from "../parse-util";
 import {Identifier, StringLiteral, SyntaxKind, ValueNode} from "../../parser-node";
 import {CustomSyntaxKind, makeCustomRule} from "../factory";
 

@@ -1,0 +1,19 @@
+CREATE USER FOO
+    REQUIRE
+        CIPHER 'qwerty-3'
+        SUBJECT 'qwerty-1'
+        ISSUER 'qwerty-2';
+
+-----
+CREATE USER
+    `FOO`@'%' IDENTIFIED
+        BY ''
+    REQUIRE
+        SUBJECT 'qwerty-1'
+        ISSUER 'qwerty-2'
+        CIPHER 'qwerty-3'
+    ACCOUNT UNLOCK
+    PASSWORD EXPIRE DEFAULT;
+
+-----
+[]

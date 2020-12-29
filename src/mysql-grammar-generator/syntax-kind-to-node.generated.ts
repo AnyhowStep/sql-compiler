@@ -80,6 +80,12 @@ import {
     CreateTableStatement,
     CreateTriggerStatement,
     TriggerOrder,
+    AccountLockAndPasswordExpiryOptions,
+    CreateUserStatement,
+    GrantUser,
+    GrantUserList,
+    RateLimitOptions,
+    RequiredEncryptedConnectionOptions,
     CreateViewStatement,
     DeclareFunctionParameter,
     DeclareFunctionParameterList,
@@ -239,6 +245,12 @@ export type SyntaxKindToNode = {
     [SyntaxKind.CreateTableStatement] : CreateTableStatement;
     [SyntaxKind.CreateTriggerStatement] : CreateTriggerStatement;
     [SyntaxKind.TriggerOrder] : TriggerOrder;
+    [SyntaxKind.AccountLockAndPasswordExpiryOptions] : AccountLockAndPasswordExpiryOptions;
+    [SyntaxKind.CreateUserStatement] : CreateUserStatement;
+    [SyntaxKind.GrantUser] : GrantUser;
+    [SyntaxKind.GrantUserList] : GrantUserList;
+    [SyntaxKind.RateLimitOptions] : RateLimitOptions;
+    [SyntaxKind.RequiredEncryptedConnectionOptions] : RequiredEncryptedConnectionOptions;
     [SyntaxKind.CreateViewStatement] : CreateViewStatement;
     [SyntaxKind.DeclareFunctionParameter] : DeclareFunctionParameter;
     [SyntaxKind.DeclareFunctionParameterList] : DeclareFunctionParameterList;
