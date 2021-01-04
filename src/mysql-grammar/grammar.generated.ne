@@ -3122,6 +3122,130 @@ StoredProcedureParameterList ->
     return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureParameterList, parse_util_1.getTextRange(data));
 } %}
 
+CreateLogFileGroupAddFile ->
+    %ADD %UNDOFILE StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateLogFileGroupAddUndoFile,
+        undoFile: data[2],
+    };
+} %}
+    | %ADD %REDOFILE StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateLogFileGroupAddRedoFile,
+        redoFile: data[2],
+    };
+} %}
+
+CreateLogFileGroupOption ->
+    %INITIAL_SIZE %Equal:? (IntegerLiteral | Identifier) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        initialSize: data[2][0],
+    };
+} %}
+    | %UNDO_BUFFER_SIZE %Equal:? (IntegerLiteral | Identifier) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        undoBufferSize: data[2][0],
+    };
+} %}
+    | %REDO_BUFFER_SIZE %Equal:? (IntegerLiteral | Identifier) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        redoBufferSize: data[2][0],
+    };
+} %}
+    | %NODEGROUP %Equal:? IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        nodeGroup: data[2],
+    };
+} %}
+    | %STORAGE:? %ENGINE %Equal:? (StringLiteral | Identifier) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        engine: data[3][0],
+    };
+} %}
+    | %WAIT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        wait: parse_util_1.toValueNode(true, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %NO_WAIT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        wait: parse_util_1.toValueNode(false, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %COMMENT %Equal:? StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        comment: data[2],
+    };
+} %}
+
+CreateLogFileGroupOptions ->
+    CreateLogFileGroupOption:* {% (data) => {
+    const arr = data[0];
+    const result = {
+        initialSize: {
+            start: -1,
+            end: -1,
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            quoted: false,
+            identifier: "128M",
+        },
+        undoBufferSize: {
+            start: -1,
+            end: -1,
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            quoted: false,
+            identifier: "8M",
+        },
+        redoBufferSize: undefined,
+        nodeGroup: undefined,
+        engine: undefined,
+        wait: undefined,
+        comment: undefined,
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateLogFileGroupOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+CreateLogFileGroupStatement ->
+    %CREATE %LOGFILE %GROUP Identifier CreateLogFileGroupAddFile CreateLogFileGroupOptions {% (data) => {
+    const [, , , identifier, addFile, createLogFileGroupOptions,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateLogFileGroupStatement,
+        identifier,
+        addFile,
+        createLogFileGroupOptions,
+    };
+} %}
+
 CreateSchemaOptionList ->
     (DefaultCharacterSet | DefaultCollation):* {% (data) => {
     return parse_util_1.toNodeArray(data.flat(2), parser_node_1.SyntaxKind.CreateSchemaOptionList, parse_util_1.getTextRange(data));
@@ -5769,7 +5893,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

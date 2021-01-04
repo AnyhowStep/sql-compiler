@@ -1,0 +1,11 @@
+CREATE LOGFILE GROUP x
+    ADD REDOFILE 'y';
+
+-----
+CREATE LOGFILE GROUP `x`
+    ADD REDOFILE 'y'
+    INITIAL_SIZE = `128M`
+    UNDO_BUFFER_SIZE = `8M`;
+
+-----
+[]

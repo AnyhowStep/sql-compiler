@@ -64,6 +64,10 @@ import {
     StoredProcedureCharacteristics,
     StoredProcedureParameter,
     StoredProcedureParameterList,
+    CreateLogFileGroupAddRedoFile,
+    CreateLogFileGroupAddUndoFile,
+    CreateLogFileGroupOptions,
+    CreateLogFileGroupStatement,
     CreateSchemaStatement,
     CreateSchemaOptionList,
     CheckDefinition,
@@ -229,6 +233,10 @@ export type SyntaxKindToNode = {
     [SyntaxKind.StoredProcedureCharacteristics] : StoredProcedureCharacteristics;
     [SyntaxKind.StoredProcedureParameter] : StoredProcedureParameter;
     [SyntaxKind.StoredProcedureParameterList] : StoredProcedureParameterList;
+    [SyntaxKind.CreateLogFileGroupAddRedoFile] : CreateLogFileGroupAddRedoFile;
+    [SyntaxKind.CreateLogFileGroupAddUndoFile] : CreateLogFileGroupAddUndoFile;
+    [SyntaxKind.CreateLogFileGroupOptions] : CreateLogFileGroupOptions;
+    [SyntaxKind.CreateLogFileGroupStatement] : CreateLogFileGroupStatement;
     [SyntaxKind.CreateSchemaStatement] : CreateSchemaStatement;
     [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;
     [SyntaxKind.CheckDefinition] : CheckDefinition;

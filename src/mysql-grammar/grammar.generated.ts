@@ -3284,6 +3284,146 @@ export var ParserRules: NearleyRule[] = [
             });
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureParameterList, parse_util_1.getTextRange(data));
         } },
+    {"name": "CreateLogFileGroupAddFile", "symbols": [ADD, UNDOFILE, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateLogFileGroupAddUndoFile,
+                undoFile: data[2],
+            };
+        } },
+    {"name": "CreateLogFileGroupAddFile", "symbols": [ADD, REDOFILE, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateLogFileGroupAddRedoFile,
+                redoFile: data[2],
+            };
+        } },
+    {"name": "CreateLogFileGroupOption$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateLogFileGroupOption$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateLogFileGroupOption$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "CreateLogFileGroupOption$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "CreateLogFileGroupOption", "symbols": [INITIAL_SIZE, "CreateLogFileGroupOption$ebnf$1", "CreateLogFileGroupOption$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                initialSize: data[2][0],
+            };
+        } },
+    {"name": "CreateLogFileGroupOption$ebnf$2", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateLogFileGroupOption$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateLogFileGroupOption$subexpression$2", "symbols": ["IntegerLiteral"]},
+    {"name": "CreateLogFileGroupOption$subexpression$2", "symbols": ["Identifier"]},
+    {"name": "CreateLogFileGroupOption", "symbols": [UNDO_BUFFER_SIZE, "CreateLogFileGroupOption$ebnf$2", "CreateLogFileGroupOption$subexpression$2"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                undoBufferSize: data[2][0],
+            };
+        } },
+    {"name": "CreateLogFileGroupOption$ebnf$3", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateLogFileGroupOption$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "CreateLogFileGroupOption$subexpression$3", "symbols": ["IntegerLiteral"]},
+    {"name": "CreateLogFileGroupOption$subexpression$3", "symbols": ["Identifier"]},
+    {"name": "CreateLogFileGroupOption", "symbols": [REDO_BUFFER_SIZE, "CreateLogFileGroupOption$ebnf$3", "CreateLogFileGroupOption$subexpression$3"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                redoBufferSize: data[2][0],
+            };
+        } },
+    {"name": "CreateLogFileGroupOption$ebnf$4", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateLogFileGroupOption$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "CreateLogFileGroupOption", "symbols": [NODEGROUP, "CreateLogFileGroupOption$ebnf$4", "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                nodeGroup: data[2],
+            };
+        } },
+    {"name": "CreateLogFileGroupOption$ebnf$5", "symbols": [STORAGE], "postprocess": id},
+    {"name": "CreateLogFileGroupOption$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "CreateLogFileGroupOption$ebnf$6", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateLogFileGroupOption$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "CreateLogFileGroupOption$subexpression$4", "symbols": ["StringLiteral"]},
+    {"name": "CreateLogFileGroupOption$subexpression$4", "symbols": ["Identifier"]},
+    {"name": "CreateLogFileGroupOption", "symbols": ["CreateLogFileGroupOption$ebnf$5", ENGINE, "CreateLogFileGroupOption$ebnf$6", "CreateLogFileGroupOption$subexpression$4"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                engine: data[3][0],
+            };
+        } },
+    {"name": "CreateLogFileGroupOption", "symbols": [WAIT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                wait: parse_util_1.toValueNode(true, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "CreateLogFileGroupOption", "symbols": [NO_WAIT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                wait: parse_util_1.toValueNode(false, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "CreateLogFileGroupOption$ebnf$7", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateLogFileGroupOption$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "CreateLogFileGroupOption", "symbols": [COMMENT, "CreateLogFileGroupOption$ebnf$7", "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                comment: data[2],
+            };
+        } },
+    {"name": "CreateLogFileGroupOptions$ebnf$1", "symbols": []},
+    {"name": "CreateLogFileGroupOptions$ebnf$1", "symbols": ["CreateLogFileGroupOptions$ebnf$1", "CreateLogFileGroupOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateLogFileGroupOptions", "symbols": ["CreateLogFileGroupOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data[0];
+            const result = {
+                initialSize: {
+                    start: -1,
+                    end: -1,
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    quoted: false,
+                    identifier: "128M",
+                },
+                undoBufferSize: {
+                    start: -1,
+                    end: -1,
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    quoted: false,
+                    identifier: "8M",
+                },
+                redoBufferSize: undefined,
+                nodeGroup: undefined,
+                engine: undefined,
+                wait: undefined,
+                comment: undefined,
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateLogFileGroupOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "CreateLogFileGroupStatement", "symbols": [CREATE, LOGFILE, GROUP, "Identifier", "CreateLogFileGroupAddFile", "CreateLogFileGroupOptions"], "postprocess":  (data) => {
+            const [, , , identifier, addFile, createLogFileGroupOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateLogFileGroupStatement,
+                identifier,
+                addFile,
+                createLogFileGroupOptions,
+            };
+        } },
     {"name": "CreateSchemaOptionList$ebnf$1", "symbols": []},
     {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCharacterSet"]},
     {"name": "CreateSchemaOptionList$ebnf$1$subexpression$1", "symbols": ["DefaultCollation"]},
@@ -6352,6 +6492,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateUserDefinedFunctionStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateViewStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateUserStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateLogFileGroupStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];

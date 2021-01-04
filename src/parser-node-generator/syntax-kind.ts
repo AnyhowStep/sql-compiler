@@ -94,6 +94,10 @@ export const syntaxKinds = [
     "RequiredEncryptedConnectionOptions",
     "RateLimitOptions",
     "AccountLockAndPasswordExpiryOptions",
+    "CreateLogFileGroupStatement",
+    "CreateLogFileGroupOptions",
+    "CreateLogFileGroupAddRedoFile",
+    "CreateLogFileGroupAddUndoFile",
 
     "HashPartition",
     "KeyPartition",

@@ -20,6 +20,7 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.CreateUserDefinedFunctionStatement,
             SyntaxKind.CreateViewStatement,
             SyntaxKind.CreateUserStatement,
+            SyntaxKind.CreateLogFileGroupStatement,
             CustomSyntaxKind.SelectStatement,
         )] as const,
         (data) : Statement => {

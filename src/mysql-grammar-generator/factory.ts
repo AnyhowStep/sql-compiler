@@ -1,6 +1,7 @@
 import {ParserState} from "../mysql-grammar";
 import {
     AccountLockAndPasswordExpiryOption,
+    CreateLogFileGroupOption,
     FieldTerminatorOption,
     LineTerminatorOption,
     RateLimitOption,
@@ -46,6 +47,7 @@ import {
     IdentifierList,
     CreateUserStatement,
     Schedule,
+    CreateLogFileGroupAddFile,
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
@@ -129,6 +131,8 @@ export enum CustomSyntaxKind {
     RateLimitOption,
     AccountLockAndPasswordExpiryOption,
     RequiredEncryptedConnectionOption,
+    CreateLogFileGroupAddFile,
+    CreateLogFileGroupOption,
 }
 
 declare module "../nearley-wrapper" {
@@ -202,6 +206,8 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.RateLimitOption] : RateLimitOption,
         [CustomSyntaxKind.AccountLockAndPasswordExpiryOption] : AccountLockAndPasswordExpiryOption,
         [CustomSyntaxKind.RequiredEncryptedConnectionOption] : RequiredEncryptedConnectionOption,
+        [CustomSyntaxKind.CreateLogFileGroupAddFile] : CreateLogFileGroupAddFile,
+        [CustomSyntaxKind.CreateLogFileGroupOption] : CreateLogFileGroupOption,
     }
 
     interface CustomToken extends Array<TokenKind> {

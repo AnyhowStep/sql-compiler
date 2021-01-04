@@ -55,6 +55,10 @@ import {CreateUserDefinedFunctionStatement} from "./statement/create-function-st
 import {StoredFunctionParameter} from "./statement/create-function-statement/stored-function-parameter";
 import {StoredProcedureCharacteristics} from "./statement/create-function-statement/stored-procedure-characteristics";
 import {StoredProcedureParameter} from "./statement/create-function-statement/stored-procedure-parameter";
+import {CreateLogFileGroupAddRedoFile} from "./statement/create-log-file-group-statement/create-log-file-group-add-redo-file";
+import {CreateLogFileGroupAddUndoFile} from "./statement/create-log-file-group-statement/create-log-file-group-add-undo-file";
+import {CreateLogFileGroupOptions} from "./statement/create-log-file-group-statement/create-log-file-group-options";
+import {CreateLogFileGroupStatement} from "./statement/create-log-file-group-statement/create-log-file-group-statement";
 import {CreateSchemaStatement} from "./statement/create-schema-statement";
 import {CheckDefinition} from "./statement/create-table-definition/check-definition";
 import {ColumnDefinition} from "./statement/create-table-definition/column-definition";
@@ -189,6 +193,10 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateUserDef
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredFunctionParameter) : node is StoredFunctionParameter;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureCharacteristics) : node is StoredProcedureCharacteristics;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureParameter) : node is StoredProcedureParameter;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupAddRedoFile) : node is CreateLogFileGroupAddRedoFile;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupAddUndoFile) : node is CreateLogFileGroupAddUndoFile;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupOptions) : node is CreateLogFileGroupOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupStatement) : node is CreateLogFileGroupStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateSchemaStatement) : node is CreateSchemaStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CheckDefinition) : node is CheckDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnDefinition) : node is ColumnDefinition;
@@ -332,6 +340,10 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.StoredFunctionParameter, callback : (node : StoredFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureCharacteristics, callback : (node : StoredProcedureCharacteristics) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureParameter, callback : (node : StoredProcedureParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupAddRedoFile, callback : (node : CreateLogFileGroupAddRedoFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupAddUndoFile, callback : (node : CreateLogFileGroupAddUndoFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupOptions, callback : (node : CreateLogFileGroupOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupStatement, callback : (node : CreateLogFileGroupStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateSchemaStatement, callback : (node : CreateSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CheckDefinition, callback : (node : CheckDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ColumnDefinition, callback : (node : ColumnDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

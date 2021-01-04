@@ -1,0 +1,13 @@
+CREATE LOGFILE GROUP x
+    ADD UNDOFILE 'y'
+    COMMENT = 'hi';
+
+-----
+CREATE LOGFILE GROUP `x`
+    ADD UNDOFILE 'y'
+    INITIAL_SIZE = `128M`
+    UNDO_BUFFER_SIZE = `8M`
+    COMMENT = 'hi';
+
+-----
+[]
