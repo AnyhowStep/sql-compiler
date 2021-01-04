@@ -1,8 +1,10 @@
 import {CreateLogFileGroupOptions, Node, SyntaxKind} from "../../../parser-node";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
-import {zeroOrMore} from "../../../nearley-wrapper";
+import {CreateLogFileGroupOption} from "../../custom-data";
+import {optional, zeroOrMore} from "../../../nearley-wrapper";
 import {getTextRange} from "../../parse-util";
 import {Diagnostic} from "../../../diagnostic";
+import {TokenKind} from "../../../scanner";
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L4805
@@ -10,10 +12,26 @@ import {Diagnostic} from "../../../diagnostic";
 makeCustomRule(SyntaxKind.CreateLogFileGroupOptions)
     .addSubstitution(
         [
-            zeroOrMore(CustomSyntaxKind.CreateLogFileGroupOption),
+            optional([
+                CustomSyntaxKind.CreateLogFileGroupOption,
+                zeroOrMore([
+                    optional(TokenKind.Comma),
+                    CustomSyntaxKind.CreateLogFileGroupOption,
+                ] as const),
+            ] as const),
         ] as const,
         (data) : CreateLogFileGroupOptions => {
-            const arr = data[0];
+            const arr = data
+                .flat(3)
+                .filter((item) : item is CreateLogFileGroupOption => {
+                    if (item == undefined) {
+                        return false;
+                    }
+                    if ("tokenKind" in item) {
+                        return false;
+                    }
+                    return true;
+                });
 
             const result : Omit<CreateLogFileGroupOptions, keyof Node> = {
                 initialSize : {

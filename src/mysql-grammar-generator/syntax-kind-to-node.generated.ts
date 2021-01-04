@@ -82,6 +82,8 @@ import {
     PrimaryKeyDefinition,
     CreateTableOptions,
     CreateTableStatement,
+    CreateTablespaceOptions,
+    CreateTablespaceStatement,
     CreateTriggerStatement,
     TriggerOrder,
     AccountLockAndPasswordExpiryOptions,
@@ -251,6 +253,8 @@ export type SyntaxKindToNode = {
     [SyntaxKind.PrimaryKeyDefinition] : PrimaryKeyDefinition;
     [SyntaxKind.CreateTableOptions] : CreateTableOptions;
     [SyntaxKind.CreateTableStatement] : CreateTableStatement;
+    [SyntaxKind.CreateTablespaceOptions] : CreateTablespaceOptions;
+    [SyntaxKind.CreateTablespaceStatement] : CreateTablespaceStatement;
     [SyntaxKind.CreateTriggerStatement] : CreateTriggerStatement;
     [SyntaxKind.TriggerOrder] : TriggerOrder;
     [SyntaxKind.AccountLockAndPasswordExpiryOptions] : AccountLockAndPasswordExpiryOptions;

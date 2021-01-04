@@ -3368,10 +3368,26 @@ export var ParserRules: NearleyRule[] = [
                 comment: data[2],
             };
         } },
-    {"name": "CreateLogFileGroupOptions$ebnf$1", "symbols": []},
-    {"name": "CreateLogFileGroupOptions$ebnf$1", "symbols": ["CreateLogFileGroupOptions$ebnf$1", "CreateLogFileGroupOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
+    {"name": "CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": ["CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "CreateLogFileGroupOption"]},
+    {"name": "CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": ["CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1", "CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateLogFileGroupOptions$ebnf$1$subexpression$1", "symbols": ["CreateLogFileGroupOption", "CreateLogFileGroupOptions$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "CreateLogFileGroupOptions$ebnf$1", "symbols": ["CreateLogFileGroupOptions$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateLogFileGroupOptions$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "CreateLogFileGroupOptions", "symbols": ["CreateLogFileGroupOptions$ebnf$1"], "postprocess":  (data) => {
-            const arr = data[0];
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
             const result = {
                 initialSize: {
                     start: -1,

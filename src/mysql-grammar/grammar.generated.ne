@@ -3189,8 +3189,18 @@ CreateLogFileGroupOption ->
 } %}
 
 CreateLogFileGroupOptions ->
-    CreateLogFileGroupOption:* {% (data) => {
-    const arr = data[0];
+    (CreateLogFileGroupOption (%Comma:? CreateLogFileGroupOption):*):? {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
     const result = {
         initialSize: {
             start: -1,

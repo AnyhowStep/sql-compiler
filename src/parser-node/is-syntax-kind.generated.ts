@@ -70,6 +70,8 @@ import {IndexDefinition} from "./statement/create-table-definition/index-definit
 import {PrimaryKeyDefinition} from "./statement/create-table-definition/primary-key-definition";
 import {CreateTableOptions} from "./statement/create-table-options";
 import {CreateTableStatement} from "./statement/create-table-statement";
+import {CreateTablespaceOptions} from "./statement/create-tablespace-statement/create-tablespace-options";
+import {CreateTablespaceStatement} from "./statement/create-tablespace-statement/create-tablespace-statement";
 import {CreateTriggerStatement} from "./statement/create-trigger-statement/create-trigger-statement";
 import {TriggerOrder} from "./statement/create-trigger-statement/trigger-order";
 import {AccountLockAndPasswordExpiryOptions} from "./statement/create-user-statement/account-lock-and-password-expiry-options";
@@ -208,6 +210,8 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IndexDefiniti
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PrimaryKeyDefinition) : node is PrimaryKeyDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableOptions) : node is CreateTableOptions;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableStatement) : node is CreateTableStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTablespaceOptions) : node is CreateTablespaceOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTablespaceStatement) : node is CreateTablespaceStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTriggerStatement) : node is CreateTriggerStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TriggerOrder) : node is TriggerOrder;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AccountLockAndPasswordExpiryOptions) : node is AccountLockAndPasswordExpiryOptions;
@@ -355,6 +359,8 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.PrimaryKeyDefinition, callback : (node : PrimaryKeyDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableOptions, callback : (node : CreateTableOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableStatement, callback : (node : CreateTableStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateTablespaceOptions, callback : (node : CreateTablespaceOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateTablespaceStatement, callback : (node : CreateTablespaceStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTriggerStatement, callback : (node : CreateTriggerStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TriggerOrder, callback : (node : TriggerOrder) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AccountLockAndPasswordExpiryOptions, callback : (node : AccountLockAndPasswordExpiryOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
