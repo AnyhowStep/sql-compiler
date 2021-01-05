@@ -56,6 +56,7 @@ export const syntaxKinds = [
     "FieldLength",
     "Precision",
     "Interval",
+    "SizeNumber",
 
     /**
      * Statements

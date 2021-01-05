@@ -3,6 +3,7 @@ export * from "./character-data-type-modifier";
 export * from "./column-definition-modifier";
 export * from "./create-log-file-group-option";
 export * from "./create-table-option";
+export * from "./create-tablespace-option";
 export * from "./field-terminator-option";
 export * from "./index-option";
 export * from "./index-type-node";

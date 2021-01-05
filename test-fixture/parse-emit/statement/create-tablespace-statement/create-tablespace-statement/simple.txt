@@ -1,0 +1,9 @@
+CREATE TABLESPACE x
+    ADD DATAFILE 'y';
+
+-----
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y';
+
+-----
+[]

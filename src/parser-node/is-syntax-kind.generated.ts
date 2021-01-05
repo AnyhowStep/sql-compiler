@@ -44,6 +44,7 @@ import {DefaultCollation} from "./misc/default-collation";
 import {FieldLength} from "./misc/field-length";
 import {Interval} from "./misc/interval";
 import {Precision} from "./misc/precision";
+import {SizeNumber} from "./misc/size-number";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
 import {CreateEventStatement} from "./statement/create-event-statement/create-event-statement";
@@ -184,6 +185,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DefaultCollat
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.FieldLength) : node is FieldLength;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Interval) : node is Interval;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Precision) : node is Precision;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SizeNumber) : node is SizeNumber;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateEventStatement) : node is CreateEventStatement;
@@ -333,6 +335,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.FieldLength, callback : (node : FieldLength) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Interval, callback : (node : Interval) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.Precision, callback : (node : Precision) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.SizeNumber, callback : (node : SizeNumber) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateEventStatement, callback : (node : CreateEventStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

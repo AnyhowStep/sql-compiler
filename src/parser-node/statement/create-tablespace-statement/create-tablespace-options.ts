@@ -1,4 +1,7 @@
-import {Node} from "../../node";
+import {IntegerLiteral, StringLiteral} from "../../expression";
+import {Identifier} from "../../identifier";
+import {SizeNumber} from "../../misc";
+import {Node, ValueNode} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
 /**
@@ -7,5 +10,48 @@ import {SyntaxKind} from "../../syntax-kind.generated";
 export interface CreateTablespaceOptions extends Node {
     syntaxKind : SyntaxKind.CreateTablespaceOptions,
 
+    /**
+     * NDB only
+     */
+    initialSize : SizeNumber|undefined,
 
+    /**
+     * NDB only
+     */
+    autoExtendSize : SizeNumber|undefined,
+
+    /**
+     * NDB only
+     */
+    maxSize : SizeNumber|undefined,
+
+    /**
+     * NDB only
+     */
+    extentSize : SizeNumber|undefined,
+
+    /**
+     * NDB only
+     */
+    nodeGroup : IntegerLiteral|undefined,
+
+    /**
+     * InnoDB and NDB
+     */
+    engine : Identifier|StringLiteral|undefined,
+
+    /**
+     * NDB only
+     */
+    wait : ValueNode<boolean>|undefined,
+
+    /**
+     * NDB only
+     */
+    comment : StringLiteral|undefined,
+
+    /**
+     * InnoDB only
+     */
+    fileBlockSize : SizeNumber|undefined,
 }

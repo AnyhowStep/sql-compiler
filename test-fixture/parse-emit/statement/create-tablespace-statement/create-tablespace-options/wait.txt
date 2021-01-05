@@ -1,0 +1,19 @@
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    WAIT;
+
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    NO_WAIT;
+
+-----
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    WAIT;
+
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    NO_WAIT;
+
+-----
+[]

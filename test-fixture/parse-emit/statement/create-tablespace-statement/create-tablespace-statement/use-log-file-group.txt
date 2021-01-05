@@ -1,0 +1,11 @@
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    USE LOGFILE GROUP z;
+
+-----
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    USE LOGFILE GROUP `z`;
+
+-----
+[]

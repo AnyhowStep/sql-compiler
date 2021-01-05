@@ -1,5 +1,6 @@
 import {IntegerLiteral, StringLiteral} from "../../expression";
 import {Identifier} from "../../identifier";
+import {SizeNumber} from "../../misc/size-number";
 import {Node, ValueNode} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
@@ -17,7 +18,7 @@ export interface CreateLogFileGroupOptions extends Node {
      *
      * > The minimum allowed value for `INITIAL_SIZE` is `1048576` (1 MB).
      */
-    initialSize : Identifier|IntegerLiteral,
+    initialSize : SizeNumber,
 
     /**
      * Defaults to `8M`
@@ -27,7 +28,7 @@ export interface CreateLogFileGroupOptions extends Node {
      *
      * > The maximum permitted for `UNDO_BUFFER_SIZE` is `629145600` (600 MB).
      */
-    undoBufferSize : Identifier|IntegerLiteral,
+    undoBufferSize : SizeNumber,
 
     /**
      *
@@ -38,7 +39,7 @@ export interface CreateLogFileGroupOptions extends Node {
      * > and so have no effect in MySQL 5.7.
      * > These options are intended for future expansion.
      */
-    redoBufferSize : Identifier|IntegerLiteral|undefined,
+    redoBufferSize : SizeNumber|undefined,
 
     /**
      * > `REDO_BUFFER_SIZE`, `NODEGROUP`, `WAIT`, and `COMMENT` are parsed but ignored,

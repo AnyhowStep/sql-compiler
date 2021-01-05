@@ -1,0 +1,67 @@
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    ENGINE 'test';
+
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    ENGINE `test`;
+
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    STORAGE ENGINE 'test';
+
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    STORAGE ENGINE `test`;
+
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    ENGINE = 'test';
+
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    ENGINE = `test`;
+
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    STORAGE ENGINE = 'test';
+
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    STORAGE ENGINE = `test`;
+
+-----
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = 'test';
+
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = `test`;
+
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = 'test';
+
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = `test`;
+
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = 'test';
+
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = `test`;
+
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = 'test';
+
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = `test`;
+
+-----
+[]

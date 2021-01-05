@@ -1,5 +1,6 @@
 import {CreateLogFileGroupOptions} from "../../../parser-node";
 import {emitExpression, emitIntegerLiteral, emitStringLiteral} from "../../expression";
+import {emitSizeNumber} from "../../misc";
 import {StringBuilder} from "../../string-builder";
 
 export function emitCreateLogFileGroupOptions (options : CreateLogFileGroupOptions) {
@@ -7,13 +8,13 @@ export function emitCreateLogFileGroupOptions (options : CreateLogFileGroupOptio
         .scope(builder => {
             builder
                 .append("INITIAL_SIZE = ")
-                .appendBuilder(emitExpression(options.initialSize))
+                .appendBuilder(emitSizeNumber(options.initialSize))
         })
         .scope(builder => {
             builder
                 .appendNewLine()
                 .append("UNDO_BUFFER_SIZE = ")
-                .appendBuilder(emitExpression(options.undoBufferSize))
+                .appendBuilder(emitSizeNumber(options.undoBufferSize))
         })
         .scope(builder => {
             if (options.redoBufferSize == undefined) {
@@ -22,7 +23,7 @@ export function emitCreateLogFileGroupOptions (options : CreateLogFileGroupOptio
             builder
                 .appendNewLine()
                 .append("REDO_BUFFER_SIZE = ")
-                .appendBuilder(emitExpression(options.redoBufferSize))
+                .appendBuilder(emitSizeNumber(options.redoBufferSize))
         })
         .scope(builder => {
             if (options.nodeGroup == undefined) {

@@ -1,0 +1,11 @@
+CREATE TABLESPACE x
+    ADD DATAFILE 'y'
+    COMMENT 'hello';
+
+-----
+CREATE TABLESPACE `x`
+    ADD DATAFILE 'y'
+    COMMENT = 'hello';
+
+-----
+[]

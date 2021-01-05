@@ -3,19 +3,19 @@ import {TokenKind} from "../../../scanner";
 import {optional, union} from "../../../nearley-wrapper";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {getTextRange, toValueNode} from "../../parse-util";
-import {CreateLogFileGroupOption} from "../../custom-data";
+import {CreateTablespaceOption} from "../../custom-data";
 
 /**
- * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L4811
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L4769
  */
-makeCustomRule(CustomSyntaxKind.CreateLogFileGroupOption)
+makeCustomRule(CustomSyntaxKind.CreateTablespaceOption)
     .addSubstitution(
         [
             TokenKind.INITIAL_SIZE,
             optional(TokenKind.Equal),
             SyntaxKind.SizeNumber,
         ] as const,
-        (data) : CreateLogFileGroupOption => {
+        (data) : CreateTablespaceOption => {
             return {
                 ...getTextRange(data),
                 initialSize : data[2],
@@ -24,27 +24,40 @@ makeCustomRule(CustomSyntaxKind.CreateLogFileGroupOption)
     )
     .addSubstitution(
         [
-            TokenKind.UNDO_BUFFER_SIZE,
+            TokenKind.AUTOEXTEND_SIZE,
             optional(TokenKind.Equal),
             SyntaxKind.SizeNumber,
         ] as const,
-        (data) : CreateLogFileGroupOption => {
+        (data) : CreateTablespaceOption => {
             return {
                 ...getTextRange(data),
-                undoBufferSize : data[2],
+                autoExtendSize : data[2],
             };
         }
     )
     .addSubstitution(
         [
-            TokenKind.REDO_BUFFER_SIZE,
+            TokenKind.MAX_SIZE,
             optional(TokenKind.Equal),
             SyntaxKind.SizeNumber,
         ] as const,
-        (data) : CreateLogFileGroupOption => {
+        (data) : CreateTablespaceOption => {
             return {
                 ...getTextRange(data),
-                redoBufferSize : data[2],
+                maxSize : data[2],
+            };
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.EXTENT_SIZE,
+            optional(TokenKind.Equal),
+            SyntaxKind.SizeNumber,
+        ] as const,
+        (data) : CreateTablespaceOption => {
+            return {
+                ...getTextRange(data),
+                extentSize : data[2],
             };
         }
     )
@@ -54,7 +67,7 @@ makeCustomRule(CustomSyntaxKind.CreateLogFileGroupOption)
             optional(TokenKind.Equal),
             SyntaxKind.IntegerLiteral,
         ] as const,
-        (data) : CreateLogFileGroupOption => {
+        (data) : CreateTablespaceOption => {
             return {
                 ...getTextRange(data),
                 nodeGroup : data[2],
@@ -71,7 +84,7 @@ makeCustomRule(CustomSyntaxKind.CreateLogFileGroupOption)
                 SyntaxKind.Identifier,
             ),
         ] as const,
-        (data) : CreateLogFileGroupOption => {
+        (data) : CreateTablespaceOption => {
             return {
                 ...getTextRange(data),
                 engine : data[3][0],
@@ -82,7 +95,7 @@ makeCustomRule(CustomSyntaxKind.CreateLogFileGroupOption)
         [
             TokenKind.WAIT,
         ] as const,
-        (data) : CreateLogFileGroupOption => {
+        (data) : CreateTablespaceOption => {
             return {
                 ...getTextRange(data),
                 wait : toValueNode(
@@ -96,7 +109,7 @@ makeCustomRule(CustomSyntaxKind.CreateLogFileGroupOption)
         [
             TokenKind.NO_WAIT,
         ] as const,
-        (data) : CreateLogFileGroupOption => {
+        (data) : CreateTablespaceOption => {
             return {
                 ...getTextRange(data),
                 wait : toValueNode(
@@ -112,10 +125,23 @@ makeCustomRule(CustomSyntaxKind.CreateLogFileGroupOption)
             optional(TokenKind.Equal),
             SyntaxKind.StringLiteral,
         ] as const,
-        (data) : CreateLogFileGroupOption => {
+        (data) : CreateTablespaceOption => {
             return {
                 ...getTextRange(data),
                 comment : data[2],
+            };
+        }
+    )
+    .addSubstitution(
+        [
+            TokenKind.FILE_BLOCK_SIZE,
+            optional(TokenKind.Equal),
+            SyntaxKind.SizeNumber,
+        ] as const,
+        (data) : CreateTablespaceOption => {
+            return {
+                ...getTextRange(data),
+                fileBlockSize : data[2],
             };
         }
     )

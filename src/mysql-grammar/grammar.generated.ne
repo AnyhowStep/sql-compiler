@@ -2795,6 +2795,15 @@ DecimalPrecision ->
     return result;
 } %}
 
+SizeNumber ->
+    (Identifier | IntegerLiteral) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.SizeNumber,
+        value: data[0][0],
+    };
+} %}
+
 StringList ->
     %OpenParentheses TextString (%Comma TextString):* %CloseParentheses {% (data) => {
     const [, first, more] = data;
@@ -3139,22 +3148,22 @@ CreateLogFileGroupAddFile ->
 } %}
 
 CreateLogFileGroupOption ->
-    %INITIAL_SIZE %Equal:? (IntegerLiteral | Identifier) {% (data) => {
+    %INITIAL_SIZE %Equal:? SizeNumber {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        initialSize: data[2][0],
+        initialSize: data[2],
     };
 } %}
-    | %UNDO_BUFFER_SIZE %Equal:? (IntegerLiteral | Identifier) {% (data) => {
+    | %UNDO_BUFFER_SIZE %Equal:? SizeNumber {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        undoBufferSize: data[2][0],
+        undoBufferSize: data[2],
     };
 } %}
-    | %REDO_BUFFER_SIZE %Equal:? (IntegerLiteral | Identifier) {% (data) => {
+    | %REDO_BUFFER_SIZE %Equal:? SizeNumber {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        redoBufferSize: data[2][0],
+        redoBufferSize: data[2],
     };
 } %}
     | %NODEGROUP %Equal:? IntegerLiteral {% (data) => {
@@ -3205,16 +3214,26 @@ CreateLogFileGroupOptions ->
         initialSize: {
             start: -1,
             end: -1,
-            syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            quoted: false,
-            identifier: "128M",
+            syntaxKind: parser_node_1.SyntaxKind.SizeNumber,
+            value: {
+                start: -1,
+                end: -1,
+                syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                quoted: false,
+                identifier: "128M",
+            },
         },
         undoBufferSize: {
             start: -1,
             end: -1,
-            syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            quoted: false,
-            identifier: "8M",
+            syntaxKind: parser_node_1.SyntaxKind.SizeNumber,
+            value: {
+                start: -1,
+                end: -1,
+                syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                quoted: false,
+                identifier: "8M",
+            },
         },
         redoBufferSize: undefined,
         nodeGroup: undefined,
@@ -4071,6 +4090,129 @@ CreateTableStatement ->
         createTableDefinitions,
         createTableOptions,
         partition: partition !== null && partition !== void 0 ? partition : undefined,
+    };
+} %}
+
+CreateTablespaceOption ->
+    %INITIAL_SIZE %Equal:? SizeNumber {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        initialSize: data[2],
+    };
+} %}
+    | %AUTOEXTEND_SIZE %Equal:? SizeNumber {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        autoExtendSize: data[2],
+    };
+} %}
+    | %MAX_SIZE %Equal:? SizeNumber {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        maxSize: data[2],
+    };
+} %}
+    | %EXTENT_SIZE %Equal:? SizeNumber {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        extentSize: data[2],
+    };
+} %}
+    | %NODEGROUP %Equal:? IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        nodeGroup: data[2],
+    };
+} %}
+    | %STORAGE:? %ENGINE %Equal:? (StringLiteral | Identifier) {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        engine: data[3][0],
+    };
+} %}
+    | %WAIT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        wait: parse_util_1.toValueNode(true, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %NO_WAIT {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        wait: parse_util_1.toValueNode(false, parse_util_1.getTextRange(data)),
+    };
+} %}
+    | %COMMENT %Equal:? StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        comment: data[2],
+    };
+} %}
+    | %FILE_BLOCK_SIZE %Equal:? SizeNumber {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        fileBlockSize: data[2],
+    };
+} %}
+
+CreateTablespaceOptions ->
+    (CreateTablespaceOption (%Comma:? CreateTablespaceOption):*):? {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        initialSize: undefined,
+        autoExtendSize: undefined,
+        maxSize: undefined,
+        extentSize: undefined,
+        nodeGroup: undefined,
+        engine: undefined,
+        wait: undefined,
+        comment: undefined,
+        fileBlockSize: undefined,
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTablespaceOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+CreateTablespaceStatement ->
+    %CREATE %TABLESPACE Identifier %ADD %DATAFILE StringLiteral (%USE %LOGFILE %GROUP Identifier):? CreateTablespaceOptions {% (data) => {
+    const [, , identifier, , , addDataFile, useLogFileGroup, createTablespaceOptions,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTablespaceStatement,
+        identifier,
+        addDataFile,
+        useLogFileGroup: (useLogFileGroup == undefined ?
+            undefined :
+            useLogFileGroup[3]),
+        createTablespaceOptions,
     };
 } %}
 
@@ -5903,7 +6045,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

@@ -1,29 +1,29 @@
-import {CreateLogFileGroupOptions, Node, SyntaxKind} from "../../../parser-node";
+import {CreateTablespaceOptions, Node, SyntaxKind} from "../../../parser-node";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
-import {CreateLogFileGroupOption} from "../../custom-data";
+import {CreateTablespaceOption} from "../../custom-data";
 import {optional, zeroOrMore} from "../../../nearley-wrapper";
 import {getTextRange} from "../../parse-util";
 import {Diagnostic} from "../../../diagnostic";
 import {TokenKind} from "../../../scanner";
 
 /**
- * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L4805
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L4763
  */
-makeCustomRule(SyntaxKind.CreateLogFileGroupOptions)
+makeCustomRule(SyntaxKind.CreateTablespaceOptions)
     .addSubstitution(
         [
             optional([
-                CustomSyntaxKind.CreateLogFileGroupOption,
+                CustomSyntaxKind.CreateTablespaceOption,
                 zeroOrMore([
                     optional(TokenKind.Comma),
-                    CustomSyntaxKind.CreateLogFileGroupOption,
+                    CustomSyntaxKind.CreateTablespaceOption,
                 ] as const),
             ] as const),
         ] as const,
-        (data) : CreateLogFileGroupOptions => {
+        (data) : CreateTablespaceOptions => {
             const arr = data
                 .flat(3)
-                .filter((item) : item is CreateLogFileGroupOption => {
+                .filter((item) : item is CreateTablespaceOption => {
                     if (item == undefined) {
                         return false;
                     }
@@ -33,36 +33,16 @@ makeCustomRule(SyntaxKind.CreateLogFileGroupOptions)
                     return true;
                 });
 
-            const result : Omit<CreateLogFileGroupOptions, keyof Node> = {
-                initialSize : {
-                    start : -1,
-                    end : -1,
-                    syntaxKind : SyntaxKind.SizeNumber,
-                    value : {
-                        start : -1,
-                        end : -1,
-                        syntaxKind : SyntaxKind.Identifier,
-                        quoted : false,
-                        identifier : "128M",
-                    },
-                },
-                undoBufferSize : {
-                    start : -1,
-                    end : -1,
-                    syntaxKind : SyntaxKind.SizeNumber,
-                    value : {
-                        start : -1,
-                        end : -1,
-                        syntaxKind : SyntaxKind.Identifier,
-                        quoted : false,
-                        identifier : "8M",
-                    },
-                },
-                redoBufferSize : undefined,
+            const result : Omit<CreateTablespaceOptions, keyof Node> = {
+                initialSize : undefined,
+                autoExtendSize : undefined,
+                maxSize : undefined,
+                extentSize : undefined,
                 nodeGroup : undefined,
                 engine : undefined,
                 wait : undefined,
                 comment : undefined,
+                fileBlockSize : undefined,
             };
 
             const syntacticErrors : Diagnostic[] = [];
@@ -81,7 +61,7 @@ makeCustomRule(SyntaxKind.CreateLogFileGroupOptions)
 
             return {
                 ...getTextRange(data),
-                syntaxKind : SyntaxKind.CreateLogFileGroupOptions,
+                syntaxKind : SyntaxKind.CreateTablespaceOptions,
                 ...result,
                 syntacticErrors : (
                     syntacticErrors.length > 0 ?

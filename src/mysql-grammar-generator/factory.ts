@@ -2,6 +2,7 @@ import {ParserState} from "../mysql-grammar";
 import {
     AccountLockAndPasswordExpiryOption,
     CreateLogFileGroupOption,
+    CreateTablespaceOption,
     FieldTerminatorOption,
     LineTerminatorOption,
     RateLimitOption,
@@ -133,6 +134,7 @@ export enum CustomSyntaxKind {
     RequiredEncryptedConnectionOption,
     CreateLogFileGroupAddFile,
     CreateLogFileGroupOption,
+    CreateTablespaceOption,
 }
 
 declare module "../nearley-wrapper" {
@@ -208,6 +210,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.RequiredEncryptedConnectionOption] : RequiredEncryptedConnectionOption,
         [CustomSyntaxKind.CreateLogFileGroupAddFile] : CreateLogFileGroupAddFile,
         [CustomSyntaxKind.CreateLogFileGroupOption] : CreateLogFileGroupOption,
+        [CustomSyntaxKind.CreateTablespaceOption] : CreateTablespaceOption,
     }
 
     interface CustomToken extends Array<TokenKind> {

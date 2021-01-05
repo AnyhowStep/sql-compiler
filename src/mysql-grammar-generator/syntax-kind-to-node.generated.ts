@@ -49,6 +49,7 @@ import {
     FieldLength,
     Interval,
     Precision,
+    SizeNumber,
     StringList,
     SourceFile,
     SourceFileLite,
@@ -220,6 +221,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.FieldLength] : FieldLength;
     [SyntaxKind.Interval] : Interval;
     [SyntaxKind.Precision] : Precision;
+    [SyntaxKind.SizeNumber] : SizeNumber;
     [SyntaxKind.StringList] : StringList;
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;

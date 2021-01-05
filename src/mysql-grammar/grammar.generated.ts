@@ -2917,6 +2917,15 @@ export var ParserRules: NearleyRule[] = [
             }
             return result;
         } },
+    {"name": "SizeNumber$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "SizeNumber$subexpression$1", "symbols": ["IntegerLiteral"]},
+    {"name": "SizeNumber", "symbols": ["SizeNumber$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.SizeNumber,
+                value: data[0][0],
+            };
+        } },
     {"name": "StringList$ebnf$1", "symbols": []},
     {"name": "StringList$ebnf$1$subexpression$1", "symbols": [Comma, "TextString"]},
     {"name": "StringList$ebnf$1", "symbols": ["StringList$ebnf$1", "StringList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
@@ -3300,32 +3309,26 @@ export var ParserRules: NearleyRule[] = [
         } },
     {"name": "CreateLogFileGroupOption$ebnf$1", "symbols": [Equal], "postprocess": id},
     {"name": "CreateLogFileGroupOption$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CreateLogFileGroupOption$subexpression$1", "symbols": ["IntegerLiteral"]},
-    {"name": "CreateLogFileGroupOption$subexpression$1", "symbols": ["Identifier"]},
-    {"name": "CreateLogFileGroupOption", "symbols": [INITIAL_SIZE, "CreateLogFileGroupOption$ebnf$1", "CreateLogFileGroupOption$subexpression$1"], "postprocess":  (data) => {
+    {"name": "CreateLogFileGroupOption", "symbols": [INITIAL_SIZE, "CreateLogFileGroupOption$ebnf$1", "SizeNumber"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                initialSize: data[2][0],
+                initialSize: data[2],
             };
         } },
     {"name": "CreateLogFileGroupOption$ebnf$2", "symbols": [Equal], "postprocess": id},
     {"name": "CreateLogFileGroupOption$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CreateLogFileGroupOption$subexpression$2", "symbols": ["IntegerLiteral"]},
-    {"name": "CreateLogFileGroupOption$subexpression$2", "symbols": ["Identifier"]},
-    {"name": "CreateLogFileGroupOption", "symbols": [UNDO_BUFFER_SIZE, "CreateLogFileGroupOption$ebnf$2", "CreateLogFileGroupOption$subexpression$2"], "postprocess":  (data) => {
+    {"name": "CreateLogFileGroupOption", "symbols": [UNDO_BUFFER_SIZE, "CreateLogFileGroupOption$ebnf$2", "SizeNumber"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                undoBufferSize: data[2][0],
+                undoBufferSize: data[2],
             };
         } },
     {"name": "CreateLogFileGroupOption$ebnf$3", "symbols": [Equal], "postprocess": id},
     {"name": "CreateLogFileGroupOption$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "CreateLogFileGroupOption$subexpression$3", "symbols": ["IntegerLiteral"]},
-    {"name": "CreateLogFileGroupOption$subexpression$3", "symbols": ["Identifier"]},
-    {"name": "CreateLogFileGroupOption", "symbols": [REDO_BUFFER_SIZE, "CreateLogFileGroupOption$ebnf$3", "CreateLogFileGroupOption$subexpression$3"], "postprocess":  (data) => {
+    {"name": "CreateLogFileGroupOption", "symbols": [REDO_BUFFER_SIZE, "CreateLogFileGroupOption$ebnf$3", "SizeNumber"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                redoBufferSize: data[2][0],
+                redoBufferSize: data[2],
             };
         } },
     {"name": "CreateLogFileGroupOption$ebnf$4", "symbols": [Equal], "postprocess": id},
@@ -3340,9 +3343,9 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateLogFileGroupOption$ebnf$5", "symbols": [], "postprocess": () => null},
     {"name": "CreateLogFileGroupOption$ebnf$6", "symbols": [Equal], "postprocess": id},
     {"name": "CreateLogFileGroupOption$ebnf$6", "symbols": [], "postprocess": () => null},
-    {"name": "CreateLogFileGroupOption$subexpression$4", "symbols": ["StringLiteral"]},
-    {"name": "CreateLogFileGroupOption$subexpression$4", "symbols": ["Identifier"]},
-    {"name": "CreateLogFileGroupOption", "symbols": ["CreateLogFileGroupOption$ebnf$5", ENGINE, "CreateLogFileGroupOption$ebnf$6", "CreateLogFileGroupOption$subexpression$4"], "postprocess":  (data) => {
+    {"name": "CreateLogFileGroupOption$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "CreateLogFileGroupOption$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "CreateLogFileGroupOption", "symbols": ["CreateLogFileGroupOption$ebnf$5", ENGINE, "CreateLogFileGroupOption$ebnf$6", "CreateLogFileGroupOption$subexpression$1"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 engine: data[3][0],
@@ -3392,16 +3395,26 @@ export var ParserRules: NearleyRule[] = [
                 initialSize: {
                     start: -1,
                     end: -1,
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    quoted: false,
-                    identifier: "128M",
+                    syntaxKind: parser_node_1.SyntaxKind.SizeNumber,
+                    value: {
+                        start: -1,
+                        end: -1,
+                        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                        quoted: false,
+                        identifier: "128M",
+                    },
                 },
                 undoBufferSize: {
                     start: -1,
                     end: -1,
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    quoted: false,
-                    identifier: "8M",
+                    syntaxKind: parser_node_1.SyntaxKind.SizeNumber,
+                    value: {
+                        start: -1,
+                        end: -1,
+                        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                        quoted: false,
+                        identifier: "8M",
+                    },
                 },
                 redoBufferSize: undefined,
                 nodeGroup: undefined,
@@ -4438,6 +4451,154 @@ export var ParserRules: NearleyRule[] = [
                 createTableDefinitions,
                 createTableOptions,
                 partition: partition !== null && partition !== void 0 ? partition : undefined,
+            };
+        } },
+    {"name": "CreateTablespaceOption$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption", "symbols": [INITIAL_SIZE, "CreateTablespaceOption$ebnf$1", "SizeNumber"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                initialSize: data[2],
+            };
+        } },
+    {"name": "CreateTablespaceOption$ebnf$2", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption", "symbols": [AUTOEXTEND_SIZE, "CreateTablespaceOption$ebnf$2", "SizeNumber"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                autoExtendSize: data[2],
+            };
+        } },
+    {"name": "CreateTablespaceOption$ebnf$3", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption", "symbols": [MAX_SIZE, "CreateTablespaceOption$ebnf$3", "SizeNumber"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                maxSize: data[2],
+            };
+        } },
+    {"name": "CreateTablespaceOption$ebnf$4", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption", "symbols": [EXTENT_SIZE, "CreateTablespaceOption$ebnf$4", "SizeNumber"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                extentSize: data[2],
+            };
+        } },
+    {"name": "CreateTablespaceOption$ebnf$5", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption", "symbols": [NODEGROUP, "CreateTablespaceOption$ebnf$5", "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                nodeGroup: data[2],
+            };
+        } },
+    {"name": "CreateTablespaceOption$ebnf$6", "symbols": [STORAGE], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption$ebnf$7", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "CreateTablespaceOption$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "CreateTablespaceOption", "symbols": ["CreateTablespaceOption$ebnf$6", ENGINE, "CreateTablespaceOption$ebnf$7", "CreateTablespaceOption$subexpression$1"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                engine: data[3][0],
+            };
+        } },
+    {"name": "CreateTablespaceOption", "symbols": [WAIT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                wait: parse_util_1.toValueNode(true, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "CreateTablespaceOption", "symbols": [NO_WAIT], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                wait: parse_util_1.toValueNode(false, parse_util_1.getTextRange(data)),
+            };
+        } },
+    {"name": "CreateTablespaceOption$ebnf$8", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$8", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption", "symbols": [COMMENT, "CreateTablespaceOption$ebnf$8", "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                comment: data[2],
+            };
+        } },
+    {"name": "CreateTablespaceOption$ebnf$9", "symbols": [Equal], "postprocess": id},
+    {"name": "CreateTablespaceOption$ebnf$9", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOption", "symbols": [FILE_BLOCK_SIZE, "CreateTablespaceOption$ebnf$9", "SizeNumber"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                fileBlockSize: data[2],
+            };
+        } },
+    {"name": "CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
+    {"name": "CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": ["CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "CreateTablespaceOption"]},
+    {"name": "CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": ["CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1", "CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateTablespaceOptions$ebnf$1$subexpression$1", "symbols": ["CreateTablespaceOption", "CreateTablespaceOptions$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "CreateTablespaceOptions$ebnf$1", "symbols": ["CreateTablespaceOptions$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateTablespaceOptions$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceOptions", "symbols": ["CreateTablespaceOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                initialSize: undefined,
+                autoExtendSize: undefined,
+                maxSize: undefined,
+                extentSize: undefined,
+                nodeGroup: undefined,
+                engine: undefined,
+                wait: undefined,
+                comment: undefined,
+                fileBlockSize: undefined,
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTablespaceOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "CreateTablespaceStatement$ebnf$1$subexpression$1", "symbols": [USE, LOGFILE, GROUP, "Identifier"]},
+    {"name": "CreateTablespaceStatement$ebnf$1", "symbols": ["CreateTablespaceStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "CreateTablespaceStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTablespaceStatement", "symbols": [CREATE, TABLESPACE, "Identifier", ADD, DATAFILE, "StringLiteral", "CreateTablespaceStatement$ebnf$1", "CreateTablespaceOptions"], "postprocess":  (data) => {
+            const [, , identifier, , , addDataFile, useLogFileGroup, createTablespaceOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTablespaceStatement,
+                identifier,
+                addDataFile,
+                useLogFileGroup: (useLogFileGroup == undefined ?
+                    undefined :
+                    useLogFileGroup[3]),
+                createTablespaceOptions,
             };
         } },
     {"name": "CreateTriggerStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
@@ -6509,6 +6670,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateViewStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateUserStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateLogFileGroupStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTablespaceStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
