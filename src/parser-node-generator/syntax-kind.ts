@@ -101,6 +101,8 @@ export const syntaxKinds = [
     "CreateLogFileGroupAddUndoFile",
     "CreateTablespaceStatement",
     "CreateTablespaceOptions",
+    "CreateServerStatement",
+    "CreateServerOptions",
 
     "HashPartition",
     "KeyPartition",

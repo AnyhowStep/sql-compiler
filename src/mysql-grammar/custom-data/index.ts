@@ -2,6 +2,7 @@ export * from "./account-lock-and-password-expiry-option";
 export * from "./character-data-type-modifier";
 export * from "./column-definition-modifier";
 export * from "./create-log-file-group-option";
+export * from "./create-server-option";
 export * from "./create-table-option";
 export * from "./create-tablespace-option";
 export * from "./field-terminator-option";

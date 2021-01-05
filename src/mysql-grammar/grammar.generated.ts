@@ -3475,6 +3475,150 @@ export var ParserRules: NearleyRule[] = [
                 createSchemaOptions,
             };
         } },
+    {"name": "CreateServerOption", "symbols": [HOST, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                host: data[1],
+            };
+        } },
+    {"name": "CreateServerOption", "symbols": [DATABASE, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                database: data[1],
+            };
+        } },
+    {"name": "CreateServerOption", "symbols": [USER, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                user: data[1],
+            };
+        } },
+    {"name": "CreateServerOption", "symbols": [PASSWORD, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                password: data[1],
+            };
+        } },
+    {"name": "CreateServerOption", "symbols": [SOCKET, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                socket: data[1],
+            };
+        } },
+    {"name": "CreateServerOption", "symbols": [OWNER, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                owner: data[1],
+            };
+        } },
+    {"name": "CreateServerOption", "symbols": [PORT, "IntegerLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                port: data[1],
+            };
+        } },
+    {"name": "CreateServerOptions$ebnf$1", "symbols": []},
+    {"name": "CreateServerOptions$ebnf$1$subexpression$1", "symbols": [Comma, "CreateServerOption"]},
+    {"name": "CreateServerOptions$ebnf$1", "symbols": ["CreateServerOptions$ebnf$1", "CreateServerOptions$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateServerOptions", "symbols": ["CreateServerOption", "CreateServerOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const start = parse_util_1.getStart(data);
+            const end = start;
+            const result = {
+                host: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: "''",
+                },
+                database: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: "''",
+                },
+                user: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: "''",
+                },
+                password: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: "''",
+                },
+                socket: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: "''",
+                },
+                owner: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                    value: "",
+                    sourceText: "''",
+                },
+                port: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+                    value: BigInt(0),
+                },
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateServerOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
+    {"name": "CreateServerStatement$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "CreateServerStatement$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "CreateServerStatement$subexpression$2", "symbols": ["Identifier"]},
+    {"name": "CreateServerStatement$subexpression$2", "symbols": ["StringLiteral"]},
+    {"name": "CreateServerStatement", "symbols": [CREATE, SERVER, "CreateServerStatement$subexpression$1", FOREIGN, DATA, WRAPPER, "CreateServerStatement$subexpression$2", OPTIONS, OpenParentheses, "CreateServerOptions", CloseParentheses], "postprocess":  (data) => {
+            const [, , serverName, , , , foreignDataWrapper, , , createServerOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateServerStatement,
+                serverName: serverName[0],
+                foreignDataWrapper: foreignDataWrapper[0],
+                createServerOptions,
+            };
+        } },
     {"name": "CheckDefinition$ebnf$1", "symbols": ["Constraint"], "postprocess": id},
     {"name": "CheckDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "CheckDefinition", "symbols": ["CheckDefinition$ebnf$1", CHECK, OpenParentheses, "Expression", CloseParentheses], "postprocess":  (data) => {
@@ -6671,6 +6815,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateUserStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateLogFileGroupStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTablespaceStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateServerStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];

@@ -1,0 +1,21 @@
+CREATE SERVER x
+    FOREIGN DATA WRAPPER y
+    OPTIONS (
+        PORT 1
+    );
+
+-----
+CREATE SERVER `x`
+    FOREIGN DATA WRAPPER `y`
+    OPTIONS (
+        HOST '',
+        DATABASE '',
+        USER '',
+        PASSWORD '',
+        SOCKET '',
+        OWNER '',
+        PORT 1
+    );
+
+-----
+[]

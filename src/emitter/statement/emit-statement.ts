@@ -3,6 +3,7 @@ import {StringBuilder} from "../string-builder";
 import {emitCreateEventStatement} from "./create-event-statement";
 import {emitCreateFunctionStatement, emitCreateProcedureStatement, emitCreateUserDefinedFunctionStatement} from "./create-function-statement";
 import {emitCreateLogFileGroupStatement} from "./create-log-file-group-statement";
+import {emitCreateServerStatement} from "./create-server-statement";
 import {emitCreateTableStatement} from "./create-table-statement";
 import {emitCreateTablespaceStatement} from "./create-tablespace-statement";
 import {emitCreateTriggerStatement} from "./create-trigger-statement";
@@ -25,6 +26,7 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.CreateUserStatement, emitCreateUserStatement)
         .case(SyntaxKind.CreateLogFileGroupStatement, emitCreateLogFileGroupStatement)
         .case(SyntaxKind.CreateTablespaceStatement, emitCreateTablespaceStatement)
+        .case(SyntaxKind.CreateServerStatement, emitCreateServerStatement)
         //.case(SyntaxKind.SetStatement, emitSetStatement)
         /*.case(SyntaxKind.SelectStatement, statement => emitSelectStatement(
             statement,

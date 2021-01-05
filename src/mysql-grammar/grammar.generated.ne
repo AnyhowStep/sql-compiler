@@ -3292,6 +3292,149 @@ CreateSchemaStatement ->
     };
 } %}
 
+CreateServerOption ->
+    %HOST StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        host: data[1],
+    };
+} %}
+    | %DATABASE StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        database: data[1],
+    };
+} %}
+    | %USER StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        user: data[1],
+    };
+} %}
+    | %PASSWORD StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        password: data[1],
+    };
+} %}
+    | %SOCKET StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        socket: data[1],
+    };
+} %}
+    | %OWNER StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        owner: data[1],
+    };
+} %}
+    | %PORT IntegerLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        port: data[1],
+    };
+} %}
+
+CreateServerOptions ->
+    CreateServerOption (%Comma CreateServerOption):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const start = parse_util_1.getStart(data);
+    const end = start;
+    const result = {
+        host: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: "''",
+        },
+        database: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: "''",
+        },
+        user: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: "''",
+        },
+        password: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: "''",
+        },
+        socket: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: "''",
+        },
+        owner: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+            value: "",
+            sourceText: "''",
+        },
+        port: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.IntegerLiteral,
+            value: BigInt(0),
+        },
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateServerOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
+CreateServerStatement ->
+    %CREATE %SERVER (Identifier | StringLiteral) %FOREIGN %DATA %WRAPPER (Identifier | StringLiteral) %OPTIONS %OpenParentheses CreateServerOptions %CloseParentheses {% (data) => {
+    const [, , serverName, , , , foreignDataWrapper, , , createServerOptions,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateServerStatement,
+        serverName: serverName[0],
+        foreignDataWrapper: foreignDataWrapper[0],
+        createServerOptions,
+    };
+} %}
+
 CheckDefinition ->
     Constraint:? %CHECK %OpenParentheses Expression %CloseParentheses {% (data) => {
     const [constraintName, , , expr,] = data;
@@ -6045,7 +6188,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

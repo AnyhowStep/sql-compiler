@@ -61,6 +61,8 @@ import {CreateLogFileGroupAddUndoFile} from "./statement/create-log-file-group-s
 import {CreateLogFileGroupOptions} from "./statement/create-log-file-group-statement/create-log-file-group-options";
 import {CreateLogFileGroupStatement} from "./statement/create-log-file-group-statement/create-log-file-group-statement";
 import {CreateSchemaStatement} from "./statement/create-schema-statement";
+import {CreateServerOptions} from "./statement/create-server-statement/create-server-options";
+import {CreateServerStatement} from "./statement/create-server-statement/create-server-statement";
 import {CheckDefinition} from "./statement/create-table-definition/check-definition";
 import {ColumnDefinition} from "./statement/create-table-definition/column-definition";
 import {ForeignKeyDefinition} from "./statement/create-table-definition/foreign-key-definition";
@@ -202,6 +204,8 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFile
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupOptions) : node is CreateLogFileGroupOptions;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupStatement) : node is CreateLogFileGroupStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateSchemaStatement) : node is CreateSchemaStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateServerOptions) : node is CreateServerOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateServerStatement) : node is CreateServerStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CheckDefinition) : node is CheckDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ColumnDefinition) : node is ColumnDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ForeignKeyDefinition) : node is ForeignKeyDefinition;
@@ -352,6 +356,8 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupOptions, callback : (node : CreateLogFileGroupOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupStatement, callback : (node : CreateLogFileGroupStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateSchemaStatement, callback : (node : CreateSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateServerOptions, callback : (node : CreateServerOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateServerStatement, callback : (node : CreateServerStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CheckDefinition, callback : (node : CheckDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ColumnDefinition, callback : (node : ColumnDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ForeignKeyDefinition, callback : (node : ForeignKeyDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

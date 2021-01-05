@@ -1,15 +1,4 @@
 import {ParserState} from "../mysql-grammar";
-import {
-    AccountLockAndPasswordExpiryOption,
-    CreateLogFileGroupOption,
-    CreateTablespaceOption,
-    FieldTerminatorOption,
-    LineTerminatorOption,
-    RateLimitOption,
-    RequiredEncryptedConnectionOption,
-    SelectOption,
-    StoredProcedureCharacteristic,
-} from "../mysql-grammar/custom-data";
 import {CustomSubstitutionToString, makeRuleFactory, TextRange} from "../nearley-wrapper";
 import {
     BitLiteral,
@@ -52,6 +41,16 @@ import {
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
+    AccountLockAndPasswordExpiryOption,
+    CreateLogFileGroupOption,
+    CreateServerOption,
+    CreateTablespaceOption,
+    FieldTerminatorOption,
+    LineTerminatorOption,
+    RateLimitOption,
+    RequiredEncryptedConnectionOption,
+    SelectOption,
+    StoredProcedureCharacteristic,
     CharacterDataTypeModifier,
     ColumnDefinitionModifier,
     IndexOption,
@@ -135,6 +134,7 @@ export enum CustomSyntaxKind {
     CreateLogFileGroupAddFile,
     CreateLogFileGroupOption,
     CreateTablespaceOption,
+    CreateServerOption,
 }
 
 declare module "../nearley-wrapper" {
@@ -211,6 +211,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.CreateLogFileGroupAddFile] : CreateLogFileGroupAddFile,
         [CustomSyntaxKind.CreateLogFileGroupOption] : CreateLogFileGroupOption,
         [CustomSyntaxKind.CreateTablespaceOption] : CreateTablespaceOption,
+        [CustomSyntaxKind.CreateServerOption] : CreateServerOption,
     }
 
     interface CustomToken extends Array<TokenKind> {

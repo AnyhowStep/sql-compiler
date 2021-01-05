@@ -71,6 +71,8 @@ import {
     CreateLogFileGroupStatement,
     CreateSchemaStatement,
     CreateSchemaOptionList,
+    CreateServerOptions,
+    CreateServerStatement,
     CheckDefinition,
     ColumnDefinition,
     CreateTableDefinitionList,
@@ -243,6 +245,8 @@ export type SyntaxKindToNode = {
     [SyntaxKind.CreateLogFileGroupStatement] : CreateLogFileGroupStatement;
     [SyntaxKind.CreateSchemaStatement] : CreateSchemaStatement;
     [SyntaxKind.CreateSchemaOptionList] : CreateSchemaOptionList;
+    [SyntaxKind.CreateServerOptions] : CreateServerOptions;
+    [SyntaxKind.CreateServerStatement] : CreateServerStatement;
     [SyntaxKind.CheckDefinition] : CheckDefinition;
     [SyntaxKind.ColumnDefinition] : ColumnDefinition;
     [SyntaxKind.CreateTableDefinitionList] : CreateTableDefinitionList;
