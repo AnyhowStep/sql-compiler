@@ -1,0 +1,14 @@
+CREATE TABLE T (X INT)
+    SELECT
+        1;
+
+-----
+CREATE TABLE `T` (
+    `X` INT SIGNED NULL
+)
+    AS
+    SELECT
+        1;
+
+-----
+[]

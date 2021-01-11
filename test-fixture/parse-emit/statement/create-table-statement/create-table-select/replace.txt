@@ -1,0 +1,30 @@
+CREATE TABLE T (X INT)
+    REPLACE
+    SELECT
+        1;
+
+CREATE TABLE T (X INT)
+    REPLACE
+    AS
+    SELECT
+        1;
+
+-----
+CREATE TABLE `T` (
+    `X` INT SIGNED NULL
+)
+    REPLACE
+    AS
+    SELECT
+        1;
+
+CREATE TABLE `T` (
+    `X` INT SIGNED NULL
+)
+    REPLACE
+    AS
+    SELECT
+        1;
+
+-----
+[]

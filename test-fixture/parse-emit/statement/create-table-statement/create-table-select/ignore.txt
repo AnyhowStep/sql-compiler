@@ -1,0 +1,30 @@
+CREATE TABLE T (X INT)
+    IGNORE
+    SELECT
+        1;
+
+CREATE TABLE T (X INT)
+    IGNORE
+    AS
+    SELECT
+        1;
+
+-----
+CREATE TABLE `T` (
+    `X` INT SIGNED NULL
+)
+    IGNORE
+    AS
+    SELECT
+        1;
+
+CREATE TABLE `T` (
+    `X` INT SIGNED NULL
+)
+    IGNORE
+    AS
+    SELECT
+        1;
+
+-----
+[]

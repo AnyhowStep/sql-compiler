@@ -89,6 +89,7 @@ import {
     PrimaryKeyDefinition,
     CreateTableLikeStatement,
     CreateTableOptions,
+    CreateTableSelect,
     CreateTableStatement,
     CreateTablespaceOptions,
     CreateTablespaceStatement,
@@ -268,6 +269,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.PrimaryKeyDefinition] : PrimaryKeyDefinition;
     [SyntaxKind.CreateTableLikeStatement] : CreateTableLikeStatement;
     [SyntaxKind.CreateTableOptions] : CreateTableOptions;
+    [SyntaxKind.CreateTableSelect] : CreateTableSelect;
     [SyntaxKind.CreateTableStatement] : CreateTableStatement;
     [SyntaxKind.CreateTablespaceOptions] : CreateTablespaceOptions;
     [SyntaxKind.CreateTablespaceStatement] : CreateTablespaceStatement;

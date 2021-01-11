@@ -1,9 +1,10 @@
-import {CreateTableStatement} from "../../parser-node";
-import {emitTableIdentifier} from "../identifier";
-import {StringBuilder} from "../string-builder";
-import {emitCreateTableDefinition} from "./create-table-definition";
-import {emitCreateTableOptions} from "./create-table-options";
-import {emitPartition} from "./partition";
+import {CreateTableStatement} from "../../../parser-node";
+import {emitTableIdentifier} from "../../identifier";
+import {StringBuilder} from "../../string-builder";
+import {emitCreateTableDefinition} from "../create-table-definition";
+import {emitCreateTableOptions} from "../create-table-options";
+import {emitPartition} from "../partition";
+import {emitCreateTableSelect} from "./create-table-select";
 
 export function emitCreateTableStatement (statement : CreateTableStatement) : StringBuilder {
     const builder = new StringBuilder()
@@ -37,6 +38,15 @@ export function emitCreateTableStatement (statement : CreateTableStatement) : St
             const partition = statement.partition;
             builder.indent(builder => {
                 builder.appendBuilder(emitPartition(partition));
+            })
+        })
+        .scope(builder => {
+            if (statement.createTableSelect == undefined) {
+                return;
+            }
+            const createTableSelect = statement.createTableSelect;
+            builder.indent(builder => {
+                builder.appendBuilder(emitCreateTableSelect(createTableSelect));
             })
         })
     return builder;

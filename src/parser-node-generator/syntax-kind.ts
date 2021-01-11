@@ -74,6 +74,7 @@ export const syntaxKinds = [
     "ForeignKeyDefinition",
     "CheckDefinition",
     "CreateTableOptions",
+    "CreateTableSelect",
 
     "CreateTableLikeStatement",
 

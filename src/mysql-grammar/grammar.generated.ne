@@ -4390,9 +4390,24 @@ CreateTableOptions ->
     };
 } %}
 
+CreateTableSelect ->
+    (%IGNORE | %REPLACE):? %AS:? SelectStatement {% (data) => {
+    const [onDuplicate, , select,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTableSelect,
+        onDuplicate: (onDuplicate == undefined ?
+            undefined :
+            onDuplicate[0].tokenKind == scanner_1.TokenKind.IGNORE ?
+                parser_node_1.CreateTableSelectOnDuplicate.IGNORE :
+                parser_node_1.CreateTableSelectOnDuplicate.REPLACE),
+        select,
+    };
+} %}
+
 CreateTableStatement ->
-    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList CreateTableOptions Partition:? {% (data) => {
-    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition] = data;
+    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList CreateTableOptions Partition:? CreateTableSelect:? {% (data) => {
+    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition, createTableSelect,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
@@ -4402,6 +4417,7 @@ CreateTableStatement ->
         createTableDefinitions,
         createTableOptions,
         partition: partition !== null && partition !== void 0 ? partition : undefined,
+        createTableSelect: createTableSelect !== null && createTableSelect !== void 0 ? createTableSelect : undefined,
     };
 } %}
 
