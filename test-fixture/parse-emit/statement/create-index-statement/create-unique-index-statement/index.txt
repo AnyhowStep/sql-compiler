@@ -1,0 +1,11 @@
+CREATE UNIQUE INDEX `myIndex` ON T (X);
+
+-----
+CREATE UNIQUE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

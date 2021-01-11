@@ -1,0 +1,12 @@
+CREATE UNIQUE INDEX myIndex ON T (X) KEY_BLOCK_SIZE = 999;
+
+-----
+CREATE UNIQUE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    KEY_BLOCK_SIZE = 999
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

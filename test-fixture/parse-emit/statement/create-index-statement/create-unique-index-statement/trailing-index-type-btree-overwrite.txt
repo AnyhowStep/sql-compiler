@@ -1,0 +1,12 @@
+CREATE UNIQUE INDEX `myIndex` USING HASH ON T (X) USING BTREE;
+
+-----
+CREATE UNIQUE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    USING BTREE
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

@@ -1,0 +1,19 @@
+CREATE FULLTEXT INDEX `myIndex` ON T (X) USING BTREE;
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    USING BTREE
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "FULLTEXT and SPATIAL index cannot specify index type",
+        "start": 41,
+        "length": 11
+    }
+]

@@ -4,6 +4,9 @@ CREATE INDEX `myIndex` ON T (X)
 CREATE INDEX `myIndex` ON T (X)
     ALGORITHM = DEFAULT;
 
+CREATE INDEX `myIndex` ON T (X)
+    ALGORITHM = `default`;
+
 -----
 CREATE INDEX `myIndex`
     ON `T`
@@ -16,6 +19,12 @@ CREATE INDEX `myIndex`
     (`X` ASC)
     LOCK = `DEFAULT`
     ALGORITHM = `DEFAULT`;
+
+CREATE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `default`;
 
 -----
 []

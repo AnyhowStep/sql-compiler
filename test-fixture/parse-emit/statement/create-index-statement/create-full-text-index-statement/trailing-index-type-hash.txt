@@ -1,0 +1,19 @@
+CREATE FULLTEXT INDEX `myIndex` ON T (X) USING HASH;
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    USING HASH
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "FULLTEXT and SPATIAL index cannot specify index type",
+        "start": 41,
+        "length": 10
+    }
+]

@@ -1,0 +1,17 @@
+CREATE UNIQUE INDEX `myIndex`
+    /*
+        RTREE is only for Spatial
+    */
+    USING RTREE
+    ON T (X);
+
+-----
+CREATE UNIQUE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    USING RTREE
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

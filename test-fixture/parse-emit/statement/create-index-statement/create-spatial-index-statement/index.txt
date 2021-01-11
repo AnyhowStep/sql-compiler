@@ -1,0 +1,11 @@
+CREATE SPATIAL INDEX `myIndex` ON T (X);
+
+-----
+CREATE SPATIAL INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

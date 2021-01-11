@@ -1,0 +1,17 @@
+CREATE FULLTEXT INDEX `myIndex`
+    /*
+        RTREE is only for Spatial
+    */
+    USING RTREE
+    ON T (X);
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    USING RTREE
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

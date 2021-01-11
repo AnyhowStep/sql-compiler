@@ -1,6 +1,6 @@
 import {IndexClass, CreateIndexStatement, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
-import {optional} from "../../../nearley-wrapper";
+import {optional, union} from "../../../nearley-wrapper";
 import {getTextRange} from "../../parse-util";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 
@@ -11,6 +11,11 @@ makeCustomRule(SyntaxKind.CreateIndexStatement)
     .addSubstitution(
         [
             TokenKind.CREATE,
+            optional(union(
+                TokenKind.UNIQUE,
+                TokenKind.FULLTEXT,
+                TokenKind.SPATIAL,
+            )),
             TokenKind.INDEX,
             SyntaxKind.Identifier,
             optional(CustomSyntaxKind.IndexType),
@@ -26,6 +31,7 @@ makeCustomRule(SyntaxKind.CreateIndexStatement)
         function (data) : CreateIndexStatement {
             const [
                 ,
+                indexClassToken,
                 ,
                 indexName,
                 indexType,
@@ -54,8 +60,16 @@ makeCustomRule(SyntaxKind.CreateIndexStatement)
                 ...indexOption,
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.CreateIndexStatement,
-                indexClass : IndexClass.INDEX,
-                indexName : indexName ?? undefined,
+                indexClass : (
+                    indexClassToken == undefined ?
+                    IndexClass.INDEX :
+                    indexClassToken[0].tokenKind == TokenKind.UNIQUE ?
+                    IndexClass.UNIQUE :
+                    indexClassToken[0].tokenKind == TokenKind.FULLTEXT ?
+                    IndexClass.FULLTEXT :
+                    IndexClass.SPATIAL
+                ),
+                indexName,
                 tableIdentifier,
                 indexParts,
                 alterTableLockAndAlgorithmOptions

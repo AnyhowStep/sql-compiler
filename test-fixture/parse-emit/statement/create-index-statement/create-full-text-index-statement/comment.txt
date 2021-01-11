@@ -1,0 +1,12 @@
+CREATE FULLTEXT INDEX myIndex ON T (X) COMMENT 'ca va';
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    COMMENT 'ca va'
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

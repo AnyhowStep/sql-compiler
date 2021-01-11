@@ -1,0 +1,11 @@
+CREATE UNIQUE INDEX `myIndex` ON T (X(32));
+
+-----
+CREATE UNIQUE INDEX `myIndex`
+    ON `T`
+    (`X`(32) ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

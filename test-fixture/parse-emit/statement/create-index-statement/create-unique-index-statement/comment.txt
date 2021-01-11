@@ -1,0 +1,12 @@
+CREATE UNIQUE INDEX myIndex ON T (X) COMMENT 'ca va';
+
+-----
+CREATE UNIQUE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    COMMENT 'ca va'
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

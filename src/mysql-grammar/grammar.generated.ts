@@ -3414,10 +3414,15 @@ export var ParserRules: NearleyRule[] = [
                         identifier),
             };
         } },
-    {"name": "CreateIndexStatement$ebnf$1", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "CreateIndexStatement$ebnf$1$subexpression$1", "symbols": [UNIQUE]},
+    {"name": "CreateIndexStatement$ebnf$1$subexpression$1", "symbols": [FULLTEXT]},
+    {"name": "CreateIndexStatement$ebnf$1$subexpression$1", "symbols": [SPATIAL]},
+    {"name": "CreateIndexStatement$ebnf$1", "symbols": ["CreateIndexStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CreateIndexStatement$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CreateIndexStatement", "symbols": [CREATE, INDEX, "Identifier", "CreateIndexStatement$ebnf$1", ON, "TableIdentifier", "IndexPartList", "IndexOption", "AlterTableLockAndAlgorithmOptions"], "postprocess":  function (data) {
-            const [, , indexName, indexType, , tableIdentifier, indexParts, rawIndexOption, alterTableLockAndAlgorithmOptions,] = data;
+    {"name": "CreateIndexStatement$ebnf$2", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "CreateIndexStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateIndexStatement", "symbols": [CREATE, "CreateIndexStatement$ebnf$1", INDEX, "Identifier", "CreateIndexStatement$ebnf$2", ON, "TableIdentifier", "IndexPartList", "IndexOption", "AlterTableLockAndAlgorithmOptions"], "postprocess":  function (data) {
+            const [, indexClassToken, , indexName, indexType, , tableIdentifier, indexParts, rawIndexOption, alterTableLockAndAlgorithmOptions,] = data;
             const indexOption = (indexType == undefined ?
                 rawIndexOption :
                 rawIndexOption.indexType == undefined ?
@@ -3430,8 +3435,14 @@ export var ParserRules: NearleyRule[] = [
                 ...indexOption,
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CreateIndexStatement,
-                indexClass: parser_node_1.IndexClass.INDEX,
-                indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+                indexClass: (indexClassToken == undefined ?
+                    parser_node_1.IndexClass.INDEX :
+                    indexClassToken[0].tokenKind == scanner_1.TokenKind.UNIQUE ?
+                        parser_node_1.IndexClass.UNIQUE :
+                        indexClassToken[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
+                            parser_node_1.IndexClass.FULLTEXT :
+                            parser_node_1.IndexClass.SPATIAL),
+                indexName,
                 tableIdentifier,
                 indexParts,
                 alterTableLockAndAlgorithmOptions

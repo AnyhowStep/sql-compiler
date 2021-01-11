@@ -1,0 +1,12 @@
+CREATE FULLTEXT INDEX `myIndex` ON T (X) WITH PARSER lmao;
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    WITH PARSER `lmao`
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

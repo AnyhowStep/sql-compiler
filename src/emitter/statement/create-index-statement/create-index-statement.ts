@@ -15,7 +15,7 @@ export function emitCreateIndexStatement (statement : CreateIndexStatement) : St
             "FULLTEXT INDEX" :
             statement.indexClass == IndexClass.SPATIAL ?
             "SPATIAL INDEX" :
-            "UNIQUE KEY"
+            "UNIQUE INDEX"
         )
         .append(" ")
         .appendBuilder(emitIdentifier(statement.indexName))

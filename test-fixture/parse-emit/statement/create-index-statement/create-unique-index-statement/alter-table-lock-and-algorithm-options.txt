@@ -1,0 +1,13 @@
+CREATE UNIQUE INDEX `myIndex` ON T (X)
+    LOCK SHARED
+    ALGORITHM INPLACE;
+
+-----
+CREATE UNIQUE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `SHARED`
+    ALGORITHM = `INPLACE`;
+
+-----
+[]

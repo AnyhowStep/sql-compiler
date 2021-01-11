@@ -1,0 +1,13 @@
+CREATE FULLTEXT INDEX `myIndex` ON T (X)
+    LOCK SHARED
+    ALGORITHM INPLACE;
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `SHARED`
+    ALGORITHM = `INPLACE`;
+
+-----
+[]

@@ -1,0 +1,19 @@
+CREATE SPATIAL INDEX `myIndex` ON T (X) WITH PARSER lmao;
+
+-----
+CREATE SPATIAL INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    WITH PARSER `lmao`
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Unexpected WITH PARSER",
+        "start": 52,
+        "length": 4
+    }
+]

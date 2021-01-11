@@ -1,0 +1,11 @@
+CREATE FULLTEXT INDEX `myIndex` ON T (X);
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

@@ -1,0 +1,18 @@
+CREATE FULLTEXT INDEX `myIndex` ON T (X(32) DESC);
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X`(32) DESC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[
+    {
+        "category": 1,
+        "messageText": "Index values are always stored in ascending order; DESC is ignored",
+        "start": 44,
+        "length": 4
+    }
+]

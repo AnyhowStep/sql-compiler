@@ -1,0 +1,11 @@
+CREATE FULLTEXT INDEX `myIndex` ON T (X(32) ASC);
+
+-----
+CREATE FULLTEXT INDEX `myIndex`
+    ON `T`
+    (`X`(32) ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

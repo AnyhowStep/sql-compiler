@@ -3248,8 +3248,8 @@ AlterTableLock ->
 } %}
 
 CreateIndexStatement ->
-    %CREATE %INDEX Identifier IndexType:? %ON TableIdentifier IndexPartList IndexOption AlterTableLockAndAlgorithmOptions {% function (data) {
-    const [, , indexName, indexType, , tableIdentifier, indexParts, rawIndexOption, alterTableLockAndAlgorithmOptions,] = data;
+    %CREATE (%UNIQUE | %FULLTEXT | %SPATIAL):? %INDEX Identifier IndexType:? %ON TableIdentifier IndexPartList IndexOption AlterTableLockAndAlgorithmOptions {% function (data) {
+    const [, indexClassToken, , indexName, indexType, , tableIdentifier, indexParts, rawIndexOption, alterTableLockAndAlgorithmOptions,] = data;
     const indexOption = (indexType == undefined ?
         rawIndexOption :
         rawIndexOption.indexType == undefined ?
@@ -3262,8 +3262,14 @@ CreateIndexStatement ->
         ...indexOption,
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateIndexStatement,
-        indexClass: parser_node_1.IndexClass.INDEX,
-        indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+        indexClass: (indexClassToken == undefined ?
+            parser_node_1.IndexClass.INDEX :
+            indexClassToken[0].tokenKind == scanner_1.TokenKind.UNIQUE ?
+                parser_node_1.IndexClass.UNIQUE :
+                indexClassToken[0].tokenKind == scanner_1.TokenKind.FULLTEXT ?
+                    parser_node_1.IndexClass.FULLTEXT :
+                    parser_node_1.IndexClass.SPATIAL),
+        indexName,
         tableIdentifier,
         indexParts,
         alterTableLockAndAlgorithmOptions
