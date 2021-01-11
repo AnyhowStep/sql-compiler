@@ -1,0 +1,13 @@
+CREATE INDEX `myIndex` ON T (X)
+    LOCK EXCLUSIVE
+    ALGORITHM COPY;
+
+-----
+CREATE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `EXCLUSIVE`
+    ALGORITHM = `COPY`;
+
+-----
+[]

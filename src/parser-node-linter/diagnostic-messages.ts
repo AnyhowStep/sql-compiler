@@ -193,4 +193,14 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240036
     }),
+    InvalidAlterTableLock : makeDiagnosticMessage({
+        key : "Invalid alter table LOCK; expected NONE|SHARED|EXCLUSIVE|DEFAULT",
+        category : DiagnosticCategory.Error,
+        code : 240037
+    }),
+    InvalidAlterTableAlgorithm : makeDiagnosticMessage({
+        key : "Invalid alter table ALGORITHM; expected INPLACE|COPY||DEFAULT",
+        category : DiagnosticCategory.Error,
+        code : 240038
+    }),
 } as const;

@@ -65,6 +65,10 @@ import {
     StoredProcedureCharacteristics,
     StoredProcedureParameter,
     StoredProcedureParameterList,
+    AlterTableLock,
+    AlterTableAlgorithm,
+    AlterTableLockAndAlgorithmOptions,
+    CreateIndexStatement,
     CreateLogFileGroupAddRedoFile,
     CreateLogFileGroupAddUndoFile,
     CreateLogFileGroupOptions,
@@ -239,6 +243,10 @@ export type SyntaxKindToNode = {
     [SyntaxKind.StoredProcedureCharacteristics] : StoredProcedureCharacteristics;
     [SyntaxKind.StoredProcedureParameter] : StoredProcedureParameter;
     [SyntaxKind.StoredProcedureParameterList] : StoredProcedureParameterList;
+    [SyntaxKind.AlterTableLock] : AlterTableLock;
+    [SyntaxKind.AlterTableAlgorithm] : AlterTableAlgorithm;
+    [SyntaxKind.AlterTableLockAndAlgorithmOptions] : AlterTableLockAndAlgorithmOptions;
+    [SyntaxKind.CreateIndexStatement] : CreateIndexStatement;
     [SyntaxKind.CreateLogFileGroupAddRedoFile] : CreateLogFileGroupAddRedoFile;
     [SyntaxKind.CreateLogFileGroupAddUndoFile] : CreateLogFileGroupAddUndoFile;
     [SyntaxKind.CreateLogFileGroupOptions] : CreateLogFileGroupOptions;

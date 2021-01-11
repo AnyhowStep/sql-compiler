@@ -56,6 +56,10 @@ import {CreateUserDefinedFunctionStatement} from "./statement/create-function-st
 import {StoredFunctionParameter} from "./statement/create-function-statement/stored-function-parameter";
 import {StoredProcedureCharacteristics} from "./statement/create-function-statement/stored-procedure-characteristics";
 import {StoredProcedureParameter} from "./statement/create-function-statement/stored-procedure-parameter";
+import {AlterTableLock} from "./statement/create-index-statement/alter-table-lock-and-algorithm-options";
+import {AlterTableAlgorithm} from "./statement/create-index-statement/alter-table-lock-and-algorithm-options";
+import {AlterTableLockAndAlgorithmOptions} from "./statement/create-index-statement/alter-table-lock-and-algorithm-options";
+import {CreateIndexStatement} from "./statement/create-index-statement/create-index-statement";
 import {CreateLogFileGroupAddRedoFile} from "./statement/create-log-file-group-statement/create-log-file-group-add-redo-file";
 import {CreateLogFileGroupAddUndoFile} from "./statement/create-log-file-group-statement/create-log-file-group-add-undo-file";
 import {CreateLogFileGroupOptions} from "./statement/create-log-file-group-statement/create-log-file-group-options";
@@ -199,6 +203,10 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateUserDef
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredFunctionParameter) : node is StoredFunctionParameter;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureCharacteristics) : node is StoredProcedureCharacteristics;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureParameter) : node is StoredProcedureParameter;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableLock) : node is AlterTableLock;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAlgorithm) : node is AlterTableAlgorithm;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableLockAndAlgorithmOptions) : node is AlterTableLockAndAlgorithmOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateIndexStatement) : node is CreateIndexStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupAddRedoFile) : node is CreateLogFileGroupAddRedoFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupAddUndoFile) : node is CreateLogFileGroupAddUndoFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateLogFileGroupOptions) : node is CreateLogFileGroupOptions;
@@ -351,6 +359,10 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.StoredFunctionParameter, callback : (node : StoredFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureCharacteristics, callback : (node : StoredProcedureCharacteristics) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureParameter, callback : (node : StoredProcedureParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTableLock, callback : (node : AlterTableLock) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTableAlgorithm, callback : (node : AlterTableAlgorithm) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTableLockAndAlgorithmOptions, callback : (node : AlterTableLockAndAlgorithmOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateIndexStatement, callback : (node : CreateIndexStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupAddRedoFile, callback : (node : CreateLogFileGroupAddRedoFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupAddUndoFile, callback : (node : CreateLogFileGroupAddUndoFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateLogFileGroupOptions, callback : (node : CreateLogFileGroupOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

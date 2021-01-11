@@ -1,0 +1,12 @@
+CREATE INDEX `myIndex` ON T (X)
+    LOCK EXCLUSIVE;
+
+-----
+CREATE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `EXCLUSIVE`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

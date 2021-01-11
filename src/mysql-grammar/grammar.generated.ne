@@ -3131,6 +3131,145 @@ StoredProcedureParameterList ->
     return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureParameterList, parse_util_1.getTextRange(data));
 } %}
 
+AlterTableAlgorithm ->
+    %ALGORITHM %Equal:? Identifier {% (data) => {
+    const [, , identifier,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+        identifier: (identifier.quoted ?
+            identifier :
+            identifier.identifier.toUpperCase() == "DEFAULT" ?
+                {
+                    ...identifier,
+                    syntacticErrors: undefined,
+                } :
+                identifier),
+    };
+} %}
+
+AlterTableLockAndAlgorithmOptions ->
+    AlterTableLock AlterTableAlgorithm:? {% (data) => {
+    const [alterTableLock, alterTableAlgorithm,] = data;
+    const start = alterTableLock.end;
+    const end = alterTableLock.end;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableLockAndAlgorithmOptions,
+        alterTableLock,
+        alterTableAlgorithm: (alterTableAlgorithm == undefined ?
+            {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+                identifier: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    quoted: false,
+                    identifier: "DEFAULT",
+                }
+            } :
+            alterTableAlgorithm),
+    };
+} %}
+    | (AlterTableAlgorithm AlterTableLock:?):? {% (data) => {
+    if (data[0] == undefined) {
+        const start = -1;
+        const end = -1;
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.AlterTableLockAndAlgorithmOptions,
+            alterTableLock: {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+                identifier: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    quoted: false,
+                    identifier: "DEFAULT",
+                }
+            },
+            alterTableAlgorithm: {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+                identifier: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    quoted: false,
+                    identifier: "DEFAULT",
+                }
+            },
+        };
+    }
+    const [alterTableAlgorithm, alterTableLock,] = data[0];
+    const start = alterTableAlgorithm.end;
+    const end = alterTableAlgorithm.end;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableLockAndAlgorithmOptions,
+        alterTableLock: (alterTableLock == undefined ?
+            {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+                identifier: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    quoted: false,
+                    identifier: "DEFAULT",
+                }
+            } :
+            alterTableLock),
+        alterTableAlgorithm,
+    };
+} %}
+
+AlterTableLock ->
+    %LOCK %Equal:? Identifier {% (data) => {
+    const [, , identifier,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+        identifier: (identifier.quoted ?
+            identifier :
+            identifier.identifier.toUpperCase() == "DEFAULT" ?
+                {
+                    ...identifier,
+                    syntacticErrors: undefined,
+                } :
+                identifier),
+    };
+} %}
+
+CreateIndexStatement ->
+    %CREATE %INDEX Identifier IndexType:? %ON TableIdentifier IndexPartList IndexOption AlterTableLockAndAlgorithmOptions {% function (data) {
+    const [, , indexName, indexType, , tableIdentifier, indexParts, rawIndexOption, alterTableLockAndAlgorithmOptions,] = data;
+    const indexOption = (indexType == undefined ?
+        rawIndexOption :
+        rawIndexOption.indexType == undefined ?
+            {
+                ...rawIndexOption,
+                indexType: indexType.indexType,
+            } :
+            rawIndexOption);
+    return {
+        ...indexOption,
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateIndexStatement,
+        indexClass: parser_node_1.IndexClass.INDEX,
+        indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+        tableIdentifier,
+        indexParts,
+        alterTableLockAndAlgorithmOptions
+    };
+} %}
+
 CreateLogFileGroupAddFile ->
     %ADD %UNDOFILE StringLiteral {% (data) => {
     return {
@@ -6188,7 +6327,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

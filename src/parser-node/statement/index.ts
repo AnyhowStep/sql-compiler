@@ -1,5 +1,6 @@
 export * from "./create-event-statement";
 export * from "./create-function-statement";
+export * from "./create-index-statement";
 export * from "./create-log-file-group-statement";
 export * from "./create-server-statement";
 export * from "./create-table-definition";

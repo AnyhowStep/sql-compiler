@@ -1,0 +1,12 @@
+CREATE INDEX `myIndex` ON T (X) USING BTREE;
+
+-----
+CREATE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    USING BTREE
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

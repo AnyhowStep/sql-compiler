@@ -1,0 +1,21 @@
+CREATE INDEX `myIndex` ON T (X)
+    ALGORITHM INPLACE;
+
+CREATE INDEX `myIndex` ON T (X)
+    ALGORITHM = INPLACE;
+
+-----
+CREATE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `INPLACE`;
+
+CREATE INDEX `myIndex`
+    ON `T`
+    (`X` ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `INPLACE`;
+
+-----
+[]

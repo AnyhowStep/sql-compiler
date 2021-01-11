@@ -1,0 +1,11 @@
+CREATE INDEX `myIndex` ON DB.T (X);
+
+-----
+CREATE INDEX `myIndex`
+    ON `DB`.`T`
+    (`X` ASC)
+    LOCK = `DEFAULT`
+    ALGORITHM = `DEFAULT`;
+
+-----
+[]

@@ -3293,6 +3293,150 @@ export var ParserRules: NearleyRule[] = [
             });
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.StoredProcedureParameterList, parse_util_1.getTextRange(data));
         } },
+    {"name": "AlterTableAlgorithm$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "AlterTableAlgorithm$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableAlgorithm", "symbols": [ALGORITHM, "AlterTableAlgorithm$ebnf$1", "Identifier"], "postprocess":  (data) => {
+            const [, , identifier,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+                identifier: (identifier.quoted ?
+                    identifier :
+                    identifier.identifier.toUpperCase() == "DEFAULT" ?
+                        {
+                            ...identifier,
+                            syntacticErrors: undefined,
+                        } :
+                        identifier),
+            };
+        } },
+    {"name": "AlterTableLockAndAlgorithmOptions$ebnf$1", "symbols": ["AlterTableAlgorithm"], "postprocess": id},
+    {"name": "AlterTableLockAndAlgorithmOptions$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableLockAndAlgorithmOptions", "symbols": ["AlterTableLock", "AlterTableLockAndAlgorithmOptions$ebnf$1"], "postprocess":  (data) => {
+            const [alterTableLock, alterTableAlgorithm,] = data;
+            const start = alterTableLock.end;
+            const end = alterTableLock.end;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableLockAndAlgorithmOptions,
+                alterTableLock,
+                alterTableAlgorithm: (alterTableAlgorithm == undefined ?
+                    {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+                        identifier: {
+                            start,
+                            end,
+                            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                            quoted: false,
+                            identifier: "DEFAULT",
+                        }
+                    } :
+                    alterTableAlgorithm),
+            };
+        } },
+    {"name": "AlterTableLockAndAlgorithmOptions$ebnf$2$subexpression$1$ebnf$1", "symbols": ["AlterTableLock"], "postprocess": id},
+    {"name": "AlterTableLockAndAlgorithmOptions$ebnf$2$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableLockAndAlgorithmOptions$ebnf$2$subexpression$1", "symbols": ["AlterTableAlgorithm", "AlterTableLockAndAlgorithmOptions$ebnf$2$subexpression$1$ebnf$1"]},
+    {"name": "AlterTableLockAndAlgorithmOptions$ebnf$2", "symbols": ["AlterTableLockAndAlgorithmOptions$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableLockAndAlgorithmOptions$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableLockAndAlgorithmOptions", "symbols": ["AlterTableLockAndAlgorithmOptions$ebnf$2"], "postprocess":  (data) => {
+            if (data[0] == undefined) {
+                const start = -1;
+                const end = -1;
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.AlterTableLockAndAlgorithmOptions,
+                    alterTableLock: {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+                        identifier: {
+                            start,
+                            end,
+                            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                            quoted: false,
+                            identifier: "DEFAULT",
+                        }
+                    },
+                    alterTableAlgorithm: {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+                        identifier: {
+                            start,
+                            end,
+                            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                            quoted: false,
+                            identifier: "DEFAULT",
+                        }
+                    },
+                };
+            }
+            const [alterTableAlgorithm, alterTableLock,] = data[0];
+            const start = alterTableAlgorithm.end;
+            const end = alterTableAlgorithm.end;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableLockAndAlgorithmOptions,
+                alterTableLock: (alterTableLock == undefined ?
+                    {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+                        identifier: {
+                            start,
+                            end,
+                            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                            quoted: false,
+                            identifier: "DEFAULT",
+                        }
+                    } :
+                    alterTableLock),
+                alterTableAlgorithm,
+            };
+        } },
+    {"name": "AlterTableLock$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "AlterTableLock$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableLock", "symbols": [LOCK, "AlterTableLock$ebnf$1", "Identifier"], "postprocess":  (data) => {
+            const [, , identifier,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+                identifier: (identifier.quoted ?
+                    identifier :
+                    identifier.identifier.toUpperCase() == "DEFAULT" ?
+                        {
+                            ...identifier,
+                            syntacticErrors: undefined,
+                        } :
+                        identifier),
+            };
+        } },
+    {"name": "CreateIndexStatement$ebnf$1", "symbols": ["IndexType"], "postprocess": id},
+    {"name": "CreateIndexStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateIndexStatement", "symbols": [CREATE, INDEX, "Identifier", "CreateIndexStatement$ebnf$1", ON, "TableIdentifier", "IndexPartList", "IndexOption", "AlterTableLockAndAlgorithmOptions"], "postprocess":  function (data) {
+            const [, , indexName, indexType, , tableIdentifier, indexParts, rawIndexOption, alterTableLockAndAlgorithmOptions,] = data;
+            const indexOption = (indexType == undefined ?
+                rawIndexOption :
+                rawIndexOption.indexType == undefined ?
+                    {
+                        ...rawIndexOption,
+                        indexType: indexType.indexType,
+                    } :
+                    rawIndexOption);
+            return {
+                ...indexOption,
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateIndexStatement,
+                indexClass: parser_node_1.IndexClass.INDEX,
+                indexName: indexName !== null && indexName !== void 0 ? indexName : undefined,
+                tableIdentifier,
+                indexParts,
+                alterTableLockAndAlgorithmOptions
+            };
+        } },
     {"name": "CreateLogFileGroupAddFile", "symbols": [ADD, UNDOFILE, "StringLiteral"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -6816,6 +6960,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateLogFileGroupStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTablespaceStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateServerStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateIndexStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
