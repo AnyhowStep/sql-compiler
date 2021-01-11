@@ -25,6 +25,7 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.CreateServerStatement,
             SyntaxKind.CreateIndexStatement,
             CustomSyntaxKind.SelectStatement,
+            SyntaxKind.CreateTableLikeStatement,
         )] as const,
         (data) : Statement => {
             return data[0][0];

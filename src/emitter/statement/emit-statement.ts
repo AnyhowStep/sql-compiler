@@ -5,6 +5,7 @@ import {emitCreateFunctionStatement, emitCreateProcedureStatement, emitCreateUse
 import {emitCreateIndexStatement} from "./create-index-statement";
 import {emitCreateLogFileGroupStatement} from "./create-log-file-group-statement";
 import {emitCreateServerStatement} from "./create-server-statement";
+import {emitCreateTableLikeStatement} from "./create-table-like-statement";
 import {emitCreateTableStatement} from "./create-table-statement";
 import {emitCreateTablespaceStatement} from "./create-tablespace-statement";
 import {emitCreateTriggerStatement} from "./create-trigger-statement";
@@ -29,6 +30,7 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.CreateTablespaceStatement, emitCreateTablespaceStatement)
         .case(SyntaxKind.CreateServerStatement, emitCreateServerStatement)
         .case(SyntaxKind.CreateIndexStatement, emitCreateIndexStatement)
+        .case(SyntaxKind.CreateTableLikeStatement, emitCreateTableLikeStatement)
         //.case(SyntaxKind.SetStatement, emitSetStatement)
         /*.case(SyntaxKind.SelectStatement, statement => emitSelectStatement(
             statement,

@@ -4328,6 +4328,38 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
+    {"name": "CreateTableLikeStatement$ebnf$1", "symbols": [TEMPORARY], "postprocess": id},
+    {"name": "CreateTableLikeStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableLikeStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
+    {"name": "CreateTableLikeStatement$ebnf$2", "symbols": ["CreateTableLikeStatement$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "CreateTableLikeStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableLikeStatement", "symbols": [CREATE, "CreateTableLikeStatement$ebnf$1", TABLE, "CreateTableLikeStatement$ebnf$2", "TableIdentifier", LIKE, "TableIdentifier"], "postprocess":  (data) => {
+            const [, temporary, , ifNotExists, tableIdentifier, , likeTableIdentifier,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTableLikeStatement,
+                temporary: temporary != null,
+                ifNotExists: ifNotExists != null,
+                tableIdentifier,
+                likeTableIdentifier,
+            };
+        } },
+    {"name": "CreateTableLikeStatement$ebnf$3", "symbols": [TEMPORARY], "postprocess": id},
+    {"name": "CreateTableLikeStatement$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableLikeStatement$ebnf$4$subexpression$1", "symbols": [IF, NOT, EXISTS]},
+    {"name": "CreateTableLikeStatement$ebnf$4", "symbols": ["CreateTableLikeStatement$ebnf$4$subexpression$1"], "postprocess": id},
+    {"name": "CreateTableLikeStatement$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableLikeStatement", "symbols": [CREATE, "CreateTableLikeStatement$ebnf$3", TABLE, "CreateTableLikeStatement$ebnf$4", "TableIdentifier", OpenParentheses, LIKE, "TableIdentifier", CloseParentheses], "postprocess":  (data) => {
+            const [, temporary, , ifNotExists, tableIdentifier, , , likeTableIdentifier,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTableLikeStatement,
+                temporary: temporary != null,
+                ifNotExists: ifNotExists != null,
+                tableIdentifier,
+                likeTableIdentifier,
+            };
+        } },
     {"name": "CreateTableOption$ebnf$1", "symbols": [Equal], "postprocess": id},
     {"name": "CreateTableOption$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "CreateTableOption$subexpression$1", "symbols": ["Identifier"]},
@@ -6973,6 +7005,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateServerStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateIndexStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableLikeStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

@@ -1,0 +1,13 @@
+CREATE TABLE DB.T LIKE U;
+
+CREATE TABLE DB.T (LIKE U);
+
+-----
+CREATE TABLE `DB`.`T`
+    LIKE `U`;
+
+CREATE TABLE `DB`.`T`
+    LIKE `U`;
+
+-----
+[]

@@ -4035,6 +4035,30 @@ IndexDefinition ->
     };
 } %}
 
+CreateTableLikeStatement ->
+    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier %LIKE TableIdentifier {% (data) => {
+    const [, temporary, , ifNotExists, tableIdentifier, , likeTableIdentifier,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTableLikeStatement,
+        temporary: temporary != null,
+        ifNotExists: ifNotExists != null,
+        tableIdentifier,
+        likeTableIdentifier,
+    };
+} %}
+    | %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier %OpenParentheses %LIKE TableIdentifier %CloseParentheses {% (data) => {
+    const [, temporary, , ifNotExists, tableIdentifier, , , likeTableIdentifier,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTableLikeStatement,
+        temporary: temporary != null,
+        ifNotExists: ifNotExists != null,
+        tableIdentifier,
+        likeTableIdentifier,
+    };
+} %}
+
 CreateTableOption ->
     %ENGINE %Equal:? (Identifier | StringLiteral) {% (data) => {
     return {
@@ -6333,7 +6357,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement) {% (data) => {
     return data[0][0];
 } %}
 

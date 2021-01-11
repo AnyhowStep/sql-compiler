@@ -1,0 +1,13 @@
+CREATE TABLE T LIKE DB.U;
+
+CREATE TABLE T (LIKE DB.U);
+
+-----
+CREATE TABLE `T`
+    LIKE `DB`.`U`;
+
+CREATE TABLE `T`
+    LIKE `DB`.`U`;
+
+-----
+[]

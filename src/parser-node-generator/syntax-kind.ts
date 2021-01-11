@@ -75,6 +75,8 @@ export const syntaxKinds = [
     "CheckDefinition",
     "CreateTableOptions",
 
+    "CreateTableLikeStatement",
+
     "CreateFunctionStatement",
     "StoredFunctionParameter",
     "StoredFunctionParameterList",

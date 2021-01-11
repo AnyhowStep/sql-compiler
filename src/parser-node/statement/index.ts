@@ -4,6 +4,7 @@ export * from "./create-index-statement";
 export * from "./create-log-file-group-statement";
 export * from "./create-server-statement";
 export * from "./create-table-definition";
+export * from "./create-table-like-statement";
 export * from "./create-tablespace-statement";
 export * from "./create-trigger-statement";
 export * from "./create-user-statement";

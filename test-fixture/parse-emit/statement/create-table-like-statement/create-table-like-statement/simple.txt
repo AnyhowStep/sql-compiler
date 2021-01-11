@@ -1,0 +1,13 @@
+CREATE TABLE T LIKE U;
+
+CREATE TABLE T (LIKE U);
+
+-----
+CREATE TABLE `T`
+    LIKE `U`;
+
+CREATE TABLE `T`
+    LIKE `U`;
+
+-----
+[]
