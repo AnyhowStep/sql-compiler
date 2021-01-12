@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS T
+    SELECT
+        1;
+
+-----
+CREATE TABLE IF NOT EXISTS `T`
+    AS
+    SELECT
+        1;
+
+-----
+[]

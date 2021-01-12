@@ -77,6 +77,7 @@ import {IndexDefinition} from "./statement/create-table-definition/index-definit
 import {PrimaryKeyDefinition} from "./statement/create-table-definition/primary-key-definition";
 import {CreateTableLikeStatement} from "./statement/create-table-like-statement/create-table-like-statement";
 import {CreateTableOptions} from "./statement/create-table-options";
+import {CreateTableSelectStatement} from "./statement/create-table-statement/create-table-select-statement";
 import {CreateTableSelect} from "./statement/create-table-statement/create-table-select";
 import {CreateTableStatement} from "./statement/create-table-statement/create-table-statement";
 import {CreateTablespaceOptions} from "./statement/create-tablespace-statement/create-tablespace-options";
@@ -226,6 +227,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IndexDefiniti
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PrimaryKeyDefinition) : node is PrimaryKeyDefinition;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableLikeStatement) : node is CreateTableLikeStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableOptions) : node is CreateTableOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableSelectStatement) : node is CreateTableSelectStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableSelect) : node is CreateTableSelect;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTableStatement) : node is CreateTableStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTablespaceOptions) : node is CreateTablespaceOptions;
@@ -384,6 +386,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.PrimaryKeyDefinition, callback : (node : PrimaryKeyDefinition) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableLikeStatement, callback : (node : CreateTableLikeStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableOptions, callback : (node : CreateTableOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.CreateTableSelectStatement, callback : (node : CreateTableSelectStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableSelect, callback : (node : CreateTableSelect) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTableStatement, callback : (node : CreateTableStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateTablespaceOptions, callback : (node : CreateTablespaceOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

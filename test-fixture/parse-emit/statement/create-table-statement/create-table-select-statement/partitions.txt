@@ -1,0 +1,14 @@
+CREATE TABLE T
+    PARTITION BY KEY(X)
+    SELECT
+        1;
+
+-----
+CREATE TABLE `T`
+    PARTITION BY KEY (`X`)
+    AS
+    SELECT
+        1;
+
+-----
+[]

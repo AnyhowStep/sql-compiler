@@ -4,9 +4,10 @@ import {CreateTableDefinitionList} from "../create-table-definition";
 import {CreateTableOptions} from "../create-table-options";
 import {Partition} from "../partition";
 import {Statement} from "../statement";
+import {CreateTableSelect} from "./create-table-select";
 
-export interface CreateTableStatement extends Statement {
-    syntaxKind : SyntaxKind.CreateTableStatement,
+export interface CreateTableSelectStatement extends Statement {
+    syntaxKind : SyntaxKind.CreateTableSelectStatement,
     temporary : boolean,
     ifNotExists : boolean,
     tableIdentifier : TableIdentifier,
@@ -19,4 +20,6 @@ export interface CreateTableStatement extends Statement {
     createTableDefinitions : CreateTableDefinitionList|undefined,
     createTableOptions : CreateTableOptions,
     partition : Partition|undefined,
+
+    createTableSelect : CreateTableSelect,
 }

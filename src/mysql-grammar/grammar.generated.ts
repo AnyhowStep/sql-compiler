@@ -4764,6 +4764,29 @@ export var ParserRules: NearleyRule[] = [
                     undefined),
             };
         } },
+    {"name": "CreateTableSelectStatement$ebnf$1", "symbols": [TEMPORARY], "postprocess": id},
+    {"name": "CreateTableSelectStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableSelectStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
+    {"name": "CreateTableSelectStatement$ebnf$2", "symbols": ["CreateTableSelectStatement$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "CreateTableSelectStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableSelectStatement$ebnf$3", "symbols": ["CreateTableDefinitionList"], "postprocess": id},
+    {"name": "CreateTableSelectStatement$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableSelectStatement$ebnf$4", "symbols": ["Partition"], "postprocess": id},
+    {"name": "CreateTableSelectStatement$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "CreateTableSelectStatement", "symbols": [CREATE, "CreateTableSelectStatement$ebnf$1", TABLE, "CreateTableSelectStatement$ebnf$2", "TableIdentifier", "CreateTableSelectStatement$ebnf$3", "CreateTableOptions", "CreateTableSelectStatement$ebnf$4", "CreateTableSelect"], "postprocess":  (data) => {
+            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition, createTableSelect,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTableSelectStatement,
+                temporary: temporary != null,
+                ifNotExists: ifNotExists != null,
+                tableIdentifier,
+                createTableDefinitions: createTableDefinitions !== null && createTableDefinitions !== void 0 ? createTableDefinitions : undefined,
+                createTableOptions,
+                partition: partition !== null && partition !== void 0 ? partition : undefined,
+                createTableSelect: createTableSelect,
+            };
+        } },
     {"name": "CreateTableSelect$ebnf$1$subexpression$1", "symbols": [IGNORE]},
     {"name": "CreateTableSelect$ebnf$1$subexpression$1", "symbols": [REPLACE]},
     {"name": "CreateTableSelect$ebnf$1", "symbols": ["CreateTableSelect$ebnf$1$subexpression$1"], "postprocess": id},
@@ -4788,22 +4811,21 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateTableStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
     {"name": "CreateTableStatement$ebnf$2", "symbols": ["CreateTableStatement$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "CreateTableStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement$ebnf$3", "symbols": ["Partition"], "postprocess": id},
+    {"name": "CreateTableStatement$ebnf$3", "symbols": ["CreateTableDefinitionList"], "postprocess": id},
     {"name": "CreateTableStatement$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement$ebnf$4", "symbols": ["CreateTableSelect"], "postprocess": id},
+    {"name": "CreateTableStatement$ebnf$4", "symbols": ["Partition"], "postprocess": id},
     {"name": "CreateTableStatement$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableDefinitionList", "CreateTableOptions", "CreateTableStatement$ebnf$3", "CreateTableStatement$ebnf$4"], "postprocess":  (data) => {
-            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition, createTableSelect,] = data;
+    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableStatement$ebnf$3", "CreateTableOptions", "CreateTableStatement$ebnf$4"], "postprocess":  (data) => {
+            const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
                 temporary: temporary != null,
                 ifNotExists: ifNotExists != null,
                 tableIdentifier,
-                createTableDefinitions,
+                createTableDefinitions: createTableDefinitions !== null && createTableDefinitions !== void 0 ? createTableDefinitions : undefined,
                 createTableOptions,
                 partition: partition !== null && partition !== void 0 ? partition : undefined,
-                createTableSelect: createTableSelect !== null && createTableSelect !== void 0 ? createTableSelect : undefined,
             };
         } },
     {"name": "CreateTablespaceOption$ebnf$1", "symbols": [Equal], "postprocess": id},
@@ -7028,6 +7050,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateIndexStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableLikeStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableSelectStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

@@ -1,10 +1,10 @@
-import {CreateTableStatement, SyntaxKind} from "../../../parser-node";
+import {CreateTableSelectStatement, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {optional} from "../../../nearley-wrapper";
 import {getTextRange} from "../../parse-util";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 
-makeCustomRule(SyntaxKind.CreateTableStatement)
+makeCustomRule(SyntaxKind.CreateTableSelectStatement)
     .addSubstitution(
         [
             TokenKind.CREATE,
@@ -15,8 +15,9 @@ makeCustomRule(SyntaxKind.CreateTableStatement)
             optional(SyntaxKind.CreateTableDefinitionList),
             SyntaxKind.CreateTableOptions,
             optional(CustomSyntaxKind.Partition),
+            SyntaxKind.CreateTableSelect,
         ] as const,
-        (data) : CreateTableStatement => {
+        (data) : CreateTableSelectStatement => {
             const [
                 ,
                 temporary,
@@ -26,16 +27,18 @@ makeCustomRule(SyntaxKind.CreateTableStatement)
                 createTableDefinitions,
                 createTableOptions,
                 partition,
+                createTableSelect,
             ] = data;
             return {
                 ...getTextRange(data),
-                syntaxKind : SyntaxKind.CreateTableStatement,
+                syntaxKind : SyntaxKind.CreateTableSelectStatement,
                 temporary : temporary != null,
                 ifNotExists : ifNotExists != null,
                 tableIdentifier,
                 createTableDefinitions : createTableDefinitions ?? undefined,
                 createTableOptions,
                 partition : partition ?? undefined,
+                createTableSelect : createTableSelect,
             };
         }
     );

@@ -1,0 +1,14 @@
+CREATE TABLE T
+    COMMENT 'hello'
+    SELECT
+        1;
+
+-----
+CREATE TABLE `T`
+    COMMENT = 'hello'
+    AS
+    SELECT
+        1;
+
+-----
+[]

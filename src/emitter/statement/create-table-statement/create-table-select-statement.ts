@@ -1,11 +1,12 @@
-import {CreateTableStatement} from "../../../parser-node";
+import {CreateTableSelectStatement} from "../../../parser-node";
 import {emitTableIdentifier} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
 import {emitCreateTableDefinition} from "../create-table-definition";
 import {emitCreateTableOptions} from "../create-table-options";
 import {emitPartition} from "../partition";
+import {emitCreateTableSelect} from "./create-table-select";
 
-export function emitCreateTableStatement (statement : CreateTableStatement) : StringBuilder {
+export function emitCreateTableSelectStatement (statement : CreateTableSelectStatement) : StringBuilder {
     const builder = new StringBuilder()
         .append("CREATE")
         .append(statement.temporary ? " TEMPORARY" : undefined)
@@ -45,6 +46,9 @@ export function emitCreateTableStatement (statement : CreateTableStatement) : St
             builder.indent(builder => {
                 builder.appendBuilder(emitPartition(partition));
             })
+        })
+        .indent(builder => {
+            builder.appendBuilder(emitCreateTableSelect(statement.createTableSelect));
         })
     return builder;
 }

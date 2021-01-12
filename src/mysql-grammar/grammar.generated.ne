@@ -4390,6 +4390,22 @@ CreateTableOptions ->
     };
 } %}
 
+CreateTableSelectStatement ->
+    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList:? CreateTableOptions Partition:? CreateTableSelect {% (data) => {
+    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition, createTableSelect,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTableSelectStatement,
+        temporary: temporary != null,
+        ifNotExists: ifNotExists != null,
+        tableIdentifier,
+        createTableDefinitions: createTableDefinitions !== null && createTableDefinitions !== void 0 ? createTableDefinitions : undefined,
+        createTableOptions,
+        partition: partition !== null && partition !== void 0 ? partition : undefined,
+        createTableSelect: createTableSelect,
+    };
+} %}
+
 CreateTableSelect ->
     (%IGNORE | %REPLACE):? %AS:? SelectStatement {% (data) => {
     const [onDuplicate, , select,] = data;
@@ -4406,18 +4422,17 @@ CreateTableSelect ->
 } %}
 
 CreateTableStatement ->
-    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList CreateTableOptions Partition:? CreateTableSelect:? {% (data) => {
-    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition, createTableSelect,] = data;
+    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList:? CreateTableOptions Partition:? {% (data) => {
+    const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition,] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.CreateTableStatement,
         temporary: temporary != null,
         ifNotExists: ifNotExists != null,
         tableIdentifier,
-        createTableDefinitions,
+        createTableDefinitions: createTableDefinitions !== null && createTableDefinitions !== void 0 ? createTableDefinitions : undefined,
         createTableOptions,
         partition: partition !== null && partition !== void 0 ? partition : undefined,
-        createTableSelect: createTableSelect !== null && createTableSelect !== void 0 ? createTableSelect : undefined,
     };
 } %}
 
@@ -6373,7 +6388,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement) {% (data) => {
     return data[0][0];
 } %}
 

@@ -1,0 +1,16 @@
+CREATE TABLE T
+    COMMENT 'hello'
+    PARTITION BY KEY(X)
+    SELECT
+        1;
+
+-----
+CREATE TABLE `T`
+    COMMENT = 'hello'
+    PARTITION BY KEY (`X`)
+    AS
+    SELECT
+        1;
+
+-----
+[]

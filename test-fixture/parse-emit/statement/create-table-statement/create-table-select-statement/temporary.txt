@@ -1,0 +1,12 @@
+CREATE TEMPORARY TABLE T
+    SELECT
+        1;
+
+-----
+CREATE TEMPORARY TABLE `T`
+    AS
+    SELECT
+        1;
+
+-----
+[]
