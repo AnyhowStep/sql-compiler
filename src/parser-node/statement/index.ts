@@ -1,3 +1,5 @@
+export * from "./alter-table-statement";
+
 export * from "./create-event-statement";
 export * from "./create-function-statement";
 export * from "./create-index-statement";

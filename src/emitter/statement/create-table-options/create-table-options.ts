@@ -14,7 +14,7 @@ import {emitIdentifier, emitTableIdentifierList} from "../../identifier";
 import {emitDefaultCharacterSet, emitDefaultCollation} from "../../misc";
 import {StringBuilder} from "../../string-builder";
 
-export function emitCreateTableOptions (options : CreateTableOptions) {
+export function emitCreateTableOptions (options : CreateTableOptions, commaSeparated : boolean = false) {
     return new StringBuilder()
         .scope(builder => {
             if (options.engine == undefined) {
@@ -29,7 +29,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("MAX_ROWS = ")
@@ -40,7 +46,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("MIN_ROWS = ")
@@ -51,7 +63,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("AVG_ROW_LENGTH = ")
@@ -62,7 +80,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("PASSWORD = ")
@@ -73,7 +97,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("COMMENT = ")
@@ -84,7 +114,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("COMPRESSION = ")
@@ -95,7 +131,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("ENCRYPTION = ")
@@ -106,7 +148,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("AUTO_INCREMENT = ")
@@ -117,7 +165,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("PACK_KEYS = ")
@@ -134,7 +188,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("STATS_AUTO_RECALC = ")
@@ -151,7 +211,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("STATS_PERSISTENT = ")
@@ -168,7 +234,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("STATS_SAMPLE_PAGES = ")
@@ -184,7 +256,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("CHECKSUM = ")
@@ -195,7 +273,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("DELAY_KEY_WRITE = ")
@@ -206,7 +290,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("ROW_FORMAT = ")
@@ -229,7 +319,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("UNION = ")
@@ -240,7 +336,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .appendBuilder(emitDefaultCharacterSet(options.defaultCharacterSet))
@@ -250,7 +352,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .appendBuilder(emitDefaultCollation(options.defaultCollation))
@@ -260,7 +368,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("INSERT_METHOD = ")
@@ -277,7 +391,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("DATA DIRECTORY = ")
@@ -288,7 +408,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("INDEX DIRECTORY = ")
@@ -299,7 +425,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("TABLESPACE = ")
@@ -310,7 +442,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("STORAGE ")
@@ -325,7 +463,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("CONNECTION = ")
@@ -336,7 +480,13 @@ export function emitCreateTableOptions (options : CreateTableOptions) {
                 return;
             }
             if (!builder.isEmpty()) {
-                builder.appendNewLine();
+                builder
+                    .append(
+                        commaSeparated ?
+                        "," :
+                        undefined
+                    )
+                    .appendNewLine();
             }
             builder
                 .append("KEY_BLOCK_SIZE = ")

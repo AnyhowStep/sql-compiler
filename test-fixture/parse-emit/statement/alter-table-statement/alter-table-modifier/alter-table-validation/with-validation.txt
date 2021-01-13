@@ -1,0 +1,9 @@
+ALTER TABLE T
+    WITH VALIDATION;
+
+-----
+ALTER TABLE `T`
+    WITH VALIDATION;
+
+-----
+[]

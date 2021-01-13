@@ -38,6 +38,10 @@ import {
     CreateUserStatement,
     Schedule,
     CreateLogFileGroupAddFile,
+    AlterTableItemOrModifier,
+    AlterTableModifier,
+    AlterTableItem,
+    CreateTableOptions,
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
@@ -135,6 +139,10 @@ export enum CustomSyntaxKind {
     CreateLogFileGroupOption,
     CreateTablespaceOption,
     CreateServerOption,
+    AlterTableItem,
+    AlterTableModifier,
+    AlterTableItemOrModifier,
+    CreateTableOptionsSpaceSeparated,
 }
 
 declare module "../nearley-wrapper" {
@@ -212,6 +220,10 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.CreateLogFileGroupOption] : CreateLogFileGroupOption,
         [CustomSyntaxKind.CreateTablespaceOption] : CreateTablespaceOption,
         [CustomSyntaxKind.CreateServerOption] : CreateServerOption,
+        [CustomSyntaxKind.AlterTableModifier] : AlterTableModifier,
+        [CustomSyntaxKind.AlterTableItem] : AlterTableItem,
+        [CustomSyntaxKind.AlterTableItemOrModifier] : AlterTableItemOrModifier,
+        [CustomSyntaxKind.CreateTableOptionsSpaceSeparated] : CreateTableOptions,
     }
 
     interface CustomToken extends Array<TokenKind> {

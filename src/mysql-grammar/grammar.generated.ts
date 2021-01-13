@@ -2974,6 +2974,216 @@ export var ParserRules: NearleyRule[] = [
             let [[literal]] = data;
             return literal;
         } },
+    {"name": "AlterTableItem", "symbols": ["CreateTableOptionsSpaceSeparated"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "AlterTableItem", "symbols": [FORCE], "postprocess":  (data) => {
+            return parse_util_1.toValueNode("FORCE", parse_util_1.getTextRange(data));
+        } },
+    {"name": "AlterTableItemOrModifier", "symbols": ["AlterTableItem"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "AlterTableItemOrModifier", "symbols": ["AlterTableModifier"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "AlterTableItemOrModifierList$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
+    {"name": "AlterTableItemOrModifierList$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Comma, "AlterTableItemOrModifier"]},
+    {"name": "AlterTableItemOrModifierList$ebnf$1$subexpression$1$ebnf$1", "symbols": ["AlterTableItemOrModifierList$ebnf$1$subexpression$1$ebnf$1", "AlterTableItemOrModifierList$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "AlterTableItemOrModifierList$ebnf$1$subexpression$1", "symbols": ["AlterTableItemOrModifier", "AlterTableItemOrModifierList$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "AlterTableItemOrModifierList$ebnf$1", "symbols": ["AlterTableItemOrModifierList$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableItemOrModifierList$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableItemOrModifierList", "symbols": ["AlterTableItemOrModifierList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(3)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.AlterTableItemOrModifierList, parse_util_1.getTextRange(data));
+        } },
+    {"name": "AlterTableModifier", "symbols": ["AlterTableLock"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "AlterTableModifier", "symbols": ["AlterTableAlgorithm"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "AlterTableModifier", "symbols": ["AlterTableValidation"], "postprocess":  (data) => {
+            return data[0];
+        } },
+    {"name": "AlterTableModifiers$ebnf$1", "symbols": []},
+    {"name": "AlterTableModifiers$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
+    {"name": "AlterTableModifiers$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableModifiers$ebnf$1$subexpression$1", "symbols": ["AlterTableModifiers$ebnf$1$subexpression$1$ebnf$1", "AlterTableModifier"]},
+    {"name": "AlterTableModifiers$ebnf$1", "symbols": ["AlterTableModifiers$ebnf$1", "AlterTableModifiers$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "AlterTableModifiers", "symbols": ["AlterTableModifier", "AlterTableModifiers$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const start = parse_util_1.getEnd(data);
+            const end = start;
+            const result = {
+                alterTableLock: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+                    identifier: {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                        quoted: false,
+                        identifier: "DEFAULT",
+                    }
+                },
+                alterTableAlgorithm: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+                    identifier: {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                        quoted: false,
+                        identifier: "DEFAULT",
+                    }
+                },
+                alterTableValidation: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.AlterTableValidation,
+                    withValidation: false,
+                },
+            };
+            for (const item of arr) {
+                if (item.syntaxKind == parser_node_1.SyntaxKind.AlterTableLock) {
+                    result.alterTableLock = item;
+                }
+                else if (item.syntaxKind == parser_node_1.SyntaxKind.AlterTableAlgorithm) {
+                    result.alterTableAlgorithm = item;
+                }
+                else {
+                    result.alterTableValidation = item;
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableModifiers,
+                ...result,
+            };
+        } },
+    {"name": "AlterTableValidation", "symbols": [WITH, VALIDATION], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableValidation,
+                withValidation: true,
+            };
+        } },
+    {"name": "AlterTableValidation", "symbols": [WITHOUT, VALIDATION], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableValidation,
+                withValidation: false,
+            };
+        } },
+    {"name": "AlterTableStandaloneStatement$subexpression$1$subexpression$1", "symbols": [DISCARD, TABLESPACE]},
+    {"name": "AlterTableStandaloneStatement$subexpression$1", "symbols": ["AlterTableStandaloneStatement$subexpression$1$subexpression$1"]},
+    {"name": "AlterTableStandaloneStatement$subexpression$1$subexpression$2", "symbols": [IMPORT, TABLESPACE]},
+    {"name": "AlterTableStandaloneStatement$subexpression$1", "symbols": ["AlterTableStandaloneStatement$subexpression$1$subexpression$2"]},
+    {"name": "AlterTableStandaloneStatement", "symbols": [ALTER, TABLE, "TableIdentifier", "AlterTableModifiers", Comma, "AlterTableStandaloneStatement$subexpression$1"], "postprocess":  (data) => {
+            const [, , tableIdentifier, alterTableModifiers, , alterTableItem,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableStandaloneStatement,
+                tableIdentifier,
+                alterTableModifiers,
+                alterTableItem: parse_util_1.toValueNode((alterTableItem[0][0].tokenKind == scanner_1.TokenKind.DISCARD ?
+                    "DISCARD TABLESPACE" :
+                    "IMPORT TABLESPACE"), parse_util_1.getTextRange(alterTableItem)),
+            };
+        } },
+    {"name": "AlterTableStandaloneStatement$subexpression$2$subexpression$1", "symbols": [DISCARD, TABLESPACE]},
+    {"name": "AlterTableStandaloneStatement$subexpression$2", "symbols": ["AlterTableStandaloneStatement$subexpression$2$subexpression$1"]},
+    {"name": "AlterTableStandaloneStatement$subexpression$2$subexpression$2", "symbols": [IMPORT, TABLESPACE]},
+    {"name": "AlterTableStandaloneStatement$subexpression$2", "symbols": ["AlterTableStandaloneStatement$subexpression$2$subexpression$2"]},
+    {"name": "AlterTableStandaloneStatement", "symbols": [ALTER, TABLE, "TableIdentifier", "AlterTableStandaloneStatement$subexpression$2"], "postprocess":  (data) => {
+            const [, , tableIdentifier, alterTableItem,] = data;
+            const start = tableIdentifier.end;
+            const end = tableIdentifier.end;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableStandaloneStatement,
+                tableIdentifier,
+                alterTableModifiers: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.AlterTableModifiers,
+                    alterTableLock: {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+                        identifier: {
+                            start,
+                            end,
+                            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                            quoted: false,
+                            identifier: "DEFAULT",
+                        }
+                    },
+                    alterTableAlgorithm: {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+                        identifier: {
+                            start,
+                            end,
+                            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                            quoted: false,
+                            identifier: "DEFAULT",
+                        }
+                    },
+                    alterTableValidation: {
+                        start,
+                        end,
+                        syntaxKind: parser_node_1.SyntaxKind.AlterTableValidation,
+                        withValidation: false,
+                    },
+                },
+                alterTableItem: parse_util_1.toValueNode((alterTableItem[0][0].tokenKind == scanner_1.TokenKind.DISCARD ?
+                    "DISCARD TABLESPACE" :
+                    "IMPORT TABLESPACE"), parse_util_1.getTextRange(alterTableItem)),
+            };
+        } },
+    {"name": "AlterTableStatement$ebnf$1$subexpression$1", "symbols": ["Partition"]},
+    {"name": "AlterTableStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [REMOVE, PARTITIONING]},
+    {"name": "AlterTableStatement$ebnf$1$subexpression$1", "symbols": ["AlterTableStatement$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "AlterTableStatement$ebnf$1", "symbols": ["AlterTableStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableStatement", "symbols": [ALTER, TABLE, "TableIdentifier", "AlterTableItemOrModifierList", "AlterTableStatement$ebnf$1"], "postprocess":  (data) => {
+            const [, , tableIdentifier, alterTableItemOrModifierList, partition,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableStatement,
+                tableIdentifier,
+                alterTableItemOrModifierList,
+                partition: (partition == undefined ?
+                    undefined :
+                    partition[0] instanceof Array ?
+                        parse_util_1.toValueNode("REMOVE PARTITIONING", parse_util_1.getTextRange(partition)) :
+                        partition[0]),
+            };
+        } },
     {"name": "CreateEventStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
     {"name": "CreateEventStatement$ebnf$1", "symbols": ["CreateEventStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CreateEventStatement$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -4694,6 +4904,59 @@ export var ParserRules: NearleyRule[] = [
                 keyBlockSize,
             };
             return result;
+        } },
+    {"name": "CreateTableOptionsSpaceSeparated$ebnf$1", "symbols": ["CreateTableOption"]},
+    {"name": "CreateTableOptionsSpaceSeparated$ebnf$1", "symbols": ["CreateTableOptionsSpaceSeparated$ebnf$1", "CreateTableOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "CreateTableOptionsSpaceSeparated", "symbols": ["CreateTableOptionsSpaceSeparated$ebnf$1"], "postprocess":  (data) => {
+            const arr = data[0];
+            const result = {
+                engine: undefined,
+                maxRows: undefined,
+                minRows: undefined,
+                averageRowLength: undefined,
+                password: undefined,
+                comment: undefined,
+                compression: undefined,
+                encryption: undefined,
+                autoIncrement: undefined,
+                packKeys: undefined,
+                statsAutoRecalc: undefined,
+                statsPersistent: undefined,
+                statsSamplePages: undefined,
+                checksum: undefined,
+                delayKeyWrite: undefined,
+                rowFormat: undefined,
+                union: undefined,
+                defaultCharacterSet: undefined,
+                defaultCollation: undefined,
+                insertMethod: undefined,
+                dataDirectory: undefined,
+                indexDirectory: undefined,
+                tablespace: undefined,
+                storage: undefined,
+                connection: undefined,
+                keyBlockSize: undefined,
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.CreateTableOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
         } },
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": []},
     {"name": "CreateTableOptions$ebnf$1$subexpression$1$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
@@ -7051,6 +7314,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["SelectStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableLikeStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableSelectStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTableStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTableStandaloneStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

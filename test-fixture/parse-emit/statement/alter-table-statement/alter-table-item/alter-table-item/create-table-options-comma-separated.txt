@@ -1,0 +1,11 @@
+ALTER TABLE T
+    COMMENT 'hi',
+    KEY_BLOCK_SIZE 123;
+
+-----
+ALTER TABLE `T`
+    COMMENT = 'hi',
+    KEY_BLOCK_SIZE = 123;
+
+-----
+[]

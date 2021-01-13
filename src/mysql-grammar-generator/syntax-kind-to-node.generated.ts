@@ -54,6 +54,11 @@ import {
     SourceFile,
     SourceFileLite,
     SourceElementList,
+    AlterTableItemOrModifierList,
+    AlterTableModifiers,
+    AlterTableValidation,
+    AlterTableStandaloneStatement,
+    AlterTableStatement,
     CreateEventStatement,
     ExecuteAtSchedule,
     IntervalSchedule,
@@ -235,6 +240,11 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.SourceElementList] : SourceElementList;
+    [SyntaxKind.AlterTableItemOrModifierList] : AlterTableItemOrModifierList;
+    [SyntaxKind.AlterTableModifiers] : AlterTableModifiers;
+    [SyntaxKind.AlterTableValidation] : AlterTableValidation;
+    [SyntaxKind.AlterTableStandaloneStatement] : AlterTableStandaloneStatement;
+    [SyntaxKind.AlterTableStatement] : AlterTableStatement;
     [SyntaxKind.CreateEventStatement] : CreateEventStatement;
     [SyntaxKind.ExecuteAtSchedule] : ExecuteAtSchedule;
     [SyntaxKind.IntervalSchedule] : IntervalSchedule;

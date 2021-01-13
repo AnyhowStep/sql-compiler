@@ -1,0 +1,7 @@
+ALTER TABLE DB.T;
+
+-----
+ALTER TABLE `DB`.`T`;
+
+-----
+[]

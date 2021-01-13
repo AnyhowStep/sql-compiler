@@ -27,6 +27,9 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             CustomSyntaxKind.SelectStatement,
             SyntaxKind.CreateTableLikeStatement,
             SyntaxKind.CreateTableSelectStatement,
+
+            SyntaxKind.AlterTableStatement,
+            SyntaxKind.AlterTableStandaloneStatement,
         )] as const,
         (data) : Statement => {
             return data[0][0];

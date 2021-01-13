@@ -1,0 +1,33 @@
+ALTER TABLE T
+    FORCE
+    PARTITION BY KEY (X);
+
+ALTER TABLE T
+    FORCE,
+    COMMENT = 'hi'
+    PARTITION BY KEY (X);
+
+ALTER TABLE T
+    FORCE,
+    COMMENT = 'hi',
+    KEY_BLOCK_SIZE = 123
+    PARTITION BY KEY (X);
+
+-----
+ALTER TABLE `T`
+    FORCE
+    PARTITION BY KEY (`X`);
+
+ALTER TABLE `T`
+    FORCE,
+    COMMENT = 'hi'
+    PARTITION BY KEY (`X`);
+
+ALTER TABLE `T`
+    FORCE,
+    COMMENT = 'hi',
+    KEY_BLOCK_SIZE = 123
+    PARTITION BY KEY (`X`);
+
+-----
+[]

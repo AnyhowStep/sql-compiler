@@ -1,0 +1,9 @@
+ALTER TABLE T
+    PARTITION BY KEY (X);
+
+-----
+ALTER TABLE `T`
+    PARTITION BY KEY (`X`);
+
+-----
+[]

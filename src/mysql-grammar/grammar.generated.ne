@@ -2845,6 +2845,208 @@ TextString ->
     return literal;
 } %}
 
+AlterTableItem ->
+    CreateTableOptionsSpaceSeparated {% (data) => {
+    return data[0];
+} %}
+    | %FORCE {% (data) => {
+    return parse_util_1.toValueNode("FORCE", parse_util_1.getTextRange(data));
+} %}
+
+AlterTableItemOrModifier ->
+    AlterTableItem {% (data) => {
+    return data[0];
+} %}
+    | AlterTableModifier {% (data) => {
+    return data[0];
+} %}
+
+AlterTableItemOrModifierList ->
+    (AlterTableItemOrModifier (%Comma AlterTableItemOrModifier):*):? {% (data) => {
+    const arr = data
+        .flat(3)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.AlterTableItemOrModifierList, parse_util_1.getTextRange(data));
+} %}
+
+AlterTableModifier ->
+    AlterTableLock {% (data) => {
+    return data[0];
+} %}
+    | AlterTableAlgorithm {% (data) => {
+    return data[0];
+} %}
+    | AlterTableValidation {% (data) => {
+    return data[0];
+} %}
+
+AlterTableModifiers ->
+    AlterTableModifier (%Comma:? AlterTableModifier):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const start = parse_util_1.getEnd(data);
+    const end = start;
+    const result = {
+        alterTableLock: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+            identifier: {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                quoted: false,
+                identifier: "DEFAULT",
+            }
+        },
+        alterTableAlgorithm: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+            identifier: {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                quoted: false,
+                identifier: "DEFAULT",
+            }
+        },
+        alterTableValidation: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.AlterTableValidation,
+            withValidation: false,
+        },
+    };
+    for (const item of arr) {
+        if (item.syntaxKind == parser_node_1.SyntaxKind.AlterTableLock) {
+            result.alterTableLock = item;
+        }
+        else if (item.syntaxKind == parser_node_1.SyntaxKind.AlterTableAlgorithm) {
+            result.alterTableAlgorithm = item;
+        }
+        else {
+            result.alterTableValidation = item;
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableModifiers,
+        ...result,
+    };
+} %}
+
+AlterTableValidation ->
+    %WITH %VALIDATION {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableValidation,
+        withValidation: true,
+    };
+} %}
+    | %WITHOUT %VALIDATION {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableValidation,
+        withValidation: false,
+    };
+} %}
+
+AlterTableStandaloneStatement ->
+    %ALTER %TABLE TableIdentifier AlterTableModifiers %Comma ((%DISCARD %TABLESPACE) | (%IMPORT %TABLESPACE)) {% (data) => {
+    const [, , tableIdentifier, alterTableModifiers, , alterTableItem,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableStandaloneStatement,
+        tableIdentifier,
+        alterTableModifiers,
+        alterTableItem: parse_util_1.toValueNode((alterTableItem[0][0].tokenKind == scanner_1.TokenKind.DISCARD ?
+            "DISCARD TABLESPACE" :
+            "IMPORT TABLESPACE"), parse_util_1.getTextRange(alterTableItem)),
+    };
+} %}
+    | %ALTER %TABLE TableIdentifier ((%DISCARD %TABLESPACE) | (%IMPORT %TABLESPACE)) {% (data) => {
+    const [, , tableIdentifier, alterTableItem,] = data;
+    const start = tableIdentifier.end;
+    const end = tableIdentifier.end;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableStandaloneStatement,
+        tableIdentifier,
+        alterTableModifiers: {
+            start,
+            end,
+            syntaxKind: parser_node_1.SyntaxKind.AlterTableModifiers,
+            alterTableLock: {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableLock,
+                identifier: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    quoted: false,
+                    identifier: "DEFAULT",
+                }
+            },
+            alterTableAlgorithm: {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableAlgorithm,
+                identifier: {
+                    start,
+                    end,
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    quoted: false,
+                    identifier: "DEFAULT",
+                }
+            },
+            alterTableValidation: {
+                start,
+                end,
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableValidation,
+                withValidation: false,
+            },
+        },
+        alterTableItem: parse_util_1.toValueNode((alterTableItem[0][0].tokenKind == scanner_1.TokenKind.DISCARD ?
+            "DISCARD TABLESPACE" :
+            "IMPORT TABLESPACE"), parse_util_1.getTextRange(alterTableItem)),
+    };
+} %}
+
+AlterTableStatement ->
+    %ALTER %TABLE TableIdentifier AlterTableItemOrModifierList (Partition | (%REMOVE %PARTITIONING)):? {% (data) => {
+    const [, , tableIdentifier, alterTableItemOrModifierList, partition,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableStatement,
+        tableIdentifier,
+        alterTableItemOrModifierList,
+        partition: (partition == undefined ?
+            undefined :
+            partition[0] instanceof Array ?
+                parse_util_1.toValueNode("REMOVE PARTITIONING", parse_util_1.getTextRange(partition)) :
+                partition[0]),
+    };
+} %}
+
 CreateEventStatement ->
     %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %EVENT (%IF %NOT %EXISTS):? EventIdentifier %ON %SCHEDULE Schedule (%ON %COMPLETION %NOT:? %PRESERVE):? ((%ENABLE) | (%DISABLE) | (%DISABLE %ON %SLAVE)):? (%COMMENT StringLiteral):? %DO StoredProcedureStatement {% (data) => {
     const [, definer, eventToken, ifNotExists, eventIdentifier, , , schedule, onCompletionPreserve, eventStatus, comment, , statement,] = data;
@@ -4325,6 +4527,59 @@ CreateTableOption ->
         keyBlockSize,
     };
     return result;
+} %}
+
+CreateTableOptionsSpaceSeparated ->
+    CreateTableOption:+ {% (data) => {
+    const arr = data[0];
+    const result = {
+        engine: undefined,
+        maxRows: undefined,
+        minRows: undefined,
+        averageRowLength: undefined,
+        password: undefined,
+        comment: undefined,
+        compression: undefined,
+        encryption: undefined,
+        autoIncrement: undefined,
+        packKeys: undefined,
+        statsAutoRecalc: undefined,
+        statsPersistent: undefined,
+        statsSamplePages: undefined,
+        checksum: undefined,
+        delayKeyWrite: undefined,
+        rowFormat: undefined,
+        union: undefined,
+        defaultCharacterSet: undefined,
+        defaultCollation: undefined,
+        insertMethod: undefined,
+        dataDirectory: undefined,
+        indexDirectory: undefined,
+        tablespace: undefined,
+        storage: undefined,
+        connection: undefined,
+        keyBlockSize: undefined,
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.CreateTableOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
 } %}
 
 CreateTableOptions ->
@@ -6388,7 +6643,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement) {% (data) => {
     return data[0][0];
 } %}
 

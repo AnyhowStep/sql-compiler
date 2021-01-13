@@ -110,8 +110,17 @@ export const syntaxKinds = [
     "CreateServerOptions",
     "CreateIndexStatement",
     "AlterTableLockAndAlgorithmOptions",
+
+    "AlterTableStatement",
+    "AlterTableStandaloneStatement",
+
+    "AlterTableModifiers",
     "AlterTableLock",
     "AlterTableAlgorithm",
+    "AlterTableValidation",
+
+    "AlterTableItemOrModifierList",
+
 
     "HashPartition",
     "KeyPartition",

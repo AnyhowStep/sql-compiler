@@ -1,0 +1,24 @@
+ALTER TABLE T
+    FORCE,
+    COMMENT = 'hi' KEY_BLOCK_SIZE = 123,
+    LOCK = SHARED,
+    FORCE,
+    COMMENT = 'hi',
+    WITH VALIDATION,
+    FORCE,
+    KEY_BLOCK_SIZE = 123;
+
+-----
+ALTER TABLE `T`
+    FORCE,
+    COMMENT = 'hi',
+    KEY_BLOCK_SIZE = 123,
+    LOCK = `SHARED`,
+    FORCE,
+    COMMENT = 'hi',
+    WITH VALIDATION,
+    FORCE,
+    KEY_BLOCK_SIZE = 123;
+
+-----
+[]
