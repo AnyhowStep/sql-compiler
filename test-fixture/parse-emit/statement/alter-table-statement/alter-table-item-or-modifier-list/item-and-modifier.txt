@@ -6,7 +6,8 @@ ALTER TABLE T
     COMMENT = 'hi',
     WITH VALIDATION,
     FORCE,
-    KEY_BLOCK_SIZE = 123;
+    KEY_BLOCK_SIZE = 123,
+    ALGORITHM = COPY;
 
 -----
 ALTER TABLE `T`
@@ -18,7 +19,8 @@ ALTER TABLE `T`
     COMMENT = 'hi',
     WITH VALIDATION,
     FORCE,
-    KEY_BLOCK_SIZE = 123;
+    KEY_BLOCK_SIZE = 123,
+    ALGORITHM = `COPY`;
 
 -----
 []
