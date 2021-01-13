@@ -2889,7 +2889,7 @@ AlterTableModifier ->
 } %}
 
 AlterTableModifiers ->
-    AlterTableModifier (%Comma:? AlterTableModifier):* {% (data) => {
+    AlterTableModifier (%Comma AlterTableModifier):* {% (data) => {
     const arr = data
         .flat(2)
         .filter((item) => {

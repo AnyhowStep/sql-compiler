@@ -3016,9 +3016,7 @@ export var ParserRules: NearleyRule[] = [
             return data[0];
         } },
     {"name": "AlterTableModifiers$ebnf$1", "symbols": []},
-    {"name": "AlterTableModifiers$ebnf$1$subexpression$1$ebnf$1", "symbols": [Comma], "postprocess": id},
-    {"name": "AlterTableModifiers$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "AlterTableModifiers$ebnf$1$subexpression$1", "symbols": ["AlterTableModifiers$ebnf$1$subexpression$1$ebnf$1", "AlterTableModifier"]},
+    {"name": "AlterTableModifiers$ebnf$1$subexpression$1", "symbols": [Comma, "AlterTableModifier"]},
     {"name": "AlterTableModifiers$ebnf$1", "symbols": ["AlterTableModifiers$ebnf$1", "AlterTableModifiers$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "AlterTableModifiers", "symbols": ["AlterTableModifier", "AlterTableModifiers$ebnf$1"], "postprocess":  (data) => {
             const arr = data

@@ -1,7 +1,7 @@
 import {AlterTableModifier, AlterTableModifiers, Node, SyntaxKind} from "../../../../parser-node";
 import {TokenKind} from "../../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../../factory";
-import {optional, zeroOrMore} from "../../../../nearley-wrapper";
+import {zeroOrMore} from "../../../../nearley-wrapper";
 import {getTextRange, getEnd} from "../../../parse-util";
 
 /**
@@ -12,7 +12,7 @@ makeCustomRule(SyntaxKind.AlterTableModifiers)
         [
             CustomSyntaxKind.AlterTableModifier,
             zeroOrMore([
-                optional(TokenKind.Comma),
+                TokenKind.Comma,
                 CustomSyntaxKind.AlterTableModifier,
             ] as const),
         ] as const,
