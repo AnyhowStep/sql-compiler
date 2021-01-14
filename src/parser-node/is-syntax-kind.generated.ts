@@ -47,6 +47,7 @@ import {Precision} from "./misc/precision";
 import {SizeNumber} from "./misc/size-number";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
+import {AlterTableAddColumn} from "./statement/alter-table-statement/alter-table-item/alter-table-add-column";
 import {AlterTableModifiers} from "./statement/alter-table-statement/alter-table-modifier/alter-table-modifier";
 import {AlterTableValidation} from "./statement/alter-table-statement/alter-table-modifier/alter-table-validation";
 import {AlterTableStandaloneStatement} from "./statement/alter-table-statement/alter-table-standalone-statement";
@@ -201,6 +202,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Precision) : 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SizeNumber) : node is SizeNumber;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAddColumn) : node is AlterTableAddColumn;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableModifiers) : node is AlterTableModifiers;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableValidation) : node is AlterTableValidation;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableStandaloneStatement) : node is AlterTableStandaloneStatement;
@@ -364,6 +366,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.SizeNumber, callback : (node : SizeNumber) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTableAddColumn, callback : (node : AlterTableAddColumn) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableModifiers, callback : (node : AlterTableModifiers) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableValidation, callback : (node : AlterTableValidation) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableStandaloneStatement, callback : (node : AlterTableStandaloneStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

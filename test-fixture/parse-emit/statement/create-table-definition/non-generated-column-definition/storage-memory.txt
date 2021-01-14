@@ -4,7 +4,8 @@ CREATE TABLE T (
 
 -----
 CREATE TABLE `T` (
-    `X` BLOB NULL STORAGE MEMORY
+    `X` BLOB NULL
+        STORAGE MEMORY
 );
 
 -----

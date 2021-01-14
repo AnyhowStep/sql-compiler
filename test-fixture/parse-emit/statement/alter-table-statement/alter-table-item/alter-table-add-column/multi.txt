@@ -1,0 +1,16 @@
+ALTER TABLE T
+    ADD Y INT,
+    ADD Y INT AFTER X,
+    ADD Y INT COMMENT 'lol' AFTER X;
+
+-----
+ALTER TABLE `T`
+    ADD COLUMN `Y` INT SIGNED NULL,
+    ADD COLUMN `Y` INT SIGNED NULL
+        AFTER `X`,
+    ADD COLUMN `Y` INT SIGNED NULL
+        COMMENT 'lol'
+        AFTER `X`;
+
+-----
+[]

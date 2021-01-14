@@ -2974,8 +2974,30 @@ export var ParserRules: NearleyRule[] = [
             let [[literal]] = data;
             return literal;
         } },
-    {"name": "AlterTableItem", "symbols": ["CreateTableOptionsSpaceSeparated"], "postprocess":  (data) => {
-            return data[0];
+    {"name": "AlterTableAddColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
+    {"name": "AlterTableAddColumn$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableAddColumn$ebnf$2$subexpression$1", "symbols": [FIRST]},
+    {"name": "AlterTableAddColumn$ebnf$2$subexpression$1$subexpression$1", "symbols": [AFTER, "Identifier"]},
+    {"name": "AlterTableAddColumn$ebnf$2$subexpression$1", "symbols": ["AlterTableAddColumn$ebnf$2$subexpression$1$subexpression$1"]},
+    {"name": "AlterTableAddColumn$ebnf$2", "symbols": ["AlterTableAddColumn$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableAddColumn$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableAddColumn", "symbols": [ADD, "AlterTableAddColumn$ebnf$1", "ColumnDefinition", "AlterTableAddColumn$ebnf$2"], "postprocess":  (data) => {
+            const [, , columnDefinition, placeAfter,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableAddColumn,
+                columnDefinition,
+                placeAfter: (placeAfter == undefined ?
+                    undefined :
+                    placeAfter[0] instanceof Array ?
+                        placeAfter[0][1] :
+                        parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
+            };
+        } },
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["CreateTableOptionsSpaceSeparated"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddColumn"]},
+    {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
+            return data[0][0];
         } },
     {"name": "AlterTableItem", "symbols": [FORCE], "postprocess":  (data) => {
             return parse_util_1.toValueNode("FORCE", parse_util_1.getTextRange(data));

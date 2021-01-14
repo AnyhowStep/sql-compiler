@@ -1,0 +1,19 @@
+CREATE TABLE T (
+    X BINARY NULL CHECK (1)
+);
+
+CREATE TABLE T (
+    X BINARY CHECK (1) NULL
+);
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected CloseParentheses|Comma",
+        "start": 89,
+        "length": 0
+    }
+]

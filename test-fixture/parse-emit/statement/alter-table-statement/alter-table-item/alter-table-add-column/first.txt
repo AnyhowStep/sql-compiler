@@ -1,0 +1,18 @@
+ALTER TABLE T
+    ADD Y INT FIRST;
+
+ALTER TABLE T
+    ADD Y INT COMMENT 'lol' FIRST;
+
+-----
+ALTER TABLE `T`
+    ADD COLUMN `Y` INT SIGNED NULL
+        FIRST;
+
+ALTER TABLE `T`
+    ADD COLUMN `Y` INT SIGNED NULL
+        COMMENT 'lol'
+        FIRST;
+
+-----
+[]

@@ -54,6 +54,7 @@ import {
     SourceFile,
     SourceFileLite,
     SourceElementList,
+    AlterTableAddColumn,
     AlterTableItemOrModifierList,
     AlterTableModifiers,
     AlterTableValidation,
@@ -240,6 +241,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.SourceElementList] : SourceElementList;
+    [SyntaxKind.AlterTableAddColumn] : AlterTableAddColumn;
     [SyntaxKind.AlterTableItemOrModifierList] : AlterTableItemOrModifierList;
     [SyntaxKind.AlterTableModifiers] : AlterTableModifiers;
     [SyntaxKind.AlterTableValidation] : AlterTableValidation;

@@ -4,7 +4,8 @@ CREATE TABLE T (
 
 -----
 CREATE TABLE `T` (
-    `X` BINARY(1) NULL COMMENT 'lol'
+    `X` BINARY(1) NULL
+        COMMENT 'lol'
 );
 
 -----

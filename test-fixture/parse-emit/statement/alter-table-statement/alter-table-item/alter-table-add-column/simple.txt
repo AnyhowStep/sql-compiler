@@ -1,0 +1,9 @@
+ALTER TABLE T
+    ADD Y INT;
+
+-----
+ALTER TABLE `T`
+    ADD COLUMN `Y` INT SIGNED NULL;
+
+-----
+[]

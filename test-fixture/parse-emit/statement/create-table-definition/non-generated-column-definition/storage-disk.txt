@@ -4,7 +4,8 @@ CREATE TABLE T (
 
 -----
 CREATE TABLE `T` (
-    `X` VARBINARY(15) NULL STORAGE DISK
+    `X` VARBINARY(15) NULL
+        STORAGE DISK
 );
 
 -----

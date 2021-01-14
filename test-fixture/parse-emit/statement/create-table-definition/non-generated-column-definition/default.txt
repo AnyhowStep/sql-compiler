@@ -4,7 +4,8 @@ CREATE TABLE T (
 
 -----
 CREATE TABLE `T` (
-    `X` BINARY(20) NULL DEFAULT 'ha'
+    `X` BINARY(20) NULL
+        DEFAULT 'ha'
 );
 
 -----
