@@ -2860,8 +2860,18 @@ AlterTableAddColumn ->
     };
 } %}
 
+AlterTableAddCreateTableDefinitionList ->
+    %ADD %COLUMN:? CreateTableDefinitionList {% (data) => {
+    const [, , createTableDefinitionList,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableAddCreateTableDefinitionList,
+        createTableDefinitionList,
+    };
+} %}
+
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {

@@ -1,7 +1,7 @@
 import {CreateTableStatement} from "../../../parser-node";
 import {emitTableIdentifier} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
-import {emitCreateTableDefinition} from "../create-table-definition";
+import {emitCreateTableDefinitionList} from "../create-table-definition";
 import {emitCreateTableOptions} from "../create-table-options";
 import {emitPartition} from "../partition";
 
@@ -13,21 +13,8 @@ export function emitCreateTableStatement (statement : CreateTableStatement) : St
         .append(statement.ifNotExists ? " IF NOT EXISTS" : undefined)
         .append(" ")
         .appendBuilder(emitTableIdentifier(statement.tableIdentifier))
-        .scope(builder => {
-            if (statement.createTableDefinitions == undefined) {
-                return;
-            }
-            const createTableDefinitions = statement.createTableDefinitions;
-            builder
-                .append(" (")
-                .indent(builder => builder.loop(
-                    createTableDefinitions,
-                    builder => builder.append(",").appendNewLine(),
-                    (builder, def) => builder.appendBuilder(emitCreateTableDefinition(def))
-                ))
-                .appendNewLine()
-                .append(")")
-        })
+        .append(" ")
+        .appendBuilder(emitCreateTableDefinitionList(statement.createTableDefinitions))
         .scope(builder => {
             const createTableOptions = emitCreateTableOptions(statement.createTableOptions);
             if (createTableOptions.isEmpty()) {

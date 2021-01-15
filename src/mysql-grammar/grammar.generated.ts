@@ -2994,8 +2994,19 @@ export var ParserRules: NearleyRule[] = [
                         parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
             };
         } },
+    {"name": "AlterTableAddCreateTableDefinitionList$ebnf$1", "symbols": [COLUMN], "postprocess": id},
+    {"name": "AlterTableAddCreateTableDefinitionList$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableAddCreateTableDefinitionList", "symbols": [ADD, "AlterTableAddCreateTableDefinitionList$ebnf$1", "CreateTableDefinitionList"], "postprocess":  (data) => {
+            const [, , createTableDefinitionList,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableAddCreateTableDefinitionList,
+                createTableDefinitionList,
+            };
+        } },
     {"name": "AlterTableItem$subexpression$1", "symbols": ["CreateTableOptionsSpaceSeparated"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddColumn"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddCreateTableDefinitionList"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

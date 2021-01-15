@@ -10,6 +10,7 @@ makeCustomRule(CustomSyntaxKind.AlterTableItem)
             union(
                 CustomSyntaxKind.CreateTableOptionsSpaceSeparated,
                 SyntaxKind.AlterTableAddColumn,
+                SyntaxKind.AlterTableAddCreateTableDefinitionList,
             ),
         ] as const,
         (data) : AlterTableItem => {

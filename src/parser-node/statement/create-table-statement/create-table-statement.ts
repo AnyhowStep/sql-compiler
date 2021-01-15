@@ -11,12 +11,7 @@ export interface CreateTableStatement extends Statement {
     ifNotExists : boolean,
     tableIdentifier : TableIdentifier,
 
-    /**
-     *
-     * May be `undefined`,
-     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5081
-     */
-    createTableDefinitions : CreateTableDefinitionList|undefined,
+    createTableDefinitions : CreateTableDefinitionList,
     createTableOptions : CreateTableOptions,
     partition : Partition|undefined,
 }

@@ -1,0 +1,11 @@
+ALTER TABLE T
+    ADD (X INT);
+
+-----
+ALTER TABLE `T`
+    ADD (
+        `X` INT SIGNED NULL
+    );
+
+-----
+[]

@@ -1,0 +1,21 @@
+ALTER TABLE T
+    ADD (X INT, FOREIGN KEY (Y) REFERENCES U (Y));
+
+ALTER TABLE T
+    ADD COLUMN (X INT, FOREIGN KEY (Y) REFERENCES U (Y));
+
+-----
+ALTER TABLE `T`
+    ADD (
+        `X` INT SIGNED NULL,
+        FOREIGN KEY (`Y`) REFERENCES `U` (`Y`)
+    );
+
+ALTER TABLE `T`
+    ADD (
+        `X` INT SIGNED NULL,
+        FOREIGN KEY (`Y`) REFERENCES `U` (`Y`)
+    );
+
+-----
+[]
