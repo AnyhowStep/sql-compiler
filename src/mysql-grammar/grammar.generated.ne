@@ -4702,7 +4702,7 @@ CreateTableSelect ->
 } %}
 
 CreateTableStatement ->
-    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList:? CreateTableOptions Partition:? {% (data) => {
+    %CREATE %TEMPORARY:? %TABLE (%IF %NOT %EXISTS):? TableIdentifier CreateTableDefinitionList CreateTableOptions Partition:? {% (data) => {
     const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition,] = data;
     return {
         ...parse_util_1.getTextRange(data),
@@ -4710,7 +4710,7 @@ CreateTableStatement ->
         temporary: temporary != null,
         ifNotExists: ifNotExists != null,
         tableIdentifier,
-        createTableDefinitions: createTableDefinitions !== null && createTableDefinitions !== void 0 ? createTableDefinitions : undefined,
+        createTableDefinitions,
         createTableOptions,
         partition: partition !== null && partition !== void 0 ? partition : undefined,
     };

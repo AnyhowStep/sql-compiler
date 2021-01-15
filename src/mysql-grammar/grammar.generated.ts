@@ -5105,11 +5105,9 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateTableStatement$ebnf$2$subexpression$1", "symbols": [IF, NOT, EXISTS]},
     {"name": "CreateTableStatement$ebnf$2", "symbols": ["CreateTableStatement$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "CreateTableStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement$ebnf$3", "symbols": ["CreateTableDefinitionList"], "postprocess": id},
+    {"name": "CreateTableStatement$ebnf$3", "symbols": ["Partition"], "postprocess": id},
     {"name": "CreateTableStatement$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement$ebnf$4", "symbols": ["Partition"], "postprocess": id},
-    {"name": "CreateTableStatement$ebnf$4", "symbols": [], "postprocess": () => null},
-    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableStatement$ebnf$3", "CreateTableOptions", "CreateTableStatement$ebnf$4"], "postprocess":  (data) => {
+    {"name": "CreateTableStatement", "symbols": [CREATE, "CreateTableStatement$ebnf$1", TABLE, "CreateTableStatement$ebnf$2", "TableIdentifier", "CreateTableDefinitionList", "CreateTableOptions", "CreateTableStatement$ebnf$3"], "postprocess":  (data) => {
             const [, temporary, , ifNotExists, tableIdentifier, createTableDefinitions, createTableOptions, partition,] = data;
             return {
                 ...parse_util_1.getTextRange(data),
@@ -5117,7 +5115,7 @@ export var ParserRules: NearleyRule[] = [
                 temporary: temporary != null,
                 ifNotExists: ifNotExists != null,
                 tableIdentifier,
-                createTableDefinitions: createTableDefinitions !== null && createTableDefinitions !== void 0 ? createTableDefinitions : undefined,
+                createTableDefinitions,
                 createTableOptions,
                 partition: partition !== null && partition !== void 0 ? partition : undefined,
             };

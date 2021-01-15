@@ -12,7 +12,7 @@ makeCustomRule(SyntaxKind.CreateTableStatement)
             TokenKind.TABLE,
             optional([TokenKind.IF, TokenKind.NOT, TokenKind.EXISTS]),
             SyntaxKind.TableIdentifier,
-            optional(SyntaxKind.CreateTableDefinitionList),
+            SyntaxKind.CreateTableDefinitionList,
             SyntaxKind.CreateTableOptions,
             optional(CustomSyntaxKind.Partition),
         ] as const,
@@ -33,7 +33,7 @@ makeCustomRule(SyntaxKind.CreateTableStatement)
                 temporary : temporary != null,
                 ifNotExists : ifNotExists != null,
                 tableIdentifier,
-                createTableDefinitions : createTableDefinitions ?? undefined,
+                createTableDefinitions,
                 createTableOptions,
                 partition : partition ?? undefined,
             };

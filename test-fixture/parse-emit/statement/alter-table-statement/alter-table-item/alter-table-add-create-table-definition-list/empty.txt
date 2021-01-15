@@ -1,0 +1,14 @@
+ALTER TABLE T
+    ADD ();
+
+-----
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Expected CHECK OpenParentheses|CONSTRAINT|FOREIGN KEY|FULLTEXT|Identifier|INDEX|KEY|PRIMARY KEY|SPATIAL|UNIQUE|UNIQUE_KEY",
+        "start": 23,
+        "length": 0
+    }
+]
