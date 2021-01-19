@@ -59,6 +59,7 @@ import {
     AlterTableChangeColumn,
     AlterTableDropColumn,
     AlterTableDropForeignKey,
+    AlterTableDropPrimaryKey,
     AlterTableModifyColumn,
     AlterTableItemOrModifierList,
     AlterTableModifiers,
@@ -251,6 +252,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTableChangeColumn] : AlterTableChangeColumn;
     [SyntaxKind.AlterTableDropColumn] : AlterTableDropColumn;
     [SyntaxKind.AlterTableDropForeignKey] : AlterTableDropForeignKey;
+    [SyntaxKind.AlterTableDropPrimaryKey] : AlterTableDropPrimaryKey;
     [SyntaxKind.AlterTableModifyColumn] : AlterTableModifyColumn;
     [SyntaxKind.AlterTableItemOrModifierList] : AlterTableItemOrModifierList;
     [SyntaxKind.AlterTableModifiers] : AlterTableModifiers;

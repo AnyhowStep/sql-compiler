@@ -2911,8 +2911,16 @@ AlterTableDropForeignKey ->
     };
 } %}
 
+AlterTableDropPrimaryKey ->
+    %DROP %PRIMARY %KEY {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableDropPrimaryKey,
+    };
+} %}
+
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {

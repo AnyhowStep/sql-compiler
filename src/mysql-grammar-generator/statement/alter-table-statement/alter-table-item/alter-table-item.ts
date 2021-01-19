@@ -15,6 +15,7 @@ makeCustomRule(CustomSyntaxKind.AlterTableItem)
                 SyntaxKind.AlterTableModifyColumn,
                 SyntaxKind.AlterTableDropColumn,
                 SyntaxKind.AlterTableDropForeignKey,
+                SyntaxKind.AlterTableDropPrimaryKey,
             ),
         ] as const,
         (data) : AlterTableItem => {

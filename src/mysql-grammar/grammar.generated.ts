@@ -3052,6 +3052,12 @@ export var ParserRules: NearleyRule[] = [
                 foreignKeyIdentifier,
             };
         } },
+    {"name": "AlterTableDropPrimaryKey", "symbols": [DROP, PRIMARY, KEY], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableDropPrimaryKey,
+            };
+        } },
     {"name": "AlterTableItem$subexpression$1", "symbols": ["CreateTableOptionsSpaceSeparated"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddCreateTableDefinitionList"]},
@@ -3059,6 +3065,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableModifyColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropForeignKey"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropPrimaryKey"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

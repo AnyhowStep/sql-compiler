@@ -6,6 +6,7 @@ import {emitAlterTableAddCreateTableDefinitionList} from "./alter-table-add-crea
 import {emitAlterTableChangeColumn} from "./alter-table-change-column";
 import {emitAlterTableDropColumn} from "./alter-table-drop-column";
 import {emitAlterTableDropForeignKey} from "./alter-table-drop-foreign-key";
+import {emitAlterTableDropPrimaryKey} from "./alter-table-drop-primary-key";
 import {emitAlterTableModifyColumn} from "./alter-table-modify-column";
 
 export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
@@ -24,6 +25,8 @@ export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
             return emitAlterTableDropColumn(item)
         case SyntaxKind.AlterTableDropForeignKey:
             return emitAlterTableDropForeignKey(item)
+        case SyntaxKind.AlterTableDropPrimaryKey:
+            return emitAlterTableDropPrimaryKey(item)
         case SyntaxKind.Value:
             return new StringBuilder().append(item.value)
     }

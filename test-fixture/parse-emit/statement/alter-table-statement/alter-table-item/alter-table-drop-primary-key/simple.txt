@@ -1,0 +1,9 @@
+ALTER TABLE T
+    DROP PRIMARY KEY;
+
+-----
+ALTER TABLE `T`
+    DROP PRIMARY KEY;
+
+-----
+[]
