@@ -124,6 +124,7 @@ export const syntaxKinds = [
     "AlterTableAddColumn",
     "AlterTableAddCreateTableDefinitionList",
     "AlterTableChangeColumn",
+    "AlterTableModifyColumn",
 
 
     "HashPartition",

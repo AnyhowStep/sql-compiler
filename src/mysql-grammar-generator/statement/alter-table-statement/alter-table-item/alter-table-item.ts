@@ -12,6 +12,7 @@ makeCustomRule(CustomSyntaxKind.AlterTableItem)
                 SyntaxKind.AlterTableAddColumn,
                 SyntaxKind.AlterTableAddCreateTableDefinitionList,
                 SyntaxKind.AlterTableChangeColumn,
+                SyntaxKind.AlterTableModifyColumn,
             ),
         ] as const,
         (data) : AlterTableItem => {

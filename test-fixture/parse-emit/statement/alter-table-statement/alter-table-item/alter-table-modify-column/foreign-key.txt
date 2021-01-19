@@ -1,0 +1,17 @@
+ALTER TABLE T
+    MODIFY X INT REFERENCES U (Z);
+
+-----
+ALTER TABLE `T`
+    MODIFY COLUMN `X` INT SIGNED NULL
+        REFERENCES `U` (`Z`);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Unexpected REFERENCES",
+        "start": 31,
+        "length": 16
+    }
+]

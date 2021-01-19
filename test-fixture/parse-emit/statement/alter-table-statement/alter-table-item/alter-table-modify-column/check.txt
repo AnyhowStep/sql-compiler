@@ -1,0 +1,17 @@
+ALTER TABLE T
+    MODIFY X INT CHECK (1);
+
+-----
+ALTER TABLE `T`
+    MODIFY COLUMN `X` INT SIGNED NULL
+        CHECK (1);
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Unexpected CHECK",
+        "start": 31,
+        "length": 9
+    }
+]

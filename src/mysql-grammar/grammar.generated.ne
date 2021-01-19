@@ -2887,11 +2887,26 @@ AlterTableChangeColumn ->
 } %}
 
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {
     return parse_util_1.toValueNode("FORCE", parse_util_1.getTextRange(data));
+} %}
+
+AlterTableModifyColumn ->
+    %MODIFY %COLUMN:? ColumnDefinition (%FIRST | (%AFTER Identifier)):? {% (data) => {
+    const [, , columnDefinition, placeAfter,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableModifyColumn,
+        columnDefinition,
+        placeAfter: (placeAfter == undefined ?
+            undefined :
+            placeAfter[0] instanceof Array ?
+                placeAfter[0][1] :
+                parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
+    };
 } %}
 
 AlterTableItemOrModifier ->

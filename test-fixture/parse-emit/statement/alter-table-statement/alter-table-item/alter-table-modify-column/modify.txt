@@ -1,0 +1,9 @@
+ALTER TABLE T
+    MODIFY X INT;
+
+-----
+ALTER TABLE `T`
+    MODIFY COLUMN `X` INT SIGNED NULL;
+
+-----
+[]
