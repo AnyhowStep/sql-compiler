@@ -1,0 +1,10 @@
+ALTER TABLE T
+    DROP X RESTRICT;
+
+-----
+ALTER TABLE `T`
+    DROP COLUMN `X`
+        RESTRICT;
+
+-----
+[]

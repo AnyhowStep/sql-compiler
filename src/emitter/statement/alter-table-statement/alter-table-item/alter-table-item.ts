@@ -4,6 +4,7 @@ import {emitCreateTableOptions} from "../../create-table-options";
 import {emitAlterTableAddColumn} from "./alter-table-add-column";
 import {emitAlterTableAddCreateTableDefinitionList} from "./alter-table-add-create-table-definition-list";
 import {emitAlterTableChangeColumn} from "./alter-table-change-column";
+import {emitAlterTableDropColumn} from "./alter-table-drop-column";
 import {emitAlterTableModifyColumn} from "./alter-table-modify-column";
 
 export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
@@ -18,6 +19,8 @@ export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
             return emitAlterTableChangeColumn(item)
         case SyntaxKind.AlterTableModifyColumn:
             return emitAlterTableModifyColumn(item)
+        case SyntaxKind.AlterTableDropColumn:
+            return emitAlterTableDropColumn(item)
         case SyntaxKind.Value:
             return new StringBuilder().append(item.value)
     }

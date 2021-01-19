@@ -3025,11 +3025,31 @@ export var ParserRules: NearleyRule[] = [
                         parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
             };
         } },
+    {"name": "AlterTableDropColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
+    {"name": "AlterTableDropColumn$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableDropColumn$ebnf$2$subexpression$1", "symbols": [RESTRICT]},
+    {"name": "AlterTableDropColumn$ebnf$2$subexpression$1", "symbols": [CASCADE]},
+    {"name": "AlterTableDropColumn$ebnf$2", "symbols": ["AlterTableDropColumn$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableDropColumn$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableDropColumn", "symbols": [DROP, "AlterTableDropColumn$ebnf$1", "ColumnIdentifier", "AlterTableDropColumn$ebnf$2"], "postprocess":  (data) => {
+            const [, , columnIdentifier, dropMode,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableDropColumn,
+                columnIdentifier,
+                dropMode: (dropMode == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode((dropMode[0].tokenKind == scanner_1.TokenKind.RESTRICT ?
+                        "RESTRICT" :
+                        "CASCADE"), parse_util_1.getTextRange(dropMode))),
+            };
+        } },
     {"name": "AlterTableItem$subexpression$1", "symbols": ["CreateTableOptionsSpaceSeparated"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddCreateTableDefinitionList"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableChangeColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableModifyColumn"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropColumn"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

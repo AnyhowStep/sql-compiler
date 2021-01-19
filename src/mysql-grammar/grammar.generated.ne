@@ -2886,8 +2886,23 @@ AlterTableChangeColumn ->
     };
 } %}
 
+AlterTableDropColumn ->
+    %DROP %COLUMN:? ColumnIdentifier (%RESTRICT | %CASCADE):? {% (data) => {
+    const [, , columnIdentifier, dropMode,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableDropColumn,
+        columnIdentifier,
+        dropMode: (dropMode == undefined ?
+            undefined :
+            parse_util_1.toValueNode((dropMode[0].tokenKind == scanner_1.TokenKind.RESTRICT ?
+                "RESTRICT" :
+                "CASCADE"), parse_util_1.getTextRange(dropMode))),
+    };
+} %}
+
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {

@@ -3,6 +3,7 @@ import {CreateTableOptions} from "../../create-table-options";
 import {AlterTableAddColumn} from "./alter-table-add-column";
 import {AlterTableAddCreateTableDefinitionList} from "./alter-table-add-create-table-definition-list";
 import {AlterTableChangeColumn} from "./alter-table-change-column";
+import {AlterTableDropColumn} from "./alter-table-drop-column";
 import {AlterTableModifyColumn} from "./alter-table-modify-column";
 
 /**
@@ -19,6 +20,7 @@ export type AlterTableItem =
     | AlterTableAddCreateTableDefinitionList
     | AlterTableChangeColumn
     | AlterTableModifyColumn
+    | AlterTableDropColumn
     /**
      * > `ALTER TABLE tbl_name ENGINE=INNODB` and `ALTER TABLE tbl_name FORCE` use online DDL.
      *

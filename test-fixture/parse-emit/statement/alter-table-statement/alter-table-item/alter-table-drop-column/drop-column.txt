@@ -1,0 +1,9 @@
+ALTER TABLE T
+    DROP COLUMN X;
+
+-----
+ALTER TABLE `T`
+    DROP COLUMN `X`;
+
+-----
+[]

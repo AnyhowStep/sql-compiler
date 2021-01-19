@@ -1,0 +1,10 @@
+ALTER TABLE T
+    DROP X CASCADE;
+
+-----
+ALTER TABLE `T`
+    DROP COLUMN `X`
+        CASCADE;
+
+-----
+[]
