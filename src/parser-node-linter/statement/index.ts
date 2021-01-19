@@ -1,3 +1,4 @@
+export * from "./alter-table-statement";
 export * from "./create-index-statement";
 export * from "./create-table-statement";
 export * from "./create-user-statement";

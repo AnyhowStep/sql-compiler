@@ -3004,9 +3004,31 @@ export var ParserRules: NearleyRule[] = [
                 createTableDefinitionList,
             };
         } },
+    {"name": "AlterTableChangeColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
+    {"name": "AlterTableChangeColumn$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableChangeColumn$ebnf$2$subexpression$1", "symbols": [FIRST]},
+    {"name": "AlterTableChangeColumn$ebnf$2$subexpression$1$subexpression$1", "symbols": [AFTER, "Identifier"]},
+    {"name": "AlterTableChangeColumn$ebnf$2$subexpression$1", "symbols": ["AlterTableChangeColumn$ebnf$2$subexpression$1$subexpression$1"]},
+    {"name": "AlterTableChangeColumn$ebnf$2", "symbols": ["AlterTableChangeColumn$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableChangeColumn$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableChangeColumn", "symbols": [CHANGE, "AlterTableChangeColumn$ebnf$1", "ColumnIdentifier", "ColumnDefinition", "AlterTableChangeColumn$ebnf$2"], "postprocess":  (data) => {
+            const [, , oldColumnIdentifier, columnDefinition, placeAfter,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableChangeColumn,
+                oldColumnIdentifier,
+                columnDefinition,
+                placeAfter: (placeAfter == undefined ?
+                    undefined :
+                    placeAfter[0] instanceof Array ?
+                        placeAfter[0][1] :
+                        parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
+            };
+        } },
     {"name": "AlterTableItem$subexpression$1", "symbols": ["CreateTableOptionsSpaceSeparated"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddCreateTableDefinitionList"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableChangeColumn"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

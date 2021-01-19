@@ -1,0 +1,10 @@
+ALTER TABLE T
+    CHANGE COLUMN X Y INT;
+
+-----
+ALTER TABLE `T`
+    CHANGE COLUMN `X`
+        `Y` INT SIGNED NULL;
+
+-----
+[]

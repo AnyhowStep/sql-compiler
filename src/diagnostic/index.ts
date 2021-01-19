@@ -18,14 +18,14 @@ export interface Diagnostic {
     length: number;
     messageText: string;
     category: DiagnosticCategory;
-    code: number;
+    code: string|number;
     relatedRanges? : RelatedRange[];
 }
 
 export interface DiagnosticMessage {
     readonly key : string;
     readonly category : DiagnosticCategory,
-    readonly code : number,
+    readonly code : string|number,
 }
 
 export function makeDiagnosticMessage (message : DiagnosticMessage) : DiagnosticMessage {

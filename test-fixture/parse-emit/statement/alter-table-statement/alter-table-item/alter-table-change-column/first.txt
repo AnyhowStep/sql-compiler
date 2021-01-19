@@ -1,0 +1,20 @@
+ALTER TABLE T
+    CHANGE COLUMN X Y INT FIRST;
+
+ALTER TABLE T
+    CHANGE COLUMN X Y INT COMMENT 'hi' FIRST;
+
+-----
+ALTER TABLE `T`
+    CHANGE COLUMN `X`
+        `Y` INT SIGNED NULL
+            FIRST;
+
+ALTER TABLE `T`
+    CHANGE COLUMN `X`
+        `Y` INT SIGNED NULL
+            COMMENT 'hi'
+            FIRST;
+
+-----
+[]

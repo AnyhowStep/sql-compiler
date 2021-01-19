@@ -1,0 +1,18 @@
+ALTER TABLE T
+    CHANGE X Y INT,
+    CHANGE COLUMN X Y INT FIRST,
+    CHANGE COLUMN X Y INT AFTER Z;
+
+-----
+ALTER TABLE `T`
+    CHANGE COLUMN `X`
+        `Y` INT SIGNED NULL,
+    CHANGE COLUMN `X`
+        `Y` INT SIGNED NULL
+            FIRST,
+    CHANGE COLUMN `X`
+        `Y` INT SIGNED NULL
+            AFTER `Z`;
+
+-----
+[]

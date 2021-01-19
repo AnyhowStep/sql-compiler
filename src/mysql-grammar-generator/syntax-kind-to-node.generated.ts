@@ -56,6 +56,7 @@ import {
     SourceElementList,
     AlterTableAddColumn,
     AlterTableAddCreateTableDefinitionList,
+    AlterTableChangeColumn,
     AlterTableItemOrModifierList,
     AlterTableModifiers,
     AlterTableValidation,
@@ -244,6 +245,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceElementList] : SourceElementList;
     [SyntaxKind.AlterTableAddColumn] : AlterTableAddColumn;
     [SyntaxKind.AlterTableAddCreateTableDefinitionList] : AlterTableAddCreateTableDefinitionList;
+    [SyntaxKind.AlterTableChangeColumn] : AlterTableChangeColumn;
     [SyntaxKind.AlterTableItemOrModifierList] : AlterTableItemOrModifierList;
     [SyntaxKind.AlterTableModifiers] : AlterTableModifiers;
     [SyntaxKind.AlterTableValidation] : AlterTableValidation;

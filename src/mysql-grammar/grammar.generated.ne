@@ -2870,8 +2870,24 @@ AlterTableAddCreateTableDefinitionList ->
     };
 } %}
 
+AlterTableChangeColumn ->
+    %CHANGE %COLUMN:? ColumnIdentifier ColumnDefinition (%FIRST | (%AFTER Identifier)):? {% (data) => {
+    const [, , oldColumnIdentifier, columnDefinition, placeAfter,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableChangeColumn,
+        oldColumnIdentifier,
+        columnDefinition,
+        placeAfter: (placeAfter == undefined ?
+            undefined :
+            placeAfter[0] instanceof Array ?
+                placeAfter[0][1] :
+                parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
+    };
+} %}
+
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {
