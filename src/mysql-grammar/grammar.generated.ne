@@ -2886,6 +2886,14 @@ AlterTableChangeColumn ->
     };
 } %}
 
+AlterTableDisableKeys ->
+    %DISABLE %KEYS {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableDisableKeys,
+    };
+} %}
+
 AlterTableDropColumn ->
     %DROP %COLUMN:? ColumnIdentifier (%RESTRICT | %CASCADE):? {% (data) => {
     const [, , columnIdentifier, dropMode,] = data;
@@ -2929,8 +2937,16 @@ AlterTableDropPrimaryKey ->
     };
 } %}
 
+AlterTableEnableKeys ->
+    %ENABLE %KEYS {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableEnableKeys,
+    };
+} %}
+
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {

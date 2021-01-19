@@ -1,0 +1,9 @@
+ALTER TABLE T
+    DISABLE KEYS;
+
+-----
+ALTER TABLE `T`
+    DISABLE KEYS;
+
+-----
+[]

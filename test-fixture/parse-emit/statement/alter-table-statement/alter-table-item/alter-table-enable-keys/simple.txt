@@ -1,0 +1,9 @@
+ALTER TABLE T
+    ENABLE KEYS;
+
+-----
+ALTER TABLE `T`
+    ENABLE KEYS;
+
+-----
+[]

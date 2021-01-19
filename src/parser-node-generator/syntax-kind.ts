@@ -129,6 +129,8 @@ export const syntaxKinds = [
     "AlterTableDropForeignKey",
     "AlterTableDropPrimaryKey",
     "AlterTableDropIndex",
+    "AlterTableDisableKeys",
+    "AlterTableEnableKeys",
 
 
     "HashPartition",

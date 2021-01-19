@@ -3025,6 +3025,12 @@ export var ParserRules: NearleyRule[] = [
                         parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
             };
         } },
+    {"name": "AlterTableDisableKeys", "symbols": [DISABLE, KEYS], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableDisableKeys,
+            };
+        } },
     {"name": "AlterTableDropColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
     {"name": "AlterTableDropColumn$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "AlterTableDropColumn$ebnf$2$subexpression$1", "symbols": [RESTRICT]},
@@ -3068,6 +3074,12 @@ export var ParserRules: NearleyRule[] = [
                 syntaxKind: parser_node_1.SyntaxKind.AlterTableDropPrimaryKey,
             };
         } },
+    {"name": "AlterTableEnableKeys", "symbols": [ENABLE, KEYS], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableEnableKeys,
+            };
+        } },
     {"name": "AlterTableItem$subexpression$1", "symbols": ["CreateTableOptionsSpaceSeparated"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddCreateTableDefinitionList"]},
@@ -3077,6 +3089,8 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropForeignKey"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropPrimaryKey"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropIndex"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDisableKeys"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableEnableKeys"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

@@ -3,10 +3,12 @@ import {CreateTableOptions} from "../../create-table-options";
 import {AlterTableAddColumn} from "./alter-table-add-column";
 import {AlterTableAddCreateTableDefinitionList} from "./alter-table-add-create-table-definition-list";
 import {AlterTableChangeColumn} from "./alter-table-change-column";
+import {AlterTableDisableKeys} from "./alter-table-disable-keys";
 import {AlterTableDropColumn} from "./alter-table-drop-column";
 import {AlterTableDropForeignKey} from "./alter-table-drop-foreign-key";
 import {AlterTableDropIndex} from "./alter-table-drop-index";
 import {AlterTableDropPrimaryKey} from "./alter-table-drop-primary-key";
+import {AlterTableEnableKeys} from "./alter-table-enable-keys";
 import {AlterTableModifyColumn} from "./alter-table-modify-column";
 
 /**
@@ -27,6 +29,8 @@ export type AlterTableItem =
     | AlterTableDropForeignKey
     | AlterTableDropPrimaryKey
     | AlterTableDropIndex
+    | AlterTableDisableKeys
+    | AlterTableEnableKeys
     /**
      * > `ALTER TABLE tbl_name ENGINE=INNODB` and `ALTER TABLE tbl_name FORCE` use online DDL.
      *
