@@ -3052,6 +3052,16 @@ export var ParserRules: NearleyRule[] = [
                 foreignKeyIdentifier,
             };
         } },
+    {"name": "AlterTableDropIndex$subexpression$1", "symbols": [INDEX]},
+    {"name": "AlterTableDropIndex$subexpression$1", "symbols": [KEY]},
+    {"name": "AlterTableDropIndex", "symbols": [DROP, "AlterTableDropIndex$subexpression$1", "ColumnIdentifier"], "postprocess":  (data) => {
+            const [, , indexIdentifier,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableDropIndex,
+                indexIdentifier,
+            };
+        } },
     {"name": "AlterTableDropPrimaryKey", "symbols": [DROP, PRIMARY, KEY], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -3066,6 +3076,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropForeignKey"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropPrimaryKey"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropIndex"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

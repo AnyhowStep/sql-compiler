@@ -128,6 +128,7 @@ export const syntaxKinds = [
     "AlterTableDropColumn",
     "AlterTableDropForeignKey",
     "AlterTableDropPrimaryKey",
+    "AlterTableDropIndex",
 
 
     "HashPartition",

@@ -1,0 +1,9 @@
+ALTER TABLE T
+    DROP KEY X;
+
+-----
+ALTER TABLE `T`
+    DROP INDEX `X`;
+
+-----
+[]

@@ -2911,6 +2911,16 @@ AlterTableDropForeignKey ->
     };
 } %}
 
+AlterTableDropIndex ->
+    %DROP (%INDEX | %KEY) ColumnIdentifier {% (data) => {
+    const [, , indexIdentifier,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableDropIndex,
+        indexIdentifier,
+    };
+} %}
+
 AlterTableDropPrimaryKey ->
     %DROP %PRIMARY %KEY {% (data) => {
     return {
@@ -2920,7 +2930,7 @@ AlterTableDropPrimaryKey ->
 } %}
 
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {
