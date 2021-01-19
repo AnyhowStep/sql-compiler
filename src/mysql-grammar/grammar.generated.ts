@@ -3044,12 +3044,21 @@ export var ParserRules: NearleyRule[] = [
                         "CASCADE"), parse_util_1.getTextRange(dropMode))),
             };
         } },
+    {"name": "AlterTableDropForeignKey", "symbols": [DROP, FOREIGN, KEY, "ColumnIdentifier"], "postprocess":  (data) => {
+            const [, , , foreignKeyIdentifier,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableDropForeignKey,
+                foreignKeyIdentifier,
+            };
+        } },
     {"name": "AlterTableItem$subexpression$1", "symbols": ["CreateTableOptionsSpaceSeparated"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddCreateTableDefinitionList"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableChangeColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableModifyColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropColumn"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropForeignKey"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

@@ -58,6 +58,7 @@ import {
     AlterTableAddCreateTableDefinitionList,
     AlterTableChangeColumn,
     AlterTableDropColumn,
+    AlterTableDropForeignKey,
     AlterTableModifyColumn,
     AlterTableItemOrModifierList,
     AlterTableModifiers,
@@ -249,6 +250,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTableAddCreateTableDefinitionList] : AlterTableAddCreateTableDefinitionList;
     [SyntaxKind.AlterTableChangeColumn] : AlterTableChangeColumn;
     [SyntaxKind.AlterTableDropColumn] : AlterTableDropColumn;
+    [SyntaxKind.AlterTableDropForeignKey] : AlterTableDropForeignKey;
     [SyntaxKind.AlterTableModifyColumn] : AlterTableModifyColumn;
     [SyntaxKind.AlterTableItemOrModifierList] : AlterTableItemOrModifierList;
     [SyntaxKind.AlterTableModifiers] : AlterTableModifiers;

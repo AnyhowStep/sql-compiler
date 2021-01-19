@@ -1,0 +1,9 @@
+ALTER TABLE T
+    DROP FOREIGN KEY X;
+
+-----
+ALTER TABLE `T`
+    DROP FOREIGN KEY `X`;
+
+-----
+[]
