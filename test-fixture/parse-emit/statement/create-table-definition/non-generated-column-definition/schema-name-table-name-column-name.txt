@@ -4,7 +4,7 @@ CREATE TABLE T (
 
 -----
 CREATE TABLE `T` (
-    `X` VARBINARY(255) NOT NULL
+    `test`.`T`.`X` VARBINARY(255) NOT NULL
 );
 
 -----

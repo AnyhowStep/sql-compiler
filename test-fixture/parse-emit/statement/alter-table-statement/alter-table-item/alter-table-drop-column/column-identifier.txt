@@ -3,7 +3,7 @@ ALTER TABLE T
 
 -----
 ALTER TABLE `T`
-    DROP COLUMN `X`;
+    DROP COLUMN `T`.`X`;
 
 -----
 []

@@ -3,7 +3,7 @@ ALTER TABLE T
 
 -----
 ALTER TABLE `T`
-    DROP FOREIGN KEY `X`;
+    DROP FOREIGN KEY `T`.`X`;
 
 -----
 []

@@ -3,7 +3,7 @@ ALTER TABLE T
 
 -----
 ALTER TABLE `T`
-    ALTER COLUMN `X`
+    ALTER COLUMN `T`.`X`
         SET DEFAULT 1;
 
 -----

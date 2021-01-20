@@ -1,11 +1,11 @@
 import {AlterTableDropColumn} from "../../../../parser-node";
-import {emitIdentifier} from "../../../identifier";
+import {emitColumnIdentifier} from "../../../identifier";
 import {StringBuilder} from "../../../string-builder";
 
 export function emitAlterTableDropColumn (item : AlterTableDropColumn) : StringBuilder {
     return new StringBuilder()
         .append("DROP COLUMN ")
-        .appendBuilder(emitIdentifier(item.columnIdentifier.columnName))
+        .appendBuilder(emitColumnIdentifier(item.columnIdentifier))
         .scope(builder => {
             if (item.dropMode == undefined) {
                 return;

@@ -3,7 +3,7 @@ ALTER TABLE T
 
 -----
 ALTER TABLE `T`
-    CHANGE COLUMN `X`
+    CHANGE COLUMN `T`.`X`
         `Y` INT SIGNED NULL;
 
 -----

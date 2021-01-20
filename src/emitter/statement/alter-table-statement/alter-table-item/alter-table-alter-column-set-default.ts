@@ -1,12 +1,12 @@
 import {AlterTableAlterColumnSetDefault} from "../../../../parser-node";
 import {emitExpression} from "../../../expression";
-import {emitIdentifier} from "../../../identifier";
+import {emitColumnIdentifier} from "../../../identifier";
 import {StringBuilder} from "../../../string-builder";
 
 export function emitAlterTableAlterColumnSetDefault (item : AlterTableAlterColumnSetDefault) : StringBuilder {
     return new StringBuilder()
         .append("ALTER COLUMN ")
-        .appendBuilder(emitIdentifier(item.columnIdentifier.columnName))
+        .appendBuilder(emitColumnIdentifier(item.columnIdentifier))
         .indent(builder => {
             builder
                 .append("SET DEFAULT ")

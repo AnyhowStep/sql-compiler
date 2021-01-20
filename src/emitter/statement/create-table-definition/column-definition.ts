@@ -1,7 +1,7 @@
 import {ColumnDefinition, ColumnFormat, Storage} from "../../../parser-node";
 import {emitDataType} from "../../data-type";
 import {emitExpression} from "../../expression";
-import {emitQuotedIdentifier} from "../../identifier";
+import {emitColumnIdentifier} from "../../identifier";
 import {emitCurrentTimestamp} from "../../misc";
 import {StringBuilder} from "../../string-builder";
 import {emitCheckDefinition} from "./check-definition";
@@ -10,7 +10,7 @@ import {emitGeneratedDefinition} from "./generated-definition";
 
 export function emitColumnDefinition (def : ColumnDefinition) : StringBuilder {
     return new StringBuilder()
-        .append(emitQuotedIdentifier(def.columnIdentifier.columnName.identifier))
+        .appendBuilder(emitColumnIdentifier(def.columnIdentifier))
         .append(" ")
         .appendBuilder(emitDataType(def.dataType))
         .scope(builder => {

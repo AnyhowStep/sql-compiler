@@ -1,4 +1,5 @@
 export * from "./account-identifier";
+export * from "./emit-column-identifier";
 export * from "./emit-identifier-list";
 export * from "./emit-identifier";
 export * from "./emit-quoted-identifier";

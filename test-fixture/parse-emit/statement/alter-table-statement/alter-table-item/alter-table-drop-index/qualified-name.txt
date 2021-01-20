@@ -3,7 +3,7 @@ ALTER TABLE T
 
 -----
 ALTER TABLE `T`
-    DROP INDEX `X`;
+    DROP INDEX `T`.`X`;
 
 -----
 []

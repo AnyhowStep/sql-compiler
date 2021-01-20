@@ -1,12 +1,12 @@
 import {AlterTableChangeColumn, SyntaxKind} from "../../../../parser-node";
-import {emitIdentifier} from "../../../identifier";
+import {emitColumnIdentifier, emitIdentifier} from "../../../identifier";
 import {StringBuilder} from "../../../string-builder";
 import {emitColumnDefinition} from "../../create-table-definition/column-definition";
 
 export function emitAlterTableChangeColumn (item : AlterTableChangeColumn) : StringBuilder {
     return new StringBuilder()
         .append("CHANGE COLUMN ")
-        .appendBuilder(emitIdentifier(item.oldColumnIdentifier.columnName))
+        .appendBuilder(emitColumnIdentifier(item.oldColumnIdentifier))
         .indent(builder => {
             builder
                 .appendBuilder(emitColumnDefinition(item.columnDefinition))
