@@ -15,22 +15,11 @@ export function emitColumnIdentifier (columnIdentifier : ColumnIdentifier) : Str
                 );
         }
     } else {
-        if (columnIdentifier.tableName == undefined) {
-            /**
-             * This should not happen...
-             */
-            return new StringBuilder()
-                .append(
-                    emitQuotedIdentifier(columnIdentifier.schemaName.identifier) + ".." +
-                    emitQuotedIdentifier(columnIdentifier.columnName.identifier)
-                );
-        } else {
-            return new StringBuilder()
-                .append(
-                    emitQuotedIdentifier(columnIdentifier.schemaName.identifier) + "." +
-                    emitQuotedIdentifier(columnIdentifier.tableName.identifier) + "." +
-                    emitQuotedIdentifier(columnIdentifier.columnName.identifier)
-                );
-        }
+        return new StringBuilder()
+            .append(
+                emitQuotedIdentifier(columnIdentifier.schemaName.identifier) + "." +
+                emitQuotedIdentifier(columnIdentifier.tableName.identifier) + "." +
+                emitQuotedIdentifier(columnIdentifier.columnName.identifier)
+            );
     }
 }
