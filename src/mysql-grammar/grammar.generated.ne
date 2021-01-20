@@ -2967,7 +2967,7 @@ AlterTableEnableKeys ->
 } %}
 
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {
@@ -2986,6 +2986,17 @@ AlterTableModifyColumn ->
             placeAfter[0] instanceof Array ?
                 placeAfter[0][1] :
                 parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
+    };
+} %}
+
+AlterTableRenameIndex ->
+    %RENAME (%INDEX | %KEY) ColumnIdentifier %TO ColumnIdentifier {% (data) => {
+    const [, , oldIndexIdentifier, , newIndexIdentifier,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableRenameIndex,
+        oldIndexIdentifier,
+        newIndexIdentifier,
     };
 } %}
 

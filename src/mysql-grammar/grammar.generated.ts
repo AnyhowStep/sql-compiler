@@ -3115,6 +3115,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAlterColumnSetDefault"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAlterColumnDropDefault"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableRenameTable"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableRenameIndex"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -3139,6 +3140,17 @@ export var ParserRules: NearleyRule[] = [
                     placeAfter[0] instanceof Array ?
                         placeAfter[0][1] :
                         parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
+            };
+        } },
+    {"name": "AlterTableRenameIndex$subexpression$1", "symbols": [INDEX]},
+    {"name": "AlterTableRenameIndex$subexpression$1", "symbols": [KEY]},
+    {"name": "AlterTableRenameIndex", "symbols": [RENAME, "AlterTableRenameIndex$subexpression$1", "ColumnIdentifier", TO, "ColumnIdentifier"], "postprocess":  (data) => {
+            const [, , oldIndexIdentifier, , newIndexIdentifier,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableRenameIndex,
+                oldIndexIdentifier,
+                newIndexIdentifier,
             };
         } },
     {"name": "AlterTableRenameTable$ebnf$1$subexpression$1", "symbols": [TO]},

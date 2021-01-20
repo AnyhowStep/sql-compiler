@@ -133,7 +133,12 @@ export const syntaxKinds = [
     "AlterTableEnableKeys",
     "AlterTableAlterColumnSetDefault",
     "AlterTableAlterColumnDropDefault",
+    /**
+     * @todo Renaming columns only added in MySQL 8.0
+     */
     "AlterTableRenameTable",
+    "AlterTableRenameIndex",
+
 
 
     "HashPartition",

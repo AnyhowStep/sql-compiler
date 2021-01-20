@@ -12,6 +12,7 @@ import {AlterTableDropIndex} from "./alter-table-drop-index";
 import {AlterTableDropPrimaryKey} from "./alter-table-drop-primary-key";
 import {AlterTableEnableKeys} from "./alter-table-enable-keys";
 import {AlterTableModifyColumn} from "./alter-table-modify-column";
+import {AlterTableRenameIndex} from "./alter-table-rename-index";
 import {AlterTableRenameTable} from "./alter-table-rename-table";
 
 /**
@@ -37,6 +38,7 @@ export type AlterTableItem =
     | AlterTableAlterColumnSetDefault
     | AlterTableAlterColumnDropDefault
     | AlterTableRenameTable
+    | AlterTableRenameIndex
     /**
      * > `ALTER TABLE tbl_name ENGINE=INNODB` and `ALTER TABLE tbl_name FORCE` use online DDL.
      *

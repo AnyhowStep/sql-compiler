@@ -13,6 +13,7 @@ import {emitAlterTableDropIndex} from "./alter-table-drop-index";
 import {emitAlterTableDropPrimaryKey} from "./alter-table-drop-primary-key";
 import {emitAlterTableEnableKeys} from "./alter-table-enable-keys";
 import {emitAlterTableModifyColumn} from "./alter-table-modify-column";
+import {emitAlterTableRenameIndex} from "./alter-table-rename-index";
 import {emitAlterTableRenameTable} from "./alter-table-rename-table";
 
 export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
@@ -45,6 +46,8 @@ export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
             return emitAlterTableAlterColumnDropDefault(item)
         case SyntaxKind.AlterTableRenameTable:
             return emitAlterTableRenameTable(item)
+        case SyntaxKind.AlterTableRenameIndex:
+            return emitAlterTableRenameIndex(item)
         case SyntaxKind.Value:
             return new StringBuilder().append(item.value)
     }

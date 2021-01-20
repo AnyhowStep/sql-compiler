@@ -1,0 +1,10 @@
+ALTER TABLE T
+    RENAME KEY I TO J;
+
+-----
+ALTER TABLE `T`
+    RENAME INDEX `I`
+        TO `J`;
+
+-----
+[]

@@ -1,0 +1,17 @@
+ALTER TABLE T
+    RENAME INDEX T.I TO T.J;
+
+ALTER TABLE T
+    RENAME INDEX test.T.I TO test.T.J;
+
+-----
+ALTER TABLE `T`
+    RENAME INDEX `T`.`I`
+        TO `T`.`J`;
+
+ALTER TABLE `T`
+    RENAME INDEX `test`.`T`.`I`
+        TO `test`.`T`.`J`;
+
+-----
+[]
