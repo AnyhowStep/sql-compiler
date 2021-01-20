@@ -3114,6 +3114,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableEnableKeys"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAlterColumnSetDefault"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAlterColumnDropDefault"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableRenameTable"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -3138,6 +3139,19 @@ export var ParserRules: NearleyRule[] = [
                     placeAfter[0] instanceof Array ?
                         placeAfter[0][1] :
                         parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
+            };
+        } },
+    {"name": "AlterTableRenameTable$ebnf$1$subexpression$1", "symbols": [TO]},
+    {"name": "AlterTableRenameTable$ebnf$1$subexpression$1", "symbols": [Equal]},
+    {"name": "AlterTableRenameTable$ebnf$1$subexpression$1", "symbols": [AS]},
+    {"name": "AlterTableRenameTable$ebnf$1", "symbols": ["AlterTableRenameTable$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableRenameTable$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableRenameTable", "symbols": [RENAME, "AlterTableRenameTable$ebnf$1", "TableIdentifier"], "postprocess":  (data) => {
+            const [, , newTableIdentifier,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableRenameTable,
+                newTableIdentifier,
             };
         } },
     {"name": "AlterTableItemOrModifier", "symbols": ["AlterTableItem"], "postprocess":  (data) => {

@@ -11,3 +11,4 @@ export * from "./alter-table-drop-primary-key";
 export * from "./alter-table-enable-keys";
 export * from "./alter-table-item";
 export * from "./alter-table-modify-column";
+export * from "./alter-table-rename-table";

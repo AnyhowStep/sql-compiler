@@ -1,0 +1,9 @@
+ALTER TABLE T
+    RENAME = U;
+
+-----
+ALTER TABLE `T`
+    RENAME TO `U`;
+
+-----
+[]

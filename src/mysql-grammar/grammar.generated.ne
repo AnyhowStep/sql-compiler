@@ -2967,7 +2967,7 @@ AlterTableEnableKeys ->
 } %}
 
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {
@@ -2986,6 +2986,16 @@ AlterTableModifyColumn ->
             placeAfter[0] instanceof Array ?
                 placeAfter[0][1] :
                 parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
+    };
+} %}
+
+AlterTableRenameTable ->
+    %RENAME (%TO | %Equal | %AS):? TableIdentifier {% (data) => {
+    const [, , newTableIdentifier,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableRenameTable,
+        newTableIdentifier,
     };
 } %}
 

@@ -1,0 +1,10 @@
+ALTER TABLE A.T
+    /* Useful for moving a table from one database to another */
+    RENAME B.U;
+
+-----
+ALTER TABLE `A`.`T`
+    RENAME TO `B`.`U`;
+
+-----
+[]

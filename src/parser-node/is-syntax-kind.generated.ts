@@ -59,6 +59,7 @@ import {AlterTableDropIndex} from "./statement/alter-table-statement/alter-table
 import {AlterTableDropPrimaryKey} from "./statement/alter-table-statement/alter-table-item/alter-table-drop-primary-key";
 import {AlterTableEnableKeys} from "./statement/alter-table-statement/alter-table-item/alter-table-enable-keys";
 import {AlterTableModifyColumn} from "./statement/alter-table-statement/alter-table-item/alter-table-modify-column";
+import {AlterTableRenameTable} from "./statement/alter-table-statement/alter-table-item/alter-table-rename-table";
 import {AlterTableModifiers} from "./statement/alter-table-statement/alter-table-modifier/alter-table-modifier";
 import {AlterTableValidation} from "./statement/alter-table-statement/alter-table-modifier/alter-table-validation";
 import {AlterTableStandaloneStatement} from "./statement/alter-table-statement/alter-table-standalone-statement";
@@ -225,6 +226,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableDro
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableDropPrimaryKey) : node is AlterTableDropPrimaryKey;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableEnableKeys) : node is AlterTableEnableKeys;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableModifyColumn) : node is AlterTableModifyColumn;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableRenameTable) : node is AlterTableRenameTable;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableModifiers) : node is AlterTableModifiers;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableValidation) : node is AlterTableValidation;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableStandaloneStatement) : node is AlterTableStandaloneStatement;
@@ -400,6 +402,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableDropPrimaryKey, callback : (node : AlterTableDropPrimaryKey) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableEnableKeys, callback : (node : AlterTableEnableKeys) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableModifyColumn, callback : (node : AlterTableModifyColumn) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTableRenameTable, callback : (node : AlterTableRenameTable) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableModifiers, callback : (node : AlterTableModifiers) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableValidation, callback : (node : AlterTableValidation) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableStandaloneStatement, callback : (node : AlterTableStandaloneStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
