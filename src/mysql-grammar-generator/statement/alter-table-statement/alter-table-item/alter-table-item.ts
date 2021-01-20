@@ -19,6 +19,7 @@ makeCustomRule(CustomSyntaxKind.AlterTableItem)
                 SyntaxKind.AlterTableDropIndex,
                 SyntaxKind.AlterTableDisableKeys,
                 SyntaxKind.AlterTableEnableKeys,
+                SyntaxKind.AlterTableAlterColumnSetDefault,
             ),
         ] as const,
         (data) : AlterTableItem => {

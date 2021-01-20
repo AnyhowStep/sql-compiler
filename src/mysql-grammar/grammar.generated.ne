@@ -2870,6 +2870,17 @@ AlterTableAddCreateTableDefinitionList ->
     };
 } %}
 
+AlterTableAlterColumnSetDefault ->
+    %ALTER %COLUMN:? ColumnIdentifier %SET %DEFAULT Expression {% (data) => {
+    const [, , columnIdentifier, , , expr,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableAlterColumnSetDefault,
+        columnIdentifier,
+        expr,
+    };
+} %}
+
 AlterTableChangeColumn ->
     %CHANGE %COLUMN:? ColumnIdentifier ColumnDefinition (%FIRST | (%AFTER Identifier)):? {% (data) => {
     const [, , oldColumnIdentifier, columnDefinition, placeAfter,] = data;
@@ -2946,7 +2957,7 @@ AlterTableEnableKeys ->
 } %}
 
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {

@@ -1,0 +1,10 @@
+ALTER TABLE T
+    ALTER X SET DEFAULT 1;
+
+-----
+ALTER TABLE `T`
+    ALTER COLUMN `X`
+        SET DEFAULT 1;
+
+-----
+[]

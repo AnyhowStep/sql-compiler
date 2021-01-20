@@ -1,0 +1,11 @@
+ALTER TABLE T
+    /* TODO Should be an error */
+    ALTER X SET DEFAULT (1);
+
+-----
+ALTER TABLE `T`
+    ALTER COLUMN `X`
+        SET DEFAULT (1);
+
+-----
+[]

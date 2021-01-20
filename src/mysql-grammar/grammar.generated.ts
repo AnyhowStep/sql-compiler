@@ -3004,6 +3004,17 @@ export var ParserRules: NearleyRule[] = [
                 createTableDefinitionList,
             };
         } },
+    {"name": "AlterTableAlterColumnSetDefault$ebnf$1", "symbols": [COLUMN], "postprocess": id},
+    {"name": "AlterTableAlterColumnSetDefault$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableAlterColumnSetDefault", "symbols": [ALTER, "AlterTableAlterColumnSetDefault$ebnf$1", "ColumnIdentifier", SET, DEFAULT, "Expression"], "postprocess":  (data) => {
+            const [, , columnIdentifier, , , expr,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableAlterColumnSetDefault,
+                columnIdentifier,
+                expr,
+            };
+        } },
     {"name": "AlterTableChangeColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
     {"name": "AlterTableChangeColumn$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "AlterTableChangeColumn$ebnf$2$subexpression$1", "symbols": [FIRST]},
@@ -3091,6 +3102,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDropIndex"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableDisableKeys"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableEnableKeys"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAlterColumnSetDefault"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
