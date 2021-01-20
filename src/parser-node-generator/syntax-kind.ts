@@ -132,6 +132,7 @@ export const syntaxKinds = [
     "AlterTableDisableKeys",
     "AlterTableEnableKeys",
     "AlterTableAlterColumnSetDefault",
+    "AlterTableAlterColumnDropDefault",
 
 
     "HashPartition",

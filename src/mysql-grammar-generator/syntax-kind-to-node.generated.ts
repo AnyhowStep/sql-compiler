@@ -56,6 +56,7 @@ import {
     SourceElementList,
     AlterTableAddColumn,
     AlterTableAddCreateTableDefinitionList,
+    AlterTableAlterColumnDropDefault,
     AlterTableAlterColumnSetDefault,
     AlterTableChangeColumn,
     AlterTableDisableKeys,
@@ -253,6 +254,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceElementList] : SourceElementList;
     [SyntaxKind.AlterTableAddColumn] : AlterTableAddColumn;
     [SyntaxKind.AlterTableAddCreateTableDefinitionList] : AlterTableAddCreateTableDefinitionList;
+    [SyntaxKind.AlterTableAlterColumnDropDefault] : AlterTableAlterColumnDropDefault;
     [SyntaxKind.AlterTableAlterColumnSetDefault] : AlterTableAlterColumnSetDefault;
     [SyntaxKind.AlterTableChangeColumn] : AlterTableChangeColumn;
     [SyntaxKind.AlterTableDisableKeys] : AlterTableDisableKeys;

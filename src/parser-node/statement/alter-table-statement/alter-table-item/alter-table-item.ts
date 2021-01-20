@@ -2,6 +2,7 @@ import {ValueNode} from "../../../node";
 import {CreateTableOptions} from "../../create-table-options";
 import {AlterTableAddColumn} from "./alter-table-add-column";
 import {AlterTableAddCreateTableDefinitionList} from "./alter-table-add-create-table-definition-list";
+import {AlterTableAlterColumnDropDefault} from "./alter-table-alter-column-drop-default";
 import {AlterTableAlterColumnSetDefault} from "./alter-table-alter-column-set-default";
 import {AlterTableChangeColumn} from "./alter-table-change-column";
 import {AlterTableDisableKeys} from "./alter-table-disable-keys";
@@ -33,6 +34,7 @@ export type AlterTableItem =
     | AlterTableDisableKeys
     | AlterTableEnableKeys
     | AlterTableAlterColumnSetDefault
+    | AlterTableAlterColumnDropDefault
     /**
      * > `ALTER TABLE tbl_name ENGINE=INNODB` and `ALTER TABLE tbl_name FORCE` use online DDL.
      *

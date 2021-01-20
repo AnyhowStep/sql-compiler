@@ -1,0 +1,10 @@
+ALTER TABLE T
+    ALTER COLUMN X DROP DEFAULT;
+
+-----
+ALTER TABLE `T`
+    ALTER COLUMN `X`
+        DROP DEFAULT;
+
+-----
+[]
