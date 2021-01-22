@@ -15,3 +15,4 @@ export * from "./alter-table-item";
 export * from "./alter-table-modify-column";
 export * from "./alter-table-rename-index";
 export * from "./alter-table-rename-table";
+export * from "./alter-table-upgrade-partitioning";

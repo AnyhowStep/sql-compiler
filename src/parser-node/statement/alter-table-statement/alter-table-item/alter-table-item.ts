@@ -15,6 +15,7 @@ import {AlterTableForce} from "./alter-table-force";
 import {AlterTableModifyColumn} from "./alter-table-modify-column";
 import {AlterTableRenameIndex} from "./alter-table-rename-index";
 import {AlterTableRenameTable} from "./alter-table-rename-table";
+import {AlterTableUpgradePartitioning} from "./alter-table-upgrade-partitioning";
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L8160
@@ -47,4 +48,5 @@ export type AlterTableItem =
      * https://dev.mysql.com/doc/refman/5.7/en/innodb-online-ddl.html
      */
     | AlterTableForce
+    | AlterTableUpgradePartitioning
 ;

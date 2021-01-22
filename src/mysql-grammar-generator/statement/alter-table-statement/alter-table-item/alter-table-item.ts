@@ -23,6 +23,7 @@ makeCustomRule(CustomSyntaxKind.AlterTableItem)
                 SyntaxKind.AlterTableRenameIndex,
                 SyntaxKind.AlterTableConvertToCharacterSet,
                 SyntaxKind.AlterTableForce,
+                SyntaxKind.AlterTableUpgradePartitioning,
             ),
         ] as const,
         (data) : AlterTableItem => {

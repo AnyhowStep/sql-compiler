@@ -140,6 +140,7 @@ export const syntaxKinds = [
     "AlterTableRenameIndex",
     "AlterTableConvertToCharacterSet",
     "AlterTableForce",
+    "AlterTableUpgradePartitioning",
 
 
 

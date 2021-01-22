@@ -3139,6 +3139,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableRenameIndex"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableConvertToCharacterSet"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableForce"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableUpgradePartitioning"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -3184,6 +3185,12 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.AlterTableRenameTable,
                 newTableIdentifier,
+            };
+        } },
+    {"name": "AlterTableUpgradePartitioning", "symbols": [UPGRADE, PARTITIONING], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableUpgradePartitioning,
             };
         } },
     {"name": "AlterTableItemOrModifier", "symbols": ["AlterTableItem"], "postprocess":  (data) => {

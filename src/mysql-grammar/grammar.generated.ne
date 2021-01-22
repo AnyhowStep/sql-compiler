@@ -2988,7 +2988,7 @@ AlterTableForce ->
 } %}
 
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex | AlterTableConvertToCharacterSet | AlterTableForce) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex | AlterTableConvertToCharacterSet | AlterTableForce | AlterTableUpgradePartitioning) {% (data) => {
     return data[0][0];
 } %}
 
@@ -3025,6 +3025,14 @@ AlterTableRenameTable ->
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.AlterTableRenameTable,
         newTableIdentifier,
+    };
+} %}
+
+AlterTableUpgradePartitioning ->
+    %UPGRADE %PARTITIONING {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableUpgradePartitioning,
     };
 } %}
 

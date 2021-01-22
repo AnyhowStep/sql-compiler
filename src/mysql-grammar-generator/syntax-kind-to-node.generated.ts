@@ -70,6 +70,7 @@ import {
     AlterTableModifyColumn,
     AlterTableRenameIndex,
     AlterTableRenameTable,
+    AlterTableUpgradePartitioning,
     AlterTableItemOrModifierList,
     AlterTableModifiers,
     AlterTableValidation,
@@ -272,6 +273,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTableModifyColumn] : AlterTableModifyColumn;
     [SyntaxKind.AlterTableRenameIndex] : AlterTableRenameIndex;
     [SyntaxKind.AlterTableRenameTable] : AlterTableRenameTable;
+    [SyntaxKind.AlterTableUpgradePartitioning] : AlterTableUpgradePartitioning;
     [SyntaxKind.AlterTableItemOrModifierList] : AlterTableItemOrModifierList;
     [SyntaxKind.AlterTableModifiers] : AlterTableModifiers;
     [SyntaxKind.AlterTableValidation] : AlterTableValidation;

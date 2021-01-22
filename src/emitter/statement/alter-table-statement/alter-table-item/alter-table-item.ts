@@ -17,6 +17,7 @@ import {emitAlterTableForce} from "./alter-table-force";
 import {emitAlterTableModifyColumn} from "./alter-table-modify-column";
 import {emitAlterTableRenameIndex} from "./alter-table-rename-index";
 import {emitAlterTableRenameTable} from "./alter-table-rename-table";
+import {emitAlterTableUpgradePartitioning} from "./alter-table-upgrade-partitioning";
 
 export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
     switch (item.syntaxKind) {
@@ -54,5 +55,7 @@ export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
             return emitAlterTableConvertToCharacterSet(item)
         case SyntaxKind.AlterTableForce:
             return emitAlterTableForce(item)
+        case SyntaxKind.AlterTableUpgradePartitioning:
+            return emitAlterTableUpgradePartitioning(item)
     }
 }
