@@ -5,6 +5,7 @@ import {AlterTableAddCreateTableDefinitionList} from "./alter-table-add-create-t
 import {AlterTableAlterColumnDropDefault} from "./alter-table-alter-column-drop-default";
 import {AlterTableAlterColumnSetDefault} from "./alter-table-alter-column-set-default";
 import {AlterTableChangeColumn} from "./alter-table-change-column";
+import {AlterTableConvertToCharacterSet} from "./alter-table-convert-to-character-set";
 import {AlterTableDisableKeys} from "./alter-table-disable-keys";
 import {AlterTableDropColumn} from "./alter-table-drop-column";
 import {AlterTableDropForeignKey} from "./alter-table-drop-foreign-key";
@@ -39,6 +40,7 @@ export type AlterTableItem =
     | AlterTableAlterColumnDropDefault
     | AlterTableRenameTable
     | AlterTableRenameIndex
+    | AlterTableConvertToCharacterSet
     /**
      * > `ALTER TABLE tbl_name ENGINE=INNODB` and `ALTER TABLE tbl_name FORCE` use online DDL.
      *

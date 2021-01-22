@@ -23,6 +23,7 @@ makeCustomRule(CustomSyntaxKind.AlterTableItem)
                 SyntaxKind.AlterTableAlterColumnDropDefault,
                 SyntaxKind.AlterTableRenameTable,
                 SyntaxKind.AlterTableRenameIndex,
+                SyntaxKind.AlterTableConvertToCharacterSet,
             ),
         ] as const,
         (data) : AlterTableItem => {

@@ -59,6 +59,7 @@ import {
     AlterTableAlterColumnDropDefault,
     AlterTableAlterColumnSetDefault,
     AlterTableChangeColumn,
+    AlterTableConvertToCharacterSet,
     AlterTableDisableKeys,
     AlterTableDropColumn,
     AlterTableDropForeignKey,
@@ -259,6 +260,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTableAlterColumnDropDefault] : AlterTableAlterColumnDropDefault;
     [SyntaxKind.AlterTableAlterColumnSetDefault] : AlterTableAlterColumnSetDefault;
     [SyntaxKind.AlterTableChangeColumn] : AlterTableChangeColumn;
+    [SyntaxKind.AlterTableConvertToCharacterSet] : AlterTableConvertToCharacterSet;
     [SyntaxKind.AlterTableDisableKeys] : AlterTableDisableKeys;
     [SyntaxKind.AlterTableDropColumn] : AlterTableDropColumn;
     [SyntaxKind.AlterTableDropForeignKey] : AlterTableDropForeignKey;

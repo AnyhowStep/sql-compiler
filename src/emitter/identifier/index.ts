@@ -1,4 +1,6 @@
 export * from "./account-identifier";
+export * from "./character-set-name-or-default";
+export * from "./collation-name-or-default";
 export * from "./emit-column-identifier";
 export * from "./emit-identifier-list";
 export * from "./emit-identifier";

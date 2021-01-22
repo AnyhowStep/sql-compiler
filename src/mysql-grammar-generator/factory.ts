@@ -143,6 +143,7 @@ export enum CustomSyntaxKind {
     AlterTableModifier,
     AlterTableItemOrModifier,
     CreateTableOptionsSpaceSeparated,
+    CollationNameOrDefault,
 }
 
 declare module "../nearley-wrapper" {
@@ -224,6 +225,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.AlterTableItem] : AlterTableItem,
         [CustomSyntaxKind.AlterTableItemOrModifier] : AlterTableItemOrModifier,
         [CustomSyntaxKind.CreateTableOptionsSpaceSeparated] : CreateTableOptions,
+        [CustomSyntaxKind.CollationNameOrDefault] : Identifier|StringLiteral|ValueNode<"DEFAULT">,
     }
 
     interface CustomToken extends Array<TokenKind> {

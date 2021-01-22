@@ -3,6 +3,7 @@ export * from "./alter-table-add-create-table-definition-list";
 export * from "./alter-table-alter-column-drop-default";
 export * from "./alter-table-alter-column-set-default";
 export * from "./alter-table-change-column";
+export * from "./alter-table-convert-to-character-set";
 export * from "./alter-table-disable-keys";
 export * from "./alter-table-drop-column";
 export * from "./alter-table-drop-foreign-key";

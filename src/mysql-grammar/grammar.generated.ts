@@ -2380,6 +2380,27 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CharacterSetName", "symbols": ["StringLiteral"], "postprocess":  function (data) {
             return data[0];
         } },
+    {"name": "CollationNameOrDefault$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "CollationNameOrDefault$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "CollationNameOrDefault", "symbols": ["CollationNameOrDefault$subexpression$1"], "postprocess":  function (data) {
+            let [[collationName]] = data;
+            collationName = (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
+                {
+                    ...collationName,
+                    value: collationName.value.toLowerCase(),
+                } :
+                {
+                    ...collationName,
+                    identifier: collationName.identifier.toLowerCase(),
+                });
+            return (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
+                collationName :
+                collationName.quoted ?
+                    collationName :
+                    collationName.identifier.toUpperCase() == "DEFAULT" ?
+                        parse_util_1.toValueNode("DEFAULT", parse_util_1.getTextRange(collationName)) :
+                        collationName);
+        } },
     {"name": "Identifier", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
             const [tokenObj] = data;
             if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
@@ -2656,47 +2677,24 @@ export var ParserRules: NearleyRule[] = [
     {"name": "DefaultCharacterSet$subexpression$1", "symbols": [CHARSET]},
     {"name": "DefaultCharacterSet$ebnf$2", "symbols": [Equal], "postprocess": id},
     {"name": "DefaultCharacterSet$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCharacterSet", "symbols": ["DefaultCharacterSet$ebnf$1", "DefaultCharacterSet$subexpression$1", "DefaultCharacterSet$ebnf$2", "CharacterSetName"], "postprocess":  (data) => {
+    {"name": "DefaultCharacterSet", "symbols": ["DefaultCharacterSet$ebnf$1", "DefaultCharacterSet$subexpression$1", "DefaultCharacterSet$ebnf$2", "CharacterSetNameOrDefault"], "postprocess":  (data) => {
             let [, , , characterSetName] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
-                characterSetName: (characterSetName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
-                    characterSetName :
-                    characterSetName.quoted ?
-                        characterSetName :
-                        characterSetName.identifier.toUpperCase() == "DEFAULT" ?
-                            undefined :
-                            characterSetName),
+                characterSetName,
             };
         } },
     {"name": "DefaultCollation$ebnf$1", "symbols": [DEFAULT], "postprocess": id},
     {"name": "DefaultCollation$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "DefaultCollation$ebnf$2", "symbols": [Equal], "postprocess": id},
     {"name": "DefaultCollation$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "DefaultCollation$subexpression$1", "symbols": ["Identifier"]},
-    {"name": "DefaultCollation$subexpression$1", "symbols": ["StringLiteral"]},
-    {"name": "DefaultCollation", "symbols": ["DefaultCollation$ebnf$1", COLLATE, "DefaultCollation$ebnf$2", "DefaultCollation$subexpression$1"], "postprocess":  (data) => {
-            let [, , , [collationName]] = data;
-            collationName = (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
-                {
-                    ...collationName,
-                    value: collationName.value.toLowerCase(),
-                } :
-                {
-                    ...collationName,
-                    identifier: collationName.identifier.toLowerCase(),
-                });
+    {"name": "DefaultCollation", "symbols": ["DefaultCollation$ebnf$1", COLLATE, "DefaultCollation$ebnf$2", "CollationNameOrDefault"], "postprocess":  (data) => {
+            const [, , , collationName] = data;
             return {
                 ...parse_util_1.getTextRange(data),
                 syntaxKind: parser_node_1.SyntaxKind.DefaultCollation,
-                collationName: (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
-                    collationName :
-                    collationName.quoted ?
-                        collationName :
-                        collationName.identifier.toUpperCase() == "DEFAULT" ?
-                            undefined :
-                            collationName),
+                collationName,
             };
         } },
     {"name": "ExpressionListList$ebnf$1", "symbols": []},
@@ -3046,6 +3044,23 @@ export var ParserRules: NearleyRule[] = [
                         parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
             };
         } },
+    {"name": "AlterTableConvertToCharacterSet$subexpression$1$subexpression$1", "symbols": [CHARACTER, SET]},
+    {"name": "AlterTableConvertToCharacterSet$subexpression$1", "symbols": ["AlterTableConvertToCharacterSet$subexpression$1$subexpression$1"]},
+    {"name": "AlterTableConvertToCharacterSet$subexpression$1", "symbols": [CHARSET]},
+    {"name": "AlterTableConvertToCharacterSet$ebnf$1$subexpression$1", "symbols": [COLLATE, "CollationNameOrDefault"]},
+    {"name": "AlterTableConvertToCharacterSet$ebnf$1", "symbols": ["AlterTableConvertToCharacterSet$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableConvertToCharacterSet$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableConvertToCharacterSet", "symbols": [CONVERT, TO, "AlterTableConvertToCharacterSet$subexpression$1", "CharacterSetNameOrDefault", "AlterTableConvertToCharacterSet$ebnf$1"], "postprocess":  (data) => {
+            const [, , , characterSetName, collationName,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableConvertToCharacterSet,
+                characterSetName,
+                collationName: (collationName == undefined ?
+                    undefined :
+                    collationName[1]),
+            };
+        } },
     {"name": "AlterTableDisableKeys", "symbols": [DISABLE, KEYS], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -3116,6 +3131,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAlterColumnDropDefault"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableRenameTable"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableRenameIndex"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableConvertToCharacterSet"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

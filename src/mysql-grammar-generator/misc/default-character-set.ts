@@ -16,22 +16,14 @@ makeCustomRule(SyntaxKind.DefaultCharacterSet)
                 TokenKind.CHARSET
             ),
             optional(TokenKind.Equal),
-            CustomSyntaxKind.CharacterSetName
+            CustomSyntaxKind.CharacterSetNameOrDefault
         ] as const,
         (data) : DefaultCharacterSet => {
             let [, , , characterSetName] = data;
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.DefaultCharacterSet,
-                characterSetName : (
-                    characterSetName.syntaxKind == SyntaxKind.StringLiteral ?
-                    characterSetName :
-                    characterSetName.quoted ?
-                    characterSetName :
-                    characterSetName.identifier.toUpperCase() == "DEFAULT" ?
-                    undefined :
-                    characterSetName
-                ),
+                characterSetName,
             };
         }
     );

@@ -2291,6 +2291,27 @@ CharacterSetName ->
     return data[0];
 } %}
 
+CollationNameOrDefault ->
+    (Identifier | StringLiteral) {% function (data) {
+    let [[collationName]] = data;
+    collationName = (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
+        {
+            ...collationName,
+            value: collationName.value.toLowerCase(),
+        } :
+        {
+            ...collationName,
+            identifier: collationName.identifier.toLowerCase(),
+        });
+    return (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
+        collationName :
+        collationName.quoted ?
+            collationName :
+            collationName.identifier.toUpperCase() == "DEFAULT" ?
+                parse_util_1.toValueNode("DEFAULT", parse_util_1.getTextRange(collationName)) :
+                collationName);
+} %}
+
 
 
 Identifier ->
@@ -2561,43 +2582,22 @@ CurrentTimestamp ->
 } %}
 
 DefaultCharacterSet ->
-    %DEFAULT:? ((%CHARACTER %SET) | %CHARSET) %Equal:? CharacterSetName {% (data) => {
+    %DEFAULT:? ((%CHARACTER %SET) | %CHARSET) %Equal:? CharacterSetNameOrDefault {% (data) => {
     let [, , , characterSetName] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.DefaultCharacterSet,
-        characterSetName: (characterSetName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
-            characterSetName :
-            characterSetName.quoted ?
-                characterSetName :
-                characterSetName.identifier.toUpperCase() == "DEFAULT" ?
-                    undefined :
-                    characterSetName),
+        characterSetName,
     };
 } %}
 
 DefaultCollation ->
-    %DEFAULT:? %COLLATE %Equal:? (Identifier | StringLiteral) {% (data) => {
-    let [, , , [collationName]] = data;
-    collationName = (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
-        {
-            ...collationName,
-            value: collationName.value.toLowerCase(),
-        } :
-        {
-            ...collationName,
-            identifier: collationName.identifier.toLowerCase(),
-        });
+    %DEFAULT:? %COLLATE %Equal:? CollationNameOrDefault {% (data) => {
+    const [, , , collationName] = data;
     return {
         ...parse_util_1.getTextRange(data),
         syntaxKind: parser_node_1.SyntaxKind.DefaultCollation,
-        collationName: (collationName.syntaxKind == parser_node_1.SyntaxKind.StringLiteral ?
-            collationName :
-            collationName.quoted ?
-                collationName :
-                collationName.identifier.toUpperCase() == "DEFAULT" ?
-                    undefined :
-                    collationName),
+        collationName,
     };
 } %}
 
@@ -2907,6 +2907,19 @@ AlterTableChangeColumn ->
     };
 } %}
 
+AlterTableConvertToCharacterSet ->
+    %CONVERT %TO ((%CHARACTER %SET) | %CHARSET) CharacterSetNameOrDefault (%COLLATE CollationNameOrDefault):? {% (data) => {
+    const [, , , characterSetName, collationName,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableConvertToCharacterSet,
+        characterSetName,
+        collationName: (collationName == undefined ?
+            undefined :
+            collationName[1]),
+    };
+} %}
+
 AlterTableDisableKeys ->
     %DISABLE %KEYS {% (data) => {
     return {
@@ -2967,7 +2980,7 @@ AlterTableEnableKeys ->
 } %}
 
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex | AlterTableConvertToCharacterSet) {% (data) => {
     return data[0][0];
 } %}
     | %FORCE {% (data) => {

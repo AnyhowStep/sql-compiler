@@ -52,6 +52,7 @@ import {AlterTableAddCreateTableDefinitionList} from "./statement/alter-table-st
 import {AlterTableAlterColumnDropDefault} from "./statement/alter-table-statement/alter-table-item/alter-table-alter-column-drop-default";
 import {AlterTableAlterColumnSetDefault} from "./statement/alter-table-statement/alter-table-item/alter-table-alter-column-set-default";
 import {AlterTableChangeColumn} from "./statement/alter-table-statement/alter-table-item/alter-table-change-column";
+import {AlterTableConvertToCharacterSet} from "./statement/alter-table-statement/alter-table-item/alter-table-convert-to-character-set";
 import {AlterTableDisableKeys} from "./statement/alter-table-statement/alter-table-item/alter-table-disable-keys";
 import {AlterTableDropColumn} from "./statement/alter-table-statement/alter-table-item/alter-table-drop-column";
 import {AlterTableDropForeignKey} from "./statement/alter-table-statement/alter-table-item/alter-table-drop-foreign-key";
@@ -220,6 +221,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAdd
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAlterColumnDropDefault) : node is AlterTableAlterColumnDropDefault;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAlterColumnSetDefault) : node is AlterTableAlterColumnSetDefault;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableChangeColumn) : node is AlterTableChangeColumn;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableConvertToCharacterSet) : node is AlterTableConvertToCharacterSet;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableDisableKeys) : node is AlterTableDisableKeys;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableDropColumn) : node is AlterTableDropColumn;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableDropForeignKey) : node is AlterTableDropForeignKey;
@@ -397,6 +399,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAlterColumnDropDefault, callback : (node : AlterTableAlterColumnDropDefault) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAlterColumnSetDefault, callback : (node : AlterTableAlterColumnSetDefault) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableChangeColumn, callback : (node : AlterTableChangeColumn) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTableConvertToCharacterSet, callback : (node : AlterTableConvertToCharacterSet) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableDisableKeys, callback : (node : AlterTableDisableKeys) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableDropColumn, callback : (node : AlterTableDropColumn) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableDropForeignKey, callback : (node : AlterTableDropForeignKey) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

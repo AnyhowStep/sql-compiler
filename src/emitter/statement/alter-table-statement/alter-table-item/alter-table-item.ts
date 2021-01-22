@@ -6,6 +6,7 @@ import {emitAlterTableAddCreateTableDefinitionList} from "./alter-table-add-crea
 import {emitAlterTableAlterColumnDropDefault} from "./alter-table-alter-column-drop-default";
 import {emitAlterTableAlterColumnSetDefault} from "./alter-table-alter-column-set-default";
 import {emitAlterTableChangeColumn} from "./alter-table-change-column";
+import {emitAlterTableConvertToCharacterSet} from "./alter-table-convert-to-character-set";
 import {emitAlterTableDisableKeys} from "./alter-table-disable-keys";
 import {emitAlterTableDropColumn} from "./alter-table-drop-column";
 import {emitAlterTableDropForeignKey} from "./alter-table-drop-foreign-key";
@@ -48,6 +49,8 @@ export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
             return emitAlterTableRenameTable(item)
         case SyntaxKind.AlterTableRenameIndex:
             return emitAlterTableRenameIndex(item)
+        case SyntaxKind.AlterTableConvertToCharacterSet:
+            return emitAlterTableConvertToCharacterSet(item)
         case SyntaxKind.Value:
             return new StringBuilder().append(item.value)
     }
