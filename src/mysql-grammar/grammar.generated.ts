@@ -3116,6 +3116,12 @@ export var ParserRules: NearleyRule[] = [
                 syntaxKind: parser_node_1.SyntaxKind.AlterTableEnableKeys,
             };
         } },
+    {"name": "AlterTableForce", "symbols": [FORCE], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableForce,
+            };
+        } },
     {"name": "AlterTableItem$subexpression$1", "symbols": ["CreateTableOptionsSpaceSeparated"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddColumn"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableAddCreateTableDefinitionList"]},
@@ -3132,11 +3138,9 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableRenameTable"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableRenameIndex"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableConvertToCharacterSet"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableForce"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
-        } },
-    {"name": "AlterTableItem", "symbols": [FORCE], "postprocess":  (data) => {
-            return parse_util_1.toValueNode("FORCE", parse_util_1.getTextRange(data));
         } },
     {"name": "AlterTableModifyColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
     {"name": "AlterTableModifyColumn$ebnf$1", "symbols": [], "postprocess": () => null},

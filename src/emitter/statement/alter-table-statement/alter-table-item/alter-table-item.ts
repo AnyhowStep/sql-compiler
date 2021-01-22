@@ -13,6 +13,7 @@ import {emitAlterTableDropForeignKey} from "./alter-table-drop-foreign-key";
 import {emitAlterTableDropIndex} from "./alter-table-drop-index";
 import {emitAlterTableDropPrimaryKey} from "./alter-table-drop-primary-key";
 import {emitAlterTableEnableKeys} from "./alter-table-enable-keys";
+import {emitAlterTableForce} from "./alter-table-force";
 import {emitAlterTableModifyColumn} from "./alter-table-modify-column";
 import {emitAlterTableRenameIndex} from "./alter-table-rename-index";
 import {emitAlterTableRenameTable} from "./alter-table-rename-table";
@@ -51,7 +52,7 @@ export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
             return emitAlterTableRenameIndex(item)
         case SyntaxKind.AlterTableConvertToCharacterSet:
             return emitAlterTableConvertToCharacterSet(item)
-        case SyntaxKind.Value:
-            return new StringBuilder().append(item.value)
+        case SyntaxKind.AlterTableForce:
+            return emitAlterTableForce(item)
     }
 }

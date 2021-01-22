@@ -1,4 +1,3 @@
-import {ValueNode} from "../../../node";
 import {CreateTableOptions} from "../../create-table-options";
 import {AlterTableAddColumn} from "./alter-table-add-column";
 import {AlterTableAddCreateTableDefinitionList} from "./alter-table-add-create-table-definition-list";
@@ -12,6 +11,7 @@ import {AlterTableDropForeignKey} from "./alter-table-drop-foreign-key";
 import {AlterTableDropIndex} from "./alter-table-drop-index";
 import {AlterTableDropPrimaryKey} from "./alter-table-drop-primary-key";
 import {AlterTableEnableKeys} from "./alter-table-enable-keys";
+import {AlterTableForce} from "./alter-table-force";
 import {AlterTableModifyColumn} from "./alter-table-modify-column";
 import {AlterTableRenameIndex} from "./alter-table-rename-index";
 import {AlterTableRenameTable} from "./alter-table-rename-table";
@@ -46,5 +46,5 @@ export type AlterTableItem =
      *
      * https://dev.mysql.com/doc/refman/5.7/en/innodb-online-ddl.html
      */
-    | ValueNode<"FORCE">
+    | AlterTableForce
 ;

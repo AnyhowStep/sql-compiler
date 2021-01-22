@@ -1,0 +1,9 @@
+ALTER TABLE T
+    FORCE;
+
+-----
+ALTER TABLE `T`
+    FORCE;
+
+-----
+[]

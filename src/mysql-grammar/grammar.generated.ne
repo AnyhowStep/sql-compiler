@@ -2979,12 +2979,17 @@ AlterTableEnableKeys ->
     };
 } %}
 
-AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex | AlterTableConvertToCharacterSet) {% (data) => {
-    return data[0][0];
+AlterTableForce ->
+    %FORCE {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableForce,
+    };
 } %}
-    | %FORCE {% (data) => {
-    return parse_util_1.toValueNode("FORCE", parse_util_1.getTextRange(data));
+
+AlterTableItem ->
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex | AlterTableConvertToCharacterSet | AlterTableForce) {% (data) => {
+    return data[0][0];
 } %}
 
 AlterTableModifyColumn ->
