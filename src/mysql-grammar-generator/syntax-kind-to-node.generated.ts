@@ -54,6 +54,7 @@ import {
     SourceFile,
     SourceFileLite,
     SourceElementList,
+    AlterSchemaStatement,
     AlterTableAddColumn,
     AlterTableAddCreateTableDefinitionList,
     AlterTableAlterColumnDropDefault,
@@ -260,6 +261,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.SourceElementList] : SourceElementList;
+    [SyntaxKind.AlterSchemaStatement] : AlterSchemaStatement;
     [SyntaxKind.AlterTableAddColumn] : AlterTableAddColumn;
     [SyntaxKind.AlterTableAddCreateTableDefinitionList] : AlterTableAddCreateTableDefinitionList;
     [SyntaxKind.AlterTableAlterColumnDropDefault] : AlterTableAlterColumnDropDefault;

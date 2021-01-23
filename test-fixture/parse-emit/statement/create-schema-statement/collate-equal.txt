@@ -1,7 +1,8 @@
 CREATE SCHEMA `A` COLLATE = uTf8mB4_UnIcOdE_cI;
 
 -----
-CREATE SCHEMA `A` DEFAULT COLLATE `utf8mb4_unicode_ci`;
+CREATE SCHEMA `A`
+    DEFAULT COLLATE `utf8mb4_unicode_ci`;
 
 -----
 []

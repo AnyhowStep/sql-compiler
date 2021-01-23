@@ -2845,6 +2845,17 @@ TextString ->
     return literal;
 } %}
 
+AlterSchemaStatement ->
+    %ALTER (%SCHEMA | %DATABASE) Identifier:? CreateSchemaOptionList {% (data) => {
+    const [, , schemaName, createSchemaOptions,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterSchemaStatement,
+        schemaName: schemaName !== null && schemaName !== void 0 ? schemaName : undefined,
+        createSchemaOptions,
+    };
+} %}
+
 AlterTableAddColumn ->
     %ADD %COLUMN:? ColumnDefinition (%FIRST | (%AFTER Identifier)):? {% (data) => {
     const [, , columnDefinition, placeAfter,] = data;
@@ -6861,7 +6872,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement) {% (data) => {
     return data[0][0];
 } %}
 

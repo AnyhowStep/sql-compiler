@@ -2972,6 +2972,19 @@ export var ParserRules: NearleyRule[] = [
             let [[literal]] = data;
             return literal;
         } },
+    {"name": "AlterSchemaStatement$subexpression$1", "symbols": [SCHEMA]},
+    {"name": "AlterSchemaStatement$subexpression$1", "symbols": [DATABASE]},
+    {"name": "AlterSchemaStatement$ebnf$1", "symbols": ["Identifier"], "postprocess": id},
+    {"name": "AlterSchemaStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterSchemaStatement", "symbols": [ALTER, "AlterSchemaStatement$subexpression$1", "AlterSchemaStatement$ebnf$1", "CreateSchemaOptionList"], "postprocess":  (data) => {
+            const [, , schemaName, createSchemaOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterSchemaStatement,
+                schemaName: schemaName !== null && schemaName !== void 0 ? schemaName : undefined,
+                createSchemaOptions,
+            };
+        } },
     {"name": "AlterTableAddColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
     {"name": "AlterTableAddColumn$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "AlterTableAddColumn$ebnf$2$subexpression$1", "symbols": [FIRST]},
@@ -7562,6 +7575,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["CreateTableSelectStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTableStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTableStandaloneStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterSchemaStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

@@ -1,7 +1,9 @@
 CREATE SCHEMA `A` COLLATE uTf8mB4_UnIcOdE_cI CHARACTER SET latin1;
 
 -----
-CREATE SCHEMA `A` DEFAULT COLLATE `utf8mb4_unicode_ci` DEFAULT CHARACTER SET `latin1`;
+CREATE SCHEMA `A`
+    DEFAULT COLLATE `utf8mb4_unicode_ci`
+    DEFAULT CHARACTER SET `latin1`;
 
 -----
 []

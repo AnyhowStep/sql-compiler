@@ -1,0 +1,9 @@
+ALTER SCHEMA
+    CHARACTER SET = utf8mb4;
+
+-----
+ALTER SCHEMA
+    DEFAULT CHARACTER SET `utf8mb4`;
+
+-----
+[]

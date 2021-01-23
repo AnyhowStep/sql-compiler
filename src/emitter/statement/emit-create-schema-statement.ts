@@ -1,7 +1,21 @@
-import {CreateSchemaStatement, SyntaxKind} from "../../parser-node";
+import {CreateSchemaOptionList, CreateSchemaStatement, SyntaxKind} from "../../parser-node";
 import {emitIdentifier} from "../identifier";
 import {emitDefaultCharacterSet, emitDefaultCollation} from "../misc";
 import {StringBuilder} from "../string-builder";
+
+export function emitCreateSchemaOptionList (arr : CreateSchemaOptionList) {
+    return new StringBuilder()
+        .loop(
+            arr,
+            builder => builder.appendNewLine(),
+            (builder, item) => builder
+                .appendBuilder(
+                    item.syntaxKind == SyntaxKind.DefaultCharacterSet ?
+                    emitDefaultCharacterSet(item) :
+                    emitDefaultCollation(item)
+                )
+        )
+}
 
 export function emitCreateSchemaStatement (statement : CreateSchemaStatement) : StringBuilder {
     const result = new StringBuilder()
@@ -16,16 +30,11 @@ export function emitCreateSchemaStatement (statement : CreateSchemaStatement) : 
         .append(" ")
         .appendBuilder(emitIdentifier(statement.schemaName));
 
-    for (const createSchemaOption of statement.createSchemaOptions) {
-        if (createSchemaOption.syntaxKind == SyntaxKind.DefaultCharacterSet) {
-            result
-                .append(" ")
-                .appendBuilder(emitDefaultCharacterSet(createSchemaOption));
-        } else {
-            result
-                .append(" ")
-                .appendBuilder(emitDefaultCollation(createSchemaOption));
-        }
+    const createSchemaOptions = emitCreateSchemaOptionList(statement.createSchemaOptions);
+    if (!createSchemaOptions.isEmpty()) {
+        result.indent(builder => {
+            builder.appendBuilder(createSchemaOptions)
+        })
     }
 
     return result;

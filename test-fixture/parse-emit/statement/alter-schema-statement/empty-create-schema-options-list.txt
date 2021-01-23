@@ -1,0 +1,14 @@
+ALTER SCHEMA test;
+
+-----
+ALTER SCHEMA `test`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "ALTER SCHEMA statement must specify options list",
+        "start": 0,
+        "length": 17
+    }
+]

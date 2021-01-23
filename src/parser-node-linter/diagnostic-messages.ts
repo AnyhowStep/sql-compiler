@@ -203,4 +203,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240038
     }),
+    AlterSchemaStatementOptionListEmpty : makeDiagnosticMessage({
+        key : "ALTER SCHEMA statement must specify options list",
+        category : DiagnosticCategory.Error,
+        code : 240039
+    }),
 } as const;
