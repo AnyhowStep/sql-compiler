@@ -141,6 +141,9 @@ export const syntaxKinds = [
     "AlterTableConvertToCharacterSet",
     "AlterTableForce",
     "AlterTableUpgradePartitioning",
+    "AlterTableOrderBy",
+    "AlterTableOrderExprList",
+    "AlterTableOrderExpr",
 
 
 

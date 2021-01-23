@@ -2988,7 +2988,7 @@ AlterTableForce ->
 } %}
 
 AlterTableItem ->
-    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex | AlterTableConvertToCharacterSet | AlterTableForce | AlterTableUpgradePartitioning) {% (data) => {
+    (CreateTableOptionsSpaceSeparated | AlterTableAddColumn | AlterTableAddCreateTableDefinitionList | AlterTableChangeColumn | AlterTableModifyColumn | AlterTableDropColumn | AlterTableDropForeignKey | AlterTableDropPrimaryKey | AlterTableDropIndex | AlterTableDisableKeys | AlterTableEnableKeys | AlterTableAlterColumnSetDefault | AlterTableAlterColumnDropDefault | AlterTableRenameTable | AlterTableRenameIndex | AlterTableConvertToCharacterSet | AlterTableForce | AlterTableUpgradePartitioning | AlterTableOrderBy) {% (data) => {
     return data[0][0];
 } %}
 
@@ -3005,6 +3005,41 @@ AlterTableModifyColumn ->
                 placeAfter[0][1] :
                 parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
     };
+} %}
+
+AlterTableOrderBy ->
+    %ORDER %BY AlterTableOrderExprList {% (data) => {
+    const [, , alterTableOrderExprList,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableOrderBy,
+        alterTableOrderExprList,
+    };
+} %}
+
+AlterTableOrderExpr ->
+    ColumnIdentifier (%ASC | %DESC):? {% (data) => {
+    const [expr, orderingDirection] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTableOrderExpr,
+        expr,
+        orderingDirection: (orderingDirection == undefined ?
+            parser_node_1.OrderingDirection.ASC :
+            orderingDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                parser_node_1.OrderingDirection.ASC :
+                parser_node_1.OrderingDirection.DESC),
+    };
+} %}
+
+AlterTableOrderExprList ->
+    AlterTableOrderExpr (%Comma AlterTableOrderExpr):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((data) => {
+        return "syntaxKind" in data;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.AlterTableOrderExprList, parse_util_1.getTextRange(data));
 } %}
 
 AlterTableRenameIndex ->

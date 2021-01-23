@@ -68,6 +68,9 @@ import {
     AlterTableEnableKeys,
     AlterTableForce,
     AlterTableModifyColumn,
+    AlterTableOrderBy,
+    AlterTableOrderExpr,
+    AlterTableOrderExprList,
     AlterTableRenameIndex,
     AlterTableRenameTable,
     AlterTableUpgradePartitioning,
@@ -271,6 +274,9 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTableEnableKeys] : AlterTableEnableKeys;
     [SyntaxKind.AlterTableForce] : AlterTableForce;
     [SyntaxKind.AlterTableModifyColumn] : AlterTableModifyColumn;
+    [SyntaxKind.AlterTableOrderBy] : AlterTableOrderBy;
+    [SyntaxKind.AlterTableOrderExpr] : AlterTableOrderExpr;
+    [SyntaxKind.AlterTableOrderExprList] : AlterTableOrderExprList;
     [SyntaxKind.AlterTableRenameIndex] : AlterTableRenameIndex;
     [SyntaxKind.AlterTableRenameTable] : AlterTableRenameTable;
     [SyntaxKind.AlterTableUpgradePartitioning] : AlterTableUpgradePartitioning;

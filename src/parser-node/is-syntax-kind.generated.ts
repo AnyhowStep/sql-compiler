@@ -61,6 +61,8 @@ import {AlterTableDropPrimaryKey} from "./statement/alter-table-statement/alter-
 import {AlterTableEnableKeys} from "./statement/alter-table-statement/alter-table-item/alter-table-enable-keys";
 import {AlterTableForce} from "./statement/alter-table-statement/alter-table-item/alter-table-force";
 import {AlterTableModifyColumn} from "./statement/alter-table-statement/alter-table-item/alter-table-modify-column";
+import {AlterTableOrderBy} from "./statement/alter-table-statement/alter-table-item/alter-table-order-by";
+import {AlterTableOrderExpr} from "./statement/alter-table-statement/alter-table-item/alter-table-order-expr";
 import {AlterTableRenameIndex} from "./statement/alter-table-statement/alter-table-item/alter-table-rename-index";
 import {AlterTableRenameTable} from "./statement/alter-table-statement/alter-table-item/alter-table-rename-table";
 import {AlterTableUpgradePartitioning} from "./statement/alter-table-statement/alter-table-item/alter-table-upgrade-partitioning";
@@ -232,6 +234,8 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableDro
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableEnableKeys) : node is AlterTableEnableKeys;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableForce) : node is AlterTableForce;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableModifyColumn) : node is AlterTableModifyColumn;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableOrderBy) : node is AlterTableOrderBy;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableOrderExpr) : node is AlterTableOrderExpr;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableRenameIndex) : node is AlterTableRenameIndex;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableRenameTable) : node is AlterTableRenameTable;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableUpgradePartitioning) : node is AlterTableUpgradePartitioning;
@@ -412,6 +416,8 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableEnableKeys, callback : (node : AlterTableEnableKeys) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableForce, callback : (node : AlterTableForce) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableModifyColumn, callback : (node : AlterTableModifyColumn) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTableOrderBy, callback : (node : AlterTableOrderBy) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTableOrderExpr, callback : (node : AlterTableOrderExpr) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableRenameIndex, callback : (node : AlterTableRenameIndex) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableRenameTable, callback : (node : AlterTableRenameTable) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableUpgradePartitioning, callback : (node : AlterTableUpgradePartitioning) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

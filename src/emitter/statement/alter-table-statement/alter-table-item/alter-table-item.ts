@@ -15,6 +15,7 @@ import {emitAlterTableDropPrimaryKey} from "./alter-table-drop-primary-key";
 import {emitAlterTableEnableKeys} from "./alter-table-enable-keys";
 import {emitAlterTableForce} from "./alter-table-force";
 import {emitAlterTableModifyColumn} from "./alter-table-modify-column";
+import {emitAlterTableOrderBy} from "./alter-table-order-by";
 import {emitAlterTableRenameIndex} from "./alter-table-rename-index";
 import {emitAlterTableRenameTable} from "./alter-table-rename-table";
 import {emitAlterTableUpgradePartitioning} from "./alter-table-upgrade-partitioning";
@@ -57,5 +58,7 @@ export function emitAlterTableItem (item : AlterTableItem) : StringBuilder {
             return emitAlterTableForce(item)
         case SyntaxKind.AlterTableUpgradePartitioning:
             return emitAlterTableUpgradePartitioning(item)
+        case SyntaxKind.AlterTableOrderBy:
+            return emitAlterTableOrderBy(item)
     }
 }

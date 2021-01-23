@@ -1,0 +1,13 @@
+ALTER TABLE T
+    ORDER BY
+        T.X,
+        test.T.X;
+
+-----
+ALTER TABLE `T`
+    ORDER BY
+        `T`.`X` ASC,
+        `test`.`T`.`X` ASC;
+
+-----
+[]

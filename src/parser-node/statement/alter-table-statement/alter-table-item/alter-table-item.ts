@@ -13,6 +13,7 @@ import {AlterTableDropPrimaryKey} from "./alter-table-drop-primary-key";
 import {AlterTableEnableKeys} from "./alter-table-enable-keys";
 import {AlterTableForce} from "./alter-table-force";
 import {AlterTableModifyColumn} from "./alter-table-modify-column";
+import {AlterTableOrderBy} from "./alter-table-order-by";
 import {AlterTableRenameIndex} from "./alter-table-rename-index";
 import {AlterTableRenameTable} from "./alter-table-rename-table";
 import {AlterTableUpgradePartitioning} from "./alter-table-upgrade-partitioning";
@@ -42,11 +43,7 @@ export type AlterTableItem =
     | AlterTableRenameTable
     | AlterTableRenameIndex
     | AlterTableConvertToCharacterSet
-    /**
-     * > `ALTER TABLE tbl_name ENGINE=INNODB` and `ALTER TABLE tbl_name FORCE` use online DDL.
-     *
-     * https://dev.mysql.com/doc/refman/5.7/en/innodb-online-ddl.html
-     */
     | AlterTableForce
     | AlterTableUpgradePartitioning
+    | AlterTableOrderBy
 ;

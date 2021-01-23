@@ -1,0 +1,11 @@
+ALTER TABLE T
+    ORDER BY
+        X DESC;
+
+-----
+ALTER TABLE `T`
+    ORDER BY
+        `X` DESC;
+
+-----
+[]

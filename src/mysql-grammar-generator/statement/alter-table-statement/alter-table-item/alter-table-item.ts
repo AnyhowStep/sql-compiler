@@ -24,6 +24,7 @@ makeCustomRule(CustomSyntaxKind.AlterTableItem)
                 SyntaxKind.AlterTableConvertToCharacterSet,
                 SyntaxKind.AlterTableForce,
                 SyntaxKind.AlterTableUpgradePartitioning,
+                SyntaxKind.AlterTableOrderBy,
             ),
         ] as const,
         (data) : AlterTableItem => {

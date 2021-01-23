@@ -3140,6 +3140,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableConvertToCharacterSet"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableForce"]},
     {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableUpgradePartitioning"]},
+    {"name": "AlterTableItem$subexpression$1", "symbols": ["AlterTableOrderBy"]},
     {"name": "AlterTableItem", "symbols": ["AlterTableItem$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -3162,6 +3163,42 @@ export var ParserRules: NearleyRule[] = [
                         placeAfter[0][1] :
                         parse_util_1.toValueNode("FIRST", parse_util_1.getTextRange(placeAfter))),
             };
+        } },
+    {"name": "AlterTableOrderBy", "symbols": [ORDER, BY, "AlterTableOrderExprList"], "postprocess":  (data) => {
+            const [, , alterTableOrderExprList,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableOrderBy,
+                alterTableOrderExprList,
+            };
+        } },
+    {"name": "AlterTableOrderExpr$ebnf$1$subexpression$1", "symbols": [ASC]},
+    {"name": "AlterTableOrderExpr$ebnf$1$subexpression$1", "symbols": [DESC]},
+    {"name": "AlterTableOrderExpr$ebnf$1", "symbols": ["AlterTableOrderExpr$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterTableOrderExpr$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterTableOrderExpr", "symbols": ["ColumnIdentifier", "AlterTableOrderExpr$ebnf$1"], "postprocess":  (data) => {
+            const [expr, orderingDirection] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTableOrderExpr,
+                expr,
+                orderingDirection: (orderingDirection == undefined ?
+                    parser_node_1.OrderingDirection.ASC :
+                    orderingDirection[0].tokenKind == scanner_1.TokenKind.ASC ?
+                        parser_node_1.OrderingDirection.ASC :
+                        parser_node_1.OrderingDirection.DESC),
+            };
+        } },
+    {"name": "AlterTableOrderExprList$ebnf$1", "symbols": []},
+    {"name": "AlterTableOrderExprList$ebnf$1$subexpression$1", "symbols": [Comma, "AlterTableOrderExpr"]},
+    {"name": "AlterTableOrderExprList$ebnf$1", "symbols": ["AlterTableOrderExprList$ebnf$1", "AlterTableOrderExprList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "AlterTableOrderExprList", "symbols": ["AlterTableOrderExpr", "AlterTableOrderExprList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((data) => {
+                return "syntaxKind" in data;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.AlterTableOrderExprList, parse_util_1.getTextRange(data));
         } },
     {"name": "AlterTableRenameIndex$subexpression$1", "symbols": [INDEX]},
     {"name": "AlterTableRenameIndex$subexpression$1", "symbols": [KEY]},

@@ -13,6 +13,8 @@ export * from "./alter-table-enable-keys";
 export * from "./alter-table-force";
 export * from "./alter-table-item";
 export * from "./alter-table-modify-column";
+export * from "./alter-table-order-by";
+export * from "./alter-table-order-expr";
 export * from "./alter-table-rename-index";
 export * from "./alter-table-rename-table";
 export * from "./alter-table-upgrade-partitioning";
