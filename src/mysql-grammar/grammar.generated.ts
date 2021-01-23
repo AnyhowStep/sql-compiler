@@ -2985,6 +2985,16 @@ export var ParserRules: NearleyRule[] = [
                 createSchemaOptions,
             };
         } },
+    {"name": "AlterSchemaUpgradeDataDirectoryNameStatement$subexpression$1", "symbols": [SCHEMA]},
+    {"name": "AlterSchemaUpgradeDataDirectoryNameStatement$subexpression$1", "symbols": [DATABASE]},
+    {"name": "AlterSchemaUpgradeDataDirectoryNameStatement", "symbols": [ALTER, "AlterSchemaUpgradeDataDirectoryNameStatement$subexpression$1", "Identifier", UPGRADE, DATA, DIRECTORY, NAME], "postprocess":  (data) => {
+            const [, , schemaName,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement,
+                schemaName,
+            };
+        } },
     {"name": "AlterTableAddColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
     {"name": "AlterTableAddColumn$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "AlterTableAddColumn$ebnf$2$subexpression$1", "symbols": [FIRST]},
@@ -7576,6 +7586,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTableStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTableStandaloneStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterSchemaStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterSchemaUpgradeDataDirectoryNameStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

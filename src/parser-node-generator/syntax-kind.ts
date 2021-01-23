@@ -146,6 +146,7 @@ export const syntaxKinds = [
     "AlterTableOrderExpr",
 
     "AlterSchemaStatement",
+    "AlterSchemaUpgradeDataDirectoryNameStatement",
 
     "HashPartition",
     "KeyPartition",

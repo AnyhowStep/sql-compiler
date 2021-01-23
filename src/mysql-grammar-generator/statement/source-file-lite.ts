@@ -31,6 +31,7 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.AlterTableStatement,
             SyntaxKind.AlterTableStandaloneStatement,
             SyntaxKind.AlterSchemaStatement,
+            SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement,
         )] as const,
         (data) : Statement => {
             return data[0][0];

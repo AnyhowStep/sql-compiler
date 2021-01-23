@@ -2856,6 +2856,16 @@ AlterSchemaStatement ->
     };
 } %}
 
+AlterSchemaUpgradeDataDirectoryNameStatement ->
+    %ALTER (%SCHEMA | %DATABASE) Identifier %UPGRADE %DATA %DIRECTORY %NAME {% (data) => {
+    const [, , schemaName,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement,
+        schemaName,
+    };
+} %}
+
 AlterTableAddColumn ->
     %ADD %COLUMN:? ColumnDefinition (%FIRST | (%AFTER Identifier)):? {% (data) => {
     const [, , columnDefinition, placeAfter,] = data;
@@ -6872,7 +6882,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement) {% (data) => {
     return data[0][0];
 } %}
 

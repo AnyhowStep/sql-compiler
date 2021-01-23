@@ -48,6 +48,7 @@ import {SizeNumber} from "./misc/size-number";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
 import {AlterSchemaStatement} from "./statement/alter-schema-statement/alter-schema-statement";
+import {AlterSchemaUpgradeDataDirectoryNameStatement} from "./statement/alter-schema-statement/alter-schema-upgrade-data-directory-name-statement";
 import {AlterTableAddColumn} from "./statement/alter-table-statement/alter-table-item/alter-table-add-column";
 import {AlterTableAddCreateTableDefinitionList} from "./statement/alter-table-statement/alter-table-item/alter-table-add-create-table-definition-list";
 import {AlterTableAlterColumnDropDefault} from "./statement/alter-table-statement/alter-table-item/alter-table-alter-column-drop-default";
@@ -222,6 +223,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SizeNumber) :
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaStatement) : node is AlterSchemaStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement) : node is AlterSchemaUpgradeDataDirectoryNameStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAddColumn) : node is AlterTableAddColumn;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAddCreateTableDefinitionList) : node is AlterTableAddCreateTableDefinitionList;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAlterColumnDropDefault) : node is AlterTableAlterColumnDropDefault;
@@ -405,6 +407,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaStatement, callback : (node : AlterSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement, callback : (node : AlterSchemaUpgradeDataDirectoryNameStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAddColumn, callback : (node : AlterTableAddColumn) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAddCreateTableDefinitionList, callback : (node : AlterTableAddCreateTableDefinitionList) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAlterColumnDropDefault, callback : (node : AlterTableAlterColumnDropDefault) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
