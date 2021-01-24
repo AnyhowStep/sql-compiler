@@ -1,9 +1,17 @@
 ALTER PROCEDURE P
     DETERMINISTIC;
 
+ALTER PROCEDURE P
+    DETERMINISTIC
+    COMMENT 'hi';
+
 -----
 ALTER PROCEDURE `P`
     DETERMINISTIC;
+
+ALTER PROCEDURE `P`
+    DETERMINISTIC
+    COMMENT 'hi';
 
 -----
 [
@@ -11,6 +19,12 @@ ALTER PROCEDURE `P`
         "category": 0,
         "messageText": "Cannot specify DETERMINISTIC/NOT DETERMINISTIC; try dropping and recreating the procedure/function",
         "start": 22,
+        "length": 13
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot specify DETERMINISTIC/NOT DETERMINISTIC; try dropping and recreating the procedure/function",
+        "start": 60,
         "length": 13
     }
 ]
