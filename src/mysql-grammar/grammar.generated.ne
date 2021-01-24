@@ -2845,6 +2845,17 @@ TextString ->
     return literal;
 } %}
 
+AlterFunctionStatement ->
+    %ALTER %FUNCTION StoredFunctionIdentifier PartialStoredProcedureCharacteristics {% (data) => {
+    const [, , storedFunctionIdentifier, characteristics,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterFunctionStatement,
+        storedFunctionIdentifier,
+        characteristics,
+    };
+} %}
+
 AlterProcedureStatement ->
     %ALTER %PROCEDURE StoredProcedureIdentifier PartialStoredProcedureCharacteristics {% (data) => {
     const [, , storedProcedureIdentifier, characteristics,] = data;
@@ -6924,7 +6935,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement) {% (data) => {
     return data[0][0];
 } %}
 

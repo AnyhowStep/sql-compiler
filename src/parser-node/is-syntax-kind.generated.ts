@@ -47,6 +47,7 @@ import {Precision} from "./misc/precision";
 import {SizeNumber} from "./misc/size-number";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
+import {AlterFunctionStatement} from "./statement/alter-procedure-statement/alter-function-statement";
 import {AlterProcedureStatement} from "./statement/alter-procedure-statement/alter-procedure-statement";
 import {AlterSchemaStatement} from "./statement/alter-schema-statement/alter-schema-statement";
 import {AlterSchemaUpgradeDataDirectoryNameStatement} from "./statement/alter-schema-statement/alter-schema-upgrade-data-directory-name-statement";
@@ -224,6 +225,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Precision) : 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SizeNumber) : node is SizeNumber;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterFunctionStatement) : node is AlterFunctionStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterProcedureStatement) : node is AlterProcedureStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaStatement) : node is AlterSchemaStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement) : node is AlterSchemaUpgradeDataDirectoryNameStatement;
@@ -410,6 +412,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.SizeNumber, callback : (node : SizeNumber) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterFunctionStatement, callback : (node : AlterFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterProcedureStatement, callback : (node : AlterProcedureStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaStatement, callback : (node : AlterSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement, callback : (node : AlterSchemaUpgradeDataDirectoryNameStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

@@ -1,10 +1,10 @@
-import {SyntaxKind, AlterFunctionStatement} from "../../../../parser-node";
+import {SyntaxKind, AlterProcedureStatement} from "../../../../parser-node";
 import {LintRule} from "../../../linter";
 import {pushSyntacticErrorAt} from "../../../../parse-util";
 import {DiagnosticMessages} from "../../../diagnostic-messages";
 
-export const AlterFunctionStatementCannotSpecifyDeterministic : LintRule<AlterFunctionStatement> = {
-    syntaxKind : SyntaxKind.AlterFunctionStatement,
+export const AlterProcedureStatementCannotSpecifyDeterministic : LintRule<AlterProcedureStatement> = {
+    syntaxKind : SyntaxKind.AlterProcedureStatement,
     onEnter : (node, lintResult) => {
         if (node.characteristics.deterministic != undefined) {
             pushSyntacticErrorAt(

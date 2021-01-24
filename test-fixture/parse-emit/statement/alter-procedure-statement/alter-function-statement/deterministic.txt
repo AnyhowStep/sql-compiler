@@ -1,0 +1,30 @@
+ALTER FUNCTION P
+    DETERMINISTIC;
+
+ALTER FUNCTION P
+    DETERMINISTIC
+    COMMENT 'hi';
+
+-----
+ALTER FUNCTION `P`
+    DETERMINISTIC;
+
+ALTER FUNCTION `P`
+    DETERMINISTIC
+    COMMENT 'hi';
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot specify DETERMINISTIC/NOT DETERMINISTIC; try dropping and recreating the procedure/function",
+        "start": 21,
+        "length": 13
+    },
+    {
+        "category": 0,
+        "messageText": "Cannot specify DETERMINISTIC/NOT DETERMINISTIC; try dropping and recreating the procedure/function",
+        "start": 58,
+        "length": 13
+    }
+]

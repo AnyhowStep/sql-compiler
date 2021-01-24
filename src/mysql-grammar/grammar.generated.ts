@@ -2972,6 +2972,15 @@ export var ParserRules: NearleyRule[] = [
             let [[literal]] = data;
             return literal;
         } },
+    {"name": "AlterFunctionStatement", "symbols": [ALTER, FUNCTION, "StoredFunctionIdentifier", "PartialStoredProcedureCharacteristics"], "postprocess":  (data) => {
+            const [, , storedFunctionIdentifier, characteristics,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterFunctionStatement,
+                storedFunctionIdentifier,
+                characteristics,
+            };
+        } },
     {"name": "AlterProcedureStatement", "symbols": [ALTER, PROCEDURE, "StoredProcedureIdentifier", "PartialStoredProcedureCharacteristics"], "postprocess":  (data) => {
             const [, , storedProcedureIdentifier, characteristics,] = data;
             return {
@@ -7628,6 +7637,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterSchemaStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterSchemaUpgradeDataDirectoryNameStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterProcedureStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterFunctionStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

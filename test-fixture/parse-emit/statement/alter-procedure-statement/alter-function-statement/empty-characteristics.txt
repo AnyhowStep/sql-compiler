@@ -1,0 +1,7 @@
+ALTER FUNCTION P;
+
+-----
+ALTER FUNCTION `P`;
+
+-----
+[]
