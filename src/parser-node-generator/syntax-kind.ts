@@ -84,6 +84,7 @@ export const syntaxKinds = [
     "StoredFunctionParameter",
     "StoredFunctionParameterList",
     "StoredProcedureCharacteristics",
+    "PartialStoredProcedureCharacteristics",
     "CreateProcedureStatement",
     "StoredProcedureParameter",
     "StoredProcedureParameterList",
@@ -147,6 +148,7 @@ export const syntaxKinds = [
 
     "AlterSchemaStatement",
     "AlterSchemaUpgradeDataDirectoryNameStatement",
+    "AlterProcedureStatement",
 
     "HashPartition",
     "KeyPartition",

@@ -208,4 +208,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240039
     }),
+    CannotSpecifyDeterministic : makeDiagnosticMessage({
+        key : "Cannot specify DETERMINISTIC/NOT DETERMINISTIC; try dropping and recreating the procedure/function",
+        category : DiagnosticCategory.Error,
+        code : 240040
+    }),
 } as const;

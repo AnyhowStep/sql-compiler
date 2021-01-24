@@ -2845,6 +2845,17 @@ TextString ->
     return literal;
 } %}
 
+AlterProcedureStatement ->
+    %ALTER %PROCEDURE StoredProcedureIdentifier PartialStoredProcedureCharacteristics {% (data) => {
+    const [, , storedProcedureIdentifier, characteristics,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterProcedureStatement,
+        storedProcedureIdentifier,
+        characteristics,
+    };
+} %}
+
 AlterSchemaStatement ->
     %ALTER (%SCHEMA | %DATABASE) Identifier:? CreateSchemaOptionList {% (data) => {
     const [, , schemaName, createSchemaOptions,] = data;
@@ -3412,6 +3423,37 @@ CreateUserDefinedFunctionStatement ->
                     parser_node_1.UserDefinedFunctionReturnType.REAL :
                     parser_node_1.UserDefinedFunctionReturnType.DECIMAL), parse_util_1.getTextRange(returnType)),
         sharedLibraryName,
+    };
+} %}
+
+PartialStoredProcedureCharacteristics ->
+    StoredProcedureCharacteristic:* {% (data) => {
+    const arr = data[0];
+    const result = {
+        comment: undefined,
+        language: undefined,
+        databaseAccessCharacteristic: undefined,
+        deterministic: undefined,
+        storedProcedureSecurityContext: undefined,
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.PartialStoredProcedureCharacteristics,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
     };
 } %}
 
@@ -6882,7 +6924,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement) {% (data) => {
     return data[0][0];
 } %}
 

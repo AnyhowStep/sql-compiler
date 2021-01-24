@@ -50,3 +50,34 @@ export interface StoredProcedureCharacteristics extends Node {
      */
     storedProcedureSecurityContext : ValueNode<StoredProcedureSecurityContext>,
 }
+
+/**
+ * For `ALTER PROCEDURE/FUNCTION`
+ */
+export interface PartialStoredProcedureCharacteristics extends Node {
+    syntaxKind : SyntaxKind.PartialStoredProcedureCharacteristics,
+
+    comment : StringLiteral|undefined,
+
+    /**
+     * There is only one language
+     */
+    language : ValueNode<"SQL">|undefined,
+
+    /**
+     * > https://dev.mysql.com/doc/refman/5.7/en/create-procedure.html
+     *
+     * Several characteristics provide information about the nature of data use by the routine.
+     * In MySQL, these characteristics are advisory only.
+     * The server does not use them to constrain what kinds of statements a routine is permitted to execute.
+     */
+    databaseAccessCharacteristic : ValueNode<DatabaseAccessCharacteristic>|undefined,
+
+    /**
+     * This must be `undefined` for `ALTER PROCEDURE/FUNCTION`
+     */
+    deterministic : ValueNode<boolean>|undefined,
+
+
+    storedProcedureSecurityContext : ValueNode<StoredProcedureSecurityContext>|undefined,
+}

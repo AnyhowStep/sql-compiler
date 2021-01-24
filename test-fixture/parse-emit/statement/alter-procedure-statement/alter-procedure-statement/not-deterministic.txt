@@ -1,0 +1,16 @@
+ALTER PROCEDURE P
+    NOT DETERMINISTIC;
+
+-----
+ALTER PROCEDURE `P`
+    NOT DETERMINISTIC;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Cannot specify DETERMINISTIC/NOT DETERMINISTIC; try dropping and recreating the procedure/function",
+        "start": 22,
+        "length": 17
+    }
+]

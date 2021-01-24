@@ -2972,6 +2972,15 @@ export var ParserRules: NearleyRule[] = [
             let [[literal]] = data;
             return literal;
         } },
+    {"name": "AlterProcedureStatement", "symbols": [ALTER, PROCEDURE, "StoredProcedureIdentifier", "PartialStoredProcedureCharacteristics"], "postprocess":  (data) => {
+            const [, , storedProcedureIdentifier, characteristics,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterProcedureStatement,
+                storedProcedureIdentifier,
+                characteristics,
+            };
+        } },
     {"name": "AlterSchemaStatement$subexpression$1", "symbols": [SCHEMA]},
     {"name": "AlterSchemaStatement$subexpression$1", "symbols": [DATABASE]},
     {"name": "AlterSchemaStatement$ebnf$1", "symbols": ["Identifier"], "postprocess": id},
@@ -3608,6 +3617,37 @@ export var ParserRules: NearleyRule[] = [
                             parser_node_1.UserDefinedFunctionReturnType.REAL :
                             parser_node_1.UserDefinedFunctionReturnType.DECIMAL), parse_util_1.getTextRange(returnType)),
                 sharedLibraryName,
+            };
+        } },
+    {"name": "PartialStoredProcedureCharacteristics$ebnf$1", "symbols": []},
+    {"name": "PartialStoredProcedureCharacteristics$ebnf$1", "symbols": ["PartialStoredProcedureCharacteristics$ebnf$1", "StoredProcedureCharacteristic"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "PartialStoredProcedureCharacteristics", "symbols": ["PartialStoredProcedureCharacteristics$ebnf$1"], "postprocess":  (data) => {
+            const arr = data[0];
+            const result = {
+                comment: undefined,
+                language: undefined,
+                databaseAccessCharacteristic: undefined,
+                deterministic: undefined,
+                storedProcedureSecurityContext: undefined,
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.PartialStoredProcedureCharacteristics,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
             };
         } },
     {"name": "StoredFunctionParameter", "symbols": ["Identifier", "DataType"], "postprocess":  (data) => {
@@ -7587,6 +7627,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTableStandaloneStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterSchemaStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterSchemaUpgradeDataDirectoryNameStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterProcedureStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

@@ -1,10 +1,13 @@
-import {DatabaseAccessCharacteristic, StoredProcedureCharacteristics, StoredProcedureSecurityContext} from "../../../parser-node";
+import {DatabaseAccessCharacteristic, PartialStoredProcedureCharacteristics, StoredProcedureSecurityContext} from "../../../parser-node";
 import {emitStringLiteral} from "../../expression";
 import {StringBuilder} from "../../string-builder";
 
-export function emitStoredProcedureCharacteristics (characteristics : StoredProcedureCharacteristics) {
+export function emitPartialStoredProcedureCharacteristics (characteristics : PartialStoredProcedureCharacteristics) {
     return new StringBuilder()
         .scope(builder => {
+            if (characteristics.deterministic == undefined) {
+                return;
+            }
             builder
                 .append(
                     characteristics.deterministic.value ?
@@ -16,8 +19,11 @@ export function emitStoredProcedureCharacteristics (characteristics : StoredProc
             if (characteristics.comment == undefined) {
                 return;
             }
+            if (!builder.isEmpty()) {
+                builder
+                    .appendNewLine()
+            }
             builder
-                .appendNewLine()
                 .append("COMMENT ")
                 .appendBuilder(emitStringLiteral(characteristics.comment))
         })
@@ -25,8 +31,11 @@ export function emitStoredProcedureCharacteristics (characteristics : StoredProc
             if (characteristics.language == undefined) {
                 return;
             }
+            if (!builder.isEmpty()) {
+                builder
+                    .appendNewLine()
+            }
             builder
-                .appendNewLine()
                 .append("LANGUAGE ")
                 .append(characteristics.language.value)
         })
@@ -34,8 +43,11 @@ export function emitStoredProcedureCharacteristics (characteristics : StoredProc
             if (characteristics.databaseAccessCharacteristic == undefined) {
                 return;
             }
+            if (!builder.isEmpty()) {
+                builder
+                    .appendNewLine()
+            }
             builder
-                .appendNewLine()
                 .append(
                     characteristics.databaseAccessCharacteristic.value == DatabaseAccessCharacteristic.NO_SQL ?
                     "NO SQL" :
@@ -47,8 +59,14 @@ export function emitStoredProcedureCharacteristics (characteristics : StoredProc
                 )
         })
         .scope(builder => {
+            if (characteristics.storedProcedureSecurityContext == undefined) {
+                return;
+            }
+            if (!builder.isEmpty()) {
+                builder
+                    .appendNewLine()
+            }
             builder
-                .appendNewLine()
                 .append(
                     characteristics.storedProcedureSecurityContext.value == StoredProcedureSecurityContext.DEFINER ?
                     "SQL SECURITY DEFINER" :

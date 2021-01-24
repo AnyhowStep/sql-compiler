@@ -54,6 +54,7 @@ import {
     SourceFile,
     SourceFileLite,
     SourceElementList,
+    AlterProcedureStatement,
     AlterSchemaStatement,
     AlterSchemaUpgradeDataDirectoryNameStatement,
     AlterTableAddColumn,
@@ -90,6 +91,7 @@ import {
     StoredFunctionParameter,
     StoredFunctionParameterList,
     StoredProcedureCharacteristics,
+    PartialStoredProcedureCharacteristics,
     StoredProcedureParameter,
     StoredProcedureParameterList,
     AlterTableLock,
@@ -262,6 +264,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.SourceElementList] : SourceElementList;
+    [SyntaxKind.AlterProcedureStatement] : AlterProcedureStatement;
     [SyntaxKind.AlterSchemaStatement] : AlterSchemaStatement;
     [SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement] : AlterSchemaUpgradeDataDirectoryNameStatement;
     [SyntaxKind.AlterTableAddColumn] : AlterTableAddColumn;
@@ -298,6 +301,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.StoredFunctionParameter] : StoredFunctionParameter;
     [SyntaxKind.StoredFunctionParameterList] : StoredFunctionParameterList;
     [SyntaxKind.StoredProcedureCharacteristics] : StoredProcedureCharacteristics;
+    [SyntaxKind.PartialStoredProcedureCharacteristics] : PartialStoredProcedureCharacteristics;
     [SyntaxKind.StoredProcedureParameter] : StoredProcedureParameter;
     [SyntaxKind.StoredProcedureParameterList] : StoredProcedureParameterList;
     [SyntaxKind.AlterTableLock] : AlterTableLock;

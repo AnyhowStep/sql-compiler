@@ -47,6 +47,7 @@ import {Precision} from "./misc/precision";
 import {SizeNumber} from "./misc/size-number";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
+import {AlterProcedureStatement} from "./statement/alter-procedure-statement/alter-procedure-statement";
 import {AlterSchemaStatement} from "./statement/alter-schema-statement/alter-schema-statement";
 import {AlterSchemaUpgradeDataDirectoryNameStatement} from "./statement/alter-schema-statement/alter-schema-upgrade-data-directory-name-statement";
 import {AlterTableAddColumn} from "./statement/alter-table-statement/alter-table-item/alter-table-add-column";
@@ -80,6 +81,7 @@ import {CreateProcedureStatement} from "./statement/create-function-statement/cr
 import {CreateUserDefinedFunctionStatement} from "./statement/create-function-statement/create-user-defined-function-statement";
 import {StoredFunctionParameter} from "./statement/create-function-statement/stored-function-parameter";
 import {StoredProcedureCharacteristics} from "./statement/create-function-statement/stored-procedure-characteristics";
+import {PartialStoredProcedureCharacteristics} from "./statement/create-function-statement/stored-procedure-characteristics";
 import {StoredProcedureParameter} from "./statement/create-function-statement/stored-procedure-parameter";
 import {AlterTableLock} from "./statement/create-index-statement/alter-table-lock-and-algorithm-options";
 import {AlterTableAlgorithm} from "./statement/create-index-statement/alter-table-lock-and-algorithm-options";
@@ -222,6 +224,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Precision) : 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SizeNumber) : node is SizeNumber;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterProcedureStatement) : node is AlterProcedureStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaStatement) : node is AlterSchemaStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement) : node is AlterSchemaUpgradeDataDirectoryNameStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAddColumn) : node is AlterTableAddColumn;
@@ -255,6 +258,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateProcedu
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateUserDefinedFunctionStatement) : node is CreateUserDefinedFunctionStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredFunctionParameter) : node is StoredFunctionParameter;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureCharacteristics) : node is StoredProcedureCharacteristics;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PartialStoredProcedureCharacteristics) : node is PartialStoredProcedureCharacteristics;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.StoredProcedureParameter) : node is StoredProcedureParameter;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableLock) : node is AlterTableLock;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAlgorithm) : node is AlterTableAlgorithm;
@@ -406,6 +410,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.SizeNumber, callback : (node : SizeNumber) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterProcedureStatement, callback : (node : AlterProcedureStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaStatement, callback : (node : AlterSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement, callback : (node : AlterSchemaUpgradeDataDirectoryNameStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAddColumn, callback : (node : AlterTableAddColumn) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
@@ -439,6 +444,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.CreateUserDefinedFunctionStatement, callback : (node : CreateUserDefinedFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredFunctionParameter, callback : (node : StoredFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureCharacteristics, callback : (node : StoredProcedureCharacteristics) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.PartialStoredProcedureCharacteristics, callback : (node : PartialStoredProcedureCharacteristics) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.StoredProcedureParameter, callback : (node : StoredProcedureParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableLock, callback : (node : AlterTableLock) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAlgorithm, callback : (node : AlterTableAlgorithm) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

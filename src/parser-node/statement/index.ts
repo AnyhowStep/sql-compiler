@@ -1,3 +1,4 @@
+export * from "./alter-procedure-statement";
 export * from "./alter-schema-statement";
 export * from "./alter-table-statement";
 
