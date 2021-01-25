@@ -1,0 +1,14 @@
+ALTER EVENT FOO;
+
+-----
+ALTER DEFINER = CURRENT_USER() EVENT `FOO`;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "ALTER EVENT must specify an option to alter",
+        "start": 0,
+        "length": 15
+    }
+]

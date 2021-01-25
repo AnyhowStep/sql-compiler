@@ -2972,6 +2972,64 @@ export var ParserRules: NearleyRule[] = [
             let [[literal]] = data;
             return literal;
         } },
+    {"name": "AlterEventStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
+    {"name": "AlterEventStatement$ebnf$1", "symbols": ["AlterEventStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterEventStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterEventStatement$ebnf$2$subexpression$1", "symbols": [ON, SCHEDULE, "Schedule"]},
+    {"name": "AlterEventStatement$ebnf$2", "symbols": ["AlterEventStatement$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "AlterEventStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "AlterEventStatement$ebnf$3$subexpression$1$ebnf$1", "symbols": [NOT], "postprocess": id},
+    {"name": "AlterEventStatement$ebnf$3$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterEventStatement$ebnf$3$subexpression$1", "symbols": [ON, COMPLETION, "AlterEventStatement$ebnf$3$subexpression$1$ebnf$1", PRESERVE]},
+    {"name": "AlterEventStatement$ebnf$3", "symbols": ["AlterEventStatement$ebnf$3$subexpression$1"], "postprocess": id},
+    {"name": "AlterEventStatement$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "AlterEventStatement$ebnf$4$subexpression$1", "symbols": [RENAME, TO, "EventIdentifier"]},
+    {"name": "AlterEventStatement$ebnf$4", "symbols": ["AlterEventStatement$ebnf$4$subexpression$1"], "postprocess": id},
+    {"name": "AlterEventStatement$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "AlterEventStatement$ebnf$5$subexpression$1$subexpression$1", "symbols": [ENABLE]},
+    {"name": "AlterEventStatement$ebnf$5$subexpression$1", "symbols": ["AlterEventStatement$ebnf$5$subexpression$1$subexpression$1"]},
+    {"name": "AlterEventStatement$ebnf$5$subexpression$1$subexpression$2", "symbols": [DISABLE]},
+    {"name": "AlterEventStatement$ebnf$5$subexpression$1", "symbols": ["AlterEventStatement$ebnf$5$subexpression$1$subexpression$2"]},
+    {"name": "AlterEventStatement$ebnf$5$subexpression$1$subexpression$3", "symbols": [DISABLE, ON, SLAVE]},
+    {"name": "AlterEventStatement$ebnf$5$subexpression$1", "symbols": ["AlterEventStatement$ebnf$5$subexpression$1$subexpression$3"]},
+    {"name": "AlterEventStatement$ebnf$5", "symbols": ["AlterEventStatement$ebnf$5$subexpression$1"], "postprocess": id},
+    {"name": "AlterEventStatement$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "AlterEventStatement$ebnf$6$subexpression$1", "symbols": [COMMENT, "StringLiteral"]},
+    {"name": "AlterEventStatement$ebnf$6", "symbols": ["AlterEventStatement$ebnf$6$subexpression$1"], "postprocess": id},
+    {"name": "AlterEventStatement$ebnf$6", "symbols": [], "postprocess": () => null},
+    {"name": "AlterEventStatement$ebnf$7$subexpression$1", "symbols": [DO, "StoredProcedureStatement"]},
+    {"name": "AlterEventStatement$ebnf$7", "symbols": ["AlterEventStatement$ebnf$7$subexpression$1"], "postprocess": id},
+    {"name": "AlterEventStatement$ebnf$7", "symbols": [], "postprocess": () => null},
+    {"name": "AlterEventStatement", "symbols": [ALTER, "AlterEventStatement$ebnf$1", EVENT, "EventIdentifier", "AlterEventStatement$ebnf$2", "AlterEventStatement$ebnf$3", "AlterEventStatement$ebnf$4", "AlterEventStatement$ebnf$5", "AlterEventStatement$ebnf$6", "AlterEventStatement$ebnf$7"], "postprocess":  (data) => {
+            const [, definer, eventToken, eventIdentifier, schedule, onCompletionPreserve, newEventIdentifier, eventStatus, comment, statement,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterEventStatement,
+                definer: (definer == undefined ?
+                    parse_util_1.toValueNode("CURRENT_USER", {
+                        start: eventToken.start,
+                        end: eventToken.start,
+                    }) :
+                    definer[2]),
+                eventIdentifier,
+                schedule: schedule === null || schedule === void 0 ? void 0 : schedule[2],
+                onCompletionPreserve: (onCompletionPreserve == undefined ?
+                    undefined :
+                    onCompletionPreserve[2] == undefined),
+                newEventIdentifier: newEventIdentifier === null || newEventIdentifier === void 0 ? void 0 : newEventIdentifier[2],
+                eventStatus: (eventStatus == undefined ?
+                    undefined :
+                    eventStatus[0].length == 3 ?
+                        parser_node_1.EventStatus.DISABLE_ON_SLAVE :
+                        eventStatus[0][0].tokenKind == scanner_1.TokenKind.ENABLE ?
+                            parser_node_1.EventStatus.ENABLE :
+                            parser_node_1.EventStatus.DISABLE),
+                comment: (comment == undefined ?
+                    undefined :
+                    comment[1]),
+                statement: statement === null || statement === void 0 ? void 0 : statement[1],
+            };
+        } },
     {"name": "AlterFunctionStatement", "symbols": [ALTER, FUNCTION, "StoredFunctionIdentifier", "PartialStoredProcedureCharacteristics"], "postprocess":  (data) => {
             const [, , storedFunctionIdentifier, characteristics,] = data;
             return {
@@ -7694,6 +7752,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterProcedureStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterFunctionStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterViewStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterEventStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

@@ -47,6 +47,7 @@ import {Precision} from "./misc/precision";
 import {SizeNumber} from "./misc/size-number";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
+import {AlterEventStatement} from "./statement/alter-event-statement/alter-event-statement";
 import {AlterFunctionStatement} from "./statement/alter-procedure-statement/alter-function-statement";
 import {AlterProcedureStatement} from "./statement/alter-procedure-statement/alter-procedure-statement";
 import {AlterSchemaStatement} from "./statement/alter-schema-statement/alter-schema-statement";
@@ -226,6 +227,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.Precision) : 
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SizeNumber) : node is SizeNumber;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterEventStatement) : node is AlterEventStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterFunctionStatement) : node is AlterFunctionStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterProcedureStatement) : node is AlterProcedureStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaStatement) : node is AlterSchemaStatement;
@@ -414,6 +416,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.SizeNumber, callback : (node : SizeNumber) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterEventStatement, callback : (node : AlterEventStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterFunctionStatement, callback : (node : AlterFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterProcedureStatement, callback : (node : AlterProcedureStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaStatement, callback : (node : AlterSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

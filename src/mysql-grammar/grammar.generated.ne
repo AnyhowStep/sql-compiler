@@ -2845,6 +2845,38 @@ TextString ->
     return literal;
 } %}
 
+AlterEventStatement ->
+    %ALTER (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %EVENT EventIdentifier (%ON %SCHEDULE Schedule):? (%ON %COMPLETION %NOT:? %PRESERVE):? (%RENAME %TO EventIdentifier):? ((%ENABLE) | (%DISABLE) | (%DISABLE %ON %SLAVE)):? (%COMMENT StringLiteral):? (%DO StoredProcedureStatement):? {% (data) => {
+    const [, definer, eventToken, eventIdentifier, schedule, onCompletionPreserve, newEventIdentifier, eventStatus, comment, statement,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterEventStatement,
+        definer: (definer == undefined ?
+            parse_util_1.toValueNode("CURRENT_USER", {
+                start: eventToken.start,
+                end: eventToken.start,
+            }) :
+            definer[2]),
+        eventIdentifier,
+        schedule: schedule === null || schedule === void 0 ? void 0 : schedule[2],
+        onCompletionPreserve: (onCompletionPreserve == undefined ?
+            undefined :
+            onCompletionPreserve[2] == undefined),
+        newEventIdentifier: newEventIdentifier === null || newEventIdentifier === void 0 ? void 0 : newEventIdentifier[2],
+        eventStatus: (eventStatus == undefined ?
+            undefined :
+            eventStatus[0].length == 3 ?
+                parser_node_1.EventStatus.DISABLE_ON_SLAVE :
+                eventStatus[0][0].tokenKind == scanner_1.TokenKind.ENABLE ?
+                    parser_node_1.EventStatus.ENABLE :
+                    parser_node_1.EventStatus.DISABLE),
+        comment: (comment == undefined ?
+            undefined :
+            comment[1]),
+        statement: statement === null || statement === void 0 ? void 0 : statement[1],
+    };
+} %}
+
 AlterFunctionStatement ->
     %ALTER %FUNCTION StoredFunctionIdentifier PartialStoredProcedureCharacteristics {% (data) => {
     const [, , storedFunctionIdentifier, characteristics,] = data;
@@ -6969,7 +7001,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement) {% (data) => {
     return data[0][0];
 } %}
 

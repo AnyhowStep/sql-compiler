@@ -151,6 +151,7 @@ export const syntaxKinds = [
     "AlterProcedureStatement",
     "AlterFunctionStatement",
     "AlterViewStatement",
+    "AlterEventStatement",
 
     "HashPartition",
     "KeyPartition",

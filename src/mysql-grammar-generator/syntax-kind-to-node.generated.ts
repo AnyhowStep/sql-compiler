@@ -54,6 +54,7 @@ import {
     SourceFile,
     SourceFileLite,
     SourceElementList,
+    AlterEventStatement,
     AlterFunctionStatement,
     AlterProcedureStatement,
     AlterSchemaStatement,
@@ -266,6 +267,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceFile] : SourceFile;
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.SourceElementList] : SourceElementList;
+    [SyntaxKind.AlterEventStatement] : AlterEventStatement;
     [SyntaxKind.AlterFunctionStatement] : AlterFunctionStatement;
     [SyntaxKind.AlterProcedureStatement] : AlterProcedureStatement;
     [SyntaxKind.AlterSchemaStatement] : AlterSchemaStatement;

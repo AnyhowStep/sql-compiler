@@ -1,0 +1,13 @@
+ALTER EVENT FOO
+    DO
+        BEGIN
+        END;
+
+-----
+ALTER DEFINER = CURRENT_USER() EVENT `FOO`
+    DO
+        BEGIN
+        END;
+
+-----
+[]

@@ -1,0 +1,9 @@
+ALTER EVENT FOO
+    COMMENT 'hello world';
+
+-----
+ALTER DEFINER = CURRENT_USER() EVENT `FOO`
+    COMMENT 'hello world';
+
+-----
+[]

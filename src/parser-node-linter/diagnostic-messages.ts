@@ -213,4 +213,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240040
     }),
+    AlterEventStatementEmpty : makeDiagnosticMessage({
+        key : "ALTER EVENT must specify an option to alter",
+        category : DiagnosticCategory.Error,
+        code : 240041
+    }),
 } as const;

@@ -1,5 +1,6 @@
 import {Statement, SwitchSyntaxKind, switchSyntaxKind, SyntaxKind} from "../../parser-node";
 import {StringBuilder} from "../string-builder";
+import {emitAlterEventStatement} from "./alter-event-statement";
 import {emitAlterFunctionStatement, emitAlterProcedureStatement} from "./alter-procedure-statement";
 import {emitAlterSchemaStatement, emitAlterSchemaUpgradeDataDirectoryNameStatement} from "./alter-schema-statement";
 import {emitAlterTableStandaloneStatement, emitAlterTableStatement} from "./alter-table-statement";
@@ -22,6 +23,7 @@ import {emitSelectStatement} from "./select-statement";
 
 export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : SwitchSyntaxKind<StringBuilder> {
     return switchBuilder
+        .case(SyntaxKind.AlterEventStatement, emitAlterEventStatement)
         .case(SyntaxKind.AlterFunctionStatement, emitAlterFunctionStatement)
         .case(SyntaxKind.AlterProcedureStatement, emitAlterProcedureStatement)
         .case(SyntaxKind.AlterSchemaStatement, emitAlterSchemaStatement)
