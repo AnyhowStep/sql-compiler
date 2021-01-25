@@ -1,0 +1,23 @@
+ALTER SQL SECURITY DEFINER VIEW FOO AS
+    SELECT
+        1;
+
+ALTER SQL SECURITY INVOKER VIEW FOO AS
+    SELECT
+        1;
+
+-----
+ALTER
+    SQL SECURITY DEFINER
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+ALTER
+    SQL SECURITY INVOKER
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+-----
+[]

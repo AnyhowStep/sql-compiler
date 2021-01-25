@@ -1,0 +1,12 @@
+ALTER VIEW FOO AS
+    SELECT
+        1;
+
+-----
+ALTER
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+-----
+[]

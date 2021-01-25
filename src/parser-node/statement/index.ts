@@ -1,6 +1,7 @@
 export * from "./alter-procedure-statement";
 export * from "./alter-schema-statement";
 export * from "./alter-table-statement";
+export * from "./alter-view-statement";
 
 export * from "./create-event-statement";
 export * from "./create-function-statement";

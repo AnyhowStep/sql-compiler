@@ -1,0 +1,21 @@
+ALTER VIEW FOO (x) AS
+    SELECT
+        1;
+
+ALTER VIEW FOO (x, y) AS
+    SELECT
+        1;
+
+-----
+ALTER
+    VIEW `FOO` (`x`) AS
+    SELECT
+        1;
+
+ALTER
+    VIEW `FOO` (`x`, `y`) AS
+    SELECT
+        1;
+
+-----
+[]

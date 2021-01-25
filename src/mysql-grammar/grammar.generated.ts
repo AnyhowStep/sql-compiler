@@ -3473,6 +3473,61 @@ export var ParserRules: NearleyRule[] = [
                         partition[0]),
             };
         } },
+    {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [UNDEFINED]},
+    {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [MERGE]},
+    {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [TEMPTABLE]},
+    {"name": "AlterViewStatement$ebnf$1$subexpression$1", "symbols": [ALGORITHM, Equal, "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1"]},
+    {"name": "AlterViewStatement$ebnf$1", "symbols": ["AlterViewStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterViewStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterViewStatement$ebnf$2$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
+    {"name": "AlterViewStatement$ebnf$2", "symbols": ["AlterViewStatement$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "AlterViewStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "AlterViewStatement$ebnf$3$subexpression$1$subexpression$1", "symbols": [DEFINER]},
+    {"name": "AlterViewStatement$ebnf$3$subexpression$1$subexpression$1", "symbols": [INVOKER]},
+    {"name": "AlterViewStatement$ebnf$3$subexpression$1", "symbols": [SQL, SECURITY, "AlterViewStatement$ebnf$3$subexpression$1$subexpression$1"]},
+    {"name": "AlterViewStatement$ebnf$3", "symbols": ["AlterViewStatement$ebnf$3$subexpression$1"], "postprocess": id},
+    {"name": "AlterViewStatement$ebnf$3", "symbols": [], "postprocess": () => null},
+    {"name": "AlterViewStatement$ebnf$4", "symbols": ["IdentifierList"], "postprocess": id},
+    {"name": "AlterViewStatement$ebnf$4", "symbols": [], "postprocess": () => null},
+    {"name": "AlterViewStatement$ebnf$5$subexpression$1$ebnf$1$subexpression$1", "symbols": [CASCADED]},
+    {"name": "AlterViewStatement$ebnf$5$subexpression$1$ebnf$1$subexpression$1", "symbols": [LOCAL]},
+    {"name": "AlterViewStatement$ebnf$5$subexpression$1$ebnf$1", "symbols": ["AlterViewStatement$ebnf$5$subexpression$1$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterViewStatement$ebnf$5$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterViewStatement$ebnf$5$subexpression$1", "symbols": [WITH, "AlterViewStatement$ebnf$5$subexpression$1$ebnf$1", CHECK, OPTION]},
+    {"name": "AlterViewStatement$ebnf$5", "symbols": ["AlterViewStatement$ebnf$5$subexpression$1"], "postprocess": id},
+    {"name": "AlterViewStatement$ebnf$5", "symbols": [], "postprocess": () => null},
+    {"name": "AlterViewStatement", "symbols": [ALTER, "AlterViewStatement$ebnf$1", "AlterViewStatement$ebnf$2", "AlterViewStatement$ebnf$3", VIEW, "TableIdentifier", "AlterViewStatement$ebnf$4", AS, "SelectStatement", "AlterViewStatement$ebnf$5"], "postprocess":  (data) => {
+            const [, algorithm, definer, viewSecurityContext, , tableIdentifier, columns, , selectStatement, checkOption,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterViewStatement,
+                algorithm: (algorithm == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode((algorithm[2][0].tokenKind == scanner_1.TokenKind.MERGE ?
+                        parser_node_1.ViewAlgorithm.MERGE :
+                        algorithm[2][0].tokenKind == scanner_1.TokenKind.TEMPTABLE ?
+                            parser_node_1.ViewAlgorithm.TEMPTABLE :
+                            parser_node_1.ViewAlgorithm.UNDEFINED), parse_util_1.getTextRange(algorithm[2]))),
+                definer: (definer == undefined ?
+                    undefined :
+                    definer[2]),
+                viewSecurityContext: (viewSecurityContext == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode((viewSecurityContext[2][0].tokenKind == scanner_1.TokenKind.DEFINER ?
+                        parser_node_1.ViewSecurityContext.DEFINER :
+                        parser_node_1.ViewSecurityContext.INVOKER), parse_util_1.getTextRange(viewSecurityContext[2]))),
+                tableIdentifier,
+                columns: columns !== null && columns !== void 0 ? columns : undefined,
+                selectStatement,
+                checkOption: (checkOption == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode((checkOption[1] == undefined ?
+                        parser_node_1.ViewCheckOption.CASCADED :
+                        checkOption[1][0].tokenKind == scanner_1.TokenKind.CASCADED ?
+                            parser_node_1.ViewCheckOption.CASCADED :
+                            parser_node_1.ViewCheckOption.LOCAL), parse_util_1.getTextRange(checkOption))),
+            };
+        } },
     {"name": "CreateEventStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
     {"name": "CreateEventStatement$ebnf$1", "symbols": ["CreateEventStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CreateEventStatement$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -7638,6 +7693,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterSchemaUpgradeDataDirectoryNameStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterProcedureStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterFunctionStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterViewStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

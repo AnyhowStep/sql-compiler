@@ -83,6 +83,7 @@ import {
     AlterTableValidation,
     AlterTableStandaloneStatement,
     AlterTableStatement,
+    AlterViewStatement,
     CreateEventStatement,
     ExecuteAtSchedule,
     IntervalSchedule,
@@ -294,6 +295,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTableValidation] : AlterTableValidation;
     [SyntaxKind.AlterTableStandaloneStatement] : AlterTableStandaloneStatement;
     [SyntaxKind.AlterTableStatement] : AlterTableStatement;
+    [SyntaxKind.AlterViewStatement] : AlterViewStatement;
     [SyntaxKind.CreateEventStatement] : CreateEventStatement;
     [SyntaxKind.ExecuteAtSchedule] : ExecuteAtSchedule;
     [SyntaxKind.IntervalSchedule] : IntervalSchedule;

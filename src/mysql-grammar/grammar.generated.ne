@@ -3308,6 +3308,40 @@ AlterTableStatement ->
     };
 } %}
 
+AlterViewStatement ->
+    %ALTER (%ALGORITHM %Equal (%UNDEFINED | %MERGE | %TEMPTABLE)):? (%DEFINER %Equal AccountIdentifierOrCurrentUser):? (%SQL %SECURITY (%DEFINER | %INVOKER)):? %VIEW TableIdentifier IdentifierList:? %AS SelectStatement (%WITH (%CASCADED | %LOCAL):? %CHECK %OPTION):? {% (data) => {
+    const [, algorithm, definer, viewSecurityContext, , tableIdentifier, columns, , selectStatement, checkOption,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterViewStatement,
+        algorithm: (algorithm == undefined ?
+            undefined :
+            parse_util_1.toValueNode((algorithm[2][0].tokenKind == scanner_1.TokenKind.MERGE ?
+                parser_node_1.ViewAlgorithm.MERGE :
+                algorithm[2][0].tokenKind == scanner_1.TokenKind.TEMPTABLE ?
+                    parser_node_1.ViewAlgorithm.TEMPTABLE :
+                    parser_node_1.ViewAlgorithm.UNDEFINED), parse_util_1.getTextRange(algorithm[2]))),
+        definer: (definer == undefined ?
+            undefined :
+            definer[2]),
+        viewSecurityContext: (viewSecurityContext == undefined ?
+            undefined :
+            parse_util_1.toValueNode((viewSecurityContext[2][0].tokenKind == scanner_1.TokenKind.DEFINER ?
+                parser_node_1.ViewSecurityContext.DEFINER :
+                parser_node_1.ViewSecurityContext.INVOKER), parse_util_1.getTextRange(viewSecurityContext[2]))),
+        tableIdentifier,
+        columns: columns !== null && columns !== void 0 ? columns : undefined,
+        selectStatement,
+        checkOption: (checkOption == undefined ?
+            undefined :
+            parse_util_1.toValueNode((checkOption[1] == undefined ?
+                parser_node_1.ViewCheckOption.CASCADED :
+                checkOption[1][0].tokenKind == scanner_1.TokenKind.CASCADED ?
+                    parser_node_1.ViewCheckOption.CASCADED :
+                    parser_node_1.ViewCheckOption.LOCAL), parse_util_1.getTextRange(checkOption))),
+    };
+} %}
+
 CreateEventStatement ->
     %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %EVENT (%IF %NOT %EXISTS):? EventIdentifier %ON %SCHEDULE Schedule (%ON %COMPLETION %NOT:? %PRESERVE):? ((%ENABLE) | (%DISABLE) | (%DISABLE %ON %SLAVE)):? (%COMMENT StringLiteral):? %DO StoredProcedureStatement {% (data) => {
     const [, definer, eventToken, ifNotExists, eventIdentifier, , , schedule, onCompletionPreserve, eventStatus, comment, , statement,] = data;
@@ -6935,7 +6969,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement) {% (data) => {
     return data[0][0];
 } %}
 

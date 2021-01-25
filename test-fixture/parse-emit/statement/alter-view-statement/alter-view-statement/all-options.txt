@@ -1,0 +1,19 @@
+ALTER
+    ALGORITHM = UNDEFINED
+    DEFINER = 'a'@'b'
+    SQL SECURITY INVOKER
+    VIEW FOO AS
+    SELECT
+        1;
+
+-----
+ALTER
+    ALGORITHM = UNDEFINED
+    DEFINER = 'a'@'b'
+    SQL SECURITY INVOKER
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+-----
+[]

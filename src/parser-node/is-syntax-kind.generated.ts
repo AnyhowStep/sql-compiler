@@ -74,6 +74,7 @@ import {AlterTableModifiers} from "./statement/alter-table-statement/alter-table
 import {AlterTableValidation} from "./statement/alter-table-statement/alter-table-modifier/alter-table-validation";
 import {AlterTableStandaloneStatement} from "./statement/alter-table-statement/alter-table-standalone-statement";
 import {AlterTableStatement} from "./statement/alter-table-statement/alter-table-statement";
+import {AlterViewStatement} from "./statement/alter-view-statement/alter-view-statement";
 import {CreateEventStatement} from "./statement/create-event-statement/create-event-statement";
 import {ExecuteAtSchedule} from "./statement/create-event-statement/execute-at-schedule";
 import {IntervalSchedule} from "./statement/create-event-statement/interval-schedule";
@@ -252,6 +253,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableMod
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableValidation) : node is AlterTableValidation;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableStandaloneStatement) : node is AlterTableStandaloneStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableStatement) : node is AlterTableStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterViewStatement) : node is AlterViewStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateEventStatement) : node is CreateEventStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ExecuteAtSchedule) : node is ExecuteAtSchedule;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IntervalSchedule) : node is IntervalSchedule;
@@ -439,6 +441,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableValidation, callback : (node : AlterTableValidation) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableStandaloneStatement, callback : (node : AlterTableStandaloneStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableStatement, callback : (node : AlterTableStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterViewStatement, callback : (node : AlterViewStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateEventStatement, callback : (node : CreateEventStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ExecuteAtSchedule, callback : (node : ExecuteAtSchedule) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.IntervalSchedule, callback : (node : IntervalSchedule) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

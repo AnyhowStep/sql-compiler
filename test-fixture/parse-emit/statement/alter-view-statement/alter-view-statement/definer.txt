@@ -1,0 +1,13 @@
+ALTER DEFINER = `xxx` VIEW FOO AS
+    SELECT
+        1;
+
+-----
+ALTER
+    DEFINER = `xxx`@'%'
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+-----
+[]

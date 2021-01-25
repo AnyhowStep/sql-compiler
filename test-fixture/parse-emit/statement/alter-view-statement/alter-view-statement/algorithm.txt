@@ -1,0 +1,33 @@
+ALTER ALGORITHM = MERGE VIEW FOO AS
+    SELECT
+        1;
+
+ALTER ALGORITHM = TEMPTABLE VIEW FOO AS
+    SELECT
+        1;
+
+ALTER ALGORITHM = UNDEFINED VIEW FOO AS
+    SELECT
+        1;
+
+-----
+ALTER
+    ALGORITHM = MERGE
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+ALTER
+    ALGORITHM = TEMPTABLE
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+ALTER
+    ALGORITHM = UNDEFINED
+    VIEW `FOO` AS
+    SELECT
+        1;
+
+-----
+[]
