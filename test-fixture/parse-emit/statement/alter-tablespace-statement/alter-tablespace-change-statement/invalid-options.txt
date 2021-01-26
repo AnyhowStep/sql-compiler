@@ -1,0 +1,58 @@
+ALTER TABLESPACE x
+    CHANGE DATAFILE 'y'
+    EXTENT_SIZE = 123
+    NODEGROUP = 1
+    ENGINE = 'NDB'
+    WAIT
+    COMMENT = 'hi'
+    FILE_BLOCK_SIZE = 123
+
+-----
+ALTER TABLESPACE `x`
+    CHANGE DATAFILE 'y'
+    EXTENT_SIZE = 123
+    NODEGROUP = 1
+    ENGINE = 'NDB'
+    WAIT
+    COMMENT = 'hi'
+    FILE_BLOCK_SIZE = 123;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE ... CHANGE",
+        "start": 61,
+        "length": 3
+    },
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE ... CHANGE",
+        "start": 81,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE ... CHANGE",
+        "start": 96,
+        "length": 5
+    },
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE ... CHANGE",
+        "start": 106,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE ... CHANGE",
+        "start": 125,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE ... CHANGE",
+        "start": 152,
+        "length": 3
+    }
+]

@@ -3340,6 +3340,18 @@ AlterTableStatement ->
     };
 } %}
 
+AlterTablespaceChangeStatement ->
+    %ALTER %TABLESPACE Identifier %CHANGE %DATAFILE StringLiteral CreateTablespaceOptions {% (data) => {
+    const [, , identifier, , , dataFile, createTablespaceOptions,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTablespaceChangeStatement,
+        identifier,
+        dataFile,
+        createTablespaceOptions,
+    };
+} %}
+
 AlterTablespaceStatement ->
     %ALTER %TABLESPACE Identifier (%ADD | %DROP) %DATAFILE StringLiteral CreateTablespaceOptions {% (data) => {
     const [, , identifier, add, , dataFile, createTablespaceOptions,] = data;
@@ -7014,7 +7026,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement) {% (data) => {
     return data[0][0];
 } %}
 

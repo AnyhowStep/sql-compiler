@@ -17,25 +17,25 @@ ALTER TABLESPACE `x`
 [
     {
         "category": 0,
-        "messageText": "Invalid option for ALTER TABLESPACE",
+        "messageText": "Invalid option for ALTER TABLESPACE ... ADD/DROP",
         "start": 58,
         "length": 3
     },
     {
         "category": 0,
-        "messageText": "Invalid option for ALTER TABLESPACE",
+        "messageText": "Invalid option for ALTER TABLESPACE ... ADD/DROP",
         "start": 78,
         "length": 1
     },
     {
         "category": 0,
-        "messageText": "Invalid option for ALTER TABLESPACE",
+        "messageText": "Invalid option for ALTER TABLESPACE ... ADD/DROP",
         "start": 94,
         "length": 4
     },
     {
         "category": 0,
-        "messageText": "Invalid option for ALTER TABLESPACE",
+        "messageText": "Invalid option for ALTER TABLESPACE ... ADD/DROP",
         "start": 121,
         "length": 3
     }

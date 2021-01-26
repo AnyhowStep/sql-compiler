@@ -75,6 +75,7 @@ import {AlterTableModifiers} from "./statement/alter-table-statement/alter-table
 import {AlterTableValidation} from "./statement/alter-table-statement/alter-table-modifier/alter-table-validation";
 import {AlterTableStandaloneStatement} from "./statement/alter-table-statement/alter-table-standalone-statement";
 import {AlterTableStatement} from "./statement/alter-table-statement/alter-table-statement";
+import {AlterTablespaceChangeStatement} from "./statement/alter-tablespace-statement/alter-tablespace-change-statement";
 import {AlterTablespaceStatement} from "./statement/alter-tablespace-statement/alter-tablespace-statement";
 import {AlterViewStatement} from "./statement/alter-view-statement/alter-view-statement";
 import {CreateEventStatement} from "./statement/create-event-statement/create-event-statement";
@@ -256,6 +257,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableMod
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableValidation) : node is AlterTableValidation;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableStandaloneStatement) : node is AlterTableStandaloneStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableStatement) : node is AlterTableStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTablespaceChangeStatement) : node is AlterTablespaceChangeStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTablespaceStatement) : node is AlterTablespaceStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterViewStatement) : node is AlterViewStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateEventStatement) : node is CreateEventStatement;
@@ -446,6 +448,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableValidation, callback : (node : AlterTableValidation) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableStandaloneStatement, callback : (node : AlterTableStandaloneStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableStatement, callback : (node : AlterTableStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterTablespaceChangeStatement, callback : (node : AlterTablespaceChangeStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTablespaceStatement, callback : (node : AlterTablespaceStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterViewStatement, callback : (node : AlterViewStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateEventStatement, callback : (node : CreateEventStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

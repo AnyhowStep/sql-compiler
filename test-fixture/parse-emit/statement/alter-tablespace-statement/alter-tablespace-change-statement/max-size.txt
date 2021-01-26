@@ -1,0 +1,11 @@
+ALTER TABLESPACE x
+    CHANGE DATAFILE 'y'
+    MAX_SIZE = 123
+
+-----
+ALTER TABLESPACE `x`
+    CHANGE DATAFILE 'y'
+    MAX_SIZE = 123;
+
+-----
+[]

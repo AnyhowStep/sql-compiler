@@ -84,6 +84,7 @@ import {
     AlterTableValidation,
     AlterTableStandaloneStatement,
     AlterTableStatement,
+    AlterTablespaceChangeStatement,
     AlterTablespaceStatement,
     AlterViewStatement,
     CreateEventStatement,
@@ -298,6 +299,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTableValidation] : AlterTableValidation;
     [SyntaxKind.AlterTableStandaloneStatement] : AlterTableStandaloneStatement;
     [SyntaxKind.AlterTableStatement] : AlterTableStatement;
+    [SyntaxKind.AlterTablespaceChangeStatement] : AlterTablespaceChangeStatement;
     [SyntaxKind.AlterTablespaceStatement] : AlterTablespaceStatement;
     [SyntaxKind.AlterViewStatement] : AlterViewStatement;
     [SyntaxKind.CreateEventStatement] : CreateEventStatement;
