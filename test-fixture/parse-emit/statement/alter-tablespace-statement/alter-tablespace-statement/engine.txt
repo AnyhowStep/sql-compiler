@@ -1,0 +1,11 @@
+ALTER TABLESPACE x
+    ADD DATAFILE 'y'
+    ENGINE = 'NDB'
+
+-----
+ALTER TABLESPACE `x`
+    ADD DATAFILE 'y'
+    ENGINE = 'NDB';
+
+-----
+[]

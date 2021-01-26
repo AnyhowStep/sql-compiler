@@ -3531,6 +3531,19 @@ export var ParserRules: NearleyRule[] = [
                         partition[0]),
             };
         } },
+    {"name": "AlterTablespaceStatement$subexpression$1", "symbols": [ADD]},
+    {"name": "AlterTablespaceStatement$subexpression$1", "symbols": [DROP]},
+    {"name": "AlterTablespaceStatement", "symbols": [ALTER, TABLESPACE, "Identifier", "AlterTablespaceStatement$subexpression$1", DATAFILE, "StringLiteral", "CreateTablespaceOptions"], "postprocess":  (data) => {
+            const [, , identifier, add, , dataFile, createTablespaceOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTablespaceStatement,
+                identifier,
+                add: parse_util_1.toValueNode(add[0].tokenKind == scanner_1.TokenKind.ADD, parse_util_1.getTextRange(add)),
+                dataFile,
+                createTablespaceOptions,
+            };
+        } },
     {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [UNDEFINED]},
     {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [MERGE]},
     {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [TEMPTABLE]},
@@ -7753,6 +7766,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterFunctionStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterViewStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterEventStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

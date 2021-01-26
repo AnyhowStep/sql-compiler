@@ -1,0 +1,9 @@
+ALTER TABLESPACE x
+    DROP DATAFILE 'y';
+
+-----
+ALTER TABLESPACE `x`
+    DROP DATAFILE 'y';
+
+-----
+[]

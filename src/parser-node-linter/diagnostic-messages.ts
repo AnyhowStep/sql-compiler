@@ -218,4 +218,9 @@ export const DiagnosticMessages = {
         category : DiagnosticCategory.Error,
         code : 240041
     }),
+    InvalidOption : makeDiagnosticMessage({
+        key : "Invalid option for {0}",
+        category : DiagnosticCategory.Error,
+        code : 240042
+    }),
 } as const;

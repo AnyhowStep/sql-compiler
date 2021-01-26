@@ -1,0 +1,42 @@
+ALTER TABLESPACE x
+    ADD DATAFILE 'y'
+    EXTENT_SIZE = 123
+    NODEGROUP = 1
+    COMMENT = 'hi'
+    FILE_BLOCK_SIZE = 123
+
+-----
+ALTER TABLESPACE `x`
+    ADD DATAFILE 'y'
+    EXTENT_SIZE = 123
+    NODEGROUP = 1
+    COMMENT = 'hi'
+    FILE_BLOCK_SIZE = 123;
+
+-----
+[
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE",
+        "start": 58,
+        "length": 3
+    },
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE",
+        "start": 78,
+        "length": 1
+    },
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE",
+        "start": 94,
+        "length": 4
+    },
+    {
+        "category": 0,
+        "messageText": "Invalid option for ALTER TABLESPACE",
+        "start": 121,
+        "length": 3
+    }
+]

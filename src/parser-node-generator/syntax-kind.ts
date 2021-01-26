@@ -152,6 +152,7 @@ export const syntaxKinds = [
     "AlterFunctionStatement",
     "AlterViewStatement",
     "AlterEventStatement",
+    "AlterTablespaceStatement",
 
     "HashPartition",
     "KeyPartition",

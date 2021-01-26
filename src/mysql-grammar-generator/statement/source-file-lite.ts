@@ -36,6 +36,7 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.AlterFunctionStatement,
             SyntaxKind.AlterViewStatement,
             SyntaxKind.AlterEventStatement,
+            SyntaxKind.AlterTablespaceStatement,
         )] as const,
         (data) : Statement => {
             return data[0][0];

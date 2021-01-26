@@ -1,0 +1,11 @@
+ALTER TABLESPACE x
+    ADD DATAFILE 'y'
+    WAIT;
+
+-----
+ALTER TABLESPACE `x`
+    ADD DATAFILE 'y'
+    WAIT;
+
+-----
+[]
