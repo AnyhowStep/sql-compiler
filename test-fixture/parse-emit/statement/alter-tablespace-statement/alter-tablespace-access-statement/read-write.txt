@@ -1,0 +1,9 @@
+ALTER TABLESPACE x
+    READ_WRITE;
+
+-----
+ALTER TABLESPACE `x`
+    READ_WRITE;
+
+-----
+[]

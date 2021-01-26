@@ -84,6 +84,7 @@ import {
     AlterTableValidation,
     AlterTableStandaloneStatement,
     AlterTableStatement,
+    AlterTablespaceAccessStatement,
     AlterTablespaceChangeStatement,
     AlterTablespaceStatement,
     AlterViewStatement,
@@ -299,6 +300,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTableValidation] : AlterTableValidation;
     [SyntaxKind.AlterTableStandaloneStatement] : AlterTableStandaloneStatement;
     [SyntaxKind.AlterTableStatement] : AlterTableStatement;
+    [SyntaxKind.AlterTablespaceAccessStatement] : AlterTablespaceAccessStatement;
     [SyntaxKind.AlterTablespaceChangeStatement] : AlterTablespaceChangeStatement;
     [SyntaxKind.AlterTablespaceStatement] : AlterTablespaceStatement;
     [SyntaxKind.AlterViewStatement] : AlterViewStatement;

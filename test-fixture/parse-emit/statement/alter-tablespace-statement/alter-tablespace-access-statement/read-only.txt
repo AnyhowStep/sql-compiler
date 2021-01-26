@@ -1,0 +1,9 @@
+ALTER TABLESPACE x
+    READ_ONLY;
+
+-----
+ALTER TABLESPACE `x`
+    READ_ONLY;
+
+-----
+[]

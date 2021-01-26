@@ -1,0 +1,9 @@
+ALTER TABLESPACE x
+    NOT ACCESSIBLE;
+
+-----
+ALTER TABLESPACE `x`
+    NOT ACCESSIBLE;
+
+-----
+[]

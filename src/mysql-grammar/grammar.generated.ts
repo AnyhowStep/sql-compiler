@@ -3531,6 +3531,23 @@ export var ParserRules: NearleyRule[] = [
                         partition[0]),
             };
         } },
+    {"name": "AlterTablespaceAccessStatement$subexpression$1", "symbols": [READ_ONLY]},
+    {"name": "AlterTablespaceAccessStatement$subexpression$1", "symbols": [READ_WRITE]},
+    {"name": "AlterTablespaceAccessStatement$subexpression$1$subexpression$1", "symbols": [NOT, ACCESSIBLE]},
+    {"name": "AlterTablespaceAccessStatement$subexpression$1", "symbols": ["AlterTablespaceAccessStatement$subexpression$1$subexpression$1"]},
+    {"name": "AlterTablespaceAccessStatement", "symbols": [ALTER, TABLESPACE, "Identifier", "AlterTablespaceAccessStatement$subexpression$1"], "postprocess":  (data) => {
+            const [, , identifier, accessMode,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterTablespaceAccessStatement,
+                identifier,
+                accessMode: parse_util_1.toValueNode((accessMode[0] instanceof Array ?
+                    parser_node_1.TablespaceAccessMode.NOT_ACCESSIBLE :
+                    accessMode[0].tokenKind == scanner_1.TokenKind.READ_ONLY ?
+                        parser_node_1.TablespaceAccessMode.READ_ONLY :
+                        parser_node_1.TablespaceAccessMode.READ_WRITE), parse_util_1.getTextRange(accessMode)),
+            };
+        } },
     {"name": "AlterTablespaceChangeStatement", "symbols": [ALTER, TABLESPACE, "Identifier", CHANGE, DATAFILE, "StringLiteral", "CreateTablespaceOptions"], "postprocess":  (data) => {
             const [, , identifier, , , dataFile, createTablespaceOptions,] = data;
             return {
@@ -7778,6 +7795,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterEventStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceChangeStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceAccessStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

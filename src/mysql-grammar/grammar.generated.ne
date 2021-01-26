@@ -3340,6 +3340,21 @@ AlterTableStatement ->
     };
 } %}
 
+AlterTablespaceAccessStatement ->
+    %ALTER %TABLESPACE Identifier (%READ_ONLY | %READ_WRITE | (%NOT %ACCESSIBLE)) {% (data) => {
+    const [, , identifier, accessMode,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterTablespaceAccessStatement,
+        identifier,
+        accessMode: parse_util_1.toValueNode((accessMode[0] instanceof Array ?
+            parser_node_1.TablespaceAccessMode.NOT_ACCESSIBLE :
+            accessMode[0].tokenKind == scanner_1.TokenKind.READ_ONLY ?
+                parser_node_1.TablespaceAccessMode.READ_ONLY :
+                parser_node_1.TablespaceAccessMode.READ_WRITE), parse_util_1.getTextRange(accessMode)),
+    };
+} %}
+
 AlterTablespaceChangeStatement ->
     %ALTER %TABLESPACE Identifier %CHANGE %DATAFILE StringLiteral CreateTablespaceOptions {% (data) => {
     const [, , identifier, , , dataFile, createTablespaceOptions,] = data;
@@ -7026,7 +7041,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement) {% (data) => {
     return data[0][0];
 } %}
 
