@@ -1,0 +1,35 @@
+ALTER SERVER x
+    OPTIONS (
+        HOST 'host'
+    );
+
+ALTER SERVER 'x'
+    OPTIONS (
+        HOST 'host'
+    );
+
+-----
+ALTER SERVER `x`
+    OPTIONS (
+        HOST 'host',
+        DATABASE '',
+        USER '',
+        PASSWORD '',
+        SOCKET '',
+        OWNER '',
+        PORT 0
+    );
+
+ALTER SERVER 'x'
+    OPTIONS (
+        HOST 'host',
+        DATABASE '',
+        USER '',
+        PASSWORD '',
+        SOCKET '',
+        OWNER '',
+        PORT 0
+    );
+
+-----
+[]

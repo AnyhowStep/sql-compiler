@@ -3,6 +3,7 @@ import {StringBuilder} from "../string-builder";
 import {emitAlterEventStatement} from "./alter-event-statement";
 import {emitAlterFunctionStatement, emitAlterProcedureStatement} from "./alter-procedure-statement";
 import {emitAlterSchemaStatement, emitAlterSchemaUpgradeDataDirectoryNameStatement} from "./alter-schema-statement";
+import {emitAlterServerStatement} from "./alter-server-statement";
 import {emitAlterTableStandaloneStatement, emitAlterTableStatement} from "./alter-table-statement";
 import {emitAlterTablespaceAccessStatement, emitAlterTablespaceChangeStatement, emitAlterTablespaceStatement} from "./alter-tablespace-statement";
 import {emitAlterViewStatement} from "./alter-view-statement";
@@ -29,6 +30,7 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.AlterProcedureStatement, emitAlterProcedureStatement)
         .case(SyntaxKind.AlterSchemaStatement, emitAlterSchemaStatement)
         .case(SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement, emitAlterSchemaUpgradeDataDirectoryNameStatement)
+        .case(SyntaxKind.AlterServerStatement, emitAlterServerStatement)
         .case(SyntaxKind.AlterTableStandaloneStatement, emitAlterTableStandaloneStatement)
         .case(SyntaxKind.AlterTableStatement, emitAlterTableStatement)
         .case(SyntaxKind.AlterTablespaceAccessStatement, emitAlterTablespaceAccessStatement)

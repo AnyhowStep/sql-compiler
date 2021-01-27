@@ -3071,6 +3071,17 @@ export var ParserRules: NearleyRule[] = [
                 schemaName,
             };
         } },
+    {"name": "AlterServerStatement$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "AlterServerStatement$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "AlterServerStatement", "symbols": [ALTER, SERVER, "AlterServerStatement$subexpression$1", OPTIONS, OpenParentheses, "CreateServerOptions", CloseParentheses], "postprocess":  (data) => {
+            const [, , serverName, , , createServerOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterServerStatement,
+                serverName: serverName[0],
+                createServerOptions,
+            };
+        } },
     {"name": "AlterTableAddColumn$ebnf$1", "symbols": [COLUMN], "postprocess": id},
     {"name": "AlterTableAddColumn$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "AlterTableAddColumn$ebnf$2$subexpression$1", "symbols": [FIRST]},
@@ -7796,6 +7807,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceChangeStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceAccessStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterServerStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

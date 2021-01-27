@@ -59,6 +59,7 @@ import {
     AlterProcedureStatement,
     AlterSchemaStatement,
     AlterSchemaUpgradeDataDirectoryNameStatement,
+    AlterServerStatement,
     AlterTableAddColumn,
     AlterTableAddCreateTableDefinitionList,
     AlterTableAlterColumnDropDefault,
@@ -275,6 +276,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterProcedureStatement] : AlterProcedureStatement;
     [SyntaxKind.AlterSchemaStatement] : AlterSchemaStatement;
     [SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement] : AlterSchemaUpgradeDataDirectoryNameStatement;
+    [SyntaxKind.AlterServerStatement] : AlterServerStatement;
     [SyntaxKind.AlterTableAddColumn] : AlterTableAddColumn;
     [SyntaxKind.AlterTableAddCreateTableDefinitionList] : AlterTableAddCreateTableDefinitionList;
     [SyntaxKind.AlterTableAlterColumnDropDefault] : AlterTableAlterColumnDropDefault;

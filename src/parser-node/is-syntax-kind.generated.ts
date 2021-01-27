@@ -52,6 +52,7 @@ import {AlterFunctionStatement} from "./statement/alter-procedure-statement/alte
 import {AlterProcedureStatement} from "./statement/alter-procedure-statement/alter-procedure-statement";
 import {AlterSchemaStatement} from "./statement/alter-schema-statement/alter-schema-statement";
 import {AlterSchemaUpgradeDataDirectoryNameStatement} from "./statement/alter-schema-statement/alter-schema-upgrade-data-directory-name-statement";
+import {AlterServerStatement} from "./statement/alter-server-statement/alter-server-statement";
 import {AlterTableAddColumn} from "./statement/alter-table-statement/alter-table-item/alter-table-add-column";
 import {AlterTableAddCreateTableDefinitionList} from "./statement/alter-table-statement/alter-table-item/alter-table-add-create-table-definition-list";
 import {AlterTableAlterColumnDropDefault} from "./statement/alter-table-statement/alter-table-item/alter-table-alter-column-drop-default";
@@ -235,6 +236,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterFunction
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterProcedureStatement) : node is AlterProcedureStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaStatement) : node is AlterSchemaStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement) : node is AlterSchemaUpgradeDataDirectoryNameStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterServerStatement) : node is AlterServerStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAddColumn) : node is AlterTableAddColumn;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAddCreateTableDefinitionList) : node is AlterTableAddCreateTableDefinitionList;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableAlterColumnDropDefault) : node is AlterTableAlterColumnDropDefault;
@@ -427,6 +429,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AlterProcedureStatement, callback : (node : AlterProcedureStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaStatement, callback : (node : AlterSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaUpgradeDataDirectoryNameStatement, callback : (node : AlterSchemaUpgradeDataDirectoryNameStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterServerStatement, callback : (node : AlterServerStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAddColumn, callback : (node : AlterTableAddColumn) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAddCreateTableDefinitionList, callback : (node : AlterTableAddCreateTableDefinitionList) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTableAlterColumnDropDefault, callback : (node : AlterTableAlterColumnDropDefault) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
