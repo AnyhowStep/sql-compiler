@@ -24,7 +24,7 @@ makeCustomRule(SyntaxKind.CreateIndexStatement)
             SyntaxKind.TableIdentifier,
 
             SyntaxKind.IndexPartList,
-            CustomSyntaxKind.IndexOption,
+            CustomSyntaxKind.IndexOptions,
 
             SyntaxKind.AlterTableLockAndAlgorithmOptions,
         ] as const,

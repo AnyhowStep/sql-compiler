@@ -1,4 +1,4 @@
-import {RateLimitOptions, Node, SyntaxKind} from "../../../parser-node";
+import {RateLimitOptions, PartialRateLimitOptions, Node, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 import {optional, oneOrMore} from "../../../nearley-wrapper";
@@ -74,6 +74,61 @@ makeCustomRule(SyntaxKind.RateLimitOptions)
             return {
                 ...getTextRange(data),
                 syntaxKind : SyntaxKind.RateLimitOptions,
+                ...result,
+                syntacticErrors : (
+                    syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined
+                ),
+            };
+        }
+    )
+
+makeCustomRule(SyntaxKind.PartialRateLimitOptions)
+    .addSubstitution(
+        [
+            optional([
+                TokenKind.WITH,
+                oneOrMore(CustomSyntaxKind.RateLimitOption)
+            ] as const),
+        ] as const,
+        (data) : PartialRateLimitOptions => {
+            const arr = data
+                .flat(2)
+                .filter((item) : item is RateLimitOption => {
+                    if (item == undefined) {
+                        return false;
+                    }
+                    if ("tokenKind" in item) {
+                        return false;
+                    }
+                    return true;
+                });
+
+            const result : Omit<PartialRateLimitOptions, keyof Node> = {
+                maxQueriesPerHour : undefined,
+                maxUpdatesPerHour : undefined,
+                maxConnectionsPerHour : undefined,
+                maxUserConnections : undefined,
+            };
+
+            const syntacticErrors : Diagnostic[] = [];
+
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        (result as any)[k] = (item as any)[k];
+                        break;
+                    }
+                }
+            }
+
+            return {
+                ...getTextRange(data),
+                syntaxKind : SyntaxKind.PartialRateLimitOptions,
                 ...result,
                 syntacticErrors : (
                     syntacticErrors.length > 0 ?

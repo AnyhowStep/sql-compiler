@@ -29,3 +29,15 @@ export interface RateLimitOptions extends Node {
      */
     maxUserConnections : IntegerLiteral,
 }
+
+export interface PartialRateLimitOptions extends Node {
+    syntaxKind : SyntaxKind.PartialRateLimitOptions,
+
+    maxQueriesPerHour : IntegerLiteral|undefined,
+
+    maxUpdatesPerHour : IntegerLiteral|undefined,
+
+    maxConnectionsPerHour : IntegerLiteral|undefined,
+
+    maxUserConnections : IntegerLiteral|undefined,
+}

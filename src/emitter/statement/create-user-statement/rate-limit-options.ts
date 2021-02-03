@@ -1,11 +1,11 @@
-import {RateLimitOptions} from "../../../parser-node";
+import {PartialRateLimitOptions, Node} from "../../../parser-node";
 import {emitIntegerLiteral} from "../../expression";
 import {StringBuilder} from "../../string-builder";
 
-export function emitRateLimitOptions (options : RateLimitOptions) {
+export function emitRateLimitOptions (options : Omit<PartialRateLimitOptions, keyof Node>) {
     const result = new StringBuilder()
         .scope(builder => {
-            if (options.maxQueriesPerHour.value == BigInt(0)) {
+            if (options.maxQueriesPerHour == undefined || options.maxQueriesPerHour.value == BigInt(0)) {
                 return;
             }
             const maxQueriesPerHour = emitIntegerLiteral(options.maxQueriesPerHour)
@@ -14,7 +14,7 @@ export function emitRateLimitOptions (options : RateLimitOptions) {
                 .appendBuilder(maxQueriesPerHour)
         })
         .scope(builder => {
-            if (options.maxUpdatesPerHour.value == BigInt(0)) {
+            if (options.maxUpdatesPerHour == undefined || options.maxUpdatesPerHour.value == BigInt(0)) {
                 return;
             }
             if (!builder.isEmpty()) {
@@ -26,7 +26,7 @@ export function emitRateLimitOptions (options : RateLimitOptions) {
                 .appendBuilder(maxUpdatesPerHour)
         })
         .scope(builder => {
-            if (options.maxConnectionsPerHour.value == BigInt(0)) {
+            if (options.maxConnectionsPerHour == undefined || options.maxConnectionsPerHour.value == BigInt(0)) {
                 return;
             }
             if (!builder.isEmpty()) {
@@ -38,7 +38,7 @@ export function emitRateLimitOptions (options : RateLimitOptions) {
                 .appendBuilder(maxConnectionsPerHour)
         })
         .scope(builder => {
-            if (options.maxUserConnections.value == BigInt(0)) {
+            if (options.maxUserConnections == undefined || options.maxUserConnections.value == BigInt(0)) {
                 return;
             }
             if (!builder.isEmpty()) {

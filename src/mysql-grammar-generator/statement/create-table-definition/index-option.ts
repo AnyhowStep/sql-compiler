@@ -1,43 +1,68 @@
 import {SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
-import {CustomSyntaxKind, makeCustomRule, makeRule} from "../../factory";
-import {union, optional, zeroOrMore} from "../../../nearley-wrapper";
-import {createDefaultIndexOption, getTextRange, processIndexOption} from "../../parse-util";
-import {IndexOption} from "../../custom-data";
+import {CustomSyntaxKind, makeCustomRule} from "../../factory";
+import {optional, zeroOrMore} from "../../../nearley-wrapper";
+import {createDefaultIndexOption, getTextRange} from "../../parse-util";
+import {IndexOption, IndexOptions} from "../../custom-data";
 
-const IndexOptionElementRule = makeRule("IndexOptionElement")
+makeCustomRule(CustomSyntaxKind.IndexOption)
     .addSubstitution(
-        [
-            union(
-                [TokenKind.KEY_BLOCK_SIZE, optional(TokenKind.Equal), SyntaxKind.IntegerLiteral] as const,
-                CustomSyntaxKind.IndexType,
-                [TokenKind.WITH, TokenKind.PARSER, SyntaxKind.Identifier] as const,
-                CustomSyntaxKind.Comment,
-            )
-        ] as const,
-        (data) => {
+        [TokenKind.KEY_BLOCK_SIZE, optional(TokenKind.Equal), SyntaxKind.IntegerLiteral] as const,
+        (data) : IndexOption => {
             return {
                 ...getTextRange(data),
-                data : data[0][0],
+                keyBlockSize : data[2],
+            };
+        }
+    )
+    .addSubstitution(
+        [CustomSyntaxKind.IndexType] as const,
+        (data) : IndexOption => {
+            return {
+                ...getTextRange(data),
+                indexType : data[0].indexType,
+            };
+        }
+    )
+    .addSubstitution(
+        [TokenKind.WITH, TokenKind.PARSER, SyntaxKind.Identifier] as const,
+        (data) : IndexOption => {
+            return {
+                ...getTextRange(data),
+                withParser : data[2],
+            };
+        }
+    )
+    .addSubstitution(
+        [CustomSyntaxKind.Comment] as const,
+        (data) : IndexOption => {
+            return {
+                ...getTextRange(data),
+                comment : data[0],
             };
         }
     )
 
-makeCustomRule(CustomSyntaxKind.IndexOption)
+makeCustomRule(CustomSyntaxKind.IndexOptions)
     .addSubstitution(
         [
-            zeroOrMore(IndexOptionElementRule),
+            zeroOrMore(CustomSyntaxKind.IndexOption),
         ] as const,
-        (data) : IndexOption => {
+        (data) : IndexOptions => {
             let indexOption = createDefaultIndexOption();
 
-            for (const ele of data[0]) {
-                indexOption = processIndexOption(
-                    indexOption,
-                    ele.data
-                );
+            for (const item of data[0]) {
+                for (const k of Object.keys(item)) {
+                    if (k in indexOption) {
+                        (indexOption as any)[k] = (item as any)[k];
+                        break;
+                    }
+                }
             }
 
-            return indexOption;
+            return {
+                ...getTextRange(data),
+                ...indexOption,
+            };
         }
     );

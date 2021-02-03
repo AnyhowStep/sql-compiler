@@ -1,5 +1,5 @@
 import {ParserState} from "../mysql-grammar";
-import {CustomSubstitutionToString, makeRuleFactory, TextRange} from "../nearley-wrapper";
+import {CustomSubstitutionToString, makeRuleFactory, TextRange, TokenObj} from "../nearley-wrapper";
 import {
     BitLiteral,
     CheckDefinition,
@@ -42,6 +42,7 @@ import {
     AlterTableModifier,
     AlterTableItem,
     CreateTableOptions,
+    ReferenceOption,
 } from "../parser-node";
 import {ReverseTokenKind, TokenKind} from "../scanner";
 import {
@@ -58,10 +59,14 @@ import {
     CharacterDataTypeModifier,
     ColumnDefinitionModifier,
     IndexOption,
+    IndexOptions,
     IndexTypeNode,
     IntegerDataTypeModifier,
     CreateTableOption,
     PartitionDefinitionOption,
+    CharacterDataTypeStart,
+    ColumnDefinitionModifierOption,
+    OnUpdateDelete,
 } from "./custom-data";
 import {SyntaxKindToNode} from "./syntax-kind-to-node.generated";
 
@@ -77,6 +82,7 @@ export enum CustomSyntaxKind {
     DecimalPrecision,
     CreateTableDefinition,
     IndexOption,
+    IndexOptions,
     IndexType,
     ColumnDefinitionModifier,
     NonDelimiterStatement,
@@ -132,6 +138,7 @@ export enum CustomSyntaxKind {
     UnlabeledStatement,
     Schedule,
     RequiredEncryptedConnectionOptions2,
+    RequiredEncryptedConnectionOptionsNoDefault,
     RateLimitOption,
     AccountLockAndPasswordExpiryOption,
     RequiredEncryptedConnectionOption,
@@ -144,7 +151,18 @@ export enum CustomSyntaxKind {
     AlterTableItemOrModifier,
     CreateTableOptionsSpaceSeparated,
     CollationNameOrDefault,
+    CharacterDataTypeStart,
+    "%KeywordOrIdentifier",
+    IdentifierAllowReserved,
+    ColumnDefinitionModifierOption,
+    "%NowToken",
+    ReferenceOption,
+    OnUpdateDelete,
 }
+
+const KeywordOrIdentifier = CustomSyntaxKind["%KeywordOrIdentifier"];
+
+const NowToken = CustomSyntaxKind["%NowToken"];
 
 declare module "../nearley-wrapper" {
     interface CustomSubstitutionToData extends SyntaxKindToNode {
@@ -159,6 +177,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.DecimalPrecision] : Precision,
         [CustomSyntaxKind.CreateTableDefinition] : CreateTableDefinition,
         [CustomSyntaxKind.IndexOption] : IndexOption,
+        [CustomSyntaxKind.IndexOptions] : IndexOptions,
         [CustomSyntaxKind.IndexType] : IndexTypeNode,
         [CustomSyntaxKind.ColumnDefinitionModifier] : ColumnDefinitionModifier,
         [CustomSyntaxKind.NonDelimiterStatement] : Statement,
@@ -214,6 +233,7 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.UnlabeledStatement] : LabelStatement["statement"],
         [CustomSyntaxKind.Schedule] : Schedule,
         [CustomSyntaxKind.RequiredEncryptedConnectionOptions2] : CreateUserStatement["requiredEncryptedConnectionOptions"],
+        [CustomSyntaxKind.RequiredEncryptedConnectionOptionsNoDefault] : CreateUserStatement["requiredEncryptedConnectionOptions"],
         [CustomSyntaxKind.RateLimitOption] : RateLimitOption,
         [CustomSyntaxKind.AccountLockAndPasswordExpiryOption] : AccountLockAndPasswordExpiryOption,
         [CustomSyntaxKind.RequiredEncryptedConnectionOption] : RequiredEncryptedConnectionOption,
@@ -226,6 +246,22 @@ declare module "../nearley-wrapper" {
         [CustomSyntaxKind.AlterTableItemOrModifier] : AlterTableItemOrModifier,
         [CustomSyntaxKind.CreateTableOptionsSpaceSeparated] : CreateTableOptions,
         [CustomSyntaxKind.CollationNameOrDefault] : Identifier|StringLiteral|ValueNode<"DEFAULT">,
+        [CustomSyntaxKind.CharacterDataTypeStart] : CharacterDataTypeStart,
+
+        /**
+         * This is a hack, this does not actually exist as a rule but as a token
+         */
+        [KeywordOrIdentifier] : TokenObj<TokenKind>,
+        [CustomSyntaxKind.IdentifierAllowReserved] : Identifier,
+        [CustomSyntaxKind.ColumnDefinitionModifierOption] : ColumnDefinitionModifierOption,
+
+
+        /**
+         * This is a hack, this does not actually exist as a rule but as a token
+         */
+        [NowToken] : TokenObj<TokenKind>,
+        [CustomSyntaxKind.ReferenceOption] : ValueNode<ReferenceOption>,
+        [CustomSyntaxKind.OnUpdateDelete] : OnUpdateDelete,
     }
 
     interface CustomToken extends Array<TokenKind> {

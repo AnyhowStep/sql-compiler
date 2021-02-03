@@ -6,6 +6,7 @@ import {emitAlterSchemaStatement, emitAlterSchemaUpgradeDataDirectoryNameStateme
 import {emitAlterServerStatement} from "./alter-server-statement";
 import {emitAlterTableStandaloneStatement, emitAlterTableStatement} from "./alter-table-statement";
 import {emitAlterTablespaceAccessStatement, emitAlterTablespaceChangeStatement, emitAlterTablespaceStatement} from "./alter-tablespace-statement";
+import {emitAlterUserStatement} from "./alter-user-statement/alter-user-statement";
 import {emitAlterViewStatement} from "./alter-view-statement";
 import {emitCreateEventStatement} from "./create-event-statement";
 import {emitCreateFunctionStatement, emitCreateProcedureStatement, emitCreateUserDefinedFunctionStatement} from "./create-function-statement";
@@ -17,7 +18,7 @@ import {emitCreateTableSelectStatement} from "./create-table-statement";
 import {emitCreateTableStatement} from "./create-table-statement";
 import {emitCreateTablespaceStatement} from "./create-tablespace-statement";
 import {emitCreateTriggerStatement} from "./create-trigger-statement";
-import {emitCreateUserStatement} from "./create-user-statement/create-user-statement";
+import {emitCreateUserStatement} from "./create-user-statement";
 import {emitCreateViewStatement} from "./create-view-statement";
 import {emitCreateSchemaStatement} from "./emit-create-schema-statement";
 import {emitDelimiterStatement} from "./emit-delimiter-statement";
@@ -36,6 +37,7 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.AlterTablespaceAccessStatement, emitAlterTablespaceAccessStatement)
         .case(SyntaxKind.AlterTablespaceChangeStatement, emitAlterTablespaceChangeStatement)
         .case(SyntaxKind.AlterTablespaceStatement, emitAlterTablespaceStatement)
+        .case(SyntaxKind.AlterUserStatement, emitAlterUserStatement)
         .case(SyntaxKind.AlterViewStatement, emitAlterViewStatement)
 
         .case(SyntaxKind.CreateSchemaStatement, emitCreateSchemaStatement)

@@ -30,3 +30,11 @@ export interface AccountLockAndPasswordExpiryOptions extends Node {
      */
     passwordExpiry : ValueNode<"ON_FIRST_CONNECT"|"DEFAULT"|"NEVER">|IntegerLiteral,
 }
+
+export interface PartialAccountLockAndPasswordExpiryOptions extends Node {
+    syntaxKind : SyntaxKind.PartialAccountLockAndPasswordExpiryOptions,
+
+    accountLocked : boolean|undefined,
+
+    passwordExpiry : ValueNode<"ON_FIRST_CONNECT"|"DEFAULT"|"NEVER">|IntegerLiteral|undefined,
+}

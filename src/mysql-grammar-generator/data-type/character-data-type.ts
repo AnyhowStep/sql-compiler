@@ -1,18 +1,12 @@
-import {CharacterDataType, Identifier, SyntaxKind} from "../../parser-node";
+import {CharacterDataType, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
 import {optional, union} from "../../nearley-wrapper";
 import {getTextRange, pushSyntacticErrorAt} from "../parse-util";
 import {DiagnosticMessages} from "../diagnostic-messages";
-import {CustomSyntaxKind, makeCustomRule, makeRule} from "../factory";
+import {CustomSyntaxKind, makeCustomRule} from "../factory";
+import {CharacterDataTypeStart} from "../custom-data";
 
-interface CharacterDataTypeStart {
-    start : number;
-    end : number;
-    variableLength : boolean;
-    nationalCharacterSet : Identifier|undefined;
-}
-
-const VarCharStart = makeRule("VarCharStart")
+makeCustomRule(CustomSyntaxKind.CharacterDataTypeStart)
     .addSubstitution(
         [
             TokenKind.NATIONAL,
@@ -107,7 +101,7 @@ const VarCharStart = makeRule("VarCharStart")
     )
 
 
-const CharStart = makeRule("CharStart")
+makeCustomRule(CustomSyntaxKind.CharacterDataTypeStart)
     .addSubstitution(
         [
             TokenKind.NATIONAL,
@@ -165,12 +159,12 @@ const CharStart = makeRule("CharStart")
 makeCustomRule(SyntaxKind.CharacterDataType)
     .addSubstitution(
         [
-            union(CharStart, VarCharStart),
+            CustomSyntaxKind.CharacterDataTypeStart,
             optional(SyntaxKind.FieldLength),
             CustomSyntaxKind.CharacterDataTypeModifier,
         ] as const,
         (data) => {
-            const [[char], maxLength, modifier] = data;
+            const [char, maxLength, modifier] = data;
 
             if (
                 char.nationalCharacterSet != undefined &&

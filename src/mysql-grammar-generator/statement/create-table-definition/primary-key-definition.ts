@@ -13,7 +13,7 @@ makeCustomRule(SyntaxKind.PrimaryKeyDefinition)
             optional(SyntaxKind.Identifier),
             optional(CustomSyntaxKind.IndexType),
             SyntaxKind.IndexPartList,
-            CustomSyntaxKind.IndexOption,
+            CustomSyntaxKind.IndexOptions,
         ] as const,
         function (data) : PrimaryKeyDefinition {
             const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;

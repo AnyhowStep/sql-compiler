@@ -1,9 +1,8 @@
 import {SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
-import {makeCustomRule} from "../factory";
+import {CustomSyntaxKind, makeCustomRule} from "../factory";
 import {optional} from "../../nearley-wrapper";
 import {getTextRange} from "../parse-util";
-import {IdentifierAllowReservedRule} from "./identifier";
 
 makeCustomRule(SyntaxKind.ColumnIdentifier)
     .addSubstitution(
@@ -11,10 +10,10 @@ makeCustomRule(SyntaxKind.ColumnIdentifier)
             SyntaxKind.Identifier,
             optional([
                 TokenKind.Dot,
-                IdentifierAllowReservedRule,
+                CustomSyntaxKind.IdentifierAllowReserved,
                 optional([
                     TokenKind.Dot,
-                    IdentifierAllowReservedRule,
+                    CustomSyntaxKind.IdentifierAllowReserved,
                 ] as const),
             ] as const),
         ] as const,

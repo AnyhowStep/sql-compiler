@@ -1,18 +1,13 @@
-import {optional, union, TokenObj} from "../../nearley-wrapper";
+import {optional, union} from "../../nearley-wrapper";
 import {getTextRange} from "../../parse-util";
 import {CurrentTimestamp, SyntaxKind} from "../../parser-node";
 import {TokenKind} from "../../scanner";
-import {makeRule, makeCustomRule} from "../factory";
-
-/**
- * This is a hack, this does not actually exist as a rule but as a token
- */
-const NowToken = makeRule<TokenObj<TokenKind>>("%NowToken");
+import {CustomSyntaxKind, makeCustomRule} from "../factory";
 
 makeCustomRule(SyntaxKind.CurrentTimestamp)
     .addSubstitution(
         [
-            NowToken,
+            CustomSyntaxKind["%NowToken"],
             TokenKind.OpenParentheses,
             TokenKind.CloseParentheses,
         ] as const,
@@ -62,7 +57,7 @@ makeCustomRule(SyntaxKind.CurrentTimestamp)
         [
             union(
                 TokenKind.CURRENT_TIMESTAMP,
-                NowToken
+                CustomSyntaxKind["%NowToken"],
             ),
             SyntaxKind.FieldLength
         ] as const,

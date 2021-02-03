@@ -1,4 +1,4 @@
-import {IntegerDataType, SyntaxKind} from "../../../parser-node";
+import {ColumnFormat, IntegerDataType, Storage, SyntaxKind} from "../../../parser-node";
 import {TokenKind} from "../../../scanner";
 import {
     optional,
@@ -8,44 +8,160 @@ import {
 import {
     createDefaultColumnDefinitionModifier,
     getTextRange,
-    processColumnDefinitionModifier,
 } from "../../parse-util";
-import {CustomSyntaxKind, makeCustomRule, makeRule} from "../../factory";
-import {ColumnDefinitionModifier} from "../../custom-data";
+import {CustomSyntaxKind, makeCustomRule} from "../../factory";
+import {ColumnDefinitionModifier, ColumnDefinitionModifierOption} from "../../custom-data";
 
-const ColumnModifierElementRule = makeRule("ColumnModifierElement")
+makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifierOption)
     .addSubstitution(
-        [
-            union(
-                TokenKind.AUTO_INCREMENT,
-                [TokenKind.COLUMN_FORMAT, union(TokenKind.FIXED, TokenKind.DYNAMIC, TokenKind.DEFAULT)] as const,
-                [TokenKind.STORAGE, union(TokenKind.DISK, TokenKind.MEMORY, TokenKind.DEFAULT)] as const,
-                [TokenKind.DEFAULT, CustomSyntaxKind.Expression] as const,
-                TokenKind.NULL,
-                [TokenKind.NOT, TokenKind.NULL] as const,
-                TokenKind.UNIQUE,
-                TokenKind.UNIQUE_KEY,
-                [optional(TokenKind.PRIMARY), TokenKind.KEY] as const,
-                [TokenKind.COMMENT, SyntaxKind.StringLiteral] as const,
-                /**
-                 * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6898
-                 */
-                [TokenKind.SERIAL, TokenKind.DEFAULT, TokenKind.VALUE] as const,
-                [TokenKind.ON, TokenKind.UPDATE, SyntaxKind.CurrentTimestamp] as const,
-            )
-        ] as const,
-        (data) => {
+        [TokenKind.AUTO_INCREMENT] as const,
+        (data) : ColumnDefinitionModifierOption => {
             return {
                 ...getTextRange(data),
-                data : data[0][0],
-            };
+                autoIncrement : true,
+                nullable : {
+                    ...getTextRange(data),
+                    nullable : false,
+                },
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.COLUMN_FORMAT, union(TokenKind.FIXED, TokenKind.DYNAMIC, TokenKind.DEFAULT)] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            const tokenObj = data[1][0];
+            return {
+                ...getTextRange(data),
+                columnFormat : (
+                    tokenObj.tokenKind == TokenKind.FIXED ?
+                    ColumnFormat.FIXED :
+                    tokenObj.tokenKind == TokenKind.DYNAMIC ?
+                    ColumnFormat.DYNAMIC :
+                    ColumnFormat.DEFAULT
+                ),
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.STORAGE, union(TokenKind.DISK, TokenKind.MEMORY, TokenKind.DEFAULT)] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            const tokenObj = data[1][0];
+            return {
+                ...getTextRange(data),
+                storage : (
+                    tokenObj.tokenKind == TokenKind.DISK ?
+                    Storage.DISK :
+                    tokenObj.tokenKind == TokenKind.MEMORY ?
+                    Storage.MEMORY :
+                    Storage.DEFAULT
+                ),
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.DEFAULT, CustomSyntaxKind.Expression] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                defaultValue : data[1],
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.NULL] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                nullable : {
+                    ...getTextRange(data),
+                    nullable : true,
+                },
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.NOT, TokenKind.NULL] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                nullable : {
+                    ...getTextRange(data),
+                    nullable : false,
+                },
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.UNIQUE] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                uniqueKey : true,
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.UNIQUE_KEY] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                uniqueKey : true,
+            }
+        }
+    )
+    .addSubstitution(
+        [optional(TokenKind.PRIMARY), TokenKind.KEY] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                primaryKey : true,
+                nullable : {
+                    ...getTextRange(data),
+                    nullable : false,
+                }
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.COMMENT, SyntaxKind.StringLiteral] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                comment : data[1],
+            }
+        }
+    )
+    .addSubstitution(
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6898
+         */
+        [TokenKind.SERIAL, TokenKind.DEFAULT, TokenKind.VALUE] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                nullable : {
+                    ...getTextRange(data),
+                    nullable : false,
+                },
+                autoIncrement : true,
+                uniqueKey : true,
+            }
+        }
+    )
+    .addSubstitution(
+        [TokenKind.ON, TokenKind.UPDATE, SyntaxKind.CurrentTimestamp] as const,
+        (data) : ColumnDefinitionModifierOption => {
+            return {
+                ...getTextRange(data),
+                onUpdate : data[2],
+            }
         }
     )
 
 makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifier)
     .addSubstitution(
         [
-            zeroOrMore(ColumnModifierElementRule),
+            zeroOrMore(CustomSyntaxKind.ColumnDefinitionModifierOption),
             optional(union(
                 CustomSyntaxKind.ColumnCheckDefinition,
                 SyntaxKind.ForeignKeyReferenceDefinition,
@@ -54,11 +170,12 @@ makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifier)
         (data) : ColumnDefinitionModifier => {
             let columnDefinitionModifier = createDefaultColumnDefinitionModifier();
 
-            for (const ele of data[0]) {
-                columnDefinitionModifier = processColumnDefinitionModifier(
-                    columnDefinitionModifier,
-                    ele.data
-                );
+            for (const item of data[0]) {
+                for (const k of Object.keys(item)) {
+                    if (k in columnDefinitionModifier) {
+                        (columnDefinitionModifier as any)[k] = (item as any)[k];
+                    }
+                }
             }
 
             const checkOrForeignKeyReference = data[1];
@@ -70,7 +187,10 @@ makeCustomRule(CustomSyntaxKind.ColumnDefinitionModifier)
                 }
             }
 
-            return columnDefinitionModifier;
+            return {
+                ...getTextRange(data),
+                ...columnDefinitionModifier,
+            };
         }
     );
 

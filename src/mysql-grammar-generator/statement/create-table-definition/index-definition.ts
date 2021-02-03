@@ -11,7 +11,7 @@ makeCustomRule(SyntaxKind.IndexDefinition)
             optional(SyntaxKind.Identifier),
             optional(CustomSyntaxKind.IndexType),
             SyntaxKind.IndexPartList,
-            CustomSyntaxKind.IndexOption,
+            CustomSyntaxKind.IndexOptions,
         ] as const,
         function (data) : IndexDefinition {
             const [, indexName, indexType, indexParts, rawIndexOption] = data;

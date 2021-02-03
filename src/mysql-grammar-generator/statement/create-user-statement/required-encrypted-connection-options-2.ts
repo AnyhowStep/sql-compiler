@@ -7,15 +7,7 @@ import {CustomSyntaxKind, makeCustomRule} from "../../factory";
 makeCustomRule(CustomSyntaxKind.RequiredEncryptedConnectionOptions2)
     .addSubstitution(
         [
-            optional([
-                TokenKind.REQUIRE,
-                union(
-                    TokenKind.NONE,
-                    TokenKind.SSL,
-                    TokenKind.X509,
-                    SyntaxKind.RequiredEncryptedConnectionOptions,
-                ),
-            ] as const),
+            optional(CustomSyntaxKind.RequiredEncryptedConnectionOptionsNoDefault),
         ] as const,
         (data) : CreateUserStatement["requiredEncryptedConnectionOptions"] => {
             const item = data[0];
@@ -28,6 +20,23 @@ makeCustomRule(CustomSyntaxKind.RequiredEncryptedConnectionOptions2)
                     }
                 )
             }
+            return item;
+        }
+    )
+
+makeCustomRule(CustomSyntaxKind.RequiredEncryptedConnectionOptionsNoDefault)
+    .addSubstitution(
+        [
+            TokenKind.REQUIRE,
+            union(
+                TokenKind.NONE,
+                TokenKind.SSL,
+                TokenKind.X509,
+                SyntaxKind.RequiredEncryptedConnectionOptions,
+            ),
+        ] as const,
+        (data) : CreateUserStatement["requiredEncryptedConnectionOptions"] => {
+            const item = data;
             const options = item[1][0];
             if ("syntaxKind" in options) {
                 return options;

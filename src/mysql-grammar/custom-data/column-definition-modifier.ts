@@ -1,4 +1,4 @@
-import {CheckDefinition, ColumnFormat, CurrentTimestamp, Expression, ForeignKeyReferenceDefinition, Storage, StringLiteral, TextRange} from "../../parser-node";
+import {CheckDefinition, ColumnFormat, CurrentTimestamp, Expression, ForeignKeyReferenceDefinition, Storage, StringLiteral, SyntacticErrorContainer, TextRange} from "../../parser-node";
 
 export interface ColumnDefinitionModifier extends TextRange {
     autoIncrement : boolean,
@@ -17,3 +17,11 @@ export interface ColumnDefinitionModifier extends TextRange {
     onUpdate : CurrentTimestamp|undefined,
     checkDefinition : CheckDefinition|undefined,
 }
+
+type MakeColumnDefinitionModifierOption<T, K extends keyof T = Exclude<keyof T, keyof TextRange>> =
+    K extends keyof T ?
+    Pick<T, K> :
+    never
+;
+
+export type ColumnDefinitionModifierOption = MakeColumnDefinitionModifierOption<ColumnDefinitionModifier> & TextRange & SyntacticErrorContainer

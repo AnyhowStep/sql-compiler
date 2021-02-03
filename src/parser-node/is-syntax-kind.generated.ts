@@ -79,6 +79,7 @@ import {AlterTableStatement} from "./statement/alter-table-statement/alter-table
 import {AlterTablespaceAccessStatement} from "./statement/alter-tablespace-statement/alter-tablespace-access-statement";
 import {AlterTablespaceChangeStatement} from "./statement/alter-tablespace-statement/alter-tablespace-change-statement";
 import {AlterTablespaceStatement} from "./statement/alter-tablespace-statement/alter-tablespace-statement";
+import {AlterUserStatement} from "./statement/alter-user-statement/alter-user-statement";
 import {AlterViewStatement} from "./statement/alter-view-statement/alter-view-statement";
 import {CreateEventStatement} from "./statement/create-event-statement/create-event-statement";
 import {ExecuteAtSchedule} from "./statement/create-event-statement/execute-at-schedule";
@@ -119,9 +120,11 @@ import {CreateTablespaceStatement} from "./statement/create-tablespace-statement
 import {CreateTriggerStatement} from "./statement/create-trigger-statement/create-trigger-statement";
 import {TriggerOrder} from "./statement/create-trigger-statement/trigger-order";
 import {AccountLockAndPasswordExpiryOptions} from "./statement/create-user-statement/account-lock-and-password-expiry-options";
+import {PartialAccountLockAndPasswordExpiryOptions} from "./statement/create-user-statement/account-lock-and-password-expiry-options";
 import {CreateUserStatement} from "./statement/create-user-statement/create-user-statement";
 import {GrantUser} from "./statement/create-user-statement/grant-user";
 import {RateLimitOptions} from "./statement/create-user-statement/rate-limit-options";
+import {PartialRateLimitOptions} from "./statement/create-user-statement/rate-limit-options";
 import {RequiredEncryptedConnectionOptions} from "./statement/create-user-statement/required-encrypted-connection-options";
 import {CreateViewStatement} from "./statement/create-view-statement/create-view-statement";
 import {DeclareFunctionParameter} from "./statement/declare-function-parameter";
@@ -263,6 +266,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTableSta
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTablespaceAccessStatement) : node is AlterTablespaceAccessStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTablespaceChangeStatement) : node is AlterTablespaceChangeStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterTablespaceStatement) : node is AlterTablespaceStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterUserStatement) : node is AlterUserStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterViewStatement) : node is AlterViewStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateEventStatement) : node is CreateEventStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ExecuteAtSchedule) : node is ExecuteAtSchedule;
@@ -303,9 +307,11 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTablesp
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateTriggerStatement) : node is CreateTriggerStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.TriggerOrder) : node is TriggerOrder;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AccountLockAndPasswordExpiryOptions) : node is AccountLockAndPasswordExpiryOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PartialAccountLockAndPasswordExpiryOptions) : node is PartialAccountLockAndPasswordExpiryOptions;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateUserStatement) : node is CreateUserStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.GrantUser) : node is GrantUser;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RateLimitOptions) : node is RateLimitOptions;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.PartialRateLimitOptions) : node is PartialRateLimitOptions;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.RequiredEncryptedConnectionOptions) : node is RequiredEncryptedConnectionOptions;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateViewStatement) : node is CreateViewStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.DeclareFunctionParameter) : node is DeclareFunctionParameter;
@@ -456,6 +462,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AlterTablespaceAccessStatement, callback : (node : AlterTablespaceAccessStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTablespaceChangeStatement, callback : (node : AlterTablespaceChangeStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterTablespaceStatement, callback : (node : AlterTablespaceStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterUserStatement, callback : (node : AlterUserStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterViewStatement, callback : (node : AlterViewStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateEventStatement, callback : (node : CreateEventStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ExecuteAtSchedule, callback : (node : ExecuteAtSchedule) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
@@ -496,9 +503,11 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.CreateTriggerStatement, callback : (node : CreateTriggerStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.TriggerOrder, callback : (node : TriggerOrder) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AccountLockAndPasswordExpiryOptions, callback : (node : AccountLockAndPasswordExpiryOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.PartialAccountLockAndPasswordExpiryOptions, callback : (node : PartialAccountLockAndPasswordExpiryOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateUserStatement, callback : (node : CreateUserStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.GrantUser, callback : (node : GrantUser) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RateLimitOptions, callback : (node : RateLimitOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.PartialRateLimitOptions, callback : (node : PartialRateLimitOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.RequiredEncryptedConnectionOptions, callback : (node : RequiredEncryptedConnectionOptions) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateViewStatement, callback : (node : CreateViewStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.DeclareFunctionParameter, callback : (node : DeclareFunctionParameter) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

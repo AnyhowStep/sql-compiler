@@ -40,6 +40,7 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.AlterTablespaceChangeStatement,
             SyntaxKind.AlterTablespaceAccessStatement,
             SyntaxKind.AlterServerStatement,
+            SyntaxKind.AlterUserStatement,
         )] as const,
         (data) : Statement => {
             return data[0][0];

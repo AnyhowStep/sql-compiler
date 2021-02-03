@@ -20,7 +20,7 @@ makeCustomRule(SyntaxKind.IndexDefinition)
             //optional(SyntaxKind.Identifier),
             optional(CustomSyntaxKind.IndexType),
             SyntaxKind.IndexPartList,
-            CustomSyntaxKind.IndexOption,
+            CustomSyntaxKind.IndexOptions,
         ] as const,
         function (data) : IndexDefinition {
             const [constraintName, , rawIndexName, indexType, indexParts, rawIndexOption] = data;
@@ -73,7 +73,7 @@ makeCustomRule(SyntaxKind.IndexDefinition)
             optional(SyntaxKind.Identifier),
             optional(CustomSyntaxKind.IndexType),
             SyntaxKind.IndexPartList,
-            CustomSyntaxKind.IndexOption,
+            CustomSyntaxKind.IndexOptions,
         ] as const,
         function (data) : IndexDefinition {
             const [constraintName, , indexName, indexType, indexParts, rawIndexOption] = data;

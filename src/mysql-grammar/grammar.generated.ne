@@ -1583,7 +1583,7 @@ CharacterDataTypeModifier ->
     };
 } %}
 
-VarCharStart ->
+CharacterDataTypeStart ->
     %NATIONAL (%VARCHAR | %VARCHARACTER | (%CHAR %VARYING) | (%CHARACTER %VARYING)) {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
@@ -1635,7 +1635,7 @@ VarCharStart ->
     };
 } %}
 
-CharStart ->
+CharacterDataTypeStart ->
     %NATIONAL (%CHAR | %CHARACTER) {% function (data) {
     return {
         ...parse_util_1.getTextRange(data),
@@ -1669,9 +1669,9 @@ CharStart ->
 } %}
 
 CharacterDataType ->
-    (CharStart | VarCharStart) FieldLength:? CharacterDataTypeModifier {% (data) => {
+    CharacterDataTypeStart FieldLength:? CharacterDataTypeModifier {% (data) => {
     var _a;
-    const [[char], maxLength, modifier] = data;
+    const [char, maxLength, modifier] = data;
     if (char.nationalCharacterSet != undefined &&
         modifier.characterSet != undefined) {
         parse_util_1.pushSyntacticErrorAt(char.nationalCharacterSet, modifier.characterSet.start, modifier.characterSet.end, [char.nationalCharacterSet], diagnostic_messages_1.DiagnosticMessages.NationalCharacterDataTypeCannotSpecifyCharacterSet);
@@ -2312,58 +2312,6 @@ CollationNameOrDefault ->
                 collationName);
 } %}
 
-
-
-Identifier ->
-    %KeywordOrIdentifier {% function (data) {
-    const [tokenObj] = data;
-    if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
-        const sourceText = tokenObj.getTokenSourceText();
-        return {
-            ...parse_util_1.getTextRange(data),
-            syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            identifier: tokenObj.value,
-            quoted: sourceText[0] == "`" || sourceText[0] == "\"",
-        };
-    }
-    if (scanner_1.isNonReserved(tokenObj.tokenKind)) {
-        return {
-            ...parse_util_1.getTextRange(data),
-            syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            identifier: tokenObj.getTokenSourceText(),
-            quoted: false,
-        };
-    }
-    const result = {
-        ...parse_util_1.getTextRange(data),
-        syntaxKind: parser_node_1.SyntaxKind.Identifier,
-        identifier: tokenObj.getTokenSourceText(),
-        quoted: false,
-    };
-    parse_util_1.pushSyntacticErrorAtNode(result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
-    return result;
-} %}
-
-IdentifierAllowReserved ->
-    %KeywordOrIdentifier {% function (data) {
-    const [tokenObj] = data;
-    if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
-        const sourceText = tokenObj.getTokenSourceText();
-        return {
-            ...parse_util_1.getTextRange(data),
-            syntaxKind: parser_node_1.SyntaxKind.Identifier,
-            identifier: tokenObj.value,
-            quoted: sourceText[0] == "`" || sourceText[0] == "\"",
-        };
-    }
-    return {
-        ...parse_util_1.getTextRange(data),
-        syntaxKind: parser_node_1.SyntaxKind.Identifier,
-        identifier: tokenObj.getTokenSourceText(),
-        quoted: false,
-    };
-} %}
-
 ColumnIdentifier ->
     Identifier (%Dot IdentifierAllowReserved (%Dot IdentifierAllowReserved):?):? {% (data) => {
     const [nameA, nameB] = data;
@@ -2418,6 +2366,56 @@ EventIdentifier ->
             eventName: nameB[1],
         };
     }
+} %}
+
+Identifier ->
+    %KeywordOrIdentifier {% function (data) {
+    const [tokenObj] = data;
+    if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+        const sourceText = tokenObj.getTokenSourceText();
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.value,
+            quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+        };
+    }
+    if (scanner_1.isNonReserved(tokenObj.tokenKind)) {
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.getTokenSourceText(),
+            quoted: false,
+        };
+    }
+    const result = {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+        identifier: tokenObj.getTokenSourceText(),
+        quoted: false,
+    };
+    parse_util_1.pushSyntacticErrorAtNode(result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
+    return result;
+} %}
+
+IdentifierAllowReserved ->
+    %KeywordOrIdentifier {% function (data) {
+    const [tokenObj] = data;
+    if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+        const sourceText = tokenObj.getTokenSourceText();
+        return {
+            ...parse_util_1.getTextRange(data),
+            syntaxKind: parser_node_1.SyntaxKind.Identifier,
+            identifier: tokenObj.value,
+            quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+        };
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.Identifier,
+        identifier: tokenObj.getTokenSourceText(),
+        quoted: false,
+    };
 } %}
 
 LabelIdentifier ->
@@ -2536,8 +2534,6 @@ Constraint ->
     var _a;
     return (_a = data[1]) !== null && _a !== void 0 ? _a : parse_util_1.getTextRange(data);
 } %}
-
-
 
 CurrentTimestamp ->
     %NowToken %OpenParentheses %CloseParentheses {% (data) => {
@@ -3391,6 +3387,20 @@ AlterTablespaceStatement ->
     };
 } %}
 
+AlterUserStatement ->
+    %ALTER %USER (%IF %EXISTS):? GrantUserList RequiredEncryptedConnectionOptionsNoDefault:? PartialRateLimitOptions PartialAccountLockAndPasswordExpiryOptions {% (data) => {
+    const [, , ifExists, grantUserList, requiredEncryptedConnectionOptions, rateLimitOptions, accountLockAndPasswordExpiryOptions,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterUserStatement,
+        ifExists: ifExists != undefined,
+        grantUserList,
+        requiredEncryptedConnectionOptions: (requiredEncryptedConnectionOptions !== null && requiredEncryptedConnectionOptions !== void 0 ? requiredEncryptedConnectionOptions : undefined),
+        rateLimitOptions,
+        accountLockAndPasswordExpiryOptions,
+    };
+} %}
+
 AlterViewStatement ->
     %ALTER (%ALGORITHM %Equal (%UNDEFINED | %MERGE | %TEMPTABLE)):? (%DEFINER %Equal AccountIdentifierOrCurrentUser):? (%SQL %SECURITY (%DEFINER | %INVOKER)):? %VIEW TableIdentifier IdentifierList:? %AS SelectStatement (%WITH (%CASCADED | %LOCAL):? %CHECK %OPTION):? {% (data) => {
     const [, algorithm, definer, viewSecurityContext, , tableIdentifier, columns, , selectStatement, checkOption,] = data;
@@ -3859,7 +3869,7 @@ AlterTableLock ->
 } %}
 
 CreateIndexStatement ->
-    %CREATE (%UNIQUE | %FULLTEXT | %SPATIAL):? %INDEX Identifier IndexType:? %ON TableIdentifier IndexPartList IndexOption AlterTableLockAndAlgorithmOptions {% function (data) {
+    %CREATE (%UNIQUE | %FULLTEXT | %SPATIAL):? %INDEX Identifier IndexType:? %ON TableIdentifier IndexPartList IndexOptions AlterTableLockAndAlgorithmOptions {% function (data) {
     const [, indexClassToken, , indexName, indexType, , tableIdentifier, indexParts, rawIndexOption, alterTableLockAndAlgorithmOptions,] = data;
     const indexOption = (indexType == undefined ?
         rawIndexOption :
@@ -4246,37 +4256,34 @@ ForeignKeyDefinition ->
 ReferenceOption ->
     ((%RESTRICT) | (%CASCADE) | (%SET %NULL) | (%NO %ACTION) | (%SET %DEFAULT)) {% (data) => {
     const tokens = data[0][0];
-    return {
-        ...parse_util_1.getTextRange(data),
-        referenceOption: (tokens.length == 1 ?
-            (tokens[0].tokenKind == scanner_1.TokenKind.RESTRICT ?
-                parser_node_1.ReferenceOption.RESTRICT :
-                parser_node_1.ReferenceOption.CASCADE) :
-            (tokens[1].tokenKind == scanner_1.TokenKind.NULL ?
-                parser_node_1.ReferenceOption.SET_NULL :
-                tokens[1].tokenKind == scanner_1.TokenKind.ACTION ?
-                    parser_node_1.ReferenceOption.NO_ACTION :
-                    parser_node_1.ReferenceOption.SET_DEFAULT)),
-    };
+    return parse_util_1.toValueNode((tokens.length == 1 ?
+        (tokens[0].tokenKind == scanner_1.TokenKind.RESTRICT ?
+            parser_node_1.ReferenceOption.RESTRICT :
+            parser_node_1.ReferenceOption.CASCADE) :
+        (tokens[1].tokenKind == scanner_1.TokenKind.NULL ?
+            parser_node_1.ReferenceOption.SET_NULL :
+            tokens[1].tokenKind == scanner_1.TokenKind.ACTION ?
+                parser_node_1.ReferenceOption.NO_ACTION :
+                parser_node_1.ReferenceOption.SET_DEFAULT)), parse_util_1.getTextRange(data));
 } %}
 
 OnUpdateDelete ->
     %ON %UPDATE ReferenceOption (%ON %DELETE ReferenceOption):? {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        onUpdate: data[2].referenceOption,
+        onUpdate: data[2].value,
         onDelete: (data[3] == undefined ?
             undefined :
-            data[3][2].referenceOption),
+            data[3][2].value),
     };
 } %}
     | %ON %DELETE ReferenceOption (%ON %UPDATE ReferenceOption):? {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        onDelete: data[2].referenceOption,
+        onDelete: data[2].value,
         onUpdate: (data[3] == undefined ?
             undefined :
-            data[3][2].referenceOption),
+            data[3][2].value),
     };
 } %}
 
@@ -4305,7 +4312,7 @@ ForeignKeyReferenceDefinition ->
 } %}
 
 IndexDefinition ->
-    (%FULLTEXT | %SPATIAL) ((Identifier) | ((%INDEX | %KEY) Identifier)):? IndexPartList IndexOption {% function (data) {
+    (%FULLTEXT | %SPATIAL) ((Identifier) | ((%INDEX | %KEY) Identifier)):? IndexPartList IndexOptions {% function (data) {
     const [indexClass, rawIndexName, indexParts, indexOption] = data;
     const indexName = (rawIndexName == undefined ?
         undefined :
@@ -4405,7 +4412,7 @@ GeneratedDefinition ->
 } %}
 
 IndexDefinition ->
-    (%INDEX | %KEY) Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
+    (%INDEX | %KEY) Identifier:? IndexType:? IndexPartList IndexOptions {% function (data) {
     const [, indexName, indexType, indexParts, rawIndexOption] = data;
     const indexOption = (indexType == undefined ?
         rawIndexOption :
@@ -4426,21 +4433,47 @@ IndexDefinition ->
     };
 } %}
 
-IndexOptionElement ->
-    ((%KEY_BLOCK_SIZE %Equal:? IntegerLiteral) | IndexType | (%WITH %PARSER Identifier) | Comment) {% (data) => {
+IndexOption ->
+    %KEY_BLOCK_SIZE %Equal:? IntegerLiteral {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        data: data[0][0],
+        keyBlockSize: data[2],
+    };
+} %}
+    | IndexType {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        indexType: data[0].indexType,
+    };
+} %}
+    | %WITH %PARSER Identifier {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        withParser: data[2],
+    };
+} %}
+    | Comment {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        comment: data[0],
     };
 } %}
 
-IndexOption ->
-    IndexOptionElement:* {% (data) => {
+IndexOptions ->
+    IndexOption:* {% (data) => {
     let indexOption = parse_util_1.createDefaultIndexOption();
-    for (const ele of data[0]) {
-        indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
+    for (const item of data[0]) {
+        for (const k of Object.keys(item)) {
+            if (k in indexOption) {
+                indexOption[k] = item[k];
+                break;
+            }
+        }
     }
-    return indexOption;
+    return {
+        ...parse_util_1.getTextRange(data),
+        ...indexOption,
+    };
 } %}
 
 IndexPart ->
@@ -4496,19 +4529,118 @@ IndexType ->
     };
 } %}
 
-ColumnModifierElement ->
-    (%AUTO_INCREMENT | (%COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT)) | (%STORAGE (%DISK | %MEMORY | %DEFAULT)) | (%DEFAULT Expression) | %NULL | (%NOT %NULL) | %UNIQUE | %UNIQUE_KEY | (%PRIMARY:? %KEY) | (%COMMENT StringLiteral) | (%SERIAL %DEFAULT %VALUE) | (%ON %UPDATE CurrentTimestamp)) {% (data) => {
+ColumnDefinitionModifierOption ->
+    %AUTO_INCREMENT {% (data) => {
     return {
         ...parse_util_1.getTextRange(data),
-        data: data[0][0],
+        autoIncrement: true,
+        nullable: {
+            ...parse_util_1.getTextRange(data),
+            nullable: false,
+        },
+    };
+} %}
+    | %COLUMN_FORMAT (%FIXED | %DYNAMIC | %DEFAULT) {% (data) => {
+    const tokenObj = data[1][0];
+    return {
+        ...parse_util_1.getTextRange(data),
+        columnFormat: (tokenObj.tokenKind == scanner_1.TokenKind.FIXED ?
+            parser_node_1.ColumnFormat.FIXED :
+            tokenObj.tokenKind == scanner_1.TokenKind.DYNAMIC ?
+                parser_node_1.ColumnFormat.DYNAMIC :
+                parser_node_1.ColumnFormat.DEFAULT),
+    };
+} %}
+    | %STORAGE (%DISK | %MEMORY | %DEFAULT) {% (data) => {
+    const tokenObj = data[1][0];
+    return {
+        ...parse_util_1.getTextRange(data),
+        storage: (tokenObj.tokenKind == scanner_1.TokenKind.DISK ?
+            parser_node_1.Storage.DISK :
+            tokenObj.tokenKind == scanner_1.TokenKind.MEMORY ?
+                parser_node_1.Storage.MEMORY :
+                parser_node_1.Storage.DEFAULT),
+    };
+} %}
+    | %DEFAULT Expression {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        defaultValue: data[1],
+    };
+} %}
+    | %NULL {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        nullable: {
+            ...parse_util_1.getTextRange(data),
+            nullable: true,
+        },
+    };
+} %}
+    | %NOT %NULL {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        nullable: {
+            ...parse_util_1.getTextRange(data),
+            nullable: false,
+        },
+    };
+} %}
+    | %UNIQUE {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        uniqueKey: true,
+    };
+} %}
+    | %UNIQUE_KEY {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        uniqueKey: true,
+    };
+} %}
+    | %PRIMARY:? %KEY {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        primaryKey: true,
+        nullable: {
+            ...parse_util_1.getTextRange(data),
+            nullable: false,
+        }
+    };
+} %}
+    | %COMMENT StringLiteral {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        comment: data[1],
+    };
+} %}
+    | %SERIAL %DEFAULT %VALUE {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        nullable: {
+            ...parse_util_1.getTextRange(data),
+            nullable: false,
+        },
+        autoIncrement: true,
+        uniqueKey: true,
+    };
+} %}
+    | %ON %UPDATE CurrentTimestamp {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        onUpdate: data[2],
     };
 } %}
 
 ColumnDefinitionModifier ->
-    ColumnModifierElement:* (ColumnCheckDefinition | ForeignKeyReferenceDefinition):? {% (data) => {
+    ColumnDefinitionModifierOption:* (ColumnCheckDefinition | ForeignKeyReferenceDefinition):? {% (data) => {
     let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
-    for (const ele of data[0]) {
-        columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+    for (const item of data[0]) {
+        for (const k of Object.keys(item)) {
+            if (k in columnDefinitionModifier) {
+                columnDefinitionModifier[k] = item[k];
+            }
+        }
     }
     const checkOrForeignKeyReference = data[1];
     if (checkOrForeignKeyReference != undefined) {
@@ -4519,7 +4651,10 @@ ColumnDefinitionModifier ->
             columnDefinitionModifier.foreignKeyReferenceDefinition = checkOrForeignKeyReference[0];
         }
     }
-    return columnDefinitionModifier;
+    return {
+        ...parse_util_1.getTextRange(data),
+        ...columnDefinitionModifier,
+    };
 } %}
 
 ColumnDefinition ->
@@ -4568,7 +4703,7 @@ ColumnDefinition ->
 } %}
 
 PrimaryKeyDefinition ->
-    Constraint:? %PRIMARY %KEY Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
+    Constraint:? %PRIMARY %KEY Identifier:? IndexType:? IndexPartList IndexOptions {% function (data) {
     const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
     const indexOption = (indexType == undefined ?
         rawIndexOption :
@@ -4591,7 +4726,7 @@ PrimaryKeyDefinition ->
 } %}
 
 IndexDefinition ->
-    Constraint:? %UNIQUE ((Identifier) | ((%INDEX | %KEY) Identifier)):? IndexType:? IndexPartList IndexOption {% function (data) {
+    Constraint:? %UNIQUE ((Identifier) | ((%INDEX | %KEY) Identifier)):? IndexType:? IndexPartList IndexOptions {% function (data) {
     const [constraintName, , rawIndexName, indexType, indexParts, rawIndexOption] = data;
     const indexName = (rawIndexName == undefined ?
         undefined :
@@ -4623,7 +4758,7 @@ IndexDefinition ->
         ...parse_util_1.getTextRange(data),
     };
 } %}
-    | Constraint:? %UNIQUE_KEY Identifier:? IndexType:? IndexPartList IndexOption {% function (data) {
+    | Constraint:? %UNIQUE_KEY Identifier:? IndexType:? IndexPartList IndexOptions {% function (data) {
     const [constraintName, , indexName, indexType, indexParts, rawIndexOption] = data;
     const indexOption = (indexType == undefined ?
         rawIndexOption :
@@ -5333,6 +5468,35 @@ AccountLockAndPasswordExpiryOptions ->
     };
 } %}
 
+PartialAccountLockAndPasswordExpiryOptions ->
+    AccountLockAndPasswordExpiryOption:* {% (data) => {
+    const arr = data[0];
+    const result = {
+        accountLocked: undefined,
+        passwordExpiry: undefined,
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.PartialAccountLockAndPasswordExpiryOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
 CreateUserStatement ->
     %CREATE %USER (%IF %NOT %EXISTS):? GrantUserList RequiredEncryptedConnectionOptions2 RateLimitOptions AccountLockAndPasswordExpiryOptions {% (data) => {
     const [, , ifNotExists, grantUserList, requiredEncryptedConnectionOptions, rateLimitOptions, accountLockAndPasswordExpiryOptions,] = data;
@@ -5495,6 +5659,47 @@ RateLimitOptions ->
     };
 } %}
 
+PartialRateLimitOptions ->
+    (%WITH RateLimitOption:+):? {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        if (item == undefined) {
+            return false;
+        }
+        if ("tokenKind" in item) {
+            return false;
+        }
+        return true;
+    });
+    const result = {
+        maxQueriesPerHour: undefined,
+        maxUpdatesPerHour: undefined,
+        maxConnectionsPerHour: undefined,
+        maxUserConnections: undefined,
+    };
+    const syntacticErrors = [];
+    for (const item of arr) {
+        if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+            syntacticErrors.push(...item.syntacticErrors);
+        }
+        for (const k of Object.keys(item)) {
+            if (k in result) {
+                result[k] = item[k];
+                break;
+            }
+        }
+    }
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.PartialRateLimitOptions,
+        ...result,
+        syntacticErrors: (syntacticErrors.length > 0 ?
+            syntacticErrors :
+            undefined),
+    };
+} %}
+
 RequiredEncryptedConnectionOption ->
     %SUBJECT StringLiteral {% (data) => {
     return {
@@ -5516,7 +5721,7 @@ RequiredEncryptedConnectionOption ->
 } %}
 
 RequiredEncryptedConnectionOptions2 ->
-    (%REQUIRE (%NONE | %SSL | %X509 | RequiredEncryptedConnectionOptions)):? {% (data) => {
+    RequiredEncryptedConnectionOptionsNoDefault:? {% (data) => {
     const item = data[0];
     if (item == undefined) {
         return parse_util_1.toValueNode("NONE", {
@@ -5524,6 +5729,12 @@ RequiredEncryptedConnectionOptions2 ->
             end: -1,
         });
     }
+    return item;
+} %}
+
+RequiredEncryptedConnectionOptionsNoDefault ->
+    %REQUIRE (%NONE | %SSL | %X509 | RequiredEncryptedConnectionOptions) {% (data) => {
+    const item = data;
     const options = item[1][0];
     if ("syntaxKind" in options) {
         return options;
@@ -7052,7 +7263,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement | AlterServerStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement | AlterServerStatement | AlterUserStatement) {% (data) => {
     return data[0][0];
 } %}
 

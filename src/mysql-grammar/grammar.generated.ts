@@ -1633,13 +1633,13 @@ export var ParserRules: NearleyRule[] = [
                 },
             };
         } },
-    {"name": "VarCharStart$subexpression$1", "symbols": [VARCHAR]},
-    {"name": "VarCharStart$subexpression$1", "symbols": [VARCHARACTER]},
-    {"name": "VarCharStart$subexpression$1$subexpression$1", "symbols": [CHAR, VARYING]},
-    {"name": "VarCharStart$subexpression$1", "symbols": ["VarCharStart$subexpression$1$subexpression$1"]},
-    {"name": "VarCharStart$subexpression$1$subexpression$2", "symbols": [CHARACTER, VARYING]},
-    {"name": "VarCharStart$subexpression$1", "symbols": ["VarCharStart$subexpression$1$subexpression$2"]},
-    {"name": "VarCharStart", "symbols": [NATIONAL, "VarCharStart$subexpression$1"], "postprocess":  function (data) {
+    {"name": "CharacterDataTypeStart$subexpression$1", "symbols": [VARCHAR]},
+    {"name": "CharacterDataTypeStart$subexpression$1", "symbols": [VARCHARACTER]},
+    {"name": "CharacterDataTypeStart$subexpression$1$subexpression$1", "symbols": [CHAR, VARYING]},
+    {"name": "CharacterDataTypeStart$subexpression$1", "symbols": ["CharacterDataTypeStart$subexpression$1$subexpression$1"]},
+    {"name": "CharacterDataTypeStart$subexpression$1$subexpression$2", "symbols": [CHARACTER, VARYING]},
+    {"name": "CharacterDataTypeStart$subexpression$1", "symbols": ["CharacterDataTypeStart$subexpression$1$subexpression$2"]},
+    {"name": "CharacterDataTypeStart", "symbols": [NATIONAL, "CharacterDataTypeStart$subexpression$1"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
@@ -1651,9 +1651,9 @@ export var ParserRules: NearleyRule[] = [
                 },
             };
         } },
-    {"name": "VarCharStart$subexpression$2", "symbols": [VARYING]},
-    {"name": "VarCharStart$subexpression$2", "symbols": [VARCHAR]},
-    {"name": "VarCharStart", "symbols": [NCHAR, "VarCharStart$subexpression$2"], "postprocess":  function (data) {
+    {"name": "CharacterDataTypeStart$subexpression$2", "symbols": [VARYING]},
+    {"name": "CharacterDataTypeStart$subexpression$2", "symbols": [VARCHAR]},
+    {"name": "CharacterDataTypeStart", "symbols": [NCHAR, "CharacterDataTypeStart$subexpression$2"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
@@ -1665,7 +1665,7 @@ export var ParserRules: NearleyRule[] = [
                 },
             };
         } },
-    {"name": "VarCharStart", "symbols": [NVARCHAR], "postprocess":  function (data) {
+    {"name": "CharacterDataTypeStart", "symbols": [NVARCHAR], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
@@ -1677,27 +1677,27 @@ export var ParserRules: NearleyRule[] = [
                 },
             };
         } },
-    {"name": "VarCharStart$subexpression$3", "symbols": [CHAR]},
-    {"name": "VarCharStart$subexpression$3", "symbols": [CHARACTER]},
-    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$3", VARYING], "postprocess":  (data) => {
+    {"name": "CharacterDataTypeStart$subexpression$3", "symbols": [CHAR]},
+    {"name": "CharacterDataTypeStart$subexpression$3", "symbols": [CHARACTER]},
+    {"name": "CharacterDataTypeStart", "symbols": ["CharacterDataTypeStart$subexpression$3", VARYING], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
                 nationalCharacterSet: undefined,
             };
         } },
-    {"name": "VarCharStart$subexpression$4", "symbols": [VARCHAR]},
-    {"name": "VarCharStart$subexpression$4", "symbols": [VARCHARACTER]},
-    {"name": "VarCharStart", "symbols": ["VarCharStart$subexpression$4"], "postprocess":  (data) => {
+    {"name": "CharacterDataTypeStart$subexpression$4", "symbols": [VARCHAR]},
+    {"name": "CharacterDataTypeStart$subexpression$4", "symbols": [VARCHARACTER]},
+    {"name": "CharacterDataTypeStart", "symbols": ["CharacterDataTypeStart$subexpression$4"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: true,
                 nationalCharacterSet: undefined,
             };
         } },
-    {"name": "CharStart$subexpression$1", "symbols": [CHAR]},
-    {"name": "CharStart$subexpression$1", "symbols": [CHARACTER]},
-    {"name": "CharStart", "symbols": [NATIONAL, "CharStart$subexpression$1"], "postprocess":  function (data) {
+    {"name": "CharacterDataTypeStart$subexpression$5", "symbols": [CHAR]},
+    {"name": "CharacterDataTypeStart$subexpression$5", "symbols": [CHARACTER]},
+    {"name": "CharacterDataTypeStart", "symbols": [NATIONAL, "CharacterDataTypeStart$subexpression$5"], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: false,
@@ -1709,7 +1709,7 @@ export var ParserRules: NearleyRule[] = [
                 },
             };
         } },
-    {"name": "CharStart", "symbols": [NCHAR], "postprocess":  function (data) {
+    {"name": "CharacterDataTypeStart", "symbols": [NCHAR], "postprocess":  function (data) {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: false,
@@ -1721,22 +1721,20 @@ export var ParserRules: NearleyRule[] = [
                 },
             };
         } },
-    {"name": "CharStart$subexpression$2", "symbols": [CHAR]},
-    {"name": "CharStart$subexpression$2", "symbols": [CHARACTER]},
-    {"name": "CharStart", "symbols": ["CharStart$subexpression$2"], "postprocess":  (data) => {
+    {"name": "CharacterDataTypeStart$subexpression$6", "symbols": [CHAR]},
+    {"name": "CharacterDataTypeStart$subexpression$6", "symbols": [CHARACTER]},
+    {"name": "CharacterDataTypeStart", "symbols": ["CharacterDataTypeStart$subexpression$6"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
                 variableLength: false,
                 nationalCharacterSet: undefined,
             };
         } },
-    {"name": "CharacterDataType$subexpression$1", "symbols": ["CharStart"]},
-    {"name": "CharacterDataType$subexpression$1", "symbols": ["VarCharStart"]},
     {"name": "CharacterDataType$ebnf$1", "symbols": ["FieldLength"], "postprocess": id},
     {"name": "CharacterDataType$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "CharacterDataType", "symbols": ["CharacterDataType$subexpression$1", "CharacterDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
+    {"name": "CharacterDataType", "symbols": ["CharacterDataTypeStart", "CharacterDataType$ebnf$1", "CharacterDataTypeModifier"], "postprocess":  (data) => {
             var _a;
-            const [[char], maxLength, modifier] = data;
+            const [char, maxLength, modifier] = data;
             if (char.nationalCharacterSet != undefined &&
                 modifier.characterSet != undefined) {
                 parse_util_1.pushSyntacticErrorAt(char.nationalCharacterSet, modifier.characterSet.start, modifier.characterSet.end, [char.nationalCharacterSet], diagnostic_messages_1.DiagnosticMessages.NationalCharacterDataTypeCannotSpecifyCharacterSet);
@@ -2401,52 +2399,6 @@ export var ParserRules: NearleyRule[] = [
                         parse_util_1.toValueNode("DEFAULT", parse_util_1.getTextRange(collationName)) :
                         collationName);
         } },
-    {"name": "Identifier", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
-            const [tokenObj] = data;
-            if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
-                const sourceText = tokenObj.getTokenSourceText();
-                return {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: tokenObj.value,
-                    quoted: sourceText[0] == "`" || sourceText[0] == "\"",
-                };
-            }
-            if (scanner_1.isNonReserved(tokenObj.tokenKind)) {
-                return {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: tokenObj.getTokenSourceText(),
-                    quoted: false,
-                };
-            }
-            const result = {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                identifier: tokenObj.getTokenSourceText(),
-                quoted: false,
-            };
-            parse_util_1.pushSyntacticErrorAtNode(result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
-            return result;
-        } },
-    {"name": "IdentifierAllowReserved", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
-            const [tokenObj] = data;
-            if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
-                const sourceText = tokenObj.getTokenSourceText();
-                return {
-                    ...parse_util_1.getTextRange(data),
-                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                    identifier: tokenObj.value,
-                    quoted: sourceText[0] == "`" || sourceText[0] == "\"",
-                };
-            }
-            return {
-                ...parse_util_1.getTextRange(data),
-                syntaxKind: parser_node_1.SyntaxKind.Identifier,
-                identifier: tokenObj.getTokenSourceText(),
-                quoted: false,
-            };
-        } },
     {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1", "symbols": [Dot, "IdentifierAllowReserved"]},
     {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": ["ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "ColumnIdentifier$ebnf$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -2507,6 +2459,52 @@ export var ParserRules: NearleyRule[] = [
                     eventName: nameB[1],
                 };
             }
+        } },
+    {"name": "Identifier", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
+            const [tokenObj] = data;
+            if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+                const sourceText = tokenObj.getTokenSourceText();
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: tokenObj.value,
+                    quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+                };
+            }
+            if (scanner_1.isNonReserved(tokenObj.tokenKind)) {
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: tokenObj.getTokenSourceText(),
+                    quoted: false,
+                };
+            }
+            const result = {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                identifier: tokenObj.getTokenSourceText(),
+                quoted: false,
+            };
+            parse_util_1.pushSyntacticErrorAtNode(result, [], diagnostic_messages_1.DiagnosticMessages.CannotUseReservedKeywordAsIdentifier, scanner_1.ReverseTokenKind[tokenObj.tokenKind]);
+            return result;
+        } },
+    {"name": "IdentifierAllowReserved", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
+            const [tokenObj] = data;
+            if (data[0].tokenKind == scanner_1.TokenKind.Identifier) {
+                const sourceText = tokenObj.getTokenSourceText();
+                return {
+                    ...parse_util_1.getTextRange(data),
+                    syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                    identifier: tokenObj.value,
+                    quoted: sourceText[0] == "`" || sourceText[0] == "\"",
+                };
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.Identifier,
+                identifier: tokenObj.getTokenSourceText(),
+                quoted: false,
+            };
         } },
     {"name": "LabelIdentifier", "symbols": ["Identifier"], "postprocess":  function (data) {
             if (data[0].quoted) {
@@ -3582,6 +3580,23 @@ export var ParserRules: NearleyRule[] = [
                 createTablespaceOptions,
             };
         } },
+    {"name": "AlterUserStatement$ebnf$1$subexpression$1", "symbols": [IF, EXISTS]},
+    {"name": "AlterUserStatement$ebnf$1", "symbols": ["AlterUserStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterUserStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterUserStatement$ebnf$2", "symbols": ["RequiredEncryptedConnectionOptionsNoDefault"], "postprocess": id},
+    {"name": "AlterUserStatement$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "AlterUserStatement", "symbols": [ALTER, USER, "AlterUserStatement$ebnf$1", "GrantUserList", "AlterUserStatement$ebnf$2", "PartialRateLimitOptions", "PartialAccountLockAndPasswordExpiryOptions"], "postprocess":  (data) => {
+            const [, , ifExists, grantUserList, requiredEncryptedConnectionOptions, rateLimitOptions, accountLockAndPasswordExpiryOptions,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterUserStatement,
+                ifExists: ifExists != undefined,
+                grantUserList,
+                requiredEncryptedConnectionOptions: (requiredEncryptedConnectionOptions !== null && requiredEncryptedConnectionOptions !== void 0 ? requiredEncryptedConnectionOptions : undefined),
+                rateLimitOptions,
+                accountLockAndPasswordExpiryOptions,
+            };
+        } },
     {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [UNDEFINED]},
     {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [MERGE]},
     {"name": "AlterViewStatement$ebnf$1$subexpression$1$subexpression$1", "symbols": [TEMPTABLE]},
@@ -4115,7 +4130,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "CreateIndexStatement$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "CreateIndexStatement$ebnf$2", "symbols": ["IndexType"], "postprocess": id},
     {"name": "CreateIndexStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "CreateIndexStatement", "symbols": [CREATE, "CreateIndexStatement$ebnf$1", INDEX, "Identifier", "CreateIndexStatement$ebnf$2", ON, "TableIdentifier", "IndexPartList", "IndexOption", "AlterTableLockAndAlgorithmOptions"], "postprocess":  function (data) {
+    {"name": "CreateIndexStatement", "symbols": [CREATE, "CreateIndexStatement$ebnf$1", INDEX, "Identifier", "CreateIndexStatement$ebnf$2", ON, "TableIdentifier", "IndexPartList", "IndexOptions", "AlterTableLockAndAlgorithmOptions"], "postprocess":  function (data) {
             const [, indexClassToken, , indexName, indexType, , tableIdentifier, indexParts, rawIndexOption, alterTableLockAndAlgorithmOptions,] = data;
             const indexOption = (indexType == undefined ?
                 rawIndexOption :
@@ -4536,18 +4551,15 @@ export var ParserRules: NearleyRule[] = [
     {"name": "ReferenceOption$subexpression$1", "symbols": ["ReferenceOption$subexpression$1$subexpression$5"]},
     {"name": "ReferenceOption", "symbols": ["ReferenceOption$subexpression$1"], "postprocess":  (data) => {
             const tokens = data[0][0];
-            return {
-                ...parse_util_1.getTextRange(data),
-                referenceOption: (tokens.length == 1 ?
-                    (tokens[0].tokenKind == scanner_1.TokenKind.RESTRICT ?
-                        parser_node_1.ReferenceOption.RESTRICT :
-                        parser_node_1.ReferenceOption.CASCADE) :
-                    (tokens[1].tokenKind == scanner_1.TokenKind.NULL ?
-                        parser_node_1.ReferenceOption.SET_NULL :
-                        tokens[1].tokenKind == scanner_1.TokenKind.ACTION ?
-                            parser_node_1.ReferenceOption.NO_ACTION :
-                            parser_node_1.ReferenceOption.SET_DEFAULT)),
-            };
+            return parse_util_1.toValueNode((tokens.length == 1 ?
+                (tokens[0].tokenKind == scanner_1.TokenKind.RESTRICT ?
+                    parser_node_1.ReferenceOption.RESTRICT :
+                    parser_node_1.ReferenceOption.CASCADE) :
+                (tokens[1].tokenKind == scanner_1.TokenKind.NULL ?
+                    parser_node_1.ReferenceOption.SET_NULL :
+                    tokens[1].tokenKind == scanner_1.TokenKind.ACTION ?
+                        parser_node_1.ReferenceOption.NO_ACTION :
+                        parser_node_1.ReferenceOption.SET_DEFAULT)), parse_util_1.getTextRange(data));
         } },
     {"name": "OnUpdateDelete$ebnf$1$subexpression$1", "symbols": [ON, DELETE, "ReferenceOption"]},
     {"name": "OnUpdateDelete$ebnf$1", "symbols": ["OnUpdateDelete$ebnf$1$subexpression$1"], "postprocess": id},
@@ -4555,10 +4567,10 @@ export var ParserRules: NearleyRule[] = [
     {"name": "OnUpdateDelete", "symbols": [ON, UPDATE, "ReferenceOption", "OnUpdateDelete$ebnf$1"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                onUpdate: data[2].referenceOption,
+                onUpdate: data[2].value,
                 onDelete: (data[3] == undefined ?
                     undefined :
-                    data[3][2].referenceOption),
+                    data[3][2].value),
             };
         } },
     {"name": "OnUpdateDelete$ebnf$2$subexpression$1", "symbols": [ON, UPDATE, "ReferenceOption"]},
@@ -4567,10 +4579,10 @@ export var ParserRules: NearleyRule[] = [
     {"name": "OnUpdateDelete", "symbols": [ON, DELETE, "ReferenceOption", "OnUpdateDelete$ebnf$2"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                onDelete: data[2].referenceOption,
+                onDelete: data[2].value,
                 onUpdate: (data[3] == undefined ?
                     undefined :
-                    data[3][2].referenceOption),
+                    data[3][2].value),
             };
         } },
     {"name": "ForeignKeyReferenceDefinition$ebnf$1$subexpression$1$subexpression$1", "symbols": [MATCH, FULL]},
@@ -4615,7 +4627,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IndexDefinition$ebnf$1$subexpression$1", "symbols": ["IndexDefinition$ebnf$1$subexpression$1$subexpression$2"]},
     {"name": "IndexDefinition$ebnf$1", "symbols": ["IndexDefinition$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$1", "IndexDefinition$ebnf$1", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$1", "IndexDefinition$ebnf$1", "IndexPartList", "IndexOptions"], "postprocess":  function (data) {
             const [indexClass, rawIndexName, indexParts, indexOption] = data;
             const indexName = (rawIndexName == undefined ?
                 undefined :
@@ -4722,7 +4734,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IndexDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "IndexDefinition$ebnf$3", "symbols": ["IndexType"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$2", "IndexDefinition$ebnf$2", "IndexDefinition$ebnf$3", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$subexpression$2", "IndexDefinition$ebnf$2", "IndexDefinition$ebnf$3", "IndexPartList", "IndexOptions"], "postprocess":  function (data) {
             const [, indexName, indexType, indexParts, rawIndexOption] = data;
             const indexOption = (indexType == undefined ?
                 rawIndexOption :
@@ -4742,28 +4754,48 @@ export var ParserRules: NearleyRule[] = [
                 ...parse_util_1.getTextRange(data),
             };
         } },
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [Equal], "postprocess": id},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$1", "symbols": [KEY_BLOCK_SIZE, "IndexOptionElement$subexpression$1$subexpression$1$ebnf$1", "IntegerLiteral"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$1"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexType"]},
-    {"name": "IndexOptionElement$subexpression$1$subexpression$2", "symbols": [WITH, PARSER, "Identifier"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["IndexOptionElement$subexpression$1$subexpression$2"]},
-    {"name": "IndexOptionElement$subexpression$1", "symbols": ["Comment"]},
-    {"name": "IndexOptionElement", "symbols": ["IndexOptionElement$subexpression$1"], "postprocess":  (data) => {
+    {"name": "IndexOption$ebnf$1", "symbols": [Equal], "postprocess": id},
+    {"name": "IndexOption$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "IndexOption", "symbols": [KEY_BLOCK_SIZE, "IndexOption$ebnf$1", "IntegerLiteral"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                data: data[0][0],
+                keyBlockSize: data[2],
             };
         } },
-    {"name": "IndexOption$ebnf$1", "symbols": []},
-    {"name": "IndexOption$ebnf$1", "symbols": ["IndexOption$ebnf$1", "IndexOptionElement"], "postprocess": (d) => d[0].concat([d[1]])},
-    {"name": "IndexOption", "symbols": ["IndexOption$ebnf$1"], "postprocess":  (data) => {
+    {"name": "IndexOption", "symbols": ["IndexType"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                indexType: data[0].indexType,
+            };
+        } },
+    {"name": "IndexOption", "symbols": [WITH, PARSER, "Identifier"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                withParser: data[2],
+            };
+        } },
+    {"name": "IndexOption", "symbols": ["Comment"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                comment: data[0],
+            };
+        } },
+    {"name": "IndexOptions$ebnf$1", "symbols": []},
+    {"name": "IndexOptions$ebnf$1", "symbols": ["IndexOptions$ebnf$1", "IndexOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "IndexOptions", "symbols": ["IndexOptions$ebnf$1"], "postprocess":  (data) => {
             let indexOption = parse_util_1.createDefaultIndexOption();
-            for (const ele of data[0]) {
-                indexOption = parse_util_1.processIndexOption(indexOption, ele.data);
+            for (const item of data[0]) {
+                for (const k of Object.keys(item)) {
+                    if (k in indexOption) {
+                        indexOption[k] = item[k];
+                        break;
+                    }
+                }
             }
-            return indexOption;
+            return {
+                ...parse_util_1.getTextRange(data),
+                ...indexOption,
+            };
         } },
     {"name": "IndexPart$ebnf$1$subexpression$1", "symbols": [OpenParentheses, "IntegerLiteral", CloseParentheses]},
     {"name": "IndexPart$ebnf$1", "symbols": ["IndexPart$ebnf$1$subexpression$1"], "postprocess": id},
@@ -4824,50 +4856,129 @@ export var ParserRules: NearleyRule[] = [
                 },
             };
         } },
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": [AUTO_INCREMENT]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [FIXED]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [DYNAMIC]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1", "symbols": [DEFAULT]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$1", "symbols": [COLUMN_FORMAT, "ColumnModifierElement$subexpression$1$subexpression$1$subexpression$1"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$1"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1", "symbols": [DISK]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1", "symbols": [MEMORY]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1", "symbols": [DEFAULT]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$2", "symbols": [STORAGE, "ColumnModifierElement$subexpression$1$subexpression$2$subexpression$1"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$2"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$3", "symbols": [DEFAULT, "Expression"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$3"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": [NULL]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$4", "symbols": [NOT, NULL]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$4"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": [UNIQUE]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": [UNIQUE_KEY]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", "symbols": [], "postprocess": () => null},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$5", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$5$ebnf$1", KEY]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$5"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$6", "symbols": [COMMENT, "StringLiteral"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$6"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$7", "symbols": [SERIAL, DEFAULT, VALUE]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$7"]},
-    {"name": "ColumnModifierElement$subexpression$1$subexpression$8", "symbols": [ON, UPDATE, "CurrentTimestamp"]},
-    {"name": "ColumnModifierElement$subexpression$1", "symbols": ["ColumnModifierElement$subexpression$1$subexpression$8"]},
-    {"name": "ColumnModifierElement", "symbols": ["ColumnModifierElement$subexpression$1"], "postprocess":  (data) => {
+    {"name": "ColumnDefinitionModifierOption", "symbols": [AUTO_INCREMENT], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
-                data: data[0][0],
+                autoIncrement: true,
+                nullable: {
+                    ...parse_util_1.getTextRange(data),
+                    nullable: false,
+                },
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption$subexpression$1", "symbols": [FIXED]},
+    {"name": "ColumnDefinitionModifierOption$subexpression$1", "symbols": [DYNAMIC]},
+    {"name": "ColumnDefinitionModifierOption$subexpression$1", "symbols": [DEFAULT]},
+    {"name": "ColumnDefinitionModifierOption", "symbols": [COLUMN_FORMAT, "ColumnDefinitionModifierOption$subexpression$1"], "postprocess":  (data) => {
+            const tokenObj = data[1][0];
+            return {
+                ...parse_util_1.getTextRange(data),
+                columnFormat: (tokenObj.tokenKind == scanner_1.TokenKind.FIXED ?
+                    parser_node_1.ColumnFormat.FIXED :
+                    tokenObj.tokenKind == scanner_1.TokenKind.DYNAMIC ?
+                        parser_node_1.ColumnFormat.DYNAMIC :
+                        parser_node_1.ColumnFormat.DEFAULT),
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption$subexpression$2", "symbols": [DISK]},
+    {"name": "ColumnDefinitionModifierOption$subexpression$2", "symbols": [MEMORY]},
+    {"name": "ColumnDefinitionModifierOption$subexpression$2", "symbols": [DEFAULT]},
+    {"name": "ColumnDefinitionModifierOption", "symbols": [STORAGE, "ColumnDefinitionModifierOption$subexpression$2"], "postprocess":  (data) => {
+            const tokenObj = data[1][0];
+            return {
+                ...parse_util_1.getTextRange(data),
+                storage: (tokenObj.tokenKind == scanner_1.TokenKind.DISK ?
+                    parser_node_1.Storage.DISK :
+                    tokenObj.tokenKind == scanner_1.TokenKind.MEMORY ?
+                        parser_node_1.Storage.MEMORY :
+                        parser_node_1.Storage.DEFAULT),
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption", "symbols": [DEFAULT, "Expression"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                defaultValue: data[1],
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption", "symbols": [NULL], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                nullable: {
+                    ...parse_util_1.getTextRange(data),
+                    nullable: true,
+                },
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption", "symbols": [NOT, NULL], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                nullable: {
+                    ...parse_util_1.getTextRange(data),
+                    nullable: false,
+                },
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption", "symbols": [UNIQUE], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                uniqueKey: true,
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption", "symbols": [UNIQUE_KEY], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                uniqueKey: true,
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption$ebnf$1", "symbols": [PRIMARY], "postprocess": id},
+    {"name": "ColumnDefinitionModifierOption$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "ColumnDefinitionModifierOption", "symbols": ["ColumnDefinitionModifierOption$ebnf$1", KEY], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                primaryKey: true,
+                nullable: {
+                    ...parse_util_1.getTextRange(data),
+                    nullable: false,
+                }
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption", "symbols": [COMMENT, "StringLiteral"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                comment: data[1],
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption", "symbols": [SERIAL, DEFAULT, VALUE], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                nullable: {
+                    ...parse_util_1.getTextRange(data),
+                    nullable: false,
+                },
+                autoIncrement: true,
+                uniqueKey: true,
+            };
+        } },
+    {"name": "ColumnDefinitionModifierOption", "symbols": [ON, UPDATE, "CurrentTimestamp"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                onUpdate: data[2],
             };
         } },
     {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": []},
-    {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": ["ColumnDefinitionModifier$ebnf$1", "ColumnModifierElement"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "ColumnDefinitionModifier$ebnf$1", "symbols": ["ColumnDefinitionModifier$ebnf$1", "ColumnDefinitionModifierOption"], "postprocess": (d) => d[0].concat([d[1]])},
     {"name": "ColumnDefinitionModifier$ebnf$2$subexpression$1", "symbols": ["ColumnCheckDefinition"]},
     {"name": "ColumnDefinitionModifier$ebnf$2$subexpression$1", "symbols": ["ForeignKeyReferenceDefinition"]},
     {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": ["ColumnDefinitionModifier$ebnf$2$subexpression$1"], "postprocess": id},
     {"name": "ColumnDefinitionModifier$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "ColumnDefinitionModifier", "symbols": ["ColumnDefinitionModifier$ebnf$1", "ColumnDefinitionModifier$ebnf$2"], "postprocess":  (data) => {
             let columnDefinitionModifier = parse_util_1.createDefaultColumnDefinitionModifier();
-            for (const ele of data[0]) {
-                columnDefinitionModifier = parse_util_1.processColumnDefinitionModifier(columnDefinitionModifier, ele.data);
+            for (const item of data[0]) {
+                for (const k of Object.keys(item)) {
+                    if (k in columnDefinitionModifier) {
+                        columnDefinitionModifier[k] = item[k];
+                    }
+                }
             }
             const checkOrForeignKeyReference = data[1];
             if (checkOrForeignKeyReference != undefined) {
@@ -4878,7 +4989,10 @@ export var ParserRules: NearleyRule[] = [
                     columnDefinitionModifier.foreignKeyReferenceDefinition = checkOrForeignKeyReference[0];
                 }
             }
-            return columnDefinitionModifier;
+            return {
+                ...parse_util_1.getTextRange(data),
+                ...columnDefinitionModifier,
+            };
         } },
     {"name": "ColumnDefinition", "symbols": ["ColumnIdentifier", "DataType", "ColumnDefinitionModifier"], "postprocess":  (data) => {
             const [columnIdentifier, dataType, modifier] = data;
@@ -4929,7 +5043,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "PrimaryKeyDefinition$ebnf$2", "symbols": [], "postprocess": () => null},
     {"name": "PrimaryKeyDefinition$ebnf$3", "symbols": ["IndexType"], "postprocess": id},
     {"name": "PrimaryKeyDefinition$ebnf$3", "symbols": [], "postprocess": () => null},
-    {"name": "PrimaryKeyDefinition", "symbols": ["PrimaryKeyDefinition$ebnf$1", PRIMARY, KEY, "PrimaryKeyDefinition$ebnf$2", "PrimaryKeyDefinition$ebnf$3", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+    {"name": "PrimaryKeyDefinition", "symbols": ["PrimaryKeyDefinition$ebnf$1", PRIMARY, KEY, "PrimaryKeyDefinition$ebnf$2", "PrimaryKeyDefinition$ebnf$3", "IndexPartList", "IndexOptions"], "postprocess":  function (data) {
             const [constraintName, , , indexName, indexType, indexParts, rawIndexOption] = data;
             const indexOption = (indexType == undefined ?
                 rawIndexOption :
@@ -4962,7 +5076,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IndexDefinition$ebnf$5", "symbols": [], "postprocess": () => null},
     {"name": "IndexDefinition$ebnf$6", "symbols": ["IndexType"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$6", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$ebnf$4", UNIQUE, "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$ebnf$4", UNIQUE, "IndexDefinition$ebnf$5", "IndexDefinition$ebnf$6", "IndexPartList", "IndexOptions"], "postprocess":  function (data) {
             const [constraintName, , rawIndexName, indexType, indexParts, rawIndexOption] = data;
             const indexName = (rawIndexName == undefined ?
                 undefined :
@@ -5000,7 +5114,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "IndexDefinition$ebnf$8", "symbols": [], "postprocess": () => null},
     {"name": "IndexDefinition$ebnf$9", "symbols": ["IndexType"], "postprocess": id},
     {"name": "IndexDefinition$ebnf$9", "symbols": [], "postprocess": () => null},
-    {"name": "IndexDefinition", "symbols": ["IndexDefinition$ebnf$7", UNIQUE_KEY, "IndexDefinition$ebnf$8", "IndexDefinition$ebnf$9", "IndexPartList", "IndexOption"], "postprocess":  function (data) {
+    {"name": "IndexDefinition", "symbols": ["IndexDefinition$ebnf$7", UNIQUE_KEY, "IndexDefinition$ebnf$8", "IndexDefinition$ebnf$9", "IndexPartList", "IndexOptions"], "postprocess":  function (data) {
             const [constraintName, , indexName, indexType, indexParts, rawIndexOption] = data;
             const indexOption = (indexType == undefined ?
                 rawIndexOption :
@@ -5839,6 +5953,35 @@ export var ParserRules: NearleyRule[] = [
                     undefined),
             };
         } },
+    {"name": "PartialAccountLockAndPasswordExpiryOptions$ebnf$1", "symbols": []},
+    {"name": "PartialAccountLockAndPasswordExpiryOptions$ebnf$1", "symbols": ["PartialAccountLockAndPasswordExpiryOptions$ebnf$1", "AccountLockAndPasswordExpiryOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "PartialAccountLockAndPasswordExpiryOptions", "symbols": ["PartialAccountLockAndPasswordExpiryOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data[0];
+            const result = {
+                accountLocked: undefined,
+                passwordExpiry: undefined,
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.PartialAccountLockAndPasswordExpiryOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
     {"name": "CreateUserStatement$ebnf$1$subexpression$1", "symbols": [IF, NOT, EXISTS]},
     {"name": "CreateUserStatement$ebnf$1", "symbols": ["CreateUserStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CreateUserStatement$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -6011,6 +6154,50 @@ export var ParserRules: NearleyRule[] = [
                     undefined),
             };
         } },
+    {"name": "PartialRateLimitOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": ["RateLimitOption"]},
+    {"name": "PartialRateLimitOptions$ebnf$1$subexpression$1$ebnf$1", "symbols": ["PartialRateLimitOptions$ebnf$1$subexpression$1$ebnf$1", "RateLimitOption"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "PartialRateLimitOptions$ebnf$1$subexpression$1", "symbols": [WITH, "PartialRateLimitOptions$ebnf$1$subexpression$1$ebnf$1"]},
+    {"name": "PartialRateLimitOptions$ebnf$1", "symbols": ["PartialRateLimitOptions$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "PartialRateLimitOptions$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "PartialRateLimitOptions", "symbols": ["PartialRateLimitOptions$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                if (item == undefined) {
+                    return false;
+                }
+                if ("tokenKind" in item) {
+                    return false;
+                }
+                return true;
+            });
+            const result = {
+                maxQueriesPerHour: undefined,
+                maxUpdatesPerHour: undefined,
+                maxConnectionsPerHour: undefined,
+                maxUserConnections: undefined,
+            };
+            const syntacticErrors = [];
+            for (const item of arr) {
+                if (item.syntacticErrors != undefined && item.syntacticErrors.length > 0) {
+                    syntacticErrors.push(...item.syntacticErrors);
+                }
+                for (const k of Object.keys(item)) {
+                    if (k in result) {
+                        result[k] = item[k];
+                        break;
+                    }
+                }
+            }
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.PartialRateLimitOptions,
+                ...result,
+                syntacticErrors: (syntacticErrors.length > 0 ?
+                    syntacticErrors :
+                    undefined),
+            };
+        } },
     {"name": "RequiredEncryptedConnectionOption", "symbols": [SUBJECT, "StringLiteral"], "postprocess":  (data) => {
             return {
                 ...parse_util_1.getTextRange(data),
@@ -6029,12 +6216,7 @@ export var ParserRules: NearleyRule[] = [
                 sslCipher: data[1],
             };
         } },
-    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1", "symbols": [NONE]},
-    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1", "symbols": [SSL]},
-    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1", "symbols": [X509]},
-    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1", "symbols": ["RequiredEncryptedConnectionOptions"]},
-    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1", "symbols": [REQUIRE, "RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1$subexpression$1"]},
-    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1", "symbols": ["RequiredEncryptedConnectionOptions2$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "RequiredEncryptedConnectionOptions2$ebnf$1", "symbols": ["RequiredEncryptedConnectionOptionsNoDefault"], "postprocess": id},
     {"name": "RequiredEncryptedConnectionOptions2$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "RequiredEncryptedConnectionOptions2", "symbols": ["RequiredEncryptedConnectionOptions2$ebnf$1"], "postprocess":  (data) => {
             const item = data[0];
@@ -6044,6 +6226,14 @@ export var ParserRules: NearleyRule[] = [
                     end: -1,
                 });
             }
+            return item;
+        } },
+    {"name": "RequiredEncryptedConnectionOptionsNoDefault$subexpression$1", "symbols": [NONE]},
+    {"name": "RequiredEncryptedConnectionOptionsNoDefault$subexpression$1", "symbols": [SSL]},
+    {"name": "RequiredEncryptedConnectionOptionsNoDefault$subexpression$1", "symbols": [X509]},
+    {"name": "RequiredEncryptedConnectionOptionsNoDefault$subexpression$1", "symbols": ["RequiredEncryptedConnectionOptions"]},
+    {"name": "RequiredEncryptedConnectionOptionsNoDefault", "symbols": [REQUIRE, "RequiredEncryptedConnectionOptionsNoDefault$subexpression$1"], "postprocess":  (data) => {
+            const item = data;
             const options = item[1][0];
             if ("syntaxKind" in options) {
                 return options;
@@ -7808,6 +7998,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceChangeStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceAccessStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterServerStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterUserStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

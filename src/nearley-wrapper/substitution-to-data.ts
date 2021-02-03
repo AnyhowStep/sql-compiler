@@ -18,6 +18,14 @@ type MinusOne<I extends Index> = {
     7 : 6,
     8 : 7
 }[I];
+
+type SubstitutionToDataHack<
+    SubstitutionT extends unknown,
+    IndexT extends Index
+> =
+    SubstitutionToData<Extract<SubstitutionT, Substitution>, IndexT>
+;
+
 export type SubstitutionToData<
     SubstitutionT extends Substitution,
     IndexT extends Index=7
@@ -27,7 +35,7 @@ export type SubstitutionToData<
 
     SubstitutionT extends readonly Substitution[] ?
     {
-        [k in keyof SubstitutionT] : SubstitutionToData<Extract<SubstitutionT[k], Substitution>, MinusOne<IndexT>>
+        [k in keyof SubstitutionT] : SubstitutionToDataHack<SubstitutionT[k], MinusOne<IndexT>>
     } :
 
     SubstitutionT extends RuleReturnType<infer ReturnT> ?

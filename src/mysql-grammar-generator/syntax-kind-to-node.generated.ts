@@ -88,6 +88,7 @@ import {
     AlterTablespaceAccessStatement,
     AlterTablespaceChangeStatement,
     AlterTablespaceStatement,
+    AlterUserStatement,
     AlterViewStatement,
     CreateEventStatement,
     ExecuteAtSchedule,
@@ -133,10 +134,12 @@ import {
     CreateTriggerStatement,
     TriggerOrder,
     AccountLockAndPasswordExpiryOptions,
+    PartialAccountLockAndPasswordExpiryOptions,
     CreateUserStatement,
     GrantUser,
     GrantUserList,
     RateLimitOptions,
+    PartialRateLimitOptions,
     RequiredEncryptedConnectionOptions,
     CreateViewStatement,
     DeclareFunctionParameter,
@@ -305,6 +308,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTablespaceAccessStatement] : AlterTablespaceAccessStatement;
     [SyntaxKind.AlterTablespaceChangeStatement] : AlterTablespaceChangeStatement;
     [SyntaxKind.AlterTablespaceStatement] : AlterTablespaceStatement;
+    [SyntaxKind.AlterUserStatement] : AlterUserStatement;
     [SyntaxKind.AlterViewStatement] : AlterViewStatement;
     [SyntaxKind.CreateEventStatement] : CreateEventStatement;
     [SyntaxKind.ExecuteAtSchedule] : ExecuteAtSchedule;
@@ -350,10 +354,12 @@ export type SyntaxKindToNode = {
     [SyntaxKind.CreateTriggerStatement] : CreateTriggerStatement;
     [SyntaxKind.TriggerOrder] : TriggerOrder;
     [SyntaxKind.AccountLockAndPasswordExpiryOptions] : AccountLockAndPasswordExpiryOptions;
+    [SyntaxKind.PartialAccountLockAndPasswordExpiryOptions] : PartialAccountLockAndPasswordExpiryOptions;
     [SyntaxKind.CreateUserStatement] : CreateUserStatement;
     [SyntaxKind.GrantUser] : GrantUser;
     [SyntaxKind.GrantUserList] : GrantUserList;
     [SyntaxKind.RateLimitOptions] : RateLimitOptions;
+    [SyntaxKind.PartialRateLimitOptions] : PartialRateLimitOptions;
     [SyntaxKind.RequiredEncryptedConnectionOptions] : RequiredEncryptedConnectionOptions;
     [SyntaxKind.CreateViewStatement] : CreateViewStatement;
     [SyntaxKind.DeclareFunctionParameter] : DeclareFunctionParameter;

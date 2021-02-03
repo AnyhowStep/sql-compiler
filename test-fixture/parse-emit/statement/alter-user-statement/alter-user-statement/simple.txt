@@ -1,0 +1,8 @@
+ALTER USER x@localhost;
+
+-----
+ALTER USER
+    `x`@`localhost`;
+
+-----
+[]
