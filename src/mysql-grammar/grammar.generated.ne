@@ -3387,8 +3387,62 @@ AlterTablespaceStatement ->
     };
 } %}
 
+AlterGrantUser ->
+    AccountIdentifier {% (data) => {
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterGrantUser,
+        accountIdentifier: data[0],
+        authenticationPlugin: undefined,
+        identifiedByPasswordToken: undefined,
+        password: undefined,
+    };
+} %}
+    | AccountIdentifier %IDENTIFIED %BY %PASSWORD:? StringLiteral {% (data) => {
+    const [accountIdentifier, identifiedToken, , passwordToken, password,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterGrantUser,
+        accountIdentifier,
+        authenticationPlugin: undefined,
+        identifiedByPasswordToken: (passwordToken == undefined ?
+            undefined :
+            parse_util_1.toValueNode("IDENTIFIED BY PASSWORD", parse_util_1.getTextRange([identifiedToken, passwordToken]))),
+        password,
+    };
+} %}
+    | AccountIdentifier %IDENTIFIED %WITH (Identifier | StringLiteral) ((%AS | %BY) StringLiteral):? {% (data) => {
+    const [accountIdentifier, , , authenticationPlugin, password,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterGrantUser,
+        accountIdentifier,
+        authenticationPlugin: authenticationPlugin[0],
+        identifiedByPasswordToken: undefined,
+        password: (password == undefined ?
+            {
+                start: authenticationPlugin[0].end,
+                end: authenticationPlugin[0].end,
+                syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                value: "",
+                sourceText: `''`,
+            } :
+            password[1]),
+    };
+} %}
+
+AlterGrantUserList ->
+    AlterGrantUser (%Comma AlterGrantUser):* {% (data) => {
+    const arr = data
+        .flat(2)
+        .filter((item) => {
+        return "syntaxKind" in item;
+    });
+    return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.AlterGrantUserList, parse_util_1.getTextRange(data));
+} %}
+
 AlterUserStatement ->
-    %ALTER %USER (%IF %EXISTS):? GrantUserList RequiredEncryptedConnectionOptionsNoDefault:? PartialRateLimitOptions PartialAccountLockAndPasswordExpiryOptions {% (data) => {
+    %ALTER %USER (%IF %EXISTS):? AlterGrantUserList RequiredEncryptedConnectionOptionsNoDefault:? PartialRateLimitOptions PartialAccountLockAndPasswordExpiryOptions {% (data) => {
     const [, , ifExists, grantUserList, requiredEncryptedConnectionOptions, rateLimitOptions, accountLockAndPasswordExpiryOptions,] = data;
     return {
         ...parse_util_1.getTextRange(data),

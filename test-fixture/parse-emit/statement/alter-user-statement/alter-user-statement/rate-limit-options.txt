@@ -1,0 +1,12 @@
+ALTER USER FOO
+    WITH
+        MAX_QUERIES_PER_HOUR 5;
+
+-----
+ALTER USER
+    `FOO`@'%'
+    WITH
+        MAX_QUERIES_PER_HOUR 5;
+
+-----
+[]

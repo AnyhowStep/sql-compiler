@@ -1,0 +1,17 @@
+ALTER USER
+    FOO IDENTIFIED
+        WITH 'some-plugin',
+    BAR@BAZ IDENTIFIED
+        WITH somePlugin;
+
+-----
+ALTER USER
+    `FOO`@'%' IDENTIFIED
+        WITH 'some-plugin'
+        BY '',
+    `BAR`@BAZ IDENTIFIED
+        WITH `somePlugin`
+        BY '';
+
+-----
+[]

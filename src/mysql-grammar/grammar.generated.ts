@@ -3580,12 +3580,74 @@ export var ParserRules: NearleyRule[] = [
                 createTablespaceOptions,
             };
         } },
+    {"name": "AlterGrantUser", "symbols": ["AccountIdentifier"], "postprocess":  (data) => {
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterGrantUser,
+                accountIdentifier: data[0],
+                authenticationPlugin: undefined,
+                identifiedByPasswordToken: undefined,
+                password: undefined,
+            };
+        } },
+    {"name": "AlterGrantUser$ebnf$1", "symbols": [PASSWORD], "postprocess": id},
+    {"name": "AlterGrantUser$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterGrantUser", "symbols": ["AccountIdentifier", IDENTIFIED, BY, "AlterGrantUser$ebnf$1", "StringLiteral"], "postprocess":  (data) => {
+            const [accountIdentifier, identifiedToken, , passwordToken, password,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterGrantUser,
+                accountIdentifier,
+                authenticationPlugin: undefined,
+                identifiedByPasswordToken: (passwordToken == undefined ?
+                    undefined :
+                    parse_util_1.toValueNode("IDENTIFIED BY PASSWORD", parse_util_1.getTextRange([identifiedToken, passwordToken]))),
+                password,
+            };
+        } },
+    {"name": "AlterGrantUser$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "AlterGrantUser$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "AlterGrantUser$ebnf$2$subexpression$1$subexpression$1", "symbols": [AS]},
+    {"name": "AlterGrantUser$ebnf$2$subexpression$1$subexpression$1", "symbols": [BY]},
+    {"name": "AlterGrantUser$ebnf$2$subexpression$1", "symbols": ["AlterGrantUser$ebnf$2$subexpression$1$subexpression$1", "StringLiteral"]},
+    {"name": "AlterGrantUser$ebnf$2", "symbols": ["AlterGrantUser$ebnf$2$subexpression$1"], "postprocess": id},
+    {"name": "AlterGrantUser$ebnf$2", "symbols": [], "postprocess": () => null},
+    {"name": "AlterGrantUser", "symbols": ["AccountIdentifier", IDENTIFIED, WITH, "AlterGrantUser$subexpression$1", "AlterGrantUser$ebnf$2"], "postprocess":  (data) => {
+            const [accountIdentifier, , , authenticationPlugin, password,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterGrantUser,
+                accountIdentifier,
+                authenticationPlugin: authenticationPlugin[0],
+                identifiedByPasswordToken: undefined,
+                password: (password == undefined ?
+                    {
+                        start: authenticationPlugin[0].end,
+                        end: authenticationPlugin[0].end,
+                        syntaxKind: parser_node_1.SyntaxKind.StringLiteral,
+                        value: "",
+                        sourceText: `''`,
+                    } :
+                    password[1]),
+            };
+        } },
+    {"name": "AlterGrantUserList$ebnf$1", "symbols": []},
+    {"name": "AlterGrantUserList$ebnf$1$subexpression$1", "symbols": [Comma, "AlterGrantUser"]},
+    {"name": "AlterGrantUserList$ebnf$1", "symbols": ["AlterGrantUserList$ebnf$1", "AlterGrantUserList$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "AlterGrantUserList", "symbols": ["AlterGrantUser", "AlterGrantUserList$ebnf$1"], "postprocess":  (data) => {
+            const arr = data
+                .flat(2)
+                .filter((item) => {
+                return "syntaxKind" in item;
+            });
+            return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.AlterGrantUserList, parse_util_1.getTextRange(data));
+        } },
     {"name": "AlterUserStatement$ebnf$1$subexpression$1", "symbols": [IF, EXISTS]},
     {"name": "AlterUserStatement$ebnf$1", "symbols": ["AlterUserStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "AlterUserStatement$ebnf$1", "symbols": [], "postprocess": () => null},
     {"name": "AlterUserStatement$ebnf$2", "symbols": ["RequiredEncryptedConnectionOptionsNoDefault"], "postprocess": id},
     {"name": "AlterUserStatement$ebnf$2", "symbols": [], "postprocess": () => null},
-    {"name": "AlterUserStatement", "symbols": [ALTER, USER, "AlterUserStatement$ebnf$1", "GrantUserList", "AlterUserStatement$ebnf$2", "PartialRateLimitOptions", "PartialAccountLockAndPasswordExpiryOptions"], "postprocess":  (data) => {
+    {"name": "AlterUserStatement", "symbols": [ALTER, USER, "AlterUserStatement$ebnf$1", "AlterGrantUserList", "AlterUserStatement$ebnf$2", "PartialRateLimitOptions", "PartialAccountLockAndPasswordExpiryOptions"], "postprocess":  (data) => {
             const [, , ifExists, grantUserList, requiredEncryptedConnectionOptions, rateLimitOptions, accountLockAndPasswordExpiryOptions,] = data;
             return {
                 ...parse_util_1.getTextRange(data),

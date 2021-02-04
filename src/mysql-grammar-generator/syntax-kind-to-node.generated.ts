@@ -88,6 +88,8 @@ import {
     AlterTablespaceAccessStatement,
     AlterTablespaceChangeStatement,
     AlterTablespaceStatement,
+    AlterGrantUser,
+    AlterGrantUserList,
     AlterUserStatement,
     AlterViewStatement,
     CreateEventStatement,
@@ -308,6 +310,8 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterTablespaceAccessStatement] : AlterTablespaceAccessStatement;
     [SyntaxKind.AlterTablespaceChangeStatement] : AlterTablespaceChangeStatement;
     [SyntaxKind.AlterTablespaceStatement] : AlterTablespaceStatement;
+    [SyntaxKind.AlterGrantUser] : AlterGrantUser;
+    [SyntaxKind.AlterGrantUserList] : AlterGrantUserList;
     [SyntaxKind.AlterUserStatement] : AlterUserStatement;
     [SyntaxKind.AlterViewStatement] : AlterViewStatement;
     [SyntaxKind.CreateEventStatement] : CreateEventStatement;

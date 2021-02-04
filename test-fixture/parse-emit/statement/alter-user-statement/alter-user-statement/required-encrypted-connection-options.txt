@@ -1,0 +1,10 @@
+ALTER USER FOO
+    REQUIRE SSL;
+
+-----
+ALTER USER
+    `FOO`@'%'
+    REQUIRE SSL;
+
+-----
+[]

@@ -1,0 +1,10 @@
+ALTER USER FOO, BAR, BAZ;
+
+-----
+ALTER USER
+    `FOO`@'%',
+    `BAR`@'%',
+    `BAZ`@'%';
+
+-----
+[]

@@ -1,12 +1,17 @@
-import {GrantUser, GrantUserList} from "../../../parser-node";
+import {AlterGrantUser, AlterGrantUserList, GrantUser, GrantUserList} from "../../../parser-node";
 import {emitExpression, emitStringLiteral} from "../../expression";
 import {emitAccountIdentifier} from "../../identifier";
 import {StringBuilder} from "../../string-builder";
 
-export function emitGrantUser (grantUser : GrantUser) {
+export function emitGrantUser (grantUser : GrantUser|AlterGrantUser) {
     return new StringBuilder()
         .appendBuilder(emitAccountIdentifier(grantUser.accountIdentifier))
-        .append(" IDENTIFIED")
+        .append(
+            grantUser.authenticationPlugin == undefined &&
+            grantUser.password == undefined ?
+            undefined :
+            " IDENTIFIED"
+        )
         .scope(builder => {
             if (grantUser.authenticationPlugin == undefined) {
                 return;
@@ -19,17 +24,22 @@ export function emitGrantUser (grantUser : GrantUser) {
             })
         })
         .scope(builder => {
+            if (grantUser.password == undefined) {
+                return;
+            }
+
+            const password = emitStringLiteral(grantUser.password)
             builder.indent(builder => {
                 builder
                     .append("BY ")
-                    .appendBuilder(emitStringLiteral(grantUser.password))
+                    .appendBuilder(password)
             })
         })
 }
 
-export function emitGrantUserList (list : GrantUserList) {
+export function emitGrantUserList (list : GrantUserList|AlterGrantUserList) {
     return new StringBuilder()
-        .loop(
+        .loop<GrantUser|AlterGrantUser>(
             list,
             builder => builder.append(",").appendNewLine(),
             (builder, grantUser) => builder

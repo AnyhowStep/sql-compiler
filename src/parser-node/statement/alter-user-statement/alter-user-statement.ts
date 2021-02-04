@@ -1,6 +1,7 @@
 import {Node, ValueNode} from "../../node";
 import {SyntaxKind} from "../../syntax-kind.generated";
-import {PartialAccountLockAndPasswordExpiryOptions, GrantUserList, PartialRateLimitOptions, RequiredEncryptedConnectionOptions} from "../create-user-statement";
+import {PartialAccountLockAndPasswordExpiryOptions, PartialRateLimitOptions, RequiredEncryptedConnectionOptions} from "../create-user-statement";
+import {AlterGrantUserList} from "./alter-grant-user";
 
 /**
  * https://dev.mysql.com/doc/refman/5.7/en/alter-user.html
@@ -12,7 +13,7 @@ export interface AlterUserStatement extends Node {
 
     ifExists : boolean,
 
-    grantUserList : GrantUserList,
+    grantUserList : AlterGrantUserList,
 
     requiredEncryptedConnectionOptions : ValueNode<"SSL"|"X509"|"NONE">|RequiredEncryptedConnectionOptions|undefined,
 

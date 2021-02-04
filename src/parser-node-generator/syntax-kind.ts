@@ -159,6 +159,8 @@ export const syntaxKinds = [
     "AlterUserStatement",
     "PartialRateLimitOptions",
     "PartialAccountLockAndPasswordExpiryOptions",
+    "AlterGrantUser",
+    "AlterGrantUserList",
 
     "HashPartition",
     "KeyPartition",

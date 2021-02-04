@@ -1,0 +1,8 @@
+ALTER USER IF EXISTS FOO;
+
+-----
+ALTER USER IF EXISTS
+    `FOO`@'%';
+
+-----
+[]

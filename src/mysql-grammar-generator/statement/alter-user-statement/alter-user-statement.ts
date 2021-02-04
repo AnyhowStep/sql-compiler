@@ -10,7 +10,7 @@ makeCustomRule(SyntaxKind.AlterUserStatement)
             TokenKind.ALTER,
             TokenKind.USER,
             optional([TokenKind.IF, TokenKind.EXISTS] as const),
-            SyntaxKind.GrantUserList,
+            SyntaxKind.AlterGrantUserList,
             optional(CustomSyntaxKind.RequiredEncryptedConnectionOptionsNoDefault),
             SyntaxKind.PartialRateLimitOptions,
             SyntaxKind.PartialAccountLockAndPasswordExpiryOptions,
