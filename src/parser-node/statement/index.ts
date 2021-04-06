@@ -10,6 +10,8 @@ export * from "./alter-view-statement";
 
 export * from "./analyze-table-statement";
 
+export * from "./bin-log-statement";
+
 export * from "./create-event-statement";
 export * from "./create-function-statement";
 export * from "./create-index-statement";

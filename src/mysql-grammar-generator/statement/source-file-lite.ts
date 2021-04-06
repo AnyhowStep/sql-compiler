@@ -45,6 +45,8 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.AlterInstanceStatement,
 
             SyntaxKind.AnalyzeTableStatement,
+
+            SyntaxKind.BinLogStatement,
         )] as const,
         (data) : Statement => {
             return data[0][0];

@@ -1,0 +1,7 @@
+BINLOG 'aGVsbG8sIHdvcmxk';
+
+-----
+BINLOG 'aGVsbG8sIHdvcmxk';
+
+-----
+[]

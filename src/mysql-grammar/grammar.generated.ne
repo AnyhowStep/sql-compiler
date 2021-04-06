@@ -3542,6 +3542,16 @@ AnalyzeTableStatement ->
     };
 } %}
 
+BinLogStatement ->
+    %BINLOG StringLiteral {% (data) => {
+    const [, str,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.BinLogStatement,
+        str,
+    };
+} %}
+
 CreateEventStatement ->
     %CREATE (%DEFINER %Equal AccountIdentifierOrCurrentUser):? %EVENT (%IF %NOT %EXISTS):? EventIdentifier %ON %SCHEDULE Schedule (%ON %COMPLETION %NOT:? %PRESERVE):? ((%ENABLE) | (%DISABLE) | (%DISABLE %ON %SLAVE)):? (%COMMENT StringLiteral):? %DO StoredProcedureStatement {% (data) => {
     const [, definer, eventToken, ifNotExists, eventIdentifier, , , schedule, onCompletionPreserve, eventStatus, comment, , statement,] = data;
@@ -7370,7 +7380,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement | AlterServerStatement | AlterUserStatement | AlterCurrentUserStatement | AlterInstanceStatement | AnalyzeTableStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement | AlterServerStatement | AlterUserStatement | AlterCurrentUserStatement | AlterInstanceStatement | AnalyzeTableStatement | BinLogStatement) {% (data) => {
     return data[0][0];
 } %}
 

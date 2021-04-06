@@ -3780,6 +3780,14 @@ const grammar: Grammar = {
                 tableIdentifierList,
             };
         } },
+    {"name": "BinLogStatement", "symbols": [BINLOG, "StringLiteral"], "postprocess":  (data) => {
+            const [, str,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.BinLogStatement,
+                str,
+            };
+        } },
     {"name": "CreateEventStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
     {"name": "CreateEventStatement$ebnf$1", "symbols": ["CreateEventStatement$ebnf$1$subexpression$1"], "postprocess": id},
     {"name": "CreateEventStatement$ebnf$1", "symbols": [], "postprocess": () => null},
@@ -8130,6 +8138,7 @@ const grammar: Grammar = {
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterCurrentUserStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterInstanceStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AnalyzeTableStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["BinLogStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

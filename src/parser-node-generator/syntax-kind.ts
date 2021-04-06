@@ -167,6 +167,8 @@ export const syntaxKinds = [
 
     "AnalyzeTableStatement",
 
+    "BinLogStatement",
+
     "HashPartition",
     "KeyPartition",
     "ListPartition",

@@ -96,6 +96,7 @@ import {
     AlterUserStatement,
     AlterViewStatement,
     AnalyzeTableStatement,
+    BinLogStatement,
     CreateEventStatement,
     ExecuteAtSchedule,
     IntervalSchedule,
@@ -322,6 +323,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterUserStatement] : AlterUserStatement;
     [SyntaxKind.AlterViewStatement] : AlterViewStatement;
     [SyntaxKind.AnalyzeTableStatement] : AnalyzeTableStatement;
+    [SyntaxKind.BinLogStatement] : BinLogStatement;
     [SyntaxKind.CreateEventStatement] : CreateEventStatement;
     [SyntaxKind.ExecuteAtSchedule] : ExecuteAtSchedule;
     [SyntaxKind.IntervalSchedule] : IntervalSchedule;

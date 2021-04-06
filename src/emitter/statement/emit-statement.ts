@@ -11,6 +11,7 @@ import {emitAlterCurrentUserStatement} from "./alter-user-statement/alter-curren
 import {emitAlterUserStatement} from "./alter-user-statement/alter-user-statement";
 import {emitAlterViewStatement} from "./alter-view-statement";
 import {emitAnalyzeTableStatement} from "./analyze-table-statement/analyze-table-statement";
+import {emitBinLogStatement} from "./bin-log-statement";
 import {emitCreateEventStatement} from "./create-event-statement";
 import {emitCreateFunctionStatement, emitCreateProcedureStatement, emitCreateUserDefinedFunctionStatement} from "./create-function-statement";
 import {emitCreateIndexStatement} from "./create-index-statement";
@@ -46,6 +47,8 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.AlterViewStatement, emitAlterViewStatement)
 
         .case(SyntaxKind.AnalyzeTableStatement, emitAnalyzeTableStatement)
+
+        .case(SyntaxKind.BinLogStatement, emitBinLogStatement)
 
         .case(SyntaxKind.CreateSchemaStatement, emitCreateSchemaStatement)
         .case(SyntaxKind.CreateTableStatement, emitCreateTableStatement)
