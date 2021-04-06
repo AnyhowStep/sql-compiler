@@ -10,6 +10,7 @@ import {emitAlterTablespaceAccessStatement, emitAlterTablespaceChangeStatement, 
 import {emitAlterCurrentUserStatement} from "./alter-user-statement/alter-current-user-statement";
 import {emitAlterUserStatement} from "./alter-user-statement/alter-user-statement";
 import {emitAlterViewStatement} from "./alter-view-statement";
+import {emitAnalyzeTableStatement} from "./analyze-table-statement/analyze-table-statement";
 import {emitCreateEventStatement} from "./create-event-statement";
 import {emitCreateFunctionStatement, emitCreateProcedureStatement, emitCreateUserDefinedFunctionStatement} from "./create-function-statement";
 import {emitCreateIndexStatement} from "./create-index-statement";
@@ -43,6 +44,8 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.AlterCurrentUserStatement, emitAlterCurrentUserStatement)
         .case(SyntaxKind.AlterUserStatement, emitAlterUserStatement)
         .case(SyntaxKind.AlterViewStatement, emitAlterViewStatement)
+
+        .case(SyntaxKind.AnalyzeTableStatement, emitAnalyzeTableStatement)
 
         .case(SyntaxKind.CreateSchemaStatement, emitCreateSchemaStatement)
         .case(SyntaxKind.CreateTableStatement, emitCreateTableStatement)

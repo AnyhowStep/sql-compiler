@@ -85,6 +85,7 @@ import {AlterCurrentUserStatement} from "./statement/alter-user-statement/alter-
 import {AlterGrantUser} from "./statement/alter-user-statement/alter-grant-user";
 import {AlterUserStatement} from "./statement/alter-user-statement/alter-user-statement";
 import {AlterViewStatement} from "./statement/alter-view-statement/alter-view-statement";
+import {AnalyzeTableStatement} from "./statement/analyze-table-statement/analyze-table-statement";
 import {CreateEventStatement} from "./statement/create-event-statement/create-event-statement";
 import {ExecuteAtSchedule} from "./statement/create-event-statement/execute-at-schedule";
 import {IntervalSchedule} from "./statement/create-event-statement/interval-schedule";
@@ -276,6 +277,7 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterCurrentU
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterGrantUser) : node is AlterGrantUser;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterUserStatement) : node is AlterUserStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterViewStatement) : node is AlterViewStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AnalyzeTableStatement) : node is AnalyzeTableStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.CreateEventStatement) : node is CreateEventStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.ExecuteAtSchedule) : node is ExecuteAtSchedule;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.IntervalSchedule) : node is IntervalSchedule;
@@ -476,6 +478,7 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.AlterGrantUser, callback : (node : AlterGrantUser) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterUserStatement, callback : (node : AlterUserStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterViewStatement, callback : (node : AlterViewStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AnalyzeTableStatement, callback : (node : AnalyzeTableStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.CreateEventStatement, callback : (node : CreateEventStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.ExecuteAtSchedule, callback : (node : ExecuteAtSchedule) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.IntervalSchedule, callback : (node : IntervalSchedule) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;

@@ -8,6 +8,8 @@ export * from "./alter-tablespace-statement";
 export * from "./alter-user-statement";
 export * from "./alter-view-statement";
 
+export * from "./analyze-table-statement";
+
 export * from "./create-event-statement";
 export * from "./create-function-statement";
 export * from "./create-index-statement";

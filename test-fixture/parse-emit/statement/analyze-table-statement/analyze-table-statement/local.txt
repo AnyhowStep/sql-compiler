@@ -1,0 +1,8 @@
+ANALYZE LOCAL TABLE T;
+
+-----
+ANALYZE NO_WRITE_TO_BINLOG TABLE
+    `T`;
+
+-----
+[]

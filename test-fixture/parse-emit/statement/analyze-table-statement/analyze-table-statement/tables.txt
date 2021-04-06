@@ -1,0 +1,13 @@
+ANALYZE TABLE T;
+
+ANALYZE TABLES T;
+
+-----
+ANALYZE TABLE
+    `T`;
+
+ANALYZE TABLE
+    `T`;
+
+-----
+[]

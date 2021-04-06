@@ -2972,6 +2972,18 @@ const grammar: Grammar = {
             });
             return parse_util_1.toNodeArray(arr, parser_node_1.SyntaxKind.TableIdentifierList, parse_util_1.getTextRange(data));
         } },
+    {"name": "TableIdentifierList2$ebnf$1", "symbols": []},
+    {"name": "TableIdentifierList2$ebnf$1$subexpression$1", "symbols": [Comma, "TableIdentifier"]},
+    {"name": "TableIdentifierList2$ebnf$1", "symbols": ["TableIdentifierList2$ebnf$1", "TableIdentifierList2$ebnf$1$subexpression$1"], "postprocess": (d) => d[0].concat([d[1]])},
+    {"name": "TableIdentifierList2", "symbols": ["TableIdentifier", "TableIdentifierList2$ebnf$1"], "postprocess":  (data) => {
+            const [first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) => {
+                return "syntaxKind" in x;
+            });
+            return parse_util_1.toNodeArray([first, ...arr], parser_node_1.SyntaxKind.TableIdentifierList, parse_util_1.getTextRange(data));
+        } },
     {"name": "TextString$subexpression$1", "symbols": ["StringLiteral"]},
     {"name": "TextString$subexpression$1", "symbols": ["HexLiteral"]},
     {"name": "TextString$subexpression$1", "symbols": ["BitLiteral"]},
@@ -3751,6 +3763,21 @@ const grammar: Grammar = {
                         checkOption[1][0].tokenKind == scanner_1.TokenKind.CASCADED ?
                             parser_node_1.ViewCheckOption.CASCADED :
                             parser_node_1.ViewCheckOption.LOCAL), parse_util_1.getTextRange(checkOption))),
+            };
+        } },
+    {"name": "AnalyzeTableStatement$ebnf$1$subexpression$1", "symbols": [NO_WRITE_TO_BINLOG]},
+    {"name": "AnalyzeTableStatement$ebnf$1$subexpression$1", "symbols": [LOCAL]},
+    {"name": "AnalyzeTableStatement$ebnf$1", "symbols": ["AnalyzeTableStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AnalyzeTableStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AnalyzeTableStatement$subexpression$1", "symbols": [TABLE]},
+    {"name": "AnalyzeTableStatement$subexpression$1", "symbols": [TABLES]},
+    {"name": "AnalyzeTableStatement", "symbols": [ANALYZE, "AnalyzeTableStatement$ebnf$1", "AnalyzeTableStatement$subexpression$1", "TableIdentifierList2"], "postprocess":  (data) => {
+            const [, noWriteToBinLog, , tableIdentifierList,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AnalyzeTableStatement,
+                noWriteToBinLog: noWriteToBinLog != undefined,
+                tableIdentifierList,
             };
         } },
     {"name": "CreateEventStatement$ebnf$1$subexpression$1", "symbols": [DEFINER, Equal, "AccountIdentifierOrCurrentUser"]},
@@ -8102,6 +8129,7 @@ const grammar: Grammar = {
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterUserStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterCurrentUserStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterInstanceStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AnalyzeTableStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

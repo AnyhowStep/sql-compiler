@@ -165,6 +165,8 @@ export const syntaxKinds = [
     "AlterInstanceStatement",
     "AlterInstanceRotateMasterKey",
 
+    "AnalyzeTableStatement",
+
     "HashPartition",
     "KeyPartition",
     "ListPartition",

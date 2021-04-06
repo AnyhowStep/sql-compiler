@@ -59,3 +59,27 @@ makeCustomRule(CustomSyntaxKind.TableIdentifierList_AllowEmpty)
             );
         }
     )
+
+makeCustomRule(CustomSyntaxKind.TableIdentifierList2)
+    .addSubstitution(
+        [
+            SyntaxKind.TableIdentifier,
+            zeroOrMore([
+                TokenKind.Comma,
+                SyntaxKind.TableIdentifier,
+            ] as const),
+        ] as const,
+        (data) : TableIdentifierList => {
+            const [first, more] = data;
+            const arr = more
+                .flat(1)
+                .filter((x) : x is TableIdentifier => {
+                    return "syntaxKind" in x;
+                });
+            return toNodeArray(
+                [first, ...arr],
+                SyntaxKind.TableIdentifierList,
+                getTextRange(data)
+            );
+        }
+    )

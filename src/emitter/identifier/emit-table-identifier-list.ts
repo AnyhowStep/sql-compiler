@@ -12,3 +12,12 @@ export function emitTableIdentifierList (tableIdentifiers : TableIdentifierList)
         )
         .append(")")
 }
+
+export function emitTableIdentifierList2 (tableIdentifiers : TableIdentifierList) {
+    return new StringBuilder()
+        .loop(
+            tableIdentifiers,
+            builder => builder.append(",").appendNewLine(),
+            (builder, tableIdentifier) => builder.appendBuilder(emitTableIdentifier(tableIdentifier))
+        )
+}

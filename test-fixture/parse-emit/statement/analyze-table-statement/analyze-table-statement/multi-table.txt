@@ -1,0 +1,10 @@
+ANALYZE TABLE T, U, V;
+
+-----
+ANALYZE TABLE
+    `T`,
+    `U`,
+    `V`;
+
+-----
+[]

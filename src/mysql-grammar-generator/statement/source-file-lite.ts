@@ -43,6 +43,8 @@ makeCustomRule(CustomSyntaxKind.NonDelimiterStatement)
             SyntaxKind.AlterUserStatement,
             SyntaxKind.AlterCurrentUserStatement,
             SyntaxKind.AlterInstanceStatement,
+
+            SyntaxKind.AnalyzeTableStatement,
         )] as const,
         (data) : Statement => {
             return data[0][0];

@@ -95,6 +95,7 @@ import {
     AlterGrantUserList,
     AlterUserStatement,
     AlterViewStatement,
+    AnalyzeTableStatement,
     CreateEventStatement,
     ExecuteAtSchedule,
     IntervalSchedule,
@@ -320,6 +321,7 @@ export type SyntaxKindToNode = {
     [SyntaxKind.AlterGrantUserList] : AlterGrantUserList;
     [SyntaxKind.AlterUserStatement] : AlterUserStatement;
     [SyntaxKind.AlterViewStatement] : AlterViewStatement;
+    [SyntaxKind.AnalyzeTableStatement] : AnalyzeTableStatement;
     [SyntaxKind.CreateEventStatement] : CreateEventStatement;
     [SyntaxKind.ExecuteAtSchedule] : ExecuteAtSchedule;
     [SyntaxKind.IntervalSchedule] : IntervalSchedule;
