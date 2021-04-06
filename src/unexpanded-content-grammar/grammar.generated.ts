@@ -1,5 +1,5 @@
 //@ts-nocheck
-// Generated automatically by nearley, version 2.11.2
+// Generated automatically by nearley, version 2.20.1
 // http://github.com/Hardmath123/nearley
 // Bypasses TS6133. Allow declared but unused functions.
 // @ts-ignore
@@ -1314,6 +1314,8 @@ const Percent : Tester = { test: x => x.tokenKind == TokenKind.Percent, type : "
 //@ts-ignore
 const Slash : Tester = { test: x => x.tokenKind == TokenKind.Slash, type : "Slash" };
 //@ts-ignore
+const Colon : Tester = { test: x => x.tokenKind == TokenKind.Colon, type : "Colon" };
+//@ts-ignore
 const Dot : Tester = { test: x => x.tokenKind == TokenKind.Dot, type : "Dot" };
 //@ts-ignore
 const SemiColon : Tester = { test: x => x.tokenKind == TokenKind.SemiColon, type : "SemiColon" };
@@ -1327,6 +1329,8 @@ const OpenParenthesesPound : Tester = { test: x => x.tokenKind == TokenKind.Open
 const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.PoundCloseParentheses, type : "PoundCloseParentheses" };
 //@ts-ignore
 const Backslash : Tester = { test: x => x.tokenKind == TokenKind.Backslash, type : "Backslash" };
+//@ts-ignore
+const QuestionMark : Tester = { test: x => x.tokenKind == TokenKind.QuestionMark, type : "QuestionMark" };
 //@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore
@@ -1373,27 +1377,36 @@ const DELIMITER_STATEMENT : Tester = { test: x => x.tokenKind == TokenKind.DELIM
 const UNIQUE_KEY : Tester = { test: x => x.tokenKind == TokenKind.UNIQUE_KEY, type : "UNIQUE_KEY" };
 
 
-export interface Token { value: any; [key: string]: any };
-
-export interface Lexer {
-  reset: (chunk: string, info: any) => void;
-  next: () => Token | undefined;
-  save: () => any;
-  formatError: (token: Token) => string;
-  has: (tokenType: string) => boolean
+interface NearleyToken {
+  value: any;
+  [key: string]: any;
 };
 
-export interface NearleyRule {
+interface NearleyLexer {
+  reset: (chunk: string, info: any) => void;
+  next: () => NearleyToken | undefined;
+  save: () => any;
+  formatError: (token: never) => string;
+  has: (tokenType: string) => boolean;
+};
+
+interface NearleyRule {
   name: string;
   symbols: NearleySymbol[];
-  postprocess?: (d: any[], loc?: number, reject?: {}) => any
+  postprocess?: (d: any[], loc?: number, reject?: {}) => any;
 };
 
-export type NearleySymbol = string | { literal: any } | { test: (token: any) => boolean };
+type NearleySymbol = string | { literal: any } | { test: (token: any) => boolean };
 
-export var Lexer: Lexer | undefined = undefined;
+interface Grammar {
+  Lexer: NearleyLexer | undefined;
+  ParserRules: NearleyRule[];
+  ParserStart: string;
+};
 
-export var ParserRules: NearleyRule[] = [
+const grammar: Grammar = {
+  Lexer: undefined,
+  ParserRules: [
     {"name": "Start", "symbols": ["UnexpandedContent"], "postprocess": data => data[0]},
     {"name": "Identifier", "symbols": [KeywordOrIdentifier], "postprocess":  function (data) {
             const [tokenObj] = data;
@@ -1631,6 +1644,8 @@ export var ParserRules: NearleyRule[] = [
                 unexpandedContent,
             };
         } }
-];
+  ],
+  ParserStart: "Start",
+};
 
-export var ParserStart: string = "Start";
+export default grammar;

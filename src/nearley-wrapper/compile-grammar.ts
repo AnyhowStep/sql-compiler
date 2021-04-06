@@ -54,8 +54,8 @@ import * as grammar from "./grammar.generated";
 
 export function bindGrammar<ParserStateT> (state : ParserStateT) : nearley.Grammar {
     return nearley.Grammar.fromCompiled({
-        ...grammar,
-        ParserRules : grammar.ParserRules.map(rule => {
+        ...grammar.default,
+        ParserRules : grammar.default.ParserRules.map(rule => {
             return {
                 ...rule,
                 postprocess : (

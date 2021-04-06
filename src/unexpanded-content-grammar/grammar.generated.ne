@@ -1310,6 +1310,8 @@ const Percent : Tester = { test: x => x.tokenKind == TokenKind.Percent, type : "
 //@ts-ignore
 const Slash : Tester = { test: x => x.tokenKind == TokenKind.Slash, type : "Slash" };
 //@ts-ignore
+const Colon : Tester = { test: x => x.tokenKind == TokenKind.Colon, type : "Colon" };
+//@ts-ignore
 const Dot : Tester = { test: x => x.tokenKind == TokenKind.Dot, type : "Dot" };
 //@ts-ignore
 const SemiColon : Tester = { test: x => x.tokenKind == TokenKind.SemiColon, type : "SemiColon" };
@@ -1323,6 +1325,8 @@ const OpenParenthesesPound : Tester = { test: x => x.tokenKind == TokenKind.Open
 const PoundCloseParentheses : Tester = { test: x => x.tokenKind == TokenKind.PoundCloseParentheses, type : "PoundCloseParentheses" };
 //@ts-ignore
 const Backslash : Tester = { test: x => x.tokenKind == TokenKind.Backslash, type : "Backslash" };
+//@ts-ignore
+const QuestionMark : Tester = { test: x => x.tokenKind == TokenKind.QuestionMark, type : "QuestionMark" };
 //@ts-ignore
 const ColonEqual : Tester = { test: x => x.tokenKind == TokenKind.ColonEqual, type : "ColonEqual" };
 //@ts-ignore

@@ -14,6 +14,7 @@ branches:
 
 install:
   - npm install
+  - npm run postinstall
 
 cache:
   directories:

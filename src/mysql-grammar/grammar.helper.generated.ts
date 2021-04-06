@@ -17,3 +17,4 @@ export function bindGrammar<ParserStateT> (state : ParserStateT) : nearley.Gramm
         }),
     });
 }
+        

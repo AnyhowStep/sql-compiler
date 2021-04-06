@@ -16,7 +16,7 @@ export function parseUnexpandedContent (
         },
         filename,
         scanner,
-        grammar,
+        grammar : grammar.default,
         findAllSyntacticErrors : () => [],
     });
 
