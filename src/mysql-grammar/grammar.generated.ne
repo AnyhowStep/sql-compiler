@@ -3387,6 +3387,17 @@ AlterTablespaceStatement ->
     };
 } %}
 
+AlterCurrentUserStatement ->
+    %ALTER %USER (%IF %EXISTS):? %USER %OpenParentheses %CloseParentheses %IDENTIFIED %BY StringLiteral {% (data) => {
+    const [, , ifExists, , , , , , identifiedBy,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterCurrentUserStatement,
+        ifExists: ifExists != undefined,
+        identifiedBy,
+    };
+} %}
+
 AlterGrantUser ->
     AccountIdentifier {% (data) => {
     return {
@@ -7317,7 +7328,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement | AlterServerStatement | AlterUserStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement | AlterServerStatement | AlterUserStatement | AlterCurrentUserStatement) {% (data) => {
     return data[0][0];
 } %}
 

@@ -156,6 +156,7 @@ export const syntaxKinds = [
     "AlterTablespaceChangeStatement",
     "AlterTablespaceAccessStatement",
     "AlterServerStatement",
+    "AlterCurrentUserStatement",
     "AlterUserStatement",
     "PartialRateLimitOptions",
     "PartialAccountLockAndPasswordExpiryOptions",

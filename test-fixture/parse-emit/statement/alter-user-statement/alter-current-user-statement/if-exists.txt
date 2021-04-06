@@ -1,0 +1,9 @@
+ALTER USER IF EXISTS USER() IDENTIFIED BY 'lmao';
+
+-----
+ALTER USER IF EXISTS
+    USER()
+        IDENTIFIED BY 'lmao';
+
+-----
+[]

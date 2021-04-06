@@ -1,0 +1,9 @@
+ALTER USER USER() IDENTIFIED BY 'lmao';
+
+-----
+ALTER USER
+    USER()
+        IDENTIFIED BY 'lmao';
+
+-----
+[]

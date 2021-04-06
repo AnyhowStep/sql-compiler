@@ -31,7 +31,7 @@ export function parse (
         state,
         filename,
         scanner,
-        grammar,
+        grammar : grammar.default,
         findAllSyntacticErrors,
     });
 

@@ -6,6 +6,7 @@ import {emitAlterSchemaStatement, emitAlterSchemaUpgradeDataDirectoryNameStateme
 import {emitAlterServerStatement} from "./alter-server-statement";
 import {emitAlterTableStandaloneStatement, emitAlterTableStatement} from "./alter-table-statement";
 import {emitAlterTablespaceAccessStatement, emitAlterTablespaceChangeStatement, emitAlterTablespaceStatement} from "./alter-tablespace-statement";
+import {emitAlterCurrentUserStatement} from "./alter-user-statement/alter-current-user-statement";
 import {emitAlterUserStatement} from "./alter-user-statement/alter-user-statement";
 import {emitAlterViewStatement} from "./alter-view-statement";
 import {emitCreateEventStatement} from "./create-event-statement";
@@ -37,6 +38,7 @@ export function addStatementCases (switchBuilder : SwitchSyntaxKind<never>) : Sw
         .case(SyntaxKind.AlterTablespaceAccessStatement, emitAlterTablespaceAccessStatement)
         .case(SyntaxKind.AlterTablespaceChangeStatement, emitAlterTablespaceChangeStatement)
         .case(SyntaxKind.AlterTablespaceStatement, emitAlterTablespaceStatement)
+        .case(SyntaxKind.AlterCurrentUserStatement, emitAlterCurrentUserStatement)
         .case(SyntaxKind.AlterUserStatement, emitAlterUserStatement)
         .case(SyntaxKind.AlterViewStatement, emitAlterViewStatement)
 

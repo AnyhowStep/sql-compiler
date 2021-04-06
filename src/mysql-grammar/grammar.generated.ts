@@ -1,5 +1,5 @@
 //@ts-nocheck
-// Generated automatically by nearley, version 2.11.2
+// Generated automatically by nearley, version 2.20.1
 // http://github.com/Hardmath123/nearley
 // Bypasses TS6133. Allow declared but unused functions.
 // @ts-ignore
@@ -1374,27 +1374,36 @@ const DELIMITER_STATEMENT : Tester = { test: x => x.tokenKind == TokenKind.DELIM
 const UNIQUE_KEY : Tester = { test: x => x.tokenKind == TokenKind.UNIQUE_KEY, type : "UNIQUE_KEY" };
 
 
-export interface Token { value: any; [key: string]: any };
-
-export interface Lexer {
-  reset: (chunk: string, info: any) => void;
-  next: () => Token | undefined;
-  save: () => any;
-  formatError: (token: Token) => string;
-  has: (tokenType: string) => boolean
+interface NearleyToken {
+  value: any;
+  [key: string]: any;
 };
 
-export interface NearleyRule {
+interface NearleyLexer {
+  reset: (chunk: string, info: any) => void;
+  next: () => NearleyToken | undefined;
+  save: () => any;
+  formatError: (token: never) => string;
+  has: (tokenType: string) => boolean;
+};
+
+interface NearleyRule {
   name: string;
   symbols: NearleySymbol[];
-  postprocess?: (d: any[], loc?: number, reject?: {}) => any
+  postprocess?: (d: any[], loc?: number, reject?: {}) => any;
 };
 
-export type NearleySymbol = string | { literal: any } | { test: (token: any) => boolean };
+type NearleySymbol = string | { literal: any } | { test: (token: any) => boolean };
 
-export var Lexer: Lexer | undefined = undefined;
+interface Grammar {
+  Lexer: NearleyLexer | undefined;
+  ParserRules: NearleyRule[];
+  ParserStart: string;
+};
 
-export var ParserRules: NearleyRule[] = [
+const grammar: Grammar = {
+  Lexer: undefined,
+  ParserRules: [
     {"name": "Start", "symbols": ["SourceFileLite"], "postprocess": data => data[0]},
     {"name": "BinaryDataType$subexpression$1", "symbols": [BINARY]},
     {"name": "BinaryDataType$subexpression$1", "symbols": [VARBINARY]},
@@ -3578,6 +3587,18 @@ export var ParserRules: NearleyRule[] = [
                 add: parse_util_1.toValueNode(add[0].tokenKind == scanner_1.TokenKind.ADD, parse_util_1.getTextRange(add)),
                 dataFile,
                 createTablespaceOptions,
+            };
+        } },
+    {"name": "AlterCurrentUserStatement$ebnf$1$subexpression$1", "symbols": [IF, EXISTS]},
+    {"name": "AlterCurrentUserStatement$ebnf$1", "symbols": ["AlterCurrentUserStatement$ebnf$1$subexpression$1"], "postprocess": id},
+    {"name": "AlterCurrentUserStatement$ebnf$1", "symbols": [], "postprocess": () => null},
+    {"name": "AlterCurrentUserStatement", "symbols": [ALTER, USER, "AlterCurrentUserStatement$ebnf$1", USER, OpenParentheses, CloseParentheses, IDENTIFIED, BY, "StringLiteral"], "postprocess":  (data) => {
+            const [, , ifExists, , , , , , identifiedBy,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterCurrentUserStatement,
+                ifExists: ifExists != undefined,
+                identifiedBy,
             };
         } },
     {"name": "AlterGrantUser", "symbols": ["AccountIdentifier"], "postprocess":  (data) => {
@@ -8061,6 +8082,7 @@ export var ParserRules: NearleyRule[] = [
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterTablespaceAccessStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterServerStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterUserStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterCurrentUserStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },
@@ -8332,6 +8354,8 @@ export var ParserRules: NearleyRule[] = [
                 statements: data[3],
             };
         } }
-];
+  ],
+  ParserStart: "Start",
+};
 
-export var ParserStart: string = "Start";
+export default grammar;
