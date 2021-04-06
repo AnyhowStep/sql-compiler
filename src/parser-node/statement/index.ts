@@ -1,4 +1,5 @@
 export * from "./alter-event-statement";
+export * from "./alter-instance-statement";
 export * from "./alter-procedure-statement";
 export * from "./alter-schema-statement";
 export * from "./alter-server-statement";

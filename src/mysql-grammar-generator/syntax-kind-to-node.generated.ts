@@ -55,6 +55,8 @@ import {
     SourceFileLite,
     SourceElementList,
     AlterEventStatement,
+    AlterInstanceRotateMasterKey,
+    AlterInstanceStatement,
     AlterFunctionStatement,
     AlterProcedureStatement,
     AlterSchemaStatement,
@@ -278,6 +280,8 @@ export type SyntaxKindToNode = {
     [SyntaxKind.SourceFileLite] : SourceFileLite;
     [SyntaxKind.SourceElementList] : SourceElementList;
     [SyntaxKind.AlterEventStatement] : AlterEventStatement;
+    [SyntaxKind.AlterInstanceRotateMasterKey] : AlterInstanceRotateMasterKey;
+    [SyntaxKind.AlterInstanceStatement] : AlterInstanceStatement;
     [SyntaxKind.AlterFunctionStatement] : AlterFunctionStatement;
     [SyntaxKind.AlterProcedureStatement] : AlterProcedureStatement;
     [SyntaxKind.AlterSchemaStatement] : AlterSchemaStatement;

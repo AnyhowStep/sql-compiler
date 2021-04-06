@@ -2873,6 +2873,26 @@ AlterEventStatement ->
     };
 } %}
 
+AlterInstanceStatement ->
+    %ALTER %INSTANCE AlterInstanceRotateMasterKey {% (data) => {
+    const [, , alterInstanceAction,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterInstanceStatement,
+        alterInstanceAction,
+    };
+} %}
+
+AlterInstanceRotateMasterKey ->
+    %ROTATE (Identifier | StringLiteral) %MASTER %KEY {% (data) => {
+    const [, engine,] = data;
+    return {
+        ...parse_util_1.getTextRange(data),
+        syntaxKind: parser_node_1.SyntaxKind.AlterInstanceRotateMasterKey,
+        engine: engine[0],
+    };
+} %}
+
 AlterFunctionStatement ->
     %ALTER %FUNCTION StoredFunctionIdentifier PartialStoredProcedureCharacteristics {% (data) => {
     const [, , storedFunctionIdentifier, characteristics,] = data;
@@ -7328,7 +7348,7 @@ WhereClause ->
 } %}
 
 NonDelimiterStatement ->
-    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement | AlterServerStatement | AlterUserStatement | AlterCurrentUserStatement) {% (data) => {
+    (CreateSchemaStatement | CreateTableStatement | CreateFunctionStatement | CreateProcedureStatement | CreateTriggerStatement | CreateEventStatement | CreateUserDefinedFunctionStatement | CreateViewStatement | CreateUserStatement | CreateLogFileGroupStatement | CreateTablespaceStatement | CreateServerStatement | CreateIndexStatement | SelectStatement | CreateTableLikeStatement | CreateTableSelectStatement | AlterTableStatement | AlterTableStandaloneStatement | AlterSchemaStatement | AlterSchemaUpgradeDataDirectoryNameStatement | AlterProcedureStatement | AlterFunctionStatement | AlterViewStatement | AlterEventStatement | AlterTablespaceStatement | AlterTablespaceChangeStatement | AlterTablespaceAccessStatement | AlterServerStatement | AlterUserStatement | AlterCurrentUserStatement | AlterInstanceStatement) {% (data) => {
     return data[0][0];
 } %}
 

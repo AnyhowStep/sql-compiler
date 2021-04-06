@@ -3037,6 +3037,24 @@ const grammar: Grammar = {
                 statement: statement === null || statement === void 0 ? void 0 : statement[1],
             };
         } },
+    {"name": "AlterInstanceStatement", "symbols": [ALTER, INSTANCE, "AlterInstanceRotateMasterKey"], "postprocess":  (data) => {
+            const [, , alterInstanceAction,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterInstanceStatement,
+                alterInstanceAction,
+            };
+        } },
+    {"name": "AlterInstanceRotateMasterKey$subexpression$1", "symbols": ["Identifier"]},
+    {"name": "AlterInstanceRotateMasterKey$subexpression$1", "symbols": ["StringLiteral"]},
+    {"name": "AlterInstanceRotateMasterKey", "symbols": [ROTATE, "AlterInstanceRotateMasterKey$subexpression$1", MASTER, KEY], "postprocess":  (data) => {
+            const [, engine,] = data;
+            return {
+                ...parse_util_1.getTextRange(data),
+                syntaxKind: parser_node_1.SyntaxKind.AlterInstanceRotateMasterKey,
+                engine: engine[0],
+            };
+        } },
     {"name": "AlterFunctionStatement", "symbols": [ALTER, FUNCTION, "StoredFunctionIdentifier", "PartialStoredProcedureCharacteristics"], "postprocess":  (data) => {
             const [, , storedFunctionIdentifier, characteristics,] = data;
             return {
@@ -8083,6 +8101,7 @@ const grammar: Grammar = {
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterServerStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterUserStatement"]},
     {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterCurrentUserStatement"]},
+    {"name": "NonDelimiterStatement$subexpression$1", "symbols": ["AlterInstanceStatement"]},
     {"name": "NonDelimiterStatement", "symbols": ["NonDelimiterStatement$subexpression$1"], "postprocess":  (data) => {
             return data[0][0];
         } },

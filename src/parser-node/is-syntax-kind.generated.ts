@@ -48,6 +48,8 @@ import {SizeNumber} from "./misc/size-number";
 import {SourceFile} from "./source-file";
 import {SourceFileLite} from "./source-file";
 import {AlterEventStatement} from "./statement/alter-event-statement/alter-event-statement";
+import {AlterInstanceRotateMasterKey} from "./statement/alter-instance-statement/alter-instance-rotate-master-key";
+import {AlterInstanceStatement} from "./statement/alter-instance-statement/alter-instance-statement";
 import {AlterFunctionStatement} from "./statement/alter-procedure-statement/alter-function-statement";
 import {AlterProcedureStatement} from "./statement/alter-procedure-statement/alter-procedure-statement";
 import {AlterSchemaStatement} from "./statement/alter-schema-statement/alter-schema-statement";
@@ -237,6 +239,8 @@ export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SizeNumber) :
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFile) : node is SourceFile;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.SourceFileLite) : node is SourceFileLite;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterEventStatement) : node is AlterEventStatement;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterInstanceRotateMasterKey) : node is AlterInstanceRotateMasterKey;
+export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterInstanceStatement) : node is AlterInstanceStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterFunctionStatement) : node is AlterFunctionStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterProcedureStatement) : node is AlterProcedureStatement;
 export function isSyntaxKind (node : Node, syntaxKind : SyntaxKind.AlterSchemaStatement) : node is AlterSchemaStatement;
@@ -435,6 +439,8 @@ export interface SwitchSyntaxKind<ReturnT> {
     case<ResultT> (syntaxKind : SyntaxKind.SourceFile, callback : (node : SourceFile) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.SourceFileLite, callback : (node : SourceFileLite) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterEventStatement, callback : (node : AlterEventStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterInstanceRotateMasterKey, callback : (node : AlterInstanceRotateMasterKey) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
+    case<ResultT> (syntaxKind : SyntaxKind.AlterInstanceStatement, callback : (node : AlterInstanceStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterFunctionStatement, callback : (node : AlterFunctionStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterProcedureStatement, callback : (node : AlterProcedureStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
     case<ResultT> (syntaxKind : SyntaxKind.AlterSchemaStatement, callback : (node : AlterSchemaStatement) => ResultT) : SwitchSyntaxKind<ResultT|ReturnT>;
