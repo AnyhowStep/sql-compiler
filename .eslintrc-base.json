@@ -1,6 +1,6 @@
 {
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint", "local"],
+    "plugins": ["@typescript-eslint"],
     "parserOptions": {
         "ecmaVersion": 8,
         "sourceType": "module",
@@ -12,6 +12,7 @@
         "warnOnUnsupportedTypeScriptVersion": true
     },
     "rules": {
+        "no-var": ["error"],
         "semi": "off",
         "@typescript-eslint/semi": ["error"],
 

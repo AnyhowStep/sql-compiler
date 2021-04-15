@@ -1,0 +1,13 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/syntax-kind-generator",
+        "declarationDir": "../../dist/syntax-kind-generator",
+        "types": ["@types/node"]
+    },
+    "references" : [
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

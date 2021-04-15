@@ -1,4 +1,50 @@
-### Projects
+### Projects (Current)
+
++ **Scanner**
+
+  + `scanner-2`
+
+    Intended to replace `scanner`.
+
+    Takes a string and returns tokens.
+
+  + `scanner-generator-2`
+
+    Generates types for the scanner and parser.
+
++ **Parser**
+
+  + `compiled-grammar`
+
+    Contains interfaces for a compiled grammar; may safely be serialized to a JSON string.
+
+  + `grammar-builder`
+
+    Used to compile an arbitrary grammar.
+
+  + `grammar-runtime`
+
+    Takes a compiled grammar and a list of tokens, and returns a parse tree.
+
+    Uses a modified version of the Earley algorithm to be robust in the face of
+    missing and extra tokens.
+
+    The goal is to return at least one parse tree, no matter how nonsensical the input.
+
+  + `mysql-grammar-2`
+
+    Intended to replace `mysql-grammar`.
+
+    Contains a grammar for MySQL 5.7, based on this file,
+    https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy
+
+  + `syntax-kind-generator`
+
+    Generates types for the parser.
+
+-----
+
+### Projects (To refactor)
 
 + `diagnostic`
 

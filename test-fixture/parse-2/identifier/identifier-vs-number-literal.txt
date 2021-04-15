@@ -1,0 +1,479 @@
+CREATE SCHEMA 0
+
+-----
+(SourceFile[0, 16]
+  (statement[]: TrailingStatement[0, 16]
+    (statement: CreateSchemaStatement[0, 14]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (Expected identifier: Identifier[14, 14])
+    )
+    (Unexpected IntegerLiteral[14, 15])
+    (LineBreak[15, 16])
+  )
+)
+
+-----
+CREATE SCHEMA e
+
+-----
+(SourceFile[0, 16]
+  (statement[]: TrailingStatement[0, 16]
+    (statement: CreateSchemaStatement[0, 15]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 15])
+    )
+    (LineBreak[15, 16])
+  )
+)
+
+-----
+CREATE SCHEMA 00
+
+-----
+(SourceFile[0, 17]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: CreateSchemaStatement[0, 14]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (Expected identifier: Identifier[14, 14])
+    )
+    (Unexpected IntegerLiteral[14, 16])
+    (LineBreak[16, 17])
+  )
+)
+
+-----
+CREATE SCHEMA 0e
+
+-----
+(SourceFile[0, 17]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: CreateSchemaStatement[0, 16]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 16])
+    )
+    (LineBreak[16, 17])
+  )
+)
+
+-----
+CREATE SCHEMA e0
+
+-----
+(SourceFile[0, 17]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: CreateSchemaStatement[0, 16]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 16])
+    )
+    (LineBreak[16, 17])
+  )
+)
+
+-----
+CREATE SCHEMA ee
+
+-----
+(SourceFile[0, 17]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: CreateSchemaStatement[0, 16]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 16])
+    )
+    (LineBreak[16, 17])
+  )
+)
+
+-----
+CREATE SCHEMA 000
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 14]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (Expected identifier: Identifier[14, 14])
+    )
+    (Unexpected IntegerLiteral[14, 17])
+    (LineBreak[17, 18])
+  )
+)
+
+-----
+CREATE SCHEMA 00e
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+    (LineBreak[17, 18])
+  )
+)
+
+-----
+CREATE SCHEMA 0e0
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 14]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (Expected identifier: Identifier[14, 14])
+    )
+    (Unexpected RealLiteral[14, 17])
+    (LineBreak[17, 18])
+  )
+)
+
+-----
+CREATE SCHEMA 0ee
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+    (LineBreak[17, 18])
+  )
+)
+
+-----
+CREATE SCHEMA e00
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+    (LineBreak[17, 18])
+  )
+)
+
+-----
+CREATE SCHEMA e0e
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+    (LineBreak[17, 18])
+  )
+)
+
+-----
+CREATE SCHEMA ee0
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+    (LineBreak[17, 18])
+  )
+)
+
+-----
+CREATE SCHEMA eee
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+    (LineBreak[17, 18])
+  )
+)
+
+-----
+CREATE SCHEMA 0qwerty
+
+-----
+(SourceFile[0, 22]
+  (statement[]: TrailingStatement[0, 22]
+    (statement: CreateSchemaStatement[0, 21]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 21])
+    )
+    (LineBreak[21, 22])
+  )
+)
+
+-----
+CREATE SCHEMA eqwerty
+
+-----
+(SourceFile[0, 22]
+  (statement[]: TrailingStatement[0, 22]
+    (statement: CreateSchemaStatement[0, 21]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 21])
+    )
+    (LineBreak[21, 22])
+  )
+)
+
+-----
+CREATE SCHEMA 00qwerty
+
+-----
+(SourceFile[0, 23]
+  (statement[]: TrailingStatement[0, 23]
+    (statement: CreateSchemaStatement[0, 22]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 22])
+    )
+    (LineBreak[22, 23])
+  )
+)
+
+-----
+CREATE SCHEMA 0eqwerty
+
+-----
+(SourceFile[0, 23]
+  (statement[]: TrailingStatement[0, 23]
+    (statement: CreateSchemaStatement[0, 22]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 22])
+    )
+    (LineBreak[22, 23])
+  )
+)
+
+-----
+CREATE SCHEMA e0qwerty
+
+-----
+(SourceFile[0, 23]
+  (statement[]: TrailingStatement[0, 23]
+    (statement: CreateSchemaStatement[0, 22]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 22])
+    )
+    (LineBreak[22, 23])
+  )
+)
+
+-----
+CREATE SCHEMA eeqwerty
+
+-----
+(SourceFile[0, 23]
+  (statement[]: TrailingStatement[0, 23]
+    (statement: CreateSchemaStatement[0, 22]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 22])
+    )
+    (LineBreak[22, 23])
+  )
+)
+
+-----
+CREATE SCHEMA 000qwerty
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 23])
+    )
+    (LineBreak[23, 24])
+  )
+)
+
+-----
+CREATE SCHEMA 00eqwerty
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 23])
+    )
+    (LineBreak[23, 24])
+  )
+)
+
+-----
+CREATE SCHEMA 0e0qwerty
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (Unexpected RealLiteral[14, 17])
+      (identifier: Identifier[17, 23])
+    )
+    (LineBreak[23, 24])
+  )
+)
+
+-----
+CREATE SCHEMA 0eeqwerty
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 23])
+    )
+    (LineBreak[23, 24])
+  )
+)
+
+-----
+CREATE SCHEMA e00qwerty
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 23])
+    )
+    (LineBreak[23, 24])
+  )
+)
+
+-----
+CREATE SCHEMA e0eqwerty
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 23])
+    )
+    (LineBreak[23, 24])
+  )
+)
+
+-----
+CREATE SCHEMA ee0qwerty
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 23])
+    )
+    (LineBreak[23, 24])
+  )
+)
+
+-----
+CREATE SCHEMA eeeqwerty
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 23])
+    )
+    (LineBreak[23, 24])
+  )
+)

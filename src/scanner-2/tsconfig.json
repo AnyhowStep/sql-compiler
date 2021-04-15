@@ -1,0 +1,14 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/scanner-2",
+        "declarationDir": "../../dist/scanner-2",
+        "types": []
+    },
+    "references" : [
+        { "path": "../grammar-runtime" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

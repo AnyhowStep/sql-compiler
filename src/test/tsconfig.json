@@ -12,7 +12,10 @@
         { "path": "../macro" },
         { "path": "../mysql-grammar" },
         { "path": "../emitter" },
-        { "path": "../parser-node-linter" }
+        { "path": "../parser-node-linter" },
+        { "path": "../grammar-runtime" },
+        { "path": "../mysql-grammar-2" },
+        { "path": "../scanner-2" }
     ],
     "include" : [
         "./**/*.ts"

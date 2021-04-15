@@ -793,7 +793,8 @@ export class Scanner {
          * + `$$\t`
          * + `$$ `
          *
-         * So, whitespace can be part of delimiter, but cannot be trailing.
+         * So, whitespace can be part of delimiter, but cannot be trailing,
+         * unless the entire delimiter is whitespace.
          */
         const start = this.index;
         while (this.index < this.text.length) {
