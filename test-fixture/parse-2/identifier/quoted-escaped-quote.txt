@@ -1,0 +1,92 @@
+CREATE SCHEMA """<-- -->""<-- -->"""
+
+-----
+(SourceFile[0, 37]
+  (statement[]: TrailingStatement[0, 36]
+    (statement: CreateSchemaStatement[0, 36]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 36])
+    )
+  )
+  (LineBreak[36, 37])
+)
+
+-----
+-- The quoted identifier is not closed properly.
+-- Should only be 3 quotes at the end, not 4.
+-- We let the line break determine the end of the quoted identifier.
+-- Then, error reporting can be done by a linter later.
+CREATE SCHEMA """<-- -->""<-- -->""""
+
+-----
+(SourceFile[0, 258]
+  (SingleLineComment[0, 48])
+  (LineBreak[48, 49])
+  (SingleLineComment[49, 94])
+  (LineBreak[94, 95])
+  (SingleLineComment[95, 163])
+  (LineBreak[163, 164])
+  (SingleLineComment[164, 219])
+  (LineBreak[219, 220])
+  (statement[]: TrailingStatement[220, 257]
+    (statement: CreateSchemaStatement[220, 257]
+      (createToken: CREATE[220, 226])
+      (WhiteSpace[226, 227])
+      (schemaToken: SCHEMA[227, 233])
+      (WhiteSpace[233, 234])
+      (identifier: Identifier[234, 257])
+    )
+  )
+  (LineBreak[257, 258])
+)
+
+-----
+CREATE SCHEMA """A
+B
+""
+C
+"""
+
+-----
+(SourceFile[0, 30]
+  (statement[]: TrailingStatement[0, 29]
+    (statement: CreateSchemaStatement[0, 29]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 29])
+    )
+  )
+  (LineBreak[29, 30])
+)
+
+-----
+-- The quoted identifier is not closed properly.
+-- Should only be 3 quotes at the end, not 4.
+-- We let the EOF determine the end of the quoted identifier.
+-- Then, error reporting can be done by a linter later.
+CREATE SCHEMA """<-- -->""<-- -->""""
+-----
+(SourceFile[0, 250]
+  (SingleLineComment[0, 48])
+  (LineBreak[48, 49])
+  (SingleLineComment[49, 94])
+  (LineBreak[94, 95])
+  (SingleLineComment[95, 156])
+  (LineBreak[156, 157])
+  (SingleLineComment[157, 212])
+  (LineBreak[212, 213])
+  (statement[]: TrailingStatement[213, 250]
+    (statement: CreateSchemaStatement[213, 250]
+      (createToken: CREATE[213, 219])
+      (WhiteSpace[219, 220])
+      (schemaToken: SCHEMA[220, 226])
+      (WhiteSpace[226, 227])
+      (identifier: Identifier[227, 250])
+    )
+  )
+)

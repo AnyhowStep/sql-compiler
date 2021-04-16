@@ -24,7 +24,7 @@ import {NonReservedKeyword, ReservedKeyword, TokenKind} from "./token.generated"
 export function scanQuotedString (state : LexerState) {
     const tmp = state.clone();
 
-    const quote = state.advance();
+    const quote = tmp.advance();
 
     let foundLineBreak = false;
 
@@ -190,7 +190,7 @@ export function tryScanUnquotedIdentifier (state : LexerState, customDelimiter :
 /**
  * If it does not encounter a closing quote,
  * it will assume the position just before
- * the first non-unquoted identifier character was the intended end of the identifier.
+ * the first line break was the intended end of the identifier.
  *
  * Then, we push the actual error reporting down the pipeline.
  *
@@ -210,7 +210,7 @@ export function scanQuotedIdentifier (state : LexerState) {
     const tmp = state.clone();
     const quote = tmp.advance();
 
-    let foundNonUnquotedIdentifierCharacter = false;
+    let foundLineBreak = false;
 
     while (!tmp.isEof(0)) {
         const ch = tmp.peek(0);
@@ -225,14 +225,14 @@ export function scanQuotedIdentifier (state : LexerState) {
                 state.index = tmp.index;
                 return;
             }
-        } else if (!isUnquotedIdentifierCharacter(ch)) {
+        } else if (isLineBreak(ch)) {
             //Tentatively mark the end of the token here.
             //If we do not close the token properly,
             //this will be the end of our token for parsing purposes.
             //We push error reporting down the pipeline.
-            if (!foundNonUnquotedIdentifierCharacter) {
+            if (!foundLineBreak) {
                 state.index = tmp.index;
-                foundNonUnquotedIdentifierCharacter = true;
+                foundLineBreak = true;
             }
             tmp.advance();
         } else {
@@ -240,7 +240,7 @@ export function scanQuotedIdentifier (state : LexerState) {
         }
     }
 
-    if (!foundNonUnquotedIdentifierCharacter) {
+    if (!foundLineBreak) {
         //We found an EOF and didn't see a line break before.
         //So, we mark the end of the token here.
         //We push error reporting down the pipeline.
@@ -528,7 +528,7 @@ export function scanOthers (state : LexerState) : TokenKind {
         state.expectCustomDelimiter = true;
         state.index = tmp.index;
 
-        return TokenKind.DELIMITER_STATEMENT;
+        return TokenKind.DelimiterSpace;
     }
 
     const tokenKind = tryScanIdentifierOrKeywordOrNumberLiteral(tmp, state.customDelimiter);

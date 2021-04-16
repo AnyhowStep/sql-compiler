@@ -1,0 +1,76 @@
+DELIMITER $$
+/* Technically invalid after DELIMITER $$ */
+CREATE SCHEMA D;
+/* Valid */
+CREATE SCHEMA E;$$
+/* Valid */
+CREATE SCHEMA F$$
+DELIMITER ;
+/* Trailing statement; no semicolon, no custom delimiter, schema name is G$$*/
+CREATE SCHEMA G$$
+
+-----
+(SourceFile[0, 245]
+  (statement[]: DelimiterStatement[0, 12]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 12])
+  )
+  (LineBreak[12, 13])
+  (MultiLineComment[13, 57])
+  (LineBreak[57, 58])
+  (statement[]: LeadingStatement[58, 74]
+    (statement: CreateSchemaStatement[58, 73]
+      (createToken: CREATE[58, 64])
+      (WhiteSpace[64, 65])
+      (schemaToken: SCHEMA[65, 71])
+      (WhiteSpace[71, 72])
+      (identifier: Identifier[72, 73])
+    )
+    (semiColonToken: SemiColon[73, 74])
+  )
+  (LineBreak[74, 75])
+  (MultiLineComment[75, 86])
+  (LineBreak[86, 87])
+  (statement[]: LeadingStatement[87, 105]
+    (statement: CreateSchemaStatement[87, 102]
+      (createToken: CREATE[87, 93])
+      (WhiteSpace[93, 94])
+      (schemaToken: SCHEMA[94, 100])
+      (WhiteSpace[100, 101])
+      (identifier: Identifier[101, 102])
+    )
+    (semiColonToken: SemiColon[102, 103])
+    (customDelimiter: CustomDelimiter[103, 105])
+  )
+  (LineBreak[105, 106])
+  (MultiLineComment[106, 117])
+  (LineBreak[117, 118])
+  (statement[]: LeadingStatement[118, 135]
+    (statement: CreateSchemaStatement[118, 133]
+      (createToken: CREATE[118, 124])
+      (WhiteSpace[124, 125])
+      (schemaToken: SCHEMA[125, 131])
+      (WhiteSpace[131, 132])
+      (identifier: Identifier[132, 133])
+    )
+    (customDelimiter: CustomDelimiter[133, 135])
+  )
+  (LineBreak[135, 136])
+  (statement[]: DelimiterStatement[136, 147]
+    (delimiterStart: DelimiterSpace[136, 146])
+    (customDelimiter: CustomDelimiter[146, 147])
+  )
+  (LineBreak[147, 148])
+  (MultiLineComment[148, 226])
+  (LineBreak[226, 227])
+  (statement[]: TrailingStatement[227, 244]
+    (statement: CreateSchemaStatement[227, 244]
+      (createToken: CREATE[227, 233])
+      (WhiteSpace[233, 234])
+      (schemaToken: SCHEMA[234, 240])
+      (WhiteSpace[240, 241])
+      (identifier: Identifier[241, 244])
+    )
+  )
+  (LineBreak[244, 245])
+)

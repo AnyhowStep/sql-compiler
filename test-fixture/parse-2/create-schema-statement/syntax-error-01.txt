@@ -1,0 +1,18 @@
+CREATE; CREATE SCHEMA A
+
+-----
+(SourceFile[0, 24]
+  (statement[]: TrailingStatement[0, 23]
+    (statement: CreateSchemaStatement[0, 23]
+      (createToken: CREATE[0, 6])
+      (Unexpected SemiColon[6, 7])
+      (WhiteSpace[7, 8])
+      (Unexpected CREATE[8, 14])
+      (WhiteSpace[14, 15])
+      (schemaToken: SCHEMA[15, 21])
+      (WhiteSpace[21, 22])
+      (identifier: Identifier[22, 23])
+    )
+  )
+  (LineBreak[23, 24])
+)

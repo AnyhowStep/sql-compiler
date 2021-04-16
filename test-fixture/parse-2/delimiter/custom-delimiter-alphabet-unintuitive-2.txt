@@ -1,0 +1,33 @@
+DELIMITER A
+/* Delimiters do not affect comments AAAAAAAAAAAAA */
+/* But you should see CRE<custom delimiter>TE SCHEMA D */
+/* This will cause syntax errors */
+CREATE SCHEMA D;
+
+-----
+(SourceFile[0, 177]
+  (statement[]: DelimiterStatement[0, 11]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 11])
+  )
+  (LineBreak[11, 12])
+  (MultiLineComment[12, 65])
+  (LineBreak[65, 66])
+  (MultiLineComment[66, 123])
+  (LineBreak[123, 124])
+  (MultiLineComment[124, 159])
+  (LineBreak[159, 160])
+  (statement[]: DelimiterStatement[160, 173]
+    (Expected delimiterStart: DelimiterSpace[160, 160])
+    (Unexpected Identifier[160, 163])
+    (Unexpected CustomDelimiter[163, 164])
+    (Unexpected Identifier[164, 166])
+    (WhiteSpace[166, 167])
+    (Unexpected Identifier[167, 172])
+    (customDelimiter: CustomDelimiter[172, 173])
+  )
+  (WhiteSpace[173, 174])
+  (Unexpected Identifier[174, 175])
+  (Unexpected SemiColon[175, 176])
+  (LineBreak[176, 177])
+)

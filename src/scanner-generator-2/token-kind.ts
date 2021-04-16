@@ -91,7 +91,7 @@ export const customTokenKinds = [
     /**
      * Hacked in to support DELIMITER statements
      */
-    "DELIMITER_STATEMENT",
+    "DelimiterSpace",
     /**
      * Hacked in to disambiguate MySQL's grammar
      */

@@ -679,7 +679,7 @@ export enum TokenKind {
     CloseParentheses = "CloseParentheses",
     OpenBrace = "OpenBrace",
     CloseBrace = "CloseBrace",
-    DELIMITER_STATEMENT = "DELIMITER_STATEMENT",
+    DelimiterSpace = "DelimiterSpace",
     UNIQUE_KEY = "UNIQUE_KEY"
 }
 

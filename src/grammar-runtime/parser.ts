@@ -151,19 +151,17 @@ export function parse (
         };
     }
 
-    function hasState (rule : MyRule, dot : number, tokenIndex : number, startTokenIndex : number, ident : string) {
+    function hasState (rule : MyRule, dot : number, tokenIndex : number, startTokenIndex : number, _ident : string) {
         const stateSet = stateSets.get(tokenIndex);
         if (stateSet == undefined) {
             return false;
         }
-        /**
-         * @todo Rename this function to `hasStateWithoutError`
-         */
+
         return stateSet.states.some(a => (
             a.rule == rule &&
             a.dot == dot &&
-            a.startTokenIndex == startTokenIndex &&
-            a.ident == ident
+            a.startTokenIndex == startTokenIndex //&&
+            //a.ident == ident
         ));
     }
 
@@ -172,11 +170,34 @@ export function parse (
         if (stateSet == undefined) {
             return undefined;
         }
-        return stateSet.states.find(a => (
+        // const result = stateSet.states.find(a => (
+        //     a.rule == rule &&
+        //     a.startTokenIndex == startTokenIndex &&
+        //     a.dot == dot
+        // ));
+        // return result;
+        const results =  stateSet.states.filter(a => (
             a.rule == rule &&
-            a.dot == dot &&
-            a.startTokenIndex == startTokenIndex
+            a.startTokenIndex == startTokenIndex &&
+            (
+                a.dot == dot ||
+                isFinished(a)
+            )
         ));
+
+        if (results.length == 0) {
+            return undefined;
+        }
+
+        if (results.length == 1) {
+            return results[0];
+        }
+
+        if (isFinished(results[1])) {
+            return results[1];
+        }
+
+        return results[0];
     }
 
     function addState (state : MyState) {
@@ -304,6 +325,30 @@ export function parse (
             skipExpectationStart
         );
 
+        if (resultStateSet.states.length == stateSetLength) {
+
+            const resultStates = resultStateSet.states
+                .filter((state) => {
+                    return (
+                        state.startTokenIndex == 0 &&
+                        isFinished(state) &&
+                        state.rule.name == grammar.start
+                    );
+                });
+            const minErrorCount = resultStates.reduce(
+                (min, cur) => Math.min(min, cur.errorCount),
+                Infinity
+            );
+            const result = resultStates
+                .filter(state => state.errorCount == minErrorCount)
+                .map(state => state.data);
+
+
+            if (result.length > 0) {
+                return result as MySyntaxNode[];
+            }
+        }
+
         skipExpectationStart = stateSetLength;
 
         //We *must* call this last.
@@ -317,27 +362,6 @@ export function parse (
             addState,
             stateSetLength
         );
-
-        const resultStates = resultStateSet.states
-            .filter((state) => {
-                return (
-                    state.startTokenIndex == 0 &&
-                    isFinished(state) &&
-                    state.rule.name == grammar.start
-                );
-            });
-        const minErrorCount = resultStates.reduce(
-            (min, cur) => Math.min(min, cur.errorCount),
-            Infinity
-        );
-        const result = resultStates
-            .filter(state => state.errorCount == minErrorCount)
-            .map(state => state.data);
-
-
-        if (result.length > 0) {
-            return result as MySyntaxNode[];
-        }
     }
 }
 

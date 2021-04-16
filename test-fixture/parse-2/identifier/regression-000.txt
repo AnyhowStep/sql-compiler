@@ -1,0 +1,13 @@
+CREATE SCHEMA """<-- -->""<-- -->""""
+-----
+(SourceFile[0, 37]
+  (statement[]: TrailingStatement[0, 37]
+    (statement: CreateSchemaStatement[0, 37]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 37])
+    )
+  )
+)

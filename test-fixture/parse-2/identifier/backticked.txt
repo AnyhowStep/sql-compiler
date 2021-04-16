@@ -1,0 +1,100 @@
+CREATE SCHEMA `0`
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+  )
+  (LineBreak[17, 18])
+)
+
+-----
+CREATE SCHEMA `e`
+
+-----
+(SourceFile[0, 18]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+  )
+  (LineBreak[17, 18])
+)
+
+-----
+CREATE SCHEMA `00`
+
+-----
+(SourceFile[0, 19]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 18]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 18])
+    )
+  )
+  (LineBreak[18, 19])
+)
+
+-----
+CREATE SCHEMA `0e`
+
+-----
+(SourceFile[0, 19]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 18]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 18])
+    )
+  )
+  (LineBreak[18, 19])
+)
+
+-----
+CREATE SCHEMA `0e0`
+
+-----
+(SourceFile[0, 20]
+  (statement[]: TrailingStatement[0, 19]
+    (statement: CreateSchemaStatement[0, 19]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 19])
+    )
+  )
+  (LineBreak[19, 20])
+)
+
+-----
+CREATE SCHEMA `0e0qwerty`
+
+-----
+(SourceFile[0, 26]
+  (statement[]: TrailingStatement[0, 25]
+    (statement: CreateSchemaStatement[0, 25]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 25])
+    )
+  )
+  (LineBreak[25, 26])
+)

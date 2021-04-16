@@ -9,21 +9,29 @@ import {
     optional,
     tokenSymbol,
 } from "../grammar-builder";
+import {tokenSymbol2} from "../grammar-builder/grammar";
 import {MySqlGrammar} from "./mysql-grammar.generated";
 import {SyntaxKind} from "./syntax-kind.generated";
 import {TokenKind, tokens, nonReservedKeywords} from "./token.generated";
 
+const identifier = tokenSymbol(
+    TokenKind.Identifier,
+    ...nonReservedKeywords,
+);
+
 const mySqlGrammar : MySqlGrammar = {
     tokens,
     extras : [
+        TokenKind.WhiteSpace,
         TokenKind.SingleLineComment,
         TokenKind.MultiLineComment,
         TokenKind.ExecutionComment,
-        TokenKind.WhiteSpace,
         TokenKind.LineBreak,
     ],
 
     inline : [
+        SyntaxKind.CharacterSetNameOrDefault,
+        SyntaxKind.CollationNameOrDefault,
         SyntaxKind.Statement,
         SyntaxKind.Schema,
         SyntaxKind.CharSet,
@@ -55,7 +63,7 @@ const mySqlGrammar : MySqlGrammar = {
             field("createSchemaOptionList", optional(SyntaxKind.CreateSchemaOptionList)),
         ),
 
-        CreateSchemaOptionList: field("item", repeat1(choice(
+        CreateSchemaOptionList: repeat1(field("item", choice(
             SyntaxKind.DefaultCharacterSet,
             SyntaxKind.DefaultCollate,
         ))),
@@ -76,15 +84,19 @@ const mySqlGrammar : MySqlGrammar = {
 
         CharacterSetNameOrDefault: choice(
             TokenKind.DEFAULT,
-            TokenKind.BINARY,
-            TokenKind.Identifier,
-            TokenKind.StringLiteral,
+            tokenSymbol2(
+                identifier,
+                TokenKind.BINARY,
+                TokenKind.StringLiteral,
+            ),
         ),
 
         CollationNameOrDefault: choice(
             TokenKind.DEFAULT,
-            TokenKind.Identifier,
-            TokenKind.StringLiteral,
+            tokenSymbol2(
+                identifier,
+                TokenKind.StringLiteral,
+            ),
         ),
 
         CharSet: choice(
@@ -124,14 +136,11 @@ const mySqlGrammar : MySqlGrammar = {
          * A client-only statement
          */
         DelimiterStatement: seq(
-            field("delimiterStart", TokenKind.DELIMITER_STATEMENT),
+            field("delimiterStart", TokenKind.DelimiterSpace),
             field("customDelimiter", TokenKind.CustomDelimiter),
         ),
 
-        Ident: tokenSymbol(
-            TokenKind.Identifier,
-            ...nonReservedKeywords,
-        ),
+        Ident: identifier,
     },
 };
 export const compiledGrammar = buildGrammar(mySqlGrammar as unknown as Grammar);

@@ -1,4 +1,13 @@
 
+export function seqNoFlatten (
+    ...rules : Rule[]
+) : Rule {
+    return {
+        ruleKind : "seq",
+        rules,
+    };
+}
+
 export function seq (
     ...rules : Rule[]
 ) : Rule {
@@ -46,6 +55,10 @@ export function choice (
 export function optional (
     rule : Rule,
 ) : OptionalRule {
+    if (typeof rule != "string" && rule.ruleKind == "optional") {
+        return rule;
+    }
+
     return {
         ruleKind : "optional",
         rule,
@@ -70,7 +83,15 @@ export function repeat1 (
 export function field (
     label : string,
     rule : Rule,
-) : FieldRule {
+) : Rule {
+    if (typeof rule != "string" && rule.ruleKind == "optional") {
+        return optional(field(label, rule.rule));
+    }
+
+    if (typeof rule != "string" && rule.ruleKind == "repeat1") {
+        return repeat1(field(label, rule.rule));
+    }
+
     return {
         ruleKind : "field",
         label,
@@ -93,6 +114,29 @@ export function tokenSymbol (
             ruleKind : "tokenSymbol",
             tokenKind,
             otherTokenKinds,
+        };
+    }
+}
+
+export function tokenSymbol2 (
+    tokenSymbolRule : TokenSymbolRule,
+    ...otherTokenKinds : string[]
+) : TokenSymbolRule {
+    if (otherTokenKinds.length == 0) {
+        return tokenSymbolRule;
+    }
+
+    if (tokenSymbolRule.otherTokenKinds == undefined) {
+        return {
+            ruleKind : "tokenSymbol",
+            tokenKind : tokenSymbolRule.tokenKind,
+            otherTokenKinds,
+        };
+    } else {
+        return {
+            ruleKind : "tokenSymbol",
+            tokenKind : tokenSymbolRule.tokenKind,
+            otherTokenKinds : [...tokenSymbolRule.otherTokenKinds, ...otherTokenKinds],
         };
     }
 }

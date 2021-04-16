@@ -1,0 +1,29 @@
+CREATE SCHEMA D CHARSET utfmb4 COLLATE utfmb4_unicode_ci
+
+-----
+(SourceFile[0, 57]
+  (statement[]: TrailingStatement[0, 56]
+    (statement: CreateSchemaStatement[0, 56]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 15])
+      (WhiteSpace[15, 16])
+      (createSchemaOptionList: CreateSchemaOptionList[16, 56]
+        (item[]: DefaultCharacterSet[16, 30]
+          (characterSetToken[]: CHARSET[16, 23])
+          (WhiteSpace[23, 24])
+          (characterSetName: Identifier[24, 30])
+        )
+        (WhiteSpace[30, 31])
+        (item[]: DefaultCollate[31, 56]
+          (collateToken: COLLATE[31, 38])
+          (WhiteSpace[38, 39])
+          (collationName: Identifier[39, 56])
+        )
+      )
+    )
+  )
+  (LineBreak[56, 57])
+)

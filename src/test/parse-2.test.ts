@@ -7,7 +7,7 @@ import {scanAll} from "../scanner-2";
 
 const grammar = runtime.loadGrammar(compiledGrammar);
 
-const root = `${__dirname}/../../test-fixture/parse-2`;
+const root = process.env.PARSE ?? `${__dirname}/../../test-fixture/parse-2`;
 suite("Should parse as expected", () => {
     testRecursive2(
         root,

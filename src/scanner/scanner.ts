@@ -127,7 +127,7 @@ export class Scanner {
                         //@todo
                         //this.onError(DiagnosticMessages.IdentifierCannotHaveLengthZero);
                     } else {
-                        let lastCh = result.charCodeAt(result.length-1);
+                        const lastCh = result.charCodeAt(result.length-1);
                         if (isWhiteSpace(lastCh) || isLineBreak(lastCh)) {
                             this.onErrorAt(
                                 quotedIdentifierStart,
@@ -389,14 +389,14 @@ export class Scanner {
                     ++this.index;
                     this.tokenValue = this.scanQuotedString();
                     if (!/^[0-9a-fA-F]*$/.test(this.tokenValue)) {
-                        this.onError(DiagnosticMessages.XHexLiteralMustUseHexDigits, this.tokenValue.length)
+                        this.onError(DiagnosticMessages.XHexLiteralMustUseHexDigits, this.tokenValue.length);
                     }
                     if (this.tokenValue.length%2 != 0) {
                         /**
                          * Values written using X'val' notation must contain an even number of digits or a syntax error occurs.
                          * To correct the problem, pad the value with a leading zero
                          */
-                        this.onError(DiagnosticMessages.XHexLiteralMustHaveEvenNumberOfDigits, this.tokenValue.length)
+                        this.onError(DiagnosticMessages.XHexLiteralMustHaveEvenNumberOfDigits, this.tokenValue.length);
 
                     }
                     return this.tokenKind = TokenKind.HexLiteral;
@@ -419,7 +419,7 @@ export class Scanner {
                     ++this.index;
                     this.tokenValue = this.scanQuotedString();
                     if (!/^[01]*$/.test(this.tokenValue)) {
-                        this.onError(DiagnosticMessages.BBitLiteralMustUseBinaryDigits, this.tokenValue.length)
+                        this.onError(DiagnosticMessages.BBitLiteralMustUseBinaryDigits, this.tokenValue.length);
                     }
                     return this.tokenKind = TokenKind.BitLiteral;
                 }
@@ -591,7 +591,7 @@ export class Scanner {
                             ++this.index;
                             this.tokenValue = this.scanQuotedIdentifier();
                             if (this.tokenValue.length > MAX_IDENTIFIER_LENGTH) {
-                                this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length)
+                                this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length);
                             }
                             return this.tokenKind = TokenKind.UserVariableIdentifier;
                         } else if (
@@ -600,7 +600,7 @@ export class Scanner {
                             ++this.index;
                             this.tokenValue = this.scanUnquotedUserVariableIdentifier();
                             if (this.tokenValue.length > MAX_IDENTIFIER_LENGTH) {
-                                this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length)
+                                this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length);
                             }
                             return this.tokenKind = TokenKind.UserVariableIdentifier;
                         } else {
@@ -625,7 +625,7 @@ export class Scanner {
                 case CharacterCodes.backtick: {
                     this.tokenValue = this.scanQuotedIdentifier();
                     if (this.tokenValue.length > MAX_IDENTIFIER_LENGTH) {
-                        this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length)
+                        this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length);
                     }
                     return this.tokenKind = TokenKind.Identifier;
                 }
@@ -687,7 +687,7 @@ export class Scanner {
                                 const tokenKind = tryGetTokenKindFromText(this.tokenValue);
                                 if (tokenKind == undefined) {
                                     if (this.tokenValue.length > MAX_IDENTIFIER_LENGTH) {
-                                        this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length)
+                                        this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length);
                                     }
                                     return this.tokenKind = TokenKind.Identifier;
                                 } else {
@@ -713,7 +713,7 @@ export class Scanner {
                             const tokenKind = tryGetTokenKindFromText(this.tokenValue);
                             if (tokenKind == undefined) {
                                 if (this.tokenValue.length > MAX_IDENTIFIER_LENGTH) {
-                                    this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length)
+                                    this.onError(DiagnosticMessages.IdentifierCannotHaveLengthMoreThan64, this.tokenValue.length);
                                 }
                                 return this.tokenKind = TokenKind.Identifier;
                             } else {

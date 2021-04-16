@@ -1,0 +1,23 @@
+CREATE SCHEMA IF NOT EXISTS e
+
+-----
+(SourceFile[0, 30]
+  (statement[]: TrailingStatement[0, 29]
+    (statement: CreateSchemaStatement[0, 29]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (ifNotExists: IfNotExists[14, 27]
+        (ifToken: IF[14, 16])
+        (WhiteSpace[16, 17])
+        (notToken: NOT[17, 20])
+        (WhiteSpace[20, 21])
+        (existsToken: EXISTS[21, 27])
+      )
+      (WhiteSpace[27, 28])
+      (identifier: Identifier[28, 29])
+    )
+  )
+  (LineBreak[29, 30])
+)

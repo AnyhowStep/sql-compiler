@@ -1,0 +1,34 @@
+CREATE SCHEMA "0";
+
+
+
+CREATE SCHEMA "1";
+
+-----
+(SourceFile[0, 41]
+  (statement[]: LeadingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 17]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 17])
+    )
+    (semiColonToken: SemiColon[17, 18])
+  )
+  (LineBreak[18, 19])
+  (LineBreak[19, 20])
+  (LineBreak[20, 21])
+  (LineBreak[21, 22])
+  (statement[]: TrailingStatement[22, 40]
+    (statement: CreateSchemaStatement[22, 39]
+      (createToken: CREATE[22, 28])
+      (WhiteSpace[28, 29])
+      (schemaToken: SCHEMA[29, 35])
+      (WhiteSpace[35, 36])
+      (identifier: Identifier[36, 39])
+    )
+    (semiColonToken: SemiColon[39, 40])
+  )
+  (LineBreak[40, 41])
+)

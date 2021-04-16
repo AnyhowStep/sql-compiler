@@ -1,5 +1,5 @@
 import {CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
-import {Grammar, Rule, seq} from "./grammar";
+import {Grammar, optional, repeat, Rule, seq, seqNoFlatten, tokenSymbol} from "./grammar";
 import {getVariableInfo} from "./node-types";
 
 export interface BuilderState {
@@ -100,6 +100,14 @@ export function buildToken (
     }
 }
 
+export function isTokenRule (state : BuilderState, rule : Rule) {
+    if (typeof rule == "string") {
+        return state.grammar.tokens.includes(rule);
+    } else {
+        return rule.ruleKind == "tokenSymbol";
+    }
+}
+
 export function buildRule (
     state : BuilderState,
     ruleName : string,
@@ -112,56 +120,32 @@ export function buildRule (
     );
 
     const symbols : CompiledSymbol[] = [];
+    //eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i=0; i<arr.length; ++i) {
-        const item = arr[i];
-        const symbol = buildToken(state, ruleName, item);
-        symbols.push(symbol);
-        if (state.extras != undefined && i < arr.length-1) {
-            if (i+1 < arr.length && arr[i+1] === state.extras) {
-                /**
-                 * Do not push the extras.
-                 * We do not want two extras side-by-side.
-                 * It makes the grammar ambiguous.
-                 *
-                 * `extras:* extras:*` is ambiguous.
-                 */
-            } else if (typeof symbol == "string" && /\$optional\$\d+$/.test(symbol)) {
-                /**
-                 * We have the following cases,
-                 * + `R -> (A):? B C`
-                 * + `R -> A (B):? C`
-                 *
-                 * In these cases, we want to generate,
-                 * + `R -> (A extras:*):? B extras:* C`
-                 * + `R -> A extras:* (B extras:*):? C`
-                 *
-                 * Not,
-                 * + `R -> (A):? extras:* B extras:* C`
-                 * + `R -> A extras:* (B):? extras:* C`
-                 *
-                 * Otherwise, we might end up with,
-                 * + `R -> extras:* B extras:* C`
-                 *   We *do not* want to start `R` with `extras:*` because if `R`
-                 *   is part of another rule `Q -> X extras:* R`,
-                 *   this expands to `Q -> X extras:* extras:* B extras:* C`,
-                 *   which is the same as the second case.
-                 *
-                 * + `R -> A extras:* extras:* C`
-                 *   We do not want two `extras:*` side-by-side
-                 *   because this makes the grammar ambiguous.
-                 *
-                 *   Given `A extra C`, did the `extra` match the
-                 *   first or second occurrence of `extras:*`?
-                 */
-                /**
-                 * This **should** be the correct rule to modify.
-                 */
-                const optionalRule = state.compiledRules[state.compiledRules.length - 1];
-                optionalRule.symbols.push(state.extras);
-            } else {
+        let item = arr[i];
+
+        if (
+            state.extras != undefined &&
+            i > 0 &&
+            arr[i] != state.extras &&
+            arr[i-1] != state.extras
+        ) {
+            if (typeof item == "string") {
                 symbols.push(state.extras);
+            } else {
+                if (item.ruleKind == "optional") {
+                    item = optional(seq(
+                        state.extras,
+                        item.rule
+                    ));
+                } else {
+                    symbols.push(state.extras);
+                }
             }
         }
+
+        const symbol = buildToken(state, ruleName, item);
+        symbols.push(symbol);
     }
 
     state.compiledRules.push({
@@ -185,17 +169,32 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
     };
 
     if (grammar.extras.length > 0) {
-        state.extras = buildChoice(
+        state.extras = buildRule(
             state,
             state.getUniqueName("extras"),
-            [seq(), ...grammar.extras]
+            repeat(tokenSymbol(
+                grammar.extras[0],
+                ...(grammar.extras.slice(1))
+            ))
         );
     }
 
     for (const ruleName of Object.keys(grammar.rules)) {
         const rule = grammar.rules[ruleName];
 
-        buildRule(state, ruleName, rule);
+        if (ruleName == grammar.start && state.extras != undefined) {
+            if (typeof rule == "string") {
+                buildRule(state, ruleName, seqNoFlatten(seq(), rule, state.extras));
+            } else {
+                if (rule.ruleKind == "seq") {
+                    buildRule(state, ruleName, seqNoFlatten(seq(), ...rule.rules, state.extras));
+                } else {
+                    buildRule(state, ruleName, seqNoFlatten(seq(), rule, state.extras));
+                }
+            }
+        } else {
+            buildRule(state, ruleName, rule);
+        }
     }
 
     const variableInfos = getVariableInfo({
