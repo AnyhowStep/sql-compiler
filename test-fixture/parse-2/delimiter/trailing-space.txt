@@ -1,0 +1,11 @@
+`DELIMITER $$	 `
+`/*Ending with trailing space is not allowed but we leave error checks to linters*/`
+-----
+(SourceFile[0, 97]
+  (statement[]: DelimiterStatement[0, 14]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 14])
+  )
+  (LineBreak[14, 15])
+  (MultiLineComment[15, 97])
+)
