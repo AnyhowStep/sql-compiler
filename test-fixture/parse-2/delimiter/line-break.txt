@@ -1,0 +1,35 @@
+DELIMITER $$
+
+-----
+(SourceFile[0, 13]
+  (statement[]: DelimiterStatement[0, 12]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 12])
+  )
+  (LineBreak[12, 13])
+)
+
+-----
+`DELIMITER `
+``
+-----
+(SourceFile[0, 11]
+  (statement[]: DelimiterStatement[0, 11]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (LineBreak[10, 11])
+    (Expected customDelimiter: CustomDelimiter[11, 11])
+  )
+)
+
+-----
+`DELIMITER    `
+``
+-----
+(SourceFile[0, 14]
+  (statement[]: DelimiterStatement[0, 14]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (WhiteSpace[10, 13])
+    (LineBreak[13, 14])
+    (Expected customDelimiter: CustomDelimiter[14, 14])
+  )
+)

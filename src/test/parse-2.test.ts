@@ -36,8 +36,11 @@ suite("Should parse as expected", () => {
             return result;
         },
         ({input, expected}) => {
-            if (input.startsWith("`") && input.endsWith("`")) {
-                input = input.substring(1, input.length-1);
+            if (input.startsWith("`")) {
+                input = input
+                    .split("\n")
+                    .map(line => line.substring(1, line.length-1))
+                    .join("\n");
             }
             const tokens = scanAll(input);
 
