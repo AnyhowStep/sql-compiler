@@ -1,4 +1,4 @@
-import {CompiledGrammar, CompiledRule} from "../compiled-grammar";
+import {CompiledGrammar, CompiledRule, CompiledTokenSymbol} from "../compiled-grammar";
 
 /**
  * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L56-L60
@@ -92,13 +92,39 @@ export interface VariableInfo {
     hasMultiStepProduction : boolean;
 }
 
-function extend (arr : string[], other : string) : boolean {
-    if (arr.includes(other)) {
-        return false;
+function extend (arr : string[], other : string|CompiledTokenSymbol) : boolean {
+    if (typeof other == "string") {
+        if (arr.includes(other)) {
+            return false;
+        }
+
+        arr.push(other);
+        return true;
     }
 
-    arr.push(other);
-    return true;
+    if (other.otherTokenKinds == undefined) {
+        if (arr.includes(other.tokenKind)) {
+            return false;
+        }
+
+        arr.push(other.tokenKind);
+        return true;
+    }
+
+    let didChange = false;
+    if (!arr.includes(other.tokenKind)) {
+        arr.push(other.tokenKind);
+        didChange = true;
+    }
+
+    for (const item of other.otherTokenKinds) {
+        if (!arr.includes(item)) {
+            arr.push(item);
+            didChange = true;
+        }
+    }
+
+    return didChange;
 }
 
 function extend2 (arr : string[], other : string[]) : boolean {
@@ -114,6 +140,10 @@ function extend2 (arr : string[], other : string[]) : boolean {
 }
 
 function isVisible (grammar : Pick<CompiledGrammar, "inline">, symbol : string) {
+    return !symbol.includes("$") && !grammar.inline.includes(symbol);
+}
+
+function isVisible2 (grammar : Pick<CompiledGrammar, "inline">, symbol : string, _hasMultiStepProduction : boolean) {
     return !symbol.includes("$") && !grammar.inline.includes(symbol);
 }
 
@@ -176,14 +206,13 @@ export function getVariableInfo (
                 }
 
                 for (const step of production.symbols) {
-                    const childSymbol = (
-                        typeof step == "string" ?
-                        step :
-                        step.tokenKind
-                    );
+                    const childSymbol = step;
                     didChange ||= extend(variableInfo.children.types, childSymbol);
 
-                    const childIsHidden = !isVisible(grammar, childSymbol);
+                    const childIsHidden = (
+                        typeof childSymbol == "string" &&
+                        !isVisible(grammar, childSymbol)
+                    );
                     //https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L202-L204
                     if (!childIsHidden) {
                         append(
@@ -192,7 +221,10 @@ export function getVariableInfo (
                         );
                     }
 
-                    const fieldName = grammar.ruleName2Label[childSymbol];
+                    const fieldName = typeof childSymbol == "string" ?
+                        grammar.ruleName2Label[childSymbol] :
+                        undefined;
+
                     if (fieldName != undefined) {
                         let fieldInfo = variableInfo.fields[fieldName];
                         if (fieldInfo == undefined) {
@@ -289,7 +321,10 @@ export function getVariableInfo (
                         }
                     }
 
-                    if (variables.indexOf(childSymbol) >= i && !allInitialized) {
+                    const variableIndex = typeof childSymbol == "string" ?
+                        variables.indexOf(childSymbol) :
+                        -1;
+                    if (variableIndex >= i && !allInitialized) {
                         production_has_uninitialized_invisible_children = true;
                     }
                 }
@@ -333,7 +368,7 @@ export function getVariableInfo (
 
         for (const [_, fieldInfo] of Object.entries(variableInfo.fields)) {
             fieldInfo.types = fieldInfo.types
-                .filter(type => isVisible(grammar, type));
+                .filter(type => isVisible2(grammar, type, variableInfo.hasMultiStepProduction));
         }
 
         for (const fieldName of Object.keys(variableInfo.fields)) {

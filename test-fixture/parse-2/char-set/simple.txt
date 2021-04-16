@@ -1,0 +1,50 @@
+CREATE SCHEMA D CHARSET utf8mb4
+
+-----
+(SourceFile[0, 32]
+  (statement[]: TrailingStatement[0, 31]
+    (statement: CreateSchemaStatement[0, 31]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 15])
+      (WhiteSpace[15, 16])
+      (createSchemaOptionList: CreateSchemaOptionList[16, 31]
+        (item[]: DefaultCharacterSet[16, 31]
+          (characterSetToken[]: CHARSET[16, 23])
+          (WhiteSpace[23, 24])
+          (characterSetName: Identifier[24, 31])
+        )
+      )
+    )
+  )
+  (LineBreak[31, 32])
+)
+
+-----
+CREATE SCHEMA D CHARACTER SET utf8mb4
+
+-----
+(SourceFile[0, 38]
+  (statement[]: TrailingStatement[0, 37]
+    (statement: CreateSchemaStatement[0, 37]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 15])
+      (WhiteSpace[15, 16])
+      (createSchemaOptionList: CreateSchemaOptionList[16, 37]
+        (item[]: DefaultCharacterSet[16, 37]
+          (characterSetToken[]: CHARACTER[16, 25])
+          (WhiteSpace[25, 26])
+          (characterSetToken[]: SET[26, 29])
+          (WhiteSpace[29, 30])
+          (characterSetName: Identifier[30, 37])
+        )
+      )
+    )
+  )
+  (LineBreak[37, 38])
+)

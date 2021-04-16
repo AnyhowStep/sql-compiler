@@ -70,7 +70,7 @@ const mySqlGrammar : MySqlGrammar = {
 
         DefaultCharacterSet: seq(
             field("defaultToken", optional(TokenKind.DEFAULT)),
-            field("characterSetToken", SyntaxKind.CharSet),
+            SyntaxKind.CharSet,
             field("equalToken", optional(TokenKind.Equal)),
             field("characterSetName", SyntaxKind.CharacterSetNameOrDefault),
         ),
@@ -100,8 +100,11 @@ const mySqlGrammar : MySqlGrammar = {
         ),
 
         CharSet: choice(
-            seq(TokenKind.CHARACTER, TokenKind.SET),
-            TokenKind.CHARSET,
+            seq(
+                field("characterSetToken", TokenKind.CHARACTER),
+                field("characterSetToken", TokenKind.SET)
+            ),
+            field("characterSetToken", TokenKind.CHARSET),
         ),
 
         Schema: tokenSymbol(

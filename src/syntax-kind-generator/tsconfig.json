@@ -6,6 +6,7 @@
         "types": ["@types/node"]
     },
     "references" : [
+        { "path": "../mysql-grammar-2" }
     ],
     "include" : [
         "./**/*.ts"
