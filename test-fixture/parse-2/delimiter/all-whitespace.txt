@@ -1,0 +1,8 @@
+`DELIMITER 		 `
+-----
+(SourceFile[0, 13]
+  (statement[]: DelimiterStatement[0, 13]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 13])
+  )
+)

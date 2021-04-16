@@ -36,6 +36,9 @@ suite("Should parse as expected", () => {
             return result;
         },
         ({input, expected}) => {
+            if (input.startsWith("`") && input.endsWith("`")) {
+                input = input.substring(1, input.length-1);
+            }
             const tokens = scanAll(input);
 
             const results = runtime.parse(grammar, tokens);
