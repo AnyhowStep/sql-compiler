@@ -1,6 +1,6 @@
 import {CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
 import {Grammar, optional, repeat, Rule, seq, seqNoFlatten, tokenSymbol} from "./grammar";
-import {getVariableInfo} from "./node-types";
+import {getVariableInfo, isVisible} from "./node-types";
 
 export interface BuilderState {
     grammar : Grammar,
@@ -155,6 +155,25 @@ export function buildRule (
     return ruleName;
 }
 
+export function buildRuleName2Shape (
+    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Label">,
+    isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline">, symbol : string, hasMultiStepProduction : boolean) => boolean
+) {
+    const variableInfos = getVariableInfo(grammar, isVisibleDelegate);
+
+    const ruleName2Shape : Record<string, CompiledShape> = {};
+    for (const [ruleName, variableInfo] of Object.entries(variableInfos)) {
+        ruleName2Shape[ruleName] = {
+            ruleName : variableInfo.ruleName,
+            fields : variableInfo.fields,
+            children : variableInfo.children,
+            hasMultiStepProduction : variableInfo.hasMultiStepProduction,
+        };
+    }
+
+    return ruleName2Shape;
+}
+
 export function buildGrammar (grammar : Grammar) : CompiledGrammar {
     let uniqueId = 0;
     const state : BuilderState = {
@@ -197,22 +216,15 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
         }
     }
 
-    const variableInfos = getVariableInfo({
-        inline : grammar.inline,
-        rules : state.compiledRules,
+    const ruleName2Shape = buildRuleName2Shape(
+        {
+            inline : grammar.inline,
+            rules : state.compiledRules,
 
-        ruleName2Label : state.ruleName2Label,
-    });
-
-    const ruleName2Shape : Record<string, CompiledShape> = {};
-    for (const [ruleName, variableInfo] of Object.entries(variableInfos)) {
-        ruleName2Shape[ruleName] = {
-            ruleName : variableInfo.ruleName,
-            fields : variableInfo.fields,
-            children : variableInfo.children,
-            hasMultiStepProduction : variableInfo.hasMultiStepProduction,
-        };
-    }
+            ruleName2Label : state.ruleName2Label,
+        },
+        isVisible
+    );
 
     return {
         tokens : grammar.tokens,

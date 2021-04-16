@@ -139,19 +139,24 @@ function extend2 (arr : string[], other : string[]) : boolean {
     return didChange;
 }
 
-function isVisible (grammar : Pick<CompiledGrammar, "inline">, symbol : string) {
+export function isVisible (grammar : Pick<CompiledGrammar, "inline">, symbol : string, _hasMultiStepProduction : boolean) {
     return !symbol.includes("$") && !grammar.inline.includes(symbol);
 }
 
-function isVisible2 (grammar : Pick<CompiledGrammar, "inline">, symbol : string, _hasMultiStepProduction : boolean) {
-    return !symbol.includes("$") && !grammar.inline.includes(symbol);
+export function isVisible_PreserveEnum (grammar : Pick<CompiledGrammar, "inline">, symbol : string, hasMultiStepProduction : boolean) {
+    if (symbol.includes("$")) {
+        return false;
+    }
+
+    return (!grammar.inline.includes(symbol) || !hasMultiStepProduction);
 }
 
 /**
  * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L147
  */
 export function getVariableInfo (
-    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Label">
+    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Label">,
+    isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline">, symbol : string, hasMultiStepProduction : boolean) => boolean = isVisible
 ) : Record<string, VariableInfo> {
     const byName : Record<string, CompiledRule[]> = {};
     for (const rule of grammar.rules) {
@@ -211,7 +216,7 @@ export function getVariableInfo (
 
                     const childIsHidden = (
                         typeof childSymbol == "string" &&
-                        !isVisible(grammar, childSymbol)
+                        !isVisibleDelegate(grammar, childSymbol, variableInfo.hasMultiStepProduction)
                     );
                     //https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L202-L204
                     if (!childIsHidden) {
@@ -364,11 +369,11 @@ export function getVariableInfo (
 
     for (const variableInfo of Object.values(result)) {
         variableInfo.children.types = variableInfo.children.types
-            .filter(type => isVisible(grammar, type));
+            .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction));
 
         for (const [_, fieldInfo] of Object.entries(variableInfo.fields)) {
             fieldInfo.types = fieldInfo.types
-                .filter(type => isVisible2(grammar, type, variableInfo.hasMultiStepProduction));
+                .filter(type => isVisibleDelegate(grammar, type, false));
         }
 
         for (const fieldName of Object.keys(variableInfo.fields)) {
@@ -379,7 +384,7 @@ export function getVariableInfo (
         }
 
         variableInfo.childrenWithoutFields.types = variableInfo.childrenWithoutFields.types
-            .filter(type => isVisible(grammar, type));
+            .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction));
     }
 
     return result;

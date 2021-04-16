@@ -1,5 +1,5 @@
-export interface MyToken {
-    tokenKind : string;
+export interface MyToken<TokenKindT extends string=string> {
+    tokenKind : TokenKindT;
     text : string,
 
     errorKind? : "Expected"|"Unexpected",
