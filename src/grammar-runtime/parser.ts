@@ -964,6 +964,19 @@ export function complete2 (
     hasState : HasStateDelegate,
     addState : (state : MyState) => void
 ) {
+    if (state.data.children.length > 1 && state.data.children.every(child => "errorKind" in child && child.errorKind == "Expected")) {
+        /**
+         * We don't want a syntax node with many expected tokens missing.
+         * Maybe.
+         *
+         * This feel **VERY** hacky, however.
+         *
+         * See [this](test-fixture/parse-2/delimiter/custom-delimiter-alphabet-unintuitive-2.txt)
+         * for the file that will create many `Expected` tokens in a row.
+         */
+        return;
+    }
+
     const nextIdent = (
         //state.rule.name == grammar.extrasRuleName ?
         //other.ident :
