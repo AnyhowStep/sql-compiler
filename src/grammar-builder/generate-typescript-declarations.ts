@@ -10,7 +10,7 @@ export function generateTypeScriptDeclarations (grammar : CompiledGrammar) : str
 
     const result : string[] = [];
 
-    result.push(`import {MyToken} from "../grammar-runtime";`);
+    result.push(`import {MyToken, MySyntaxNode} from "../grammar-runtime";`);
 
     for (const token of grammar.tokens) {
         result.push(`
@@ -37,22 +37,24 @@ export type ${ruleName} = ${shape.children.types.join(" | ")};
         }
 
         result.push(`
-export interface ${ruleName} {
+export interface ${ruleName} extends MySyntaxNode {
     syntaxKind : ${JSON.stringify(ruleName)};
-    ${Object.entries(shape.fields)
-        .filter(([_label, field]) => field.quantity.exists)
-        .map(([label, field]) => {
-            const optionalStr = (
-                !field.quantity.required && !field.quantity.multiple ?
-                    "?" :
-                    ""
-            );
-            const arrayStr = field.quantity.multiple ? "[]" : "";
+    fields : {
+        ${Object.entries(shape.fields)
+            .filter(([_label, field]) => field.quantity.exists)
+            .map(([label, field]) => {
+                const optionalStr = (
+                    !field.quantity.required && !field.quantity.multiple ?
+                        "?" :
+                        ""
+                );
+                const arrayStr = field.quantity.multiple ? "[]" : "";
 
-            return `${label}${optionalStr} : (${field.types.join(" | ")})${arrayStr}`;
-        })
-        .join(";\n    ")
-    }
+                return `${label}${optionalStr} : (${field.types.join(" | ")})${arrayStr}`;
+            })
+            .join(";\n        ")
+        }
+    };
 }
 `);
     }

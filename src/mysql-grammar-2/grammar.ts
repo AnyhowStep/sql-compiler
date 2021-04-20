@@ -9,7 +9,7 @@ import {
     optional,
     tokenSymbol,
 } from "../grammar-builder";
-import {tokenSymbol2} from "../grammar-builder/grammar";
+import {oneOf, tokenSymbol2} from "../grammar-builder/grammar";
 import {MySqlGrammar} from "./mysql-grammar.generated";
 import {SyntaxKind} from "./syntax-kind.generated";
 import {TokenKind, tokens, nonReservedKeywords} from "./token.generated";
@@ -119,20 +119,35 @@ const mySqlGrammar : MySqlGrammar = {
         ),
 
         LeadingStatement: seq(
-            field("statement", SyntaxKind.Statement),
+            field("statement", optional(SyntaxKind.Statement)),
             choice(
                 seq(
                     field("semiColonToken", TokenKind.SemiColon),
-                    field("customDelimiter", optional(TokenKind.CustomDelimiter)),
+                    field(
+                        "customDelimiter",
+                        oneOf(
+                            TokenKind.CustomDelimiter,
+                            seq(),
+                        )
+                    ),
                 ),
                 field("customDelimiter", TokenKind.CustomDelimiter),
             ),
         ),
 
-        TrailingStatement: seq(
-            field("statement", SyntaxKind.Statement),
-            field("semiColonToken", optional(TokenKind.SemiColon)),
-            field("customDelimiter", optional(TokenKind.CustomDelimiter)),
+        TrailingStatement: choice(
+            seq(
+                field("statement", SyntaxKind.Statement),
+                field("semiColonToken", optional(TokenKind.SemiColon)),
+                field("customDelimiter", optional(TokenKind.CustomDelimiter)),
+            ),
+            seq(
+                field("semiColonToken", TokenKind.SemiColon),
+                field("customDelimiter", optional(TokenKind.CustomDelimiter)),
+            ),
+            seq(
+                field("customDelimiter", TokenKind.CustomDelimiter),
+            ),
         ),
 
         /**

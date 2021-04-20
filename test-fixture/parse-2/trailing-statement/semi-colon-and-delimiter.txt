@@ -1,0 +1,94 @@
+DELIMITER $$
+CREATE SCHEMA D;$$
+
+-----
+(SourceFile[0, 32]
+  (statement[]: DelimiterStatement[0, 12]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 12])
+  )
+  (LineBreak[12, 13])
+  (statement[]: TrailingStatement[13, 31]
+    (statement: CreateSchemaStatement[13, 28]
+      (createToken: CREATE[13, 19])
+      (WhiteSpace[19, 20])
+      (schemaToken: SCHEMA[20, 26])
+      (WhiteSpace[26, 27])
+      (identifier: Identifier[27, 28])
+    )
+    (semiColonToken: SemiColon[28, 29])
+    (customDelimiter: CustomDelimiter[29, 31])
+  )
+  (LineBreak[31, 32])
+)
+
+-----
+DELIMITER $$
+CREATE SCHEMA D;
+
+-----
+(SourceFile[0, 30]
+  (statement[]: DelimiterStatement[0, 12]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 12])
+  )
+  (LineBreak[12, 13])
+  (statement[]: TrailingStatement[13, 29]
+    (statement: CreateSchemaStatement[13, 28]
+      (createToken: CREATE[13, 19])
+      (WhiteSpace[19, 20])
+      (schemaToken: SCHEMA[20, 26])
+      (WhiteSpace[26, 27])
+      (identifier: Identifier[27, 28])
+    )
+    (semiColonToken: SemiColon[28, 29])
+  )
+  (LineBreak[29, 30])
+)
+
+-----
+DELIMITER $$
+CREATE SCHEMA D$$
+
+-----
+(SourceFile[0, 31]
+  (statement[]: DelimiterStatement[0, 12]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 12])
+  )
+  (LineBreak[12, 13])
+  (statement[]: TrailingStatement[13, 30]
+    (statement: CreateSchemaStatement[13, 28]
+      (createToken: CREATE[13, 19])
+      (WhiteSpace[19, 20])
+      (schemaToken: SCHEMA[20, 26])
+      (WhiteSpace[26, 27])
+      (identifier: Identifier[27, 28])
+    )
+    (customDelimiter: CustomDelimiter[28, 30])
+  )
+  (LineBreak[30, 31])
+)
+
+-----
+DELIMITER $$
+CREATE SCHEMA D
+
+-----
+(SourceFile[0, 29]
+  (statement[]: DelimiterStatement[0, 12]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 12])
+  )
+  (LineBreak[12, 13])
+  (statement[]: TrailingStatement[13, 28]
+    (statement: CreateSchemaStatement[13, 28]
+      (createToken: CREATE[13, 19])
+      (WhiteSpace[19, 20])
+      (schemaToken: SCHEMA[20, 26])
+      (WhiteSpace[26, 27])
+      (identifier: Identifier[27, 28])
+    )
+  )
+  (LineBreak[28, 29])
+)

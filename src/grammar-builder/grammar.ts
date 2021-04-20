@@ -52,6 +52,15 @@ export function choice (
     };
 }
 
+export function oneOf (
+    ...rules : Rule[]
+) : Rule {
+    return {
+        ruleKind : "oneOf",
+        rules,
+    };
+}
+
 export function optional (
     rule : Rule,
 ) : OptionalRule {
@@ -90,6 +99,17 @@ export function field (
 
     if (typeof rule != "string" && rule.ruleKind == "repeat1") {
         return repeat1(field(label, rule.rule));
+    }
+
+    if (typeof rule != "string" && rule.ruleKind == "oneOf") {
+        return oneOf(
+            ...rule.rules.map(r => {
+                if (typeof r != "string" && r.ruleKind == "seq" && r.rules.length == 0) {
+                    return r;
+                }
+                return field(label, r);
+            }),
+        );
     }
 
     return {
@@ -141,6 +161,8 @@ export function tokenSymbol2 (
     }
 }
 
+
+
 export interface SeqRule {
     ruleKind : "seq",
     rules : Rule[],
@@ -148,6 +170,11 @@ export interface SeqRule {
 
 export interface ChoiceRule {
     ruleKind : "choice",
+    rules : Rule[],
+}
+
+export interface OneOfRule {
+    ruleKind : "oneOf",
     rules : Rule[],
 }
 
@@ -177,6 +204,7 @@ export type Rule =
     | string
     | SeqRule
     | ChoiceRule
+    | OneOfRule
     | OptionalRule
     | Repeat1Rule
     | FieldRule

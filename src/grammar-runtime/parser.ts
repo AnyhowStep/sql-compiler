@@ -12,6 +12,8 @@ export interface MyState {
     readonly errorCount : number;
 
     readonly ident : string;
+
+    readonly edges : MyState[];
 }
 
 export interface MyStateSet {
@@ -43,11 +45,166 @@ export function makeState0 (grammar : MyGrammar) : MyStateSet {
             errorCount : 0,
 
             ident : rule.runTimeId.toString(),
+            edges : [],
         };
         result.states.push(state);
     }
 
     return result;
+}
+
+export function predictRule (
+    grammar : MyGrammar,
+    tokens : MyToken[],
+    state : MyState,
+    expect : string,
+    rule : MyRule,
+    tryGetState : TryGetStateDelegate,
+    hasState : HasStateDelegate,
+    addState : (state : MyState) => void
+) : boolean {
+    const existing = tryGetState(rule, 0, state.tokenIndex, state.tokenIndex, rule.runTimeId.toString(), true);
+    if (existing != undefined) {
+        /**
+         * If the state is a completed null-state,
+         * then we need to run its completion on this state.
+         */
+        if (isFinished(existing)) {
+            complete2(
+                grammar,
+                existing,
+                state,
+                tryGetState,
+                hasState,
+                addState
+            );
+        } else {
+            existing.edges.push(state);
+        }
+        return false;
+    }
+
+    const nextState : MyState = {
+        rule,
+        dot : 0,
+        tokenIndex : state.tokenIndex,
+        startTokenIndex : state.tokenIndex,
+
+        data : {
+            syntaxKind : expect,
+            children : [],
+            start : (
+                state.tokenIndex < tokens.length ?
+                tokens[state.tokenIndex].start :
+                tokens.length == 0 ?
+                0 :
+                tokens[state.tokenIndex-1].end
+            ),
+            end : -1,
+
+            fields : grammar.ruleName2Fields[expect],
+        },
+        errorCount : 0,
+
+        ident : rule.runTimeId.toString(),
+
+        edges : [state],
+    };
+
+    addState(nextState);
+    return true;
+}
+
+export function predictOneOf (
+    grammar : MyGrammar,
+    tokens : MyToken[],
+    state : MyState,
+    expect : string,
+    tryGetState : TryGetStateDelegate,
+    hasState : HasStateDelegate,
+    addState : (state : MyState) => void
+) {
+    const rules = grammar.byName[expect];
+
+    let minErrorCount = Infinity;
+    let minErrorCountIndex = -1;
+
+    for (let i=0; i<rules.length; ++i) {
+        const rule = rules[i];
+        const tmpStart = expect + "$tmp";
+        const tmpTokens = tokens.slice(state.tokenIndex);
+        tmpTokens;
+        const tmpResults = parse(
+            {
+                ...grammar,
+                start : tmpStart,
+                byName : {
+                    ...grammar.byName,
+                    [tmpStart] : [{
+                        ...rule,
+                        name : tmpStart,
+                        runTimeId : 0,
+                    }],
+                },
+                ruleName2Fields : {
+                    ...grammar.ruleName2Fields,
+                    [tmpStart] : grammar.ruleName2Fields[expect],
+                },
+                ruleName2Label : {
+                    ...grammar.ruleName2Label,
+                    [tmpStart] : grammar.ruleName2Label[expect],
+                },
+                ruleName2Shape : {
+                    ...grammar.ruleName2Shape,
+                    [tmpStart] : grammar.ruleName2Shape[expect],
+                },
+            },
+            tmpTokens
+        );
+        tmpResults;
+        if (tmpResults.length == 0) {
+            continue;
+        }
+
+        const tmpErrorCount = tmpResults[0].errorCount;
+
+        if (tmpErrorCount == 0) {
+            //This is the one we want. Ignore all other rules.
+            predictRule(
+                grammar,
+                tokens,
+                state,
+                expect,
+                rule,
+                tryGetState,
+                hasState,
+                addState
+            );
+            return;
+        }
+
+        if (tmpErrorCount < minErrorCount) {
+            minErrorCount = tmpErrorCount;
+            minErrorCountIndex = i;
+        }
+    }
+
+    if (minErrorCountIndex < 0) {
+        return;
+    }
+
+    const rule = rules[minErrorCountIndex];
+    //This is the rule that gives us the least headaches.
+    predictRule(
+        grammar,
+        tokens,
+        state,
+        expect,
+        rule,
+        tryGetState,
+        hasState,
+        addState
+    );
 }
 
 export function predict (
@@ -59,51 +216,32 @@ export function predict (
     hasState : HasStateDelegate,
     addState : (state : MyState) => void
 ) {
+    if (/\$oneOf\$\d+$/.test(expect)) {
+        predictOneOf(
+            grammar,
+            tokens,
+            state,
+            expect,
+            tryGetState,
+            hasState,
+            addState
+        );
+        return;
+    }
+
     const rules = grammar.byName[expect];
 
     for (const rule of rules) {
-        const existing = tryGetState(rule, 0, state.tokenIndex, state.tokenIndex, rule.runTimeId.toString());
-        if (existing != undefined) {
-            /**
-             * If the state is a completed null-state,
-             * then we need to run its completion on this state.
-             */
-            if (isFinished(existing)) {
-                complete2(
-                    grammar,
-                    existing,
-                    state,
-                    hasState,
-                    addState
-                );
-            }
-            continue;
-        }
-
-        const nextState : MyState = {
+        predictRule(
+            grammar,
+            tokens,
+            state,
+            expect,
             rule,
-            dot : 0,
-            tokenIndex : state.tokenIndex,
-            startTokenIndex : state.tokenIndex,
-
-            data : {
-                syntaxKind : expect,
-                children : [],
-                start : (
-                    state.tokenIndex >= tokens.length ?
-                    tokens[state.tokenIndex-1].end :
-                    tokens[state.tokenIndex].start
-                ),
-                end : -1,
-
-                fields : grammar.ruleName2Fields[expect],
-            },
-            errorCount : 0,
-
-            ident : rule.runTimeId.toString(),
-        };
-
-        addState(nextState);
+            tryGetState,
+            hasState,
+            addState
+        );
     }
 }
 
@@ -112,7 +250,8 @@ export type TryGetStateDelegate = (
     dot : number,
     tokenIndex : number,
     startTokenIndex : number,
-    ident : string
+    ident : string,
+    finished : boolean
 ) => MyState|undefined;
 
 export type HasStateDelegate = (
@@ -123,10 +262,33 @@ export type HasStateDelegate = (
     ident : string
 ) => boolean;
 
+export function getResults (
+    grammar : MyGrammar,
+    resultStateSet : MyStateSet
+) {
+    const resultStates = resultStateSet.states
+        .filter((state) => {
+            return (
+                state.startTokenIndex == 0 &&
+                isFinished(state) &&
+                state.rule.name == grammar.start
+            );
+        });
+    const minErrorCount = resultStates.reduce(
+        (min, cur) => Math.min(min, cur.errorCount),
+        Infinity
+    );
+    const result = resultStates
+        .filter(state => state.errorCount == minErrorCount);
+        //.map(state => state.data);
+
+    return result;
+}
+
 export function parse (
     grammar : MyGrammar,
     tokens : MyToken[]
-) : MySyntaxNode[] {
+) : MyState[] {
     const stateSets = new Map<number, MyStateSet>();
     stateSets.set(0, makeState0(grammar));
 
@@ -165,7 +327,7 @@ export function parse (
         ));
     }
 
-    function tryGetState (rule : MyRule, dot : number, tokenIndex : number, startTokenIndex : number) {
+    function tryGetState (rule : MyRule, dot : number, tokenIndex : number, startTokenIndex : number, _ident : string, finished : boolean) {
         const stateSet = stateSets.get(tokenIndex);
         if (stateSet == undefined) {
             return undefined;
@@ -180,8 +342,11 @@ export function parse (
             a.rule == rule &&
             a.startTokenIndex == startTokenIndex &&
             (
-                a.dot == dot ||
-                isFinished(a)
+                (
+                    a.ident == _ident &&
+                    a.dot == dot
+                ) ||
+                (finished && isFinished(a))
             )
         ));
 
@@ -234,8 +399,8 @@ export function parse (
             0
         );
 
-        const nextStateSet = stateSets.get(i+1);
-        if (nextStateSet == undefined || nextStateSet.states.length == 0) {
+        let nextStateSet = stateSets.get(i+1);
+        while (nextStateSet == undefined || nextStateSet.states.length == 0) {
             const stateSetLength = stateSet.states.length;
 
             //Adds stuff to the next state set
@@ -250,11 +415,18 @@ export function parse (
             //Adds stuff to the current state set
             //We *must* call this second.
             skipExpectation(
+                grammar,
                 tokens,
                 stateSet,
                 hasState,
                 addState
             );
+
+            if (stateSetLength == stateSet.states.length) {
+                //No new states added.
+                //This is just a partial parse.
+                return getResults(grammar, stateSet);
+            }
 
             //We *must* call this last.
             processStateSet(
@@ -268,6 +440,7 @@ export function parse (
                 stateSetLength
             );
 
+            nextStateSet = stateSets.get(i+1);
         }
     }
 
@@ -290,24 +463,9 @@ export function parse (
         0
     );
 
-    const resultStates = resultStateSet.states
-        .filter((state) => {
-            return (
-                state.startTokenIndex == 0 &&
-                isFinished(state) &&
-                state.rule.name == grammar.start
-            );
-        });
-    const minErrorCount = resultStates.reduce(
-        (min, cur) => Math.min(min, cur.errorCount),
-        Infinity
-    );
-    const result = resultStates
-        .filter(state => state.errorCount == minErrorCount)
-        .map(state => state.data);
-
+    const result = getResults(grammar, resultStateSet);
     if (result.length > 0) {
-        return result as MySyntaxNode[];
+        return result;
     }
 
     let skipExpectationStart = 0;
@@ -318,6 +476,7 @@ export function parse (
         //Adds stuff to the current state set
         //We *must* call this second.
         skipExpectation(
+            grammar,
             tokens,
             resultStateSet,
             hasState,
@@ -325,28 +484,10 @@ export function parse (
             skipExpectationStart
         );
 
-        if (resultStateSet.states.length == stateSetLength) {
-
-            const resultStates = resultStateSet.states
-                .filter((state) => {
-                    return (
-                        state.startTokenIndex == 0 &&
-                        isFinished(state) &&
-                        state.rule.name == grammar.start
-                    );
-                });
-            const minErrorCount = resultStates.reduce(
-                (min, cur) => Math.min(min, cur.errorCount),
-                Infinity
-            );
-            const result = resultStates
-                .filter(state => state.errorCount == minErrorCount)
-                .map(state => state.data);
-
-
-            if (result.length > 0) {
-                return result as MySyntaxNode[];
-            }
+        if (stateSetLength == resultStateSet.states.length) {
+            //No new states added.
+            //This is just a partial parse.
+            return getResults(grammar, resultStateSet);
         }
 
         skipExpectationStart = stateSetLength;
@@ -362,6 +503,11 @@ export function parse (
             addState,
             stateSetLength
         );
+
+        const result = getResults(grammar, resultStateSet);
+        if (result.length > 0) {
+            return result;
+        }
     }
 }
 
@@ -382,7 +528,7 @@ export function processStateSet (
         const state = stateSet.states[i];
 
         if (isFinished(state)) {
-            complete(grammar, stateSet, state, getStateSet, hasState, addState);
+            complete(grammar, stateSet, state, getStateSet, tryGetState, hasState, addState);
         } else {
             const expect = state.rule.symbols[state.dot];
             if (typeof expect == "string") {
@@ -646,6 +792,8 @@ export function scan (
         errorCount : state.errorCount,
 
         ident : state.ident,
+
+        edges : [state],
     };
     addState(nextState);
 }
@@ -687,6 +835,7 @@ export function skipUnexpected (
             errorCount : state.errorCount+1,
 
             ident : state.ident,
+            edges : [state],
         };
         addState(nextState);
     }
@@ -696,6 +845,7 @@ export function skipUnexpected (
  * This adds states to the current `stateSet`
  */
 export function skipExpectation (
+    grammar : MyGrammar,
     tokens : MyToken[],
     stateSet : MyStateSet,
     hasState : HasStateDelegate,
@@ -717,10 +867,26 @@ export function skipExpectation (
         if (hasState(state.rule, state.dot+1, state.tokenIndex, state.startTokenIndex, state.ident)) {
             continue;
         }
+        if (state.data.children.length > 0) {
+            const lastChild = state.data.children[state.data.children.length-1];
+            if ("tokenKind" in lastChild) {
+                if (lastChild.tokenKind != undefined && grammar.extras.has(lastChild.tokenKind)) {
+                    //We do not want to "expect" extras twice in a row
+                    continue;
+                }
+            }
+        }
 
         const token : MyToken = (
             state.tokenIndex < tokens.length ?
             tokens[state.tokenIndex] :
+            tokens.length == 0 ?
+            {
+                tokenKind : "EndOfFile",
+                text : "",
+                start : 0,
+                end : 0,
+            } :
             {
                 tokenKind : "EndOfFile",
                 text : "",
@@ -748,6 +914,7 @@ export function skipExpectation (
             errorCount : state.errorCount+1,
 
             ident : state.ident,
+            edges : [state],
         };
         addState(nextState);
     }
@@ -761,16 +928,57 @@ export function complete2 (
     grammar : MyGrammar,
     state : MyState,
     other : MyState,
+    tryGetState : TryGetStateDelegate,
     hasState : HasStateDelegate,
     addState : (state : MyState) => void
 ) {
     const nextIdent = (
-        state.rule.name == grammar.extrasRuleName ?
-        other.ident :
+        //state.rule.name == grammar.extrasRuleName ?
+        //other.ident :
+        //grammar.extrasRuleName != undefined && state.rule.name.startsWith(grammar.extrasRuleName) ?
+        //other.ident :
         other.ident + "-" + state.ident
     );
-    if (hasState(other.rule, other.dot+1, state.tokenIndex, other.startTokenIndex, nextIdent)) {
+    const existing = tryGetState(other.rule, other.dot+1, state.tokenIndex, other.startTokenIndex, nextIdent, false);
+    if (existing != undefined) {
+        const errorCount = existing.edges.reduce(
+            (min, s) => Math.min(min, s.errorCount),
+            Infinity
+        );
+        if (state.errorCount < errorCount) {
+            existing.edges.push(state);
+        } else if (state.errorCount == errorCount) {
+            existing.edges.push(state);
+        } else {
+            existing.edges.push(state);
+        }
         return;
+    }
+    hasState;
+    if (hasState(other.rule, other.dot+1, state.tokenIndex, other.startTokenIndex, nextIdent)) {
+        //return;
+    }
+
+    if (other.data.children.length > 0 && state.data.children.length > 0) {
+        const lastChild = other.data.children[other.data.children.length-1];
+        const firstChild = state.data.children[0];
+        if (
+            "tokenKind" in lastChild && grammar.extras.has(lastChild.tokenKind) &&
+            "tokenKind" in firstChild && grammar.extras.has(firstChild.tokenKind) &&
+            lastChild.errorKind == "Expected" &&
+            firstChild.errorKind == "Expected"
+        ) {
+            /**
+             * Last child of other.data is extra.
+             * First child of state.data is extra.
+             *
+             * Both extras are missing/expected.
+             *
+             * If we concat (other, state), we get two missing/expected whitespaces in a row.
+             * We do not want this.
+             */
+            return;
+        }
     }
 
     const stateData : MySyntaxNode = {
@@ -782,20 +990,24 @@ export function complete2 (
         ),
     };
 
+    const nextData = (
+        stateData.syntaxKind.includes("$") || grammar.inline.has(stateData.syntaxKind) ?
+        inlineChild(grammar, other.data, stateData) :
+        pushChild(grammar, other.data, stateData)
+    );
+
+
     const nextState : MyState = {
         rule : other.rule,
         dot : other.dot+1,
         tokenIndex : state.tokenIndex,
         startTokenIndex : other.startTokenIndex,
 
-        data : (
-            stateData.syntaxKind.includes("$") || grammar.inline.has(stateData.syntaxKind) ?
-            inlineChild(grammar, other.data, stateData) :
-            pushChild(grammar, other.data, stateData)
-        ),
+        data : nextData,
         errorCount : other.errorCount + state.errorCount,
 
         ident : nextIdent,
+        edges : [state],
     };
     addState(nextState);
 }
@@ -805,6 +1017,7 @@ export function complete (
     stateSet : MyStateSet,
     state : MyState,
     getStateSet : (tokenIndex : number, expect : string) => MyStateSet,
+    tryGetState : TryGetStateDelegate,
     hasState : HasStateDelegate,
     addState : (state : MyState) => void
 ) {
@@ -818,6 +1031,7 @@ export function complete (
             grammar,
             state,
             other,
+            tryGetState,
             hasState,
             addState
         );

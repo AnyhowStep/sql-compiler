@@ -1,5 +1,5 @@
 import {CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
-import {Grammar, optional, repeat, Rule, seq, seqNoFlatten, tokenSymbol} from "./grammar";
+import {Grammar, oneOf, optional, repeat, Rule, seq, seqNoFlatten, tokenSymbol} from "./grammar";
 import {getVariableInfo, isVisible} from "./node-types";
 
 export interface BuilderState {
@@ -50,6 +50,13 @@ export function buildToken (
             return buildChoice(
                 state,
                 state.getUniqueName(ruleName + "$choice"),
+                rule.rules
+            );
+        }
+        case "oneOf": {
+            return buildChoice(
+                state,
+                state.getUniqueName(ruleName + "$oneOf"),
                 rule.rules
             );
         }
@@ -108,6 +115,14 @@ export function isTokenRule (state : BuilderState, rule : Rule) {
     }
 }
 
+export function isEmptySequence (rule : Rule) {
+    if (typeof rule == "string") {
+        return false;
+    } else {
+        return rule.ruleKind == "seq" && rule.rules.length == 0;
+    }
+}
+
 export function buildRule (
     state : BuilderState,
     ruleName : string,
@@ -120,13 +135,50 @@ export function buildRule (
     );
 
     const symbols : CompiledSymbol[] = [];
+    let insertExtrasAfter = 0;
     //eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i=0; i<arr.length; ++i) {
         let item = arr[i];
 
         if (
             state.extras != undefined &&
-            i > 0 &&
+            i == 0
+        ) {
+            if (typeof item == "string") {
+                //TODO?
+            } else {
+                if (item.ruleKind == "optional") {
+                    //Put the extra inside the optional, after item.rule
+                    insertExtrasAfter = 1;
+                    item = optional(seq(
+                        item.rule,
+                        state.extras,
+                    ));
+                } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
+                    //Put the extra inside the optional, after item.rule
+                    const extras = state.extras;
+                    insertExtrasAfter = 1;
+                    item = oneOf(
+                        ...item.rules
+                            .map(rule => {
+                                if (isEmptySequence(rule)) {
+                                    return rule;
+                                } else {
+                                    return seq(
+                                        extras,
+                                        rule,
+                                    );
+                                }
+                            })
+                    );
+                } else {
+                    //TODO?
+                }
+            }
+        }
+        if (
+            state.extras != undefined &&
+            i > insertExtrasAfter &&
             arr[i] != state.extras &&
             arr[i-1] != state.extras
         ) {
@@ -136,8 +188,24 @@ export function buildRule (
                 if (item.ruleKind == "optional") {
                     item = optional(seq(
                         state.extras,
-                        item.rule
+                        item.rule,
                     ));
+                } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
+                    //Put the extra inside the optional, after item.rule
+                    const extras = state.extras;
+                    item = oneOf(
+                        ...item.rules
+                            .map(rule => {
+                                if (isEmptySequence(rule)) {
+                                    return rule;
+                                } else {
+                                    return seq(
+                                        extras,
+                                        rule,
+                                    );
+                                }
+                            })
+                    );
                 } else {
                     symbols.push(state.extras);
                 }

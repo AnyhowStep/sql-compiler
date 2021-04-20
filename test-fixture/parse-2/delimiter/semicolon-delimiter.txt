@@ -1,0 +1,30 @@
+DELIMITER $$
+BINLOG '';$$
+BINLOG ''
+
+-----
+(SourceFile[0, 36]
+  (statement[]: DelimiterStatement[0, 12]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 12])
+  )
+  (LineBreak[12, 13])
+  (statement[]: LeadingStatement[13, 25]
+    (statement: BinLogStatement[13, 22]
+      (binLogToken: BINLOG[13, 19])
+      (WhiteSpace[19, 20])
+      (str: StringLiteral[20, 22])
+    )
+    (semiColonToken: SemiColon[22, 23])
+    (customDelimiter: CustomDelimiter[23, 25])
+  )
+  (LineBreak[25, 26])
+  (statement[]: TrailingStatement[26, 35]
+    (statement: BinLogStatement[26, 35]
+      (binLogToken: BINLOG[26, 32])
+      (WhiteSpace[32, 33])
+      (str: StringLiteral[33, 35])
+    )
+  )
+  (LineBreak[35, 36])
+)
