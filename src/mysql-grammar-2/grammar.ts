@@ -9,10 +9,10 @@ import {
     optional,
     tokenSymbol,
 } from "../grammar-builder";
-import {oneOf, tokenSymbol2} from "../grammar-builder/grammar";
+import {tokenSymbol2} from "../grammar-builder/grammar";
 import {MySqlGrammar} from "./mysql-grammar.generated";
 import {SyntaxKind} from "./syntax-kind.generated";
-import {TokenKind, tokens, nonReservedKeywords} from "./token.generated";
+import {TokenKind, tokens, nonReservedKeywords, extras} from "./token.generated";
 
 const identifier = tokenSymbol(
     TokenKind.Identifier,
@@ -21,13 +21,7 @@ const identifier = tokenSymbol(
 
 const mySqlGrammar : MySqlGrammar = {
     tokens,
-    extras : [
-        TokenKind.WhiteSpace,
-        TokenKind.SingleLineComment,
-        TokenKind.MultiLineComment,
-        TokenKind.ExecutionComment,
-        TokenKind.LineBreak,
-    ],
+    extras,
 
     inline : [
         SyntaxKind.CharacterSetNameOrDefault,
@@ -36,13 +30,14 @@ const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.Schema,
         SyntaxKind.CharSet,
         SyntaxKind.Ident,
+        SyntaxKind.StatementTail,
     ],
     start : SyntaxKind.SourceFile,
     rules : {
-        SourceFile: seq(
+        SourceFile: optional(seq(
             field("statement", repeat(choice(SyntaxKind.LeadingStatement, SyntaxKind.DelimiterStatement))),
             field("statement", choice(SyntaxKind.TrailingStatement, SyntaxKind.DelimiterStatement)),
-        ),
+        )),
 
         Statement: choice(
             //TODO
@@ -120,34 +115,26 @@ const mySqlGrammar : MySqlGrammar = {
 
         LeadingStatement: seq(
             field("statement", optional(SyntaxKind.Statement)),
-            choice(
-                seq(
-                    field("semiColonToken", TokenKind.SemiColon),
-                    field(
-                        "customDelimiter",
-                        oneOf(
-                            TokenKind.CustomDelimiter,
-                            seq(),
-                        )
-                    ),
-                ),
-                field("customDelimiter", TokenKind.CustomDelimiter),
-            ),
+            SyntaxKind.StatementTail,
         ),
 
         TrailingStatement: choice(
             seq(
                 field("statement", SyntaxKind.Statement),
-                field("semiColonToken", optional(TokenKind.SemiColon)),
-                field("customDelimiter", optional(TokenKind.CustomDelimiter)),
+                optional(SyntaxKind.StatementTail),
             ),
-            seq(
-                field("semiColonToken", TokenKind.SemiColon),
-                field("customDelimiter", optional(TokenKind.CustomDelimiter)),
-            ),
-            seq(
+            SyntaxKind.StatementTail,
+        ),
+
+        StatementTail: seq(
+            choice(
+                seq(
+                    field("semiColonToken", TokenKind.SemiColon),
+                    field("customDelimiter", optional(TokenKind.CustomDelimiter)),
+                ),
                 field("customDelimiter", TokenKind.CustomDelimiter),
             ),
+            TokenKind.EndOfStatement,
         ),
 
         /**

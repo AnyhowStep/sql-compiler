@@ -5,6 +5,7 @@ export interface MySqlRuleCollection {
     SourceFile : Rule,
     LeadingStatement : Rule,
     TrailingStatement : Rule,
+    StatementTail : Rule,
     Statement : Rule,
     DelimiterStatement : Rule,
     BinLogStatement : Rule,

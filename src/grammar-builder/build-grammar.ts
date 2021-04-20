@@ -1,5 +1,5 @@
 import {CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
-import {Grammar, oneOf, optional, repeat, Rule, seq, seqNoFlatten, tokenSymbol} from "./grammar";
+import {choice, Grammar, oneOf, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol} from "./grammar";
 import {getVariableInfo, isVisible} from "./node-types";
 
 export interface BuilderState {
@@ -115,12 +115,54 @@ export function isTokenRule (state : BuilderState, rule : Rule) {
     }
 }
 
+export function isOptionalRule (rule : Rule) : rule is OptionalRule {
+    return typeof rule != "string" && rule.ruleKind == "optional";
+}
+
+export function isSeqRule (rule : Rule) : rule is SeqRule {
+    return typeof rule != "string" && rule.ruleKind == "seq";
+}
+
 export function isEmptySequence (rule : Rule) {
     if (typeof rule == "string") {
         return false;
     } else {
         return rule.ruleKind == "seq" && rule.rules.length == 0;
     }
+}
+
+export function recursivePushFront (item : OptionalRule, extras : string) : OptionalRule {
+    if (isSeqRule(item.rule)) {
+        const first = item.rule.rules[0];
+        if (isOptionalRule(first)) {
+            return optional(seq(
+                recursivePushFront(first, extras),
+                ...item.rule.rules.slice(1),
+            ));
+        }
+    }
+
+    return optional(seq(
+        extras,
+        item.rule,
+    ));
+}
+
+export function recursivePushBack (item : OptionalRule, extras : string) : OptionalRule {
+    if (isSeqRule(item.rule)) {
+        const last = item.rule.rules[item.rule.rules.length-1];
+        if (isOptionalRule(last)) {
+            return optional(seq(
+                ...item.rule.rules.slice(0, item.rule.rules.length-1),
+                recursivePushBack(last, extras),
+            ));
+        }
+    }
+
+    return optional(seq(
+        item.rule,
+        extras,
+    ));
 }
 
 export function buildRule (
@@ -142,18 +184,27 @@ export function buildRule (
 
         if (
             state.extras != undefined &&
-            i == 0
+            i == 0 &&
+            arr.length > 1
         ) {
             if (typeof item == "string") {
                 //TODO?
             } else {
                 if (item.ruleKind == "optional") {
-                    //Put the extra inside the optional, after item.rule
-                    insertExtrasAfter = 1;
-                    item = optional(seq(
-                        item.rule,
-                        state.extras,
-                    ));
+                    const nextRule = arr[i+1];
+                    if (typeof nextRule == "string") {
+                        //Put the extra inside the optional, after item.rule
+                        insertExtrasAfter = 1;
+                        item = recursivePushBack(item, state.extras);
+                    } else {
+                        if (nextRule.ruleKind == "optional") {
+                            //Do nothing
+                        } else {
+                            //Put the extra inside the optional, after item.rule
+                            insertExtrasAfter = 1;
+                            item = recursivePushBack(item, state.extras);
+                        }
+                    }
                 } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
                     //Put the extra inside the optional, after item.rule
                     const extras = state.extras;
@@ -186,10 +237,7 @@ export function buildRule (
                 symbols.push(state.extras);
             } else {
                 if (item.ruleKind == "optional") {
-                    item = optional(seq(
-                        state.extras,
-                        item.rule,
-                    ));
+                    item = recursivePushFront(item, state.extras);
                 } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
                     //Put the extra inside the optional, after item.rule
                     const extras = state.extras;
@@ -271,12 +319,21 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
 
         if (ruleName == grammar.start && state.extras != undefined) {
             if (typeof rule == "string") {
-                buildRule(state, ruleName, seqNoFlatten(seq(), rule, state.extras));
+                buildRule(state, ruleName, seqNoFlatten(state.extras, rule, state.extras));
             } else {
                 if (rule.ruleKind == "seq") {
-                    buildRule(state, ruleName, seqNoFlatten(seq(), ...rule.rules, state.extras));
+                    buildRule(state, ruleName, seqNoFlatten(state.extras, ...rule.rules, state.extras));
+                } else if (rule.ruleKind == "optional") {
+                    buildRule(
+                        state,
+                        ruleName,
+                        choice(
+                            state.extras,
+                            seqNoFlatten(state.extras, rule.rule, state.extras),
+                        )
+                    );
                 } else {
-                    buildRule(state, ruleName, seqNoFlatten(seq(), rule, state.extras));
+                    buildRule(state, ruleName, seqNoFlatten(state.extras, rule, state.extras));
                 }
             }
         } else {

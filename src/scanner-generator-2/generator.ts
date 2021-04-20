@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import {tokenKinds} from "./token-kind";
 import {reservedKeywords, nonReservedKeywords} from "./keywords";
+import {extras} from "./extras";
 
 fs.writeFileSync(
     `${__dirname}/../mysql-grammar-2/token.generated.ts`,
@@ -17,6 +18,9 @@ export const nonReservedKeywords = [
     ${nonReservedKeywords.map(keyword => JSON.stringify(keyword)).join(",\n    ")}
 ];
 
+export const extras = [
+    ${extras.map(extra => `TokenKind.${extra}`).join(",\n    ")}
+];
 `
 );
 
@@ -33,6 +37,10 @@ export enum ReservedKeyword {
 
 export enum NonReservedKeyword {
     ${nonReservedKeywords.map(keyword => `${keyword} = ${JSON.stringify(keyword)}`).join(",\n    ")}
+}
+
+export enum Extras {
+    ${extras.map(extra => `${extra} = ${JSON.stringify(extra)}`).join(",\n    ")}
 }
 `
 );

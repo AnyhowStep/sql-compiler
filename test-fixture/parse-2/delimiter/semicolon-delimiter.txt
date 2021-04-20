@@ -17,6 +17,7 @@ BINLOG ''
     )
     (semiColonToken: SemiColon[22, 23])
     (customDelimiter: CustomDelimiter[23, 25])
+    (EndOfStatement[25, 25])
   )
   (LineBreak[25, 26])
   (statement[]: TrailingStatement[26, 35]

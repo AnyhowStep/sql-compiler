@@ -1,6 +1,6 @@
 import {MyToken} from "../grammar-runtime";
 import {CharacterCodes, isUnquotedIdentifierCharacter, isWhiteSpace} from "./character-code";
-import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, tryScanStringCaseInsensitive, scanQuotedIdentifier, scanTillEndOfLineOrEof} from "./scan-util";
+import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, tryScanStringCaseInsensitive, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras} from "./scan-util";
 import {TokenKind} from "./token.generated";
 
 export interface LexerState {
@@ -8,6 +8,8 @@ export interface LexerState {
     index : number;
     expectCustomDelimiter : boolean;
     customDelimiter : string;
+
+    nextZeroWidthTokenKind : TokenKind|undefined;
 
     peek (offset : number) : number;
     advance () : number;
@@ -21,12 +23,14 @@ export class MyLexerState implements LexerState {
     public index : number;
     public expectCustomDelimiter : boolean;
     public customDelimiter : string;
+    public nextZeroWidthTokenKind : TokenKind|undefined;
 
     public constructor (text : string) {
         this.text = text;
         this.index = 0;
         this.expectCustomDelimiter = false;
         this.customDelimiter = "";
+        this.nextZeroWidthTokenKind = undefined;
     }
 
     public peek (offset : number) : number {
@@ -46,6 +50,7 @@ export class MyLexerState implements LexerState {
         result.index = this.index;
         result.expectCustomDelimiter = this.expectCustomDelimiter;
         result.customDelimiter = this.customDelimiter;
+        result.nextZeroWidthTokenKind = this.nextZeroWidthTokenKind;
         return result;
     }
 
@@ -58,7 +63,7 @@ export function scanAll (text : string) : MyToken[] {
     const result : MyToken[] = [];
     const state = new MyLexerState(text);
 
-    while (!state.isEof(0)) {
+    while (!state.isEof(0) || state.nextZeroWidthTokenKind != undefined) {
         const start = state.index;
         const tokenKind = scan(state);
         const end = state.index;
@@ -74,12 +79,37 @@ export function scanAll (text : string) : MyToken[] {
 }
 
 export function scan (state : LexerState) : TokenKind {
+    if (state.nextZeroWidthTokenKind != undefined) {
+        /**
+         * Zero-width because the start and end index
+         * for this `TokenKind` are the same.
+         */
+        const result = state.nextZeroWidthTokenKind;
+        state.nextZeroWidthTokenKind = undefined;
+        return result;
+    }
+
     if (state.expectCustomDelimiter) {
         return scanDelimiter(state);
     }
 
     if (state.customDelimiter.length > 0) {
         if (tryScanString(state, state.customDelimiter)) {
+            /**
+             * Setting this helps us make the grammar less ambiguous.
+             * Consisder,
+             * ```sql
+             *  DELIMITER $$
+             *  SELECT 1;$$
+             * ```
+             *
+             * You could interpret the above as,
+             * `SELECT 1;` (select query) and `$$` (empty query).
+             *
+             * But we really want `SELECT 1;$$`
+             */
+            state.nextZeroWidthTokenKind = TokenKind.EndOfStatement;
+
             return TokenKind.CustomDelimiter;
         }
     }
@@ -215,6 +245,23 @@ export function scan (state : LexerState) : TokenKind {
             return TokenKind.Equal;
         case CharacterCodes.semicolon:
             state.advance();
+            const peeked = peekTokenAfterExtras(state);
+            if (peeked != TokenKind.CustomDelimiter) {
+                /**
+                 * Setting this helps us make the grammar less ambiguous.
+                 * Consisder,
+                 * ```sql
+                 *  DELIMITER $$
+                 *  SELECT 1;$$
+                 * ```
+                 *
+                 * You could interpret the above as,
+                 * `SELECT 1;` (select query) and `$$` (empty query).
+                 *
+                 * But we really want `SELECT 1;$$`
+                 */
+                state.nextZeroWidthTokenKind = TokenKind.EndOfStatement;
+            }
             return TokenKind.SemiColon;
         case CharacterCodes.dot:
             state.advance();

@@ -636,6 +636,7 @@ export const tokens = [
     "ExecutionCommentEnd",
     "WhiteSpace",
     "LineBreak",
+    "EndOfStatement",
     "StringLiteral",
     "HexLiteral",
     "BitLiteral",
@@ -1320,6 +1321,7 @@ export enum TokenKind {
     ExecutionCommentEnd = "ExecutionCommentEnd",
     WhiteSpace = "WhiteSpace",
     LineBreak = "LineBreak",
+    EndOfStatement = "EndOfStatement",
     StringLiteral = "StringLiteral",
     HexLiteral = "HexLiteral",
     BitLiteral = "BitLiteral",
@@ -1757,3 +1759,10 @@ export const nonReservedKeywords = [
     "YEAR"
 ];
 
+export const extras = [
+    TokenKind.WhiteSpace,
+    TokenKind.SingleLineComment,
+    TokenKind.MultiLineComment,
+    TokenKind.ExecutionComment,
+    TokenKind.LineBreak
+];

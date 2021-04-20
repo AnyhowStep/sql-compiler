@@ -3,6 +3,7 @@ export const syntaxKinds = [
 
     "LeadingStatement",
     "TrailingStatement",
+    "StatementTail",
 
     "Statement",
     "DelimiterStatement",

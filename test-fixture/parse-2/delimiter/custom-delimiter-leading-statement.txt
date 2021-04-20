@@ -27,6 +27,7 @@ CREATE SCHEMA G$$
       (identifier: Identifier[72, 73])
     )
     (semiColonToken: SemiColon[73, 74])
+    (EndOfStatement[74, 74])
   )
   (LineBreak[74, 75])
   (MultiLineComment[75, 86])
@@ -41,6 +42,7 @@ CREATE SCHEMA G$$
     )
     (semiColonToken: SemiColon[102, 103])
     (customDelimiter: CustomDelimiter[103, 105])
+    (EndOfStatement[105, 105])
   )
   (LineBreak[105, 106])
   (MultiLineComment[106, 117])
@@ -54,6 +56,7 @@ CREATE SCHEMA G$$
       (identifier: Identifier[132, 133])
     )
     (customDelimiter: CustomDelimiter[133, 135])
+    (EndOfStatement[135, 135])
   )
   (LineBreak[135, 136])
   (statement[]: DelimiterStatement[136, 147]

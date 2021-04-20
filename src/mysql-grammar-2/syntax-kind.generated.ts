@@ -3,6 +3,7 @@ export enum SyntaxKind {
     SourceFile = "SourceFile",
     LeadingStatement = "LeadingStatement",
     TrailingStatement = "TrailingStatement",
+    StatementTail = "StatementTail",
     Statement = "Statement",
     DelimiterStatement = "DelimiterStatement",
     BinLogStatement = "BinLogStatement",

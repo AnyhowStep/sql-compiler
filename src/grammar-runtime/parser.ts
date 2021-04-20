@@ -115,6 +115,31 @@ export function predictRule (
     return true;
 }
 
+export function earleyPredict (
+    grammar : MyGrammar,
+    tokens : MyToken[],
+    state : MyState,
+    expect : string,
+    tryGetState : TryGetStateDelegate,
+    hasState : HasStateDelegate,
+    addState : (state : MyState) => void
+) {
+    const rules = grammar.byName[expect];
+
+    for (const rule of rules) {
+        predictRule(
+            grammar,
+            tokens,
+            state,
+            expect,
+            rule,
+            tryGetState,
+            hasState,
+            addState
+        );
+    }
+}
+
 export function predictOneOf (
     grammar : MyGrammar,
     tokens : MyToken[],
@@ -180,7 +205,7 @@ export function predictOneOf (
                 hasState,
                 addState
             );
-            return;
+            //return;
         }
 
         if (tmpErrorCount < minErrorCount) {
@@ -189,6 +214,18 @@ export function predictOneOf (
         }
     }
 
+    earleyPredict(
+        grammar,
+        tokens,
+        state,
+        expect,
+        tryGetState,
+        hasState,
+        addState
+    );
+
+    minErrorCountIndex;
+    /*
     if (minErrorCountIndex < 0) {
         return;
     }
@@ -204,7 +241,7 @@ export function predictOneOf (
         tryGetState,
         hasState,
         addState
-    );
+    );*/
 }
 
 export function predict (
@@ -229,20 +266,15 @@ export function predict (
         return;
     }
 
-    const rules = grammar.byName[expect];
-
-    for (const rule of rules) {
-        predictRule(
-            grammar,
-            tokens,
-            state,
-            expect,
-            rule,
-            tryGetState,
-            hasState,
-            addState
-        );
-    }
+    earleyPredict(
+        grammar,
+        tokens,
+        state,
+        expect,
+        tryGetState,
+        hasState,
+        addState
+    );
 }
 
 export type TryGetStateDelegate = (

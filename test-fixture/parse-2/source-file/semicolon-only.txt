@@ -3,5 +3,6 @@
 (SourceFile[0, 1]
   (statement[]: TrailingStatement[0, 1]
     (semiColonToken: SemiColon[0, 1])
+    (EndOfStatement[1, 1])
   )
 )

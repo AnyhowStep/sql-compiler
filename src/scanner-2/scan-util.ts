@@ -1,6 +1,6 @@
 import {CharacterCodes, isDigit, isLineBreak, isUnquotedIdentifierCharacter} from "./character-code";
-import {LexerState} from "./scan-all";
-import {NonReservedKeyword, ReservedKeyword, TokenKind} from "./token.generated";
+import {LexerState, scan} from "./scan-all";
+import {Extras, NonReservedKeyword, ReservedKeyword, TokenKind} from "./token.generated";
 
 /**
  * If it does not encounter a closing quote,
@@ -512,6 +512,7 @@ export function scanDelimiter (state : LexerState) {
 
     state.expectCustomDelimiter = false;
     state.index = tmp.index;
+
     return TokenKind.CustomDelimiter;
 }
 
@@ -543,4 +544,16 @@ export function scanOthers (state : LexerState) : TokenKind {
 
     state.index = tmp.index;
     return tokenKind;
+}
+
+export function peekTokenAfterExtras (state : LexerState) : TokenKind {
+    const tmp = state.clone();
+    while (!tmp.isEof(0)) {
+        const tokenKind = scan(tmp);
+        if (Object.prototype.hasOwnProperty.call(Extras, tokenKind)) {
+            continue;
+        }
+        return tokenKind;
+    }
+    return TokenKind.EndOfFile;
 }

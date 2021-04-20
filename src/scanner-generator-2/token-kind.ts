@@ -20,6 +20,12 @@ export const customTokenKinds = [
     "LineBreak",
 
     /**
+     * We mark the end of statements with a zero-width token
+     * to help make the grammar less ambiguous.
+     */
+    "EndOfStatement",
+
+    /**
      * Literals
      */
     "StringLiteral",

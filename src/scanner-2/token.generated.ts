@@ -636,6 +636,7 @@ export enum TokenKind {
     ExecutionCommentEnd = "ExecutionCommentEnd",
     WhiteSpace = "WhiteSpace",
     LineBreak = "LineBreak",
+    EndOfStatement = "EndOfStatement",
     StringLiteral = "StringLiteral",
     HexLiteral = "HexLiteral",
     BitLiteral = "BitLiteral",
@@ -1309,4 +1310,12 @@ export enum NonReservedKeyword {
     XID = "XID",
     XML = "XML",
     YEAR = "YEAR"
+}
+
+export enum Extras {
+    WhiteSpace = "WhiteSpace",
+    SingleLineComment = "SingleLineComment",
+    MultiLineComment = "MultiLineComment",
+    ExecutionComment = "ExecutionComment",
+    LineBreak = "LineBreak"
 }

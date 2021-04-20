@@ -635,6 +635,7 @@ export interface ExecutionCommentStart extends MyToken<"ExecutionCommentStart"> 
 export interface ExecutionCommentEnd extends MyToken<"ExecutionCommentEnd"> {}
 export interface WhiteSpace extends MyToken<"WhiteSpace"> {}
 export interface LineBreak extends MyToken<"LineBreak"> {}
+export interface EndOfStatement extends MyToken<"EndOfStatement"> {}
 export interface StringLiteral extends MyToken<"StringLiteral"> {}
 export interface HexLiteral extends MyToken<"HexLiteral"> {}
 export interface BitLiteral extends MyToken<"BitLiteral"> {}
