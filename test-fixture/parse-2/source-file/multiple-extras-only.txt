@@ -1,0 +1,10 @@
+-- This is a comment
+-- This is also a comment
+
+-----
+(SourceFile[0, 47]
+  (SingleLineComment[0, 20])
+  (LineBreak[20, 21])
+  (SingleLineComment[21, 46])
+  (LineBreak[46, 47])
+)

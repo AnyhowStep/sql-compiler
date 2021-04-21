@@ -1,0 +1,19 @@
+-- This is a leading comment
+BINLOG 'qwerty'
+-- This is a trailing comment
+
+-----
+(SourceFile[0, 75]
+  (SingleLineComment[0, 28])
+  (LineBreak[28, 29])
+  (statement[]: TrailingStatement[29, 44]
+    (statement: BinLogStatement[29, 44]
+      (binLogToken: BINLOG[29, 35])
+      (WhiteSpace[35, 36])
+      (str: StringLiteral[36, 44])
+    )
+  )
+  (LineBreak[44, 45])
+  (SingleLineComment[45, 74])
+  (LineBreak[74, 75])
+)

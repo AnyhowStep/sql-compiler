@@ -1,29 +1,60 @@
-CREATE SCHEMA D CHARSET utfmb4 COLLATE utfmb4_unicode_ci
+CREATE SCHEMA D CHARSET utfmb4 COLLATE utf8mb4_unicode_ci
 
 -----
-(SourceFile[0, 57]
-  (statement[]: TrailingStatement[0, 56]
-    (statement: CreateSchemaStatement[0, 56]
+(SourceFile[0, 58]
+  (statement[]: TrailingStatement[0, 57]
+    (statement: CreateSchemaStatement[0, 57]
       (createToken: CREATE[0, 6])
       (WhiteSpace[6, 7])
       (schemaToken: SCHEMA[7, 13])
       (WhiteSpace[13, 14])
       (identifier: Identifier[14, 15])
       (WhiteSpace[15, 16])
-      (createSchemaOptionList: CreateSchemaOptionList[16, 56]
+      (createSchemaOptionList: CreateSchemaOptionList[16, 57]
         (item[]: DefaultCharacterSet[16, 30]
           (characterSetToken[]: CHARSET[16, 23])
           (WhiteSpace[23, 24])
           (characterSetName: Identifier[24, 30])
         )
         (WhiteSpace[30, 31])
-        (item[]: DefaultCollate[31, 56]
+        (item[]: DefaultCollate[31, 57]
           (collateToken: COLLATE[31, 38])
           (WhiteSpace[38, 39])
-          (collationName: Identifier[39, 56])
+          (collationName: Identifier[39, 57])
         )
       )
     )
   )
-  (LineBreak[56, 57])
+  (LineBreak[57, 58])
+)
+
+-----
+CREATE SCHEMA D COLLATE utf8mb4_unicode_ci CHARSET utfmb4
+
+-----
+(SourceFile[0, 58]
+  (statement[]: TrailingStatement[0, 57]
+    (statement: CreateSchemaStatement[0, 57]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 15])
+      (WhiteSpace[15, 16])
+      (createSchemaOptionList: CreateSchemaOptionList[16, 57]
+        (item[]: DefaultCollate[16, 42]
+          (collateToken: COLLATE[16, 23])
+          (WhiteSpace[23, 24])
+          (collationName: Identifier[24, 42])
+        )
+        (WhiteSpace[42, 43])
+        (item[]: DefaultCharacterSet[43, 57]
+          (characterSetToken[]: CHARSET[43, 50])
+          (WhiteSpace[50, 51])
+          (characterSetName: Identifier[51, 57])
+        )
+      )
+    )
+  )
+  (LineBreak[57, 58])
 )

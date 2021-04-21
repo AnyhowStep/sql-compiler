@@ -1,0 +1,4 @@
+CREATE SCHEMA D DEFAULT CHARSET utfmb4
+
+-----
+`(defaultToken: DEFAULT[16, 23])`

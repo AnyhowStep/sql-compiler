@@ -1,0 +1,4 @@
+CREATE SCHEMA D COLLATE = utf8mb4_unicode_ci
+
+-----
+`(equalToken: Equal[24, 25])`

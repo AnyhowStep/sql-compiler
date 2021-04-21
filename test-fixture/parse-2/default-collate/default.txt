@@ -1,0 +1,4 @@
+CREATE SCHEMA D DEFAULT COLLATE utf8mb4_unicode_ci
+
+-----
+`(defaultToken: DEFAULT[16, 23])`

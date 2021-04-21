@@ -1,0 +1,23 @@
+CREATE SCHEMA D CHARSET utf8mb4
+
+-----
+(SourceFile[0, 32]
+  (statement[]: TrailingStatement[0, 31]
+    (statement: CreateSchemaStatement[0, 31]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (WhiteSpace[13, 14])
+      (identifier: Identifier[14, 15])
+      (WhiteSpace[15, 16])
+      (createSchemaOptionList: CreateSchemaOptionList[16, 31]
+        (item[]: DefaultCharacterSet[16, 31]
+          (characterSetToken[]: CHARSET[16, 23])
+          (WhiteSpace[23, 24])
+          (characterSetName: Identifier[24, 31])
+        )
+      )
+    )
+  )
+  (LineBreak[31, 32])
+)

@@ -1,0 +1,22 @@
+CREATE SCHEMA D COLLATE utf8mb4_unicode_ci
+
+-----
+`(collationName: Identifier[24, 42])`
+
+-----
+CREATE SCHEMA D COLLATE DEFAULT
+
+-----
+`(collationName: DEFAULT[24, 31])`
+
+-----
+CREATE SCHEMA D COLLATE 'utf8mb4_unicode_ci'
+
+-----
+`(collationName: StringLiteral[24, 44])`
+
+-----
+CREATE SCHEMA D COLLATE ACCOUNT
+
+-----
+`(collationName: ACCOUNT[24, 31])`

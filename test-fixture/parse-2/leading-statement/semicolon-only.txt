@@ -1,0 +1,19 @@
+;
+BINLOG ''
+
+-----
+(SourceFile[0, 12]
+  (statement[]: LeadingStatement[0, 1]
+    (semiColonToken: SemiColon[0, 1])
+    (EndOfStatement[1, 1])
+  )
+  (LineBreak[1, 2])
+  (statement[]: TrailingStatement[2, 11]
+    (statement: BinLogStatement[2, 11]
+      (binLogToken: BINLOG[2, 8])
+      (WhiteSpace[8, 9])
+      (str: StringLiteral[9, 11])
+    )
+  )
+  (LineBreak[11, 12])
+)

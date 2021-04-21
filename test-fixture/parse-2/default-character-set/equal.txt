@@ -1,0 +1,4 @@
+CREATE SCHEMA D CHARSET = utfmb4
+
+-----
+`(equalToken: Equal[24, 25])`

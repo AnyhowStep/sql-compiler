@@ -1,0 +1,28 @@
+CREATE SCHEMA D CHARSET DEFAULT
+
+-----
+`(characterSetName: DEFAULT[24, 31])`
+
+-----
+CREATE SCHEMA D CHARSET utf8mb4
+
+-----
+`(characterSetName: Identifier[24, 31])`
+
+-----
+CREATE SCHEMA D CHARSET BINARY
+
+-----
+`(characterSetName: BINARY[24, 30])`
+
+-----
+CREATE SCHEMA D CHARSET 'utf8mb4'
+
+-----
+`(characterSetName: StringLiteral[24, 33])`
+
+-----
+CREATE SCHEMA D CHARSET ACCOUNT
+
+-----
+`(characterSetName: ACCOUNT[24, 31])`

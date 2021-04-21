@@ -1,0 +1,21 @@
+;
+-----
+`(statement[]: TrailingStatement[0, 1]`
+`(semiColonToken: SemiColon[0, 1])`
+
+-----
+DELIMITER $$
+$$
+
+-----
+`(statement[]: TrailingStatement[13, 15]`
+`(customDelimiter: CustomDelimiter[13, 15])`
+
+-----
+DELIMITER $$
+;$$
+
+-----
+`(statement[]: TrailingStatement[13, 16]`
+`(semiColonToken: SemiColon[13, 14])`
+`(customDelimiter: CustomDelimiter[14, 16])`

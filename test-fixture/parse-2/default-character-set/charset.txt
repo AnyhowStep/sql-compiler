@@ -1,10 +1,10 @@
-CREATE SCHEMA D CHARSET utf8mb4
+CREATE SCHEMA D CHARSET utfmb4
 
 -----
 `(characterSetToken[]: CHARSET[16, 23])`
 
 -----
-CREATE SCHEMA D CHARACTER SET utf8mb4
+CREATE SCHEMA D CHARACTER SET utfmb4
 
 -----
 `(characterSetToken[]: CHARACTER[16, 25])`

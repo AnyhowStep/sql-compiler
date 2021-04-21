@@ -58,11 +58,44 @@ suite("Should parse as expected", () => {
                 .map(result => runtime.toString2(result))
                 .join("\n\n") + "\n";
 
-            assert.strictEqual(
-                actual,
-                expected,
-                actual
-            );
+            if (expected.startsWith("`")) {
+                assert.strictEqual(
+                    results.length,
+                    1,
+                    [
+                        "",
+                        actual,
+                    ].join("\n")
+                );
+
+                const actual0 = runtime.toString2(results[0]) + "\n";
+
+                const expectedLines = expected
+                    .split("\n")
+                    .map(line => line.substring(1, line.length-1));
+
+                for (const expectedLine of expectedLines) {
+                    assert.strictEqual(
+                        actual0.includes(expectedLine),
+                        true,
+                        [
+                            "",
+                            expectedLine,
+                            "===",
+                            actual,
+                        ].join("\n")
+                    );
+                }
+            } else {
+                assert.strictEqual(
+                    actual,
+                    expected,
+                    [
+                        "",
+                        actual,
+                    ].join("\n")
+                );
+            }
         }
     );
 });

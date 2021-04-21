@@ -1,29 +1,29 @@
-CREATE SCHEMA D COLLATE utfmb4_unicode_ci COLLATE latin1_general_ci
+CREATE SCHEMA D COLLATE utf8mb4_unicode_ci COLLATE latin1_general_ci
 
 -----
-(SourceFile[0, 68]
-  (statement[]: TrailingStatement[0, 67]
-    (statement: CreateSchemaStatement[0, 67]
+(SourceFile[0, 69]
+  (statement[]: TrailingStatement[0, 68]
+    (statement: CreateSchemaStatement[0, 68]
       (createToken: CREATE[0, 6])
       (WhiteSpace[6, 7])
       (schemaToken: SCHEMA[7, 13])
       (WhiteSpace[13, 14])
       (identifier: Identifier[14, 15])
       (WhiteSpace[15, 16])
-      (createSchemaOptionList: CreateSchemaOptionList[16, 67]
-        (item[]: DefaultCollate[16, 41]
+      (createSchemaOptionList: CreateSchemaOptionList[16, 68]
+        (item[]: DefaultCollate[16, 42]
           (collateToken: COLLATE[16, 23])
           (WhiteSpace[23, 24])
-          (collationName: Identifier[24, 41])
+          (collationName: Identifier[24, 42])
         )
-        (WhiteSpace[41, 42])
-        (item[]: DefaultCollate[42, 67]
-          (collateToken: COLLATE[42, 49])
-          (WhiteSpace[49, 50])
-          (collationName: Identifier[50, 67])
+        (WhiteSpace[42, 43])
+        (item[]: DefaultCollate[43, 68]
+          (collateToken: COLLATE[43, 50])
+          (WhiteSpace[50, 51])
+          (collationName: Identifier[51, 68])
         )
       )
     )
   )
-  (LineBreak[67, 68])
+  (LineBreak[68, 69])
 )
