@@ -754,7 +754,7 @@ export interface IfNotExists extends MySyntaxNode {
 export interface LeadingStatement extends MySyntaxNode {
     syntaxKind : "LeadingStatement";
     fields : {
-        statement : (Statement);
+        statement? : (Statement);
         semiColonToken? : (SemiColon);
         customDelimiter? : (CustomDelimiter)
     };
@@ -763,7 +763,7 @@ export interface LeadingStatement extends MySyntaxNode {
 export interface TrailingStatement extends MySyntaxNode {
     syntaxKind : "TrailingStatement";
     fields : {
-        statement : (Statement);
+        statement? : (Statement);
         semiColonToken? : (SemiColon);
         customDelimiter? : (CustomDelimiter)
     };

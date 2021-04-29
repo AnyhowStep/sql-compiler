@@ -1,4 +1,4 @@
-import {CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
+import {CompiledField, CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
 import {choice, Grammar, oneOf, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol} from "./grammar";
 import {getVariableInfo, isVisible} from "./node-types";
 
@@ -32,6 +32,7 @@ export function buildToken (
             return {
                 tokenKind : rule,
                 otherTokenKinds : undefined,
+                canExpect : true,
             };
         } else {
             return rule;
@@ -102,6 +103,7 @@ export function buildToken (
             return {
                 tokenKind : rule.tokenKind,
                 otherTokenKinds : rule.otherTokenKinds,
+                canExpect : rule.canExpect !== false,
             };
         }
     }
@@ -193,16 +195,26 @@ export function buildRule (
                 if (item.ruleKind == "optional") {
                     const nextRule = arr[i+1];
                     if (typeof nextRule == "string") {
-                        //Put the extra inside the optional, after item.rule
-                        insertExtrasAfter = 1;
-                        item = recursivePushBack(item, state.extras);
-                    } else {
-                        if (nextRule.ruleKind == "optional") {
-                            //Do nothing
+                        if (isSeqRule(item.rule) && item.rule.rules.length > 0 && item.rule.rules[0] == state.extras) {
+                            //Already starts with extra
+                            //TODO?
                         } else {
                             //Put the extra inside the optional, after item.rule
                             insertExtrasAfter = 1;
                             item = recursivePushBack(item, state.extras);
+                        }
+                    } else {
+                        if (nextRule.ruleKind == "optional") {
+                            //Do nothing
+                        } else {
+                            if (isSeqRule(item.rule) && item.rule.rules.length > 0 && item.rule.rules[0] == state.extras) {
+                                //Already starts with extra
+                                //TODO?
+                            } else {
+                                //Put the extra inside the optional, after item.rule
+                                insertExtrasAfter = 1;
+                                item = recursivePushBack(item, state.extras);
+                            }
                         }
                     }
                 } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
@@ -281,8 +293,22 @@ export function buildRuleName2Shape (
     for (const [ruleName, variableInfo] of Object.entries(variableInfos)) {
         ruleName2Shape[ruleName] = {
             ruleName : variableInfo.ruleName,
-            fields : variableInfo.fields,
-            children : variableInfo.children,
+            fields : Object.fromEntries(
+                Object.entries(variableInfo.fields)
+                    .map(([label, field]) : [string, CompiledField] => {
+                        return [
+                            label,
+                            {
+                                ...field,
+                                types : [...field.types],
+                            }
+                        ];
+                    })
+            ),
+            children : {
+                ...variableInfo.children,
+                types : [...variableInfo.children.types]
+            },
             hasMultiStepProduction : variableInfo.hasMultiStepProduction,
         };
     }
@@ -354,6 +380,7 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
     return {
         tokens : grammar.tokens,
         extras : grammar.extras,
+        cannotUnexpect : grammar.cannotUnexpect,
 
         inline : grammar.inline,
         start : grammar.start,

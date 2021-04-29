@@ -1,0 +1,40 @@
+DELIMITER A
+CREATE
+
+-----
+(SourceFile[0, 19]
+  (statement[]: DelimiterStatement[0, 11]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 11])
+  )
+  (LineBreak[11, 12])
+  (statement[]: TrailingStatement[12, 16]
+    (statement: Select[12, 15]
+      (Expected selectToken: SELECT[12, 12])
+      (selectItemList1: SelectItemList1[12, 15]
+        (item[]: ExpressionSelectItem[12, 15]
+          (expression: Identifier[12, 15])
+        )
+      )
+    )
+    (customDelimiter: CustomDelimiter[15, 16])
+    (EndOfStatement[16, 16])
+  )
+  (Unexpected Identifier[16, 18])
+  (LineBreak[18, 19])
+)
+
+(SourceFile[0, 19]
+  (statement[]: DelimiterStatement[0, 11]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 11])
+  )
+  (LineBreak[11, 12])
+  (statement[]: TrailingStatement[12, 16]
+    (Unexpected Identifier[12, 15])
+    (customDelimiter: CustomDelimiter[15, 16])
+    (EndOfStatement[16, 16])
+  )
+  (Unexpected Identifier[16, 18])
+  (LineBreak[18, 19])
+)

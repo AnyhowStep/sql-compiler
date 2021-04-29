@@ -78,7 +78,7 @@ export interface FieldInfo {
     /**
      * We do not have aliasing.
      */
-    types : string[]
+    types : Set<string>
 }
 
 /**
@@ -92,34 +92,34 @@ export interface VariableInfo {
     hasMultiStepProduction : boolean;
 }
 
-function extend (arr : string[], other : string|CompiledTokenSymbol) : boolean {
+function extend (arr : Set<string>, other : string|CompiledTokenSymbol) : boolean {
     if (typeof other == "string") {
-        if (arr.includes(other)) {
+        if (arr.has(other)) {
             return false;
         }
 
-        arr.push(other);
+        arr.add(other);
         return true;
     }
 
     if (other.otherTokenKinds == undefined) {
-        if (arr.includes(other.tokenKind)) {
+        if (arr.has(other.tokenKind)) {
             return false;
         }
 
-        arr.push(other.tokenKind);
+        arr.add(other.tokenKind);
         return true;
     }
 
     let didChange = false;
-    if (!arr.includes(other.tokenKind)) {
-        arr.push(other.tokenKind);
+    if (!arr.has(other.tokenKind)) {
+        arr.add(other.tokenKind);
         didChange = true;
     }
 
     for (const item of other.otherTokenKinds) {
-        if (!arr.includes(item)) {
-            arr.push(item);
+        if (!arr.has(item)) {
+            arr.add(item);
             didChange = true;
         }
     }
@@ -127,7 +127,7 @@ function extend (arr : string[], other : string|CompiledTokenSymbol) : boolean {
     return didChange;
 }
 
-function extend2 (arr : string[], other : string[]) : boolean {
+function extend2 (arr : Set<string>, other : Set<string>) : boolean {
     let didChange = false;
 
     for (const o of other) {
@@ -181,11 +181,11 @@ export function getVariableInfo (
             fields : {},
             children : {
                 quantity : one(),
-                types : [],
+                types : new Set(),
             },
             childrenWithoutFields : {
                 quantity : one(),
-                types : [],
+                types : new Set(),
             },
             hasMultiStepProduction : false,
         };
@@ -235,7 +235,7 @@ export function getVariableInfo (
                         if (fieldInfo == undefined) {
                             fieldInfo = {
                                 quantity : one(),
-                                types : [],
+                                types : new Set(),
                             };
                             variableInfo.fields[fieldName] = fieldInfo;
                         }
@@ -297,7 +297,7 @@ export function getVariableInfo (
                             if (fieldInfo == undefined) {
                                 fieldInfo = {
                                     quantity : one(),
-                                    types : [],
+                                    types : new Set(),
                                 };
                                 variableInfo.fields[fieldName] = fieldInfo;
                             }
@@ -313,7 +313,7 @@ export function getVariableInfo (
 
                         if (fieldName == undefined) {
                             const grandchildrenInfo = childVariableInfo.childrenWithoutFields;
-                            if (grandchildrenInfo.types.length > 0) {
+                            if (grandchildrenInfo.types.size > 0) {
                                 append(
                                     production_children_without_fields_quantity,
                                     childVariableInfo.childrenWithoutFields.quantity
@@ -368,23 +368,29 @@ export function getVariableInfo (
     }
 
     for (const variableInfo of Object.values(result)) {
-        variableInfo.children.types = variableInfo.children.types
-            .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction));
+        variableInfo.children.types = new Set(
+            [...variableInfo.children.types]
+                .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction))
+        );
 
         for (const [_, fieldInfo] of Object.entries(variableInfo.fields)) {
-            fieldInfo.types = fieldInfo.types
-                .filter(type => isVisibleDelegate(grammar, type, false));
+            fieldInfo.types = new Set(
+                [...fieldInfo.types]
+                    .filter(type => isVisibleDelegate(grammar, type, false))
+            );
         }
 
         for (const fieldName of Object.keys(variableInfo.fields)) {
             const fieldInfo = variableInfo.fields[fieldName];
-            if (fieldInfo.types.length == 0) {
+            if (fieldInfo.types.size == 0) {
                 delete variableInfo.fields[fieldName];
             }
         }
 
-        variableInfo.childrenWithoutFields.types = variableInfo.childrenWithoutFields.types
-            .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction));
+        variableInfo.childrenWithoutFields.types = new Set(
+            [...variableInfo.childrenWithoutFields.types]
+                .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction))
+        );
     }
 
     return result;

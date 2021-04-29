@@ -1,0 +1,22 @@
+W;X`Y`;
+-----
+(SourceFile[0, 7]
+  (statement[]: LeadingStatement[0, 2]
+    (Unexpected Identifier[0, 1])
+    (semiColonToken: SemiColon[1, 2])
+    (EndOfStatement[2, 2])
+  )
+  (statement[]: TrailingStatement[2, 7]
+    (statement: Select[2, 6]
+      (Expected selectToken: SELECT[2, 2])
+      (selectItemList1: SelectItemList1[2, 6]
+        (item[]: ExpressionSelectItem[2, 6]
+          (expression: Identifier[2, 3])
+          (alias: Identifier[3, 6])
+        )
+      )
+    )
+    (semiColonToken: SemiColon[6, 7])
+    (EndOfStatement[7, 7])
+  )
+)

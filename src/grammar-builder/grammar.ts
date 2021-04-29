@@ -161,7 +161,38 @@ export function tokenSymbol2 (
     }
 }
 
+export function cannotExpect (
+    tokenSymbolRule : string|TokenSymbolRule
+) : TokenSymbolRule {
+    if (typeof tokenSymbolRule == "string") {
+        return {
+            ruleKind : "tokenSymbol",
+            tokenKind : tokenSymbolRule,
+            otherTokenKinds : undefined,
+            canExpect : false,
+        };
+    }
+    return {
+        ...tokenSymbolRule,
+        canExpect : false,
+    };
+}
 
+/**
+ * @todo
+ */
+export function leftAssociative (precedence : number, rule : Rule) : Rule {
+    precedence;
+    return rule;
+}
+
+/**
+ * @todo
+ */
+export function rightAssociative (precedence : number, rule : Rule) : Rule {
+    precedence;
+    return rule;
+}
 
 export interface SeqRule {
     ruleKind : "seq",
@@ -198,6 +229,10 @@ export interface TokenSymbolRule {
     ruleKind : "tokenSymbol",
     tokenKind : string,
     otherTokenKinds : string[] | undefined,
+    /**
+     * Defaults to `true`.
+     */
+    canExpect? : false,
 }
 
 export type Rule =
@@ -214,6 +249,7 @@ export type Rule =
 export interface Grammar {
     tokens : string[];
     extras : string[];
+    cannotUnexpect : string[];
 
     inline : string[];
     start : string;

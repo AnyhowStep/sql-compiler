@@ -1,0 +1,29 @@
+DELIMITER A
+CREATE SCHEM
+
+-----
+(SourceFile[0, 25]
+  (statement[]: DelimiterStatement[0, 11]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 11])
+  )
+  (LineBreak[11, 12])
+  (statement[]: LeadingStatement[12, 16]
+    (Unexpected Identifier[12, 15])
+    (customDelimiter: CustomDelimiter[15, 16])
+    (EndOfStatement[16, 16])
+  )
+  (statement[]: TrailingStatement[16, 24]
+    (statement: Select[16, 24]
+      (Expected selectToken: SELECT[16, 16])
+      (selectItemList1: SelectItemList1[16, 24]
+        (item[]: ExpressionSelectItem[16, 24]
+          (expression: Identifier[16, 18])
+          (WhiteSpace[18, 19])
+          (alias: Identifier[19, 24])
+        )
+      )
+    )
+  )
+  (LineBreak[24, 25])
+)

@@ -10,7 +10,7 @@ CREATE SCHEMA D CHARSET utfmb4 COLLATE utf8mb4_unicode_ci
       (WhiteSpace[13, 14])
       (identifier: Identifier[14, 15])
       (WhiteSpace[15, 16])
-      (createSchemaOptionList: CreateSchemaOptionList[16, 57]
+      (createSchemaOptionRepeat1: CreateSchemaOptionRepeat1[16, 57]
         (item[]: DefaultCharacterSet[16, 30]
           (characterSetToken[]: CHARSET[16, 23])
           (WhiteSpace[23, 24])
@@ -41,7 +41,7 @@ CREATE SCHEMA D COLLATE utf8mb4_unicode_ci CHARSET utfmb4
       (WhiteSpace[13, 14])
       (identifier: Identifier[14, 15])
       (WhiteSpace[15, 16])
-      (createSchemaOptionList: CreateSchemaOptionList[16, 57]
+      (createSchemaOptionRepeat1: CreateSchemaOptionRepeat1[16, 57]
         (item[]: DefaultCollate[16, 42]
           (collateToken: COLLATE[16, 23])
           (WhiteSpace[23, 24])

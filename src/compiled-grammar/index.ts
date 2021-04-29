@@ -2,6 +2,7 @@
 export interface CompiledTokenSymbol {
     tokenKind : string;
     otherTokenKinds : string[] | undefined;
+    canExpect : boolean;
 }
 
 export type CompiledSymbol =
@@ -35,6 +36,7 @@ export interface CompiledShape {
 export interface CompiledGrammar {
     tokens : string[];
     extras : string[];
+    cannotUnexpect : string[];
 
     inline : string[];
     start : string;

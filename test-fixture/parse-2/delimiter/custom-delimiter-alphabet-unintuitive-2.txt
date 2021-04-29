@@ -22,10 +22,17 @@ CREATE SCHEMA D;
     (customDelimiter: CustomDelimiter[163, 164])
     (EndOfStatement[164, 164])
   )
-  (Unexpected Identifier[164, 166])
-  (WhiteSpace[166, 167])
-  (statement[]: LeadingStatement[167, 173]
-    (Unexpected Identifier[167, 172])
+  (statement[]: LeadingStatement[164, 173]
+    (statement: Select[164, 172]
+      (Expected selectToken: SELECT[164, 164])
+      (selectItemList1: SelectItemList1[164, 172]
+        (item[]: ExpressionSelectItem[164, 172]
+          (expression: Identifier[164, 166])
+          (WhiteSpace[166, 167])
+          (alias: Identifier[167, 172])
+        )
+      )
+    )
     (customDelimiter: CustomDelimiter[172, 173])
     (EndOfStatement[173, 173])
   )

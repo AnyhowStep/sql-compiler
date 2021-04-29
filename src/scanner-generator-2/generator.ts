@@ -14,6 +14,10 @@ export enum TokenKind {
     ${tokenKinds.map(tokenKind => `${tokenKind} = ${JSON.stringify(tokenKind)}`).join(",\n    ")}
 }
 
+export const reservedKeywords = [
+    ${reservedKeywords.map(keyword => JSON.stringify(keyword)).join(",\n    ")}
+];
+
 export const nonReservedKeywords = [
     ${nonReservedKeywords.map(keyword => JSON.stringify(keyword)).join(",\n    ")}
 ];

@@ -240,6 +240,15 @@ export function scan (state : LexerState) : TokenKind {
         case CharacterCodes.bar:
             state.advance();
             return TokenKind.Bar;
+        case CharacterCodes.ampersand:
+            if (state.peek(1) == CharacterCodes.ampersand) {
+                state.advance();
+                state.advance();
+                return TokenKind.AmpersandAmpersand;
+            }
+
+            state.advance();
+            return TokenKind.Ampersand;
         case CharacterCodes.equals:
             state.advance();
             return TokenKind.Equal;

@@ -23,7 +23,7 @@ CREATE BINLOG 'aGVsbG8='
       (Expected schemaToken: SCHEMA[7, 7])
       (identifier: BINLOG[7, 13])
       (WhiteSpace[13, 14])
-      (createSchemaOptionList: CreateSchemaOptionList[14, 24]
+      (createSchemaOptionRepeat1: CreateSchemaOptionRepeat1[14, 24]
         (item[]: DefaultCharacterSet[14, 24]
           (Expected characterSetToken[]: CHARSET[14, 14])
           (characterSetName: StringLiteral[14, 24])
@@ -42,7 +42,7 @@ CREATE BINLOG 'aGVsbG8='
       (Expected schemaToken: SCHEMA[7, 7])
       (identifier: BINLOG[7, 13])
       (WhiteSpace[13, 14])
-      (createSchemaOptionList: CreateSchemaOptionList[14, 24]
+      (createSchemaOptionRepeat1: CreateSchemaOptionRepeat1[14, 24]
         (item[]: DefaultCollate[14, 24]
           (Expected collateToken: COLLATE[14, 14])
           (collationName: StringLiteral[14, 24])

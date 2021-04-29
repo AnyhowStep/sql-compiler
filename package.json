@@ -10,6 +10,7 @@
     "scanner-generator": "ts-node ./src/scanner-generator/generator",
     "scanner-generator-2": "ts-node ./src/scanner-generator-2/generator",
     "syntax-kind-generator": "ts-node ./src/syntax-kind-generator/generator",
+    "rule-export-generator": "ts-node ./src/rule-export-generator/generator",
     "parser-node-generator": "cd ./src/parser-node-generator && ts-node -P ./tsconfig.json ./generator",
     "generate": "npm run scanner-generator && npm run parser-node-generator && npm run scanner-generator-2 && npm run syntax-kind-generator",
     "generate-grammar-unexpanded-content": "cd ./src/unexpanded-content-grammar-generator && ts-node -P ./tsconfig.json ./generator",

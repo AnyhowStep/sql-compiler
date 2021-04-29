@@ -1,0 +1,29 @@
+SELECT X & Y & Z
+
+-----
+(SourceFile[0, 17]
+  (statement[]: TrailingStatement[0, 16]
+    (statement: Select[0, 16]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 16]
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: BinaryBitExpression[7, 16]
+            (left: BinaryBitExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Ampersand[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: Ampersand[13, 14])
+            (WhiteSpace[14, 15])
+            (right: Identifier[15, 16])
+          )
+        )
+      )
+    )
+  )
+  (LineBreak[16, 17])
+)

@@ -4,6 +4,10 @@ import {Fields} from "./syntax-node";
 export interface MyTokenSymbol {
     tokenKind : string;
     otherTokenKinds : string[] | undefined;
+    /**
+     * Defaults to `true`.
+     */
+    canExpect : boolean,
 }
 
 export type MySymbol =
@@ -21,6 +25,7 @@ export interface MyRule {
 export interface MyGrammar {
     tokens : Set<string>;
     extras : Set<string>;
+    cannotUnexpect : Set<string>;
 
     inline : Set<string>;
     start: string;
@@ -52,6 +57,7 @@ export function initFields (shape : CompiledShape) {
 export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
     const tokens = new Set<string>(compiled.tokens);
     const extras = new Set<string>(compiled.extras);
+    const cannotUnexpect = new Set<string>(compiled.cannotUnexpect);
 
     const inline = new Set<string>(compiled.inline);
     const start = compiled.start;
@@ -82,6 +88,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
     return {
         tokens,
         extras,
+        cannotUnexpect,
 
         inline,
         start,

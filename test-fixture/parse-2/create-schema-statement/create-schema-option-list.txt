@@ -10,7 +10,7 @@ CREATE SCHEMA D CHARSET utf8mb4
       (WhiteSpace[13, 14])
       (identifier: Identifier[14, 15])
       (WhiteSpace[15, 16])
-      (createSchemaOptionList: CreateSchemaOptionList[16, 31]
+      (createSchemaOptionRepeat1: CreateSchemaOptionRepeat1[16, 31]
         (item[]: DefaultCharacterSet[16, 31]
           (characterSetToken[]: CHARSET[16, 23])
           (WhiteSpace[23, 24])
