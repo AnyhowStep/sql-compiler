@@ -286,6 +286,17 @@ export function buildRule (
     return ruleName;
 }
 
+function fromEntries<T = any>(entries: Iterable<readonly [PropertyKey, T]>): { [k: string]: T } {
+    return [...entries]
+        .reduce(
+            (obj, [key, val]) => {
+                obj[key as any] = val
+                return obj
+            },
+            {} as Record<PropertyKey, T>
+        )
+}
+
 export function buildRuleName2Shape (
     grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Alias"|"ruleName2Label">,
     isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline"|"ruleName2Alias">, symbol : string, hasMultiStepProduction : boolean) => boolean
@@ -296,7 +307,7 @@ export function buildRuleName2Shape (
     for (const [ruleName, variableInfo] of Object.entries(variableInfos)) {
         ruleName2Shape[ruleName] = {
             ruleName : variableInfo.ruleName,
-            fields : Object.fromEntries(
+            fields : fromEntries(
                 Object.entries(variableInfo.fields)
                     .map(([label, field]) : [string, CompiledField] => {
                         return [
