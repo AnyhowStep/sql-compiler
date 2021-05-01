@@ -1122,10 +1122,6 @@ export function skipUnexpected (
             }
         }
 
-        if (tryGetState(state.rule, state.dot, state.tokenIndex+1, state.startTokenIndex, state.ident) != undefined) {
-            continue;
-        }
-
         if (
             (
                 grammar.extrasRuleName != undefined && state.rule.name.startsWith(grammar.extrasRuleName) ||
@@ -1149,29 +1145,35 @@ export function skipUnexpected (
              * We need to add **two** next states for extras here.
              */
 
-            const nextState : MyState = {
-                rule : state.rule,
-                dot : state.dot+1,
-                tokenIndex : state.tokenIndex+1,
-                startTokenIndex : state.startTokenIndex,
+            if (tryGetState(state.rule, state.dot+1, state.tokenIndex+1, state.startTokenIndex, state.ident) == undefined) {
+                const nextState : MyState = {
+                    rule : state.rule,
+                    dot : state.dot+1,
+                    tokenIndex : state.tokenIndex+1,
+                    startTokenIndex : state.startTokenIndex,
 
-                data : push(
-                    state.data,
-                    {
-                        ...skippedToken,
-                        errorKind : "Unexpected",
-                        text : skippedToken.text,
-                        expectedTokenKind : expect.tokenKind,
-                    }
-                ),
-                errorCount : state.errorCount+1,
+                    data : push(
+                        state.data,
+                        {
+                            ...skippedToken,
+                            errorKind : "Unexpected",
+                            text : skippedToken.text,
+                            expectedTokenKind : expect.tokenKind,
+                        }
+                    ),
+                    errorCount : state.errorCount+1,
 
-                ident : state.ident,
-                edges : [state],
-            };
-            //state.hasNextState = true;
-            ++addStateSkipUnexpected;
-            addState(nextState);
+                    ident : state.ident,
+                    edges : [state],
+                };
+                //state.hasNextState = true;
+                ++addStateSkipUnexpected;
+                addState(nextState);
+            }
+        }
+
+        if (tryGetState(state.rule, state.dot, state.tokenIndex+1, state.startTokenIndex, state.ident) != undefined) {
+            continue;
         }
 
         const nextState : MyState = {
@@ -1276,9 +1278,6 @@ export function skipExpectation (
         if (expect == undefined || typeof expect == "string") {
             continue;
         }
-        if (tryGetState(state.rule, state.dot+1, state.tokenIndex, state.startTokenIndex, state.ident) != undefined) {
-            continue;
-        }
         if (state.data.children.length > 0) {
             const lastChild = state.data.children[state.data.children.length-1];
             if ("tokenKind" in lastChild) {
@@ -1317,28 +1316,6 @@ export function skipExpectation (
             continue;
         }
 
-        const nextState : MyState = {
-            rule : state.rule,
-            dot : state.dot+1,
-            tokenIndex : state.tokenIndex,
-            startTokenIndex : state.startTokenIndex,
-
-            data : push(
-                state.data,
-                {
-                    tokenKind : expect.tokenKind,
-                    text : "",
-                    errorKind : "Expected",
-                    start : token.start,
-                    end : token.start,
-                }
-            ),
-            errorCount : state.errorCount+1,
-
-            ident : state.ident,
-            edges : [state],
-        };
-
         if (grammar.extrasRuleName != undefined && state.rule.name.startsWith(grammar.extrasRuleName)) {
             //continue;
         }
@@ -1365,6 +1342,74 @@ export function skipExpectation (
         //      */
         //     continue;
         // }
+
+        {
+            /**
+             * We increment the `dot` and `tokenIndex` at the same time.
+             * This **should** give us "better" errors.
+             *
+             * Given `(BINLOG)(BINLOG)`, we can get,
+             * `(BINLOG)(Expected StringLiteral)`
+             *
+             * instead of,
+             * `(BINLOG)(Expected StringLiteral)(Unexpected BINLOG)`
+             *
+             * This could possibly a perf nightmare, though
+             */
+
+            if (tryGetState(state.rule, state.dot+1, state.tokenIndex+1, state.startTokenIndex, state.ident) == undefined) {
+/*
+                const nextState : MyState = {
+                    rule : state.rule,
+                    dot : state.dot+1,
+                    tokenIndex : state.tokenIndex+1,
+                    startTokenIndex : state.startTokenIndex,
+
+                    data : push(
+                        state.data,
+                        {
+                            tokenKind : expect.tokenKind,
+                            text : token.text,
+                            errorKind : "Expected",
+                            start : token.start,
+                            end : token.start,
+                        }
+                    ),
+                    errorCount : state.errorCount+1,
+
+                    ident : state.ident,
+                    edges : [state],
+                };
+
+                ++addStateSkipExpectation;
+                addState(nextState);*/
+            }
+        }
+
+        if (tryGetState(state.rule, state.dot+1, state.tokenIndex, state.startTokenIndex, state.ident) != undefined) {
+            continue;
+        }
+        const nextState : MyState = {
+            rule : state.rule,
+            dot : state.dot+1,
+            tokenIndex : state.tokenIndex,
+            startTokenIndex : state.startTokenIndex,
+
+            data : push(
+                state.data,
+                {
+                    tokenKind : expect.tokenKind,
+                    text : "",
+                    errorKind : "Expected",
+                    start : token.start,
+                    end : token.start,
+                }
+            ),
+            errorCount : state.errorCount+1,
+
+            ident : state.ident,
+            edges : [state],
+        };
 
         ++addStateSkipExpectation;
         addState(nextState);
