@@ -352,7 +352,7 @@ export function parse (
         }
 
         return stateSet.states.some(a => (
-            a.rule == rule &&
+            a.rule.runTimeId == rule.runTimeId &&
             a.dot == dot &&
             a.startTokenIndex == startTokenIndex &&
             a.ident == _ident
@@ -365,13 +365,13 @@ export function parse (
             return undefined;
         }
         // const result = stateSet.states.find(a => (
-        //     a.rule == rule &&
+        //     a.rule.runTimeId == rule.runTimeId &&
         //     a.startTokenIndex == startTokenIndex &&
         //     a.dot == dot
         // ));
         // return result;
         const results =  stateSet.states.filter(a => (
-            a.rule == rule &&
+            a.rule.runTimeId == rule.runTimeId &&
             a.startTokenIndex == startTokenIndex &&
             (
                 (
@@ -722,7 +722,7 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
             fields : parent.fields,
         };
     } else {
-        const parentShape = grammar.ruleName2Shape[parent.syntaxKind];
+        const parentShape = grammar.ruleName2Shape[grammar.ruleName2Alias[parent.syntaxKind] ?? parent.syntaxKind];
         const field = parentShape.fields[childLabel];
         const newFields : Fields = {};
 
@@ -746,7 +746,7 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
 
 export function inlineChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntaxNode) : MySyntaxNode {
     const childLabel = grammar.ruleName2Label[child.syntaxKind];
-    const parentShape = grammar.ruleName2Shape[parent.syntaxKind];
+    const parentShape = grammar.ruleName2Shape[grammar.ruleName2Alias[parent.syntaxKind] ?? parent.syntaxKind];
 
     if (childLabel == undefined) {
         return {

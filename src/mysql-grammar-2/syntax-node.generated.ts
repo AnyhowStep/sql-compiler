@@ -666,6 +666,8 @@ export interface AtAtSessionDot extends MyToken<"AtAtSessionDot"> {}
 export interface Tilde extends MyToken<"Tilde"> {}
 export interface Caret extends MyToken<"Caret"> {}
 export interface Bar extends MyToken<"Bar"> {}
+export interface Ampersand extends MyToken<"Ampersand"> {}
+export interface AmpersandAmpersand extends MyToken<"AmpersandAmpersand"> {}
 export interface Equal extends MyToken<"Equal"> {}
 export interface LessEqualGreater extends MyToken<"LessEqualGreater"> {}
 export interface GreaterEqual extends MyToken<"GreaterEqual"> {}
@@ -681,38 +683,102 @@ export interface OpenBrace extends MyToken<"OpenBrace"> {}
 export interface CloseBrace extends MyToken<"CloseBrace"> {}
 export interface DelimiterSpace extends MyToken<"DelimiterSpace"> {}
 export interface UNIQUE_KEY extends MyToken<"UNIQUE_KEY"> {}
-export interface SourceFile extends MySyntaxNode {
-    syntaxKind : "SourceFile";
+export interface BitExpressionTuple1 extends MySyntaxNode {
+    syntaxKind : "BitExpressionTuple1";
     fields : {
-        statement : (LeadingStatement | DelimiterStatement | TrailingStatement)[]
+        openParenthesesToken : (OpenParentheses);
+        item : (BitExpression)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
     };
 }
 
-export type Statement = BinLogStatement | CreateSchemaStatement;
-
-export interface BinLogStatement extends MySyntaxNode {
-    syntaxKind : "BinLogStatement";
+export interface BitExpressionTuple1Tuple1 extends MySyntaxNode {
+    syntaxKind : "BitExpressionTuple1Tuple1";
     fields : {
-        binLogToken : (BINLOG);
-        str : (StringLiteral)
+        openParenthesesToken : (OpenParentheses);
+        item : (BitExpressionTuple1)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
     };
 }
 
-export interface CreateSchemaStatement extends MySyntaxNode {
-    syntaxKind : "CreateSchemaStatement";
+export type BitwiseXor = SimpleExpression | BinaryBitExpression;
+
+export interface BinaryBitExpression extends MySyntaxNode {
+    syntaxKind : "BinaryBitExpression";
     fields : {
-        createToken : (CREATE);
-        schemaToken : (Schema);
-        ifNotExists? : (IfNotExists);
-        identifier : (Ident);
-        createSchemaOptionList? : (CreateSchemaOptionList)
+        left : (BitwiseXor | MulDivMod | PlusMinus | BitwiseShift | BitwiseAnd | BitwiseOr);
+        operator : (Caret | Asterisk | Slash | DIV | Percent | MOD | Plus | Minus | GreaterGreater | LessLess | Ampersand | Bar);
+        right : (SimpleExpression | BitwiseXor | MulDivMod | PlusMinus | BitwiseShift | BitwiseAnd)
     };
 }
 
-export interface CreateSchemaOptionList extends MySyntaxNode {
-    syntaxKind : "CreateSchemaOptionList";
+export type MulDivMod = BitwiseXor | BinaryBitExpression;
+
+export type PlusMinus = MulDivMod | BinaryBitExpression;
+
+export type BitwiseShift = PlusMinus | BinaryBitExpression;
+
+export type BitwiseAnd = BitwiseShift | BinaryBitExpression;
+
+export type BitwiseOr = BitwiseAnd | BinaryBitExpression;
+
+export type BitExpression = BitwiseOr;
+
+export type BooleanPrimaryExpression = Predicate;
+
+export type Expression = BooleanPrimaryExpression;
+
+export type Predicate = BitExpression;
+
+export type SimpleExpression = Ident | RealLiteral;
+
+export type Ident = Identifier | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR;
+
+export interface IdentOrReserved extends MySyntaxNode {
+    syntaxKind : "IdentOrReserved";
     fields : {
-        item : (DefaultCharacterSet | DefaultCollate)[]
+        
+    };
+}
+
+export interface IdentTuple1 extends MySyntaxNode {
+    syntaxKind : "IdentTuple1";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (Ident)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface IdentTuple2 extends MySyntaxNode {
+    syntaxKind : "IdentTuple2";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (Ident)[];
+        commaToken : (Comma)[];
+        closeParenthesesToken : (CloseParentheses)
+    };
+}
+
+export interface TableIdentifier extends MySyntaxNode {
+    syntaxKind : "TableIdentifier";
+    fields : {
+        tableName : (Ident | IdentOrReserved);
+        schemaName? : (Ident);
+        dotToken? : (Dot)
+    };
+}
+
+export interface TableIdentifierTuple extends MySyntaxNode {
+    syntaxKind : "TableIdentifierTuple";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (TableIdentifier)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
     };
 }
 
@@ -726,6 +792,8 @@ export interface DefaultCharacterSet extends MySyntaxNode {
     };
 }
 
+export type CharacterSetNameOrDefault = DEFAULT | Identifier | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | BINARY | StringLiteral;
+
 export interface DefaultCollate extends MySyntaxNode {
     syntaxKind : "DefaultCollate";
     fields : {
@@ -736,11 +804,7 @@ export interface DefaultCollate extends MySyntaxNode {
     };
 }
 
-export type CharacterSetNameOrDefault = DEFAULT | Identifier | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | BINARY | StringLiteral;
-
 export type CollationNameOrDefault = DEFAULT | Identifier | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | StringLiteral;
-
-export type Schema = SCHEMA | DATABASE;
 
 export interface IfNotExists extends MySyntaxNode {
     syntaxKind : "IfNotExists";
@@ -751,21 +815,353 @@ export interface IfNotExists extends MySyntaxNode {
     };
 }
 
-export interface LeadingStatement extends MySyntaxNode {
-    syntaxKind : "LeadingStatement";
+export type Schema = SCHEMA | DATABASE;
+
+export interface BinLogStatement extends MySyntaxNode {
+    syntaxKind : "BinLogStatement";
     fields : {
-        statement? : (Statement);
-        semiColonToken? : (SemiColon);
-        customDelimiter? : (CustomDelimiter)
+        binLogToken : (BINLOG);
+        str : (StringLiteral)
     };
 }
 
-export interface TrailingStatement extends MySyntaxNode {
-    syntaxKind : "TrailingStatement";
+export type CreateSchemaOption = DefaultCharacterSet | DefaultCollate;
+
+export interface CreateSchemaOptionRepeat1 extends MySyntaxNode {
+    syntaxKind : "CreateSchemaOptionRepeat1";
     fields : {
-        statement? : (Statement);
-        semiColonToken? : (SemiColon);
-        customDelimiter? : (CustomDelimiter)
+        item : (CreateSchemaOption)[]
+    };
+}
+
+export interface CreateSchemaStatement extends MySyntaxNode {
+    syntaxKind : "CreateSchemaStatement";
+    fields : {
+        createToken : (CREATE);
+        schemaToken : (Schema);
+        ifNotExists? : (IfNotExists);
+        identifier : (Ident);
+        createSchemaOptionRepeat1? : (CreateSchemaOptionRepeat1)
+    };
+}
+
+export interface CreateTableDefinitionTuple1 extends MySyntaxNode {
+    syntaxKind : "CreateTableDefinitionTuple1";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (CreateTableDefinition)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface CreateTableDefinition extends MySyntaxNode {
+    syntaxKind : "CreateTableDefinition";
+    fields : {
+        
+    };
+}
+
+export interface ColumnDefinition extends MySyntaxNode {
+    syntaxKind : "ColumnDefinition";
+    fields : {
+        
+    };
+}
+
+export interface IndexDefinition extends MySyntaxNode {
+    syntaxKind : "IndexDefinition";
+    fields : {
+        
+    };
+}
+
+export interface CheckDefinition extends MySyntaxNode {
+    syntaxKind : "CheckDefinition";
+    fields : {
+        
+    };
+}
+
+export interface PrimaryKeyDefinition extends MySyntaxNode {
+    syntaxKind : "PrimaryKeyDefinition";
+    fields : {
+        
+    };
+}
+
+export interface ForeignKeyDefinition extends MySyntaxNode {
+    syntaxKind : "ForeignKeyDefinition";
+    fields : {
+        
+    };
+}
+
+export interface CreateTableOptionSemiList1 extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionSemiList1";
+    fields : {
+        item : (CreateTableOption)[];
+        commaToken : (Comma)[]
+    };
+}
+
+export interface CreateTableOption extends MySyntaxNode {
+    syntaxKind : "CreateTableOption";
+    fields : {
+        
+    };
+}
+
+export interface CreateTableOptionEngine extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionEngine";
+    fields : {
+        engineToken : (ENGINE);
+        equalToken? : (Equal);
+        engine : (Ident | StringLiteral)
+    };
+}
+
+export interface CreateTableOptionMaxRows extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionMaxRows";
+    fields : {
+        maxRowsToken : (MAX_ROWS);
+        equalToken? : (Equal);
+        maxRows : (IntegerLiteral)
+    };
+}
+
+export interface CreateTableOptionMinRows extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionMinRows";
+    fields : {
+        minRowsToken : (MIN_ROWS);
+        equalToken? : (Equal);
+        minRows : (IntegerLiteral)
+    };
+}
+
+export interface CreateTableOptionAverageRowLength extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionAverageRowLength";
+    fields : {
+        avgRowLengthToken : (AVG_ROW_LENGTH);
+        equalToken? : (Equal);
+        averageRowLength : (IntegerLiteral)
+    };
+}
+
+export interface CreateTableOptionPassword extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionPassword";
+    fields : {
+        passwordToken : (PASSWORD);
+        equalToken? : (Equal);
+        password : (StringLiteral)
+    };
+}
+
+export interface CreateTableOptionComment extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionComment";
+    fields : {
+        commentToken : (COMMENT);
+        equalToken? : (Equal);
+        comment : (StringLiteral)
+    };
+}
+
+export interface CreateTableOptionCompression extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionCompression";
+    fields : {
+        compressionToken : (COMPRESSION);
+        equalToken? : (Equal);
+        compression : (StringLiteral)
+    };
+}
+
+export interface CreateTableOptionEncryption extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionEncryption";
+    fields : {
+        encryptionToken : (ENCRYPTION);
+        equalToken? : (Equal);
+        encryption : (StringLiteral)
+    };
+}
+
+export interface CreateTableOptionAutoIncrement extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionAutoIncrement";
+    fields : {
+        autoIncrementToken : (AUTO_INCREMENT);
+        equalToken? : (Equal);
+        autoIncrement : (IntegerLiteral)
+    };
+}
+
+export interface CreateTableOptionPackKeys extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionPackKeys";
+    fields : {
+        packKeysToken : (PACK_KEYS);
+        equalToken? : (Equal);
+        packKeys : (IntegerLiteral | DEFAULT)
+    };
+}
+
+export interface CreateTableOptionStatsAutoRecalc extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionStatsAutoRecalc";
+    fields : {
+        packKeysToken : (PACK_KEYS);
+        equalToken? : (Equal);
+        packKeys : (IntegerLiteral | DEFAULT)
+    };
+}
+
+export interface CreateTableOptionStatsPersistent extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionStatsPersistent";
+    fields : {
+        statsPersistentToken : (STATS_PERSISTENT);
+        equalToken? : (Equal);
+        statsPersistent : (IntegerLiteral | DEFAULT)
+    };
+}
+
+export interface CreateTableOptionStatsSamplePages extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionStatsSamplePages";
+    fields : {
+        statsSamplePagesToken : (STATS_SAMPLE_PAGES);
+        equalToken? : (Equal);
+        statsSamplePages : (IntegerLiteral | DEFAULT)
+    };
+}
+
+export interface CreateTableOptionChecksum extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionChecksum";
+    fields : {
+        checksumToken : (CHECKSUM | TABLE_CHECKSUM);
+        equalToken? : (Equal);
+        checksum : (IntegerLiteral)
+    };
+}
+
+export interface CreateTableOptionDelayKeyWrite extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionDelayKeyWrite";
+    fields : {
+        delayKeyWriteToken : (DELAY_KEY_WRITE);
+        equalToken? : (Equal);
+        delayKeyWrite : (IntegerLiteral)
+    };
+}
+
+export interface CreateTableOptionRowFormat extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionRowFormat";
+    fields : {
+        rowFormatToken : (ROW_FORMAT);
+        equalToken? : (Equal);
+        rowFormat : (RowFormat)
+    };
+}
+
+export interface RowFormat extends MySyntaxNode {
+    syntaxKind : "RowFormat";
+    fields : {
+        
+    };
+}
+
+export interface CreateTableOptionUnion extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionUnion";
+    fields : {
+        unionToken : (UNION);
+        equalToken? : (Equal);
+        union : (TableIdentifierTuple)
+    };
+}
+
+export interface CreateTableOptionInsertMethod extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionInsertMethod";
+    fields : {
+        insertMethodToken : (INSERT_METHOD);
+        equalToken? : (Equal);
+        insertMethod : (InsertMethod)
+    };
+}
+
+export interface InsertMethod extends MySyntaxNode {
+    syntaxKind : "InsertMethod";
+    fields : {
+        
+    };
+}
+
+export interface CreateTableOptionDataDirectory extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionDataDirectory";
+    fields : {
+        dataToken : (DATA);
+        directoryToken : (DIRECTORY);
+        equalToken? : (Equal);
+        dataDirectory : (StringLiteral)
+    };
+}
+
+export interface CreateTableOptionIndexDirectory extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionIndexDirectory";
+    fields : {
+        indexToken : (INDEX);
+        directoryToken : (DIRECTORY);
+        equalToken? : (Equal);
+        indexDirectory : (StringLiteral)
+    };
+}
+
+export interface CreateTableOptionTablespace extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionTablespace";
+    fields : {
+        tablespaceToken : (TABLESPACE);
+        equalToken? : (Equal);
+        tablespace : (Ident)
+    };
+}
+
+export interface CreateTableOptionStorage extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionStorage";
+    fields : {
+        storageToken : (INSERT_METHOD);
+        equalToken? : (Equal);
+        storage : (Storage)
+    };
+}
+
+export interface Storage extends MySyntaxNode {
+    syntaxKind : "Storage";
+    fields : {
+        
+    };
+}
+
+export interface CreateTableOptionConnection extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionConnection";
+    fields : {
+        connectionToken : (CONNECTION);
+        equalToken? : (Equal);
+        connection : (StringLiteral)
+    };
+}
+
+export interface CreateTableOptionKeyBlockSize extends MySyntaxNode {
+    syntaxKind : "CreateTableOptionKeyBlockSize";
+    fields : {
+        keyBlockSizeToken : (KEY_BLOCK_SIZE);
+        equalToken? : (Equal);
+        keyBlockSize : (IntegerLiteral)
+    };
+}
+
+export interface CreateTableStatement extends MySyntaxNode {
+    syntaxKind : "CreateTableStatement";
+    fields : {
+        createToken : (CREATE);
+        temporaryToken? : (TEMPORARY);
+        tableToken : (TABLE);
+        ifNotExists? : (IfNotExists);
+        tableIdentifier : (TableIdentifier);
+        createTableDefinitionList : (CreateTableDefinitionTuple1);
+        createTableOptions? : (CreateTableOptionSemiList1);
+        partition? : (Partition)
     };
 }
 
@@ -777,4 +1173,286 @@ export interface DelimiterStatement extends MySyntaxNode {
     };
 }
 
-export type Ident = Identifier | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR;
+export interface HashPartition extends MySyntaxNode {
+    syntaxKind : "HashPartition";
+    fields : {
+        
+    };
+}
+
+export interface KeySubPartition extends MySyntaxNode {
+    syntaxKind : "KeySubPartition";
+    fields : {
+        
+    };
+}
+
+export interface KeyPartition extends MySyntaxNode {
+    syntaxKind : "KeyPartition";
+    fields : {
+        
+    };
+}
+
+export interface HashSubPartition extends MySyntaxNode {
+    syntaxKind : "HashSubPartition";
+    fields : {
+        
+    };
+}
+
+export interface ListPartitionByColumnTuple2 extends MySyntaxNode {
+    syntaxKind : "ListPartitionByColumnTuple2";
+    fields : {
+        
+    };
+}
+
+export interface ListPartitionByColumn extends MySyntaxNode {
+    syntaxKind : "ListPartitionByColumn";
+    fields : {
+        
+    };
+}
+
+export interface ListPartitionByExpression extends MySyntaxNode {
+    syntaxKind : "ListPartitionByExpression";
+    fields : {
+        
+    };
+}
+
+export interface ListPartition extends MySyntaxNode {
+    syntaxKind : "ListPartition";
+    fields : {
+        
+    };
+}
+
+export interface MultitonListPartitionDefinition extends MySyntaxNode {
+    syntaxKind : "MultitonListPartitionDefinition";
+    fields : {
+        
+    };
+}
+
+export interface MultitonListPartitionDefinitionTuple1 extends MySyntaxNode {
+    syntaxKind : "MultitonListPartitionDefinitionTuple1";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (MultitonListPartitionDefinition)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface PartitionDefinitionOption extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOption";
+    fields : {
+        
+    };
+}
+
+export interface PartitionDefinitionOptionEngine extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionEngine";
+    fields : {
+        storageToken? : (STORAGE);
+        engineToken : (ENGINE);
+        equalToken? : (Equal);
+        engine : (Ident | StringLiteral)
+    };
+}
+
+export interface PartitionDefinitionOptionMaxRows extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionMaxRows";
+    fields : {
+        maxRowsToken : (MAX_ROWS);
+        equalToken? : (Equal);
+        maxRows : (IntegerLiteral)
+    };
+}
+
+export interface PartitionDefinitionOptionMinRows extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionMinRows";
+    fields : {
+        minRowsToken : (MIN_ROWS);
+        equalToken? : (Equal);
+        minRows : (IntegerLiteral)
+    };
+}
+
+export interface PartitionDefinitionOptionComment extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionComment";
+    fields : {
+        commentToken : (COMMENT);
+        equalToken? : (Equal);
+        comment : (StringLiteral)
+    };
+}
+
+export interface PartitionDefinitionOptionDataDirectory extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionDataDirectory";
+    fields : {
+        dataToken : (DATA);
+        directoryToken : (DIRECTORY);
+        equalToken? : (Equal);
+        dataDirectory : (StringLiteral)
+    };
+}
+
+export interface PartitionDefinitionOptionIndexDirectory extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionIndexDirectory";
+    fields : {
+        indexToken : (INDEX);
+        directoryToken : (DIRECTORY);
+        equalToken? : (Equal);
+        indexDirectory : (StringLiteral)
+    };
+}
+
+export interface PartitionDefinitionOptionTablespace extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionTablespace";
+    fields : {
+        tablespaceToken : (TABLESPACE);
+        equalToken? : (Equal);
+        tablespace : (Ident)
+    };
+}
+
+export interface PartitionDefinitionOptionNodeGroup extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionNodeGroup";
+    fields : {
+        nodeGroupToken : (NODEGROUP);
+        equalToken? : (Equal);
+        nodeGroup : (IntegerLiteral)
+    };
+}
+
+export interface PartitionDefinitionOptionRepeat1 extends MySyntaxNode {
+    syntaxKind : "PartitionDefinitionOptionRepeat1";
+    fields : {
+        item : (PartitionDefinitionOption)[]
+    };
+}
+
+export type Partition = HashPartition | KeyPartition | ListPartition | RangePartition;
+
+export interface RangePartition extends MySyntaxNode {
+    syntaxKind : "RangePartition";
+    fields : {
+        
+    };
+}
+
+export interface SingletonListPartitionDefinition extends MySyntaxNode {
+    syntaxKind : "SingletonListPartitionDefinition";
+    fields : {
+        
+    };
+}
+
+export interface SingletonListPartitionDefinitionTuple1 extends MySyntaxNode {
+    syntaxKind : "SingletonListPartitionDefinitionTuple1";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (SingletonListPartitionDefinition)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface SingletonRangePartitionDefinition extends MySyntaxNode {
+    syntaxKind : "SingletonRangePartitionDefinition";
+    fields : {
+        openParenthesesToken? : (OpenParentheses);
+        closeParenthesesToken? : (CloseParentheses)
+    };
+}
+
+export interface SingletonRangePartitionDefinitionTuple1 extends MySyntaxNode {
+    syntaxKind : "SingletonRangePartitionDefinitionTuple1";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (SingletonRangePartitionDefinition)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface SubPartitionDefinition extends MySyntaxNode {
+    syntaxKind : "SubPartitionDefinition";
+    fields : {
+        
+    };
+}
+
+export interface SubPartitionDefinitionTuple1 extends MySyntaxNode {
+    syntaxKind : "SubPartitionDefinitionTuple1";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (SubPartitionDefinition)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface SubPartition extends MySyntaxNode {
+    syntaxKind : "SubPartition";
+    fields : {
+        
+    };
+}
+
+export interface ExpressionSelectItem extends MySyntaxNode {
+    syntaxKind : "ExpressionSelectItem";
+    fields : {
+        expression : (Expression);
+        alias? : (Ident | StringLiteral);
+        asToken? : (AS)
+    };
+}
+
+export interface SelectItemList1 extends MySyntaxNode {
+    syntaxKind : "SelectItemList1";
+    fields : {
+        item : (ExpressionSelectItem)[];
+        commaToken : (Comma)[]
+    };
+}
+
+export interface Select extends MySyntaxNode {
+    syntaxKind : "Select";
+    fields : {
+        selectToken : (SELECT);
+        selectItemList1 : (SelectItemList1)
+    };
+}
+
+export type SelectStatement = Select;
+
+export interface LeadingStatement extends MySyntaxNode {
+    syntaxKind : "LeadingStatement";
+    fields : {
+        statement? : (Statement);
+        semiColonToken? : (SemiColon);
+        customDelimiter? : (CustomDelimiter)
+    };
+}
+
+export interface SourceFile extends MySyntaxNode {
+    syntaxKind : "SourceFile";
+    fields : {
+        statement : (LeadingStatement | DelimiterStatement | TrailingStatement)[]
+    };
+}
+
+export type Statement = BinLogStatement | CreateSchemaStatement | CreateTableStatement | SelectStatement;
+
+export interface TrailingStatement extends MySyntaxNode {
+    syntaxKind : "TrailingStatement";
+    fields : {
+        statement? : (Statement);
+        semiColonToken? : (SemiColon);
+        customDelimiter? : (CustomDelimiter)
+    };
+}

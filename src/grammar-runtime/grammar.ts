@@ -35,6 +35,7 @@ export interface MyGrammar {
     extrasNoLineBreakRuleName : string|undefined;
     byName: Record<string, MyRule[]>;
 
+    ruleName2Alias : Record<string, string>;
     ruleName2Label : Record<string, string>;
     ruleName2Shape : Record<string, CompiledShape>;
     ruleName2Fields : Record<string, Fields>;
@@ -70,6 +71,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
     const extrasNoLineBreakRuleName = compiled.extrasNoLineBreakRuleName;
     const byName : Record<string, MyRule[]> = {};
 
+    const ruleName2Alias = compiled.ruleName2Alias;
     const ruleName2Label = compiled.ruleName2Label;
     const ruleName2Shape = compiled.ruleName2Shape;
     const ruleName2Fields : Record<string, Fields> = {};
@@ -88,7 +90,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
             runTimeId : ++runTimeId,
         });
 
-        ruleName2Fields[rule.name] = initFields(ruleName2Shape[rule.name]);
+        ruleName2Fields[rule.name] = initFields(ruleName2Shape[ruleName2Alias[rule.name] ?? rule.name]);
     }
 
     return {
@@ -104,6 +106,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
         extrasNoLineBreakRuleName,
         byName,
 
+        ruleName2Alias,
         ruleName2Label,
         ruleName2Shape,
         ruleName2Fields,

@@ -28,7 +28,15 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.Expression,
         SyntaxKind.BooleanPrimaryExpression,
         SyntaxKind.Predicate,
+
         SyntaxKind.BitExpression,
+        SyntaxKind.BitwiseXor,
+        SyntaxKind.MulDivMod,
+        SyntaxKind.PlusMinus,
+        SyntaxKind.BitwiseShift,
+        SyntaxKind.BitwiseAnd,
+        SyntaxKind.BitwiseOr,
+
         SyntaxKind.SimpleExpression,
         SyntaxKind.SelectStatement,
     ],

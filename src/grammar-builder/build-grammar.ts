@@ -1,5 +1,5 @@
 import {CompiledField, CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
-import {choice, Grammar, oneOf, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol} from "./grammar";
+import {choice, ChoiceRule, Grammar, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol} from "./grammar";
 import {getVariableInfo, isVisible} from "./node-types";
 
 export interface BuilderState {
@@ -7,6 +7,7 @@ export interface BuilderState {
     compiledRules : CompiledRule[],
     getUniqueName : (name : string) => string,
 
+    ruleName2Alias : Record<string, string>;
     ruleName2Label : Record<string, string>;
     extras : string|undefined;
     extrasNoLineBreak : string|undefined;
@@ -116,6 +117,16 @@ export function buildToken (
                 canExpect : rule.canExpect !== false,
             };
         }
+        case "alias": {
+            const myName = buildRule(
+                state,
+                state.getUniqueName(ruleName + "$alias"),
+                rule.rule,
+                noLineBreak
+            );
+            state.ruleName2Alias[myName] = rule.alias;
+            return myName;
+        }
     }
 }
 
@@ -133,6 +144,10 @@ export function isOptionalRule (rule : Rule) : rule is OptionalRule {
 
 export function isSeqRule (rule : Rule) : rule is SeqRule {
     return typeof rule != "string" && rule.ruleKind == "seq";
+}
+
+export function isChoiceRule (rule : Rule) : rule is ChoiceRule {
+    return typeof rule != "string" && rule.ruleKind == "choice";
 }
 
 export function isEmptySequence (rule : Rule) {
@@ -238,22 +253,6 @@ export function buildRule (
                             }
                         }
                     }
-                } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
-                    //Put the extra inside the optional, after item.rule
-                    insertExtrasAfter = 1;
-                    item = oneOf(
-                        ...item.rules
-                            .map(rule => {
-                                if (isEmptySequence(rule)) {
-                                    return rule;
-                                } else {
-                                    return seq(
-                                        myExtras,
-                                        rule,
-                                    );
-                                }
-                            })
-                    );
                 } else {
                     //TODO?
                 }
@@ -270,21 +269,6 @@ export function buildRule (
             } else {
                 if (item.ruleKind == "optional") {
                     item = recursivePushFront(item, myExtras);
-                } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
-                    //Put the extra inside the optional, after item.rule
-                    item = oneOf(
-                        ...item.rules
-                            .map(rule => {
-                                if (isEmptySequence(rule)) {
-                                    return rule;
-                                } else {
-                                    return seq(
-                                        myExtras,
-                                        rule,
-                                    );
-                                }
-                            })
-                    );
                 } else {
                     symbols.push(myExtras);
                 }
@@ -303,8 +287,8 @@ export function buildRule (
 }
 
 export function buildRuleName2Shape (
-    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Label">,
-    isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline">, symbol : string, hasMultiStepProduction : boolean) => boolean
+    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Alias"|"ruleName2Label">,
+    isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline"|"ruleName2Alias">, symbol : string, hasMultiStepProduction : boolean) => boolean
 ) {
     const variableInfos = getVariableInfo(grammar, isVisibleDelegate);
 
@@ -344,6 +328,7 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
             ++uniqueId;
             return str + "$" + uniqueId;
         },
+        ruleName2Alias : {},
         ruleName2Label : {},
         extras : undefined,
         extrasNoLineBreak : undefined,
@@ -411,7 +396,16 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
                 }
             }
         } else {
-            buildRule(state, ruleName, rule, noLineBreak);
+            if (isChoiceRule(rule)) {
+                buildChoice(
+                    state,
+                    ruleName,
+                    rule.rules,
+                    noLineBreak
+                );
+            } else {
+                buildRule(state, ruleName, rule, noLineBreak);
+            }
         }
     }
 
@@ -420,6 +414,7 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
             inline : grammar.inline,
             rules : state.compiledRules,
 
+            ruleName2Alias : state.ruleName2Alias,
             ruleName2Label : state.ruleName2Label,
         },
         isVisible
@@ -438,6 +433,7 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
         extrasNoLineBreakRuleName : state.extrasNoLineBreak,
         rules : state.compiledRules,
 
+        ruleName2Alias : state.ruleName2Alias,
         ruleName2Label : state.ruleName2Label,
         ruleName2Shape,
     };

@@ -123,7 +123,7 @@ function tryGetState (
     ident : string
 ) : MyState|undefined {
     return states.find(a => (
-        a.rule == rule &&
+        a.rule.runTimeId == rule.runTimeId &&
         a.startTokenIndex == startTokenIndex &&
         a.ident == ident &&
         a.dot == dot
@@ -136,7 +136,7 @@ function tryGetFinishedStates (
     startTokenIndex : number
 ) : MyState[] {
     const results = states.filter(a => (
-        a.rule == rule &&
+        a.rule.runTimeId == rule.runTimeId &&
         a.startTokenIndex == startTokenIndex &&
         isFinished(a)
     ));
@@ -402,10 +402,6 @@ export function complete2 (
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
     addState : (state : MyState) => void
 ) {
-
-    if (other.rule.name == "BinLogStatement" && other.dot == 1) {
-        other;
-    }
     if (grammar.extrasRuleName != undefined && state.errorCount > 0 && state.rule.name.startsWith(grammar.extrasRuleName)) {
         //return;
     }
@@ -511,6 +507,10 @@ export function complete2 (
         }
     }
 
+    const stateDataSyntaxKind = (
+        grammar.ruleName2Alias[state.data.syntaxKind] ??
+        state.data.syntaxKind
+    );
     const stateData : MySyntaxNode = {
         ...state.data,
         end : (
@@ -518,9 +518,13 @@ export function complete2 (
             state.data.start :
             state.data.children[state.data.children.length-1].end
         ),
+        syntaxKind : stateDataSyntaxKind,
     };
 
-    const shouldInline = stateData.syntaxKind.includes("$") || grammar.inline.has(stateData.syntaxKind);
+    const shouldInline = (
+        (state.data.syntaxKind.includes("$") && grammar.ruleName2Alias[state.data.syntaxKind] == undefined) ||
+        grammar.inline.has(state.data.syntaxKind)
+    );
     const nextData = (
         shouldInline ?
         inlineChild(grammar, other.data, stateData) :
@@ -567,9 +571,6 @@ export function complete2 (
         errorCount += 0.1;
     }
 
-    if (state.rule.name == "StatementTail") {
-        other;
-    }
     if (
         other.data.children.length > 0 &&
         state.data.children.length > 0
@@ -598,6 +599,7 @@ export function complete2 (
             const newStateData : MySyntaxNode = {
                 ...state.data,
                 children : state.data.children.slice(1),
+                syntaxKind : stateDataSyntaxKind,
             };
 
             const newNextData = (
@@ -916,7 +918,7 @@ export function parse (
         if (arr == undefined) {
             return [];
         }
-        return arr.filter(item => item.rule == rule);
+        return arr.filter(item => item.rule.runTimeId == rule.runTimeId);
         // /**
         //  * @todo Store finished rules in some other data structure.
         //  * Like `Map<startTokenIndex, MyState[]>`

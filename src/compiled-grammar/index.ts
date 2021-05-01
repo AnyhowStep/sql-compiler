@@ -46,6 +46,7 @@ export interface CompiledGrammar {
     extrasNoLineBreakRuleName : string|undefined;
     rules : CompiledRule[];
 
+    ruleName2Alias : Record<string, string>;
     ruleName2Label : Record<string, string>;
     ruleName2Shape : Record<string, CompiledShape>;
 }

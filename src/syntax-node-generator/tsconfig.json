@@ -1,0 +1,14 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/syntax-node-generator",
+        "declarationDir": "../../dist/syntax-node-generator",
+        "types": ["@types/node"]
+    },
+    "references" : [
+        { "path": "../mysql-grammar-2" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

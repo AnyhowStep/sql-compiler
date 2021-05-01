@@ -1,13 +1,19 @@
 
 export function seqNoFlatten (
     ...rules : Rule[]
-) : Rule {
+) : RuleObj {
     return {
         ruleKind : "seq",
         rules,
     };
 }
 
+export function seq<R extends Rule> (
+    rule : R
+) : R;
+export function seq (
+    ...rules : Rule[]
+) : RuleObj;
 export function seq (
     ...rules : Rule[]
 ) : Rule {
@@ -30,6 +36,12 @@ export function seq (
     };
 }
 
+export function choice<R extends Rule> (
+    rule : R
+) : R;
+export function choice (
+    ...rules : Rule[]
+) : RuleObj;
 export function choice (
     ...rules : Rule[]
 ) : Rule {
@@ -52,15 +64,6 @@ export function choice (
     };
 }
 
-export function oneOf (
-    ...rules : Rule[]
-) : Rule {
-    return {
-        ruleKind : "oneOf",
-        rules,
-    };
-}
-
 export function optional (
     rule : Rule,
 ) : OptionalRule {
@@ -76,7 +79,7 @@ export function optional (
 
 export function repeat (
     rule : Rule,
-) : Rule {
+) : RuleObj {
     return optional(repeat1(rule));
 }
 
@@ -92,24 +95,13 @@ export function repeat1 (
 export function field (
     label : string,
     rule : Rule,
-) : Rule {
+) : RuleObj {
     if (typeof rule != "string" && rule.ruleKind == "optional") {
         return optional(field(label, rule.rule));
     }
 
     if (typeof rule != "string" && rule.ruleKind == "repeat1") {
         return repeat1(field(label, rule.rule));
-    }
-
-    if (typeof rule != "string" && rule.ruleKind == "oneOf") {
-        return oneOf(
-            ...rule.rules.map(r => {
-                if (typeof r != "string" && r.ruleKind == "seq" && r.rules.length == 0) {
-                    return r;
-                }
-                return field(label, r);
-            }),
-        );
     }
 
     return {
@@ -178,54 +170,49 @@ export function cannotExpect (
     };
 }
 
-/**
- * @todo
- */
-export function leftAssociative (precedence : number, rule : Rule) : Rule {
-    precedence;
-    return rule;
+export function alias (alias : string, rule : Rule) : AliasRule {
+    return {
+        ruleKind : "alias",
+        alias,
+        rule,
+    };
 }
 
-/**
- * @todo
- */
-export function rightAssociative (precedence : number, rule : Rule) : Rule {
-    precedence;
-    return rule;
+export interface RuleBase {
 }
 
-export interface SeqRule {
+export interface SeqRule extends RuleBase {
     ruleKind : "seq",
     rules : Rule[],
 }
 
-export interface ChoiceRule {
+export interface ChoiceRule extends RuleBase {
     ruleKind : "choice",
     rules : Rule[],
 }
 
-export interface OneOfRule {
+export interface OneOfRule extends RuleBase {
     ruleKind : "oneOf",
     rules : Rule[],
 }
 
-export interface OptionalRule {
+export interface OptionalRule extends RuleBase {
     ruleKind : "optional",
     rule : Rule,
 }
 
-export interface Repeat1Rule {
+export interface Repeat1Rule extends RuleBase {
     ruleKind : "repeat1",
     rule : Rule,
 }
 
-export interface FieldRule {
+export interface FieldRule extends RuleBase {
     ruleKind : "field",
     label : string,
     rule : Rule,
 }
 
-export interface TokenSymbolRule {
+export interface TokenSymbolRule extends RuleBase {
     ruleKind : "tokenSymbol",
     tokenKind : string,
     otherTokenKinds : string[] | undefined,
@@ -235,8 +222,13 @@ export interface TokenSymbolRule {
     canExpect? : false,
 }
 
-export type Rule =
-    | string
+export interface AliasRule extends RuleBase {
+    ruleKind : "alias",
+    alias : string,
+    rule : Rule,
+}
+
+export type RuleObj =
     | SeqRule
     | ChoiceRule
     | OneOfRule
@@ -244,6 +236,12 @@ export type Rule =
     | Repeat1Rule
     | FieldRule
     | TokenSymbolRule
+    | AliasRule
+;
+
+export type Rule =
+    | string
+    | RuleObj
 ;
 
 export interface GrammarConfig {

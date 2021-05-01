@@ -102,8 +102,15 @@ export const syntaxKinds = [
     "Expression",
     "BooleanPrimaryExpression",
     "Predicate",
+
     "BitExpression",
-    "BinaryBitExpression",
+    "BitwiseXor",
+    "MulDivMod",
+    "PlusMinus",
+    "BitwiseShift",
+    "BitwiseAnd",
+    "BitwiseOr",
+
     "SimpleExpression",
     "BitExpressionTuple1",
     "BitExpressionTuple1Tuple1",
