@@ -1,0 +1,13 @@
+DELIMITER A
+CRE
+
+-----
+(SourceFile[0, 16]
+  (statement[]: DelimiterStatement[0, 11]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 11])
+  )
+  (LineBreak[11, 12])
+  (Unexpected Identifier[12, 15])
+  (LineBreak[15, 16])
+)

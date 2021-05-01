@@ -1,5 +1,5 @@
-import {CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
-import {choice, Grammar, oneOf, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol} from "./grammar";
+import {CompiledField, CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
+import {choice, ChoiceRule, Grammar, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol} from "./grammar";
 import {getVariableInfo, isVisible} from "./node-types";
 
 export interface BuilderState {
@@ -7,17 +7,20 @@ export interface BuilderState {
     compiledRules : CompiledRule[],
     getUniqueName : (name : string) => string,
 
+    ruleName2Alias : Record<string, string>;
     ruleName2Label : Record<string, string>;
     extras : string|undefined;
+    extrasNoLineBreak : string|undefined;
 }
 
 export function buildChoice (
     state : BuilderState,
     ruleName : string,
     rules : Rule[],
+    noLineBreak : boolean,
 ) : string {
     for (const rule of rules) {
-        buildRule(state, ruleName, rule);
+        buildRule(state, ruleName, rule, noLineBreak);
     }
     return ruleName;
 }
@@ -25,13 +28,15 @@ export function buildChoice (
 export function buildToken (
     state : BuilderState,
     ruleName : string,
-    rule : Rule
+    rule : Rule,
+    noLineBreak : boolean,
 ) : CompiledSymbol {
     if (typeof rule == "string") {
         if (state.grammar.tokens.includes(rule)) {
             return {
                 tokenKind : rule,
                 otherTokenKinds : undefined,
+                canExpect : true,
             };
         } else {
             return rule;
@@ -43,21 +48,24 @@ export function buildToken (
             return buildRule(
                 state,
                 state.getUniqueName(ruleName + "$seq"),
-                rule
+                rule,
+                noLineBreak
             );
         }
         case "choice": {
             return buildChoice(
                 state,
                 state.getUniqueName(ruleName + "$choice"),
-                rule.rules
+                rule.rules,
+                noLineBreak
             );
         }
         case "oneOf": {
             return buildChoice(
                 state,
                 state.getUniqueName(ruleName + "$oneOf"),
-                rule.rules
+                rule.rules,
+                noLineBreak
             );
         }
         case "optional": {
@@ -67,7 +75,8 @@ export function buildToken (
                 [
                     seq(),
                     rule.rule,
-                ]
+                ],
+                noLineBreak
             );
         }
         case "repeat1": {
@@ -77,7 +86,8 @@ export function buildToken (
             buildRule(
                 state,
                 itemName,
-                rule.rule
+                rule.rule,
+                noLineBreak
             );
 
             return buildChoice(
@@ -86,14 +96,16 @@ export function buildToken (
                 [
                     itemName,
                     seq(myName, itemName),
-                ]
+                ],
+                noLineBreak
             );
         }
         case "field": {
             const myName = buildRule(
                 state,
                 state.getUniqueName(ruleName + "$field"),
-                rule.rule
+                rule.rule,
+                noLineBreak
             );
             state.ruleName2Label[myName] = rule.label;
             return myName;
@@ -102,7 +114,18 @@ export function buildToken (
             return {
                 tokenKind : rule.tokenKind,
                 otherTokenKinds : rule.otherTokenKinds,
+                canExpect : rule.canExpect !== false,
             };
+        }
+        case "alias": {
+            const myName = buildRule(
+                state,
+                state.getUniqueName(ruleName + "$alias"),
+                rule.rule,
+                noLineBreak
+            );
+            state.ruleName2Alias[myName] = rule.alias;
+            return myName;
         }
     }
 }
@@ -121,6 +144,10 @@ export function isOptionalRule (rule : Rule) : rule is OptionalRule {
 
 export function isSeqRule (rule : Rule) : rule is SeqRule {
     return typeof rule != "string" && rule.ruleKind == "seq";
+}
+
+export function isChoiceRule (rule : Rule) : rule is ChoiceRule {
+    return typeof rule != "string" && rule.ruleKind == "choice";
 }
 
 export function isEmptySequence (rule : Rule) {
@@ -169,7 +196,12 @@ export function buildRule (
     state : BuilderState,
     ruleName : string,
     rule : Rule,
+    noLineBreak : boolean,
 ) : string {
+    if (noLineBreak && !state.grammar.noLineBreak.includes(ruleName)) {
+        state.grammar.noLineBreak.push(ruleName);
+    }
+
     const arr = (
         typeof rule != "string" && rule.ruleKind == "seq" ?
         rule.rules :
@@ -178,12 +210,18 @@ export function buildRule (
 
     const symbols : CompiledSymbol[] = [];
     let insertExtrasAfter = 0;
+    const myExtras = (
+        noLineBreak ?
+        state.extrasNoLineBreak :
+        state.extras
+    );
+
     //eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i=0; i<arr.length; ++i) {
         let item = arr[i];
 
         if (
-            state.extras != undefined &&
+            myExtras != undefined &&
             i == 0 &&
             arr.length > 1
         ) {
@@ -193,74 +231,51 @@ export function buildRule (
                 if (item.ruleKind == "optional") {
                     const nextRule = arr[i+1];
                     if (typeof nextRule == "string") {
-                        //Put the extra inside the optional, after item.rule
-                        insertExtrasAfter = 1;
-                        item = recursivePushBack(item, state.extras);
+                        if (isSeqRule(item.rule) && item.rule.rules.length > 0 && item.rule.rules[0] == myExtras) {
+                            //Already starts with extra
+                            //TODO?
+                        } else {
+                            //Put the extra inside the optional, after item.rule
+                            insertExtrasAfter = 1;
+                            item = recursivePushBack(item, myExtras);
+                        }
                     } else {
                         if (nextRule.ruleKind == "optional") {
                             //Do nothing
                         } else {
-                            //Put the extra inside the optional, after item.rule
-                            insertExtrasAfter = 1;
-                            item = recursivePushBack(item, state.extras);
+                            if (isSeqRule(item.rule) && item.rule.rules.length > 0 && item.rule.rules[0] == myExtras) {
+                                //Already starts with extra
+                                //TODO?
+                            } else {
+                                //Put the extra inside the optional, after item.rule
+                                insertExtrasAfter = 1;
+                                item = recursivePushBack(item, myExtras);
+                            }
                         }
                     }
-                } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
-                    //Put the extra inside the optional, after item.rule
-                    const extras = state.extras;
-                    insertExtrasAfter = 1;
-                    item = oneOf(
-                        ...item.rules
-                            .map(rule => {
-                                if (isEmptySequence(rule)) {
-                                    return rule;
-                                } else {
-                                    return seq(
-                                        extras,
-                                        rule,
-                                    );
-                                }
-                            })
-                    );
                 } else {
                     //TODO?
                 }
             }
         }
         if (
-            state.extras != undefined &&
+            myExtras != undefined &&
             i > insertExtrasAfter &&
-            arr[i] != state.extras &&
-            arr[i-1] != state.extras
+            arr[i] != myExtras &&
+            arr[i-1] != myExtras
         ) {
             if (typeof item == "string") {
-                symbols.push(state.extras);
+                symbols.push(myExtras);
             } else {
                 if (item.ruleKind == "optional") {
-                    item = recursivePushFront(item, state.extras);
-                } else if (item.ruleKind == "oneOf" && item.rules.some(isEmptySequence)) {
-                    //Put the extra inside the optional, after item.rule
-                    const extras = state.extras;
-                    item = oneOf(
-                        ...item.rules
-                            .map(rule => {
-                                if (isEmptySequence(rule)) {
-                                    return rule;
-                                } else {
-                                    return seq(
-                                        extras,
-                                        rule,
-                                    );
-                                }
-                            })
-                    );
+                    item = recursivePushFront(item, myExtras);
                 } else {
-                    symbols.push(state.extras);
+                    symbols.push(myExtras);
                 }
             }
         }
 
-        const symbol = buildToken(state, ruleName, item);
+        const symbol = buildToken(state, ruleName, item, noLineBreak);
         symbols.push(symbol);
     }
 
@@ -271,9 +286,20 @@ export function buildRule (
     return ruleName;
 }
 
+function fromEntries<T = any>(entries: Iterable<readonly [PropertyKey, T]>): { [k: string]: T } {
+    return [...entries]
+        .reduce(
+            (obj, [key, val]) => {
+                obj[key as any] = val
+                return obj
+            },
+            {} as Record<PropertyKey, T>
+        )
+}
+
 export function buildRuleName2Shape (
-    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Label">,
-    isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline">, symbol : string, hasMultiStepProduction : boolean) => boolean
+    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Alias"|"ruleName2Label">,
+    isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline"|"ruleName2Alias">, symbol : string, hasMultiStepProduction : boolean) => boolean
 ) {
     const variableInfos = getVariableInfo(grammar, isVisibleDelegate);
 
@@ -281,8 +307,22 @@ export function buildRuleName2Shape (
     for (const [ruleName, variableInfo] of Object.entries(variableInfos)) {
         ruleName2Shape[ruleName] = {
             ruleName : variableInfo.ruleName,
-            fields : variableInfo.fields,
-            children : variableInfo.children,
+            fields : fromEntries(
+                Object.entries(variableInfo.fields)
+                    .map(([label, field]) : [string, CompiledField] => {
+                        return [
+                            label,
+                            {
+                                ...field,
+                                types : [...field.types],
+                            }
+                        ];
+                    })
+            ),
+            children : {
+                ...variableInfo.children,
+                types : [...variableInfo.children.types]
+            },
             hasMultiStepProduction : variableInfo.hasMultiStepProduction,
         };
     }
@@ -299,45 +339,84 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
             ++uniqueId;
             return str + "$" + uniqueId;
         },
+        ruleName2Alias : {},
         ruleName2Label : {},
         extras : undefined,
+        extrasNoLineBreak : undefined,
     };
 
     if (grammar.extras.length > 0) {
-        state.extras = buildRule(
+        const extras = buildRule(
             state,
             state.getUniqueName("extras"),
             repeat(tokenSymbol(
                 grammar.extras[0],
                 ...(grammar.extras.slice(1))
-            ))
+            )),
+            false
         );
+
+        const extraTokensNoLineBreak = grammar.extras
+            .filter(tokenKind => tokenKind != grammar.lineBreakToken)
+        const extrasNoLineBreak = buildRule(
+            state,
+            state.getUniqueName("extrasNoLineBreak"),
+            repeat(tokenSymbol(
+                extraTokensNoLineBreak[0],
+                ...(extraTokensNoLineBreak.slice(1))
+            )),
+            false
+        );
+
+        /**
+         * We assign to `state.extras` and `state.extrasNoLineBreak`
+         * **after** building the rules.
+         */
+        state.extras = extras;
+        state.extrasNoLineBreak = extrasNoLineBreak;
+
     }
 
     for (const ruleName of Object.keys(grammar.rules)) {
         const rule = grammar.rules[ruleName];
+        const noLineBreak = grammar.noLineBreak.includes(ruleName);
+        const myExtras = (
+            noLineBreak ?
+            state.extrasNoLineBreak :
+            state.extras
+        );
 
-        if (ruleName == grammar.start && state.extras != undefined) {
+        if (ruleName == grammar.start && myExtras != undefined) {
             if (typeof rule == "string") {
-                buildRule(state, ruleName, seqNoFlatten(state.extras, rule, state.extras));
+                buildRule(state, ruleName, seqNoFlatten(myExtras, rule, myExtras), noLineBreak);
             } else {
                 if (rule.ruleKind == "seq") {
-                    buildRule(state, ruleName, seqNoFlatten(state.extras, ...rule.rules, state.extras));
+                    buildRule(state, ruleName, seqNoFlatten(myExtras, ...rule.rules, myExtras), noLineBreak);
                 } else if (rule.ruleKind == "optional") {
                     buildRule(
                         state,
                         ruleName,
                         choice(
-                            state.extras,
-                            seqNoFlatten(state.extras, rule.rule, state.extras),
-                        )
+                            myExtras,
+                            seqNoFlatten(myExtras, rule.rule, myExtras),
+                        ),
+                        noLineBreak
                     );
                 } else {
-                    buildRule(state, ruleName, seqNoFlatten(state.extras, rule, state.extras));
+                    buildRule(state, ruleName, seqNoFlatten(myExtras, rule, myExtras), noLineBreak);
                 }
             }
         } else {
-            buildRule(state, ruleName, rule);
+            if (isChoiceRule(rule)) {
+                buildChoice(
+                    state,
+                    ruleName,
+                    rule.rules,
+                    noLineBreak
+                );
+            } else {
+                buildRule(state, ruleName, rule, noLineBreak);
+            }
         }
     }
 
@@ -346,6 +425,7 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
             inline : grammar.inline,
             rules : state.compiledRules,
 
+            ruleName2Alias : state.ruleName2Alias,
             ruleName2Label : state.ruleName2Label,
         },
         isVisible
@@ -354,12 +434,17 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
     return {
         tokens : grammar.tokens,
         extras : grammar.extras,
+        lineBreakToken : grammar.lineBreakToken,
+        cannotUnexpect : grammar.cannotUnexpect,
 
+        noLineBreak : grammar.noLineBreak,
         inline : grammar.inline,
         start : grammar.start,
         extrasRuleName : state.extras,
+        extrasNoLineBreakRuleName : state.extrasNoLineBreak,
         rules : state.compiledRules,
 
+        ruleName2Alias : state.ruleName2Alias,
         ruleName2Label : state.ruleName2Label,
         ruleName2Shape,
     };

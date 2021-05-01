@@ -1,0 +1,13 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/rule-export-generator",
+        "declarationDir": "../../dist/rule-export-generator",
+        "types": ["@types/node"]
+    },
+    "references" : [
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

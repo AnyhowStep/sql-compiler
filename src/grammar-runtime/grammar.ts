@@ -4,6 +4,10 @@ import {Fields} from "./syntax-node";
 export interface MyTokenSymbol {
     tokenKind : string;
     otherTokenKinds : string[] | undefined;
+    /**
+     * Defaults to `true`.
+     */
+    canExpect : boolean,
 }
 
 export type MySymbol =
@@ -21,12 +25,17 @@ export interface MyRule {
 export interface MyGrammar {
     tokens : Set<string>;
     extras : Set<string>;
+    lineBreakToken : string;
+    cannotUnexpect : Set<string>;
 
+    noLineBreak : Set<string>;
     inline : Set<string>;
     start: string;
     extrasRuleName : string|undefined;
+    extrasNoLineBreakRuleName : string|undefined;
     byName: Record<string, MyRule[]>;
 
+    ruleName2Alias : Record<string, string>;
     ruleName2Label : Record<string, string>;
     ruleName2Shape : Record<string, CompiledShape>;
     ruleName2Fields : Record<string, Fields>;
@@ -52,12 +61,17 @@ export function initFields (shape : CompiledShape) {
 export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
     const tokens = new Set<string>(compiled.tokens);
     const extras = new Set<string>(compiled.extras);
+    const lineBreakToken = compiled.lineBreakToken;
+    const cannotUnexpect = new Set<string>(compiled.cannotUnexpect);
 
+    const noLineBreak = new Set<string>(compiled.noLineBreak);
     const inline = new Set<string>(compiled.inline);
     const start = compiled.start;
     const extrasRuleName = compiled.extrasRuleName;
+    const extrasNoLineBreakRuleName = compiled.extrasNoLineBreakRuleName;
     const byName : Record<string, MyRule[]> = {};
 
+    const ruleName2Alias = compiled.ruleName2Alias;
     const ruleName2Label = compiled.ruleName2Label;
     const ruleName2Shape = compiled.ruleName2Shape;
     const ruleName2Fields : Record<string, Fields> = {};
@@ -76,18 +90,23 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
             runTimeId : ++runTimeId,
         });
 
-        ruleName2Fields[rule.name] = initFields(ruleName2Shape[rule.name]);
+        ruleName2Fields[rule.name] = initFields(ruleName2Shape[ruleName2Alias[rule.name] ?? rule.name]);
     }
 
     return {
         tokens,
         extras,
+        lineBreakToken,
+        cannotUnexpect,
 
+        noLineBreak,
         inline,
         start,
         extrasRuleName,
+        extrasNoLineBreakRuleName,
         byName,
 
+        ruleName2Alias,
         ruleName2Label,
         ruleName2Shape,
         ruleName2Fields,

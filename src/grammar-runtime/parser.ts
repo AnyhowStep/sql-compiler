@@ -352,10 +352,10 @@ export function parse (
         }
 
         return stateSet.states.some(a => (
-            a.rule == rule &&
+            a.rule.runTimeId == rule.runTimeId &&
             a.dot == dot &&
-            a.startTokenIndex == startTokenIndex //&&
-            //a.ident == ident
+            a.startTokenIndex == startTokenIndex &&
+            a.ident == _ident
         ));
     }
 
@@ -365,13 +365,13 @@ export function parse (
             return undefined;
         }
         // const result = stateSet.states.find(a => (
-        //     a.rule == rule &&
+        //     a.rule.runTimeId == rule.runTimeId &&
         //     a.startTokenIndex == startTokenIndex &&
         //     a.dot == dot
         // ));
         // return result;
         const results =  stateSet.states.filter(a => (
-            a.rule == rule &&
+            a.rule.runTimeId == rule.runTimeId &&
             a.startTokenIndex == startTokenIndex &&
             (
                 (
@@ -432,17 +432,24 @@ export function parse (
         );
 
         let nextStateSet = stateSets.get(i+1);
-        while (nextStateSet == undefined || nextStateSet.states.length == 0) {
+        if (nextStateSet == undefined || nextStateSet.states.length == 0) {
             const stateSetLength = stateSet.states.length;
+
+            const blah = stateSet.states.filter(s => {
+                return s.rule.name == "LeadingStatement" && s.dot == 0;
+            });
+            blah;
 
             //Adds stuff to the next state set
             //We *must* call this first.
             skipUnexpected(
+                grammar,
                 tokens,
                 stateSet,
                 hasState,
                 addState
             );
+
 
             //Adds stuff to the current state set
             //We *must* call this second.
@@ -614,7 +621,7 @@ function mergeFields (aShape : CompiledShape, a : Fields, b : Fields) : Fields {
     return result;
 }
 
-function push (data : MySyntaxNode, token : MyToken) : MySyntaxNode {
+export function push (data : MySyntaxNode, token : MyToken) : MySyntaxNode {
     return {
         syntaxKind : data.syntaxKind,
         children : [...data.children, token],
@@ -701,7 +708,7 @@ function push (data : MySyntaxNode, token : MyToken) : MySyntaxNode {
     //*/
 }
 
-function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntaxNode) : MySyntaxNode {
+export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntaxNode) : MySyntaxNode {
     const childLabel = grammar.ruleName2Label[child.syntaxKind];
 
     if (childLabel == undefined) {
@@ -715,7 +722,7 @@ function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntax
             fields : parent.fields,
         };
     } else {
-        const parentShape = grammar.ruleName2Shape[parent.syntaxKind];
+        const parentShape = grammar.ruleName2Shape[grammar.ruleName2Alias[parent.syntaxKind] ?? parent.syntaxKind];
         const field = parentShape.fields[childLabel];
         const newFields : Fields = {};
 
@@ -737,9 +744,9 @@ function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntax
     }
 }
 
-function inlineChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntaxNode) : MySyntaxNode {
+export function inlineChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntaxNode) : MySyntaxNode {
     const childLabel = grammar.ruleName2Label[child.syntaxKind];
-    const parentShape = grammar.ruleName2Shape[parent.syntaxKind];
+    const parentShape = grammar.ruleName2Shape[grammar.ruleName2Alias[parent.syntaxKind] ?? parent.syntaxKind];
 
     if (childLabel == undefined) {
         return {
@@ -831,24 +838,58 @@ export function scan (
 }
 
 export function skipUnexpected (
+    grammar : MyGrammar,
     tokens : MyToken[],
     stateSet : MyStateSet,
     hasState : HasStateDelegate,
     addState : (state : MyState) => void
 ) {
+    grammar;
+
     for (const state of stateSet.states) {
         if (isFinished(state)) {
             continue;
         }
         const expect = state.rule.symbols[state.dot];
-        if (expect == undefined || typeof expect == "string") {
-            continue;
-        }
-        if (hasState(state.rule, state.dot, state.tokenIndex+1, state.startTokenIndex, state.ident)) {
+        if (expect == undefined) {
             continue;
         }
 
         const skippedToken = tokens[state.tokenIndex];
+
+        if (typeof expect == "string") {
+            // if (hasState(state.rule, state.dot, state.tokenIndex+1, state.startTokenIndex, state.ident)) {
+            //     continue;
+            // }
+            // const nextState : MyState = {
+            //     rule : state.rule,
+            //     dot : state.dot,
+            //     tokenIndex : state.tokenIndex+1,
+            //     startTokenIndex : state.startTokenIndex,
+
+            //     data : push(
+            //         state.data,
+            //         {
+            //             ...skippedToken,
+            //             errorKind : "Unexpected",
+            //             text : skippedToken.text,
+            //             expectedTokenKind : undefined,
+            //         }
+            //     ),
+            //     errorCount : state.errorCount+1,
+
+            //     ident : state.ident,
+            //     edges : [state],
+            // };
+            // nextState;
+            // //state.hasNextState = true;
+            // addState(nextState);
+            continue;
+        }
+
+        if (hasState(state.rule, state.dot, state.tokenIndex+1, state.startTokenIndex, state.ident)) {
+            continue;
+        }
         const nextState : MyState = {
             rule : state.rule,
             dot : state.dot,
@@ -869,6 +910,7 @@ export function skipUnexpected (
             ident : state.ident,
             edges : [state],
         };
+        //state.hasNextState = true;
         addState(nextState);
     }
 }
@@ -948,12 +990,60 @@ export function skipExpectation (
             ident : state.ident,
             edges : [state],
         };
+        if (expect.tokenKind == "WhiteSpace") {
+            //wtf
+            expect.tokenKind;
+        }
         addState(nextState);
     }
 }
 
 export function isFinished (state : MyState) {
     return state.dot == state.rule.symbols.length;
+}
+
+// function isAllError (state : Pick<MyState["data"], "children">) : boolean {
+//     for (const child of state.children) {
+//         if ("tokenKind" in child) {
+//             if (child.errorKind == undefined) {
+//                 return false;
+//             }
+//         } else {
+//             if (!isAllError(child)) {
+//                 return false;
+//             }
+//         }
+//     }
+
+//     return true;
+// }
+
+export function countConsecutiveErrors (grammar : MyGrammar, node : Pick<MySyntaxNode, "children">, startCount : number, maxCount : number) : number {
+
+    let curCount = startCount;
+    for (const child of node.children) {
+        if ("tokenKind" in child) {
+            if (child.errorKind == undefined) {
+                if (grammar.extras.has(child.tokenKind)) {
+
+                } else {
+                    curCount = 0;
+                }
+            } else {
+                ++curCount;
+                if (curCount >= maxCount) {
+                    return curCount;
+                }
+            }
+        } else {
+            curCount = countConsecutiveErrors(grammar, child, curCount, maxCount);
+            if (curCount >= maxCount) {
+                return curCount;
+            }
+        }
+    }
+
+    return curCount;
 }
 
 export function complete2 (
@@ -976,7 +1066,6 @@ export function complete2 (
          */
         return;
     }
-
     const nextIdent = (
         //state.rule.name == grammar.extrasRuleName ?
         //other.ident :

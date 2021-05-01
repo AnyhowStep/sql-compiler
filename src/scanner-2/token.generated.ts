@@ -667,6 +667,8 @@ export enum TokenKind {
     Tilde = "Tilde",
     Caret = "Caret",
     Bar = "Bar",
+    Ampersand = "Ampersand",
+    AmpersandAmpersand = "AmpersandAmpersand",
     Equal = "Equal",
     LessEqualGreater = "LessEqualGreater",
     GreaterEqual = "GreaterEqual",

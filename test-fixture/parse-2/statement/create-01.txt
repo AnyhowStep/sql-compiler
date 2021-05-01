@@ -1,0 +1,15 @@
+CREATE 0e0
+-----
+(SourceFile[0, 10]
+  (statement[]: TrailingStatement[0, 10]
+    (statement: Select[0, 10]
+      (Expected selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 10]
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: RealLiteral[7, 10])
+        )
+      )
+    )
+  )
+)

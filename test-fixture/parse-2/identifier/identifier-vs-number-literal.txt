@@ -2,16 +2,15 @@ CREATE SCHEMA 0
 
 -----
 (SourceFile[0, 16]
-  (statement[]: TrailingStatement[0, 14]
-    (statement: CreateSchemaStatement[0, 14]
+  (statement[]: TrailingStatement[0, 15]
+    (statement: CreateSchemaStatement[0, 15]
       (createToken: CREATE[0, 6])
       (WhiteSpace[6, 7])
       (schemaToken: SCHEMA[7, 13])
       (WhiteSpace[13, 14])
-      (Expected identifier: Identifier[14, 14])
+      (Expected identifier: Identifier[14, 15])
     )
   )
-  (Unexpected IntegerLiteral[14, 15])
   (LineBreak[15, 16])
 )
 
@@ -37,16 +36,15 @@ CREATE SCHEMA 00
 
 -----
 (SourceFile[0, 17]
-  (statement[]: TrailingStatement[0, 14]
-    (statement: CreateSchemaStatement[0, 14]
+  (statement[]: TrailingStatement[0, 16]
+    (statement: CreateSchemaStatement[0, 16]
       (createToken: CREATE[0, 6])
       (WhiteSpace[6, 7])
       (schemaToken: SCHEMA[7, 13])
       (WhiteSpace[13, 14])
-      (Expected identifier: Identifier[14, 14])
+      (Expected identifier: Identifier[14, 16])
     )
   )
-  (Unexpected IntegerLiteral[14, 16])
   (LineBreak[16, 17])
 )
 
@@ -106,16 +104,15 @@ CREATE SCHEMA 000
 
 -----
 (SourceFile[0, 18]
-  (statement[]: TrailingStatement[0, 14]
-    (statement: CreateSchemaStatement[0, 14]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: CreateSchemaStatement[0, 17]
       (createToken: CREATE[0, 6])
       (WhiteSpace[6, 7])
       (schemaToken: SCHEMA[7, 13])
       (WhiteSpace[13, 14])
-      (Expected identifier: Identifier[14, 14])
+      (Expected identifier: Identifier[14, 17])
     )
   )
-  (Unexpected IntegerLiteral[14, 17])
   (LineBreak[17, 18])
 )
 
@@ -141,16 +138,15 @@ CREATE SCHEMA 0e0
 
 -----
 (SourceFile[0, 18]
-  (statement[]: TrailingStatement[0, 14]
-    (statement: CreateSchemaStatement[0, 14]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: CreateSchemaStatement[0, 17]
       (createToken: CREATE[0, 6])
       (WhiteSpace[6, 7])
       (schemaToken: SCHEMA[7, 13])
       (WhiteSpace[13, 14])
-      (Expected identifier: Identifier[14, 14])
+      (Expected identifier: Identifier[14, 17])
     )
   )
-  (Unexpected RealLiteral[14, 17])
   (LineBreak[17, 18])
 )
 

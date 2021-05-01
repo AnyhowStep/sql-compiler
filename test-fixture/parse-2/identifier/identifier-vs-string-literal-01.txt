@@ -1,0 +1,15 @@
+`CREATE SCHEMA'str'`
+` `
+-----
+(SourceFile[0, 20]
+  (statement[]: TrailingStatement[0, 18]
+    (statement: CreateSchemaStatement[0, 18]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (schemaToken: SCHEMA[7, 13])
+      (Expected identifier: Identifier[13, 18])
+    )
+  )
+  (LineBreak[18, 19])
+  (WhiteSpace[19, 20])
+)

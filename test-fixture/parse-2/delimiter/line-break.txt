@@ -14,11 +14,11 @@ DELIMITER $$
 ``
 -----
 (SourceFile[0, 11]
-  (statement[]: DelimiterStatement[0, 11]
+  (statement[]: DelimiterStatement[0, 10]
     (delimiterStart: DelimiterSpace[0, 10])
-    (LineBreak[10, 11])
-    (Expected customDelimiter: CustomDelimiter[11, 11])
+    (Expected customDelimiter: CustomDelimiter[10, 10])
   )
+  (LineBreak[10, 11])
 )
 
 -----
@@ -26,10 +26,10 @@ DELIMITER $$
 ``
 -----
 (SourceFile[0, 14]
-  (statement[]: DelimiterStatement[0, 14]
+  (statement[]: DelimiterStatement[0, 13]
     (delimiterStart: DelimiterSpace[0, 10])
     (WhiteSpace[10, 13])
-    (LineBreak[13, 14])
-    (Expected customDelimiter: CustomDelimiter[14, 14])
+    (Expected customDelimiter: CustomDelimiter[13, 13])
   )
+  (LineBreak[13, 14])
 )

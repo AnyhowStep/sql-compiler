@@ -10,7 +10,7 @@ CREATE SCHEMA D COLLATE utf8mb4_unicode_ci COLLATE latin1_general_ci
       (WhiteSpace[13, 14])
       (identifier: Identifier[14, 15])
       (WhiteSpace[15, 16])
-      (createSchemaOptionList: CreateSchemaOptionList[16, 68]
+      (createSchemaOptionRepeat1: CreateSchemaOptionRepeat1[16, 68]
         (item[]: DefaultCollate[16, 42]
           (collateToken: COLLATE[16, 23])
           (WhiteSpace[23, 24])

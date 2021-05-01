@@ -1,0 +1,17 @@
+`DELIMITER    `
+`$$`
+-----
+(SourceFile[0, 16]
+  (statement[]: TrailingStatement[0, 16]
+    (statement: Select[0, 16]
+      (Expected selectToken: SELECT[0, 10])
+      (WhiteSpace[10, 13])
+      (LineBreak[13, 14])
+      (selectItemList1: SelectItemList1[14, 16]
+        (item[]: ExpressionSelectItem[14, 16]
+          (expression: Identifier[14, 16])
+        )
+      )
+    )
+  )
+)

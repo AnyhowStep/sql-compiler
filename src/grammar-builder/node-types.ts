@@ -78,7 +78,7 @@ export interface FieldInfo {
     /**
      * We do not have aliasing.
      */
-    types : string[]
+    types : Set<string>
 }
 
 /**
@@ -92,34 +92,38 @@ export interface VariableInfo {
     hasMultiStepProduction : boolean;
 }
 
-function extend (arr : string[], other : string|CompiledTokenSymbol) : boolean {
+function extend (grammar : Pick<CompiledGrammar, "ruleName2Alias">, arr : Set<string>, other : string|CompiledTokenSymbol) : boolean {
     if (typeof other == "string") {
-        if (arr.includes(other)) {
+        other = grammar.ruleName2Alias[other] ?? other;
+    }
+
+    if (typeof other == "string") {
+        if (arr.has(other)) {
             return false;
         }
 
-        arr.push(other);
+        arr.add(other);
         return true;
     }
 
     if (other.otherTokenKinds == undefined) {
-        if (arr.includes(other.tokenKind)) {
+        if (arr.has(other.tokenKind)) {
             return false;
         }
 
-        arr.push(other.tokenKind);
+        arr.add(other.tokenKind);
         return true;
     }
 
     let didChange = false;
-    if (!arr.includes(other.tokenKind)) {
-        arr.push(other.tokenKind);
+    if (!arr.has(other.tokenKind)) {
+        arr.add(other.tokenKind);
         didChange = true;
     }
 
     for (const item of other.otherTokenKinds) {
-        if (!arr.includes(item)) {
-            arr.push(item);
+        if (!arr.has(item)) {
+            arr.add(item);
             didChange = true;
         }
     }
@@ -127,11 +131,11 @@ function extend (arr : string[], other : string|CompiledTokenSymbol) : boolean {
     return didChange;
 }
 
-function extend2 (arr : string[], other : string[]) : boolean {
+function extend2 (grammar : Pick<CompiledGrammar, "ruleName2Alias">, arr : Set<string>, other : Set<string>) : boolean {
     let didChange = false;
 
     for (const o of other) {
-        if (extend(arr, o)) {
+        if (extend(grammar, arr, o)) {
             didChange = true;
         }
     }
@@ -139,12 +143,12 @@ function extend2 (arr : string[], other : string[]) : boolean {
     return didChange;
 }
 
-export function isVisible (grammar : Pick<CompiledGrammar, "inline">, symbol : string, _hasMultiStepProduction : boolean) {
-    return !symbol.includes("$") && !grammar.inline.includes(symbol);
+export function isVisible (grammar : Pick<CompiledGrammar, "inline"|"ruleName2Alias">, symbol : string, _hasMultiStepProduction : boolean) {
+    return (!symbol.includes("$") || grammar.ruleName2Alias[symbol] != undefined) && !grammar.inline.includes(symbol);
 }
 
-export function isVisible_PreserveEnum (grammar : Pick<CompiledGrammar, "inline">, symbol : string, hasMultiStepProduction : boolean) {
-    if (symbol.includes("$")) {
+export function isVisible_PreserveEnum (grammar : Pick<CompiledGrammar, "inline"|"ruleName2Alias">, symbol : string, hasMultiStepProduction : boolean) {
+    if (symbol.includes("$") && grammar.ruleName2Alias[symbol] == undefined) {
         return false;
     }
 
@@ -155,8 +159,8 @@ export function isVisible_PreserveEnum (grammar : Pick<CompiledGrammar, "inline"
  * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L147
  */
 export function getVariableInfo (
-    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Label">,
-    isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline">, symbol : string, hasMultiStepProduction : boolean) => boolean = isVisible
+    grammar : Pick<CompiledGrammar, "inline"|"rules"|"ruleName2Alias"|"ruleName2Label">,
+    isVisibleDelegate : (grammar : Pick<CompiledGrammar, "inline"|"ruleName2Alias">, symbol : string, hasMultiStepProduction : boolean) => boolean = isVisible
 ) : Record<string, VariableInfo> {
     const byName : Record<string, CompiledRule[]> = {};
     for (const rule of grammar.rules) {
@@ -168,24 +172,27 @@ export function getVariableInfo (
 
         rules.push(rule);
     }
-    const variables = Object.keys(byName);
+    const variables = [
+        ...Object.keys(byName),
+        ...Object.keys(grammar.ruleName2Alias),
+    ];
 
     let didChange = true;
     let allInitialized = false;
     const result : Record<string, VariableInfo> = {};
     //eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i=0; i<variables.length; ++i) {
-        const ruleName = variables[i];
+        const ruleName = grammar.ruleName2Alias[variables[i]] ?? variables[i];
         result[ruleName] = {
             ruleName,
             fields : {},
             children : {
                 quantity : one(),
-                types : [],
+                types : new Set(),
             },
             childrenWithoutFields : {
                 quantity : one(),
-                types : [],
+                types : new Set(),
             },
             hasMultiStepProduction : false,
         };
@@ -198,7 +205,7 @@ export function getVariableInfo (
             const variable = variables[i];
 
             //todo deep clone?
-            const variableInfo = result[variable];
+            const variableInfo = result[grammar.ruleName2Alias[variable] ?? variable];
 
             for (const production of byName[variable]) {
                 const production_field_quantities : Record<string, ChildQuantity> = {};
@@ -210,13 +217,15 @@ export function getVariableInfo (
                     variableInfo.hasMultiStepProduction = true;
                 }
 
+                //https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L185
                 for (const step of production.symbols) {
                     const childSymbol = step;
-                    didChange ||= extend(variableInfo.children.types, childSymbol);
+                    didChange ||= extend(grammar, variableInfo.children.types, childSymbol);
 
                     const childIsHidden = (
                         typeof childSymbol == "string" &&
-                        !isVisibleDelegate(grammar, childSymbol, variableInfo.hasMultiStepProduction)
+                        !isVisibleDelegate(grammar, childSymbol, variableInfo.hasMultiStepProduction) &&
+                        grammar.ruleName2Alias[childSymbol] == undefined
                     );
                     //https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L202-L204
                     if (!childIsHidden) {
@@ -235,13 +244,13 @@ export function getVariableInfo (
                         if (fieldInfo == undefined) {
                             fieldInfo = {
                                 quantity : one(),
-                                types : [],
+                                types : new Set(),
                             };
                             variableInfo.fields[fieldName] = fieldInfo;
                         }
 
                         //https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L213
-                        didChange ||= extend(fieldInfo.types, childSymbol);
+                        didChange ||= extend(grammar, fieldInfo.types, childSymbol);
 
                         let production_field_quantity = production_field_quantities[fieldName];
                         if (production_field_quantity == undefined) {
@@ -253,9 +262,9 @@ export function getVariableInfo (
                          * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L220
                          */
                         if (childIsHidden && typeof step == "string") {
-                            const childVariableInfo = result[step];
+                            const childVariableInfo = result[grammar.ruleName2Alias[step] ?? step];
 
-                            didChange ||= extend2(fieldInfo.types, childVariableInfo.children.types);
+                            didChange ||= extend2(grammar, fieldInfo.types, childVariableInfo.children.types);
 
                             append(production_field_quantity, childVariableInfo.children.quantity);
                         } else {
@@ -269,14 +278,14 @@ export function getVariableInfo (
                             production_children_without_fields_quantity,
                             one()
                         );
-                        didChange ||= extend(variableInfo.childrenWithoutFields.types, childSymbol);
+                        didChange ||= extend(grammar, variableInfo.childrenWithoutFields.types, childSymbol);
                     }
 
                     /**
                      * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L241
                      */
                     if (childIsHidden && typeof step == "string") {
-                        const childVariableInfo = result[step];
+                        const childVariableInfo = result[grammar.ruleName2Alias[step] ?? step];
 
                         /**
                          * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L246
@@ -297,28 +306,29 @@ export function getVariableInfo (
                             if (fieldInfo == undefined) {
                                 fieldInfo = {
                                     quantity : one(),
-                                    types : [],
+                                    types : new Set(),
                                 };
                                 variableInfo.fields[fieldName] = fieldInfo;
                             }
 
-                            didChange ||= extend2(fieldInfo.types, childFieldInfo.types);
+                            didChange ||= extend2(grammar, fieldInfo.types, childFieldInfo.types);
                         }
 
                         /**
                          * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L269
                          */
                         append(production_children_quantity, childVariableInfo.children.quantity);
-                        didChange ||= extend2(variableInfo.children.types, childVariableInfo.children.types);
+                        didChange ||= extend2(grammar, variableInfo.children.types, childVariableInfo.children.types);
 
                         if (fieldName == undefined) {
                             const grandchildrenInfo = childVariableInfo.childrenWithoutFields;
-                            if (grandchildrenInfo.types.length > 0) {
+                            if (grandchildrenInfo.types.size > 0) {
                                 append(
                                     production_children_without_fields_quantity,
                                     childVariableInfo.childrenWithoutFields.quantity
                                 );
                                 didChange ||= extend2(
+                                    grammar,
                                     variableInfo.childrenWithoutFields.types,
                                     childVariableInfo.childrenWithoutFields.types
                                 );
@@ -368,23 +378,29 @@ export function getVariableInfo (
     }
 
     for (const variableInfo of Object.values(result)) {
-        variableInfo.children.types = variableInfo.children.types
-            .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction));
+        variableInfo.children.types = new Set(
+            [...variableInfo.children.types]
+                .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction))
+        );
 
         for (const [_, fieldInfo] of Object.entries(variableInfo.fields)) {
-            fieldInfo.types = fieldInfo.types
-                .filter(type => isVisibleDelegate(grammar, type, false));
+            fieldInfo.types = new Set(
+                [...fieldInfo.types]
+                    .filter(type => isVisibleDelegate(grammar, type, false))
+            );
         }
 
         for (const fieldName of Object.keys(variableInfo.fields)) {
             const fieldInfo = variableInfo.fields[fieldName];
-            if (fieldInfo.types.length == 0) {
+            if (fieldInfo.types.size == 0) {
                 delete variableInfo.fields[fieldName];
             }
         }
 
-        variableInfo.childrenWithoutFields.types = variableInfo.childrenWithoutFields.types
-            .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction));
+        variableInfo.childrenWithoutFields.types = new Set(
+            [...variableInfo.childrenWithoutFields.types]
+                .filter(type => isVisibleDelegate(grammar, type, variableInfo.hasMultiStepProduction))
+        );
     }
 
     return result;

@@ -2,13 +2,15 @@ CREATE; CREATE SCHEMA A
 
 -----
 (SourceFile[0, 24]
-  (statement[]: TrailingStatement[0, 23]
-    (statement: CreateSchemaStatement[0, 23]
-      (createToken: CREATE[0, 6])
-      (Unexpected SemiColon[6, 7])
-      (Unexpected EndOfStatement[7, 7])
-      (WhiteSpace[7, 8])
-      (Unexpected CREATE[8, 14])
+  (statement[]: LeadingStatement[0, 7]
+    (Unexpected CREATE[0, 6])
+    (semiColonToken: SemiColon[6, 7])
+    (EndOfStatement[7, 7])
+  )
+  (WhiteSpace[7, 8])
+  (statement[]: TrailingStatement[8, 23]
+    (statement: CreateSchemaStatement[8, 23]
+      (createToken: CREATE[8, 14])
       (WhiteSpace[14, 15])
       (schemaToken: SCHEMA[15, 21])
       (WhiteSpace[21, 22])

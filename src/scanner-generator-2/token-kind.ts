@@ -78,6 +78,8 @@ export const customTokenKinds = [
     "Tilde",
     "Caret",
     "Bar",
+    "Ampersand",
+    "AmpersandAmpersand",
 
     "Equal",
     "LessEqualGreater",
