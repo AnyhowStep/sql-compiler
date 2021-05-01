@@ -472,9 +472,36 @@ export function scanDelimiter (state : LexerState) {
         return TokenKind.WhiteSpace;
     }
 
-    if (isLineBreak(tmp.peek(0))) {
+    if (tmp.peek(0) == CharacterCodes.carriageReturn) {
+        if (state.peek(1) == CharacterCodes.lineFeed) {
+            //Cannot have delimiter of length zero
+            tmp.advance();
+            tmp.advance();
+            //This is intentional.
+            //We assume there is no custom delimiter anymore.
+            state.customDelimiter = "";
+            state.expectCustomDelimiter = false;
+            state.index = tmp.index;
+            return TokenKind.LineBreak;
+        }
+
         //Cannot have delimiter of length zero
         tmp.advance();
+        //This is intentional.
+        //We assume there is no custom delimiter anymore.
+        state.customDelimiter = "";
+        state.expectCustomDelimiter = false;
+        state.index = tmp.index;
+        return TokenKind.LineBreak;
+    }
+
+    if (tmp.peek(0) == CharacterCodes.lineFeed) {
+        //Cannot have delimiter of length zero
+        tmp.advance();
+        //This is intentional.
+        //We assume there is no custom delimiter anymore.
+        state.customDelimiter = "";
+        state.expectCustomDelimiter = false;
         state.index = tmp.index;
         return TokenKind.LineBreak;
     }

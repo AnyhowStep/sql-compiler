@@ -23,18 +23,12 @@ export enum SyntaxKind {
 fs.writeFileSync(
     `${__dirname}/../mysql-grammar-2/mysql-grammar.generated.ts`,
     `
-import {Rule} from "../grammar-builder";
+import {Rule, GrammarConfig} from "../grammar-builder";
 
 export interface MySqlRuleCollection {
     ${syntaxKinds.map(syntaxKind => `${syntaxKind} : Rule`).join(",\n    ")}
 }
-export interface MySqlGrammar {
-    tokens : string[];
-    extras : string[];
-    cannotUnexpect : string[];
-
-    inline : string[];
-    start : string;
+export interface MySqlGrammar extends GrammarConfig {
     rules : MySqlRuleCollection;
 }
 `

@@ -2,16 +2,12 @@ DELIMITER A
 CRE
 
 -----
-(SourceFile[0, 17]
+(SourceFile[0, 16]
   (statement[]: DelimiterStatement[0, 11]
     (delimiterStart: DelimiterSpace[0, 10])
     (customDelimiter: CustomDelimiter[10, 11])
   )
   (LineBreak[11, 12])
-  (statement[]: TrailingStatement[12, 16]
-    (Unexpected Identifier[12, 15])
-    (customDelimiter: CustomDelimiter[15, 16])
-    (EndOfStatement[16, 16])
-  )
-  (LineBreak[16, 17])
-)q
+  (Unexpected Identifier[12, 15])
+  (LineBreak[15, 16])
+)

@@ -1,6 +1,6 @@
 import {MyToken} from "../grammar-runtime";
-import {CharacterCodes, isUnquotedIdentifierCharacter, isWhiteSpace} from "./character-code";
-import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, tryScanStringCaseInsensitive, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras} from "./scan-util";
+import {CharacterCodes, isDigit, isUnquotedIdentifierCharacter, isWhiteSpace} from "./character-code";
+import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, tryScanStringCaseInsensitive, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent} from "./scan-util";
 import {TokenKind} from "./token.generated";
 
 export interface LexerState {
@@ -273,8 +273,33 @@ export function scan (state : LexerState) : TokenKind {
             }
             return TokenKind.SemiColon;
         case CharacterCodes.dot:
-            state.advance();
-            return TokenKind.Dot;
+            /**
+             * Could just be a dot.
+             * Could also be the start of a decimal literal or real literal.
+             *
+             * + `.0`    (Decimal)
+             * + `.0e0`  (Real)
+             * + `.0e+0` (Real)
+             *
+             * Note that `0.e0` is a valid real literal, but `.e0` is not.
+             */
+            if (isDigit(state.peek(1))) {
+                /**
+                 * `^\.\d` is a valid literal.
+                 */
+                tryScanNumberFractionalPart(state);
+                if (tryScanNumberExponent(state)) {
+                    return TokenKind.RealLiteral;
+                } else {
+                    return TokenKind.DecimalLiteral;
+                }
+            } else {
+                /**
+                 * `^\.\D` is not a valid literal.
+                 */
+                state.advance();
+                return TokenKind.Dot;
+            }
         case CharacterCodes.lessThan:
             //<
             //<<

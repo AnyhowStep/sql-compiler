@@ -8,8 +8,8 @@ CREATE SCHEM
     (customDelimiter: CustomDelimiter[10, 11])
   )
   (LineBreak[11, 12])
-  (statement[]: LeadingStatement[12, 16]
-    (Unexpected Identifier[12, 15])
+  (Unexpected Identifier[12, 15])
+  (statement[]: LeadingStatement[15, 16]
     (customDelimiter: CustomDelimiter[15, 16])
     (EndOfStatement[16, 16])
   )

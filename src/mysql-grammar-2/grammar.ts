@@ -7,10 +7,14 @@ import {buildGrammar, Grammar} from "../grammar-builder";
 export const mySqlGrammar : MySqlGrammar = {
     tokens,
     extras,
+    lineBreakToken : TokenKind.LineBreak,
     cannotUnexpect : [
         TokenKind.EndOfStatement,
     ],
 
+    noLineBreak : [
+        SyntaxKind.DelimiterStatement,
+    ],
     inline : [
         SyntaxKind.CharacterSetNameOrDefault,
         SyntaxKind.CollationNameOrDefault,

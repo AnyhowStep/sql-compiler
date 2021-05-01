@@ -36,11 +36,14 @@ export interface CompiledShape {
 export interface CompiledGrammar {
     tokens : string[];
     extras : string[];
+    lineBreakToken : string;
     cannotUnexpect : string[];
 
+    noLineBreak : string[];
     inline : string[];
     start : string;
     extrasRuleName : string|undefined;
+    extrasNoLineBreakRuleName : string|undefined;
     rules : CompiledRule[];
 
     ruleName2Label : Record<string, string>;

@@ -1,5 +1,5 @@
 
-import {Rule} from "../grammar-builder";
+import {Rule, GrammarConfig} from "../grammar-builder";
 
 export interface MySqlRuleCollection {
     SourceFile : Rule,
@@ -104,12 +104,6 @@ export interface MySqlRuleCollection {
     IdentTuple2 : Rule,
     TableIdentifierTuple : Rule
 }
-export interface MySqlGrammar {
-    tokens : string[];
-    extras : string[];
-    cannotUnexpect : string[];
-
-    inline : string[];
-    start : string;
+export interface MySqlGrammar extends GrammarConfig {
     rules : MySqlRuleCollection;
 }

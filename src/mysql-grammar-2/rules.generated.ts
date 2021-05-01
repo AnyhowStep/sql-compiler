@@ -2,7 +2,7 @@ export * from "./expression/bit-expression";
 export * from "./expression/boolean-primary-expression";
 export * from "./expression/expression";
 export * from "./expression/predicate";
-export * from "./expression/simple-expressiong";
+export * from "./expression/simple-expression";
 export * from "./identifier/ident";
 export * from "./identifier/table-identifier";
 export * from "./misc/character-set/character-set";

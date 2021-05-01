@@ -1,0 +1,7 @@
+CREATE 0e0
+-----
+(SourceFile[0, 10]
+  (Unexpected CREATE[0, 6])
+  (WhiteSpace[6, 7])
+  (Unexpected RealLiteral[7, 10])
+)

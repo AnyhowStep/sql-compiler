@@ -250,7 +250,16 @@ class MyStateSetImpl implements MyStateSet {
             const state = this.states[index];
 
             if (isFinished(state)) {
-                const completedAllExpecting = complete(maxErrorCount, grammar, state, getStatesExpecting, tryGetState, tryGetFinishedStates, addState);
+                const completedAllExpecting = complete(
+                    maxErrorCount,
+                    grammar,
+                    tokens,
+                    state,
+                    getStatesExpecting,
+                    tryGetState,
+                    tryGetFinishedStates,
+                    addState
+                );
                 if (completedAllExpecting) {
                     this.states.splice(index, 1);
                     this.closed.push(state);
@@ -386,12 +395,14 @@ function isAllError (state : Pick<MyState["data"], "children">) : boolean {
 
 export function complete2 (
     grammar : MyGrammar,
+    tokens : MyToken[],
     state : MyState,
     other : MyState,
     tryGetState : TryGetStateDelegate,
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
     addState : (state : MyState) => void
 ) {
+
     if (other.rule.name == "BinLogStatement" && other.dot == 1) {
         other;
     }
@@ -435,7 +446,7 @@ export function complete2 (
              *
              * So, we lose State B errors.
              */
-            nextIdent = other.ident + "-" + state.rule.runTimeId;
+            //nextIdent = other.ident + "-" + state.rule.runTimeId;
         } else if (/\$optional\$\d+\$repeat1\$\d+$/.test(state.rule.name)) {
             return;
         }
@@ -458,10 +469,23 @@ export function complete2 (
     }
 
     if (state.errorCount > 0) {
-        const finished = tryGetFinishedStates(state.rule, state.startTokenIndex);
-        if (finished.some(f => f.tokenIndex == state.tokenIndex && f.errorCount <= state.errorCount)) {
-            //A derivation exists that has fewer errors than this derivation.
-            return;
+        if (
+            state.tokenIndex == tokens.length &&
+            (
+                other.rule.name == grammar.start ||
+                other.rule.name.startsWith(grammar.start + "$")
+            )
+        ) {
+            //Do nothing
+            //This derivation may or may not be good,
+            //But it does lead to a completed result.
+        } else {
+            const finished = tryGetFinishedStates(state.rule, state.startTokenIndex);
+            if (finished.some(f => f.tokenIndex == state.tokenIndex && f.errorCount <= state.errorCount)) {
+
+                //A derivation exists that has fewer errors than this derivation.
+                return;
+            }
         }
     }
 
@@ -496,12 +520,52 @@ export function complete2 (
         ),
     };
 
+    const shouldInline = stateData.syntaxKind.includes("$") || grammar.inline.has(stateData.syntaxKind);
     const nextData = (
-        stateData.syntaxKind.includes("$") || grammar.inline.has(stateData.syntaxKind) ?
+        shouldInline ?
         inlineChild(grammar, other.data, stateData) :
         pushChild(grammar, other.data, stateData)
     );
 
+    const lastToken = tryGetLastLineBreakToken(grammar, other.data);
+    const firstToken = tryGetFirstNonExtraToken(grammar, stateData);
+
+    if (
+        lastToken != undefined &&
+        firstToken != undefined &&
+        lastToken.tokenKind == grammar.lineBreakToken &&
+        firstToken.errorKind == "Expected"
+    ) {
+        /**
+         * Give,
+         * ```sql
+         *  CREATE SCHEMA 0e0
+         *
+         * ```
+         *
+         * We can either error before the line break, or after the line break.
+         * We prefer to error before line breaks.
+         */
+        return;
+    }
+
+    let errorCount = other.errorCount + state.errorCount;
+    if (
+        !shouldInline &&
+        firstToken != undefined &&
+        firstToken.errorKind != undefined
+    ) {
+        //Penalize starting a syntaxNode with an error
+        errorCount += 0.1;
+    } else if (
+        other.rule.name == grammar.start &&
+        other.dot == 0 &&
+        firstToken != undefined &&
+        firstToken.errorKind != undefined
+    ) {
+        //Penalize starting start syntaxNode with an error
+        errorCount += 0.1;
+    }
 
     const nextState : MyState = {
         rule : other.rule,
@@ -510,7 +574,7 @@ export function complete2 (
         startTokenIndex : other.startTokenIndex,
 
         data : nextData,
-        errorCount : other.errorCount + state.errorCount,
+        errorCount,
 
         ident : nextIdent,
         edges : [state],
@@ -526,6 +590,7 @@ export function complete2 (
 export function complete (
     maxErrorCount : number,
     grammar : MyGrammar,
+    tokens : MyToken[],
     state : MyState,
     getStatesExpecting : GetStatesExpectingDelegate,
     tryGetState : TryGetStateDelegate,
@@ -572,6 +637,7 @@ export function complete (
         }
         complete2(
             grammar,
+            tokens,
             state,
             other,
             tryGetState,
@@ -613,6 +679,7 @@ export function predictRule (
 
             complete2(
                 grammar,
+                tokens,
                 f,
                 state,
                 tryGetState,
@@ -981,7 +1048,7 @@ export function skipUnexpected (
         }
 
         if (grammar.extrasRuleName != undefined && state.rule.name.startsWith(grammar.extrasRuleName)) {
-            continue;
+            //continue;
         }
 
         const expect = state.rule.symbols[state.dot];
@@ -1058,6 +1125,55 @@ export function skipUnexpected (
         if (tryGetState(state.rule, state.dot, state.tokenIndex+1, state.startTokenIndex, state.ident) != undefined) {
             continue;
         }
+
+        if (
+            (
+                grammar.extrasRuleName != undefined && state.rule.name.startsWith(grammar.extrasRuleName) ||
+                grammar.extrasNoLineBreakRuleName != undefined && state.rule.name.startsWith(grammar.extrasNoLineBreakRuleName)
+            ) &&
+            /\$item\$\d+$/.test(state.rule.name)
+        ) {
+            /**
+             * Edge case with extras.
+             * `(LineBreak)(Identifier)`
+             *
+             * If we use `state.dot`, we will still expect an extra token.
+             * We will always have `(Unexpected Identifier)(Expected WhiteSpace)`
+             *
+             * So, we just skip the expectation entirely.
+             *
+             * This sort-of combines `skipUnexpected()` and `skipExpectation()`.
+             * @todo Maybe add a `skipUnexpectedExpectation()` function?
+             * @todo Could this be useful for other rules?
+             *
+             * We need to add **two** next states for extras here.
+             */
+
+            const nextState : MyState = {
+                rule : state.rule,
+                dot : state.dot+1,
+                tokenIndex : state.tokenIndex+1,
+                startTokenIndex : state.startTokenIndex,
+
+                data : push(
+                    state.data,
+                    {
+                        ...skippedToken,
+                        errorKind : "Unexpected",
+                        text : skippedToken.text,
+                        expectedTokenKind : expect.tokenKind,
+                    }
+                ),
+                errorCount : state.errorCount+1,
+
+                ident : state.ident,
+                edges : [state],
+            };
+            //state.hasNextState = true;
+            ++addStateSkipUnexpected;
+            addState(nextState);
+        }
+
         const nextState : MyState = {
             rule : state.rule,
             dot : state.dot,
@@ -1073,7 +1189,7 @@ export function skipUnexpected (
                     expectedTokenKind : expect.tokenKind,
                 }
             ),
-            errorCount : state.errorCount+0.5,
+            errorCount : state.errorCount+1,
 
             ident : state.ident,
             edges : [state],
@@ -1082,6 +1198,58 @@ export function skipUnexpected (
         ++addStateSkipUnexpected;
         addState(nextState);
     }
+}
+
+export function tryGetLastLineBreakToken (grammar : MyGrammar, node : MySyntaxNode) : MyToken|undefined {
+    if (node.children.length == 0) {
+        return undefined;
+    }
+
+    for (let i=node.children.length-1; i>=0; --i) {
+        const child = node.children[i];
+        if ("tokenKind" in child) {
+            if (child.tokenKind == grammar.lineBreakToken) {
+                return child;
+            }
+
+            if (grammar.extras.has(child.tokenKind)) {
+                continue;
+            }
+
+            return undefined;
+        } else {
+            const result = tryGetLastLineBreakToken(grammar, child);
+            if (result != undefined) {
+                return result;
+            }
+        }
+    }
+
+    return undefined;
+}
+
+export function tryGetFirstNonExtraToken (grammar : MyGrammar, node : MySyntaxNode) : MyToken|undefined {
+    if (node.children.length == 0) {
+        return undefined;
+    }
+
+    //eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i=0; i<node.children.length; ++i) {
+        const child = node.children[i];
+        if ("tokenKind" in child) {
+            if (grammar.extras.has(child.tokenKind)) {
+                continue;
+            }
+            return child;
+        } else {
+            const result = tryGetFirstNonExtraToken(grammar, child);
+            if (result != undefined) {
+                return result;
+            }
+        }
+    }
+
+    return undefined;
 }
 
 /**
@@ -1098,7 +1266,8 @@ export function skipExpectation (
     /**
      * We go backwards so we do not iterate over our new insertions
      */
-    for (let i=states.length-1; i>=startIndex; --i) {
+    //for (let i=states.length-1; i>=startIndex; --i) {
+    for (let i=startIndex; i<states.length; ++i) {
         const state = states[i];
         if (isFinished(state)) {
             continue;
@@ -1173,6 +1342,29 @@ export function skipExpectation (
         if (grammar.extrasRuleName != undefined && state.rule.name.startsWith(grammar.extrasRuleName)) {
             //continue;
         }
+
+        if (grammar.noLineBreak.has(state.rule.name)) {
+            if (token.tokenKind != grammar.lineBreakToken && grammar.extras.has(token.tokenKind)) {
+                continue;
+            }
+        } else {
+            if (grammar.extras.has(token.tokenKind)) {
+                continue;
+            }
+        }
+        // if (!grammar.noExtras.has(state.rule.name) && grammar.extras.has(token.tokenKind)) {
+        //     /**
+        //      * Given the SQL, `DELIMITER   `
+        //      * We get the tokens `DelimiterSpace, WhiteSpace`
+        //      *
+        //      * We have the following parses,
+        //      * + `DelimiterSpace, (Expected CustomDelimiter), WhiteSpace`
+        //      * + `DelimiterSpace, WhiteSpace, (Expected CustomDelimiter)`
+        //      *
+        //      * We should prefer the latter.
+        //      */
+        //     continue;
+        // }
 
         ++addStateSkipExpectation;
         addState(nextState);

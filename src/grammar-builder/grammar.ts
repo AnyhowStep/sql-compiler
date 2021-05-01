@@ -246,12 +246,23 @@ export type Rule =
     | TokenSymbolRule
 ;
 
-export interface Grammar {
+export interface GrammarConfig {
     tokens : string[];
+    /**
+     * Extras including line break token
+     */
     extras : string[];
+    lineBreakToken : string;
     cannotUnexpect : string[];
 
+    /**
+     * Extras for specified rules will not contain line break token
+     */
+    noLineBreak : string[];
     inline : string[];
     start : string;
+}
+
+export interface Grammar extends GrammarConfig {
     rules : Record<string, Rule>;
 }

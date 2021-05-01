@@ -2,49 +2,16 @@ BINLOG CREATE SCHEMA D
 
 -----
 (SourceFile[0, 23]
-  (statement[]: TrailingStatement[0, 7]
-    (statement: BinLogStatement[0, 7]
-      (binLogToken: BINLOG[0, 6])
-      (WhiteSpace[6, 7])
-      (Expected str: StringLiteral[7, 7])
-    )
-  )
-  (Unexpected CREATE[7, 13])
-  (WhiteSpace[13, 14])
-  (Unexpected SCHEMA[14, 20])
-  (WhiteSpace[20, 21])
-  (Unexpected Identifier[21, 22])
-  (LineBreak[22, 23])
-)
-
-(SourceFile[0, 23]
-  (statement[]: TrailingStatement[0, 14]
-    (statement: BinLogStatement[0, 14]
-      (binLogToken: BINLOG[0, 6])
-      (WhiteSpace[6, 7])
-      (Unexpected CREATE[7, 13])
+  (Unexpected BINLOG[0, 6])
+  (WhiteSpace[6, 7])
+  (statement[]: TrailingStatement[7, 22]
+    (statement: CreateSchemaStatement[7, 22]
+      (createToken: CREATE[7, 13])
       (WhiteSpace[13, 14])
-      (Expected str: StringLiteral[14, 14])
-    )
-  )
-  (Unexpected SCHEMA[14, 20])
-  (WhiteSpace[20, 21])
-  (Unexpected Identifier[21, 22])
-  (LineBreak[22, 23])
-)
-
-(SourceFile[0, 23]
-  (statement[]: TrailingStatement[0, 21]
-    (statement: BinLogStatement[0, 21]
-      (binLogToken: BINLOG[0, 6])
-      (WhiteSpace[6, 7])
-      (Unexpected CREATE[7, 13])
-      (WhiteSpace[13, 14])
-      (Unexpected SCHEMA[14, 20])
+      (schemaToken: SCHEMA[14, 20])
       (WhiteSpace[20, 21])
-      (Expected str: StringLiteral[21, 21])
+      (identifier: Identifier[21, 22])
     )
   )
-  (Unexpected Identifier[21, 22])
   (LineBreak[22, 23])
 )

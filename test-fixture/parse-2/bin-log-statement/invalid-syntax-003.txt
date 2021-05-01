@@ -2,52 +2,13 @@ CREATE BINLOG 'aGVsbG8='
 
 -----
 (SourceFile[0, 25]
-  (statement[]: TrailingStatement[0, 13]
-    (statement: CreateSchemaStatement[0, 13]
-      (createToken: CREATE[0, 6])
-      (WhiteSpace[6, 7])
-      (Expected schemaToken: SCHEMA[7, 7])
-      (identifier: BINLOG[7, 13])
-    )
-  )
-  (WhiteSpace[13, 14])
-  (Unexpected StringLiteral[14, 24])
-  (LineBreak[24, 25])
-)
-
-(SourceFile[0, 25]
-  (statement[]: TrailingStatement[0, 24]
-    (statement: CreateSchemaStatement[0, 24]
-      (createToken: CREATE[0, 6])
-      (WhiteSpace[6, 7])
-      (Expected schemaToken: SCHEMA[7, 7])
-      (identifier: BINLOG[7, 13])
+  (Unexpected CREATE[0, 6])
+  (WhiteSpace[6, 7])
+  (statement[]: TrailingStatement[7, 24]
+    (statement: BinLogStatement[7, 24]
+      (binLogToken: BINLOG[7, 13])
       (WhiteSpace[13, 14])
-      (createSchemaOptionRepeat1: CreateSchemaOptionRepeat1[14, 24]
-        (item[]: DefaultCharacterSet[14, 24]
-          (Expected characterSetToken[]: CHARSET[14, 14])
-          (characterSetName: StringLiteral[14, 24])
-        )
-      )
-    )
-  )
-  (LineBreak[24, 25])
-)
-
-(SourceFile[0, 25]
-  (statement[]: TrailingStatement[0, 24]
-    (statement: CreateSchemaStatement[0, 24]
-      (createToken: CREATE[0, 6])
-      (WhiteSpace[6, 7])
-      (Expected schemaToken: SCHEMA[7, 7])
-      (identifier: BINLOG[7, 13])
-      (WhiteSpace[13, 14])
-      (createSchemaOptionRepeat1: CreateSchemaOptionRepeat1[14, 24]
-        (item[]: DefaultCollate[14, 24]
-          (Expected collateToken: COLLATE[14, 14])
-          (collationName: StringLiteral[14, 24])
-        )
-      )
+      (str: StringLiteral[14, 24])
     )
   )
   (LineBreak[24, 25])
