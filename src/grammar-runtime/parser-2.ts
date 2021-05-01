@@ -567,25 +567,22 @@ export function complete2 (
         errorCount += 0.1;
     }
 
+    if (state.rule.name == "StatementTail") {
+        other;
+    }
     if (
-        (
-            state.rule.name == grammar.extrasRuleName ||
-            state.rule.name == grammar.extrasNoLineBreakRuleName
-        ) &&
         other.data.children.length > 0 &&
         state.data.children.length > 0
     ) {
         const lastToken = getLastToken(other.data);
-        /**
-         * Should always be a `MyToken`
-         */
-        const firstToken = state.data.children[0] as MyToken<string>;
+        const firstChild = state.data.children[0];
 
         if (
+            "tokenKind" in firstChild &&
             lastToken.errorKind == "Expected" &&
-            firstToken.errorKind == "Unexpected" &&
+            firstChild.errorKind == "Unexpected" &&
             lastToken.start == lastToken.end &&
-            firstToken.start != firstToken.end
+            firstChild.start != firstChild.end
         ) {
             /**
              * We can combine the two errors into one.
@@ -594,8 +591,8 @@ export function complete2 (
                 other.data,
                 {
                     ...lastToken,
-                    end : firstToken.end,
-                    text : firstToken.text,
+                    end : firstChild.end,
+                    text : firstChild.text,
                 }
             );
             const newStateData : MySyntaxNode = {
