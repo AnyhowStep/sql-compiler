@@ -2,12 +2,17 @@
 `$$`
 -----
 (SourceFile[0, 13]
-  (statement[]: DelimiterStatement[0, 10]
-    (delimiterStart: DelimiterSpace[0, 10])
-    (Expected customDelimiter: CustomDelimiter[10, 10])
+  (statement[]: TrailingStatement[0, 13]
+    (statement: Select[0, 13]
+      (Expected selectToken: SELECT[0, 10])
+      (LineBreak[10, 11])
+      (selectItemList1: SelectItemList1[11, 13]
+        (item[]: ExpressionSelectItem[11, 13]
+          (expression: Identifier[11, 13])
+        )
+      )
+    )
   )
-  (LineBreak[10, 11])
-  (Unexpected Identifier[11, 13])
 )
 
 -----
@@ -15,11 +20,16 @@
 `$$`
 -----
 (SourceFile[0, 16]
-  (statement[]: DelimiterStatement[0, 13]
-    (delimiterStart: DelimiterSpace[0, 10])
-    (WhiteSpace[10, 13])
-    (Expected customDelimiter: CustomDelimiter[13, 13])
+  (statement[]: TrailingStatement[0, 16]
+    (statement: Select[0, 16]
+      (Expected selectToken: SELECT[0, 10])
+      (WhiteSpace[10, 13])
+      (LineBreak[13, 14])
+      (selectItemList1: SelectItemList1[14, 16]
+        (item[]: ExpressionSelectItem[14, 16]
+          (expression: Identifier[14, 16])
+        )
+      )
+    )
   )
-  (LineBreak[13, 14])
-  (Unexpected Identifier[14, 16])
 )

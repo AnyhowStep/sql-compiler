@@ -1,6 +1,6 @@
 import {MyGrammar, MyRule, MyTokenSymbol} from "./grammar";
 import {acceptsToken, inlineChild, isFinished, push, pushChild} from "./parser";
-import {MySyntaxNode, MyToken} from "./syntax-node";
+import {Fields, MySyntaxNode, MyToken} from "./syntax-node";
 
 let addStateScan = 0;
 let addStateSkipUnexpected = 0;
@@ -421,7 +421,7 @@ export function complete2 (
          */
         //return;
     }
-    let nextIdent = (
+    const nextIdent = (
         //state.rule.name == grammar.extrasRuleName ?
         //other.ident :
         //grammar.extrasRuleName != undefined && state.rule.name.startsWith(grammar.extrasRuleName) ?
@@ -565,6 +565,69 @@ export function complete2 (
     ) {
         //Penalize starting start syntaxNode with an error
         errorCount += 0.1;
+    }
+
+    if (
+        (
+            state.rule.name == grammar.extrasRuleName ||
+            state.rule.name == grammar.extrasNoLineBreakRuleName
+        ) &&
+        other.data.children.length > 0 &&
+        state.data.children.length > 0
+    ) {
+        const lastToken = getLastToken(other.data);
+        /**
+         * Should always be a `MyToken`
+         */
+        const firstToken = state.data.children[0] as MyToken<string>;
+
+        if (
+            lastToken.errorKind == "Expected" &&
+            firstToken.errorKind == "Unexpected" &&
+            lastToken.start == lastToken.end &&
+            firstToken.start != firstToken.end
+        ) {
+            /**
+             * We can combine the two errors into one.
+             */
+            const newOtherData : MySyntaxNode = replaceLastToken(
+                other.data,
+                {
+                    ...lastToken,
+                    end : firstToken.end,
+                    text : firstToken.text,
+                }
+            );
+            const newStateData : MySyntaxNode = {
+                ...state.data,
+                children : state.data.children.slice(1),
+            };
+
+            const newNextData = (
+                shouldInline ?
+                inlineChild(grammar, newOtherData, newStateData) :
+                pushChild(grammar, newOtherData, newStateData)
+            );
+            //Combined two errors into one
+            errorCount -= 1;
+
+            const nextState : MyState = {
+                rule : other.rule,
+                dot : other.dot+1,
+                tokenIndex : state.tokenIndex,
+                startTokenIndex : other.startTokenIndex,
+
+                data : newNextData,
+                errorCount,
+
+                ident : nextIdent,
+                edges : [state],
+            };
+
+            ++addStateComplete2;
+            addState(nextState);
+            return;
+        }
     }
 
     const nextState : MyState = {
@@ -1255,6 +1318,106 @@ export function tryGetFirstNonExtraToken (grammar : MyGrammar, node : MySyntaxNo
 }
 
 /**
+ * Assumes `MySyntaxNode` always has at least one child
+ */
+export function getLastToken (node : MySyntaxNode) : MyToken {
+    const child = node.children[node.children.length-1];
+    if ("tokenKind" in child) {
+        return child;
+    } else {
+        return getLastToken(child);
+    }
+}
+
+export function tryGetFirstToken (node : MySyntaxNode) : MyToken|undefined {
+    if (node.children.length == 0) {
+        return undefined;
+    }
+
+    //eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i=0; i<node.children.length; ++i) {
+        const child = node.children[i];
+        if ("tokenKind" in child) {
+            return child;
+        } else {
+            const result = tryGetFirstToken(child);
+            if (result != undefined) {
+                return result;
+            }
+        }
+    }
+
+    return undefined;
+}
+
+export function replaceField (fields : Fields, needle : MySyntaxNode|MyToken, newValue : MySyntaxNode|MyToken) : Fields {
+    const copy = {...fields};
+
+    for (const [key, value] of Object.entries(copy)) {
+        if (value == undefined) {
+            continue;
+        }
+
+        if (value instanceof Array) {
+            for (let i=0; i<value.length; ++i) {
+                const item = value[i];
+                if (item == needle) {
+                    copy[key] = [
+                        ...value.slice(0, i),
+                        newValue,
+                        ...value.slice(i+1),
+                    ];
+                    return copy;
+                }
+            }
+        } else {
+            if (value == needle) {
+                copy[key] = newValue;
+                return copy;
+            }
+        }
+    }
+
+    return copy;
+}
+
+/**
+ * Assumes `MySyntaxNode` always has at least one child
+ */
+export function replaceLastToken (node : MySyntaxNode, newLastToken : MyToken) : MySyntaxNode {
+    const child = node.children[node.children.length-1];
+    if ("tokenKind" in child) {
+        return {
+            ...node,
+            children : [
+                ...node.children.slice(0, node.children.length-1),
+                newLastToken,
+            ],
+            end : newLastToken.end,
+            fields : replaceField(
+                node.fields,
+                child,
+                newLastToken,
+            ),
+        };
+    } else {
+        const newLastSyntaxNode = replaceLastToken(child, newLastToken);
+        return {
+            ...node,
+            children : [
+                ...node.children.slice(0, node.children.length-1),
+                newLastSyntaxNode,
+            ],
+            end : newLastToken.end,
+            fields : replaceField(
+                node.fields,
+                child,
+                newLastSyntaxNode,
+            ),
+        };
+    }
+}
+/**
  * This adds states to the current `stateSet`
  */
 export function skipExpectation (
@@ -1357,32 +1520,35 @@ export function skipExpectation (
              * This could possibly a perf nightmare, though
              */
 
-            if (tryGetState(state.rule, state.dot+1, state.tokenIndex+1, state.startTokenIndex, state.ident) == undefined) {
-/*
-                const nextState : MyState = {
-                    rule : state.rule,
-                    dot : state.dot+1,
-                    tokenIndex : state.tokenIndex+1,
-                    startTokenIndex : state.startTokenIndex,
+            if (
+                !grammar.extras.has(token.tokenKind) &&
+                tryGetState(state.rule, state.dot+1, state.tokenIndex+1, state.startTokenIndex, state.ident) == undefined
+            ) {
 
-                    data : push(
-                        state.data,
-                        {
-                            tokenKind : expect.tokenKind,
-                            text : token.text,
-                            errorKind : "Expected",
-                            start : token.start,
-                            end : token.start,
-                        }
-                    ),
-                    errorCount : state.errorCount+1,
+                // const nextState : MyState = {
+                //     rule : state.rule,
+                //     dot : state.dot+1,
+                //     tokenIndex : state.tokenIndex+1,
+                //     startTokenIndex : state.startTokenIndex,
 
-                    ident : state.ident,
-                    edges : [state],
-                };
+                //     data : push(
+                //         state.data,
+                //         {
+                //             tokenKind : expect.tokenKind,
+                //             text : token.text,
+                //             errorKind : "Expected",
+                //             start : token.start,
+                //             end : token.end,
+                //         }
+                //     ),
+                //     errorCount : state.errorCount+1,
 
-                ++addStateSkipExpectation;
-                addState(nextState);*/
+                //     ident : state.ident,
+                //     edges : [state],
+                // };
+
+                // ++addStateSkipExpectation;
+                // addState(nextState);
             }
         }
 
