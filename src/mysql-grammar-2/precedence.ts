@@ -3,7 +3,7 @@
  *
  * https://dev.mysql.com/doc/refman/5.7/en/operator-precedence.html
  */
-export const precedence = {
+export const Precedence = {
     BitwiseXor : 120,
     Modulo : 110,
     IntegerDivision : 110,
@@ -19,4 +19,15 @@ export const precedence = {
     XOR : 30,
     OR : 20,
     ColonEqual : 10,
+
+    /**
+     * ```
+     *  SELECT 'a' 'b'
+     * ```
+     *
+     * Could be one of the following,
+     * + `SELECT 'a' AS 'b'`
+     * + `SELECT 'ab'`
+     */
+    ConcatenatedTextLiteral : 1,
 };

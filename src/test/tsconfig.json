@@ -14,6 +14,8 @@
         { "path": "../emitter" },
         { "path": "../parser-node-linter" },
         { "path": "../grammar-runtime" },
+        { "path": "../grammar-runtime-2" },
+        { "path": "../grammar-runtime-3" },
         { "path": "../mysql-grammar-2" },
         { "path": "../scanner-2" }
     ],

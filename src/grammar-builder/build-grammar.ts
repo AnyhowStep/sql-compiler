@@ -282,6 +282,11 @@ export function buildRule (
     state.compiledRules.push({
         name : ruleName,
         symbols,
+        precedence : (
+            typeof rule == "string" ?
+            0 :
+            (rule.precedence ?? 0)
+        ),
     });
     return ruleName;
 }

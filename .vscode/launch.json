@@ -32,10 +32,10 @@
       {
         "type": "node",
         "request": "launch",
-        "name": "Attach to Mocha",
+       "name": "Attach to Mocha",
         "program": "${workspaceRoot}/node_modules/.bin/mocha",
         "args": [
-          "${workspaceRoot}/dist/test/expand-parse-emit-get-expansion-path.test.js",
+          "${workspaceRoot}/dist/test/parse-emit.test.js",
           "-u",
           "tdd",
           "--recursive"
@@ -44,6 +44,7 @@
           "EXPAND_CONTENT_FILE": "nested-macro/macro-passes-expr-using-arg.txt",
           "EXPAND_PARSE_EMIT_FILE": "generated/m-(m-(n))(m-(n)(a)-a).txt",
           "EXPAND_PARSE_EMIT_GET_EXPANSION_PATH_FILE": "depth-0/1-0-m-0 copy 3.txt",
+          "PARSE_EMIT_FILE": "statement/alter-table-statement/alter-table-statement/simple.txt"
         },
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen",

@@ -1,0 +1,99 @@
+-- If sql_mode contains IGNORE_SPACE, this fails.
+-- If sql_mode does not contain IGNORE_SPACE, this passes.
+-- However, this should always pass parsing
+-- We can let control-flow analysis find problems here
+CREATE TABLE NOW (X INT);
+
+-----
+(SourceFile[0, 234]
+  (SingleLineComment[0, 49])
+  (LineBreak[49, 50])
+  (SingleLineComment[50, 108])
+  (LineBreak[108, 109])
+  (SingleLineComment[109, 152])
+  (LineBreak[152, 153])
+  (SingleLineComment[153, 207])
+  (LineBreak[207, 208])
+  (statement[]: TrailingStatement[208, 233]
+    (statement: CreateTableStatement[208, 232]
+      (createToken: CREATE[208, 214])
+      (WhiteSpace[214, 215])
+      (tableToken: TABLE[215, 220])
+      (WhiteSpace[220, 221])
+      (tableIdentifier: TableIdentifier[221, 224]
+        (tableName: NOW[221, 224])
+      )
+      (WhiteSpace[224, 225])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[225, 232]
+        (openParenthesesToken: OpenParentheses[225, 226])
+        (item[]: NonGeneratedColumnDefinition[226, 231]
+          (columnIdentifier: ColumnIdentifier[226, 227]
+            (columnName: Identifier[226, 227])
+          )
+          (WhiteSpace[227, 228])
+          (dataType: IntegerDataType[228, 231]
+            (integerToken: INT[228, 231])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[231, 232])
+      )
+    )
+    (semiColonToken: SemiColon[232, 233])
+    (EndOfStatement[233, 233])
+  )
+  (LineBreak[233, 234])
+)
+
+-----
+-- If sql_mode contains IGNORE_SPACE, this fails.
+-- If sql_mode does not contain IGNORE_SPACE, this fails.
+-- However, this should always pass parsing
+-- We can let control-flow analysis/linting find problems here
+CREATE TABLE NOW(X INT);
+
+-----
+(SourceFile[0, 240]
+  (SingleLineComment[0, 49])
+  (LineBreak[49, 50])
+  (SingleLineComment[50, 107])
+  (LineBreak[107, 108])
+  (SingleLineComment[108, 151])
+  (LineBreak[151, 152])
+  (SingleLineComment[152, 214])
+  (LineBreak[214, 215])
+  (statement[]: TrailingStatement[215, 239]
+    (statement: CreateTableStatement[215, 238]
+      (createToken: CREATE[215, 221])
+      (WhiteSpace[221, 222])
+      (tableToken: TABLE[222, 227])
+      (WhiteSpace[227, 228])
+      (tableIdentifier: TableIdentifier[228, 231]
+        (tableName: NOW[228, 231])
+      )
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[231, 238]
+        (openParenthesesToken: OpenParentheses[231, 232])
+        (item[]: NonGeneratedColumnDefinition[232, 237]
+          (columnIdentifier: ColumnIdentifier[232, 233]
+            (columnName: Identifier[232, 233])
+          )
+          (WhiteSpace[233, 234])
+          (dataType: IntegerDataType[234, 237]
+            (integerToken: INT[234, 237])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[237, 238])
+      )
+    )
+    (semiColonToken: SemiColon[238, 239])
+    (EndOfStatement[239, 239])
+  )
+  (LineBreak[239, 240])
+)
+
+-----
+-- This works, regardless of IGNORE_SPACE
+-- Because this syntax **does not expect** an open parentheses.
+-- So, `NOW` is always treated as an identifier here.
+DROP TABLE NOW
+
+-----

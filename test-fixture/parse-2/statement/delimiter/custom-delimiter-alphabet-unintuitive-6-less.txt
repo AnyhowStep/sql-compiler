@@ -1,8 +1,10 @@
-W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;
+W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;X;
+-- timeout 5000
+-- todo, fix perf...
 -----
-(SourceFile[0, 35]
-  (statement[]: LeadingStatement[0, 2]
-    (Unexpected Identifier[0, 1])
+(SourceFile[0, 67]
+  (Unexpected Identifier[0, 1])
+  (statement[]: LeadingStatement[1, 2]
     (semiColonToken: SemiColon[1, 2])
     (EndOfStatement[2, 2])
   )
@@ -19,8 +21,8 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;
     (semiColonToken: SemiColon[6, 7])
     (EndOfStatement[7, 7])
   )
-  (statement[]: LeadingStatement[7, 9]
-    (Unexpected Identifier[7, 8])
+  (Unexpected Identifier[7, 8])
+  (statement[]: LeadingStatement[8, 9]
     (semiColonToken: SemiColon[8, 9])
     (EndOfStatement[9, 9])
   )
@@ -37,8 +39,8 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;
     (semiColonToken: SemiColon[13, 14])
     (EndOfStatement[14, 14])
   )
-  (statement[]: LeadingStatement[14, 16]
-    (Unexpected Identifier[14, 15])
+  (Unexpected Identifier[14, 15])
+  (statement[]: LeadingStatement[15, 16]
     (semiColonToken: SemiColon[15, 16])
     (EndOfStatement[16, 16])
   )
@@ -55,8 +57,8 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;
     (semiColonToken: SemiColon[20, 21])
     (EndOfStatement[21, 21])
   )
-  (statement[]: LeadingStatement[21, 23]
-    (Unexpected Identifier[21, 22])
+  (Unexpected Identifier[21, 22])
+  (statement[]: LeadingStatement[22, 23]
     (semiColonToken: SemiColon[22, 23])
     (EndOfStatement[23, 23])
   )
@@ -73,22 +75,13 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;
     (semiColonToken: SemiColon[27, 28])
     (EndOfStatement[28, 28])
   )
-  (statement[]: LeadingStatement[28, 30]
-    (Unexpected Identifier[28, 29])
+  (Unexpected Identifier[28, 29])
+  (statement[]: TrailingStatement[29, 30]
     (semiColonToken: SemiColon[29, 30])
     (EndOfStatement[30, 30])
   )
-  (statement[]: TrailingStatement[30, 35]
-    (statement: Select[30, 34]
-      (Expected selectToken: SELECT[30, 30])
-      (selectItemList1: SelectItemList1[30, 34]
-        (item[]: ExpressionSelectItem[30, 34]
-          (expression: Identifier[30, 31])
-          (alias: Identifier[31, 34])
-        )
-      )
-    )
-    (semiColonToken: SemiColon[34, 35])
-    (EndOfStatement[35, 35])
-  )
+  (LineBreak[30, 31])
+  (SingleLineComment[31, 46])
+  (LineBreak[46, 47])
+  (SingleLineComment[47, 67])
 )

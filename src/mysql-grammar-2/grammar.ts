@@ -22,6 +22,7 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.Schema,
         SyntaxKind.CharSet,
         SyntaxKind.Ident,
+        SyntaxKind.IdentOrReserved,
         SyntaxKind.StatementTail,
         SyntaxKind.Partition,
         SyntaxKind.CreateSchemaOption,
@@ -38,7 +39,19 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.BitwiseOr,
 
         SyntaxKind.SimpleExpression,
+        SyntaxKind.Literal,
+        SyntaxKind.TextLiteral,
+        SyntaxKind.NumberLiteral,
+
+
         SyntaxKind.SelectStatement,
+
+        SyntaxKind.CharacterSetName,
+        SyntaxKind.CollationName,
+
+        SyntaxKind.CreateTableDefinition,
+        SyntaxKind.ColumnDefinition,
+        SyntaxKind.DataType,
     ],
     start : SyntaxKind.SourceFile,
     rules,

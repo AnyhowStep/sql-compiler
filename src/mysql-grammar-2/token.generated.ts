@@ -625,6 +625,7 @@ export const tokens = [
     "XID",
     "XML",
     "YEAR",
+    "NOW",
     "END_OF_NON_RESERVED_KEYWORD",
     "EndOfFile",
     "UnknownToken",
@@ -638,6 +639,7 @@ export const tokens = [
     "LineBreak",
     "EndOfStatement",
     "StringLiteral",
+    "NationalStringLiteral",
     "HexLiteral",
     "BitLiteral",
     "IntegerLiteral",
@@ -683,7 +685,8 @@ export const tokens = [
     "OpenBrace",
     "CloseBrace",
     "DelimiterSpace",
-    "UNIQUE_KEY"
+    "UNIQUE_KEY",
+    "UnderscoreCharacterSet"
 ];
 
 export enum TokenKind {
@@ -1312,6 +1315,7 @@ export enum TokenKind {
     XID = "XID",
     XML = "XML",
     YEAR = "YEAR",
+    NOW = "NOW",
     END_OF_NON_RESERVED_KEYWORD = "END_OF_NON_RESERVED_KEYWORD",
     EndOfFile = "EndOfFile",
     UnknownToken = "UnknownToken",
@@ -1325,6 +1329,7 @@ export enum TokenKind {
     LineBreak = "LineBreak",
     EndOfStatement = "EndOfStatement",
     StringLiteral = "StringLiteral",
+    NationalStringLiteral = "NationalStringLiteral",
     HexLiteral = "HexLiteral",
     BitLiteral = "BitLiteral",
     IntegerLiteral = "IntegerLiteral",
@@ -1370,7 +1375,8 @@ export enum TokenKind {
     OpenBrace = "OpenBrace",
     CloseBrace = "CloseBrace",
     DelimiterSpace = "DelimiterSpace",
-    UNIQUE_KEY = "UNIQUE_KEY"
+    UNIQUE_KEY = "UNIQUE_KEY",
+    UnderscoreCharacterSet = "UnderscoreCharacterSet"
 }
 
 export const reservedKeywords = [
@@ -1998,7 +2004,8 @@ export const nonReservedKeywords = [
     "XA",
     "XID",
     "XML",
-    "YEAR"
+    "YEAR",
+    "NOW"
 ];
 
 export const extras = [

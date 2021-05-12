@@ -1,0 +1,46 @@
+DELIMITER $$
+CREATE SCHEMA G$$;
+DELIMITER ;
+CREATE SCHEMA G$$;
+
+-----
+(SourceFile[0, 63]
+  (statement[]: DelimiterStatement[0, 12]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (customDelimiter: CustomDelimiter[10, 12])
+  )
+  (LineBreak[12, 13])
+  (statement[]: LeadingStatement[13, 30]
+    (statement: CreateSchemaStatement[13, 28]
+      (createToken: CREATE[13, 19])
+      (WhiteSpace[19, 20])
+      (schemaToken: SCHEMA[20, 26])
+      (WhiteSpace[26, 27])
+      (identifier: Identifier[27, 28])
+    )
+    (customDelimiter: CustomDelimiter[28, 30])
+    (EndOfStatement[30, 30])
+  )
+  (statement[]: LeadingStatement[30, 31]
+    (semiColonToken: SemiColon[30, 31])
+    (EndOfStatement[31, 31])
+  )
+  (LineBreak[31, 32])
+  (statement[]: DelimiterStatement[32, 43]
+    (delimiterStart: DelimiterSpace[32, 42])
+    (customDelimiter: CustomDelimiter[42, 43])
+  )
+  (LineBreak[43, 44])
+  (statement[]: TrailingStatement[44, 62]
+    (statement: CreateSchemaStatement[44, 61]
+      (createToken: CREATE[44, 50])
+      (WhiteSpace[50, 51])
+      (schemaToken: SCHEMA[51, 57])
+      (WhiteSpace[57, 58])
+      (identifier: Identifier[58, 61])
+    )
+    (semiColonToken: SemiColon[61, 62])
+    (EndOfStatement[62, 62])
+  )
+  (LineBreak[62, 63])
+)

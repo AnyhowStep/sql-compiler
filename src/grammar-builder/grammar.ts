@@ -178,7 +178,15 @@ export function alias (alias : string, rule : Rule) : AliasRule {
     };
 }
 
+export function precedence (prec : number, rule : RuleObj) : RuleObj {
+    return {
+        ...rule,
+        precedence : prec,
+    };
+}
+
 export interface RuleBase {
+    precedence? : number,
 }
 
 export interface SeqRule extends RuleBase {

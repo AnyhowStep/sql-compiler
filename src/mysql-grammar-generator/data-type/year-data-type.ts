@@ -9,6 +9,8 @@ import {makeCustomRule} from "../factory";
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6566
  *
  * TODO: Implement support for `SIGNED, UNSIGNED, ZEROFILL`, even though they have no effect?
+ *
+ * This type seems so useless. Max value is 2155.
  */
 makeCustomRule(SyntaxKind.YearDataType)
     .addSubstitution(

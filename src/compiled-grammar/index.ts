@@ -13,6 +13,7 @@ export type CompiledSymbol =
 export interface CompiledRule {
     name : string;
     symbols : CompiledSymbol[];
+    precedence : number;
 }
 
 export interface CompiledQuantity {

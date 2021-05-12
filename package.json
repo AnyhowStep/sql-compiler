@@ -8,7 +8,7 @@
     "test-2": "mocha dist/test/parse-2.test.js -u tdd",
     "coverage": "nyc --reporter=html --reporter=text --reporter=json mocha dist/test -u tdd --recursive",
     "scanner-generator": "ts-node ./src/scanner-generator/generator",
-    "scanner-generator-2": "ts-node ./src/scanner-generator-2/generator",
+    "scanner-generator-2": "ts-node -P ./src/scanner-generator-2/tsconfig.json ./src/scanner-generator-2/generator",
     "syntax-kind-generator": "ts-node ./src/syntax-kind-generator/generator",
     "rule-export-generator": "ts-node ./src/rule-export-generator/generator",
     "syntax-node-generator": "ts-node -P ./src/syntax-node-generator/tsconfig.json ./src/syntax-node-generator/generator",

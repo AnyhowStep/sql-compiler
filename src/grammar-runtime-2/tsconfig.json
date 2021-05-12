@@ -1,0 +1,14 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/grammar-runtime-2",
+        "declarationDir": "../../dist/grammar-runtime-2",
+        "types": []
+    },
+    "references" : [
+        { "path": "../compiled-grammar" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}
