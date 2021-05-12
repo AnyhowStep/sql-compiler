@@ -1,0 +1,15 @@
+{
+    "extends" : "../../tsconfig-base.json",
+    "compilerOptions": {
+        "outDir": "../../dist/compiled-grammar-generator",
+        "declarationDir": "../../dist/compiled-grammar-generator",
+        "types": ["@types/node"]
+    },
+    "references" : [
+        { "path": "../mysql-grammar-2" },
+        { "path": "../grammar-builder" }
+    ],
+    "include" : [
+        "./**/*.ts"
+    ]
+}

@@ -2,6 +2,7 @@ import * as fs from "fs";
 import {tokenKinds} from "./token-kind";
 import {reservedKeywords, nonReservedKeywords} from "./keywords";
 import {extras} from "./extras";
+import * as characterSets from "./character-sets.json";
 
 fs.writeFileSync(
     `${__dirname}/../mysql-grammar-2/token.generated.ts`,
@@ -46,5 +47,14 @@ export enum NonReservedKeyword {
 export enum Extras {
     ${extras.map(extra => `${extra} = ${JSON.stringify(extra)}`).join(",\n    ")}
 }
+`
+);
+
+fs.writeFileSync(
+    `${__dirname}/../scanner-2/character-set.generated.ts`,
+    `
+export const characterSet = new Map([
+    ${characterSets.map(characterSet => `[${JSON.stringify(characterSet.characterSet)}, ${JSON.stringify(characterSet)}]`).join(",\n    ")}
+]);
 `
 );

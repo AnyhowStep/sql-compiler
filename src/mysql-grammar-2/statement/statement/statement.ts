@@ -6,5 +6,6 @@ export const Statement = choice(
     SyntaxKind.BinLogStatement,
     SyntaxKind.CreateSchemaStatement,
     SyntaxKind.CreateTableStatement,
+    SyntaxKind.DropTableStatement,
     SyntaxKind.SelectStatement,
 );

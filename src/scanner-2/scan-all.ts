@@ -1,9 +1,11 @@
-import {MyToken} from "../grammar-runtime";
+import {MyToken} from "../grammar-runtime-3";
 import {CharacterCodes, isDigit, isUnquotedIdentifierCharacter, isWhiteSpace} from "./character-code";
+import {defaultLexerSettings, LexerSettings} from "./lexer-settings";
 import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, tryScanStringCaseInsensitive, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent} from "./scan-util";
 import {TokenKind} from "./token.generated";
 
 export interface LexerState {
+    settings : LexerSettings,
     text : string;
     index : number;
     expectCustomDelimiter : boolean;
@@ -19,13 +21,15 @@ export interface LexerState {
 }
 
 export class MyLexerState implements LexerState {
+    public settings : LexerSettings;
     public text : string;
     public index : number;
     public expectCustomDelimiter : boolean;
     public customDelimiter : string;
     public nextZeroWidthTokenKind : TokenKind|undefined;
 
-    public constructor (text : string) {
+    public constructor (settings : LexerSettings, text : string) {
+        this.settings = settings;
         this.text = text;
         this.index = 0;
         this.expectCustomDelimiter = false;
@@ -46,7 +50,7 @@ export class MyLexerState implements LexerState {
         return result;
     }
     public clone () : LexerState {
-        const result = new MyLexerState(this.text);
+        const result = new MyLexerState(this.settings, this.text);
         result.index = this.index;
         result.expectCustomDelimiter = this.expectCustomDelimiter;
         result.customDelimiter = this.customDelimiter;
@@ -59,9 +63,12 @@ export class MyLexerState implements LexerState {
     }
 }
 
-export function scanAll (text : string) : MyToken[] {
+export function scanAll (settings : Partial<LexerSettings>, text : string) : MyToken[] {
     const result : MyToken[] = [];
-    const state = new MyLexerState(text);
+    const mySettings : LexerSettings = {
+        characterSet : settings.characterSet ?? defaultLexerSettings.characterSet,
+    };
+    const state = new MyLexerState(mySettings, text);
 
     while (!state.isEof(0) || state.nextZeroWidthTokenKind != undefined) {
         const start = state.index;
@@ -149,6 +156,17 @@ export function scan (state : LexerState) : TokenKind {
             state.advance();
             scanQuotedString(state);
             return TokenKind.HexLiteral;
+        } else {
+            return scanOthers(state);
+        }
+    }
+
+    //https://dev.mysql.com/doc/refman/8.0/en/charset-national.html
+    if (ch == CharacterCodes.n || ch == CharacterCodes.N) {
+        if (state.peek(1) == CharacterCodes.singleQuote) {
+            state.advance();
+            scanQuotedString(state);
+            return TokenKind.NationalStringLiteral;
         } else {
             return scanOthers(state);
         }

@@ -3,11 +3,13 @@
     "compilerOptions": {
         "outDir": "../../dist/scanner-generator-2",
         "declarationDir": "../../dist/scanner-generator-2",
-        "types": ["@types/node"]
+        "types": ["@types/node"],
+        "resolveJsonModule": true
     },
     "references" : [
     ],
     "include" : [
-        "./**/*.ts"
+        "./**/*.ts",
+        "./**/*.json"
     ]
 }

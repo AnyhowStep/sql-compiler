@@ -2,8 +2,8 @@ CREATE; CREATE SCHEMA A
 
 -----
 (SourceFile[0, 24]
-  (statement[]: LeadingStatement[0, 7]
-    (Unexpected CREATE[0, 6])
+  (Unexpected CREATE[0, 6])
+  (statement[]: LeadingStatement[6, 7]
     (semiColonToken: SemiColon[6, 7])
     (EndOfStatement[7, 7])
   )

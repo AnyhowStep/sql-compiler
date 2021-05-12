@@ -1,6 +1,6 @@
 import {CompiledShape} from "../compiled-grammar";
 import {MyGrammar, MyRule, MyTokenSymbol} from "./grammar";
-import {Fields, MySyntaxNode, MyToken} from "./syntax-node";
+import {Fields, MySyntaxNode, MyToken, MyToken2} from "./syntax-node";
 
 export interface MyState {
     readonly rule : MyRule;
@@ -41,6 +41,7 @@ export function makeState0 (grammar : MyGrammar) : MyStateSet {
                 end : -1,
 
                 fields : grammar.ruleName2Fields[grammar.start],
+                precedence : rule.precedence,
             },
             errorCount : 0,
 
@@ -103,6 +104,7 @@ export function predictRule (
             end : -1,
 
             fields : grammar.ruleName2Fields[expect],
+            precedence : rule.precedence,
         },
         errorCount : 0,
 
@@ -621,7 +623,7 @@ function mergeFields (aShape : CompiledShape, a : Fields, b : Fields) : Fields {
     return result;
 }
 
-export function push (data : MySyntaxNode, token : MyToken) : MySyntaxNode {
+export function push (data : MySyntaxNode, token : MyToken2) : MySyntaxNode {
     return {
         syntaxKind : data.syntaxKind,
         children : [...data.children, token],
@@ -630,6 +632,7 @@ export function push (data : MySyntaxNode, token : MyToken) : MySyntaxNode {
         end : data.end,
 
         fields : data.fields,
+        precedence : data.precedence,
     };
 
     /*
@@ -720,6 +723,7 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
             end : parent.end,
 
             fields : parent.fields,
+            precedence : parent.precedence,
         };
     } else {
         const parentShape = grammar.ruleName2Shape[grammar.ruleName2Alias[parent.syntaxKind] ?? parent.syntaxKind];
@@ -740,6 +744,7 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
             end : parent.end,
 
             fields : mergeFields(parentShape, parent.fields, newFields),
+            precedence : parent.precedence,
         };
     }
 }
@@ -757,6 +762,7 @@ export function inlineChild (grammar : MyGrammar, parent : MySyntaxNode, child :
             end : child.end,
 
             fields : mergeFields(parentShape, parent.fields, child.fields),
+            precedence : parent.precedence,
         };
     } else {
         const field = parentShape.fields[childLabel];
@@ -793,6 +799,7 @@ export function inlineChild (grammar : MyGrammar, parent : MySyntaxNode, child :
                 mergeFields(parentShape, parent.fields, child.fields),
                 newFields
             ),
+            precedence : parent.precedence,
         };
     }
 }
@@ -827,7 +834,10 @@ export function scan (
         tokenIndex : state.tokenIndex+1,
         startTokenIndex : state.startTokenIndex,
 
-        data : push(state.data, token),
+        data : push(state.data, {
+            ...token,
+            tokenIndex : state.tokenIndex,
+        }),
         errorCount : state.errorCount,
 
         ident : state.ident,
@@ -903,6 +913,7 @@ export function skipUnexpected (
                     errorKind : "Unexpected",
                     text : skippedToken.text,
                     expectedTokenKind : expect.tokenKind,
+                    tokenIndex : state.tokenIndex,
                 }
             ),
             errorCount : state.errorCount+1,
@@ -983,6 +994,7 @@ export function skipExpectation (
                     errorKind : "Expected",
                     start : token.start,
                     end : token.start,
+                    tokenIndex : -1,
                 }
             ),
             errorCount : state.errorCount+1,

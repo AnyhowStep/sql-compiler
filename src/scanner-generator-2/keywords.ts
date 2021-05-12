@@ -345,6 +345,15 @@ const nonReservedKeywords = [
     "SUSPEND",
     "SWAPS",
     "SWITCHES",
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L612
+     *
+     * The following is valid SQL,
+     * ```sql
+     *  CREATE TABLE TABLES (TABLES INT);
+     *  DROP TABLES TABLES;
+     * ```
+     */
     "TABLES",
     "TABLESPACE",
     "TABLE_CHECKSUM",
@@ -389,7 +398,24 @@ const nonReservedKeywords = [
     "XA",
     "XID",
     "XML",
-    "YEAR"
+    "YEAR",
+
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L719
+     *
+     * https://dev.mysql.com/doc/refman/5.7/en/function-resolution.html
+     *
+     * https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+     *
+     * There are a few keywords that behave **very** strangely with the `sql_mode` `IGNORE_SPACE`.
+     *
+     * It is best to pretend these are unreserved keywords during parsing.
+     * Then, use control-flow analysis to determine if certain syntax is valid or not.
+     *
+     * `CREATE TABLE NOW(NOW INT)` vs
+     * `CREATE TABLE NOW (NOW INT)`
+     */
+    "NOW",
 ];
 
 /**

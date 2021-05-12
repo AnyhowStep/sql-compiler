@@ -1,0 +1,33 @@
+CREATE TABLE T (NOW INT);
+
+-----
+(SourceFile[0, 26]
+  (statement[]: TrailingStatement[0, 25]
+    (statement: CreateTableStatement[0, 24]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (tableToken: TABLE[7, 12])
+      (WhiteSpace[12, 13])
+      (tableIdentifier: TableIdentifier[13, 14]
+        (tableName: Identifier[13, 14])
+      )
+      (WhiteSpace[14, 15])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[15, 24]
+        (openParenthesesToken: OpenParentheses[15, 16])
+        (item[]: NonGeneratedColumnDefinition[16, 23]
+          (columnIdentifier: ColumnIdentifier[16, 19]
+            (columnName: NOW[16, 19])
+          )
+          (WhiteSpace[19, 20])
+          (dataType: IntegerDataType[20, 23]
+            (integerToken: INT[20, 23])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[23, 24])
+      )
+    )
+    (semiColonToken: SemiColon[24, 25])
+    (EndOfStatement[25, 25])
+  )
+  (LineBreak[25, 26])
+)

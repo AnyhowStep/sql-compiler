@@ -445,8 +445,19 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
 
     const keywordTokenKind = tryGetKeywordTokenKind(str);
     if (keywordTokenKind == undefined) {
-        state.index = tmp.index;
-        return TokenKind.Identifier;
+        if (str.startsWith("_")) {
+            const maybeCharacterSet = str.substr(1);
+            if (state.settings.characterSet.has(maybeCharacterSet)) {
+                state.index = tmp.index;
+                return TokenKind.UnderscoreCharacterSet;
+            } else {
+                state.index = tmp.index;
+                return TokenKind.Identifier;
+            }
+        } else {
+            state.index = tmp.index;
+            return TokenKind.Identifier;
+        }
     }
 
     state.index = tmp.index;

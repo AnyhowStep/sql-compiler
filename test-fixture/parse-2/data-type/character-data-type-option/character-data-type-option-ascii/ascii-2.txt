@@ -1,0 +1,29 @@
+CREATE TABLE T (X CHAR ascii);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[23, 28]`
+`(asciiToken: ASCII[23, 28])`
+
+-----
+CREATE TABLE T (X CHAR ASCII bin);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[23, 28]`
+`(asciiToken: ASCII[23, 28])`
+`(Unexpected Identifier[29, 32])`
+
+-----
+CREATE TABLE T (X CHAR bin ASCII);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[27, 32]`
+`(Unexpected Identifier[23, 26])`
+`(asciiToken: ASCII[27, 32])`
+
+-----
+CREATE TABLE T (X CHAR BINARY asc);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionBinary[23, 29]`
+`(binaryToken: BINARY[23, 29])`
+`(Unexpected ASC[30, 33])`

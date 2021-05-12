@@ -10,13 +10,18 @@ export const DefaultCharacterSet = seq(
     field("characterSetName", SyntaxKind.CharacterSetNameOrDefault),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7016
+ */
+export const CharacterSetName = tokenSymbol2(
+    identifier,
+    TokenKind.BINARY,
+    TokenKind.StringLiteral,
+);
+
 export const CharacterSetNameOrDefault = choice(
     TokenKind.DEFAULT,
-    tokenSymbol2(
-        identifier,
-        TokenKind.BINARY,
-        TokenKind.StringLiteral,
-    ),
+    SyntaxKind.CharacterSetName,
 );
 
 export const CharSet = choice(

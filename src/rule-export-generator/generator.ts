@@ -15,6 +15,7 @@ function getFilesRecursive (directory : string, result : string[]) : string[] {
 
 const root = `${__dirname}/../mysql-grammar-2`;
 const directoryPaths = [
+    "data-type",
     "expression",
     "identifier",
     "misc",

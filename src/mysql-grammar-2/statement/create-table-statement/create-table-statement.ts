@@ -8,7 +8,7 @@ export const CreateTableStatement = seq(
     field("tableToken", TokenKind.TABLE),
     field("ifNotExists", optional(SyntaxKind.IfNotExists)),
     field("tableIdentifier", SyntaxKind.TableIdentifier),
-    field("createTableDefinitionList", SyntaxKind.CreateTableDefinitionTuple1),
-    field("createTableOptions", optional(SyntaxKind.CreateTableOptionSemiList1)),
+    field("createTableDefinitionTuple1", SyntaxKind.CreateTableDefinitionTuple1),
+    field("createTableOptionSemiList1", optional(SyntaxKind.CreateTableOptionSemiList1)),
     field("partition", optional(SyntaxKind.Partition)),
 );

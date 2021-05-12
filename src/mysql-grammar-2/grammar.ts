@@ -2,7 +2,6 @@ import {MySqlGrammar} from "./mysql-grammar.generated";
 import {SyntaxKind} from "./syntax-kind.generated";
 import {tokens, extras, TokenKind} from "./token.generated";
 import * as rules from "./rules.generated";
-import {buildGrammar, Grammar} from "../grammar-builder";
 
 export const mySqlGrammar : MySqlGrammar = {
     tokens,
@@ -22,6 +21,7 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.Schema,
         SyntaxKind.CharSet,
         SyntaxKind.Ident,
+        SyntaxKind.IdentOrReserved,
         SyntaxKind.StatementTail,
         SyntaxKind.Partition,
         SyntaxKind.CreateSchemaOption,
@@ -38,9 +38,22 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.BitwiseOr,
 
         SyntaxKind.SimpleExpression,
+        SyntaxKind.Literal,
+        SyntaxKind.TextLiteral,
+        SyntaxKind.NumberLiteral,
+
+
         SyntaxKind.SelectStatement,
+
+        SyntaxKind.CharacterSetName,
+        SyntaxKind.CollationName,
+
+        SyntaxKind.CreateTableDefinition,
+        SyntaxKind.ColumnDefinition,
+        SyntaxKind.DataType,
+        SyntaxKind.CharacterDataType,
+        SyntaxKind.CharacterDataTypeOption,
     ],
     start : SyntaxKind.SourceFile,
     rules,
 };
-export const compiledGrammar = buildGrammar(mySqlGrammar as unknown as Grammar);

@@ -1,0 +1,219 @@
+-- Should fail
+CREATE TABLE _utf8mb4 (X INT)
+
+-----
+(SourceFile[0, 45]
+  (SingleLineComment[0, 14])
+  (LineBreak[14, 15])
+  (statement[]: TrailingStatement[15, 44]
+    (statement: CreateTableStatement[15, 44]
+      (createToken: CREATE[15, 21])
+      (WhiteSpace[21, 22])
+      (tableToken: TABLE[22, 27])
+      (WhiteSpace[27, 28])
+      (tableIdentifier: TableIdentifier[28, 36]
+        (Expected dotToken: Dot[28, 28])
+        (tableName: UnderscoreCharacterSet[28, 36])
+      )
+      (WhiteSpace[36, 37])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[37, 44]
+        (openParenthesesToken: OpenParentheses[37, 38])
+        (item[]: NonGeneratedColumnDefinition[38, 43]
+          (columnIdentifier: ColumnIdentifier[38, 39]
+            (columnName: Identifier[38, 39])
+          )
+          (WhiteSpace[39, 40])
+          (dataType: IntegerDataType[40, 43]
+            (integerToken: INT[40, 43])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[43, 44])
+      )
+    )
+  )
+  (LineBreak[44, 45])
+)
+
+-----
+-- Should pass
+CREATE TABLE `_utf8mb4` (X INT)
+
+-----
+(SourceFile[0, 47]
+  (SingleLineComment[0, 14])
+  (LineBreak[14, 15])
+  (statement[]: TrailingStatement[15, 46]
+    (statement: CreateTableStatement[15, 46]
+      (createToken: CREATE[15, 21])
+      (WhiteSpace[21, 22])
+      (tableToken: TABLE[22, 27])
+      (WhiteSpace[27, 28])
+      (tableIdentifier: TableIdentifier[28, 38]
+        (tableName: Identifier[28, 38])
+      )
+      (WhiteSpace[38, 39])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[39, 46]
+        (openParenthesesToken: OpenParentheses[39, 40])
+        (item[]: NonGeneratedColumnDefinition[40, 45]
+          (columnIdentifier: ColumnIdentifier[40, 41]
+            (columnName: Identifier[40, 41])
+          )
+          (WhiteSpace[41, 42])
+          (dataType: IntegerDataType[42, 45]
+            (integerToken: INT[42, 45])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[45, 46])
+      )
+    )
+  )
+  (LineBreak[46, 47])
+)
+
+-----
+-- Should pass
+CREATE TABLE _utf8mb42 (X INT)
+
+-----
+(SourceFile[0, 46]
+  (SingleLineComment[0, 14])
+  (LineBreak[14, 15])
+  (statement[]: TrailingStatement[15, 45]
+    (statement: CreateTableStatement[15, 45]
+      (createToken: CREATE[15, 21])
+      (WhiteSpace[21, 22])
+      (tableToken: TABLE[22, 27])
+      (WhiteSpace[27, 28])
+      (tableIdentifier: TableIdentifier[28, 37]
+        (tableName: Identifier[28, 37])
+      )
+      (WhiteSpace[37, 38])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[38, 45]
+        (openParenthesesToken: OpenParentheses[38, 39])
+        (item[]: NonGeneratedColumnDefinition[39, 44]
+          (columnIdentifier: ColumnIdentifier[39, 40]
+            (columnName: Identifier[39, 40])
+          )
+          (WhiteSpace[40, 41])
+          (dataType: IntegerDataType[41, 44]
+            (integerToken: INT[41, 44])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[44, 45])
+      )
+    )
+  )
+  (LineBreak[45, 46])
+)
+
+-----
+-- Should pass
+CREATE TABLE `_utf8mb42` (X INT)
+
+-----
+(SourceFile[0, 48]
+  (SingleLineComment[0, 14])
+  (LineBreak[14, 15])
+  (statement[]: TrailingStatement[15, 47]
+    (statement: CreateTableStatement[15, 47]
+      (createToken: CREATE[15, 21])
+      (WhiteSpace[21, 22])
+      (tableToken: TABLE[22, 27])
+      (WhiteSpace[27, 28])
+      (tableIdentifier: TableIdentifier[28, 39]
+        (tableName: Identifier[28, 39])
+      )
+      (WhiteSpace[39, 40])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[40, 47]
+        (openParenthesesToken: OpenParentheses[40, 41])
+        (item[]: NonGeneratedColumnDefinition[41, 46]
+          (columnIdentifier: ColumnIdentifier[41, 42]
+            (columnName: Identifier[41, 42])
+          )
+          (WhiteSpace[42, 43])
+          (dataType: IntegerDataType[43, 46]
+            (integerToken: INT[43, 46])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[46, 47])
+      )
+    )
+  )
+  (LineBreak[47, 48])
+)
+
+-----
+-- Should pass
+CREATE TABLE S._utf8mb4 (X INT)
+
+-----
+(SourceFile[0, 47]
+  (SingleLineComment[0, 14])
+  (LineBreak[14, 15])
+  (statement[]: TrailingStatement[15, 46]
+    (statement: CreateTableStatement[15, 46]
+      (createToken: CREATE[15, 21])
+      (WhiteSpace[21, 22])
+      (tableToken: TABLE[22, 27])
+      (WhiteSpace[27, 28])
+      (tableIdentifier: TableIdentifier[28, 38]
+        (schemaName: Identifier[28, 29])
+        (dotToken: Dot[29, 30])
+        (tableName: UnderscoreCharacterSet[30, 38])
+      )
+      (WhiteSpace[38, 39])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[39, 46]
+        (openParenthesesToken: OpenParentheses[39, 40])
+        (item[]: NonGeneratedColumnDefinition[40, 45]
+          (columnIdentifier: ColumnIdentifier[40, 41]
+            (columnName: Identifier[40, 41])
+          )
+          (WhiteSpace[41, 42])
+          (dataType: IntegerDataType[42, 45]
+            (integerToken: INT[42, 45])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[45, 46])
+      )
+    )
+  )
+  (LineBreak[46, 47])
+)
+
+-----
+-- Should pass
+CREATE TABLE S.`_utf8mb4` (X INT)
+
+-----
+(SourceFile[0, 49]
+  (SingleLineComment[0, 14])
+  (LineBreak[14, 15])
+  (statement[]: TrailingStatement[15, 48]
+    (statement: CreateTableStatement[15, 48]
+      (createToken: CREATE[15, 21])
+      (WhiteSpace[21, 22])
+      (tableToken: TABLE[22, 27])
+      (WhiteSpace[27, 28])
+      (tableIdentifier: TableIdentifier[28, 40]
+        (schemaName: Identifier[28, 29])
+        (dotToken: Dot[29, 30])
+        (tableName: Identifier[30, 40])
+      )
+      (WhiteSpace[40, 41])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[41, 48]
+        (openParenthesesToken: OpenParentheses[41, 42])
+        (item[]: NonGeneratedColumnDefinition[42, 47]
+          (columnIdentifier: ColumnIdentifier[42, 43]
+            (columnName: Identifier[42, 43])
+          )
+          (WhiteSpace[43, 44])
+          (dataType: IntegerDataType[44, 47]
+            (integerToken: INT[44, 47])
+          )
+        )
+        (closeParenthesesToken: CloseParentheses[47, 48])
+      )
+    )
+  )
+  (LineBreak[48, 49])
+)

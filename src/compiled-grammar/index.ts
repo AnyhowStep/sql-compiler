@@ -1,7 +1,12 @@
 
 export interface CompiledTokenSymbol {
     tokenKind : string;
-    otherTokenKinds : string[] | undefined;
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     * @see compiled-grammar-generator
+     */
+    otherTokenKinds? : string[] | undefined;
     canExpect : boolean;
 }
 
@@ -13,6 +18,7 @@ export type CompiledSymbol =
 export interface CompiledRule {
     name : string;
     symbols : CompiledSymbol[];
+    precedence : number;
 }
 
 export interface CompiledQuantity {

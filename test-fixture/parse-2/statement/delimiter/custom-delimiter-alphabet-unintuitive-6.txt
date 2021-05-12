@@ -1,8 +1,8 @@
 W;X`Y`;
 -----
 (SourceFile[0, 7]
-  (statement[]: LeadingStatement[0, 2]
-    (Unexpected Identifier[0, 1])
+  (Unexpected Identifier[0, 1])
+  (statement[]: LeadingStatement[1, 2]
     (semiColonToken: SemiColon[1, 2])
     (EndOfStatement[2, 2])
   )

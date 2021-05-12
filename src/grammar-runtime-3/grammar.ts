@@ -3,7 +3,7 @@ import {Fields} from "./syntax-node";
 
 export interface MyTokenSymbol {
     tokenKind : string;
-    otherTokenKinds : string[] | undefined;
+    otherTokenKinds? : string[] | undefined;
     /**
      * Defaults to `true`.
      */
@@ -20,6 +20,7 @@ export interface MyRule {
     symbols : MySymbol[];
 
     runTimeId : number;
+    precedence : number;
 }
 
 export interface MyGrammar {
@@ -39,6 +40,8 @@ export interface MyGrammar {
     ruleName2Label : Record<string, string>;
     ruleName2Shape : Record<string, CompiledShape>;
     ruleName2Fields : Record<string, Fields>;
+
+    ruleRunTimeId2Precedence : number[];
 }
 
 export function initFields (shape : CompiledShape) {
@@ -75,6 +78,9 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
     const ruleName2Label = compiled.ruleName2Label;
     const ruleName2Shape = compiled.ruleName2Shape;
     const ruleName2Fields : Record<string, Fields> = {};
+    const ruleRunTimeId2Precedence : number[] = [];
+    //runTimeId zero is not used
+    ruleRunTimeId2Precedence.push(-Infinity);
 
     let runTimeId = 0;
 
@@ -89,6 +95,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
             ...rule,
             runTimeId : ++runTimeId,
         });
+        ruleRunTimeId2Precedence.push(rule.precedence);
 
         ruleName2Fields[rule.name] = initFields(ruleName2Shape[ruleName2Alias[rule.name] ?? rule.name]);
     }
@@ -110,5 +117,6 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
         ruleName2Label,
         ruleName2Shape,
         ruleName2Fields,
+        ruleRunTimeId2Precedence,
     };
 }

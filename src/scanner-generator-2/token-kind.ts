@@ -29,6 +29,10 @@ export const customTokenKinds = [
      * Literals
      */
     "StringLiteral",
+    /**
+     * https://dev.mysql.com/doc/refman/8.0/en/charset-national.html
+     */
+    "NationalStringLiteral",
 
     //https://dev.mysql.com/doc/refman/5.7/en/hexadecimal-literals.html
     "HexLiteral",
@@ -104,6 +108,13 @@ export const customTokenKinds = [
      * Hacked in to disambiguate MySQL's grammar
      */
     "UNIQUE_KEY",
+
+    /**
+     * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/sql_lex.cc#L1538
+     *
+     * This has higher priority than identifiers on a lexing level
+     */
+    "UnderscoreCharacterSet",
 ];
 
 //https://dev.mysql.com/doc/refman/5.7/en/manual-info.html
