@@ -52,6 +52,8 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.CreateTableDefinition,
         SyntaxKind.ColumnDefinition,
         SyntaxKind.DataType,
+        SyntaxKind.CharacterDataType,
+        SyntaxKind.CharacterDataTypeOption,
     ],
     start : SyntaxKind.SourceFile,
     rules,
