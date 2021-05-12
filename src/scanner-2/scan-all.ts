@@ -1,4 +1,4 @@
-import {MyToken} from "../grammar-runtime";
+import {MyToken} from "../grammar-runtime-3";
 import {CharacterCodes, isDigit, isUnquotedIdentifierCharacter, isWhiteSpace} from "./character-code";
 import {defaultLexerSettings, LexerSettings} from "./lexer-settings";
 import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, tryScanStringCaseInsensitive, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent} from "./scan-util";

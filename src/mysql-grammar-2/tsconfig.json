@@ -7,7 +7,7 @@
     },
     "references" : [
         { "path": "../grammar-builder" },
-        { "path": "../grammar-runtime" }
+        { "path": "../grammar-runtime-3" }
     ],
     "include" : [
         "./**/*.ts"

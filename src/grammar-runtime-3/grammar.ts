@@ -3,7 +3,7 @@ import {Fields} from "./syntax-node";
 
 export interface MyTokenSymbol {
     tokenKind : string;
-    otherTokenKinds : string[] | undefined;
+    otherTokenKinds? : string[] | undefined;
     /**
      * Defaults to `true`.
      */

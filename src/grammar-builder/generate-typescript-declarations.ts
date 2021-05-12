@@ -10,7 +10,7 @@ export function generateTypeScriptDeclarations (grammar : CompiledGrammar) : str
 
     const result : string[] = [];
 
-    result.push(`import {MyToken, MySyntaxNode} from "../grammar-runtime";`);
+    result.push(`import {MyToken, MySyntaxNode} from "../grammar-runtime-3";`);
 
     for (const token of grammar.tokens) {
         result.push(`

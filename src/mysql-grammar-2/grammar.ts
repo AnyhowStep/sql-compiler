@@ -2,7 +2,6 @@ import {MySqlGrammar} from "./mysql-grammar.generated";
 import {SyntaxKind} from "./syntax-kind.generated";
 import {tokens, extras, TokenKind} from "./token.generated";
 import * as rules from "./rules.generated";
-import {buildGrammar, Grammar} from "../grammar-builder";
 
 export const mySqlGrammar : MySqlGrammar = {
     tokens,
@@ -58,4 +57,3 @@ export const mySqlGrammar : MySqlGrammar = {
     start : SyntaxKind.SourceFile,
     rules,
 };
-export const compiledGrammar = buildGrammar(mySqlGrammar as unknown as Grammar);

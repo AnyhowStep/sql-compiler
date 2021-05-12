@@ -6,7 +6,7 @@
         "types": []
     },
     "references" : [
-        { "path": "../grammar-runtime" }
+        { "path": "../grammar-runtime-3" }
     ],
     "include" : [
         "./**/*.ts"

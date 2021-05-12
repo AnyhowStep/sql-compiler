@@ -1,56 +1,15 @@
 {
-  "coveredCount": 60,
-  "uncoveredCount": 1089,
+  "coveredCount": 226,
+  "uncoveredCount": 923,
   "totalCount": 1149,
-  "coveredRatio": 0.05221932114882506,
-  "uncoveredRatio": 0.9477806788511749,
+  "coveredRatio": 0.19669277632724108,
+  "uncoveredRatio": 0.803307223672759,
   "uncoveredRules": [
-    {
-      "name": "extrasNoLineBreak$5$optional$6",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "extrasNoLineBreak$5$optional$6$repeat1$7$item$8",
-      "symbols": [
-        {
-          "tokenKind": "WhiteSpace",
-          "otherTokenKinds": [
-            "SingleLineComment",
-            "MultiLineComment",
-            "ExecutionComment"
-          ],
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "extrasNoLineBreak$5$optional$6$repeat1$7",
-      "symbols": [
-        "extrasNoLineBreak$5$optional$6$repeat1$7$item$8"
-      ],
-      "precedence": 0
-    },
     {
       "name": "extrasNoLineBreak$5$optional$6$repeat1$7",
       "symbols": [
         "extrasNoLineBreak$5$optional$6$repeat1$7",
         "extrasNoLineBreak$5$optional$6$repeat1$7$item$8"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "extrasNoLineBreak$5$optional$6",
-      "symbols": [
-        "extrasNoLineBreak$5$optional$6$repeat1$7"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "extrasNoLineBreak$5",
-      "symbols": [
-        "extrasNoLineBreak$5$optional$6"
       ],
       "precedence": 0
     },
@@ -72,64 +31,6 @@
       "name": "CharacterDataTypeOption",
       "symbols": [
         "CharacterDataTypeOptionByte"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterDataTypeOptionAscii$field$10",
-      "symbols": [
-        {
-          "tokenKind": "ASCII",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterDataTypeOptionAscii$field$11",
-      "symbols": [
-        {
-          "tokenKind": "BINARY",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterDataTypeOptionAscii",
-      "symbols": [
-        "CharacterDataTypeOptionAscii$field$10",
-        "extras$1",
-        "CharacterDataTypeOptionAscii$field$11"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterDataTypeOptionAscii$field$12",
-      "symbols": [
-        {
-          "tokenKind": "BINARY",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterDataTypeOptionAscii$field$13",
-      "symbols": [
-        {
-          "tokenKind": "ASCII",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterDataTypeOptionAscii",
-      "symbols": [
-        "CharacterDataTypeOptionAscii$field$12",
-        "extras$1",
-        "CharacterDataTypeOptionAscii$field$13"
       ],
       "precedence": 0
     },
@@ -374,13 +275,6 @@
       "name": "DataType",
       "symbols": [
         "GeometryDataType"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DataType",
-      "symbols": [
-        "IntegerDataType"
       ],
       "precedence": 0
     },
@@ -1483,16 +1377,6 @@
       "name": "IntegerDataType$field$95$choice$96",
       "symbols": [
         {
-          "tokenKind": "INT",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "IntegerDataType$field$95$choice$96",
-      "symbols": [
-        {
           "tokenKind": "INTEGER",
           "canExpect": true
         }
@@ -1507,18 +1391,6 @@
           "canExpect": true
         }
       ],
-      "precedence": 0
-    },
-    {
-      "name": "IntegerDataType$field$95",
-      "symbols": [
-        "IntegerDataType$field$95$choice$96"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "IntegerDataType$optional$97",
-      "symbols": [],
       "precedence": 0
     },
     {
@@ -1537,11 +1409,6 @@
       "precedence": 0
     },
     {
-      "name": "IntegerDataType$optional$99",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
       "name": "IntegerDataType$optional$99$field$100",
       "symbols": [
         "IntegerDataTypeOptionRepeat1"
@@ -1553,15 +1420,6 @@
       "symbols": [
         "extras$1",
         "IntegerDataType$optional$99$field$100"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "IntegerDataType",
-      "symbols": [
-        "IntegerDataType$field$95",
-        "IntegerDataType$optional$97",
-        "IntegerDataType$optional$99"
       ],
       "precedence": 0
     },
@@ -2438,13 +2296,6 @@
       "precedence": 0
     },
     {
-      "name": "BitwiseXor",
-      "symbols": [
-        "SimpleExpression"
-      ],
-      "precedence": 0
-    },
-    {
       "name": "BitwiseXor$alias$169$field$170",
       "symbols": [
         "BitwiseXor"
@@ -2483,13 +2334,6 @@
       "name": "BitwiseXor",
       "symbols": [
         "BitwiseXor$alias$169"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "MulDivMod",
-      "symbols": [
-        "BitwiseXor"
       ],
       "precedence": 0
     },
@@ -2542,13 +2386,6 @@
       "precedence": 0
     },
     {
-      "name": "PlusMinus",
-      "symbols": [
-        "MulDivMod"
-      ],
-      "precedence": 0
-    },
-    {
       "name": "PlusMinus$alias$177$field$178",
       "symbols": [
         "PlusMinus"
@@ -2594,13 +2431,6 @@
       "precedence": 0
     },
     {
-      "name": "BitwiseShift",
-      "symbols": [
-        "PlusMinus"
-      ],
-      "precedence": 0
-    },
-    {
       "name": "BitwiseShift$alias$181$field$182",
       "symbols": [
         "BitwiseShift"
@@ -2642,139 +2472,6 @@
       "name": "BitwiseShift",
       "symbols": [
         "BitwiseShift$alias$181"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseAnd",
-      "symbols": [
-        "BitwiseShift"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseAnd$alias$185$field$186",
-      "symbols": [
-        "BitwiseAnd"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseAnd$alias$185$field$187",
-      "symbols": [
-        {
-          "tokenKind": "Ampersand",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseAnd$alias$185$field$188",
-      "symbols": [
-        "BitwiseShift"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseAnd$alias$185",
-      "symbols": [
-        "BitwiseAnd$alias$185$field$186",
-        "extras$1",
-        "BitwiseAnd$alias$185$field$187",
-        "extras$1",
-        "BitwiseAnd$alias$185$field$188"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseAnd",
-      "symbols": [
-        "BitwiseAnd$alias$185"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseOr",
-      "symbols": [
-        "BitwiseAnd"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseOr$alias$189$field$190",
-      "symbols": [
-        "BitwiseOr"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseOr$alias$189$field$191",
-      "symbols": [
-        {
-          "tokenKind": "Bar",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseOr$alias$189$field$192",
-      "symbols": [
-        "BitwiseAnd"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseOr$alias$189",
-      "symbols": [
-        "BitwiseOr$alias$189$field$190",
-        "extras$1",
-        "BitwiseOr$alias$189$field$191",
-        "extras$1",
-        "BitwiseOr$alias$189$field$192"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitwiseOr",
-      "symbols": [
-        "BitwiseOr$alias$189"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BitExpression",
-      "symbols": [
-        "BitwiseOr"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BooleanPrimaryExpression",
-      "symbols": [
-        "Predicate"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Expression",
-      "symbols": [
-        "BooleanPrimaryExpression"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Literal",
-      "symbols": [
-        "TextLiteral"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Literal",
-      "symbols": [
-        "NumberLiteral"
       ],
       "precedence": 0
     },
@@ -2877,93 +2574,10 @@
       "precedence": 0
     },
     {
-      "name": "TextLiteral",
-      "symbols": [
-        "ConcatenatedTextLiteral"
-      ],
-      "precedence": 0
-    },
-    {
       "name": "ConcatenatedTextLiteral$field$193$choice$194",
       "symbols": [
         {
           "tokenKind": "StringLiteral",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ConcatenatedTextLiteral$field$193$choice$194",
-      "symbols": [
-        {
-          "tokenKind": "NationalStringLiteral",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ConcatenatedTextLiteral$field$193$choice$194",
-      "symbols": [
-        "UnderscoreCharacterSetStringLiteral"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ConcatenatedTextLiteral$field$193",
-      "symbols": [
-        "ConcatenatedTextLiteral$field$193$choice$194"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ConcatenatedTextLiteral$repeat1$195$item$196$field$197",
-      "symbols": [
-        {
-          "tokenKind": "StringLiteral",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ConcatenatedTextLiteral$repeat1$195$item$196",
-      "symbols": [
-        "ConcatenatedTextLiteral$repeat1$195$item$196$field$197"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ConcatenatedTextLiteral$repeat1$195",
-      "symbols": [
-        "ConcatenatedTextLiteral$repeat1$195$item$196"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ConcatenatedTextLiteral$repeat1$195",
-      "symbols": [
-        "ConcatenatedTextLiteral$repeat1$195",
-        "extras$1",
-        "ConcatenatedTextLiteral$repeat1$195$item$196"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ConcatenatedTextLiteral",
-      "symbols": [
-        "ConcatenatedTextLiteral$field$193",
-        "extras$1",
-        "ConcatenatedTextLiteral$repeat1$195"
-      ],
-      "precedence": 1
-    },
-    {
-      "name": "NumberLiteral",
-      "symbols": [
-        {
-          "tokenKind": "IntegerLiteral",
           "canExpect": true
         }
       ],
@@ -2973,7 +2587,7 @@
       "name": "NumberLiteral",
       "symbols": [
         {
-          "tokenKind": "RealLiteral",
+          "tokenKind": "IntegerLiteral",
           "canExpect": true
         }
       ],
@@ -3104,35 +2718,6 @@
       "precedence": 0
     },
     {
-      "name": "UnderscoreCharacterSetStringLiteral$field$205",
-      "symbols": [
-        {
-          "tokenKind": "UnderscoreCharacterSet",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "UnderscoreCharacterSetStringLiteral$field$206",
-      "symbols": [
-        {
-          "tokenKind": "StringLiteral",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "UnderscoreCharacterSetStringLiteral",
-      "symbols": [
-        "UnderscoreCharacterSetStringLiteral$field$205",
-        "extras$1",
-        "UnderscoreCharacterSetStringLiteral$field$206"
-      ],
-      "precedence": 0
-    },
-    {
       "name": "Now$field$207$choice$208",
       "symbols": [
         {
@@ -3229,13 +2814,6 @@
       "precedence": 0
     },
     {
-      "name": "Predicate",
-      "symbols": [
-        "BitExpression"
-      ],
-      "precedence": 0
-    },
-    {
       "name": "SignedLiteral$field$214",
       "symbols": [
         "Literal"
@@ -3289,20 +2867,6 @@
         "SignedLiteral$field$215",
         "extras$1",
         "SignedLiteral$field$217"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SimpleExpression",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SimpleExpression",
-      "symbols": [
-        "Literal"
       ],
       "precedence": 0
     },
@@ -3420,642 +2984,6 @@
         "ColumnIdentifier$field$227",
         "extras$1",
         "ColumnIdentifier$field$228"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "IdentOrReserved",
-      "symbols": [
-        {
-          "tokenKind": "Identifier",
-          "otherTokenKinds": [
-            "ACCOUNT",
-            "ACTION",
-            "AFTER",
-            "AGAINST",
-            "AGGREGATE",
-            "ALGORITHM",
-            "ALWAYS",
-            "ANALYSE",
-            "ANY",
-            "ASCII",
-            "AT",
-            "AUTOEXTEND_SIZE",
-            "AUTO_INCREMENT",
-            "AVG",
-            "AVG_ROW_LENGTH",
-            "BACKUP",
-            "BEGIN",
-            "BINLOG",
-            "BIT",
-            "BLOCK",
-            "BOOL",
-            "BOOLEAN",
-            "BTREE",
-            "BYTE",
-            "CACHE",
-            "CASCADED",
-            "CATALOG_NAME",
-            "CHAIN",
-            "CHANGED",
-            "CHANNEL",
-            "CHARSET",
-            "CHECKSUM",
-            "CIPHER",
-            "CLASS_ORIGIN",
-            "CLIENT",
-            "CLOSE",
-            "COALESCE",
-            "CODE",
-            "COLLATION",
-            "COLUMNS",
-            "COLUMN_FORMAT",
-            "COLUMN_NAME",
-            "COMMENT",
-            "COMMIT",
-            "COMMITTED",
-            "COMPACT",
-            "COMPLETION",
-            "COMPRESSED",
-            "COMPRESSION",
-            "CONCURRENT",
-            "CONNECTION",
-            "CONSISTENT",
-            "CONSTRAINT_CATALOG",
-            "CONSTRAINT_NAME",
-            "CONSTRAINT_SCHEMA",
-            "CONTAINS",
-            "CONTEXT",
-            "CPU",
-            "CUBE",
-            "CURRENT",
-            "CURSOR_NAME",
-            "DATA",
-            "DATAFILE",
-            "DATE",
-            "DATETIME",
-            "DAY",
-            "DEALLOCATE",
-            "DEFAULT_AUTH",
-            "DEFINER",
-            "DELAY_KEY_WRITE",
-            "DES_KEY_FILE",
-            "DIAGNOSTICS",
-            "DIRECTORY",
-            "DISABLE",
-            "DISCARD",
-            "DISK",
-            "DO",
-            "DUMPFILE",
-            "DUPLICATE",
-            "DYNAMIC",
-            "ENABLE",
-            "ENCRYPTION",
-            "END",
-            "ENDS",
-            "ENGINE",
-            "ENGINES",
-            "ENUM",
-            "ERROR",
-            "ERRORS",
-            "ESCAPE",
-            "EVENT",
-            "EVENTS",
-            "EVERY",
-            "EXCHANGE",
-            "EXECUTE",
-            "EXPANSION",
-            "EXPIRE",
-            "EXPORT",
-            "EXTENDED",
-            "EXTENT_SIZE",
-            "FAST",
-            "FAULTS",
-            "FIELDS",
-            "FILE",
-            "FILE_BLOCK_SIZE",
-            "FILTER",
-            "FIRST",
-            "FIXED",
-            "FLUSH",
-            "FOLLOWS",
-            "FORMAT",
-            "FOUND",
-            "FULL",
-            "FUNCTION",
-            "GENERAL",
-            "GEOMETRY",
-            "GEOMETRYCOLLECTION",
-            "GET_FORMAT",
-            "GLOBAL",
-            "GRANTS",
-            "GROUP_REPLICATION",
-            "HANDLER",
-            "HASH",
-            "HELP",
-            "HOST",
-            "HOSTS",
-            "HOUR",
-            "IDENTIFIED",
-            "IGNORE_SERVER_IDS",
-            "IMPORT",
-            "INDEXES",
-            "INITIAL_SIZE",
-            "INSERT_METHOD",
-            "INSTALL",
-            "INSTANCE",
-            "INVOKER",
-            "IO",
-            "IO_THREAD",
-            "IPC",
-            "ISOLATION",
-            "ISSUER",
-            "JSON",
-            "KEY_BLOCK_SIZE",
-            "LANGUAGE",
-            "LAST",
-            "LEAVES",
-            "LESS",
-            "LEVEL",
-            "LINESTRING",
-            "LIST",
-            "LOCAL",
-            "LOCKS",
-            "LOGFILE",
-            "LOGS",
-            "MASTER",
-            "MASTER_AUTO_POSITION",
-            "MASTER_CONNECT_RETRY",
-            "MASTER_DELAY",
-            "MASTER_HEARTBEAT_PERIOD",
-            "MASTER_HOST",
-            "MASTER_LOG_FILE",
-            "MASTER_LOG_POS",
-            "MASTER_PASSWORD",
-            "MASTER_PORT",
-            "MASTER_RETRY_COUNT",
-            "MASTER_SERVER_ID",
-            "MASTER_SSL",
-            "MASTER_SSL_CA",
-            "MASTER_SSL_CAPATH",
-            "MASTER_SSL_CERT",
-            "MASTER_SSL_CIPHER",
-            "MASTER_SSL_CRL",
-            "MASTER_SSL_CRLPATH",
-            "MASTER_SSL_KEY",
-            "MASTER_TLS_VERSION",
-            "MASTER_USER",
-            "MAX_CONNECTIONS_PER_HOUR",
-            "MAX_QUERIES_PER_HOUR",
-            "MAX_ROWS",
-            "MAX_SIZE",
-            "MAX_STATEMENT_TIME",
-            "MAX_UPDATES_PER_HOUR",
-            "MAX_USER_CONNECTIONS",
-            "MEDIUM",
-            "MEMORY",
-            "MERGE",
-            "MESSAGE_TEXT",
-            "MICROSECOND",
-            "MIGRATE",
-            "MINUTE",
-            "MIN_ROWS",
-            "MODE",
-            "MODIFY",
-            "MONTH",
-            "MULTILINESTRING",
-            "MULTIPOINT",
-            "MULTIPOLYGON",
-            "MUTEX",
-            "MYSQL_ERRNO",
-            "NAME",
-            "NAMES",
-            "NATIONAL",
-            "NCHAR",
-            "NDB",
-            "NDBCLUSTER",
-            "NEVER",
-            "NEW",
-            "NEXT",
-            "NO",
-            "NODEGROUP",
-            "NONBLOCKING",
-            "NONE",
-            "NO_WAIT",
-            "NUMBER",
-            "NVARCHAR",
-            "OFFSET",
-            "OLD_PASSWORD",
-            "ONE",
-            "ONLY",
-            "OPEN",
-            "OPTIONS",
-            "OWNER",
-            "PACK_KEYS",
-            "PAGE",
-            "PARSER",
-            "PARSE_GCOL_EXPR",
-            "PARTIAL",
-            "PARTITIONING",
-            "PARTITIONS",
-            "PASSWORD",
-            "PHASE",
-            "PLUGIN",
-            "PLUGINS",
-            "PLUGIN_DIR",
-            "POINT",
-            "POLYGON",
-            "PORT",
-            "PRECEDES",
-            "PREPARE",
-            "PRESERVE",
-            "PREV",
-            "PRIVILEGES",
-            "PROCESSLIST",
-            "PROFILE",
-            "PROFILES",
-            "PROXY",
-            "QUARTER",
-            "QUERY",
-            "QUICK",
-            "READ_ONLY",
-            "REBUILD",
-            "RECOVER",
-            "REDOFILE",
-            "REDO_BUFFER_SIZE",
-            "REDUNDANT",
-            "RELAY",
-            "RELAYLOG",
-            "RELAY_LOG_FILE",
-            "RELAY_LOG_POS",
-            "RELAY_THREAD",
-            "RELOAD",
-            "REMOVE",
-            "REORGANIZE",
-            "REPAIR",
-            "REPEATABLE",
-            "REPLICATE_DO_DB",
-            "REPLICATE_DO_TABLE",
-            "REPLICATE_IGNORE_DB",
-            "REPLICATE_IGNORE_TABLE",
-            "REPLICATE_REWRITE_DB",
-            "REPLICATE_WILD_DO_TABLE",
-            "REPLICATE_WILD_IGNORE_TABLE",
-            "REPLICATION",
-            "RESET",
-            "RESTORE",
-            "RESUME",
-            "RETURNED_SQLSTATE",
-            "RETURNS",
-            "REVERSE",
-            "ROLLBACK",
-            "ROLLUP",
-            "ROTATE",
-            "ROUTINE",
-            "ROW",
-            "ROWS",
-            "ROW_COUNT",
-            "ROW_FORMAT",
-            "RTREE",
-            "SAVEPOINT",
-            "SCHEDULE",
-            "SCHEMA_NAME",
-            "SECOND",
-            "SECURITY",
-            "SERIAL",
-            "SERIALIZABLE",
-            "SERVER",
-            "SESSION",
-            "SHARE",
-            "SHUTDOWN",
-            "SIGNED",
-            "SIMPLE",
-            "SLAVE",
-            "SLOW",
-            "SNAPSHOT",
-            "SOCKET",
-            "SOME",
-            "SONAME",
-            "SOUNDS",
-            "SOURCE",
-            "SQL_AFTER_GTIDS",
-            "SQL_AFTER_MTS_GAPS",
-            "SQL_BEFORE_GTIDS",
-            "SQL_BUFFER_RESULT",
-            "SQL_CACHE",
-            "SQL_NO_CACHE",
-            "SQL_THREAD",
-            "SQL_TSI_DAY",
-            "SQL_TSI_HOUR",
-            "SQL_TSI_MINUTE",
-            "SQL_TSI_MONTH",
-            "SQL_TSI_QUARTER",
-            "SQL_TSI_SECOND",
-            "SQL_TSI_WEEK",
-            "SQL_TSI_YEAR",
-            "STACKED",
-            "START",
-            "STARTS",
-            "STATS_AUTO_RECALC",
-            "STATS_PERSISTENT",
-            "STATS_SAMPLE_PAGES",
-            "STATUS",
-            "STOP",
-            "STORAGE",
-            "STRING",
-            "SUBCLASS_ORIGIN",
-            "SUBJECT",
-            "SUBPARTITION",
-            "SUBPARTITIONS",
-            "SUPER",
-            "SUSPEND",
-            "SWAPS",
-            "SWITCHES",
-            "TABLES",
-            "TABLESPACE",
-            "TABLE_CHECKSUM",
-            "TABLE_NAME",
-            "TEMPORARY",
-            "TEMPTABLE",
-            "TEXT",
-            "THAN",
-            "TIME",
-            "TIMESTAMP",
-            "TIMESTAMPADD",
-            "TIMESTAMPDIFF",
-            "TRANSACTION",
-            "TRIGGERS",
-            "TRUNCATE",
-            "TYPE",
-            "TYPES",
-            "UNCOMMITTED",
-            "UNDEFINED",
-            "UNDOFILE",
-            "UNDO_BUFFER_SIZE",
-            "UNICODE",
-            "UNINSTALL",
-            "UNKNOWN",
-            "UNTIL",
-            "UPGRADE",
-            "USER",
-            "USER_RESOURCES",
-            "USE_FRM",
-            "VALIDATION",
-            "VALUE",
-            "VARIABLES",
-            "VIEW",
-            "WAIT",
-            "WARNINGS",
-            "WEEK",
-            "WEIGHT_STRING",
-            "WITHOUT",
-            "WORK",
-            "WRAPPER",
-            "X509",
-            "XA",
-            "XID",
-            "XML",
-            "YEAR",
-            "NOW",
-            "ACCESSIBLE",
-            "ADD",
-            "ALL",
-            "ALTER",
-            "ANALYZE",
-            "AND",
-            "AS",
-            "ASC",
-            "ASENSITIVE",
-            "BEFORE",
-            "BETWEEN",
-            "BIGINT",
-            "BINARY",
-            "BLOB",
-            "BOTH",
-            "BY",
-            "CALL",
-            "CASCADE",
-            "CASE",
-            "CHANGE",
-            "CHAR",
-            "CHARACTER",
-            "CHECK",
-            "COLLATE",
-            "COLUMN",
-            "CONDITION",
-            "CONSTRAINT",
-            "CONTINUE",
-            "CONVERT",
-            "CREATE",
-            "CROSS",
-            "CURRENT_DATE",
-            "CURRENT_TIME",
-            "CURRENT_TIMESTAMP",
-            "CURRENT_USER",
-            "CURSOR",
-            "DATABASE",
-            "DATABASES",
-            "DAY_HOUR",
-            "DAY_MICROSECOND",
-            "DAY_MINUTE",
-            "DAY_SECOND",
-            "DEC",
-            "DECIMAL",
-            "DECLARE",
-            "DEFAULT",
-            "DELAYED",
-            "DELETE",
-            "DESC",
-            "DESCRIBE",
-            "DETERMINISTIC",
-            "DISTINCT",
-            "DISTINCTROW",
-            "DIV",
-            "DOUBLE",
-            "DROP",
-            "DUAL",
-            "EACH",
-            "ELSE",
-            "ELSEIF",
-            "ENCLOSED",
-            "ESCAPED",
-            "EXISTS",
-            "EXIT",
-            "EXPLAIN",
-            "FALSE",
-            "FETCH",
-            "FLOAT",
-            "FLOAT4",
-            "FLOAT8",
-            "FOR",
-            "FORCE",
-            "FOREIGN",
-            "FROM",
-            "FULLTEXT",
-            "GENERATED",
-            "GET",
-            "GRANT",
-            "GROUP",
-            "HAVING",
-            "HIGH_PRIORITY",
-            "HOUR_MICROSECOND",
-            "HOUR_MINUTE",
-            "HOUR_SECOND",
-            "IF",
-            "IGNORE",
-            "IN",
-            "INDEX",
-            "INFILE",
-            "INNER",
-            "INOUT",
-            "INSENSITIVE",
-            "INSERT",
-            "INT",
-            "INT1",
-            "INT2",
-            "INT3",
-            "INT4",
-            "INT8",
-            "INTEGER",
-            "INTERVAL",
-            "INTO",
-            "IO_AFTER_GTIDS",
-            "IO_BEFORE_GTIDS",
-            "IS",
-            "ITERATE",
-            "JOIN",
-            "KEY",
-            "KEYS",
-            "KILL",
-            "LEADING",
-            "LEAVE",
-            "LEFT",
-            "LIKE",
-            "LIMIT",
-            "LINEAR",
-            "LINES",
-            "LOAD",
-            "LOCALTIME",
-            "LOCALTIMESTAMP",
-            "LOCK",
-            "LONG",
-            "LONGBLOB",
-            "LONGTEXT",
-            "LOOP",
-            "LOW_PRIORITY",
-            "MASTER_BIND",
-            "MASTER_SSL_VERIFY_SERVER_CERT",
-            "MATCH",
-            "MAXVALUE",
-            "MEDIUMBLOB",
-            "MEDIUMINT",
-            "MEDIUMTEXT",
-            "MIDDLEINT",
-            "MINUTE_MICROSECOND",
-            "MINUTE_SECOND",
-            "MOD",
-            "MODIFIES",
-            "NATURAL",
-            "NOT",
-            "NO_WRITE_TO_BINLOG",
-            "NULL",
-            "NUMERIC",
-            "ON",
-            "OPTIMIZE",
-            "OPTIMIZER_COSTS",
-            "OPTION",
-            "OPTIONALLY",
-            "OR",
-            "ORDER",
-            "OUT",
-            "OUTER",
-            "OUTFILE",
-            "PARTITION",
-            "PRECISION",
-            "PRIMARY",
-            "PROCEDURE",
-            "PURGE",
-            "RANGE",
-            "READ",
-            "READS",
-            "READ_WRITE",
-            "REAL",
-            "REFERENCES",
-            "REGEXP",
-            "RELEASE",
-            "RENAME",
-            "REPEAT",
-            "REPLACE",
-            "REQUIRE",
-            "RESIGNAL",
-            "RESTRICT",
-            "RETURN",
-            "REVOKE",
-            "RIGHT",
-            "RLIKE",
-            "SCHEMA",
-            "SCHEMAS",
-            "SECOND_MICROSECOND",
-            "SELECT",
-            "SENSITIVE",
-            "SEPARATOR",
-            "SET",
-            "SHOW",
-            "SIGNAL",
-            "SMALLINT",
-            "SPATIAL",
-            "SPECIFIC",
-            "SQL",
-            "SQLEXCEPTION",
-            "SQLSTATE",
-            "SQLWARNING",
-            "SQL_BIG_RESULT",
-            "SQL_CALC_FOUND_ROWS",
-            "SQL_SMALL_RESULT",
-            "SSL",
-            "STARTING",
-            "STORED",
-            "STRAIGHT_JOIN",
-            "TABLE",
-            "TERMINATED",
-            "THEN",
-            "TINYBLOB",
-            "TINYINT",
-            "TINYTEXT",
-            "TO",
-            "TRAILING",
-            "TRIGGER",
-            "TRUE",
-            "UNDO",
-            "UNION",
-            "UNIQUE",
-            "UNLOCK",
-            "UNSIGNED",
-            "UPDATE",
-            "USAGE",
-            "USE",
-            "USING",
-            "UTC_DATE",
-            "UTC_TIME",
-            "UTC_TIMESTAMP",
-            "VALUES",
-            "VARBINARY",
-            "VARCHAR",
-            "VARCHARACTER",
-            "VARYING",
-            "VIRTUAL",
-            "WHEN",
-            "WHERE",
-            "WHILE",
-            "WITH",
-            "WRITE",
-            "XOR",
-            "YEAR_MONTH",
-            "ZEROFILL",
-            "UnderscoreCharacterSet"
-          ],
-          "canExpect": true
-        }
       ],
       "precedence": 0
     },
@@ -4236,67 +3164,6 @@
       "precedence": 0
     },
     {
-      "name": "TableIdentifier$field$245",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "TableIdentifier$field$246",
-      "symbols": [
-        {
-          "tokenKind": "Dot",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "TableIdentifier$field$247",
-      "symbols": [
-        "IdentOrReserved"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "TableIdentifier",
-      "symbols": [
-        "TableIdentifier$field$245",
-        "extras$1",
-        "TableIdentifier$field$246",
-        "extras$1",
-        "TableIdentifier$field$247"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "TableIdentifier$field$248",
-      "symbols": [
-        {
-          "tokenKind": "Dot",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "TableIdentifier$field$249",
-      "symbols": [
-        "IdentOrReserved"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "TableIdentifier",
-      "symbols": [
-        "TableIdentifier$field$248",
-        "extras$1",
-        "TableIdentifier$field$249"
-      ],
-      "precedence": 0
-    },
-    {
       "name": "TableIdentifierTuple$field$250",
       "symbols": [
         {
@@ -4403,18 +3270,6 @@
       "precedence": 0
     },
     {
-      "name": "TableIdentifierList1$field$259",
-      "symbols": [
-        "TableIdentifier"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "TableIdentifierList1$optional$260",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
       "name": "TableIdentifierList1$optional$260$repeat1$261$item$262$field$263",
       "symbols": [
         {
@@ -4465,617 +3320,6 @@
       "precedence": 0
     },
     {
-      "name": "TableIdentifierList1",
-      "symbols": [
-        "TableIdentifierList1$field$259",
-        "TableIdentifierList1$optional$260"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCharacterSet$optional$265",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCharacterSet$optional$265$field$266",
-      "symbols": [
-        {
-          "tokenKind": "DEFAULT",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCharacterSet$optional$265",
-      "symbols": [
-        "DefaultCharacterSet$optional$265$field$266",
-        "extras$1"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCharacterSet$optional$267",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCharacterSet$optional$267$field$268",
-      "symbols": [
-        {
-          "tokenKind": "Equal",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCharacterSet$optional$267",
-      "symbols": [
-        "extras$1",
-        "DefaultCharacterSet$optional$267$field$268"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCharacterSet$field$269",
-      "symbols": [
-        "CharacterSetNameOrDefault"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCharacterSet",
-      "symbols": [
-        "DefaultCharacterSet$optional$265",
-        "CharSet",
-        "DefaultCharacterSet$optional$267",
-        "extras$1",
-        "DefaultCharacterSet$field$269"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterSetName",
-      "symbols": [
-        {
-          "tokenKind": "Identifier",
-          "otherTokenKinds": [
-            "ACCOUNT",
-            "ACTION",
-            "AFTER",
-            "AGAINST",
-            "AGGREGATE",
-            "ALGORITHM",
-            "ALWAYS",
-            "ANALYSE",
-            "ANY",
-            "ASCII",
-            "AT",
-            "AUTOEXTEND_SIZE",
-            "AUTO_INCREMENT",
-            "AVG",
-            "AVG_ROW_LENGTH",
-            "BACKUP",
-            "BEGIN",
-            "BINLOG",
-            "BIT",
-            "BLOCK",
-            "BOOL",
-            "BOOLEAN",
-            "BTREE",
-            "BYTE",
-            "CACHE",
-            "CASCADED",
-            "CATALOG_NAME",
-            "CHAIN",
-            "CHANGED",
-            "CHANNEL",
-            "CHARSET",
-            "CHECKSUM",
-            "CIPHER",
-            "CLASS_ORIGIN",
-            "CLIENT",
-            "CLOSE",
-            "COALESCE",
-            "CODE",
-            "COLLATION",
-            "COLUMNS",
-            "COLUMN_FORMAT",
-            "COLUMN_NAME",
-            "COMMENT",
-            "COMMIT",
-            "COMMITTED",
-            "COMPACT",
-            "COMPLETION",
-            "COMPRESSED",
-            "COMPRESSION",
-            "CONCURRENT",
-            "CONNECTION",
-            "CONSISTENT",
-            "CONSTRAINT_CATALOG",
-            "CONSTRAINT_NAME",
-            "CONSTRAINT_SCHEMA",
-            "CONTAINS",
-            "CONTEXT",
-            "CPU",
-            "CUBE",
-            "CURRENT",
-            "CURSOR_NAME",
-            "DATA",
-            "DATAFILE",
-            "DATE",
-            "DATETIME",
-            "DAY",
-            "DEALLOCATE",
-            "DEFAULT_AUTH",
-            "DEFINER",
-            "DELAY_KEY_WRITE",
-            "DES_KEY_FILE",
-            "DIAGNOSTICS",
-            "DIRECTORY",
-            "DISABLE",
-            "DISCARD",
-            "DISK",
-            "DO",
-            "DUMPFILE",
-            "DUPLICATE",
-            "DYNAMIC",
-            "ENABLE",
-            "ENCRYPTION",
-            "END",
-            "ENDS",
-            "ENGINE",
-            "ENGINES",
-            "ENUM",
-            "ERROR",
-            "ERRORS",
-            "ESCAPE",
-            "EVENT",
-            "EVENTS",
-            "EVERY",
-            "EXCHANGE",
-            "EXECUTE",
-            "EXPANSION",
-            "EXPIRE",
-            "EXPORT",
-            "EXTENDED",
-            "EXTENT_SIZE",
-            "FAST",
-            "FAULTS",
-            "FIELDS",
-            "FILE",
-            "FILE_BLOCK_SIZE",
-            "FILTER",
-            "FIRST",
-            "FIXED",
-            "FLUSH",
-            "FOLLOWS",
-            "FORMAT",
-            "FOUND",
-            "FULL",
-            "FUNCTION",
-            "GENERAL",
-            "GEOMETRY",
-            "GEOMETRYCOLLECTION",
-            "GET_FORMAT",
-            "GLOBAL",
-            "GRANTS",
-            "GROUP_REPLICATION",
-            "HANDLER",
-            "HASH",
-            "HELP",
-            "HOST",
-            "HOSTS",
-            "HOUR",
-            "IDENTIFIED",
-            "IGNORE_SERVER_IDS",
-            "IMPORT",
-            "INDEXES",
-            "INITIAL_SIZE",
-            "INSERT_METHOD",
-            "INSTALL",
-            "INSTANCE",
-            "INVOKER",
-            "IO",
-            "IO_THREAD",
-            "IPC",
-            "ISOLATION",
-            "ISSUER",
-            "JSON",
-            "KEY_BLOCK_SIZE",
-            "LANGUAGE",
-            "LAST",
-            "LEAVES",
-            "LESS",
-            "LEVEL",
-            "LINESTRING",
-            "LIST",
-            "LOCAL",
-            "LOCKS",
-            "LOGFILE",
-            "LOGS",
-            "MASTER",
-            "MASTER_AUTO_POSITION",
-            "MASTER_CONNECT_RETRY",
-            "MASTER_DELAY",
-            "MASTER_HEARTBEAT_PERIOD",
-            "MASTER_HOST",
-            "MASTER_LOG_FILE",
-            "MASTER_LOG_POS",
-            "MASTER_PASSWORD",
-            "MASTER_PORT",
-            "MASTER_RETRY_COUNT",
-            "MASTER_SERVER_ID",
-            "MASTER_SSL",
-            "MASTER_SSL_CA",
-            "MASTER_SSL_CAPATH",
-            "MASTER_SSL_CERT",
-            "MASTER_SSL_CIPHER",
-            "MASTER_SSL_CRL",
-            "MASTER_SSL_CRLPATH",
-            "MASTER_SSL_KEY",
-            "MASTER_TLS_VERSION",
-            "MASTER_USER",
-            "MAX_CONNECTIONS_PER_HOUR",
-            "MAX_QUERIES_PER_HOUR",
-            "MAX_ROWS",
-            "MAX_SIZE",
-            "MAX_STATEMENT_TIME",
-            "MAX_UPDATES_PER_HOUR",
-            "MAX_USER_CONNECTIONS",
-            "MEDIUM",
-            "MEMORY",
-            "MERGE",
-            "MESSAGE_TEXT",
-            "MICROSECOND",
-            "MIGRATE",
-            "MINUTE",
-            "MIN_ROWS",
-            "MODE",
-            "MODIFY",
-            "MONTH",
-            "MULTILINESTRING",
-            "MULTIPOINT",
-            "MULTIPOLYGON",
-            "MUTEX",
-            "MYSQL_ERRNO",
-            "NAME",
-            "NAMES",
-            "NATIONAL",
-            "NCHAR",
-            "NDB",
-            "NDBCLUSTER",
-            "NEVER",
-            "NEW",
-            "NEXT",
-            "NO",
-            "NODEGROUP",
-            "NONBLOCKING",
-            "NONE",
-            "NO_WAIT",
-            "NUMBER",
-            "NVARCHAR",
-            "OFFSET",
-            "OLD_PASSWORD",
-            "ONE",
-            "ONLY",
-            "OPEN",
-            "OPTIONS",
-            "OWNER",
-            "PACK_KEYS",
-            "PAGE",
-            "PARSER",
-            "PARSE_GCOL_EXPR",
-            "PARTIAL",
-            "PARTITIONING",
-            "PARTITIONS",
-            "PASSWORD",
-            "PHASE",
-            "PLUGIN",
-            "PLUGINS",
-            "PLUGIN_DIR",
-            "POINT",
-            "POLYGON",
-            "PORT",
-            "PRECEDES",
-            "PREPARE",
-            "PRESERVE",
-            "PREV",
-            "PRIVILEGES",
-            "PROCESSLIST",
-            "PROFILE",
-            "PROFILES",
-            "PROXY",
-            "QUARTER",
-            "QUERY",
-            "QUICK",
-            "READ_ONLY",
-            "REBUILD",
-            "RECOVER",
-            "REDOFILE",
-            "REDO_BUFFER_SIZE",
-            "REDUNDANT",
-            "RELAY",
-            "RELAYLOG",
-            "RELAY_LOG_FILE",
-            "RELAY_LOG_POS",
-            "RELAY_THREAD",
-            "RELOAD",
-            "REMOVE",
-            "REORGANIZE",
-            "REPAIR",
-            "REPEATABLE",
-            "REPLICATE_DO_DB",
-            "REPLICATE_DO_TABLE",
-            "REPLICATE_IGNORE_DB",
-            "REPLICATE_IGNORE_TABLE",
-            "REPLICATE_REWRITE_DB",
-            "REPLICATE_WILD_DO_TABLE",
-            "REPLICATE_WILD_IGNORE_TABLE",
-            "REPLICATION",
-            "RESET",
-            "RESTORE",
-            "RESUME",
-            "RETURNED_SQLSTATE",
-            "RETURNS",
-            "REVERSE",
-            "ROLLBACK",
-            "ROLLUP",
-            "ROTATE",
-            "ROUTINE",
-            "ROW",
-            "ROWS",
-            "ROW_COUNT",
-            "ROW_FORMAT",
-            "RTREE",
-            "SAVEPOINT",
-            "SCHEDULE",
-            "SCHEMA_NAME",
-            "SECOND",
-            "SECURITY",
-            "SERIAL",
-            "SERIALIZABLE",
-            "SERVER",
-            "SESSION",
-            "SHARE",
-            "SHUTDOWN",
-            "SIGNED",
-            "SIMPLE",
-            "SLAVE",
-            "SLOW",
-            "SNAPSHOT",
-            "SOCKET",
-            "SOME",
-            "SONAME",
-            "SOUNDS",
-            "SOURCE",
-            "SQL_AFTER_GTIDS",
-            "SQL_AFTER_MTS_GAPS",
-            "SQL_BEFORE_GTIDS",
-            "SQL_BUFFER_RESULT",
-            "SQL_CACHE",
-            "SQL_NO_CACHE",
-            "SQL_THREAD",
-            "SQL_TSI_DAY",
-            "SQL_TSI_HOUR",
-            "SQL_TSI_MINUTE",
-            "SQL_TSI_MONTH",
-            "SQL_TSI_QUARTER",
-            "SQL_TSI_SECOND",
-            "SQL_TSI_WEEK",
-            "SQL_TSI_YEAR",
-            "STACKED",
-            "START",
-            "STARTS",
-            "STATS_AUTO_RECALC",
-            "STATS_PERSISTENT",
-            "STATS_SAMPLE_PAGES",
-            "STATUS",
-            "STOP",
-            "STORAGE",
-            "STRING",
-            "SUBCLASS_ORIGIN",
-            "SUBJECT",
-            "SUBPARTITION",
-            "SUBPARTITIONS",
-            "SUPER",
-            "SUSPEND",
-            "SWAPS",
-            "SWITCHES",
-            "TABLES",
-            "TABLESPACE",
-            "TABLE_CHECKSUM",
-            "TABLE_NAME",
-            "TEMPORARY",
-            "TEMPTABLE",
-            "TEXT",
-            "THAN",
-            "TIME",
-            "TIMESTAMP",
-            "TIMESTAMPADD",
-            "TIMESTAMPDIFF",
-            "TRANSACTION",
-            "TRIGGERS",
-            "TRUNCATE",
-            "TYPE",
-            "TYPES",
-            "UNCOMMITTED",
-            "UNDEFINED",
-            "UNDOFILE",
-            "UNDO_BUFFER_SIZE",
-            "UNICODE",
-            "UNINSTALL",
-            "UNKNOWN",
-            "UNTIL",
-            "UPGRADE",
-            "USER",
-            "USER_RESOURCES",
-            "USE_FRM",
-            "VALIDATION",
-            "VALUE",
-            "VARIABLES",
-            "VIEW",
-            "WAIT",
-            "WARNINGS",
-            "WEEK",
-            "WEIGHT_STRING",
-            "WITHOUT",
-            "WORK",
-            "WRAPPER",
-            "X509",
-            "XA",
-            "XID",
-            "XML",
-            "YEAR",
-            "NOW",
-            "BINARY",
-            "StringLiteral"
-          ],
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterSetNameOrDefault",
-      "symbols": [
-        {
-          "tokenKind": "DEFAULT",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharacterSetNameOrDefault",
-      "symbols": [
-        "CharacterSetName"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharSet$field$270",
-      "symbols": [
-        {
-          "tokenKind": "CHARACTER",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharSet$field$271",
-      "symbols": [
-        {
-          "tokenKind": "SET",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharSet",
-      "symbols": [
-        "CharSet$field$270",
-        "extras$1",
-        "CharSet$field$271"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharSet$field$272",
-      "symbols": [
-        {
-          "tokenKind": "CHARSET",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CharSet",
-      "symbols": [
-        "CharSet$field$272"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate$optional$273",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate$optional$273$field$274",
-      "symbols": [
-        {
-          "tokenKind": "DEFAULT",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate$optional$273",
-      "symbols": [
-        "DefaultCollate$optional$273$field$274",
-        "extras$1"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate$field$275",
-      "symbols": [
-        {
-          "tokenKind": "COLLATE",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate$optional$276",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate$optional$276$field$277",
-      "symbols": [
-        {
-          "tokenKind": "Equal",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate$optional$276",
-      "symbols": [
-        "extras$1",
-        "DefaultCollate$optional$276$field$277"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate$field$278",
-      "symbols": [
-        "CollationNameOrDefault"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DefaultCollate",
-      "symbols": [
-        "DefaultCollate$optional$273",
-        "DefaultCollate$field$275",
-        "DefaultCollate$optional$276",
-        "extras$1",
-        "DefaultCollate$field$278"
-      ],
-      "precedence": 0
-    },
-    {
       "name": "CollateExplicit$field$279",
       "symbols": [
         {
@@ -5098,424 +3342,6 @@
         "CollateExplicit$field$279",
         "extras$1",
         "CollateExplicit$field$280"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CollationName",
-      "symbols": [
-        {
-          "tokenKind": "Identifier",
-          "otherTokenKinds": [
-            "ACCOUNT",
-            "ACTION",
-            "AFTER",
-            "AGAINST",
-            "AGGREGATE",
-            "ALGORITHM",
-            "ALWAYS",
-            "ANALYSE",
-            "ANY",
-            "ASCII",
-            "AT",
-            "AUTOEXTEND_SIZE",
-            "AUTO_INCREMENT",
-            "AVG",
-            "AVG_ROW_LENGTH",
-            "BACKUP",
-            "BEGIN",
-            "BINLOG",
-            "BIT",
-            "BLOCK",
-            "BOOL",
-            "BOOLEAN",
-            "BTREE",
-            "BYTE",
-            "CACHE",
-            "CASCADED",
-            "CATALOG_NAME",
-            "CHAIN",
-            "CHANGED",
-            "CHANNEL",
-            "CHARSET",
-            "CHECKSUM",
-            "CIPHER",
-            "CLASS_ORIGIN",
-            "CLIENT",
-            "CLOSE",
-            "COALESCE",
-            "CODE",
-            "COLLATION",
-            "COLUMNS",
-            "COLUMN_FORMAT",
-            "COLUMN_NAME",
-            "COMMENT",
-            "COMMIT",
-            "COMMITTED",
-            "COMPACT",
-            "COMPLETION",
-            "COMPRESSED",
-            "COMPRESSION",
-            "CONCURRENT",
-            "CONNECTION",
-            "CONSISTENT",
-            "CONSTRAINT_CATALOG",
-            "CONSTRAINT_NAME",
-            "CONSTRAINT_SCHEMA",
-            "CONTAINS",
-            "CONTEXT",
-            "CPU",
-            "CUBE",
-            "CURRENT",
-            "CURSOR_NAME",
-            "DATA",
-            "DATAFILE",
-            "DATE",
-            "DATETIME",
-            "DAY",
-            "DEALLOCATE",
-            "DEFAULT_AUTH",
-            "DEFINER",
-            "DELAY_KEY_WRITE",
-            "DES_KEY_FILE",
-            "DIAGNOSTICS",
-            "DIRECTORY",
-            "DISABLE",
-            "DISCARD",
-            "DISK",
-            "DO",
-            "DUMPFILE",
-            "DUPLICATE",
-            "DYNAMIC",
-            "ENABLE",
-            "ENCRYPTION",
-            "END",
-            "ENDS",
-            "ENGINE",
-            "ENGINES",
-            "ENUM",
-            "ERROR",
-            "ERRORS",
-            "ESCAPE",
-            "EVENT",
-            "EVENTS",
-            "EVERY",
-            "EXCHANGE",
-            "EXECUTE",
-            "EXPANSION",
-            "EXPIRE",
-            "EXPORT",
-            "EXTENDED",
-            "EXTENT_SIZE",
-            "FAST",
-            "FAULTS",
-            "FIELDS",
-            "FILE",
-            "FILE_BLOCK_SIZE",
-            "FILTER",
-            "FIRST",
-            "FIXED",
-            "FLUSH",
-            "FOLLOWS",
-            "FORMAT",
-            "FOUND",
-            "FULL",
-            "FUNCTION",
-            "GENERAL",
-            "GEOMETRY",
-            "GEOMETRYCOLLECTION",
-            "GET_FORMAT",
-            "GLOBAL",
-            "GRANTS",
-            "GROUP_REPLICATION",
-            "HANDLER",
-            "HASH",
-            "HELP",
-            "HOST",
-            "HOSTS",
-            "HOUR",
-            "IDENTIFIED",
-            "IGNORE_SERVER_IDS",
-            "IMPORT",
-            "INDEXES",
-            "INITIAL_SIZE",
-            "INSERT_METHOD",
-            "INSTALL",
-            "INSTANCE",
-            "INVOKER",
-            "IO",
-            "IO_THREAD",
-            "IPC",
-            "ISOLATION",
-            "ISSUER",
-            "JSON",
-            "KEY_BLOCK_SIZE",
-            "LANGUAGE",
-            "LAST",
-            "LEAVES",
-            "LESS",
-            "LEVEL",
-            "LINESTRING",
-            "LIST",
-            "LOCAL",
-            "LOCKS",
-            "LOGFILE",
-            "LOGS",
-            "MASTER",
-            "MASTER_AUTO_POSITION",
-            "MASTER_CONNECT_RETRY",
-            "MASTER_DELAY",
-            "MASTER_HEARTBEAT_PERIOD",
-            "MASTER_HOST",
-            "MASTER_LOG_FILE",
-            "MASTER_LOG_POS",
-            "MASTER_PASSWORD",
-            "MASTER_PORT",
-            "MASTER_RETRY_COUNT",
-            "MASTER_SERVER_ID",
-            "MASTER_SSL",
-            "MASTER_SSL_CA",
-            "MASTER_SSL_CAPATH",
-            "MASTER_SSL_CERT",
-            "MASTER_SSL_CIPHER",
-            "MASTER_SSL_CRL",
-            "MASTER_SSL_CRLPATH",
-            "MASTER_SSL_KEY",
-            "MASTER_TLS_VERSION",
-            "MASTER_USER",
-            "MAX_CONNECTIONS_PER_HOUR",
-            "MAX_QUERIES_PER_HOUR",
-            "MAX_ROWS",
-            "MAX_SIZE",
-            "MAX_STATEMENT_TIME",
-            "MAX_UPDATES_PER_HOUR",
-            "MAX_USER_CONNECTIONS",
-            "MEDIUM",
-            "MEMORY",
-            "MERGE",
-            "MESSAGE_TEXT",
-            "MICROSECOND",
-            "MIGRATE",
-            "MINUTE",
-            "MIN_ROWS",
-            "MODE",
-            "MODIFY",
-            "MONTH",
-            "MULTILINESTRING",
-            "MULTIPOINT",
-            "MULTIPOLYGON",
-            "MUTEX",
-            "MYSQL_ERRNO",
-            "NAME",
-            "NAMES",
-            "NATIONAL",
-            "NCHAR",
-            "NDB",
-            "NDBCLUSTER",
-            "NEVER",
-            "NEW",
-            "NEXT",
-            "NO",
-            "NODEGROUP",
-            "NONBLOCKING",
-            "NONE",
-            "NO_WAIT",
-            "NUMBER",
-            "NVARCHAR",
-            "OFFSET",
-            "OLD_PASSWORD",
-            "ONE",
-            "ONLY",
-            "OPEN",
-            "OPTIONS",
-            "OWNER",
-            "PACK_KEYS",
-            "PAGE",
-            "PARSER",
-            "PARSE_GCOL_EXPR",
-            "PARTIAL",
-            "PARTITIONING",
-            "PARTITIONS",
-            "PASSWORD",
-            "PHASE",
-            "PLUGIN",
-            "PLUGINS",
-            "PLUGIN_DIR",
-            "POINT",
-            "POLYGON",
-            "PORT",
-            "PRECEDES",
-            "PREPARE",
-            "PRESERVE",
-            "PREV",
-            "PRIVILEGES",
-            "PROCESSLIST",
-            "PROFILE",
-            "PROFILES",
-            "PROXY",
-            "QUARTER",
-            "QUERY",
-            "QUICK",
-            "READ_ONLY",
-            "REBUILD",
-            "RECOVER",
-            "REDOFILE",
-            "REDO_BUFFER_SIZE",
-            "REDUNDANT",
-            "RELAY",
-            "RELAYLOG",
-            "RELAY_LOG_FILE",
-            "RELAY_LOG_POS",
-            "RELAY_THREAD",
-            "RELOAD",
-            "REMOVE",
-            "REORGANIZE",
-            "REPAIR",
-            "REPEATABLE",
-            "REPLICATE_DO_DB",
-            "REPLICATE_DO_TABLE",
-            "REPLICATE_IGNORE_DB",
-            "REPLICATE_IGNORE_TABLE",
-            "REPLICATE_REWRITE_DB",
-            "REPLICATE_WILD_DO_TABLE",
-            "REPLICATE_WILD_IGNORE_TABLE",
-            "REPLICATION",
-            "RESET",
-            "RESTORE",
-            "RESUME",
-            "RETURNED_SQLSTATE",
-            "RETURNS",
-            "REVERSE",
-            "ROLLBACK",
-            "ROLLUP",
-            "ROTATE",
-            "ROUTINE",
-            "ROW",
-            "ROWS",
-            "ROW_COUNT",
-            "ROW_FORMAT",
-            "RTREE",
-            "SAVEPOINT",
-            "SCHEDULE",
-            "SCHEMA_NAME",
-            "SECOND",
-            "SECURITY",
-            "SERIAL",
-            "SERIALIZABLE",
-            "SERVER",
-            "SESSION",
-            "SHARE",
-            "SHUTDOWN",
-            "SIGNED",
-            "SIMPLE",
-            "SLAVE",
-            "SLOW",
-            "SNAPSHOT",
-            "SOCKET",
-            "SOME",
-            "SONAME",
-            "SOUNDS",
-            "SOURCE",
-            "SQL_AFTER_GTIDS",
-            "SQL_AFTER_MTS_GAPS",
-            "SQL_BEFORE_GTIDS",
-            "SQL_BUFFER_RESULT",
-            "SQL_CACHE",
-            "SQL_NO_CACHE",
-            "SQL_THREAD",
-            "SQL_TSI_DAY",
-            "SQL_TSI_HOUR",
-            "SQL_TSI_MINUTE",
-            "SQL_TSI_MONTH",
-            "SQL_TSI_QUARTER",
-            "SQL_TSI_SECOND",
-            "SQL_TSI_WEEK",
-            "SQL_TSI_YEAR",
-            "STACKED",
-            "START",
-            "STARTS",
-            "STATS_AUTO_RECALC",
-            "STATS_PERSISTENT",
-            "STATS_SAMPLE_PAGES",
-            "STATUS",
-            "STOP",
-            "STORAGE",
-            "STRING",
-            "SUBCLASS_ORIGIN",
-            "SUBJECT",
-            "SUBPARTITION",
-            "SUBPARTITIONS",
-            "SUPER",
-            "SUSPEND",
-            "SWAPS",
-            "SWITCHES",
-            "TABLES",
-            "TABLESPACE",
-            "TABLE_CHECKSUM",
-            "TABLE_NAME",
-            "TEMPORARY",
-            "TEMPTABLE",
-            "TEXT",
-            "THAN",
-            "TIME",
-            "TIMESTAMP",
-            "TIMESTAMPADD",
-            "TIMESTAMPDIFF",
-            "TRANSACTION",
-            "TRIGGERS",
-            "TRUNCATE",
-            "TYPE",
-            "TYPES",
-            "UNCOMMITTED",
-            "UNDEFINED",
-            "UNDOFILE",
-            "UNDO_BUFFER_SIZE",
-            "UNICODE",
-            "UNINSTALL",
-            "UNKNOWN",
-            "UNTIL",
-            "UPGRADE",
-            "USER",
-            "USER_RESOURCES",
-            "USE_FRM",
-            "VALIDATION",
-            "VALUE",
-            "VARIABLES",
-            "VIEW",
-            "WAIT",
-            "WARNINGS",
-            "WEEK",
-            "WEIGHT_STRING",
-            "WITHOUT",
-            "WORK",
-            "WRAPPER",
-            "X509",
-            "XA",
-            "XID",
-            "XML",
-            "YEAR",
-            "NOW",
-            "StringLiteral"
-          ],
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CollationNameOrDefault",
-      "symbols": [
-        {
-          "tokenKind": "DEFAULT",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CollationNameOrDefault",
-      "symbols": [
-        "CollationName"
       ],
       "precedence": 0
     },
@@ -5565,60 +3391,6 @@
         "IfExists$field$281",
         "extras$1",
         "IfExists$field$282"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "IfNotExists$field$283",
-      "symbols": [
-        {
-          "tokenKind": "IF",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "IfNotExists$field$284",
-      "symbols": [
-        {
-          "tokenKind": "NOT",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "IfNotExists$field$285",
-      "symbols": [
-        {
-          "tokenKind": "EXISTS",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "IfNotExists",
-      "symbols": [
-        "IfNotExists$field$283",
-        "extras$1",
-        "IfNotExists$field$284",
-        "extras$1",
-        "IfNotExists$field$285"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Schema",
-      "symbols": [
-        {
-          "tokenKind": "SCHEMA",
-          "otherTokenKinds": [
-            "DATABASE"
-          ],
-          "canExpect": true
-        }
       ],
       "precedence": 0
     },
@@ -5756,163 +3528,6 @@
           ],
           "canExpect": true
         }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BinLogStatement$field$294",
-      "symbols": [
-        {
-          "tokenKind": "BINLOG",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BinLogStatement$field$295",
-      "symbols": [
-        {
-          "tokenKind": "StringLiteral",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "BinLogStatement",
-      "symbols": [
-        "BinLogStatement$field$294",
-        "extras$1",
-        "BinLogStatement$field$295"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaOption",
-      "symbols": [
-        "DefaultCharacterSet"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaOption",
-      "symbols": [
-        "DefaultCollate"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaOptionRepeat1$repeat1$296$item$297$field$298",
-      "symbols": [
-        "CreateSchemaOption"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaOptionRepeat1$repeat1$296$item$297",
-      "symbols": [
-        "CreateSchemaOptionRepeat1$repeat1$296$item$297$field$298"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaOptionRepeat1$repeat1$296",
-      "symbols": [
-        "CreateSchemaOptionRepeat1$repeat1$296$item$297"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaOptionRepeat1$repeat1$296",
-      "symbols": [
-        "CreateSchemaOptionRepeat1$repeat1$296",
-        "extras$1",
-        "CreateSchemaOptionRepeat1$repeat1$296$item$297"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaOptionRepeat1",
-      "symbols": [
-        "CreateSchemaOptionRepeat1$repeat1$296"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$field$299",
-      "symbols": [
-        {
-          "tokenKind": "CREATE",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$field$300",
-      "symbols": [
-        "Schema"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$optional$301",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$optional$301$field$302",
-      "symbols": [
-        "IfNotExists"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$optional$301",
-      "symbols": [
-        "extras$1",
-        "CreateSchemaStatement$optional$301$field$302"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$field$303",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$optional$304",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$optional$304$field$305",
-      "symbols": [
-        "CreateSchemaOptionRepeat1"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement$optional$304",
-      "symbols": [
-        "extras$1",
-        "CreateSchemaStatement$optional$304$field$305"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "CreateSchemaStatement",
-      "symbols": [
-        "CreateSchemaStatement$field$299",
-        "extras$1",
-        "CreateSchemaStatement$field$300",
-        "CreateSchemaStatement$optional$301",
-        "extras$1",
-        "CreateSchemaStatement$field$303",
-        "CreateSchemaStatement$optional$304"
       ],
       "precedence": 0
     },
@@ -8430,50 +6045,6 @@
       "precedence": 0
     },
     {
-      "name": "DelimiterStatement$field$471",
-      "symbols": [
-        {
-          "tokenKind": "DelimiterSpace",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DelimiterStatement$field$472",
-      "symbols": [
-        {
-          "tokenKind": "CustomDelimiter",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DelimiterStatement",
-      "symbols": [
-        "DelimiterStatement$field$471",
-        "extrasNoLineBreak$5",
-        "DelimiterStatement$field$472"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DropTableStatement$field$473",
-      "symbols": [
-        {
-          "tokenKind": "DROP",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DropTableStatement$optional$474",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
       "name": "DropTableStatement$optional$474$field$475",
       "symbols": [
         {
@@ -8495,32 +6066,10 @@
       "name": "DropTableStatement$field$476$choice$477",
       "symbols": [
         {
-          "tokenKind": "TABLE",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DropTableStatement$field$476$choice$477",
-      "symbols": [
-        {
           "tokenKind": "TABLES",
           "canExpect": true
         }
       ],
-      "precedence": 0
-    },
-    {
-      "name": "DropTableStatement$field$476",
-      "symbols": [
-        "DropTableStatement$field$476$choice$477"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DropTableStatement$optional$478",
-      "symbols": [],
       "precedence": 0
     },
     {
@@ -8539,18 +6088,6 @@
       "precedence": 0
     },
     {
-      "name": "DropTableStatement$field$480",
-      "symbols": [
-        "TableIdentifierList1"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DropTableStatement$optional$481",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
       "name": "DropTableStatement$optional$481$field$482",
       "symbols": [
         "DropMode"
@@ -8562,20 +6099,6 @@
       "symbols": [
         "extras$1",
         "DropTableStatement$optional$481$field$482"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "DropTableStatement",
-      "symbols": [
-        "DropTableStatement$field$473",
-        "DropTableStatement$optional$474",
-        "extras$1",
-        "DropTableStatement$field$476",
-        "DropTableStatement$optional$478",
-        "extras$1",
-        "DropTableStatement$field$480",
-        "DropTableStatement$optional$481"
       ],
       "precedence": 0
     },
@@ -10473,23 +7996,6 @@
       "precedence": 0
     },
     {
-      "name": "ExpressionSelectItem$field$586",
-      "symbols": [
-        "Expression"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ExpressionSelectItem$optional$587",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "ExpressionSelectItem$optional$587$optional$588",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
       "name": "ExpressionSelectItem$optional$587$optional$588$field$589",
       "symbols": [
         {
@@ -10510,54 +8016,11 @@
     {
       "name": "ExpressionSelectItem$optional$587$field$590$choice$591",
       "symbols": [
-        "Ident"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ExpressionSelectItem$optional$587$field$590$choice$591",
-      "symbols": [
         {
           "tokenKind": "StringLiteral",
           "canExpect": true
         }
       ],
-      "precedence": 0
-    },
-    {
-      "name": "ExpressionSelectItem$optional$587$field$590",
-      "symbols": [
-        "ExpressionSelectItem$optional$587$field$590$choice$591"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ExpressionSelectItem$optional$587",
-      "symbols": [
-        "ExpressionSelectItem$optional$587$optional$588",
-        "extras$1",
-        "ExpressionSelectItem$optional$587$field$590"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "ExpressionSelectItem",
-      "symbols": [
-        "ExpressionSelectItem$field$586",
-        "ExpressionSelectItem$optional$587"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SelectItemList1$field$592",
-      "symbols": [
-        "ExpressionSelectItem"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SelectItemList1$optional$593",
-      "symbols": [],
       "precedence": 0
     },
     {
@@ -10609,216 +8072,6 @@
         "SelectItemList1$optional$593$repeat1$594"
       ],
       "precedence": 0
-    },
-    {
-      "name": "SelectItemList1",
-      "symbols": [
-        "SelectItemList1$field$592",
-        "SelectItemList1$optional$593"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Select$field$598",
-      "symbols": [
-        {
-          "tokenKind": "SELECT",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Select$field$599",
-      "symbols": [
-        "SelectItemList1"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Select",
-      "symbols": [
-        "Select$field$598",
-        "extras$1",
-        "Select$field$599"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SelectStatement",
-      "symbols": [
-        "Select"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "LeadingStatement$optional$600",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "LeadingStatement$optional$600$field$601",
-      "symbols": [
-        "Statement"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "LeadingStatement$optional$600",
-      "symbols": [
-        "LeadingStatement$optional$600$field$601",
-        "extras$1"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "LeadingStatement",
-      "symbols": [
-        "LeadingStatement$optional$600",
-        "StatementTail"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602",
-      "symbols": [
-        "extras$1"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607$choice$608",
-      "symbols": [
-        "LeadingStatement"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607$choice$608",
-      "symbols": [
-        "DelimiterStatement"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607",
-      "symbols": [
-        "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607$choice$608"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606",
-      "symbols": [
-        "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605",
-      "symbols": [
-        "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605",
-      "symbols": [
-        "SourceFile$choice$602$seq$603$optional$604$repeat1$605",
-        "extras$1",
-        "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602$seq$603$optional$604",
-      "symbols": [
-        "SourceFile$choice$602$seq$603$optional$604$repeat1$605",
-        "extras$1"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "SourceFile$choice$602$seq$603$field$609$choice$610",
-      "symbols": [
-        "DelimiterStatement"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "StatementTail$choice$611$optional$613$field$614",
-      "symbols": [
-        {
-          "tokenKind": "CustomDelimiter",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "StatementTail$choice$611$optional$613",
-      "symbols": [
-        "extras$1",
-        "StatementTail$choice$611$optional$613$field$614"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "StatementTail$choice$611$field$615",
-      "symbols": [
-        {
-          "tokenKind": "CustomDelimiter",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "StatementTail$choice$611",
-      "symbols": [
-        "StatementTail$choice$611$field$615"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Statement",
-      "symbols": [
-        "BinLogStatement"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Statement",
-      "symbols": [
-        "CreateSchemaStatement"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Statement",
-      "symbols": [
-        "DropTableStatement"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "Statement",
-      "symbols": [
-        "SelectStatement"
-      ],
-      "precedence": 0
-    },
-    {
-      "name": "TrailingStatement$optional$617",
-      "symbols": [],
-      "precedence": 0
-    },
-    {
-      "name": "TrailingStatement",
-      "symbols": [
-        "StatementTail"
-      ],
-      "precedence": 0
     }
   ],
   "coveredRules": [
@@ -10828,7 +8081,7 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 18
+      "coverageCount": 340
     },
     {
       "rule": {
@@ -10847,7 +8100,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 27
+      "coverageCount": 740
     },
     {
       "rule": {
@@ -10857,7 +8110,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 26
+      "coverageCount": 645
     },
     {
       "rule": {
@@ -10868,7 +8121,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 1
+      "coverageCount": 95
     },
     {
       "rule": {
@@ -10878,7 +8131,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 26
+      "coverageCount": 645
     },
     {
       "rule": {
@@ -10888,7 +8141,63 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 44
+      "coverageCount": 985
+    },
+    {
+      "rule": {
+        "name": "extrasNoLineBreak$5$optional$6",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 26
+    },
+    {
+      "rule": {
+        "name": "extrasNoLineBreak$5$optional$6$repeat1$7$item$8",
+        "symbols": [
+          {
+            "tokenKind": "WhiteSpace",
+            "otherTokenKinds": [
+              "SingleLineComment",
+              "MultiLineComment",
+              "ExecutionComment"
+            ],
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 5
+    },
+    {
+      "rule": {
+        "name": "extrasNoLineBreak$5$optional$6$repeat1$7",
+        "symbols": [
+          "extrasNoLineBreak$5$optional$6$repeat1$7$item$8"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 5
+    },
+    {
+      "rule": {
+        "name": "extrasNoLineBreak$5$optional$6",
+        "symbols": [
+          "extrasNoLineBreak$5$optional$6$repeat1$7"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 5
+    },
+    {
+      "rule": {
+        "name": "extrasNoLineBreak$5",
+        "symbols": [
+          "extrasNoLineBreak$5$optional$6"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 31
     },
     {
       "rule": {
@@ -10898,7 +8207,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 3
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -10921,7 +8230,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 3
+      "coverageCount": 4
     },
     {
       "rule": {
@@ -10931,7 +8240,83 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 3
+      "coverageCount": 4
+    },
+    {
+      "rule": {
+        "name": "CharacterDataTypeOptionAscii$field$10",
+        "symbols": [
+          {
+            "tokenKind": "ASCII",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "CharacterDataTypeOptionAscii$field$11",
+        "symbols": [
+          {
+            "tokenKind": "BINARY",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "CharacterDataTypeOptionAscii",
+        "symbols": [
+          "CharacterDataTypeOptionAscii$field$10",
+          "extras$1",
+          "CharacterDataTypeOptionAscii$field$11"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "CharacterDataTypeOptionAscii$field$12",
+        "symbols": [
+          {
+            "tokenKind": "BINARY",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "CharacterDataTypeOptionAscii$field$13",
+        "symbols": [
+          {
+            "tokenKind": "ASCII",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "CharacterDataTypeOptionAscii",
+        "symbols": [
+          "CharacterDataTypeOptionAscii$field$12",
+          "extras$1",
+          "CharacterDataTypeOptionAscii$field$13"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
     },
     {
       "rule": {
@@ -10964,7 +8349,17 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 7
+    },
+    {
+      "rule": {
+        "name": "DataType",
+        "symbols": [
+          "IntegerDataType"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 9
     },
     {
       "rule": {
@@ -10974,7 +8369,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -10984,7 +8379,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -10992,7 +8387,7 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -11002,7 +8397,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -11013,7 +8408,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -11025,7 +8420,463 @@
         ],
         "precedence": 0
       },
+      "coverageCount": 7
+    },
+    {
+      "rule": {
+        "name": "IntegerDataType$field$95$choice$96",
+        "symbols": [
+          {
+            "tokenKind": "INT",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 9
+    },
+    {
+      "rule": {
+        "name": "IntegerDataType$field$95",
+        "symbols": [
+          "IntegerDataType$field$95$choice$96"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 9
+    },
+    {
+      "rule": {
+        "name": "IntegerDataType$optional$97",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 9
+    },
+    {
+      "rule": {
+        "name": "IntegerDataType$optional$99",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 9
+    },
+    {
+      "rule": {
+        "name": "IntegerDataType",
+        "symbols": [
+          "IntegerDataType$field$95",
+          "IntegerDataType$optional$97",
+          "IntegerDataType$optional$99"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 9
+    },
+    {
+      "rule": {
+        "name": "BitwiseXor",
+        "symbols": [
+          "SimpleExpression"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 24
+    },
+    {
+      "rule": {
+        "name": "MulDivMod",
+        "symbols": [
+          "BitwiseXor"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 24
+    },
+    {
+      "rule": {
+        "name": "PlusMinus",
+        "symbols": [
+          "MulDivMod"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 24
+    },
+    {
+      "rule": {
+        "name": "BitwiseShift",
+        "symbols": [
+          "PlusMinus"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 24
+    },
+    {
+      "rule": {
+        "name": "BitwiseAnd",
+        "symbols": [
+          "BitwiseShift"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 21
+    },
+    {
+      "rule": {
+        "name": "BitwiseAnd$alias$185$field$186",
+        "symbols": [
+          "BitwiseAnd"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 3
+    },
+    {
+      "rule": {
+        "name": "BitwiseAnd$alias$185$field$187",
+        "symbols": [
+          {
+            "tokenKind": "Ampersand",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 3
+    },
+    {
+      "rule": {
+        "name": "BitwiseAnd$alias$185$field$188",
+        "symbols": [
+          "BitwiseShift"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 3
+    },
+    {
+      "rule": {
+        "name": "BitwiseAnd$alias$185",
+        "symbols": [
+          "BitwiseAnd$alias$185$field$186",
+          "extras$1",
+          "BitwiseAnd$alias$185$field$187",
+          "extras$1",
+          "BitwiseAnd$alias$185$field$188"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 3
+    },
+    {
+      "rule": {
+        "name": "BitwiseAnd",
+        "symbols": [
+          "BitwiseAnd$alias$185"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 3
+    },
+    {
+      "rule": {
+        "name": "BitwiseOr",
+        "symbols": [
+          "BitwiseAnd"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "BitwiseOr$alias$189$field$190",
+        "symbols": [
+          "BitwiseOr"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "BitwiseOr$alias$189$field$191",
+        "symbols": [
+          {
+            "tokenKind": "Bar",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "BitwiseOr$alias$189$field$192",
+        "symbols": [
+          "BitwiseAnd"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "BitwiseOr$alias$189",
+        "symbols": [
+          "BitwiseOr$alias$189$field$190",
+          "extras$1",
+          "BitwiseOr$alias$189$field$191",
+          "extras$1",
+          "BitwiseOr$alias$189$field$192"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "BitwiseOr",
+        "symbols": [
+          "BitwiseOr$alias$189"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "BitExpression",
+        "symbols": [
+          "BitwiseOr"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "BooleanPrimaryExpression",
+        "symbols": [
+          "Predicate"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "Expression",
+        "symbols": [
+          "BooleanPrimaryExpression"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "Literal",
+        "symbols": [
+          "TextLiteral"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "Literal",
+        "symbols": [
+          "NumberLiteral"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "TextLiteral",
+        "symbols": [
+          "ConcatenatedTextLiteral"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ConcatenatedTextLiteral$field$193$choice$194",
+        "symbols": [
+          {
+            "tokenKind": "NationalStringLiteral",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ConcatenatedTextLiteral$field$193$choice$194",
+        "symbols": [
+          "UnderscoreCharacterSetStringLiteral"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ConcatenatedTextLiteral$field$193",
+        "symbols": [
+          "ConcatenatedTextLiteral$field$193$choice$194"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ConcatenatedTextLiteral$repeat1$195$item$196$field$197",
+        "symbols": [
+          {
+            "tokenKind": "StringLiteral",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
       "coverageCount": 4
+    },
+    {
+      "rule": {
+        "name": "ConcatenatedTextLiteral$repeat1$195$item$196",
+        "symbols": [
+          "ConcatenatedTextLiteral$repeat1$195$item$196$field$197"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 4
+    },
+    {
+      "rule": {
+        "name": "ConcatenatedTextLiteral$repeat1$195",
+        "symbols": [
+          "ConcatenatedTextLiteral$repeat1$195$item$196"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ConcatenatedTextLiteral$repeat1$195",
+        "symbols": [
+          "ConcatenatedTextLiteral$repeat1$195",
+          "extras$1",
+          "ConcatenatedTextLiteral$repeat1$195$item$196"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ConcatenatedTextLiteral",
+        "symbols": [
+          "ConcatenatedTextLiteral$field$193",
+          "extras$1",
+          "ConcatenatedTextLiteral$repeat1$195"
+        ],
+        "precedence": 1
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "NumberLiteral",
+        "symbols": [
+          {
+            "tokenKind": "RealLiteral",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "UnderscoreCharacterSetStringLiteral$field$205",
+        "symbols": [
+          {
+            "tokenKind": "UnderscoreCharacterSet",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "UnderscoreCharacterSetStringLiteral$field$206",
+        "symbols": [
+          {
+            "tokenKind": "StringLiteral",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "UnderscoreCharacterSetStringLiteral",
+        "symbols": [
+          "UnderscoreCharacterSetStringLiteral$field$205",
+          "extras$1",
+          "UnderscoreCharacterSetStringLiteral$field$206"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "Predicate",
+        "symbols": [
+          "BitExpression"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "SimpleExpression",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 21
+    },
+    {
+      "rule": {
+        "name": "SimpleExpression",
+        "symbols": [
+          "Literal"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 3
     },
     {
       "rule": {
@@ -11035,7 +8886,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11045,7 +8896,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11448,7 +9299,646 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 8
+      "coverageCount": 179
+    },
+    {
+      "rule": {
+        "name": "IdentOrReserved",
+        "symbols": [
+          {
+            "tokenKind": "Identifier",
+            "otherTokenKinds": [
+              "ACCOUNT",
+              "ACTION",
+              "AFTER",
+              "AGAINST",
+              "AGGREGATE",
+              "ALGORITHM",
+              "ALWAYS",
+              "ANALYSE",
+              "ANY",
+              "ASCII",
+              "AT",
+              "AUTOEXTEND_SIZE",
+              "AUTO_INCREMENT",
+              "AVG",
+              "AVG_ROW_LENGTH",
+              "BACKUP",
+              "BEGIN",
+              "BINLOG",
+              "BIT",
+              "BLOCK",
+              "BOOL",
+              "BOOLEAN",
+              "BTREE",
+              "BYTE",
+              "CACHE",
+              "CASCADED",
+              "CATALOG_NAME",
+              "CHAIN",
+              "CHANGED",
+              "CHANNEL",
+              "CHARSET",
+              "CHECKSUM",
+              "CIPHER",
+              "CLASS_ORIGIN",
+              "CLIENT",
+              "CLOSE",
+              "COALESCE",
+              "CODE",
+              "COLLATION",
+              "COLUMNS",
+              "COLUMN_FORMAT",
+              "COLUMN_NAME",
+              "COMMENT",
+              "COMMIT",
+              "COMMITTED",
+              "COMPACT",
+              "COMPLETION",
+              "COMPRESSED",
+              "COMPRESSION",
+              "CONCURRENT",
+              "CONNECTION",
+              "CONSISTENT",
+              "CONSTRAINT_CATALOG",
+              "CONSTRAINT_NAME",
+              "CONSTRAINT_SCHEMA",
+              "CONTAINS",
+              "CONTEXT",
+              "CPU",
+              "CUBE",
+              "CURRENT",
+              "CURSOR_NAME",
+              "DATA",
+              "DATAFILE",
+              "DATE",
+              "DATETIME",
+              "DAY",
+              "DEALLOCATE",
+              "DEFAULT_AUTH",
+              "DEFINER",
+              "DELAY_KEY_WRITE",
+              "DES_KEY_FILE",
+              "DIAGNOSTICS",
+              "DIRECTORY",
+              "DISABLE",
+              "DISCARD",
+              "DISK",
+              "DO",
+              "DUMPFILE",
+              "DUPLICATE",
+              "DYNAMIC",
+              "ENABLE",
+              "ENCRYPTION",
+              "END",
+              "ENDS",
+              "ENGINE",
+              "ENGINES",
+              "ENUM",
+              "ERROR",
+              "ERRORS",
+              "ESCAPE",
+              "EVENT",
+              "EVENTS",
+              "EVERY",
+              "EXCHANGE",
+              "EXECUTE",
+              "EXPANSION",
+              "EXPIRE",
+              "EXPORT",
+              "EXTENDED",
+              "EXTENT_SIZE",
+              "FAST",
+              "FAULTS",
+              "FIELDS",
+              "FILE",
+              "FILE_BLOCK_SIZE",
+              "FILTER",
+              "FIRST",
+              "FIXED",
+              "FLUSH",
+              "FOLLOWS",
+              "FORMAT",
+              "FOUND",
+              "FULL",
+              "FUNCTION",
+              "GENERAL",
+              "GEOMETRY",
+              "GEOMETRYCOLLECTION",
+              "GET_FORMAT",
+              "GLOBAL",
+              "GRANTS",
+              "GROUP_REPLICATION",
+              "HANDLER",
+              "HASH",
+              "HELP",
+              "HOST",
+              "HOSTS",
+              "HOUR",
+              "IDENTIFIED",
+              "IGNORE_SERVER_IDS",
+              "IMPORT",
+              "INDEXES",
+              "INITIAL_SIZE",
+              "INSERT_METHOD",
+              "INSTALL",
+              "INSTANCE",
+              "INVOKER",
+              "IO",
+              "IO_THREAD",
+              "IPC",
+              "ISOLATION",
+              "ISSUER",
+              "JSON",
+              "KEY_BLOCK_SIZE",
+              "LANGUAGE",
+              "LAST",
+              "LEAVES",
+              "LESS",
+              "LEVEL",
+              "LINESTRING",
+              "LIST",
+              "LOCAL",
+              "LOCKS",
+              "LOGFILE",
+              "LOGS",
+              "MASTER",
+              "MASTER_AUTO_POSITION",
+              "MASTER_CONNECT_RETRY",
+              "MASTER_DELAY",
+              "MASTER_HEARTBEAT_PERIOD",
+              "MASTER_HOST",
+              "MASTER_LOG_FILE",
+              "MASTER_LOG_POS",
+              "MASTER_PASSWORD",
+              "MASTER_PORT",
+              "MASTER_RETRY_COUNT",
+              "MASTER_SERVER_ID",
+              "MASTER_SSL",
+              "MASTER_SSL_CA",
+              "MASTER_SSL_CAPATH",
+              "MASTER_SSL_CERT",
+              "MASTER_SSL_CIPHER",
+              "MASTER_SSL_CRL",
+              "MASTER_SSL_CRLPATH",
+              "MASTER_SSL_KEY",
+              "MASTER_TLS_VERSION",
+              "MASTER_USER",
+              "MAX_CONNECTIONS_PER_HOUR",
+              "MAX_QUERIES_PER_HOUR",
+              "MAX_ROWS",
+              "MAX_SIZE",
+              "MAX_STATEMENT_TIME",
+              "MAX_UPDATES_PER_HOUR",
+              "MAX_USER_CONNECTIONS",
+              "MEDIUM",
+              "MEMORY",
+              "MERGE",
+              "MESSAGE_TEXT",
+              "MICROSECOND",
+              "MIGRATE",
+              "MINUTE",
+              "MIN_ROWS",
+              "MODE",
+              "MODIFY",
+              "MONTH",
+              "MULTILINESTRING",
+              "MULTIPOINT",
+              "MULTIPOLYGON",
+              "MUTEX",
+              "MYSQL_ERRNO",
+              "NAME",
+              "NAMES",
+              "NATIONAL",
+              "NCHAR",
+              "NDB",
+              "NDBCLUSTER",
+              "NEVER",
+              "NEW",
+              "NEXT",
+              "NO",
+              "NODEGROUP",
+              "NONBLOCKING",
+              "NONE",
+              "NO_WAIT",
+              "NUMBER",
+              "NVARCHAR",
+              "OFFSET",
+              "OLD_PASSWORD",
+              "ONE",
+              "ONLY",
+              "OPEN",
+              "OPTIONS",
+              "OWNER",
+              "PACK_KEYS",
+              "PAGE",
+              "PARSER",
+              "PARSE_GCOL_EXPR",
+              "PARTIAL",
+              "PARTITIONING",
+              "PARTITIONS",
+              "PASSWORD",
+              "PHASE",
+              "PLUGIN",
+              "PLUGINS",
+              "PLUGIN_DIR",
+              "POINT",
+              "POLYGON",
+              "PORT",
+              "PRECEDES",
+              "PREPARE",
+              "PRESERVE",
+              "PREV",
+              "PRIVILEGES",
+              "PROCESSLIST",
+              "PROFILE",
+              "PROFILES",
+              "PROXY",
+              "QUARTER",
+              "QUERY",
+              "QUICK",
+              "READ_ONLY",
+              "REBUILD",
+              "RECOVER",
+              "REDOFILE",
+              "REDO_BUFFER_SIZE",
+              "REDUNDANT",
+              "RELAY",
+              "RELAYLOG",
+              "RELAY_LOG_FILE",
+              "RELAY_LOG_POS",
+              "RELAY_THREAD",
+              "RELOAD",
+              "REMOVE",
+              "REORGANIZE",
+              "REPAIR",
+              "REPEATABLE",
+              "REPLICATE_DO_DB",
+              "REPLICATE_DO_TABLE",
+              "REPLICATE_IGNORE_DB",
+              "REPLICATE_IGNORE_TABLE",
+              "REPLICATE_REWRITE_DB",
+              "REPLICATE_WILD_DO_TABLE",
+              "REPLICATE_WILD_IGNORE_TABLE",
+              "REPLICATION",
+              "RESET",
+              "RESTORE",
+              "RESUME",
+              "RETURNED_SQLSTATE",
+              "RETURNS",
+              "REVERSE",
+              "ROLLBACK",
+              "ROLLUP",
+              "ROTATE",
+              "ROUTINE",
+              "ROW",
+              "ROWS",
+              "ROW_COUNT",
+              "ROW_FORMAT",
+              "RTREE",
+              "SAVEPOINT",
+              "SCHEDULE",
+              "SCHEMA_NAME",
+              "SECOND",
+              "SECURITY",
+              "SERIAL",
+              "SERIALIZABLE",
+              "SERVER",
+              "SESSION",
+              "SHARE",
+              "SHUTDOWN",
+              "SIGNED",
+              "SIMPLE",
+              "SLAVE",
+              "SLOW",
+              "SNAPSHOT",
+              "SOCKET",
+              "SOME",
+              "SONAME",
+              "SOUNDS",
+              "SOURCE",
+              "SQL_AFTER_GTIDS",
+              "SQL_AFTER_MTS_GAPS",
+              "SQL_BEFORE_GTIDS",
+              "SQL_BUFFER_RESULT",
+              "SQL_CACHE",
+              "SQL_NO_CACHE",
+              "SQL_THREAD",
+              "SQL_TSI_DAY",
+              "SQL_TSI_HOUR",
+              "SQL_TSI_MINUTE",
+              "SQL_TSI_MONTH",
+              "SQL_TSI_QUARTER",
+              "SQL_TSI_SECOND",
+              "SQL_TSI_WEEK",
+              "SQL_TSI_YEAR",
+              "STACKED",
+              "START",
+              "STARTS",
+              "STATS_AUTO_RECALC",
+              "STATS_PERSISTENT",
+              "STATS_SAMPLE_PAGES",
+              "STATUS",
+              "STOP",
+              "STORAGE",
+              "STRING",
+              "SUBCLASS_ORIGIN",
+              "SUBJECT",
+              "SUBPARTITION",
+              "SUBPARTITIONS",
+              "SUPER",
+              "SUSPEND",
+              "SWAPS",
+              "SWITCHES",
+              "TABLES",
+              "TABLESPACE",
+              "TABLE_CHECKSUM",
+              "TABLE_NAME",
+              "TEMPORARY",
+              "TEMPTABLE",
+              "TEXT",
+              "THAN",
+              "TIME",
+              "TIMESTAMP",
+              "TIMESTAMPADD",
+              "TIMESTAMPDIFF",
+              "TRANSACTION",
+              "TRIGGERS",
+              "TRUNCATE",
+              "TYPE",
+              "TYPES",
+              "UNCOMMITTED",
+              "UNDEFINED",
+              "UNDOFILE",
+              "UNDO_BUFFER_SIZE",
+              "UNICODE",
+              "UNINSTALL",
+              "UNKNOWN",
+              "UNTIL",
+              "UPGRADE",
+              "USER",
+              "USER_RESOURCES",
+              "USE_FRM",
+              "VALIDATION",
+              "VALUE",
+              "VARIABLES",
+              "VIEW",
+              "WAIT",
+              "WARNINGS",
+              "WEEK",
+              "WEIGHT_STRING",
+              "WITHOUT",
+              "WORK",
+              "WRAPPER",
+              "X509",
+              "XA",
+              "XID",
+              "XML",
+              "YEAR",
+              "NOW",
+              "ACCESSIBLE",
+              "ADD",
+              "ALL",
+              "ALTER",
+              "ANALYZE",
+              "AND",
+              "AS",
+              "ASC",
+              "ASENSITIVE",
+              "BEFORE",
+              "BETWEEN",
+              "BIGINT",
+              "BINARY",
+              "BLOB",
+              "BOTH",
+              "BY",
+              "CALL",
+              "CASCADE",
+              "CASE",
+              "CHANGE",
+              "CHAR",
+              "CHARACTER",
+              "CHECK",
+              "COLLATE",
+              "COLUMN",
+              "CONDITION",
+              "CONSTRAINT",
+              "CONTINUE",
+              "CONVERT",
+              "CREATE",
+              "CROSS",
+              "CURRENT_DATE",
+              "CURRENT_TIME",
+              "CURRENT_TIMESTAMP",
+              "CURRENT_USER",
+              "CURSOR",
+              "DATABASE",
+              "DATABASES",
+              "DAY_HOUR",
+              "DAY_MICROSECOND",
+              "DAY_MINUTE",
+              "DAY_SECOND",
+              "DEC",
+              "DECIMAL",
+              "DECLARE",
+              "DEFAULT",
+              "DELAYED",
+              "DELETE",
+              "DESC",
+              "DESCRIBE",
+              "DETERMINISTIC",
+              "DISTINCT",
+              "DISTINCTROW",
+              "DIV",
+              "DOUBLE",
+              "DROP",
+              "DUAL",
+              "EACH",
+              "ELSE",
+              "ELSEIF",
+              "ENCLOSED",
+              "ESCAPED",
+              "EXISTS",
+              "EXIT",
+              "EXPLAIN",
+              "FALSE",
+              "FETCH",
+              "FLOAT",
+              "FLOAT4",
+              "FLOAT8",
+              "FOR",
+              "FORCE",
+              "FOREIGN",
+              "FROM",
+              "FULLTEXT",
+              "GENERATED",
+              "GET",
+              "GRANT",
+              "GROUP",
+              "HAVING",
+              "HIGH_PRIORITY",
+              "HOUR_MICROSECOND",
+              "HOUR_MINUTE",
+              "HOUR_SECOND",
+              "IF",
+              "IGNORE",
+              "IN",
+              "INDEX",
+              "INFILE",
+              "INNER",
+              "INOUT",
+              "INSENSITIVE",
+              "INSERT",
+              "INT",
+              "INT1",
+              "INT2",
+              "INT3",
+              "INT4",
+              "INT8",
+              "INTEGER",
+              "INTERVAL",
+              "INTO",
+              "IO_AFTER_GTIDS",
+              "IO_BEFORE_GTIDS",
+              "IS",
+              "ITERATE",
+              "JOIN",
+              "KEY",
+              "KEYS",
+              "KILL",
+              "LEADING",
+              "LEAVE",
+              "LEFT",
+              "LIKE",
+              "LIMIT",
+              "LINEAR",
+              "LINES",
+              "LOAD",
+              "LOCALTIME",
+              "LOCALTIMESTAMP",
+              "LOCK",
+              "LONG",
+              "LONGBLOB",
+              "LONGTEXT",
+              "LOOP",
+              "LOW_PRIORITY",
+              "MASTER_BIND",
+              "MASTER_SSL_VERIFY_SERVER_CERT",
+              "MATCH",
+              "MAXVALUE",
+              "MEDIUMBLOB",
+              "MEDIUMINT",
+              "MEDIUMTEXT",
+              "MIDDLEINT",
+              "MINUTE_MICROSECOND",
+              "MINUTE_SECOND",
+              "MOD",
+              "MODIFIES",
+              "NATURAL",
+              "NOT",
+              "NO_WRITE_TO_BINLOG",
+              "NULL",
+              "NUMERIC",
+              "ON",
+              "OPTIMIZE",
+              "OPTIMIZER_COSTS",
+              "OPTION",
+              "OPTIONALLY",
+              "OR",
+              "ORDER",
+              "OUT",
+              "OUTER",
+              "OUTFILE",
+              "PARTITION",
+              "PRECISION",
+              "PRIMARY",
+              "PROCEDURE",
+              "PURGE",
+              "RANGE",
+              "READ",
+              "READS",
+              "READ_WRITE",
+              "REAL",
+              "REFERENCES",
+              "REGEXP",
+              "RELEASE",
+              "RENAME",
+              "REPEAT",
+              "REPLACE",
+              "REQUIRE",
+              "RESIGNAL",
+              "RESTRICT",
+              "RETURN",
+              "REVOKE",
+              "RIGHT",
+              "RLIKE",
+              "SCHEMA",
+              "SCHEMAS",
+              "SECOND_MICROSECOND",
+              "SELECT",
+              "SENSITIVE",
+              "SEPARATOR",
+              "SET",
+              "SHOW",
+              "SIGNAL",
+              "SMALLINT",
+              "SPATIAL",
+              "SPECIFIC",
+              "SQL",
+              "SQLEXCEPTION",
+              "SQLSTATE",
+              "SQLWARNING",
+              "SQL_BIG_RESULT",
+              "SQL_CALC_FOUND_ROWS",
+              "SQL_SMALL_RESULT",
+              "SSL",
+              "STARTING",
+              "STORED",
+              "STRAIGHT_JOIN",
+              "TABLE",
+              "TERMINATED",
+              "THEN",
+              "TINYBLOB",
+              "TINYINT",
+              "TINYTEXT",
+              "TO",
+              "TRAILING",
+              "TRIGGER",
+              "TRUE",
+              "UNDO",
+              "UNION",
+              "UNIQUE",
+              "UNLOCK",
+              "UNSIGNED",
+              "UPDATE",
+              "USAGE",
+              "USE",
+              "USING",
+              "UTC_DATE",
+              "UTC_TIME",
+              "UTC_TIMESTAMP",
+              "VALUES",
+              "VARBINARY",
+              "VARCHAR",
+              "VARCHARACTER",
+              "VARYING",
+              "VIRTUAL",
+              "WHEN",
+              "WHERE",
+              "WHILE",
+              "WITH",
+              "WRITE",
+              "XOR",
+              "YEAR_MONTH",
+              "ZEROFILL",
+              "UnderscoreCharacterSet"
+            ],
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 3
     },
     {
       "rule": {
@@ -11458,7 +9948,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 14
     },
     {
       "rule": {
@@ -11468,7 +9958,118 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 14
+    },
+    {
+      "rule": {
+        "name": "TableIdentifier$field$245",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "TableIdentifier$field$246",
+        "symbols": [
+          {
+            "tokenKind": "Dot",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "TableIdentifier$field$247",
+        "symbols": [
+          "IdentOrReserved"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "TableIdentifier",
+        "symbols": [
+          "TableIdentifier$field$245",
+          "extras$1",
+          "TableIdentifier$field$246",
+          "extras$1",
+          "TableIdentifier$field$247"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "TableIdentifier$field$248",
+        "symbols": [
+          {
+            "tokenKind": "Dot",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "TableIdentifier$field$249",
+        "symbols": [
+          "IdentOrReserved"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "TableIdentifier",
+        "symbols": [
+          "TableIdentifier$field$248",
+          "extras$1",
+          "TableIdentifier$field$249"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "TableIdentifierList1$field$259",
+        "symbols": [
+          "TableIdentifier"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "TableIdentifierList1$optional$260",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "TableIdentifierList1",
+        "symbols": [
+          "TableIdentifierList1$field$259",
+          "TableIdentifierList1$optional$260"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
     },
     {
       "rule": {
@@ -11484,7 +10085,1398 @@
         ],
         "precedence": 0
       },
+      "coverageCount": 7
+    },
+    {
+      "rule": {
+        "name": "DefaultCharacterSet$optional$265",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 21
+    },
+    {
+      "rule": {
+        "name": "DefaultCharacterSet$optional$265$field$266",
+        "symbols": [
+          {
+            "tokenKind": "DEFAULT",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DefaultCharacterSet$optional$265",
+        "symbols": [
+          "DefaultCharacterSet$optional$265$field$266",
+          "extras$1"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DefaultCharacterSet$optional$267",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 21
+    },
+    {
+      "rule": {
+        "name": "DefaultCharacterSet$optional$267$field$268",
+        "symbols": [
+          {
+            "tokenKind": "Equal",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DefaultCharacterSet$optional$267",
+        "symbols": [
+          "extras$1",
+          "DefaultCharacterSet$optional$267$field$268"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DefaultCharacterSet$field$269",
+        "symbols": [
+          "CharacterSetNameOrDefault"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 22
+    },
+    {
+      "rule": {
+        "name": "DefaultCharacterSet",
+        "symbols": [
+          "DefaultCharacterSet$optional$265",
+          "CharSet",
+          "DefaultCharacterSet$optional$267",
+          "extras$1",
+          "DefaultCharacterSet$field$269"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 22
+    },
+    {
+      "rule": {
+        "name": "CharacterSetName",
+        "symbols": [
+          {
+            "tokenKind": "Identifier",
+            "otherTokenKinds": [
+              "ACCOUNT",
+              "ACTION",
+              "AFTER",
+              "AGAINST",
+              "AGGREGATE",
+              "ALGORITHM",
+              "ALWAYS",
+              "ANALYSE",
+              "ANY",
+              "ASCII",
+              "AT",
+              "AUTOEXTEND_SIZE",
+              "AUTO_INCREMENT",
+              "AVG",
+              "AVG_ROW_LENGTH",
+              "BACKUP",
+              "BEGIN",
+              "BINLOG",
+              "BIT",
+              "BLOCK",
+              "BOOL",
+              "BOOLEAN",
+              "BTREE",
+              "BYTE",
+              "CACHE",
+              "CASCADED",
+              "CATALOG_NAME",
+              "CHAIN",
+              "CHANGED",
+              "CHANNEL",
+              "CHARSET",
+              "CHECKSUM",
+              "CIPHER",
+              "CLASS_ORIGIN",
+              "CLIENT",
+              "CLOSE",
+              "COALESCE",
+              "CODE",
+              "COLLATION",
+              "COLUMNS",
+              "COLUMN_FORMAT",
+              "COLUMN_NAME",
+              "COMMENT",
+              "COMMIT",
+              "COMMITTED",
+              "COMPACT",
+              "COMPLETION",
+              "COMPRESSED",
+              "COMPRESSION",
+              "CONCURRENT",
+              "CONNECTION",
+              "CONSISTENT",
+              "CONSTRAINT_CATALOG",
+              "CONSTRAINT_NAME",
+              "CONSTRAINT_SCHEMA",
+              "CONTAINS",
+              "CONTEXT",
+              "CPU",
+              "CUBE",
+              "CURRENT",
+              "CURSOR_NAME",
+              "DATA",
+              "DATAFILE",
+              "DATE",
+              "DATETIME",
+              "DAY",
+              "DEALLOCATE",
+              "DEFAULT_AUTH",
+              "DEFINER",
+              "DELAY_KEY_WRITE",
+              "DES_KEY_FILE",
+              "DIAGNOSTICS",
+              "DIRECTORY",
+              "DISABLE",
+              "DISCARD",
+              "DISK",
+              "DO",
+              "DUMPFILE",
+              "DUPLICATE",
+              "DYNAMIC",
+              "ENABLE",
+              "ENCRYPTION",
+              "END",
+              "ENDS",
+              "ENGINE",
+              "ENGINES",
+              "ENUM",
+              "ERROR",
+              "ERRORS",
+              "ESCAPE",
+              "EVENT",
+              "EVENTS",
+              "EVERY",
+              "EXCHANGE",
+              "EXECUTE",
+              "EXPANSION",
+              "EXPIRE",
+              "EXPORT",
+              "EXTENDED",
+              "EXTENT_SIZE",
+              "FAST",
+              "FAULTS",
+              "FIELDS",
+              "FILE",
+              "FILE_BLOCK_SIZE",
+              "FILTER",
+              "FIRST",
+              "FIXED",
+              "FLUSH",
+              "FOLLOWS",
+              "FORMAT",
+              "FOUND",
+              "FULL",
+              "FUNCTION",
+              "GENERAL",
+              "GEOMETRY",
+              "GEOMETRYCOLLECTION",
+              "GET_FORMAT",
+              "GLOBAL",
+              "GRANTS",
+              "GROUP_REPLICATION",
+              "HANDLER",
+              "HASH",
+              "HELP",
+              "HOST",
+              "HOSTS",
+              "HOUR",
+              "IDENTIFIED",
+              "IGNORE_SERVER_IDS",
+              "IMPORT",
+              "INDEXES",
+              "INITIAL_SIZE",
+              "INSERT_METHOD",
+              "INSTALL",
+              "INSTANCE",
+              "INVOKER",
+              "IO",
+              "IO_THREAD",
+              "IPC",
+              "ISOLATION",
+              "ISSUER",
+              "JSON",
+              "KEY_BLOCK_SIZE",
+              "LANGUAGE",
+              "LAST",
+              "LEAVES",
+              "LESS",
+              "LEVEL",
+              "LINESTRING",
+              "LIST",
+              "LOCAL",
+              "LOCKS",
+              "LOGFILE",
+              "LOGS",
+              "MASTER",
+              "MASTER_AUTO_POSITION",
+              "MASTER_CONNECT_RETRY",
+              "MASTER_DELAY",
+              "MASTER_HEARTBEAT_PERIOD",
+              "MASTER_HOST",
+              "MASTER_LOG_FILE",
+              "MASTER_LOG_POS",
+              "MASTER_PASSWORD",
+              "MASTER_PORT",
+              "MASTER_RETRY_COUNT",
+              "MASTER_SERVER_ID",
+              "MASTER_SSL",
+              "MASTER_SSL_CA",
+              "MASTER_SSL_CAPATH",
+              "MASTER_SSL_CERT",
+              "MASTER_SSL_CIPHER",
+              "MASTER_SSL_CRL",
+              "MASTER_SSL_CRLPATH",
+              "MASTER_SSL_KEY",
+              "MASTER_TLS_VERSION",
+              "MASTER_USER",
+              "MAX_CONNECTIONS_PER_HOUR",
+              "MAX_QUERIES_PER_HOUR",
+              "MAX_ROWS",
+              "MAX_SIZE",
+              "MAX_STATEMENT_TIME",
+              "MAX_UPDATES_PER_HOUR",
+              "MAX_USER_CONNECTIONS",
+              "MEDIUM",
+              "MEMORY",
+              "MERGE",
+              "MESSAGE_TEXT",
+              "MICROSECOND",
+              "MIGRATE",
+              "MINUTE",
+              "MIN_ROWS",
+              "MODE",
+              "MODIFY",
+              "MONTH",
+              "MULTILINESTRING",
+              "MULTIPOINT",
+              "MULTIPOLYGON",
+              "MUTEX",
+              "MYSQL_ERRNO",
+              "NAME",
+              "NAMES",
+              "NATIONAL",
+              "NCHAR",
+              "NDB",
+              "NDBCLUSTER",
+              "NEVER",
+              "NEW",
+              "NEXT",
+              "NO",
+              "NODEGROUP",
+              "NONBLOCKING",
+              "NONE",
+              "NO_WAIT",
+              "NUMBER",
+              "NVARCHAR",
+              "OFFSET",
+              "OLD_PASSWORD",
+              "ONE",
+              "ONLY",
+              "OPEN",
+              "OPTIONS",
+              "OWNER",
+              "PACK_KEYS",
+              "PAGE",
+              "PARSER",
+              "PARSE_GCOL_EXPR",
+              "PARTIAL",
+              "PARTITIONING",
+              "PARTITIONS",
+              "PASSWORD",
+              "PHASE",
+              "PLUGIN",
+              "PLUGINS",
+              "PLUGIN_DIR",
+              "POINT",
+              "POLYGON",
+              "PORT",
+              "PRECEDES",
+              "PREPARE",
+              "PRESERVE",
+              "PREV",
+              "PRIVILEGES",
+              "PROCESSLIST",
+              "PROFILE",
+              "PROFILES",
+              "PROXY",
+              "QUARTER",
+              "QUERY",
+              "QUICK",
+              "READ_ONLY",
+              "REBUILD",
+              "RECOVER",
+              "REDOFILE",
+              "REDO_BUFFER_SIZE",
+              "REDUNDANT",
+              "RELAY",
+              "RELAYLOG",
+              "RELAY_LOG_FILE",
+              "RELAY_LOG_POS",
+              "RELAY_THREAD",
+              "RELOAD",
+              "REMOVE",
+              "REORGANIZE",
+              "REPAIR",
+              "REPEATABLE",
+              "REPLICATE_DO_DB",
+              "REPLICATE_DO_TABLE",
+              "REPLICATE_IGNORE_DB",
+              "REPLICATE_IGNORE_TABLE",
+              "REPLICATE_REWRITE_DB",
+              "REPLICATE_WILD_DO_TABLE",
+              "REPLICATE_WILD_IGNORE_TABLE",
+              "REPLICATION",
+              "RESET",
+              "RESTORE",
+              "RESUME",
+              "RETURNED_SQLSTATE",
+              "RETURNS",
+              "REVERSE",
+              "ROLLBACK",
+              "ROLLUP",
+              "ROTATE",
+              "ROUTINE",
+              "ROW",
+              "ROWS",
+              "ROW_COUNT",
+              "ROW_FORMAT",
+              "RTREE",
+              "SAVEPOINT",
+              "SCHEDULE",
+              "SCHEMA_NAME",
+              "SECOND",
+              "SECURITY",
+              "SERIAL",
+              "SERIALIZABLE",
+              "SERVER",
+              "SESSION",
+              "SHARE",
+              "SHUTDOWN",
+              "SIGNED",
+              "SIMPLE",
+              "SLAVE",
+              "SLOW",
+              "SNAPSHOT",
+              "SOCKET",
+              "SOME",
+              "SONAME",
+              "SOUNDS",
+              "SOURCE",
+              "SQL_AFTER_GTIDS",
+              "SQL_AFTER_MTS_GAPS",
+              "SQL_BEFORE_GTIDS",
+              "SQL_BUFFER_RESULT",
+              "SQL_CACHE",
+              "SQL_NO_CACHE",
+              "SQL_THREAD",
+              "SQL_TSI_DAY",
+              "SQL_TSI_HOUR",
+              "SQL_TSI_MINUTE",
+              "SQL_TSI_MONTH",
+              "SQL_TSI_QUARTER",
+              "SQL_TSI_SECOND",
+              "SQL_TSI_WEEK",
+              "SQL_TSI_YEAR",
+              "STACKED",
+              "START",
+              "STARTS",
+              "STATS_AUTO_RECALC",
+              "STATS_PERSISTENT",
+              "STATS_SAMPLE_PAGES",
+              "STATUS",
+              "STOP",
+              "STORAGE",
+              "STRING",
+              "SUBCLASS_ORIGIN",
+              "SUBJECT",
+              "SUBPARTITION",
+              "SUBPARTITIONS",
+              "SUPER",
+              "SUSPEND",
+              "SWAPS",
+              "SWITCHES",
+              "TABLES",
+              "TABLESPACE",
+              "TABLE_CHECKSUM",
+              "TABLE_NAME",
+              "TEMPORARY",
+              "TEMPTABLE",
+              "TEXT",
+              "THAN",
+              "TIME",
+              "TIMESTAMP",
+              "TIMESTAMPADD",
+              "TIMESTAMPDIFF",
+              "TRANSACTION",
+              "TRIGGERS",
+              "TRUNCATE",
+              "TYPE",
+              "TYPES",
+              "UNCOMMITTED",
+              "UNDEFINED",
+              "UNDOFILE",
+              "UNDO_BUFFER_SIZE",
+              "UNICODE",
+              "UNINSTALL",
+              "UNKNOWN",
+              "UNTIL",
+              "UPGRADE",
+              "USER",
+              "USER_RESOURCES",
+              "USE_FRM",
+              "VALIDATION",
+              "VALUE",
+              "VARIABLES",
+              "VIEW",
+              "WAIT",
+              "WARNINGS",
+              "WEEK",
+              "WEIGHT_STRING",
+              "WITHOUT",
+              "WORK",
+              "WRAPPER",
+              "X509",
+              "XA",
+              "XID",
+              "XML",
+              "YEAR",
+              "NOW",
+              "BINARY",
+              "StringLiteral"
+            ],
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "CharacterSetNameOrDefault",
+        "symbols": [
+          {
+            "tokenKind": "DEFAULT",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "CharacterSetNameOrDefault",
+        "symbols": [
+          "CharacterSetName"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "CharSet$field$270",
+        "symbols": [
+          {
+            "tokenKind": "CHARACTER",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "CharSet$field$271",
+        "symbols": [
+          {
+            "tokenKind": "SET",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "CharSet",
+        "symbols": [
+          "CharSet$field$270",
+          "extras$1",
+          "CharSet$field$271"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "CharSet$field$272",
+        "symbols": [
+          {
+            "tokenKind": "CHARSET",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "CharSet",
+        "symbols": [
+          "CharSet$field$272"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate$optional$273",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 15
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate$optional$273$field$274",
+        "symbols": [
+          {
+            "tokenKind": "DEFAULT",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate$optional$273",
+        "symbols": [
+          "DefaultCollate$optional$273$field$274",
+          "extras$1"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate$field$275",
+        "symbols": [
+          {
+            "tokenKind": "COLLATE",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate$optional$276",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 15
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate$optional$276$field$277",
+        "symbols": [
+          {
+            "tokenKind": "Equal",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate$optional$276",
+        "symbols": [
+          "extras$1",
+          "DefaultCollate$optional$276$field$277"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate$field$278",
+        "symbols": [
+          "CollationNameOrDefault"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "DefaultCollate",
+        "symbols": [
+          "DefaultCollate$optional$273",
+          "DefaultCollate$field$275",
+          "DefaultCollate$optional$276",
+          "extras$1",
+          "DefaultCollate$field$278"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "CollationName",
+        "symbols": [
+          {
+            "tokenKind": "Identifier",
+            "otherTokenKinds": [
+              "ACCOUNT",
+              "ACTION",
+              "AFTER",
+              "AGAINST",
+              "AGGREGATE",
+              "ALGORITHM",
+              "ALWAYS",
+              "ANALYSE",
+              "ANY",
+              "ASCII",
+              "AT",
+              "AUTOEXTEND_SIZE",
+              "AUTO_INCREMENT",
+              "AVG",
+              "AVG_ROW_LENGTH",
+              "BACKUP",
+              "BEGIN",
+              "BINLOG",
+              "BIT",
+              "BLOCK",
+              "BOOL",
+              "BOOLEAN",
+              "BTREE",
+              "BYTE",
+              "CACHE",
+              "CASCADED",
+              "CATALOG_NAME",
+              "CHAIN",
+              "CHANGED",
+              "CHANNEL",
+              "CHARSET",
+              "CHECKSUM",
+              "CIPHER",
+              "CLASS_ORIGIN",
+              "CLIENT",
+              "CLOSE",
+              "COALESCE",
+              "CODE",
+              "COLLATION",
+              "COLUMNS",
+              "COLUMN_FORMAT",
+              "COLUMN_NAME",
+              "COMMENT",
+              "COMMIT",
+              "COMMITTED",
+              "COMPACT",
+              "COMPLETION",
+              "COMPRESSED",
+              "COMPRESSION",
+              "CONCURRENT",
+              "CONNECTION",
+              "CONSISTENT",
+              "CONSTRAINT_CATALOG",
+              "CONSTRAINT_NAME",
+              "CONSTRAINT_SCHEMA",
+              "CONTAINS",
+              "CONTEXT",
+              "CPU",
+              "CUBE",
+              "CURRENT",
+              "CURSOR_NAME",
+              "DATA",
+              "DATAFILE",
+              "DATE",
+              "DATETIME",
+              "DAY",
+              "DEALLOCATE",
+              "DEFAULT_AUTH",
+              "DEFINER",
+              "DELAY_KEY_WRITE",
+              "DES_KEY_FILE",
+              "DIAGNOSTICS",
+              "DIRECTORY",
+              "DISABLE",
+              "DISCARD",
+              "DISK",
+              "DO",
+              "DUMPFILE",
+              "DUPLICATE",
+              "DYNAMIC",
+              "ENABLE",
+              "ENCRYPTION",
+              "END",
+              "ENDS",
+              "ENGINE",
+              "ENGINES",
+              "ENUM",
+              "ERROR",
+              "ERRORS",
+              "ESCAPE",
+              "EVENT",
+              "EVENTS",
+              "EVERY",
+              "EXCHANGE",
+              "EXECUTE",
+              "EXPANSION",
+              "EXPIRE",
+              "EXPORT",
+              "EXTENDED",
+              "EXTENT_SIZE",
+              "FAST",
+              "FAULTS",
+              "FIELDS",
+              "FILE",
+              "FILE_BLOCK_SIZE",
+              "FILTER",
+              "FIRST",
+              "FIXED",
+              "FLUSH",
+              "FOLLOWS",
+              "FORMAT",
+              "FOUND",
+              "FULL",
+              "FUNCTION",
+              "GENERAL",
+              "GEOMETRY",
+              "GEOMETRYCOLLECTION",
+              "GET_FORMAT",
+              "GLOBAL",
+              "GRANTS",
+              "GROUP_REPLICATION",
+              "HANDLER",
+              "HASH",
+              "HELP",
+              "HOST",
+              "HOSTS",
+              "HOUR",
+              "IDENTIFIED",
+              "IGNORE_SERVER_IDS",
+              "IMPORT",
+              "INDEXES",
+              "INITIAL_SIZE",
+              "INSERT_METHOD",
+              "INSTALL",
+              "INSTANCE",
+              "INVOKER",
+              "IO",
+              "IO_THREAD",
+              "IPC",
+              "ISOLATION",
+              "ISSUER",
+              "JSON",
+              "KEY_BLOCK_SIZE",
+              "LANGUAGE",
+              "LAST",
+              "LEAVES",
+              "LESS",
+              "LEVEL",
+              "LINESTRING",
+              "LIST",
+              "LOCAL",
+              "LOCKS",
+              "LOGFILE",
+              "LOGS",
+              "MASTER",
+              "MASTER_AUTO_POSITION",
+              "MASTER_CONNECT_RETRY",
+              "MASTER_DELAY",
+              "MASTER_HEARTBEAT_PERIOD",
+              "MASTER_HOST",
+              "MASTER_LOG_FILE",
+              "MASTER_LOG_POS",
+              "MASTER_PASSWORD",
+              "MASTER_PORT",
+              "MASTER_RETRY_COUNT",
+              "MASTER_SERVER_ID",
+              "MASTER_SSL",
+              "MASTER_SSL_CA",
+              "MASTER_SSL_CAPATH",
+              "MASTER_SSL_CERT",
+              "MASTER_SSL_CIPHER",
+              "MASTER_SSL_CRL",
+              "MASTER_SSL_CRLPATH",
+              "MASTER_SSL_KEY",
+              "MASTER_TLS_VERSION",
+              "MASTER_USER",
+              "MAX_CONNECTIONS_PER_HOUR",
+              "MAX_QUERIES_PER_HOUR",
+              "MAX_ROWS",
+              "MAX_SIZE",
+              "MAX_STATEMENT_TIME",
+              "MAX_UPDATES_PER_HOUR",
+              "MAX_USER_CONNECTIONS",
+              "MEDIUM",
+              "MEMORY",
+              "MERGE",
+              "MESSAGE_TEXT",
+              "MICROSECOND",
+              "MIGRATE",
+              "MINUTE",
+              "MIN_ROWS",
+              "MODE",
+              "MODIFY",
+              "MONTH",
+              "MULTILINESTRING",
+              "MULTIPOINT",
+              "MULTIPOLYGON",
+              "MUTEX",
+              "MYSQL_ERRNO",
+              "NAME",
+              "NAMES",
+              "NATIONAL",
+              "NCHAR",
+              "NDB",
+              "NDBCLUSTER",
+              "NEVER",
+              "NEW",
+              "NEXT",
+              "NO",
+              "NODEGROUP",
+              "NONBLOCKING",
+              "NONE",
+              "NO_WAIT",
+              "NUMBER",
+              "NVARCHAR",
+              "OFFSET",
+              "OLD_PASSWORD",
+              "ONE",
+              "ONLY",
+              "OPEN",
+              "OPTIONS",
+              "OWNER",
+              "PACK_KEYS",
+              "PAGE",
+              "PARSER",
+              "PARSE_GCOL_EXPR",
+              "PARTIAL",
+              "PARTITIONING",
+              "PARTITIONS",
+              "PASSWORD",
+              "PHASE",
+              "PLUGIN",
+              "PLUGINS",
+              "PLUGIN_DIR",
+              "POINT",
+              "POLYGON",
+              "PORT",
+              "PRECEDES",
+              "PREPARE",
+              "PRESERVE",
+              "PREV",
+              "PRIVILEGES",
+              "PROCESSLIST",
+              "PROFILE",
+              "PROFILES",
+              "PROXY",
+              "QUARTER",
+              "QUERY",
+              "QUICK",
+              "READ_ONLY",
+              "REBUILD",
+              "RECOVER",
+              "REDOFILE",
+              "REDO_BUFFER_SIZE",
+              "REDUNDANT",
+              "RELAY",
+              "RELAYLOG",
+              "RELAY_LOG_FILE",
+              "RELAY_LOG_POS",
+              "RELAY_THREAD",
+              "RELOAD",
+              "REMOVE",
+              "REORGANIZE",
+              "REPAIR",
+              "REPEATABLE",
+              "REPLICATE_DO_DB",
+              "REPLICATE_DO_TABLE",
+              "REPLICATE_IGNORE_DB",
+              "REPLICATE_IGNORE_TABLE",
+              "REPLICATE_REWRITE_DB",
+              "REPLICATE_WILD_DO_TABLE",
+              "REPLICATE_WILD_IGNORE_TABLE",
+              "REPLICATION",
+              "RESET",
+              "RESTORE",
+              "RESUME",
+              "RETURNED_SQLSTATE",
+              "RETURNS",
+              "REVERSE",
+              "ROLLBACK",
+              "ROLLUP",
+              "ROTATE",
+              "ROUTINE",
+              "ROW",
+              "ROWS",
+              "ROW_COUNT",
+              "ROW_FORMAT",
+              "RTREE",
+              "SAVEPOINT",
+              "SCHEDULE",
+              "SCHEMA_NAME",
+              "SECOND",
+              "SECURITY",
+              "SERIAL",
+              "SERIALIZABLE",
+              "SERVER",
+              "SESSION",
+              "SHARE",
+              "SHUTDOWN",
+              "SIGNED",
+              "SIMPLE",
+              "SLAVE",
+              "SLOW",
+              "SNAPSHOT",
+              "SOCKET",
+              "SOME",
+              "SONAME",
+              "SOUNDS",
+              "SOURCE",
+              "SQL_AFTER_GTIDS",
+              "SQL_AFTER_MTS_GAPS",
+              "SQL_BEFORE_GTIDS",
+              "SQL_BUFFER_RESULT",
+              "SQL_CACHE",
+              "SQL_NO_CACHE",
+              "SQL_THREAD",
+              "SQL_TSI_DAY",
+              "SQL_TSI_HOUR",
+              "SQL_TSI_MINUTE",
+              "SQL_TSI_MONTH",
+              "SQL_TSI_QUARTER",
+              "SQL_TSI_SECOND",
+              "SQL_TSI_WEEK",
+              "SQL_TSI_YEAR",
+              "STACKED",
+              "START",
+              "STARTS",
+              "STATS_AUTO_RECALC",
+              "STATS_PERSISTENT",
+              "STATS_SAMPLE_PAGES",
+              "STATUS",
+              "STOP",
+              "STORAGE",
+              "STRING",
+              "SUBCLASS_ORIGIN",
+              "SUBJECT",
+              "SUBPARTITION",
+              "SUBPARTITIONS",
+              "SUPER",
+              "SUSPEND",
+              "SWAPS",
+              "SWITCHES",
+              "TABLES",
+              "TABLESPACE",
+              "TABLE_CHECKSUM",
+              "TABLE_NAME",
+              "TEMPORARY",
+              "TEMPTABLE",
+              "TEXT",
+              "THAN",
+              "TIME",
+              "TIMESTAMP",
+              "TIMESTAMPADD",
+              "TIMESTAMPDIFF",
+              "TRANSACTION",
+              "TRIGGERS",
+              "TRUNCATE",
+              "TYPE",
+              "TYPES",
+              "UNCOMMITTED",
+              "UNDEFINED",
+              "UNDOFILE",
+              "UNDO_BUFFER_SIZE",
+              "UNICODE",
+              "UNINSTALL",
+              "UNKNOWN",
+              "UNTIL",
+              "UPGRADE",
+              "USER",
+              "USER_RESOURCES",
+              "USE_FRM",
+              "VALIDATION",
+              "VALUE",
+              "VARIABLES",
+              "VIEW",
+              "WAIT",
+              "WARNINGS",
+              "WEEK",
+              "WEIGHT_STRING",
+              "WITHOUT",
+              "WORK",
+              "WRAPPER",
+              "X509",
+              "XA",
+              "XID",
+              "XML",
+              "YEAR",
+              "NOW",
+              "StringLiteral"
+            ],
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 14
+    },
+    {
+      "rule": {
+        "name": "CollationNameOrDefault",
+        "symbols": [
+          {
+            "tokenKind": "DEFAULT",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "CollationNameOrDefault",
+        "symbols": [
+          "CollationName"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 14
+    },
+    {
+      "rule": {
+        "name": "IfNotExists$field$283",
+        "symbols": [
+          {
+            "tokenKind": "IF",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "IfNotExists$field$284",
+        "symbols": [
+          {
+            "tokenKind": "NOT",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "IfNotExists$field$285",
+        "symbols": [
+          {
+            "tokenKind": "EXISTS",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "IfNotExists",
+        "symbols": [
+          "IfNotExists$field$283",
+          "extras$1",
+          "IfNotExists$field$284",
+          "extras$1",
+          "IfNotExists$field$285"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "Schema",
+        "symbols": [
+          {
+            "tokenKind": "SCHEMA",
+            "otherTokenKinds": [
+              "DATABASE"
+            ],
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 114
+    },
+    {
+      "rule": {
+        "name": "BinLogStatement$field$294",
+        "symbols": [
+          {
+            "tokenKind": "BINLOG",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "BinLogStatement$field$295",
+        "symbols": [
+          {
+            "tokenKind": "StringLiteral",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "BinLogStatement",
+        "symbols": [
+          "BinLogStatement$field$294",
+          "extras$1",
+          "BinLogStatement$field$295"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaOption",
+        "symbols": [
+          "DefaultCharacterSet"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 22
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaOption",
+        "symbols": [
+          "DefaultCollate"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaOptionRepeat1$repeat1$296$item$297$field$298",
+        "symbols": [
+          "CreateSchemaOption"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 38
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaOptionRepeat1$repeat1$296$item$297",
+        "symbols": [
+          "CreateSchemaOptionRepeat1$repeat1$296$item$297$field$298"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 38
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaOptionRepeat1$repeat1$296",
+        "symbols": [
+          "CreateSchemaOptionRepeat1$repeat1$296$item$297"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 34
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaOptionRepeat1$repeat1$296",
+        "symbols": [
+          "CreateSchemaOptionRepeat1$repeat1$296",
+          "extras$1",
+          "CreateSchemaOptionRepeat1$repeat1$296$item$297"
+        ],
+        "precedence": 0
+      },
       "coverageCount": 4
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaOptionRepeat1",
+        "symbols": [
+          "CreateSchemaOptionRepeat1$repeat1$296"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 34
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$field$299",
+        "symbols": [
+          {
+            "tokenKind": "CREATE",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 114
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$field$300",
+        "symbols": [
+          "Schema"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 114
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$optional$301",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 113
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$optional$301$field$302",
+        "symbols": [
+          "IfNotExists"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$optional$301",
+        "symbols": [
+          "extras$1",
+          "CreateSchemaStatement$optional$301$field$302"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$field$303",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 114
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$optional$304",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 80
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$optional$304$field$305",
+        "symbols": [
+          "CreateSchemaOptionRepeat1"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 34
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement$optional$304",
+        "symbols": [
+          "extras$1",
+          "CreateSchemaStatement$optional$304$field$305"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 34
+    },
+    {
+      "rule": {
+        "name": "CreateSchemaStatement",
+        "symbols": [
+          "CreateSchemaStatement$field$299",
+          "extras$1",
+          "CreateSchemaStatement$field$300",
+          "CreateSchemaStatement$optional$301",
+          "extras$1",
+          "CreateSchemaStatement$field$303",
+          "CreateSchemaStatement$optional$304"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 114
     },
     {
       "rule": {
@@ -11497,7 +11489,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11507,7 +11499,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11515,7 +11507,7 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11528,7 +11520,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11543,7 +11535,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11553,7 +11545,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11563,7 +11555,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11573,7 +11565,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11583,7 +11575,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11593,7 +11585,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11601,7 +11593,7 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11614,7 +11606,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11627,7 +11619,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11635,7 +11627,7 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11648,7 +11640,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11656,7 +11648,7 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11666,7 +11658,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11676,7 +11668,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11684,7 +11676,7 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11692,7 +11684,7 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
     },
     {
       "rule": {
@@ -11712,7 +11704,325 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "DelimiterStatement$field$471",
+        "symbols": [
+          {
+            "tokenKind": "DelimiterSpace",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 31
+    },
+    {
+      "rule": {
+        "name": "DelimiterStatement$field$472",
+        "symbols": [
+          {
+            "tokenKind": "CustomDelimiter",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 31
+    },
+    {
+      "rule": {
+        "name": "DelimiterStatement",
+        "symbols": [
+          "DelimiterStatement$field$471",
+          "extrasNoLineBreak$5",
+          "DelimiterStatement$field$472"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 31
+    },
+    {
+      "rule": {
+        "name": "DropTableStatement$field$473",
+        "symbols": [
+          {
+            "tokenKind": "DROP",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DropTableStatement$optional$474",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DropTableStatement$field$476$choice$477",
+        "symbols": [
+          {
+            "tokenKind": "TABLE",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DropTableStatement$field$476",
+        "symbols": [
+          "DropTableStatement$field$476$choice$477"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DropTableStatement$optional$478",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DropTableStatement$field$480",
+        "symbols": [
+          "TableIdentifierList1"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DropTableStatement$optional$481",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "DropTableStatement",
+        "symbols": [
+          "DropTableStatement$field$473",
+          "DropTableStatement$optional$474",
+          "extras$1",
+          "DropTableStatement$field$476",
+          "DropTableStatement$optional$478",
+          "extras$1",
+          "DropTableStatement$field$480",
+          "DropTableStatement$optional$481"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ExpressionSelectItem$field$586",
+        "symbols": [
+          "Expression"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "ExpressionSelectItem$optional$587",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 8
+    },
+    {
+      "rule": {
+        "name": "ExpressionSelectItem$optional$587$optional$588",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "ExpressionSelectItem$optional$587$field$590$choice$591",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "ExpressionSelectItem$optional$587$field$590",
+        "symbols": [
+          "ExpressionSelectItem$optional$587$field$590$choice$591"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "ExpressionSelectItem$optional$587",
+        "symbols": [
+          "ExpressionSelectItem$optional$587$optional$588",
+          "extras$1",
+          "ExpressionSelectItem$optional$587$field$590"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "ExpressionSelectItem",
+        "symbols": [
+          "ExpressionSelectItem$field$586",
+          "ExpressionSelectItem$optional$587"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "SelectItemList1$field$592",
+        "symbols": [
+          "ExpressionSelectItem"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "SelectItemList1$optional$593",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "SelectItemList1",
+        "symbols": [
+          "SelectItemList1$field$592",
+          "SelectItemList1$optional$593"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "Select$field$598",
+        "symbols": [
+          {
+            "tokenKind": "SELECT",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "Select$field$599",
+        "symbols": [
+          "SelectItemList1"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "Select",
+        "symbols": [
+          "Select$field$598",
+          "extras$1",
+          "Select$field$599"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "SelectStatement",
+        "symbols": [
+          "Select"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
+    },
+    {
+      "rule": {
+        "name": "LeadingStatement$optional$600",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 17
+    },
+    {
+      "rule": {
+        "name": "LeadingStatement$optional$600$field$601",
+        "symbols": [
+          "Statement"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 19
+    },
+    {
+      "rule": {
+        "name": "LeadingStatement$optional$600",
+        "symbols": [
+          "LeadingStatement$optional$600$field$601",
+          "extras$1"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 19
+    },
+    {
+      "rule": {
+        "name": "LeadingStatement",
+        "symbols": [
+          "LeadingStatement$optional$600",
+          "StatementTail"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 36
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602",
+        "symbols": [
+          "extras$1"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -11720,7 +12030,80 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 143
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607$choice$608",
+        "symbols": [
+          "LeadingStatement"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 36
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607$choice$608",
+        "symbols": [
+          "DelimiterStatement"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 19
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607",
+        "symbols": [
+          "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607$choice$608"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 55
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606",
+        "symbols": [
+          "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606$field$607"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 55
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605",
+        "symbols": [
+          "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 25
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602$seq$603$optional$604$repeat1$605",
+        "symbols": [
+          "SourceFile$choice$602$seq$603$optional$604$repeat1$605",
+          "extras$1",
+          "SourceFile$choice$602$seq$603$optional$604$repeat1$605$item$606"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 30
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602$seq$603$optional$604",
+        "symbols": [
+          "SourceFile$choice$602$seq$603$optional$604$repeat1$605",
+          "extras$1"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 25
     },
     {
       "rule": {
@@ -11730,7 +12113,17 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 156
+    },
+    {
+      "rule": {
+        "name": "SourceFile$choice$602$seq$603$field$609$choice$610",
+        "symbols": [
+          "DelimiterStatement"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 12
     },
     {
       "rule": {
@@ -11740,7 +12133,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 168
     },
     {
       "rule": {
@@ -11751,7 +12144,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 168
     },
     {
       "rule": {
@@ -11763,7 +12156,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 168
     },
     {
       "rule": {
@@ -11773,7 +12166,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 173
     },
     {
       "rule": {
@@ -11786,7 +12179,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 50
     },
     {
       "rule": {
@@ -11794,7 +12187,31 @@
         "symbols": [],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 44
+    },
+    {
+      "rule": {
+        "name": "StatementTail$choice$611$optional$613$field$614",
+        "symbols": [
+          {
+            "tokenKind": "CustomDelimiter",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 6
+    },
+    {
+      "rule": {
+        "name": "StatementTail$choice$611$optional$613",
+        "symbols": [
+          "extras$1",
+          "StatementTail$choice$611$optional$613$field$614"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -11805,7 +12222,30 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 50
+    },
+    {
+      "rule": {
+        "name": "StatementTail$choice$611$field$615",
+        "symbols": [
+          {
+            "tokenKind": "CustomDelimiter",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 11
+    },
+    {
+      "rule": {
+        "name": "StatementTail$choice$611",
+        "symbols": [
+          "StatementTail$choice$611$field$615"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 11
     },
     {
       "rule": {
@@ -11820,7 +12260,27 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 61
+    },
+    {
+      "rule": {
+        "name": "Statement",
+        "symbols": [
+          "BinLogStatement"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "Statement",
+        "symbols": [
+          "CreateSchemaStatement"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 114
     },
     {
       "rule": {
@@ -11830,7 +12290,27 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 16
+    },
+    {
+      "rule": {
+        "name": "Statement",
+        "symbols": [
+          "DropTableStatement"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "Statement",
+        "symbols": [
+          "SelectStatement"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 20
     },
     {
       "rule": {
@@ -11840,7 +12320,15 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 148
+    },
+    {
+      "rule": {
+        "name": "TrailingStatement$optional$617",
+        "symbols": [],
+        "precedence": 0
+      },
+      "coverageCount": 131
     },
     {
       "rule": {
@@ -11851,7 +12339,7 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 17
     },
     {
       "rule": {
@@ -11862,7 +12350,17 @@
         ],
         "precedence": 0
       },
-      "coverageCount": 4
+      "coverageCount": 148
+    },
+    {
+      "rule": {
+        "name": "TrailingStatement",
+        "symbols": [
+          "StatementTail"
+        ],
+        "precedence": 0
+      },
+      "coverageCount": 8
     }
   ]
 }
