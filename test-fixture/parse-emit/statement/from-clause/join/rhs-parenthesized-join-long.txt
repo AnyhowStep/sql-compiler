@@ -1,4 +1,4 @@
-/* timeout 7000 */
+/* timeout 14000 */
 SELECT
     *
 FROM

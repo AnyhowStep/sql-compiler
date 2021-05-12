@@ -1,8 +1,8 @@
 W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;
--- timeout 9000
+-- timeout 18000
 -- todo, fix perf...
 -----
-(SourceFile[0, 72]
+(SourceFile[0, 73]
   (Unexpected Identifier[0, 1])
   (statement[]: LeadingStatement[1, 2]
     (semiColonToken: SemiColon[1, 2])
@@ -94,7 +94,7 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;
     (EndOfStatement[35, 35])
   )
   (LineBreak[35, 36])
-  (SingleLineComment[36, 51])
-  (LineBreak[51, 52])
-  (SingleLineComment[52, 72])
+  (SingleLineComment[36, 52])
+  (LineBreak[52, 53])
+  (SingleLineComment[53, 73])
 )
