@@ -31,6 +31,7 @@ export interface MySqlRuleCollection {
     CollationNameOrDefault : Rule,
     CharSet : Rule,
     Schema : Rule,
+    DropTableStatement : Rule,
     DataType : Rule,
     BinaryDataType : Rule,
     VarBinaryDataType : Rule,
@@ -175,6 +176,8 @@ export interface MySqlRuleCollection {
     DateTimePrecisionArg : Rule,
     TextString : Rule,
     TextStringTuple1 : Rule,
+    DropMode : Rule,
+    IfExists : Rule,
     IfNotExists : Rule,
     Ident : Rule,
     IdentOrReserved : Rule,
@@ -182,7 +185,8 @@ export interface MySqlRuleCollection {
     ColumnIdentifier : Rule,
     IdentTuple1 : Rule,
     IdentTuple2 : Rule,
-    TableIdentifierTuple : Rule
+    TableIdentifierTuple : Rule,
+    TableIdentifierList1 : Rule
 }
 export interface MySqlGrammar extends GrammarConfig {
     rules : MySqlRuleCollection;

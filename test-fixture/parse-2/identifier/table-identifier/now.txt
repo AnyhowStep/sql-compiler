@@ -97,3 +97,25 @@ CREATE TABLE NOW(X INT);
 DROP TABLE NOW
 
 -----
+(SourceFile[0, 175]
+  (SingleLineComment[0, 41])
+  (LineBreak[41, 42])
+  (SingleLineComment[42, 105])
+  (LineBreak[105, 106])
+  (SingleLineComment[106, 159])
+  (LineBreak[159, 160])
+  (statement[]: TrailingStatement[160, 174]
+    (statement: DropTableStatement[160, 174]
+      (dropToken: DROP[160, 164])
+      (WhiteSpace[164, 165])
+      (tableToken: TABLE[165, 170])
+      (WhiteSpace[170, 171])
+      (tableIdentifierList1: TableIdentifierList1[171, 174]
+        (item[]: TableIdentifier[171, 174]
+          (tableName: NOW[171, 174])
+        )
+      )
+    )
+  )
+  (LineBreak[174, 175])
+)

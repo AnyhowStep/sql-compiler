@@ -1,5 +1,5 @@
 import {choice, field, seq} from "../../grammar-builder";
-import {tuple} from "../rule-util";
+import {list1, tuple} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -21,3 +21,4 @@ export const TableIdentifier = choice(
 );
 
 export const TableIdentifierTuple = tuple(SyntaxKind.TableIdentifier);
+export const TableIdentifierList1 = list1(SyntaxKind.TableIdentifier);

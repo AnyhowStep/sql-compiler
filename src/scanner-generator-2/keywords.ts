@@ -345,6 +345,15 @@ const nonReservedKeywords = [
     "SUSPEND",
     "SWAPS",
     "SWITCHES",
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L612
+     *
+     * The following is valid SQL,
+     * ```sql
+     *  CREATE TABLE TABLES (TABLES INT);
+     *  DROP TABLES TABLES;
+     * ```
+     */
     "TABLES",
     "TABLESPACE",
     "TABLE_CHECKSUM",

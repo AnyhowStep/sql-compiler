@@ -29,6 +29,7 @@ export enum SyntaxKind {
     CollationNameOrDefault = "CollationNameOrDefault",
     CharSet = "CharSet",
     Schema = "Schema",
+    DropTableStatement = "DropTableStatement",
     DataType = "DataType",
     BinaryDataType = "BinaryDataType",
     VarBinaryDataType = "VarBinaryDataType",
@@ -173,6 +174,8 @@ export enum SyntaxKind {
     DateTimePrecisionArg = "DateTimePrecisionArg",
     TextString = "TextString",
     TextStringTuple1 = "TextStringTuple1",
+    DropMode = "DropMode",
+    IfExists = "IfExists",
     IfNotExists = "IfNotExists",
     Ident = "Ident",
     IdentOrReserved = "IdentOrReserved",
@@ -180,5 +183,6 @@ export enum SyntaxKind {
     ColumnIdentifier = "ColumnIdentifier",
     IdentTuple1 = "IdentTuple1",
     IdentTuple2 = "IdentTuple2",
-    TableIdentifierTuple = "TableIdentifierTuple"
+    TableIdentifierTuple = "TableIdentifierTuple",
+    TableIdentifierList1 = "TableIdentifierList1"
 }

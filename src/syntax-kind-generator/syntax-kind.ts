@@ -34,6 +34,8 @@ export const syntaxKinds = [
     "CharSet",
     "Schema",
 
+    "DropTableStatement",
+
     "DataType",
     "BinaryDataType",
     "VarBinaryDataType",
@@ -196,6 +198,8 @@ export const syntaxKinds = [
     "TextString",
     "TextStringTuple1",
 
+    "DropMode",
+    "IfExists",
     "IfNotExists",
     "Ident",
     "IdentOrReserved",
@@ -205,5 +209,6 @@ export const syntaxKinds = [
     "IdentTuple1",
     "IdentTuple2",
     "TableIdentifierTuple",
+    "TableIdentifierList1",
 
 ];
