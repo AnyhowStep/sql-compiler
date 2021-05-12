@@ -1,5 +1,5 @@
 W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;X;
--- timeout 5000
+-- timeout 7000
 -- todo, fix perf...
 -----
 (SourceFile[0, 67]
