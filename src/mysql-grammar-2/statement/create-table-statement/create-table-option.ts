@@ -1,5 +1,5 @@
 import {choice, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
-import {semiList1} from "../../rule-util";
+import {identifierOrStringLiteral, semiList1, stringLiteral} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -37,10 +37,7 @@ export const CreateTableOption = choice(
 export const CreateTableOptionEngine = seq(
     field("engineToken", TokenKind.ENGINE),
     field("equalToken", optional(TokenKind.Equal)),
-    field("engine", choice(
-        SyntaxKind.Ident,
-        TokenKind.StringLiteral,
-    )),
+    field("engine", identifierOrStringLiteral),
 );
 
 export const CreateTableOptionMaxRows = seq(
@@ -64,25 +61,25 @@ export const CreateTableOptionAverageRowLength = seq(
 export const CreateTableOptionPassword = seq(
     field("passwordToken", TokenKind.PASSWORD),
     field("equalToken", optional(TokenKind.Equal)),
-    field("password", TokenKind.StringLiteral),
+    field("password", stringLiteral),
 );
 
 export const CreateTableOptionComment = seq(
     field("commentToken", TokenKind.COMMENT),
     field("equalToken", optional(TokenKind.Equal)),
-    field("comment", TokenKind.StringLiteral),
+    field("comment", stringLiteral),
 );
 
 export const CreateTableOptionCompression = seq(
     field("compressionToken", TokenKind.COMPRESSION),
     field("equalToken", optional(TokenKind.Equal)),
-    field("compression", TokenKind.StringLiteral),
+    field("compression", stringLiteral),
 );
 
 export const CreateTableOptionEncryption = seq(
     field("encryptionToken", TokenKind.ENCRYPTION),
     field("equalToken", optional(TokenKind.Equal)),
-    field("encryption", TokenKind.StringLiteral),
+    field("encryption", stringLiteral),
 );
 
 export const CreateTableOptionAutoIncrement = seq(
@@ -182,14 +179,14 @@ export const CreateTableOptionDataDirectory = seq(
     field("dataToken", TokenKind.DATA),
     field("directoryToken", TokenKind.DIRECTORY),
     field("equalToken", optional(TokenKind.Equal)),
-    field("dataDirectory", TokenKind.StringLiteral),
+    field("dataDirectory", stringLiteral),
 );
 
 export const CreateTableOptionIndexDirectory = seq(
     field("indexToken", TokenKind.INDEX),
     field("directoryToken", TokenKind.DIRECTORY),
     field("equalToken", optional(TokenKind.Equal)),
-    field("indexDirectory", TokenKind.StringLiteral),
+    field("indexDirectory", stringLiteral),
 );
 
 export const CreateTableOptionTablespace = seq(
@@ -215,7 +212,7 @@ export const Storage = choice(
 export const CreateTableOptionConnection = seq(
     field("connectionToken", TokenKind.CONNECTION),
     field("equalToken", optional(TokenKind.Equal)),
-    field("connection", TokenKind.StringLiteral),
+    field("connection", stringLiteral),
 );
 
 export const CreateTableOptionKeyBlockSize = seq(

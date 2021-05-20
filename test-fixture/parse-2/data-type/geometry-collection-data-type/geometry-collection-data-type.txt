@@ -1,0 +1,22 @@
+CREATE TABLE T (X MULTIPOINT);
+-----
+`(dataType: GeometryCollectionDataType[18, 28]`
+`(geometryCollectionToken: MULTIPOINT[18, 28])`
+
+-----
+CREATE TABLE T (X MULTILINESTRING);
+-----
+`(dataType: GeometryCollectionDataType[18, 33]`
+`(geometryCollectionToken: MULTILINESTRING[18, 33])`
+
+-----
+CREATE TABLE T (X MULTIPOLYGON);
+-----
+`(dataType: GeometryCollectionDataType[18, 30]`
+`(geometryCollectionToken: MULTIPOLYGON[18, 30])`
+
+-----
+CREATE TABLE T (X GEOMETRYCOLLECTION);
+-----
+`(dataType: GeometryCollectionDataType[18, 36]`
+`(geometryCollectionToken: GEOMETRYCOLLECTION[18, 36])`

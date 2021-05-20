@@ -1,0 +1,7 @@
+CREATE TABLE T (X LONG VARBINARY);
+-- `LONG VARBINARY` in synonym for `MEDIUMBLOB`
+
+-----
+`(dataType: LongVarBinaryDataType[18, 32]`
+`(longToken: LONG[18, 22])`
+`(varBinaryToken: VARBINARY[23, 32])`

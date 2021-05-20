@@ -1,0 +1,23 @@
+CREATE TABLE T (X NCHAR BINARY)
+-----
+`(dataType: NCharDataType[18, 30]`
+`(nCharToken[]: NCHAR[18, 23])`
+`(binaryToken: BINARY[24, 30])`
+
+-----
+CREATE TABLE T (X NATIONAL CHAR BINARY)
+-----
+`(dataType: NCharDataType[18, 38]`
+`(nCharToken[]: NATIONAL[18, 26])`
+`(WhiteSpace[26, 27])`
+`(nCharToken[]: CHAR[27, 31])`
+`(binaryToken: BINARY[32, 38])`
+
+-----
+CREATE TABLE T (X NATIONAL CHARACTER BINARY)
+-----
+`(dataType: NCharDataType[18, 43]`
+`(nCharToken[]: NATIONAL[18, 26])`
+`(WhiteSpace[26, 27])`
+`(nCharToken[]: CHARACTER[27, 36])`
+`(binaryToken: BINARY[37, 43])`

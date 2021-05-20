@@ -1,0 +1,23 @@
+CREATE TABLE T (X NCHAR (45))
+-----
+`(dataType: NCharDataType[18, 28]`
+`(nCharToken[]: NCHAR[18, 23])`
+`(fieldLength: FieldLength[24, 28]`
+
+-----
+CREATE TABLE T (X NATIONAL CHAR (45))
+-----
+`(dataType: NCharDataType[18, 36]`
+`(nCharToken[]: NATIONAL[18, 26])`
+`(WhiteSpace[26, 27])`
+`(nCharToken[]: CHAR[27, 31])`
+`(fieldLength: FieldLength[32, 36]`
+
+-----
+CREATE TABLE T (X NATIONAL CHARACTER (45))
+-----
+`(dataType: NCharDataType[18, 41]`
+`(nCharToken[]: NATIONAL[18, 26])`
+`(WhiteSpace[26, 27])`
+`(nCharToken[]: CHARACTER[27, 36])`
+`(fieldLength: FieldLength[37, 41]`

@@ -1,4 +1,5 @@
 import {choice, field, optional, repeat1, seq} from "../../../grammar-builder";
+import {identifierOrStringLiteral, stringLiteral} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -17,10 +18,7 @@ export const PartitionDefinitionOptionEngine = seq(
     field("storageToken", optional(TokenKind.STORAGE)),
     field("engineToken", TokenKind.ENGINE),
     field("equalToken", optional(TokenKind.Equal)),
-    field("engine", choice(
-        SyntaxKind.Ident,
-        TokenKind.StringLiteral,
-    )),
+    field("engine", identifierOrStringLiteral),
 );
 
 export const PartitionDefinitionOptionMaxRows = seq(
@@ -38,21 +36,21 @@ export const PartitionDefinitionOptionMinRows = seq(
 export const PartitionDefinitionOptionComment = seq(
     field("commentToken", TokenKind.COMMENT),
     field("equalToken", optional(TokenKind.Equal)),
-    field("comment", TokenKind.StringLiteral),
+    field("comment", stringLiteral),
 );
 
 export const PartitionDefinitionOptionDataDirectory = seq(
     field("dataToken", TokenKind.DATA),
     field("directoryToken", TokenKind.DIRECTORY),
     field("equalToken", optional(TokenKind.Equal)),
-    field("dataDirectory", TokenKind.StringLiteral),
+    field("dataDirectory", stringLiteral),
 );
 
 export const PartitionDefinitionOptionIndexDirectory = seq(
     field("indexToken", TokenKind.INDEX),
     field("directoryToken", TokenKind.DIRECTORY),
     field("equalToken", optional(TokenKind.Equal)),
-    field("indexDirectory", TokenKind.StringLiteral),
+    field("indexDirectory", stringLiteral),
 );
 
 export const PartitionDefinitionOptionTablespace = seq(

@@ -1,0 +1,34 @@
+CREATE TABLE T (X DECIMAL (65) SIGNED);
+
+-----
+`(dataType: DecimalDataType[18, 37]`
+`(decimalToken: DECIMAL[18, 25])`
+`(precision: FieldLength[26, 30]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[31, 37]`
+
+-----
+CREATE TABLE T (X DEC (65) UNSIGNED);
+
+-----
+`(dataType: DecimalDataType[18, 35]`
+`(decimalToken: DEC[18, 21])`
+`(precision: FieldLength[22, 26]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[27, 35]`
+
+-----
+CREATE TABLE T (X NUMERIC (65) ZEROFILL);
+
+-----
+`(dataType: DecimalDataType[18, 39]`
+`(decimalToken: NUMERIC[18, 25])`
+`(precision: FieldLength[26, 30]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[31, 39]`
+
+-----
+CREATE TABLE T (X FIXED (65) SIGNED UNSIGNED ZEROFILL);
+
+-----
+`(dataType: DecimalDataType[18, 53]`
+`(decimalToken: FIXED[18, 23])`
+`(precision: FieldLength[24, 28]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[29, 53]`

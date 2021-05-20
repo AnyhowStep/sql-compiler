@@ -8,6 +8,9 @@ export const TableIdentifier = choice(
     seq(
         field("schemaName", SyntaxKind.Ident),
         field("dotToken", TokenKind.Dot),
+        //If the next token is Reserved,
+        //technically, only multi-line comment and execution comment allowed here.
+        //Not just any extra.
         field("tableName", SyntaxKind.IdentOrReserved),
     ),
     /**
@@ -16,6 +19,9 @@ export const TableIdentifier = choice(
      */
     seq(
         field("dotToken", TokenKind.Dot),
+        //If the next token is Reserved,
+        //technically, only multi-line comment and execution comment allowed here.
+        //Not just any extra.
         field("tableName", SyntaxKind.IdentOrReserved),
     ),
 );

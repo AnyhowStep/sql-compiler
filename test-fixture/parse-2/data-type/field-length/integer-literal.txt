@@ -1,0 +1,7 @@
+CREATE TABLE T (X INT (23));
+
+-----
+`(fieldLength: FieldLength[22, 26]`
+`(openParenthesesToken: OpenParentheses[22, 23])`
+`(fieldLength: IntegerLiteral[23, 25])`
+`(closeParenthesesToken: CloseParentheses[25, 26])`

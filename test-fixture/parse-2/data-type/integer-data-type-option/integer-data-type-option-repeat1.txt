@@ -1,0 +1,16 @@
+CREATE TABLE T (X INT ZEROFILL UNSIGNED SIGNED)
+
+-----
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[22, 46]`
+`(item[]: ZEROFILL[22, 30])`
+`(WhiteSpace[30, 31])`
+`(item[]: UNSIGNED[31, 39])`
+`(WhiteSpace[39, 40])`
+`(item[]: SIGNED[40, 46])`
+
+-----
+CREATE TABLE T (X INT UNSIGNED)
+
+-----
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[22, 30]`
+`(item[]: UNSIGNED[22, 30])`

@@ -1,0 +1,5 @@
+CREATE TABLE T (X DATE);
+
+-----
+`(dataType: DateDataType[18, 22]`
+`(dateToken: DATE[18, 22])`

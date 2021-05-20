@@ -1,0 +1,6 @@
+CREATE TABLE T (X NVARCHAR (45) BINARY)
+-----
+`(dataType: NVarCharDataType[18, 38]`
+`(nVarCharToken[]: NVARCHAR[18, 26])`
+`(fieldLength: FieldLength[27, 31]`
+`(binaryToken: BINARY[32, 38])`

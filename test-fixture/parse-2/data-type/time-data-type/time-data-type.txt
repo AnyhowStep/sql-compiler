@@ -1,0 +1,13 @@
+CREATE TABLE T (X TIME);
+
+-----
+`(dataType: TimeDataType[18, 22]`
+`(timeToken: TIME[18, 22])`
+
+-----
+CREATE TABLE T (X TIME (6));
+
+-----
+`(dataType: TimeDataType[18, 26]`
+`(timeToken: TIME[18, 22])`
+`(fieldLength: FieldLength[23, 26]`

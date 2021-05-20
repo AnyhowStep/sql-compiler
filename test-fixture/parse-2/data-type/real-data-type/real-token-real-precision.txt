@@ -1,0 +1,23 @@
+CREATE TABLE T (X REAL (2, 23));
+-----
+`(dataType: RealDataType[18, 30]`
+`(realToken[]: REAL[18, 22])`
+`(precision: RealPrecision[23, 30]`
+
+-----
+CREATE TABLE T (X DOUBLE (2, 23));
+
+-----
+`(dataType: RealDataType[18, 32]`
+`(realToken[]: DOUBLE[18, 24])`
+`(precision: RealPrecision[25, 32]`
+
+-----
+CREATE TABLE T (X DOUBLE PRECISION (2, 23));
+
+-----
+`(dataType: RealDataType[18, 42]`
+`(realToken[]: DOUBLE[18, 24])`
+`(WhiteSpace[24, 25])`
+`(realToken[]: PRECISION[25, 34])`
+`(precision: RealPrecision[35, 42]`

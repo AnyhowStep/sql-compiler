@@ -1,4 +1,5 @@
 import {choice, field, seq} from "../../../grammar-builder";
+import {parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -16,3 +17,8 @@ export const Select = seq(
 export const SelectStatement = choice(
     SyntaxKind.Select,
 );
+
+export const ParenthesizedSelect = parentheses(field("item", choice(
+    SyntaxKind.Select,
+    SyntaxKind.ParenthesizedSelect,
+)));

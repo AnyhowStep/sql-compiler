@@ -1,5 +1,6 @@
-import {choice, field, precedence, repeat1, seq} from "../../grammar-builder";
+import {choice, field, precedence, repeat1, seq, tokenSymbol2} from "../../grammar-builder";
 import {Precedence} from "../precedence";
+import {stringLiteral} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -23,6 +24,8 @@ export const Literal = choice(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12797
  */
 export const TextLiteral = choice(
+    //We want `TokenKind.StringLiteral` here.
+    //We do not want `TokenKind.DoubleQuotedLiteral` in this rule.
     TokenKind.StringLiteral,
     TokenKind.NationalStringLiteral,
     SyntaxKind.UnderscoreCharacterSetStringLiteral,
@@ -34,11 +37,13 @@ export const TextLiteral = choice(
  */
 export const ConcatenatedTextLiteral = precedence(Precedence.ConcatenatedTextLiteral, seq(
     field("item", choice(
-        TokenKind.StringLiteral,
-        TokenKind.NationalStringLiteral,
+        tokenSymbol2(
+            stringLiteral,
+            TokenKind.NationalStringLiteral,
+        ),
         SyntaxKind.UnderscoreCharacterSetStringLiteral,
     )),
-    repeat1(field("item", TokenKind.StringLiteral)),
+    repeat1(field("item", stringLiteral)),
 ));
 
 /**
@@ -59,7 +64,7 @@ export const TemporalLiteral = seq(
         TokenKind.TIME,
         TokenKind.TIMESTAMP,
     )),
-    field("str", TokenKind.StringLiteral),
+    field("str", stringLiteral),
 );
 
 /**
@@ -83,5 +88,5 @@ export const UnderscoreCharacterSetBitLiteral = seq(
  */
 export const UnderscoreCharacterSetStringLiteral = seq(
     field("underscoreCharacterSetToken", TokenKind.UnderscoreCharacterSet),
-    field("stringLiteralToken", TokenKind.StringLiteral),
+    field("stringLiteralToken", stringLiteral),
 );

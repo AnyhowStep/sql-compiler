@@ -1,0 +1,29 @@
+CREATE TABLE T (X TINYTEXT);
+-----
+`(dataType: TextDataType[18, 26]`
+`(textToken: TINYTEXT[18, 26])`
+
+-----
+CREATE TABLE T (X MEDIUMTEXT);
+-----
+`(dataType: TextDataType[18, 28]`
+`(textToken: MEDIUMTEXT[18, 28])`
+
+-----
+CREATE TABLE T (X TEXT);
+-----
+`(dataType: TextDataType[18, 22]`
+`(textToken: TEXT[18, 22])`
+
+-----
+CREATE TABLE T (X LONGTEXT);
+-----
+`(dataType: TextDataType[18, 26]`
+`(textToken: LONGTEXT[18, 26])`
+
+-----
+CREATE TABLE T (X TEXT (66));
+-----
+`(dataType: TextDataType[18, 27]`
+`(textToken: TEXT[18, 22])`
+`(fieldLength: FieldLength[23, 27]`

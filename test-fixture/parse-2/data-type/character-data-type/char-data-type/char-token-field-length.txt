@@ -1,0 +1,12 @@
+CREATE TABLE T (X CHAR (45))
+-----
+`(dataType: CharDataType[18, 27]`
+`(charToken: CHAR[18, 22])`
+`(fieldLength: FieldLength[23, 27]`
+
+-----
+CREATE TABLE T (X CHARACTER (45))
+-----
+`(dataType: CharDataType[18, 32]`
+`(charToken: CHARACTER[18, 27])`
+`(fieldLength: FieldLength[28, 32]`

@@ -1,0 +1,5 @@
+CREATE TABLE T (X CHAR BYTE);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionByte[23, 27]`
+`(byteToken: BYTE[23, 27])`

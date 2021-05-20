@@ -1,0 +1,4 @@
+CREATE TABLE T (X JSON);
+-----
+`(dataType: JsonDataType[18, 22]`
+`(jsonToken: JSON[18, 22])`

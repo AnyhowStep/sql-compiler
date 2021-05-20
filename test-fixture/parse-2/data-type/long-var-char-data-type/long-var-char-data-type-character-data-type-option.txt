@@ -1,0 +1,46 @@
+CREATE TABLE T (X LONG ASCII);
+
+-----
+`(dataType: LongVarCharDataType[18, 28]`
+`(longToken: LONG[18, 22])`
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[23, 28]`
+
+-----
+CREATE TABLE T (X LONG VARCHAR ASCII);
+
+-----
+`(dataType: LongVarCharDataType[18, 36]`
+`(longToken: LONG[18, 22])`
+`(varCharToken[]: VARCHAR[23, 30])`
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[31, 36]`
+
+-----
+CREATE TABLE T (X LONG VARCHARACTER ASCII);
+
+-----
+`(dataType: LongVarCharDataType[18, 41]`
+`(longToken: LONG[18, 22])`
+`(varCharToken[]: VARCHARACTER[23, 35])`
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[36, 41]`
+
+-----
+CREATE TABLE T (X LONG CHAR VARYING ASCII);
+
+-----
+`(dataType: LongVarCharDataType[18, 41]`
+`(longToken: LONG[18, 22])`
+`(varCharToken[]: CHAR[23, 27])`
+`(WhiteSpace[27, 28])`
+`(varCharToken[]: VARYING[28, 35])`
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[36, 41]`
+
+-----
+CREATE TABLE T (X LONG CHARACTER VARYING ASCII);
+
+-----
+`(dataType: LongVarCharDataType[18, 46]`
+`(longToken: LONG[18, 22])`
+`(varCharToken[]: CHARACTER[23, 32])`
+`(WhiteSpace[32, 33])`
+`(varCharToken[]: VARYING[33, 40])`
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[41, 46]`

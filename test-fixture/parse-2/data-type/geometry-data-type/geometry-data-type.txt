@@ -1,0 +1,22 @@
+CREATE TABLE T (X POINT);
+-----
+`(dataType: GeometryDataType[18, 23]`
+`(geometryToken: POINT[18, 23])`
+
+-----
+CREATE TABLE T (X LINESTRING);
+-----
+`(dataType: GeometryDataType[18, 28]`
+`(geometryToken: LINESTRING[18, 28])`
+
+-----
+CREATE TABLE T (X POLYGON);
+-----
+`(dataType: GeometryDataType[18, 25]`
+`(geometryToken: POLYGON[18, 25])`
+
+-----
+CREATE TABLE T (X GEOMETRY);
+-----
+`(dataType: GeometryDataType[18, 26]`
+`(geometryToken: GEOMETRY[18, 26])`

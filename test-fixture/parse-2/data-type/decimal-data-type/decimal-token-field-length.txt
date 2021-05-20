@@ -1,0 +1,30 @@
+CREATE TABLE T (X DECIMAL (65));
+
+-----
+`(dataType: DecimalDataType[18, 30]`
+`(decimalToken: DECIMAL[18, 25])`
+`(precision: FieldLength[26, 30]`
+
+-----
+CREATE TABLE T (X DEC (65));
+
+-----
+`(dataType: DecimalDataType[18, 26]`
+`(decimalToken: DEC[18, 21])`
+`(precision: FieldLength[22, 26]`
+
+-----
+CREATE TABLE T (X NUMERIC (65));
+
+-----
+`(dataType: DecimalDataType[18, 30]`
+`(decimalToken: NUMERIC[18, 25])`
+`(precision: FieldLength[26, 30]`
+
+-----
+CREATE TABLE T (X FIXED (65));
+
+-----
+`(dataType: DecimalDataType[18, 28]`
+`(decimalToken: FIXED[18, 23])`
+`(precision: FieldLength[24, 28]`

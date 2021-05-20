@@ -1,0 +1,5 @@
+CREATE TABLE T (X FLOAT (32));
+-----
+`(dataType: FloatDataType[18, 28]`
+`(floatToken: FLOAT[18, 23])`
+`(precision: FieldLength[24, 28]`

@@ -1,0 +1,7 @@
+CREATE TABLE T (X SET  ('A', "B", 0xC, 0b11) CHARSET BINARY);
+
+-----
+`(dataType: SetDataType[18, 59]`
+`(setToken: SET[18, 21])`
+`(textStringTuple1: TextStringTuple1[23, 44]`
+`(characterDataTypeOption: CharacterDataTypeOptionCharacterSet[45, 59]`

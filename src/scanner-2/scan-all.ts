@@ -1,7 +1,7 @@
 import {MyToken} from "../grammar-runtime-3";
 import {CharacterCodes, isDigit, isUnquotedIdentifierCharacter, isWhiteSpace} from "./character-code";
 import {defaultLexerSettings, LexerSettings} from "./lexer-settings";
-import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, tryScanStringCaseInsensitive, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent} from "./scan-util";
+import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent} from "./scan-util";
 import {TokenKind} from "./token.generated";
 
 export interface LexerState {
@@ -182,6 +182,15 @@ export function scan (state : LexerState) : TokenKind {
             } else {
                 return TokenKind.Identifier;
             }
+        } else if (state.peek(1) == CharacterCodes.b) {
+            //String length should never be empty, we confirmed existence of characters 0b
+            //And 0b... does not match custom delimiter (already tried to match custom delimiter above)
+            const str = tryScanUnquotedIdentifier(state, state.customDelimiter);
+            if (is0bBitLiteral(str)) {
+                return TokenKind.BitLiteral;
+            } else {
+                return TokenKind.Identifier;
+            }
         } else {
             return scanOthers(state);
         }
@@ -193,21 +202,6 @@ export function scan (state : LexerState) : TokenKind {
             state.advance();
             scanQuotedString(state);
             return TokenKind.BitLiteral;
-        } else {
-            return scanOthers(state);
-        }
-    }
-
-    if (ch == CharacterCodes._0) {
-        if (state.peek(1) == CharacterCodes.b) {
-            //String length should never be empty, we confirmed existence of characters 0b
-            //And 0b... does not match custom delimiter (already tried to match custom delimiter above)
-            const str = tryScanUnquotedIdentifier(state, state.customDelimiter);
-            if (is0bBitLiteral(str)) {
-                return TokenKind.BitLiteral;
-            } else {
-                return TokenKind.Identifier;
-            }
         } else {
             return scanOthers(state);
         }
@@ -256,6 +250,12 @@ export function scan (state : LexerState) : TokenKind {
             state.advance();
             return TokenKind.Comma;
         case CharacterCodes.bar:
+            if (state.peek(1) == CharacterCodes.bar) {
+                state.advance();
+                state.advance();
+                return TokenKind.BarBar;
+            }
+
             state.advance();
             return TokenKind.Bar;
         case CharacterCodes.ampersand:
@@ -267,6 +267,15 @@ export function scan (state : LexerState) : TokenKind {
 
             state.advance();
             return TokenKind.Ampersand;
+        case CharacterCodes.exclamation:
+            if (state.peek(1) == CharacterCodes.equals) {
+                state.advance();
+                state.advance();
+                return TokenKind.ExclamationEqual;
+            }
+
+            state.advance();
+            return TokenKind.Exclamation;
         case CharacterCodes.equals:
             state.advance();
             return TokenKind.Equal;
@@ -408,13 +417,6 @@ export function scan (state : LexerState) : TokenKind {
             if (state.peek(1) == CharacterCodes.at) {
                 state.advance();
                 state.advance();
-                if (tryScanStringCaseInsensitive(state, "GLOBAL.")) {
-                    return TokenKind.AtAtGlobalDot;
-                }
-
-                if (tryScanStringCaseInsensitive(state, "SESSION.")) {
-                    return TokenKind.AtAtSessionDot;
-                }
 
                 return TokenKind.AtAt;
             } else if (
@@ -463,6 +465,8 @@ export function scan (state : LexerState) : TokenKind {
                 return TokenKind.UserVariableIdentifier;
             }
         case CharacterCodes.doubleQuote:
+            scanQuotedIdentifier(state);
+            return TokenKind.DoubleQuotedLiteral;
         case CharacterCodes.backtick:
             scanQuotedIdentifier(state);
             return TokenKind.Identifier;

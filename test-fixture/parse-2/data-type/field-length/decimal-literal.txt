@@ -1,0 +1,25 @@
+CREATE TABLE T (X INT (2.));
+
+-----
+`(fieldLength: FieldLength[22, 26]`
+`(openParenthesesToken: OpenParentheses[22, 23])`
+`(fieldLength: DecimalLiteral[23, 25])`
+`(closeParenthesesToken: CloseParentheses[25, 26])`
+
+-----
+CREATE TABLE T (X INT (2.1));
+
+-----
+`(fieldLength: FieldLength[22, 27]`
+`(openParenthesesToken: OpenParentheses[22, 23])`
+`(fieldLength: DecimalLiteral[23, 26])`
+`(closeParenthesesToken: CloseParentheses[26, 27])`
+
+-----
+CREATE TABLE T (X INT (.1));
+
+-----
+`(fieldLength: FieldLength[22, 26]`
+`(openParenthesesToken: OpenParentheses[22, 23])`
+`(fieldLength: DecimalLiteral[23, 25])`
+`(closeParenthesesToken: CloseParentheses[25, 26])`

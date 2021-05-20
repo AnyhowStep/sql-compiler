@@ -1,0 +1,38 @@
+CREATE TABLE T (X NATIONAL VARCHAR (45))
+-----
+`(dataType: NVarCharDataType[18, 39]`
+`(nVarCharToken[]: NATIONAL[18, 26])`
+`(WhiteSpace[26, 27])`
+`(nVarCharToken[]: VARCHAR[27, 34])`
+`(fieldLength: FieldLength[35, 39]`
+
+-----
+CREATE TABLE T (X NATIONAL VARCHARACTER (45))
+-----
+`(dataType: NVarCharDataType[18, 44]`
+`(nVarCharToken[]: NATIONAL[18, 26])`
+`(WhiteSpace[26, 27])`
+`(nVarCharToken[]: VARCHARACTER[27, 39])`
+`(fieldLength: FieldLength[40, 44]`
+
+-----
+CREATE TABLE T (X NATIONAL CHAR VARYING (45))
+-----
+`(dataType: NVarCharDataType[18, 44]`
+`(nVarCharToken[]: NATIONAL[18, 26])`
+`(WhiteSpace[26, 27])`
+`(nVarCharToken[]: CHAR[27, 31])`
+`(WhiteSpace[31, 32])`
+`(nVarCharToken[]: VARYING[32, 39])`
+`(fieldLength: FieldLength[40, 44]`
+
+-----
+CREATE TABLE T (X NATIONAL CHARACTER VARYING (45))
+-----
+`(dataType: NVarCharDataType[18, 49]`
+`(nVarCharToken[]: NATIONAL[18, 26])`
+`(WhiteSpace[26, 27])`
+`(nVarCharToken[]: CHARACTER[27, 36])`
+`(WhiteSpace[36, 37])`
+`(nVarCharToken[]: VARYING[37, 44])`
+`(fieldLength: FieldLength[45, 49]`

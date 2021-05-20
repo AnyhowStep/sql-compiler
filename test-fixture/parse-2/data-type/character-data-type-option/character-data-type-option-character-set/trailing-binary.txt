@@ -1,0 +1,7 @@
+CREATE TABLE T (X CHAR CHARSET utf8mb4 BINARY);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionCharacterSet[23, 45]`
+`(characterSetToken[]: CHARSET[23, 30])`
+`(characterSetName: Identifier[31, 38])`
+`(binaryToken: BINARY[39, 45])`

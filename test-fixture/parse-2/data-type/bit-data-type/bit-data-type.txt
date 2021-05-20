@@ -1,0 +1,13 @@
+CREATE TABLE T (X BIT);
+
+-----
+`(dataType: BitDataType[18, 21]`
+`(bitToken: BIT[18, 21])`
+
+-----
+CREATE TABLE T (X BIT (45));
+
+-----
+`(dataType: BitDataType[18, 26]`
+`(bitToken: BIT[18, 21])`
+`(fieldLength: FieldLength[22, 26]`

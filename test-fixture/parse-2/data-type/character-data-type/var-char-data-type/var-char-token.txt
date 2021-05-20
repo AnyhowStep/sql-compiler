@@ -1,0 +1,30 @@
+CREATE TABLE T (X VARCHAR (45))
+-----
+`(dataType: VarCharDataType[18, 30]`
+`(varCharToken[]: VARCHAR[18, 25])`
+`(fieldLength: FieldLength[26, 30]`
+
+-----
+CREATE TABLE T (X VARCHARACTER (45))
+-----
+`(dataType: VarCharDataType[18, 35]`
+`(varCharToken[]: VARCHARACTER[18, 30])`
+`(fieldLength: FieldLength[31, 35]`
+
+-----
+CREATE TABLE T (X CHAR VARYING (45))
+-----
+`(dataType: VarCharDataType[18, 35]`
+`(varCharToken[]: CHAR[18, 22])`
+`(WhiteSpace[22, 23])`
+`(varCharToken[]: VARYING[23, 30])`
+`(fieldLength: FieldLength[31, 35]`
+
+-----
+CREATE TABLE T (X CHARACTER VARYING (45))
+-----
+`(dataType: VarCharDataType[18, 40]`
+`(varCharToken[]: CHARACTER[18, 27])`
+`(WhiteSpace[27, 28])`
+`(varCharToken[]: VARYING[28, 35])`
+`(fieldLength: FieldLength[36, 40]`

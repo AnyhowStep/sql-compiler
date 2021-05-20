@@ -1,0 +1,10 @@
+CREATE TABLE T (X SET  ('A', "B", 0xC, 0b11));
+
+-----
+`(dataType: SetDataType[18, 44]`
+`(setToken: SET[18, 21])`
+`(textStringTuple1: TextStringTuple1[23, 44]`
+`(item[]: StringLiteral[24, 27])`
+`(item[]: DoubleQuotedLiteral[29, 32])`
+`(item[]: HexLiteral[34, 37])`
+`(item[]: BitLiteral[39, 43])`

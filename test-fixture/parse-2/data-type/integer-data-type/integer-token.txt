@@ -1,0 +1,34 @@
+CREATE TABLE T (X TINYINT);
+-----
+`(dataType: IntegerDataType[18, 25]`
+`(integerToken: TINYINT[18, 25])`
+
+-----
+CREATE TABLE T (X SMALLINT);
+-----
+`(dataType: IntegerDataType[18, 26]`
+`(integerToken: SMALLINT[18, 26])`
+
+-----
+CREATE TABLE T (X MEDIUMINT);
+-----
+`(dataType: IntegerDataType[18, 27]`
+`(integerToken: MEDIUMINT[18, 27])`
+
+-----
+CREATE TABLE T (X INT);
+-----
+`(dataType: IntegerDataType[18, 21]`
+`(integerToken: INT[18, 21])`
+
+-----
+CREATE TABLE T (X INTEGER);
+-----
+`(dataType: IntegerDataType[18, 25]`
+`(integerToken: INTEGER[18, 25])`
+
+-----
+CREATE TABLE T (X BIGINT);
+-----
+`(dataType: IntegerDataType[18, 24]`
+`(integerToken: BIGINT[18, 24])`

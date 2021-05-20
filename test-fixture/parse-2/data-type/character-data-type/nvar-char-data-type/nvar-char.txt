@@ -1,0 +1,5 @@
+CREATE TABLE T (X NVARCHAR (45))
+-----
+`(dataType: NVarCharDataType[18, 31]`
+`(nVarCharToken[]: NVARCHAR[18, 26])`
+`(fieldLength: FieldLength[27, 31]`

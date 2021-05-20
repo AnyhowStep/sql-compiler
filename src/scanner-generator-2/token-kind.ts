@@ -56,6 +56,13 @@ export const customTokenKinds = [
     "MacroIdentifier",
 
     /**
+     * This could be a string literal, or an identifier.
+     * It really depends on whether `ANSI_QUOTES` is enabled or not.
+     * What a headache.
+     */
+    "DoubleQuotedLiteral",
+
+    /**
      * Punctuation
      */
     "Plus",
@@ -76,14 +83,16 @@ export const customTokenKinds = [
 
     "ColonEqual",
     "AtAt",
-    "AtAtGlobalDot",
-    "AtAtSessionDot",
 
     "Tilde",
     "Caret",
     "Bar",
+    "BarBar",
     "Ampersand",
     "AmpersandAmpersand",
+
+    "Exclamation",
+    "ExclamationEqual",
 
     "Equal",
     "LessEqualGreater",

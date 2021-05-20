@@ -25,7 +25,13 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.StatementTail,
         SyntaxKind.Partition,
         SyntaxKind.CreateSchemaOption,
+
+
         SyntaxKind.Expression,
+        SyntaxKind.UnaryExpressionOrBooleanPrimaryExpression,
+        SyntaxKind.And,
+        SyntaxKind.Xor,
+        SyntaxKind.Or,
         SyntaxKind.BooleanPrimaryExpression,
         SyntaxKind.Predicate,
 
@@ -41,10 +47,13 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.Literal,
         SyntaxKind.TextLiteral,
         SyntaxKind.NumberLiteral,
+        SyntaxKind.TextString,
 
 
         SyntaxKind.SelectStatement,
 
+        SyntaxKind.VarChar,
+        SyntaxKind.Char,
         SyntaxKind.CharacterSetName,
         SyntaxKind.CollationName,
 
@@ -53,6 +62,7 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.DataType,
         SyntaxKind.CharacterDataType,
         SyntaxKind.CharacterDataTypeOption,
+        SyntaxKind.IntegerDataTypeOption,
     ],
     start : SyntaxKind.SourceFile,
     rules,

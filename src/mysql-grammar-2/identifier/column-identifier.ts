@@ -10,13 +10,22 @@ export const ColumnIdentifier = choice(
     seq(
         field("tableName", SyntaxKind.Ident),
         field("dotToken", TokenKind.Dot),
+        //If the next token is Reserved,
+        //technically, only multi-line comment and execution comment allowed here.
+        //Not just any extra.
         field("columnName", SyntaxKind.IdentOrReserved),
     ),
     seq(
         field("schemaName", SyntaxKind.Ident),
         field("dotToken", TokenKind.Dot),
+        //If the next token is Reserved,
+        //technically, only multi-line comment and execution comment allowed here.
+        //Not just any extra.
         field("tableName", SyntaxKind.IdentOrReserved),
         field("dotToken", TokenKind.Dot),
+        //If the next token is Reserved,
+        //technically, only multi-line comment and execution comment allowed here.
+        //Not just any extra.
         field("columnName", SyntaxKind.IdentOrReserved),
     ),
     /**
@@ -25,6 +34,9 @@ export const ColumnIdentifier = choice(
      */
     seq(
         field("dotToken", TokenKind.Dot),
+        //If the next token is Reserved,
+        //technically, only multi-line comment and execution comment allowed here.
+        //Not just any extra.
         field("columnName", SyntaxKind.IdentOrReserved),
     ),
 );
