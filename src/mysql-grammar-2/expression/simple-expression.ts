@@ -1,4 +1,6 @@
-import {cannotExpect, choice, field, optional, seq, tokenSymbol} from "../../grammar-builder";
+import {cannotExpect, choice, field, optional, seq, tokenSymbol, useCustomExtra} from "../../grammar-builder";
+import {CustomExtras} from "../custom-extras";
+import {dotIdentOrReserved} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -40,39 +42,20 @@ export const ParenthesizedExpression = seq(
 export const ColumnIdentifierSimpleExpression = choice(
     seq(
         field("tableName", SyntaxKind.Ident),
-        field("dotToken", cannotExpect(TokenKind.Dot)),
-        //Technically, only multi-line comment and execution comment allowed here.
-        //Not just any extra.
-        field("columnName", SyntaxKind.IdentOrReserved),
+        dotIdentOrReserved("columnName"),
     ),
     seq(
         field("schemaName", SyntaxKind.Ident),
-        field("dotToken", cannotExpect(TokenKind.Dot)),
-        //If the next token is Reserved,
-        //technically, only multi-line comment and execution comment allowed here.
-        //Not just any extra.
-        field("tableName", SyntaxKind.IdentOrReserved),
-        field("dotToken", cannotExpect(TokenKind.Dot)),
-        //If the next token is Reserved,
-        //technically, only multi-line comment and execution comment allowed here.
-        //Not just any extra.
-        field("columnName", SyntaxKind.IdentOrReserved),
+        dotIdentOrReserved("tableName"),
+        dotIdentOrReserved("columnName"),
     ),
     /**
      * Deprecated.
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13014
      */
     seq(
-        field("dotToken", cannotExpect(TokenKind.Dot)),
-        //If the next token is Reserved,
-        //technically, only multi-line comment and execution comment allowed here.
-        //Not just any extra.
-        field("tableName", SyntaxKind.IdentOrReserved),
-        field("dotToken", cannotExpect(TokenKind.Dot)),
-        //If the next token is Reserved,
-        //technically, only multi-line comment and execution comment allowed here.
-        //Not just any extra.
-        field("columnName", SyntaxKind.IdentOrReserved),
+        dotIdentOrReserved("tableName"),
+        dotIdentOrReserved("columnName"),
     ),
 );
 
@@ -96,30 +79,22 @@ export const ColumnIdentifierSimpleExpression = choice(
  * https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
  */
 export const ScopedSystemVariableIdentifier = seq(
-    field("atAtToken", TokenKind.AtAt),
-    //No matter what,
-    //technically, only multi-line comment and execution comment allowed here.
-    //Not just any extra.
-    field("scope", tokenSymbol(
-        TokenKind.SESSION,
-        TokenKind.LOCAL,
-        TokenKind.GLOBAL,
-    )),
-    field("dotToken", TokenKind.Dot),
-    //If the next token is Reserved,
-    //technically, only multi-line comment and execution comment allowed here.
-    //Not just any extra.
+    useCustomExtra(
+        CustomExtras.noWhiteSpace,
+        seq(
+            field("atAtToken", TokenKind.AtAt),
+            field("scope", tokenSymbol(
+                TokenKind.SESSION,
+                TokenKind.LOCAL,
+                TokenKind.GLOBAL,
+            )),
+        )
+    ),
     //I don't know why they call it "instance"
-    field("instanceName", SyntaxKind.IdentOrReserved),
-    optional(seq(
-        field("dotToken", TokenKind.Dot),
-        //If the next token is Reserved,
-        //technically, only multi-line comment and execution comment allowed here.
-        //Not just any extra.
-        //https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/item_func.cc#L7810
-        //https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
-        field("componentName", SyntaxKind.IdentOrReserved),
-    )),
+    dotIdentOrReserved("instanceName"),
+    //https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/item_func.cc#L7810
+    //https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
+    optional(dotIdentOrReserved("componentName")),
 );
 
 /**
@@ -132,19 +107,15 @@ export const ScopedSystemVariableIdentifier = seq(
  * Because `hot_cache.key_buffer_size` is `GLOBAL`-only.
  */
 export const UnscopedSystemVariableIdentifier = seq(
-    field("atAtToken", TokenKind.AtAt),
-    //No matter what,
-    //technically, only multi-line comment and execution comment allowed here.
-    //Not just any extra.
-    //I don't know why they call it "instance"
-    field("instanceName", SyntaxKind.Ident),
-    optional(seq(
-        field("dotToken", TokenKind.Dot),
-        //If the next token is Reserved,
-        //technically, only multi-line comment and execution comment allowed here.
-        //Not just any extra.
-        //https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/item_func.cc#L7810
-        //https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
-        field("componentName", SyntaxKind.IdentOrReserved),
-    )),
+    useCustomExtra(
+        CustomExtras.noWhiteSpace,
+        seq(
+            field("atAtToken", TokenKind.AtAt),
+            //I don't know why they call it "instance"
+            field("instanceName", SyntaxKind.Ident),
+        )
+    ),
+    //https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/item_func.cc#L7810
+    //https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
+    optional(dotIdentOrReserved("componentName")),
 );

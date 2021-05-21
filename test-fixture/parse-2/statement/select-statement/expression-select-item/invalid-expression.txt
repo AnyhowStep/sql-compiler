@@ -1,0 +1,30 @@
+SELECT SELECT AS tmp
+-- Right now, the error is "Expected UserVariableIdentifier"
+-- We should probably make this say "Expected Expression" or something similar...
+-- I'd rather handle this on a parser-level, rather than linter-level.
+-----
+(SourceFile[0, 234]
+  (statement[]: TrailingStatement[0, 20]
+    (statement: Select[0, 20]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 20]
+        (item[]: ExpressionSelectItem[7, 20]
+          (Expected expression: UserVariableIdentifier[7, 13])
+          (WhiteSpace[13, 14])
+          (alias: Alias[14, 20]
+            (asToken: AS[14, 16])
+            (WhiteSpace[16, 17])
+            (alias: Identifier[17, 20])
+          )
+        )
+      )
+    )
+  )
+  (LineBreak[20, 21])
+  (SingleLineComment[21, 81])
+  (LineBreak[81, 82])
+  (SingleLineComment[82, 163])
+  (LineBreak[163, 164])
+  (SingleLineComment[164, 234])
+)

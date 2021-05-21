@@ -1,6 +1,6 @@
 import {choice, field, seq} from "../../../grammar-builder";
+import {dotIdentOrReserved} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
-import {TokenKind} from "../../token.generated";
 
 /**
     Named parameters are allowed in a parameter list
@@ -36,11 +36,7 @@ export const MaybeUserDefinedFunctionCall = seq(
  */
 export const QualifiedFunctionCall = seq(
     field("schemaName", SyntaxKind.Ident),
-    field("dotToken", TokenKind.Dot),
-    //If the next token is Reserved,
-    //technically, only multi-line comment and execution comment allowed here.
-    //Not just any extra.
-    field("functionName", SyntaxKind.IdentOrReserved),
+    dotIdentOrReserved("functionName"),
     field("arguments", SyntaxKind.ExpressionList_Arguments),
 );
 

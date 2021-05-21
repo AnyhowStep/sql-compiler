@@ -8,6 +8,10 @@ export function seqNoFlatten (
     };
 }
 
+function canFlatten (ruleObj : RuleObj) {
+    return ruleObj.precedence == undefined && ruleObj.customExtraName == undefined;
+}
+
 export function seq<R extends Rule> (
     rule : R
 ) : R;
@@ -19,7 +23,7 @@ export function seq (
 ) : Rule {
     const flattened : Rule[] = [];
     for (const rule of rules) {
-        if (typeof rule != "string" && rule.ruleKind == "seq") {
+        if (typeof rule != "string" && rule.ruleKind == "seq" && canFlatten(rule)) {
             flattened.push(...rule.rules);
         } else {
             flattened.push(rule);
@@ -47,7 +51,7 @@ export function choice (
 ) : Rule {
     const flattened : Rule[] = [];
     for (const rule of rules) {
-        if (typeof rule != "string" && rule.ruleKind == "choice") {
+        if (typeof rule != "string" && rule.ruleKind == "choice" && canFlatten(rule)) {
             flattened.push(...rule.rules);
         } else {
             flattened.push(rule);
@@ -185,8 +189,17 @@ export function precedence (prec : number, rule : RuleObj) : RuleObj {
     };
 }
 
+export function disablePenalizeErrorStart (rule : RuleObj) : RuleObj {
+    return {
+        ...rule,
+        penalizeErrorStart : false,
+    };
+}
+
 export interface RuleBase {
-    precedence? : number,
+    precedence? : number;
+    customExtraName? : string;
+    penalizeErrorStart? : boolean;
 }
 
 export interface SeqRule extends RuleBase {
@@ -252,6 +265,63 @@ export type Rule =
     | RuleObj
 ;
 
+export interface TopLevelRuleModifier {
+    isTopLevelRuleModifier : true,
+
+    rule : Rule;
+
+    //customExtraName? : string;
+    inline? : boolean;
+}
+/*
+export function useCustomExtra (
+    customExtraName : string,
+    rule : Rule|TopLevelRuleModifier
+) : TopLevelRuleModifier {
+    if (rule instanceof Object && "isTopLevelRuleModifier" in rule) {
+        return {
+            ...rule,
+            customExtraName,
+        };
+    } else {
+        return {
+            isTopLevelRuleModifier : true,
+
+            rule,
+            customExtraName,
+        };
+    }
+}
+*/
+
+export function useCustomExtra (
+    customExtraName : string,
+    rule : RuleObj
+) : RuleObj {
+    return {
+        ...rule,
+        customExtraName,
+    };
+}
+
+export function inline (
+    rule : Rule|TopLevelRuleModifier
+) : TopLevelRuleModifier {
+    if (rule instanceof Object && "isTopLevelRuleModifier" in rule) {
+        return {
+            ...rule,
+            inline : true,
+        };
+    } else {
+        return {
+            isTopLevelRuleModifier : true,
+
+            rule,
+            inline : true,
+        };
+    }
+}
+
 export interface GrammarConfig {
     tokens : string[];
     /**
@@ -259,16 +329,13 @@ export interface GrammarConfig {
      */
     extras : string[];
     lineBreakToken : string;
+    customExtras : Record<string, string[]>;
     cannotUnexpect : string[];
 
-    /**
-     * Extras for specified rules will not contain line break token
-     */
-    noLineBreak : string[];
     inline : string[];
     start : string;
 }
 
 export interface Grammar extends GrammarConfig {
-    rules : Record<string, Rule>;
+    rules : Record<string, Rule|TopLevelRuleModifier>;
 }

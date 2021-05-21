@@ -2,25 +2,31 @@ import {MySqlGrammar} from "./mysql-grammar.generated";
 import {SyntaxKind} from "./syntax-kind.generated";
 import {tokens, extras, TokenKind} from "./token.generated";
 import * as rules from "./rules.generated";
+import {CustomExtras} from "./custom-extras";
 
 export const mySqlGrammar : MySqlGrammar = {
     tokens,
     extras,
     lineBreakToken : TokenKind.LineBreak,
+    customExtras : {
+        [CustomExtras.noWhiteSpace] : [
+            TokenKind.MultiLineComment,
+            TokenKind.ExecutionComment,
+        ],
+        [CustomExtras.noLineBreak] : extras
+            .filter(e => e != TokenKind.LineBreak),
+    },
     cannotUnexpect : [
         TokenKind.EndOfStatement,
     ],
 
-    noLineBreak : [
-        SyntaxKind.DelimiterStatement,
-    ],
+    //TODO Phase out
     inline : [
         SyntaxKind.CharacterSetNameOrDefault,
         SyntaxKind.CollationNameOrDefault,
         SyntaxKind.Statement,
         SyntaxKind.Schema,
         SyntaxKind.CharSet,
-        SyntaxKind.Ident,
         SyntaxKind.IdentOrReserved,
         SyntaxKind.StatementTail,
         SyntaxKind.Partition,
@@ -28,20 +34,10 @@ export const mySqlGrammar : MySqlGrammar = {
 
 
         SyntaxKind.Expression,
-        SyntaxKind.UnaryExpressionOrBooleanPrimaryExpression,
-        SyntaxKind.And,
-        SyntaxKind.Xor,
-        SyntaxKind.Or,
         SyntaxKind.BooleanPrimaryExpression,
         SyntaxKind.Predicate,
 
         SyntaxKind.BitExpression,
-        SyntaxKind.BitwiseXor,
-        SyntaxKind.MulDivMod,
-        SyntaxKind.PlusMinus,
-        SyntaxKind.BitwiseShift,
-        SyntaxKind.BitwiseAnd,
-        SyntaxKind.BitwiseOr,
 
         SyntaxKind.SimpleExpression,
         SyntaxKind.Literal,

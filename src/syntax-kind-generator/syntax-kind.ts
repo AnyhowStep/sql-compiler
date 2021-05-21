@@ -173,10 +173,6 @@ export const syntaxKinds = [
     "Expression",
     "IsExpression",
     "NotExpression",
-    "UnaryExpressionOrBooleanPrimaryExpression",
-    "And",
-    "Xor",
-    "Or",
 
     "BooleanPrimaryExpression",
     "IsNullBooleanPrimaryExpression",
@@ -192,12 +188,6 @@ export const syntaxKinds = [
     "RegExpPredicate",
 
     "BitExpression",
-    "BitwiseXor",
-    "MulDivMod",
-    "PlusMinus",
-    "BitwiseShift",
-    "BitwiseAnd",
-    "BitwiseOr",
 
     "SimpleExpression",
     "ParenthesizedExpression",
@@ -289,5 +279,4 @@ export const syntaxKinds = [
     "IdentTuple2",
     "TableIdentifierTuple",
     "TableIdentifierList1",
-
 ];

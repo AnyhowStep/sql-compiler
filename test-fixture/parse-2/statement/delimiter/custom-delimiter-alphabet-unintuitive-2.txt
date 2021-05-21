@@ -17,8 +17,8 @@ CREATE SCHEMA D;
   (LineBreak[123, 124])
   (MultiLineComment[124, 159])
   (LineBreak[159, 160])
-  (Unexpected Identifier[160, 163])
-  (statement[]: LeadingStatement[163, 164]
+  (statement[]: LeadingStatement[160, 164]
+    (Unexpected Identifier[160, 163])
     (customDelimiter: CustomDelimiter[163, 164])
     (EndOfStatement[164, 164])
   )
@@ -29,7 +29,9 @@ CREATE SCHEMA D;
         (item[]: ExpressionSelectItem[164, 172]
           (expression: Identifier[164, 166])
           (WhiteSpace[166, 167])
-          (alias: Identifier[167, 172])
+          (alias: Alias[167, 172]
+            (alias: Identifier[167, 172])
+          )
         )
       )
     )
@@ -37,8 +39,8 @@ CREATE SCHEMA D;
     (EndOfStatement[173, 173])
   )
   (WhiteSpace[173, 174])
-  (Unexpected Identifier[174, 175])
-  (statement[]: TrailingStatement[175, 176]
+  (statement[]: TrailingStatement[174, 176]
+    (Unexpected Identifier[174, 175])
     (semiColonToken: SemiColon[175, 176])
     (EndOfStatement[176, 176])
   )

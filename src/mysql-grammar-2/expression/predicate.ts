@@ -55,7 +55,7 @@ export const LikePredicate = seq(
     field("notToken", optional(TokenKind.NOT)),
     field("likeToken", cannotExpect(TokenKind.LIKE)),
     field("right", SyntaxKind.SimpleExpression),
-    field("", optional(SyntaxKind.LikeEscape)),
+    field("escape", optional(SyntaxKind.LikeEscape)),
 );
 
 export const LikeEscape = seq(

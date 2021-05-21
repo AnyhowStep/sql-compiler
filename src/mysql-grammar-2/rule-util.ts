@@ -5,8 +5,16 @@
  * + Tuple    = parenthesized list
  */
 
-import {field, optional, repeat, repeat1, Rule, seq, tokenSymbol, tokenSymbol2} from "../grammar-builder";
-import {nonReservedKeywords, TokenKind} from "./token.generated";
+import {cannotExpect, choice, field, optional, repeat, repeat1, Rule, seq, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
+import {CustomExtras} from "./custom-extras";
+import {SyntaxKind} from "./syntax-kind.generated";
+import {nonReservedKeywords, reservedKeywords, TokenKind} from "./token.generated";
+
+export const reserved = tokenSymbol(
+    //This is reserved
+    TokenKind.UnderscoreCharacterSet,
+    ...reservedKeywords,
+);
 
 export const identifier = tokenSymbol(
     TokenKind.Identifier,
@@ -93,4 +101,24 @@ export function tuple2 (rule : Rule) {
 
 export function tuple (rule : Rule) {
     return parentheses(list(rule));
+}
+
+export function dotIdentOrReserved (
+    identifierName : string
+) {
+    return choice(
+        seq(
+            field("dotToken", cannotExpect(TokenKind.Dot)),
+            //whitespace and linebreak allowed between dot and non-reserved tokens
+            field(identifierName, SyntaxKind.Ident),
+        ),
+        useCustomExtra(
+            CustomExtras.noWhiteSpace,
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //No whitespace and linebreak allowed between dot and reserved tokens
+                field(identifierName, reserved),
+            )
+        ),
+    );
 }

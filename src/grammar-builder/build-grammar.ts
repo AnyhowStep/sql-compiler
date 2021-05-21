@@ -1,5 +1,5 @@
 import {CompiledField, CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
-import {choice, ChoiceRule, Grammar, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol} from "./grammar";
+import {choice, ChoiceRule, Grammar, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol, TopLevelRuleModifier} from "./grammar";
 import {getVariableInfo, isVisible} from "./node-types";
 
 export interface BuilderState {
@@ -7,20 +7,24 @@ export interface BuilderState {
     compiledRules : CompiledRule[],
     getUniqueName : (name : string) => string,
 
+    inline : string[],
+    allExtrasSubRuleNames : string[],
+
     ruleName2Alias : Record<string, string>;
     ruleName2Label : Record<string, string>;
+    ruleName2Extras : Record<string, string|undefined>;
     extras : string|undefined;
-    extrasNoLineBreak : string|undefined;
+    customExtrasNameMap : Record<string, string>;
 }
 
 export function buildChoice (
     state : BuilderState,
     ruleName : string,
     rules : Rule[],
-    noLineBreak : boolean,
+    uniqueExtrasName : string|undefined,
 ) : string {
     for (const rule of rules) {
-        buildRule(state, ruleName, rule, noLineBreak);
+        buildRule(state, ruleName, rule, uniqueExtrasName);
     }
     return ruleName;
 }
@@ -29,8 +33,11 @@ export function buildToken (
     state : BuilderState,
     ruleName : string,
     rule : Rule,
-    noLineBreak : boolean,
+    uniqueExtrasName : string|undefined,
 ) : CompiledSymbol {
+    if (rule instanceof Object && rule.customExtraName !== undefined) {
+        uniqueExtrasName = state.customExtrasNameMap[rule.customExtraName];
+    }
     if (typeof rule == "string") {
         if (state.grammar.tokens.includes(rule)) {
             return {
@@ -49,7 +56,7 @@ export function buildToken (
                 state,
                 state.getUniqueName(ruleName + "$seq"),
                 rule,
-                noLineBreak
+                uniqueExtrasName
             );
         }
         case "choice": {
@@ -57,7 +64,7 @@ export function buildToken (
                 state,
                 state.getUniqueName(ruleName + "$choice"),
                 rule.rules,
-                noLineBreak
+                uniqueExtrasName
             );
         }
         case "oneOf": {
@@ -65,7 +72,7 @@ export function buildToken (
                 state,
                 state.getUniqueName(ruleName + "$oneOf"),
                 rule.rules,
-                noLineBreak
+                uniqueExtrasName
             );
         }
         case "optional": {
@@ -76,7 +83,7 @@ export function buildToken (
                     seq(),
                     rule.rule,
                 ],
-                noLineBreak
+                uniqueExtrasName
             );
         }
         case "repeat1": {
@@ -87,7 +94,7 @@ export function buildToken (
                 state,
                 itemName,
                 rule.rule,
-                noLineBreak
+                uniqueExtrasName
             );
 
             return buildChoice(
@@ -97,7 +104,7 @@ export function buildToken (
                     itemName,
                     seq(myName, itemName),
                 ],
-                noLineBreak
+                uniqueExtrasName
             );
         }
         case "field": {
@@ -105,7 +112,7 @@ export function buildToken (
                 state,
                 state.getUniqueName(ruleName + "$field"),
                 rule.rule,
-                noLineBreak
+                uniqueExtrasName
             );
             state.ruleName2Label[myName] = rule.label;
             return myName;
@@ -122,7 +129,7 @@ export function buildToken (
                 state,
                 state.getUniqueName(ruleName + "$alias"),
                 rule.rule,
-                noLineBreak
+                uniqueExtrasName
             );
             state.ruleName2Alias[myName] = rule.alias;
             return myName;
@@ -196,11 +203,12 @@ export function buildRule (
     state : BuilderState,
     ruleName : string,
     rule : Rule,
-    noLineBreak : boolean,
+    uniqueExtrasName : string|undefined,
 ) : string {
-    if (noLineBreak && !state.grammar.noLineBreak.includes(ruleName)) {
-        state.grammar.noLineBreak.push(ruleName);
+    if (rule instanceof Object && rule.customExtraName !== undefined) {
+        uniqueExtrasName = state.customExtrasNameMap[rule.customExtraName];
     }
+    state.ruleName2Extras[ruleName] = uniqueExtrasName;
 
     const arr = (
         typeof rule != "string" && rule.ruleKind == "seq" ?
@@ -210,11 +218,7 @@ export function buildRule (
 
     const symbols : CompiledSymbol[] = [];
     let insertExtrasAfter = 0;
-    const myExtras = (
-        noLineBreak ?
-        state.extrasNoLineBreak :
-        state.extras
-    );
+    const myExtras = uniqueExtrasName;
 
     //eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i=0; i<arr.length; ++i) {
@@ -231,7 +235,7 @@ export function buildRule (
                 if (item.ruleKind == "optional") {
                     const nextRule = arr[i+1];
                     if (typeof nextRule == "string") {
-                        if (isSeqRule(item.rule) && item.rule.rules.length > 0 && item.rule.rules[0] == myExtras) {
+                        if (isSeqRule(item.rule) && item.rule.rules.length > 0 && typeof item.rule.rules[0] == "string" && state.allExtrasSubRuleNames.includes(item.rule.rules[0])) {
                             //Already starts with extra
                             //TODO?
                         } else {
@@ -243,7 +247,7 @@ export function buildRule (
                         if (nextRule.ruleKind == "optional") {
                             //Do nothing
                         } else {
-                            if (isSeqRule(item.rule) && item.rule.rules.length > 0 && item.rule.rules[0] == myExtras) {
+                            if (isSeqRule(item.rule) && item.rule.rules.length > 0 && typeof item.rule.rules[0] == "string" && state.allExtrasSubRuleNames.includes(item.rule.rules[0])) {
                                 //Already starts with extra
                                 //TODO?
                             } else {
@@ -275,7 +279,7 @@ export function buildRule (
             }
         }
 
-        const symbol = buildToken(state, ruleName, item, noLineBreak);
+        const symbol = buildToken(state, ruleName, item, uniqueExtrasName);
         symbols.push(symbol);
     }
 
@@ -287,6 +291,12 @@ export function buildRule (
             0 :
             (rule.precedence ?? 0)
         ),
+        penalizeErrorStart : (
+            typeof rule == "string" ?
+            //TODO Maybe true?
+            true :
+            (rule.penalizeErrorStart ?? true)
+        ),
     });
     return ruleName;
 }
@@ -295,11 +305,11 @@ function fromEntries<T = any>(entries: Iterable<readonly [PropertyKey, T]>): { [
     return [...entries]
         .reduce(
             (obj, [key, val]) => {
-                obj[key as any] = val
-                return obj
+                obj[key as any] = val;
+                return obj;
             },
             {} as Record<PropertyKey, T>
-        )
+        );
 }
 
 export function buildRuleName2Shape (
@@ -344,59 +354,78 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
             ++uniqueId;
             return str + "$" + uniqueId;
         },
+
+        inline : [...grammar.inline],
+        allExtrasSubRuleNames : [],
+
         ruleName2Alias : {},
         ruleName2Label : {},
+        ruleName2Extras : {},
         extras : undefined,
-        extrasNoLineBreak : undefined,
+        customExtrasNameMap : {},
     };
 
     if (grammar.extras.length > 0) {
-        const extras = buildRule(
+        const uniqueExtrasName = buildRule(
             state,
             state.getUniqueName("extras"),
             repeat(tokenSymbol(
                 grammar.extras[0],
                 ...(grammar.extras.slice(1))
             )),
-            false
+            undefined
         );
+        state.extras = uniqueExtrasName;
 
-        const extraTokensNoLineBreak = grammar.extras
-            .filter(tokenKind => tokenKind != grammar.lineBreakToken)
-        const extrasNoLineBreak = buildRule(
-            state,
-            state.getUniqueName("extrasNoLineBreak"),
-            repeat(tokenSymbol(
-                extraTokensNoLineBreak[0],
-                ...(extraTokensNoLineBreak.slice(1))
-            )),
-            false
+        for (const [customExtraName, customExtraTokens] of Object.entries(grammar.customExtras)) {
+            const uniqueCustomExtraName = buildRule(
+                state,
+                state.getUniqueName(customExtraName),
+                repeat(tokenSymbol(
+                    customExtraTokens[0],
+                    ...(customExtraTokens.slice(1))
+                )),
+                undefined
+            );
+            state.customExtrasNameMap[customExtraName] = uniqueCustomExtraName;
+            state.customExtrasNameMap[uniqueCustomExtraName] = customExtraName;
+        }
+
+        //All rules built so far are extras
+        state.allExtrasSubRuleNames.push(
+            ...state.compiledRules.map(rule => rule.name),
         );
-
-        /**
-         * We assign to `state.extras` and `state.extrasNoLineBreak`
-         * **after** building the rules.
-         */
-        state.extras = extras;
-        state.extrasNoLineBreak = extrasNoLineBreak;
-
     }
 
     for (const ruleName of Object.keys(grammar.rules)) {
-        const rule = grammar.rules[ruleName];
-        const noLineBreak = grammar.noLineBreak.includes(ruleName);
-        const myExtras = (
-            noLineBreak ?
-            state.extrasNoLineBreak :
-            state.extras
+        const ruleOrModifier = grammar.rules[ruleName];
+
+        const modifier : TopLevelRuleModifier = (
+            ruleOrModifier instanceof Object && "isTopLevelRuleModifier" in ruleOrModifier ?
+            ruleOrModifier :
+            {
+                isTopLevelRuleModifier : true,
+                rule : ruleOrModifier,
+            }
         );
+        const rule = modifier.rule;
+
+        const myExtras = (
+            typeof rule == "string" || rule.customExtraName == undefined ?
+            state.extras :
+            state.customExtrasNameMap[rule.customExtraName]
+        );
+
+        if (modifier.inline === true) {
+            state.inline.push(ruleName);
+        }
 
         if (ruleName == grammar.start && myExtras != undefined) {
             if (typeof rule == "string") {
-                buildRule(state, ruleName, seqNoFlatten(myExtras, rule, myExtras), noLineBreak);
+                buildRule(state, ruleName, seqNoFlatten(myExtras, rule, myExtras), myExtras);
             } else {
                 if (rule.ruleKind == "seq") {
-                    buildRule(state, ruleName, seqNoFlatten(myExtras, ...rule.rules, myExtras), noLineBreak);
+                    buildRule(state, ruleName, seqNoFlatten(myExtras, ...rule.rules, myExtras), myExtras);
                 } else if (rule.ruleKind == "optional") {
                     buildRule(
                         state,
@@ -405,10 +434,10 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
                             myExtras,
                             seqNoFlatten(myExtras, rule.rule, myExtras),
                         ),
-                        noLineBreak
+                        myExtras
                     );
                 } else {
-                    buildRule(state, ruleName, seqNoFlatten(myExtras, rule, myExtras), noLineBreak);
+                    buildRule(state, ruleName, seqNoFlatten(myExtras, rule, myExtras), myExtras);
                 }
             }
         } else {
@@ -417,17 +446,17 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
                     state,
                     ruleName,
                     rule.rules,
-                    noLineBreak
+                    myExtras
                 );
             } else {
-                buildRule(state, ruleName, rule, noLineBreak);
+                buildRule(state, ruleName, rule, myExtras);
             }
         }
     }
 
     const ruleName2Shape = buildRuleName2Shape(
         {
-            inline : grammar.inline,
+            inline : state.inline,
             rules : state.compiledRules,
 
             ruleName2Alias : state.ruleName2Alias,
@@ -440,18 +469,20 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
         tokens : grammar.tokens,
         extras : grammar.extras,
         lineBreakToken : grammar.lineBreakToken,
+        customExtras : grammar.customExtras,
         cannotUnexpect : grammar.cannotUnexpect,
 
-        noLineBreak : grammar.noLineBreak,
-        inline : grammar.inline,
+        inline : state.inline,
         start : grammar.start,
         extrasRuleName : state.extras,
-        extrasNoLineBreakRuleName : state.extrasNoLineBreak,
+        customExtrasNameMap : state.customExtrasNameMap,
+        allExtrasSubRuleNames : state.allExtrasSubRuleNames,
         rules : state.compiledRules,
 
         ruleName2Alias : state.ruleName2Alias,
         ruleName2Label : state.ruleName2Label,
         ruleName2Shape,
+        ruleName2Extras : state.ruleName2Extras,
     };
 }
 /*

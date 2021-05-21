@@ -19,6 +19,7 @@ export interface CompiledRule {
     name : string;
     symbols : CompiledSymbol[];
     precedence : number;
+    penalizeErrorStart : boolean;
 }
 
 export interface CompiledQuantity {
@@ -43,16 +44,18 @@ export interface CompiledGrammar {
     tokens : string[];
     extras : string[];
     lineBreakToken : string;
+    customExtras : Record<string, string[]>;
     cannotUnexpect : string[];
 
-    noLineBreak : string[];
     inline : string[];
     start : string;
     extrasRuleName : string|undefined;
-    extrasNoLineBreakRuleName : string|undefined;
+    customExtrasNameMap : Record<string, string>;
+    allExtrasSubRuleNames : string[];
     rules : CompiledRule[];
 
     ruleName2Alias : Record<string, string>;
     ruleName2Label : Record<string, string>;
     ruleName2Shape : Record<string, CompiledShape>;
+    ruleName2Extras : Record<string, string|undefined>;
 }

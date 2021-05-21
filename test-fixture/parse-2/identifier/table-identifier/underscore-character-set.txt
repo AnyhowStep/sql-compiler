@@ -12,8 +12,7 @@ CREATE TABLE _utf8mb4 (X INT)
       (tableToken: TABLE[22, 27])
       (WhiteSpace[27, 28])
       (tableIdentifier: TableIdentifier[28, 36]
-        (Expected dotToken: Dot[28, 28])
-        (tableName: UnderscoreCharacterSet[28, 36])
+        (Expected tableName: Identifier[28, 36])
       )
       (WhiteSpace[36, 37])
       (createTableDefinitionTuple1: CreateTableDefinitionTuple1[37, 44]

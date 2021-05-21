@@ -1,13 +1,14 @@
-import {tokenSymbol2} from "../../grammar-builder";
+import {inline, tokenSymbol2} from "../../grammar-builder";
 import {identifier, tuple1, tuple2} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {reservedKeywords, TokenKind} from "../token.generated";
 
-export const Ident = identifier;
+export const Ident = inline(identifier);
 
 export const IdentOrReserved = tokenSymbol2(
     identifier,
     ...reservedKeywords,
+    //This is reserved
     TokenKind.UnderscoreCharacterSet,
 );
 

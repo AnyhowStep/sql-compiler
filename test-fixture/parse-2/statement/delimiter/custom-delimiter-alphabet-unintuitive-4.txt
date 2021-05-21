@@ -8,8 +8,8 @@ CREATE
     (customDelimiter: CustomDelimiter[10, 11])
   )
   (LineBreak[11, 12])
-  (Unexpected Identifier[12, 15])
-  (statement[]: TrailingStatement[15, 16]
+  (statement[]: TrailingStatement[12, 16]
+    (Unexpected Identifier[12, 15])
     (customDelimiter: CustomDelimiter[15, 16])
     (EndOfStatement[16, 16])
   )

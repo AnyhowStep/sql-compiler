@@ -1,0 +1,45 @@
+SELECT T.SELECT;
+-----
+(SourceFile[0, 16]
+  (statement[]: TrailingStatement[0, 16]
+    (statement: Select[0, 15]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 15]
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: ColumnIdentifierSimpleExpression[7, 15]
+            (tableName: Identifier[7, 8])
+            (dotToken[]: Dot[8, 9])
+            (columnName: SELECT[9, 15])
+          )
+        )
+      )
+    )
+    (semiColonToken: SemiColon[15, 16])
+    (EndOfStatement[16, 16])
+  )
+)
+
+-----
+SELECT T. SELECT;
+-----
+(SourceFile[0, 17]
+  (statement[]: TrailingStatement[0, 17]
+    (statement: Select[0, 16]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 16]
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: ColumnIdentifierSimpleExpression[7, 16]
+            (tableName: Identifier[7, 8])
+            (dotToken[]: Dot[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (columnName: SELECT[10, 16])
+          )
+        )
+      )
+    )
+    (semiColonToken: SemiColon[16, 17])
+    (EndOfStatement[17, 17])
+  )
+)
