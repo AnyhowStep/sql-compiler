@@ -3,9 +3,9 @@ DELIMITER A
 /* But you should see CRE<custom delimiter>TE SCHEMA D */
 /* This will cause syntax errors */
 CREATE SCHEMA D;
-
+-- timeout 3000
 -----
-(SourceFile[0, 177]
+(SourceFile[0, 192]
   (statement[]: DelimiterStatement[0, 11]
     (delimiterStart: DelimiterSpace[0, 10])
     (customDelimiter: CustomDelimiter[10, 11])
@@ -45,4 +45,5 @@ CREATE SCHEMA D;
     (EndOfStatement[176, 176])
   )
   (LineBreak[176, 177])
+  (SingleLineComment[177, 192])
 )

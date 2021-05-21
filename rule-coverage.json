@@ -16222,7 +16222,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1842
+      "coverageCount": 1843
     },
     {
       "rule": {
@@ -16245,7 +16245,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 114
+      "coverageCount": 115
     },
     {
       "rule": {
