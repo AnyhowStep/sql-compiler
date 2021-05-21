@@ -64,11 +64,22 @@ export function initFields (shape : CompiledShape) {
     return result;
 }
 
+function fromEntries<T = any>(entries: Iterable<readonly [PropertyKey, T]>): { [k: string]: T } {
+    return [...entries]
+        .reduce(
+            (obj, [key, val]) => {
+                obj[key as any] = val;
+                return obj;
+            },
+            {} as Record<PropertyKey, T>
+        );
+}
+
 export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
     const tokens = new Set<string>(compiled.tokens);
     const extras = new Set<string>(compiled.extras);
     const lineBreakToken = compiled.lineBreakToken;
-    const customExtras = Object.fromEntries(
+    const customExtras = fromEntries(
         Object.entries(compiled.customExtras).map(([extrasName, tokens]) => {
             return [
                 extrasName,
