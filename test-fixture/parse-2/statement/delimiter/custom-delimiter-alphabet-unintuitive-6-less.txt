@@ -14,15 +14,17 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;X;
       (selectItemList1: SelectItemList1[2, 6]
         (item[]: ExpressionSelectItem[2, 6]
           (expression: Identifier[2, 3])
-          (alias: Identifier[3, 6])
+          (alias: Alias[3, 6]
+            (alias: Identifier[3, 6])
+          )
         )
       )
     )
     (semiColonToken: SemiColon[6, 7])
     (EndOfStatement[7, 7])
   )
-  (Unexpected Identifier[7, 8])
-  (statement[]: LeadingStatement[8, 9]
+  (statement[]: LeadingStatement[7, 9]
+    (Unexpected Identifier[7, 8])
     (semiColonToken: SemiColon[8, 9])
     (EndOfStatement[9, 9])
   )
@@ -32,15 +34,17 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;X;
       (selectItemList1: SelectItemList1[9, 13]
         (item[]: ExpressionSelectItem[9, 13]
           (expression: Identifier[9, 10])
-          (alias: Identifier[10, 13])
+          (alias: Alias[10, 13]
+            (alias: Identifier[10, 13])
+          )
         )
       )
     )
     (semiColonToken: SemiColon[13, 14])
     (EndOfStatement[14, 14])
   )
-  (Unexpected Identifier[14, 15])
-  (statement[]: LeadingStatement[15, 16]
+  (statement[]: LeadingStatement[14, 16]
+    (Unexpected Identifier[14, 15])
     (semiColonToken: SemiColon[15, 16])
     (EndOfStatement[16, 16])
   )
@@ -50,15 +54,17 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;X;
       (selectItemList1: SelectItemList1[16, 20]
         (item[]: ExpressionSelectItem[16, 20]
           (expression: Identifier[16, 17])
-          (alias: Identifier[17, 20])
+          (alias: Alias[17, 20]
+            (alias: Identifier[17, 20])
+          )
         )
       )
     )
     (semiColonToken: SemiColon[20, 21])
     (EndOfStatement[21, 21])
   )
-  (Unexpected Identifier[21, 22])
-  (statement[]: LeadingStatement[22, 23]
+  (statement[]: LeadingStatement[21, 23]
+    (Unexpected Identifier[21, 22])
     (semiColonToken: SemiColon[22, 23])
     (EndOfStatement[23, 23])
   )
@@ -68,15 +74,17 @@ W;X`Y`;W;X`Y`;W;X`Y`;W;X`Y`;X;
       (selectItemList1: SelectItemList1[23, 27]
         (item[]: ExpressionSelectItem[23, 27]
           (expression: Identifier[23, 24])
-          (alias: Identifier[24, 27])
+          (alias: Alias[24, 27]
+            (alias: Identifier[24, 27])
+          )
         )
       )
     )
     (semiColonToken: SemiColon[27, 28])
     (EndOfStatement[28, 28])
   )
-  (Unexpected Identifier[28, 29])
-  (statement[]: TrailingStatement[29, 30]
+  (statement[]: TrailingStatement[28, 30]
+    (Unexpected Identifier[28, 29])
     (semiColonToken: SemiColon[29, 30])
     (EndOfStatement[30, 30])
   )

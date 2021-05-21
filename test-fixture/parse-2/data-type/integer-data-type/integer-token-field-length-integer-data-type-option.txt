@@ -1,0 +1,46 @@
+CREATE TABLE T (X TINYINT (10) ZEROFILL);
+-----
+`(dataType: IntegerDataType[18, 39]`
+`(integerToken: TINYINT[18, 25])`
+`(fieldLength: FieldLength[26, 30]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[31, 39]`
+
+-----
+CREATE TABLE T (X SMALLINT (10) ZEROFILL);
+-----
+`(dataType: IntegerDataType[18, 40]`
+`(integerToken: SMALLINT[18, 26])`
+`(fieldLength: FieldLength[27, 31]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[32, 40]`
+
+-----
+CREATE TABLE T (X MEDIUMINT (10) ZEROFILL);
+-----
+`(dataType: IntegerDataType[18, 41]`
+`(integerToken: MEDIUMINT[18, 27])`
+`(fieldLength: FieldLength[28, 32]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[33, 41]`
+
+-----
+CREATE TABLE T (X INT (10) ZEROFILL);
+-----
+`(dataType: IntegerDataType[18, 35]`
+`(integerToken: INT[18, 21])`
+`(fieldLength: FieldLength[22, 26]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[27, 35]`
+
+-----
+CREATE TABLE T (X INTEGER (10) ZEROFILL);
+-----
+`(dataType: IntegerDataType[18, 39]`
+`(integerToken: INTEGER[18, 25])`
+`(fieldLength: FieldLength[26, 30]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[31, 39]`
+
+-----
+CREATE TABLE T (X BIGINT (10) ZEROFILL);
+-----
+`(dataType: IntegerDataType[18, 38]`
+`(integerToken: BIGINT[18, 24])`
+`(fieldLength: FieldLength[25, 29]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[30, 38]`

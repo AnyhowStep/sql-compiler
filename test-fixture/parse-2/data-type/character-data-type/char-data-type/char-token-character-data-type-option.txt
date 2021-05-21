@@ -1,0 +1,12 @@
+CREATE TABLE T (X CHAR ASCII)
+-----
+`(dataType: CharDataType[18, 28]`
+`(charToken: CHAR[18, 22])`
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[23, 28]`
+
+-----
+CREATE TABLE T (X CHARACTER ASCII)
+-----
+`(dataType: CharDataType[18, 33]`
+`(charToken: CHARACTER[18, 27])`
+`(characterDataTypeOption: CharacterDataTypeOptionAscii[28, 33]`

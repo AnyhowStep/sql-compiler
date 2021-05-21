@@ -1,0 +1,12 @@
+CREATE TABLE T (X BOOL);
+
+-----
+`(dataType: BooleanDataType[18, 22]`
+`(booleanToken: BOOL[18, 22])`
+
+-----
+CREATE TABLE T (X BOOLEAN);
+
+-----
+`(dataType: BooleanDataType[18, 25]`
+`(booleanToken: BOOLEAN[18, 25])`

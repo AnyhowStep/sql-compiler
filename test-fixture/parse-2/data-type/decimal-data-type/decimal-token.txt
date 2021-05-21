@@ -1,0 +1,26 @@
+CREATE TABLE T (X DECIMAL);
+
+-----
+`(dataType: DecimalDataType[18, 25]`
+`(decimalToken: DECIMAL[18, 25])`
+
+-----
+CREATE TABLE T (X DEC);
+
+-----
+`(dataType: DecimalDataType[18, 21]`
+`(decimalToken: DEC[18, 21])`
+
+-----
+CREATE TABLE T (X NUMERIC);
+
+-----
+`(dataType: DecimalDataType[18, 25]`
+`(decimalToken: NUMERIC[18, 25])`
+
+-----
+CREATE TABLE T (X FIXED);
+
+-----
+`(dataType: DecimalDataType[18, 23]`
+`(decimalToken: FIXED[18, 23])`

@@ -3,16 +3,18 @@ CREATE SCHEMA "0";
 
 
 CREATE SCHEMA "1";
-
+-- With ANSI_QUOTES, the above are valid.
+-- Without ANSI_QUOTES, the above are invalid.
+-- We allow it and push checking down the pipeline.
 -----
-(SourceFile[0, 41]
+(SourceFile[0, 181]
   (statement[]: LeadingStatement[0, 18]
     (statement: CreateSchemaStatement[0, 17]
       (createToken: CREATE[0, 6])
       (WhiteSpace[6, 7])
       (schemaToken: SCHEMA[7, 13])
       (WhiteSpace[13, 14])
-      (identifier: Identifier[14, 17])
+      (identifier: DoubleQuotedLiteral[14, 17])
     )
     (semiColonToken: SemiColon[17, 18])
     (EndOfStatement[18, 18])
@@ -27,10 +29,15 @@ CREATE SCHEMA "1";
       (WhiteSpace[28, 29])
       (schemaToken: SCHEMA[29, 35])
       (WhiteSpace[35, 36])
-      (identifier: Identifier[36, 39])
+      (identifier: DoubleQuotedLiteral[36, 39])
     )
     (semiColonToken: SemiColon[39, 40])
     (EndOfStatement[40, 40])
   )
   (LineBreak[40, 41])
+  (SingleLineComment[41, 82])
+  (LineBreak[82, 83])
+  (SingleLineComment[83, 129])
+  (LineBreak[129, 130])
+  (SingleLineComment[130, 181])
 )

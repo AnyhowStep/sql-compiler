@@ -1,0 +1,33 @@
+SELECT x IS TRUE IS FALSE
+-- This is actually invalid.
+-- You can, however write, `SELECT (x IS TRUE) IS FALSE`
+-----
+`(expression: IsExpression[7, 25]`
+`(left: IsNullBooleanPrimaryExpression[7, 16]`
+`(expression: Identifier[7, 8])`
+`(WhiteSpace[8, 9])`
+`(isToken: IS[9, 11])`
+`(WhiteSpace[11, 12])`
+`(Expected nullToken: NULL[12, 16])`
+`(WhiteSpace[16, 17])`
+`(isToken: IS[17, 19])`
+`(WhiteSpace[19, 20])`
+`(right: FALSE[20, 25])`
+
+-----
+SELECT (x IS TRUE) IS FALSE
+
+-----
+`(left: ParenthesizedExpression[7, 18]`
+`(openParenthesesToken: OpenParentheses[7, 8])`
+`(expression: IsExpression[8, 17]`
+`(left: Identifier[8, 9])`
+`(WhiteSpace[9, 10])`
+`(isToken: IS[10, 12])`
+`(WhiteSpace[12, 13])`
+`(right: TRUE[13, 17])`
+`(closeParenthesesToken: CloseParentheses[17, 18])`
+`(WhiteSpace[18, 19])`
+`(isToken: IS[19, 21])`
+`(WhiteSpace[21, 22])`
+`(right: FALSE[22, 27])`

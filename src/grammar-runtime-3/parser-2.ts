@@ -709,11 +709,13 @@ export function complete3 (
         pushChild(grammar, other.data, stateData)
     );
 
-    const firstToken = tryGetFirstNonExtraToken(grammar, stateData);
+    const firstToken = tryGetFirstToken(stateData);
 
     let errorCount = other.errorCount + state.errorCount;
     if (
         //!shouldInline &&
+        //stateData.children.length > 1 &&
+        state.rule.penalizeErrorStart &&
         firstToken != undefined &&
         firstToken.errorKind != undefined
     ) {
@@ -815,6 +817,9 @@ export function complete2 (
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
     addState : (state : MyState) => void
 ) {
+    if (state.rule.name == "extras$1") {
+        state;
+    }
     if (grammar.extrasRuleName != undefined && state.errorCount > 0 && state.rule.name.startsWith(grammar.extrasRuleName)) {
         //return;
     }
@@ -838,16 +843,7 @@ export function complete2 (
         other.ident + "-" + state.ident
     );
 
-    const isExtra = (
-        (
-            grammar.extrasRuleName != undefined &&
-            state.rule.name.startsWith(grammar.extrasRuleName)
-        ) ||
-        (
-            grammar.extrasNoLineBreakRuleName != undefined &&
-            state.rule.name.startsWith(grammar.extrasNoLineBreakRuleName)
-        )
-    );
+    const isExtra = grammar.allExtrasSubRuleNames.has(state.rule.name);
     if (
         state.data.children.length > 0 &&
         (
@@ -944,7 +940,7 @@ export function complete2 (
     );
 
     const lastToken = tryGetLastLineBreakToken(grammar, other.data);
-    const firstToken = tryGetFirstNonExtraToken(grammar, stateData);
+    const firstToken = tryGetFirstToken(stateData);
 
     if (
         lastToken != undefined &&
@@ -984,6 +980,8 @@ export function complete2 (
     let errorCount = other.errorCount + state.errorCount;
     if (
         //!shouldInline &&
+        //stateData.children.length > 1 &&
+        state.rule.penalizeErrorStart &&
         firstToken != undefined &&
         firstToken.errorKind != undefined
     ) {
@@ -1354,6 +1352,21 @@ function cmpPrecedence (
     a : MyState,
     b : MyState,
 ) : number {
+    if (
+        a.data.children.length == 1 &&
+        b.data.children.length == 1 &&
+        !("tokenKind" in a.data.children[0]) &&
+        !("tokenKind" in b.data.children[0])
+    ) {
+        const aPrec = a.data.children[0].precedence;
+        const bPrec = b.data.children[0].precedence;
+        if (aPrec != bPrec) {
+            //Reverse the -1 and 1
+            return aPrec < bPrec ? 1 : -1;
+        }
+        return 0;
+    }
+    //for (let tokenIndex=a.tokenIndex-1; tokenIndex>=a.startTokenIndex; --tokenIndex) {
     for (let tokenIndex=a.startTokenIndex; tokenIndex<a.tokenIndex; ++tokenIndex) {
         const aPrec = getPrecedenceAtTokenIndex(a, tokenIndex);
         const bPrec = getPrecedenceAtTokenIndex(b, tokenIndex);
@@ -1443,6 +1456,9 @@ function blah (
         }
     }
 
+    if (state.rule.runTimeId == 841 && state.dot == 3) {
+        state;
+    }
     let precResult = result;
     if (result.length > 1) {
         precResult = [result[0]];
@@ -1453,7 +1469,17 @@ function blah (
             if (cmp > 0) {
                 precResult = [r];
             } else if (cmp == 0) {
-                precResult.push(r);
+                if (r.ident.includes(result[0].ident)) {
+                    //This is a longer path to the same precedence
+                } else if (result[0].ident.includes(r.ident)) {
+                    /**
+                     * This is a shorter path to the same precedence
+                     */
+                    precResult = [r];
+                } else {
+                    //Paths are unrelated to the same precedence
+                    precResult.push(r);
+                }
             }
         }
     }
@@ -1466,6 +1492,10 @@ function blah (
     const minErrorResult = precResult
         .filter(state => state.errorCount == minErrorCount);
     if (minErrorResult.length > 1) {
+        minErrorResult;
+    }
+
+    if (minErrorResult.length != precResult.length) {
         minErrorResult;
     }
     return minErrorResult;
@@ -1816,10 +1846,7 @@ export function skipUnexpected (
         }
 
         if (
-            (
-                grammar.extrasRuleName != undefined && state.rule.name.startsWith(grammar.extrasRuleName) ||
-                grammar.extrasNoLineBreakRuleName != undefined && state.rule.name.startsWith(grammar.extrasNoLineBreakRuleName)
-            ) &&
+            grammar.allExtrasSubRuleNames.has(state.rule.name) &&
             /\$item\$\d+$/.test(state.rule.name)
         ) {
             /**
@@ -1855,7 +1882,7 @@ export function skipUnexpected (
                             tokenIndex : state.tokenIndex,
                         }
                     ),
-                    errorCount : state.errorCount + 1,
+                    errorCount : state.errorCount + 2,
 
                     ident : state.ident,
 
@@ -1863,6 +1890,7 @@ export function skipUnexpected (
                 };
                 //state.hasNextState = true;
                 ++addStateSkipUnexpected;
+                nextState;
                 addState(nextState);
             }
         }
@@ -2119,15 +2147,24 @@ export function skipExpectation (
             //continue;
         }
 
-        if (grammar.noLineBreak.has(state.rule.name)) {
-            if (token.tokenKind != grammar.lineBreakToken && grammar.extras.has(token.tokenKind)) {
+        const uniqueExtrasName = grammar.ruleName2Extras[state.rule.name];
+        if (uniqueExtrasName != undefined) {
+            const extrasName = grammar.customExtrasNameMap[uniqueExtrasName];
+
+            const extrasTokens = (
+                extrasName == undefined ?
+                grammar.extras :
+                grammar.customExtras[extrasName]
+            );
+            if (extrasTokens.has(token.tokenKind)) {
                 continue;
             }
-        } else {
+        }/* else if (grammar.allExtrasSubRuleNames.has(state.rule.name)) {
             if (grammar.extras.has(token.tokenKind)) {
                 continue;
             }
-        }
+        }/*
+
         // if (!grammar.noExtras.has(state.rule.name) && grammar.extras.has(token.tokenKind)) {
         //     /**
         //      * Given the SQL, `DELIMITER   `

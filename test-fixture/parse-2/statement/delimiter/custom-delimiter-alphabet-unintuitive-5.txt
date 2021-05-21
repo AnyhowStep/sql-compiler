@@ -8,8 +8,8 @@ CREATE SCHEM
     (customDelimiter: CustomDelimiter[10, 11])
   )
   (LineBreak[11, 12])
-  (Unexpected Identifier[12, 15])
-  (statement[]: LeadingStatement[15, 16]
+  (statement[]: LeadingStatement[12, 16]
+    (Unexpected Identifier[12, 15])
     (customDelimiter: CustomDelimiter[15, 16])
     (EndOfStatement[16, 16])
   )
@@ -20,7 +20,9 @@ CREATE SCHEM
         (item[]: ExpressionSelectItem[16, 24]
           (expression: Identifier[16, 18])
           (WhiteSpace[18, 19])
-          (alias: Identifier[19, 24])
+          (alias: Alias[19, 24]
+            (alias: Identifier[19, 24])
+          )
         )
       )
     )

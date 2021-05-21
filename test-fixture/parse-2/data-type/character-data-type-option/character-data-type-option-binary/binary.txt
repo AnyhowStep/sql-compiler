@@ -1,0 +1,5 @@
+CREATE TABLE T (X CHAR BINARY);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionBinary[23, 29]`
+`(binaryToken: BINARY[23, 29])`

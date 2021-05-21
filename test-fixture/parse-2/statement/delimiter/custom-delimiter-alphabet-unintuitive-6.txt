@@ -1,8 +1,8 @@
 W;X`Y`;
 -----
 (SourceFile[0, 7]
-  (Unexpected Identifier[0, 1])
-  (statement[]: LeadingStatement[1, 2]
+  (statement[]: LeadingStatement[0, 2]
+    (Unexpected Identifier[0, 1])
     (semiColonToken: SemiColon[1, 2])
     (EndOfStatement[2, 2])
   )
@@ -12,7 +12,9 @@ W;X`Y`;
       (selectItemList1: SelectItemList1[2, 6]
         (item[]: ExpressionSelectItem[2, 6]
           (expression: Identifier[2, 3])
-          (alias: Identifier[3, 6])
+          (alias: Alias[3, 6]
+            (alias: Identifier[3, 6])
+          )
         )
       )
     )

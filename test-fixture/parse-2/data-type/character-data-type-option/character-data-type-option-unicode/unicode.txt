@@ -1,0 +1,21 @@
+CREATE TABLE T (X CHAR UNICODE);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionUnicode[23, 30]`
+`(unicodeToken: UNICODE[23, 30])`
+
+-----
+CREATE TABLE T (X CHAR UNICODE BINARY);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionUnicode[23, 37]`
+`(unicodeToken: UNICODE[23, 30])`
+`(binaryToken: BINARY[31, 37])`
+
+-----
+CREATE TABLE T (X CHAR BINARY UNICODE);
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionUnicode[23, 37]`
+`(binaryToken: BINARY[23, 29])`
+`(unicodeToken: UNICODE[30, 37])`

@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import {mySqlGrammar} from "../mysql-grammar-2";
+import {mySqlGrammar} from "../mysql-grammar-2/grammar";
 import {buildGrammar, Grammar} from "../grammar-builder";
 
 const root = `${__dirname}/../mysql-grammar-2`;

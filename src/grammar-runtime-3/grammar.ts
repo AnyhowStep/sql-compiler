@@ -21,25 +21,28 @@ export interface MyRule {
 
     runTimeId : number;
     precedence : number;
+    penalizeErrorStart : boolean;
 }
 
 export interface MyGrammar {
     tokens : Set<string>;
     extras : Set<string>;
     lineBreakToken : string;
+    customExtras : Record<string, Set<string>>;
     cannotUnexpect : Set<string>;
 
-    noLineBreak : Set<string>;
     inline : Set<string>;
     start: string;
     extrasRuleName : string|undefined;
-    extrasNoLineBreakRuleName : string|undefined;
+    customExtrasNameMap : Record<string, string|undefined>;
+    allExtrasSubRuleNames : Set<String>;
     byName: Record<string, MyRule[]>;
 
     ruleName2Alias : Record<string, string>;
     ruleName2Label : Record<string, string>;
     ruleName2Shape : Record<string, CompiledShape>;
     ruleName2Fields : Record<string, Fields>;
+    ruleName2Extras : Record<string, string|undefined>;
 
     ruleRunTimeId2Precedence : number[];
 }
@@ -61,22 +64,42 @@ export function initFields (shape : CompiledShape) {
     return result;
 }
 
+function fromEntries<T = any>(entries: Iterable<readonly [PropertyKey, T]>): { [k: string]: T } {
+    return [...entries]
+        .reduce(
+            (obj, [key, val]) => {
+                obj[key as any] = val;
+                return obj;
+            },
+            {} as Record<PropertyKey, T>
+        );
+}
+
 export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
     const tokens = new Set<string>(compiled.tokens);
     const extras = new Set<string>(compiled.extras);
     const lineBreakToken = compiled.lineBreakToken;
+    const customExtras = fromEntries(
+        Object.entries(compiled.customExtras).map(([extrasName, tokens]) => {
+            return [
+                extrasName,
+                new Set(tokens),
+            ];
+        })
+    );
     const cannotUnexpect = new Set<string>(compiled.cannotUnexpect);
 
-    const noLineBreak = new Set<string>(compiled.noLineBreak);
     const inline = new Set<string>(compiled.inline);
     const start = compiled.start;
     const extrasRuleName = compiled.extrasRuleName;
-    const extrasNoLineBreakRuleName = compiled.extrasNoLineBreakRuleName;
+    const customExtrasNameMap = compiled.customExtrasNameMap;
+    const allExtrasSubRuleNames = new Set<string>(compiled.allExtrasSubRuleNames);
     const byName : Record<string, MyRule[]> = {};
 
     const ruleName2Alias = compiled.ruleName2Alias;
     const ruleName2Label = compiled.ruleName2Label;
     const ruleName2Shape = compiled.ruleName2Shape;
+    const ruleName2Extras = compiled.ruleName2Extras;
     const ruleName2Fields : Record<string, Fields> = {};
     const ruleRunTimeId2Precedence : number[] = [];
     //runTimeId zero is not used
@@ -104,19 +127,21 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
         tokens,
         extras,
         lineBreakToken,
+        customExtras,
         cannotUnexpect,
 
-        noLineBreak,
         inline,
         start,
         extrasRuleName,
-        extrasNoLineBreakRuleName,
+        customExtrasNameMap,
+        allExtrasSubRuleNames,
         byName,
 
         ruleName2Alias,
         ruleName2Label,
         ruleName2Shape,
         ruleName2Fields,
+        ruleName2Extras,
         ruleRunTimeId2Precedence,
     };
 }

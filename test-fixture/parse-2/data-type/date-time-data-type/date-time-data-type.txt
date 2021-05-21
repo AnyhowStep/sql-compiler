@@ -1,0 +1,13 @@
+CREATE TABLE T (X DATETIME);
+
+-----
+`(dataType: DateTimeDataType[18, 26]`
+`(dateTimeToken: DATETIME[18, 26])`
+
+-----
+CREATE TABLE T (X DATETIME (6));
+
+-----
+`(dataType: DateTimeDataType[18, 30]`
+`(dateTimeToken: DATETIME[18, 26])`
+`(fieldLength: FieldLength[27, 30]`

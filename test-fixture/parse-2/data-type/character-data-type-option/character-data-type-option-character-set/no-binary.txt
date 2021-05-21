@@ -1,0 +1,6 @@
+CREATE TABLE T (X CHAR CHARSET "utf8mb4");
+
+-----
+`(characterDataTypeOption: CharacterDataTypeOptionCharacterSet[23, 40]`
+`(characterSetToken[]: CHARSET[23, 30])`
+`(characterSetName: DoubleQuotedLiteral[31, 40])`

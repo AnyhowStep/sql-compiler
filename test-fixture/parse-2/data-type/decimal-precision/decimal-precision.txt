@@ -1,0 +1,10 @@
+CREATE TABLE T (X DECIMAL (65, 10));
+
+-----
+`(precision: DecimalPrecision[26, 34]`
+`(openParenthesesToken: OpenParentheses[26, 27])`
+`(precision: IntegerLiteral[27, 29])`
+`(commaToken: Comma[29, 30])`
+`(WhiteSpace[30, 31])`
+`(scale: IntegerLiteral[31, 33])`
+`(closeParenthesesToken: CloseParentheses[33, 34])`

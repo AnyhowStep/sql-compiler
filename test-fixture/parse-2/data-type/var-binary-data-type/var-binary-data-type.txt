@@ -1,0 +1,15 @@
+CREATE TABLE T (X VARBINARY);
+-- This is invalid. We need `VARBINARY (fieldLength)` or `LONG VARBINARY` (Synonym MEDIUMBLOB)
+
+-----
+`(dataType: LongVarBinaryDataType[18, 27]`
+`(Expected longToken: LONG[18, 18])`
+`(varBinaryToken: VARBINARY[18, 27])`
+
+-----
+CREATE TABLE T (X VARBINARY (45));
+
+-----
+`(dataType: VarBinaryDataType[18, 32]`
+`(varBinaryToken: VARBINARY[18, 27])`
+`(fieldLength: FieldLength[28, 32]`

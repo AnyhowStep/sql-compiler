@@ -1,0 +1,13 @@
+CREATE TABLE T (X BINARY);
+
+-----
+`(dataType: BinaryDataType[18, 24]`
+`(binaryToken: BINARY[18, 24])`
+
+-----
+CREATE TABLE T (X BINARY (45));
+
+-----
+`(dataType: BinaryDataType[18, 29]`
+`(binaryToken: BINARY[18, 24])`
+`(fieldLength: FieldLength[25, 29]`

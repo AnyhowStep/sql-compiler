@@ -1,0 +1,13 @@
+CREATE TABLE T (X TIMESTAMP);
+
+-----
+`(dataType: TimestampDataType[18, 27]`
+`(timestampToken: TIMESTAMP[18, 27])`
+
+-----
+CREATE TABLE T (X TIMESTAMP (6));
+
+-----
+`(dataType: TimestampDataType[18, 31]`
+`(timestampToken: TIMESTAMP[18, 27])`
+`(fieldLength: FieldLength[28, 31]`

@@ -1,0 +1,9 @@
+CREATE TABLE T (X REAL (2, 23));
+-----
+`(precision: RealPrecision[23, 30]`
+`(openParenthesesToken: OpenParentheses[23, 24])`
+`(precision: IntegerLiteral[24, 25])`
+`(commaToken: Comma[25, 26])`
+`(WhiteSpace[26, 27])`
+`(scale: IntegerLiteral[27, 29])`
+`(closeParenthesesToken: CloseParentheses[29, 30])`

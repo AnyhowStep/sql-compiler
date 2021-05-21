@@ -401,6 +401,26 @@ const nonReservedKeywords = [
     "YEAR",
 
     /**
+     * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h#L824-L858
+     */
+    "ADDDATE",
+    "BIT_AND",
+    "BIT_OR",
+    "BIT_XOR",
+    "CAST",
+    "COUNT",
+    "CURDATE",
+    "CURTIME",
+    "DATE_ADD",
+    "DATE_SUB",
+    "EXTRACT",
+    "GROUP_CONCAT",
+    "JSON_OBJECTAGG",
+    "JSON_ARRAYAGG",
+    "MAX",
+    "MID", /* unireg function */
+    "MIN",
+    /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L719
      *
      * https://dev.mysql.com/doc/refman/5.7/en/function-resolution.html
@@ -416,6 +436,23 @@ const nonReservedKeywords = [
      * `CREATE TABLE NOW (NOW INT)`
      */
     "NOW",
+    "POSITION",
+    "SESSION_USER",
+    "STD",
+    "STDDEV",
+    "STDDEV_POP",
+    "STDDEV_SAMP",
+    "ST_COLLECT",
+    "SUBDATE",
+    "SUBSTR",
+    "SUBSTRING",
+    "SUM",
+    "SYSDATE",
+    "SYSTEM_USER",
+    "TRIM",
+    "VARIANCE",
+    "VAR_POP",
+    "VAR_SAMP",
 ];
 
 /**

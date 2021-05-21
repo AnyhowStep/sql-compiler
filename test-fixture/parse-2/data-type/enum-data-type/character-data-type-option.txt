@@ -1,0 +1,7 @@
+CREATE TABLE T (X ENUM ('A', "B", 0xC, 0b11) CHARSET BINARY);
+
+-----
+`(dataType: EnumDataType[18, 59]`
+`(enumToken: ENUM[18, 22])`
+`(textStringTuple1: TextStringTuple1[23, 44]`
+`(characterDataTypeOption: CharacterDataTypeOptionCharacterSet[45, 59]`

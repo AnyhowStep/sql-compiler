@@ -1,0 +1,5 @@
+CREATE TABLE T (X FLOAT SIGNED);
+-----
+`(dataType: FloatDataType[18, 30]`
+`(floatToken: FLOAT[18, 23])`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[24, 30]`

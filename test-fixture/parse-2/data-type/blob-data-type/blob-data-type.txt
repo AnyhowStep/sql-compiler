@@ -1,0 +1,34 @@
+CREATE TABLE T (X TINYBLOB);
+
+-----
+`(dataType: BlobDataType[18, 26]`
+`(blobToken: TINYBLOB[18, 26])`
+
+-----
+CREATE TABLE T (X MEDIUMBLOB);
+
+-----
+`(dataType: BlobDataType[18, 28]`
+`(blobToken: MEDIUMBLOB[18, 28])`
+
+-----
+CREATE TABLE T (X BLOB);
+
+-----
+`(dataType: BlobDataType[18, 22]`
+`(blobToken: BLOB[18, 22])`
+
+-----
+CREATE TABLE T (X LONGBLOB);
+
+-----
+`(dataType: BlobDataType[18, 26]`
+`(blobToken: LONGBLOB[18, 26])`
+
+-----
+CREATE TABLE T (X BLOB (45));
+
+-----
+`(dataType: BlobDataType[18, 27]`
+`(blobToken: BLOB[18, 22])`
+`(fieldLength: FieldLength[23, 27]`

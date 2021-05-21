@@ -1,0 +1,23 @@
+CREATE TABLE T (X REAL SIGNED);
+-----
+`(dataType: RealDataType[18, 29]`
+`(realToken[]: REAL[18, 22])`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[23, 29]`
+
+-----
+CREATE TABLE T (X DOUBLE UNSIGNED);
+
+-----
+`(dataType: RealDataType[18, 33]`
+`(realToken[]: DOUBLE[18, 24])`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[25, 33]`
+
+-----
+CREATE TABLE T (X DOUBLE PRECISION SIGNED UNSIGNED ZEROFILL);
+
+-----
+`(dataType: RealDataType[18, 59]`
+`(realToken[]: DOUBLE[18, 24])`
+`(WhiteSpace[24, 25])`
+`(realToken[]: PRECISION[25, 34])`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[35, 59]`

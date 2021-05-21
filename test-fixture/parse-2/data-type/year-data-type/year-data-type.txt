@@ -1,0 +1,13 @@
+CREATE TABLE T (X YEAR);
+
+-----
+`(dataType: YearDataType[18, 22]`
+`(yearToken: YEAR[18, 22])`
+
+-----
+CREATE TABLE T (X YEAR (6));
+
+-----
+`(dataType: YearDataType[18, 26]`
+`(yearToken: YEAR[18, 22])`
+`(fieldLength: FieldLength[23, 26]`

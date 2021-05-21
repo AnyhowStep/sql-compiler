@@ -19,6 +19,7 @@ export const DataType = choice(
     SyntaxKind.IntegerDataType,
     SyntaxKind.JsonDataType,
     SyntaxKind.RealDataType,
+    SyntaxKind.FloatDataType,
     SyntaxKind.SetDataType,
     SyntaxKind.TextDataType,
     SyntaxKind.LongVarCharDataType,
@@ -113,10 +114,13 @@ export const NCharDataType = seq(
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6759
      */
-    field("nCharToken", choice(
-        TokenKind.NCHAR,
-        seq(TokenKind.NATIONAL, SyntaxKind.Char),
-    )),
+    choice(
+        field("nCharToken", TokenKind.NCHAR),
+        seq(
+            field("nCharToken", TokenKind.NATIONAL),
+            field("nCharToken", SyntaxKind.Char)
+        ),
+    ),
     field("fieldLength", optional(SyntaxKind.FieldLength)),
     field("binaryToken", optional(TokenKind.BINARY)),
 );
@@ -137,23 +141,26 @@ export const NVarCharDataType = seq(
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6769
      */
-    field("nVarCharToken", choice(
+    choice(
         seq(
-            TokenKind.NATIONAL,
+            field("nVarCharToken", TokenKind.NATIONAL),
             choice(
-                SyntaxKind.VarChar,
-                seq(SyntaxKind.Char, TokenKind.VARYING)
+                field("nVarCharToken", SyntaxKind.VarChar),
+                seq(
+                    field("nVarCharToken", SyntaxKind.Char),
+                    field("nVarCharToken", TokenKind.VARYING)
+                )
             ),
         ),
         seq(
-            TokenKind.NCHAR,
+            field("nVarCharToken", TokenKind.NCHAR),
             choice(
-                TokenKind.VARYING,
-                SyntaxKind.VarChar,
+                field("nVarCharToken", TokenKind.VARYING),
+                field("nVarCharToken", SyntaxKind.VarChar),
             ),
         ),
-        TokenKind.NVARCHAR,
-    )),
+        field("nVarCharToken", TokenKind.NVARCHAR),
+    ),
     field("fieldLength", SyntaxKind.FieldLength),
     field("binaryToken", optional(TokenKind.BINARY)),
 );
@@ -165,10 +172,13 @@ export const VarCharDataType = seq(
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6764
      */
-    field("varCharToken", choice(
-        seq(SyntaxKind.Char, TokenKind.VARYING),
-        SyntaxKind.VarChar,
-    )),
+    choice(
+        seq(
+            field("varCharToken", SyntaxKind.Char),
+            field("varCharToken", TokenKind.VARYING)
+        ),
+        field("varCharToken", SyntaxKind.VarChar),
+    ),
     field("fieldLength", SyntaxKind.FieldLength),
     field("characterDataTypeOption", optional(SyntaxKind.CharacterDataTypeOption)),
 );
@@ -202,10 +212,10 @@ export const DecimalDataType = seq(
         TokenKind.NUMERIC,
         TokenKind.FIXED,
     )),
-    field("precision", choice(
+    field("precision", optional(choice(
         SyntaxKind.FieldLength,
         SyntaxKind.DecimalPrecision,
-    )),
+    ))),
     field("integerDataTypeOptionRepeat1", optional(SyntaxKind.IntegerDataTypeOptionRepeat1)),
 );
 
@@ -229,7 +239,7 @@ export const RealDataType = seq(
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6785
      */
-    field("realToken", choice(
+    choice(
         /**
          * When the `REAL` token is used, it may be a `FLOAT` or `DOUBLE`.
          *
@@ -239,10 +249,13 @@ export const RealDataType = seq(
          *
          * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6788
          */
-        TokenKind.REAL,
-        TokenKind.DOUBLE,
-        seq(TokenKind.DOUBLE, TokenKind.PRECISION),
-    )),
+        field("realToken", TokenKind.REAL),
+        field("realToken", TokenKind.DOUBLE),
+        seq(
+            field("realToken", TokenKind.DOUBLE),
+            field("realToken", TokenKind.PRECISION)
+        ),
+    ),
     field("precision", optional(SyntaxKind.RealPrecision)),
     field("integerDataTypeOptionRepeat1", optional(SyntaxKind.IntegerDataTypeOptionRepeat1)),
 );
@@ -252,10 +265,10 @@ export const RealDataType = seq(
  */
 export const FloatDataType = seq(
     field("floatToken", TokenKind.FLOAT),
-    field("precision", choice(
+    field("precision", optional(choice(
         SyntaxKind.FieldLength,
         SyntaxKind.RealPrecision,
-    )),
+    ))),
     field("integerDataTypeOptionRepeat1", optional(SyntaxKind.IntegerDataTypeOptionRepeat1)),
 );
 
@@ -398,8 +411,6 @@ export const TimestampDataType = seq(
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6566
- *
- * TODO: Implement support for `SIGNED, UNSIGNED, ZEROFILL`, even though they have no effect?
  *
  * This type seems so useless. Max value is 2155.
  */

@@ -1,0 +1,21 @@
+SELECT T./* This*//*okay =) */SELECT
+-----
+(SourceFile[0, 36]
+  (statement[]: TrailingStatement[0, 36]
+    (statement: Select[0, 36]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 36]
+        (item[]: ExpressionSelectItem[7, 36]
+          (expression: ColumnIdentifierSimpleExpression[7, 36]
+            (tableName: Identifier[7, 8])
+            (dotToken[]: Dot[8, 9])
+            (MultiLineComment[9, 18])
+            (MultiLineComment[18, 30])
+            (columnName: SELECT[30, 36])
+          )
+        )
+      )
+    )
+  )
+)

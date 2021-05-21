@@ -1,0 +1,15 @@
+CREATE TABLE T (X YEAR ZEROFILL);
+
+-----
+`(dataType: YearDataType[18, 31]`
+`(yearToken: YEAR[18, 22])`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[23, 31]`
+
+-----
+CREATE TABLE T (X YEAR (6) ZEROFILL);
+
+-----
+`(dataType: YearDataType[18, 35]`
+`(yearToken: YEAR[18, 22])`
+`(fieldLength: FieldLength[23, 26]`
+`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[27, 35]`

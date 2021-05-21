@@ -1,0 +1,41 @@
+CREATE TABLE T (X LONG);
+
+-----
+`(dataType: LongVarCharDataType[18, 22]`
+`(longToken: LONG[18, 22])`
+
+-----
+CREATE TABLE T (X LONG VARCHAR);
+
+-----
+`(dataType: LongVarCharDataType[18, 30]`
+`(longToken: LONG[18, 22])`
+`(varCharToken[]: VARCHAR[23, 30])`
+
+-----
+CREATE TABLE T (X LONG VARCHARACTER);
+
+-----
+`(dataType: LongVarCharDataType[18, 35]`
+`(longToken: LONG[18, 22])`
+`(varCharToken[]: VARCHARACTER[23, 35])`
+
+-----
+CREATE TABLE T (X LONG CHAR VARYING);
+
+-----
+`(dataType: LongVarCharDataType[18, 35]`
+`(longToken: LONG[18, 22])`
+`(varCharToken[]: CHAR[23, 27])`
+`(WhiteSpace[27, 28])`
+`(varCharToken[]: VARYING[28, 35])`
+
+-----
+CREATE TABLE T (X LONG CHARACTER VARYING);
+
+-----
+`(dataType: LongVarCharDataType[18, 40]`
+`(longToken: LONG[18, 22])`
+`(varCharToken[]: CHARACTER[23, 32])`
+`(WhiteSpace[32, 33])`
+`(varCharToken[]: VARYING[33, 40])`

@@ -7,7 +7,7 @@ CREATE SCHEMA """<-- -->""<-- -->""""
       (WhiteSpace[6, 7])
       (schemaToken: SCHEMA[7, 13])
       (WhiteSpace[13, 14])
-      (identifier: Identifier[14, 37])
+      (identifier: DoubleQuotedLiteral[14, 37])
     )
   )
 )
