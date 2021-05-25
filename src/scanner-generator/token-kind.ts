@@ -63,7 +63,9 @@ export const tokenKinds = [
     "QuestionMark",
 
     "ColonEqual",
-    "At",
+    "AtAt",
+    "AtAtGlobalDot",
+    "AtAtSessionDot",
 
     "Tilde",
     "Caret",
