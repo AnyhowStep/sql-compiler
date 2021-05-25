@@ -30,6 +30,8 @@ export function testRecursive (dirOrPath : string, callback : (args : CallbackAr
             const timeoutMatch = /timeout\s+(\d+)/.exec(raw);
             if (timeoutMatch != undefined) {
                 this.timeout(parseInt(timeoutMatch[1]));
+            } else {
+                this.timeout(3000);
             }
             callback({
                 fileName : path.basename(dirOrPath),
