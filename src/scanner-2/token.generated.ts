@@ -680,7 +680,6 @@ export enum TokenKind {
     DecimalLiteral = "DecimalLiteral",
     RealLiteral = "RealLiteral",
     Identifier = "Identifier",
-    UserVariableIdentifier = "UserVariableIdentifier",
     MacroIdentifier = "MacroIdentifier",
     DoubleQuotedLiteral = "DoubleQuotedLiteral",
     Plus = "Plus",
@@ -698,7 +697,7 @@ export enum TokenKind {
     Backslash = "Backslash",
     QuestionMark = "QuestionMark",
     ColonEqual = "ColonEqual",
-    AtAt = "AtAt",
+    At = "At",
     Tilde = "Tilde",
     Caret = "Caret",
     Bar = "Bar",
@@ -722,7 +721,8 @@ export enum TokenKind {
     CloseBrace = "CloseBrace",
     DelimiterSpace = "DelimiterSpace",
     UNIQUE_KEY = "UNIQUE_KEY",
-    UnderscoreCharacterSet = "UnderscoreCharacterSet"
+    UnderscoreCharacterSet = "UnderscoreCharacterSet",
+    Expr = "Expr"
 }
 
 export enum ReservedKeyword {

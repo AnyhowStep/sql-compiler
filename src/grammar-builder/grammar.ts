@@ -124,14 +124,33 @@ export function tokenSymbol (
             ruleKind : "tokenSymbol",
             tokenKind,
             otherTokenKinds : undefined,
+            consumeUnexpectedTokenKinds : undefined,
         };
     } else {
         return {
             ruleKind : "tokenSymbol",
             tokenKind,
             otherTokenKinds,
+            consumeUnexpectedTokenKinds : undefined,
         };
     }
+}
+
+export function consumeUnexpected (
+    tokenSymbolRule : TokenSymbolRule,
+    consumeUnexpectedTokenKinds : string[]
+) : TokenSymbolRule {
+    return {
+        ...tokenSymbolRule,
+        consumeUnexpectedTokenKinds : [
+            ...(
+                tokenSymbolRule.consumeUnexpectedTokenKinds == undefined ?
+                [] :
+                tokenSymbolRule.consumeUnexpectedTokenKinds
+            ),
+            ...consumeUnexpectedTokenKinds,
+        ],
+    };
 }
 
 export function tokenSymbol2 (
@@ -147,12 +166,14 @@ export function tokenSymbol2 (
             ruleKind : "tokenSymbol",
             tokenKind : tokenSymbolRule.tokenKind,
             otherTokenKinds,
+            consumeUnexpectedTokenKinds : tokenSymbolRule.consumeUnexpectedTokenKinds,
         };
     } else {
         return {
             ruleKind : "tokenSymbol",
             tokenKind : tokenSymbolRule.tokenKind,
             otherTokenKinds : [...tokenSymbolRule.otherTokenKinds, ...otherTokenKinds],
+            consumeUnexpectedTokenKinds : tokenSymbolRule.consumeUnexpectedTokenKinds,
         };
     }
 }
@@ -166,6 +187,7 @@ export function cannotExpect (
             tokenKind : tokenSymbolRule,
             otherTokenKinds : undefined,
             canExpect : false,
+            consumeUnexpectedTokenKinds : undefined,
         };
     }
     return {
@@ -241,6 +263,8 @@ export interface TokenSymbolRule extends RuleBase {
      * Defaults to `true`.
      */
     canExpect? : false,
+
+    consumeUnexpectedTokenKinds : string[] | undefined,
 }
 
 export interface AliasRule extends RuleBase {

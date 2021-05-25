@@ -194,6 +194,7 @@ export const syntaxKinds = [
     "ColumnIdentifierSimpleExpression",
     "ScopedSystemVariableIdentifier",
     "UnscopedSystemVariableIdentifier",
+    "UserVariableIdentifier",
     "IntervalExpression",
     "LikeEscape",
     "ExpressionTuple1",

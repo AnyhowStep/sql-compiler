@@ -1,5 +1,5 @@
 import {CompiledField, CompiledGrammar, CompiledRule, CompiledShape, CompiledSymbol} from "../compiled-grammar";
-import {choice, ChoiceRule, Grammar, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol, TopLevelRuleModifier} from "./grammar";
+import {choice, ChoiceRule, consumeUnexpected, Grammar, optional, OptionalRule, repeat, Rule, seq, seqNoFlatten, SeqRule, tokenSymbol, TopLevelRuleModifier} from "./grammar";
 import {getVariableInfo, isVisible} from "./node-types";
 
 export interface BuilderState {
@@ -122,6 +122,7 @@ export function buildToken (
                 tokenKind : rule.tokenKind,
                 otherTokenKinds : rule.otherTokenKinds,
                 canExpect : rule.canExpect !== false,
+                consumeUnexpectedTokenKinds : rule.consumeUnexpectedTokenKinds,
             };
         }
         case "alias": {
@@ -381,9 +382,13 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
             const uniqueCustomExtraName = buildRule(
                 state,
                 state.getUniqueName(customExtraName),
-                repeat(tokenSymbol(
-                    customExtraTokens[0],
-                    ...(customExtraTokens.slice(1))
+                repeat(consumeUnexpected(
+                    tokenSymbol(
+                        customExtraTokens[0],
+                        ...(customExtraTokens.slice(1))
+                    ),
+                    grammar.extras
+                        .filter(e => !customExtraTokens.includes(e))
                 )),
                 undefined
             );

@@ -1,0 +1,48 @@
+SELECT @ @ sql_mode
+-----
+(SourceFile[0, 19]
+  (statement[]: TrailingStatement[0, 19]
+    (statement: Select[0, 19]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 19]
+        (item[]: ExpressionSelectItem[7, 19]
+          (expression: UnscopedSystemVariableIdentifier[7, 19]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (instanceName: Identifier[11, 19])
+          )
+        )
+      )
+    )
+  )
+)
+
+-----
+SELECT @ @ sql_mode . SELECT
+-----
+(SourceFile[0, 28]
+  (statement[]: TrailingStatement[0, 28]
+    (statement: Select[0, 28]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 28]
+        (item[]: ExpressionSelectItem[7, 28]
+          (expression: UnscopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (instanceName: Identifier[11, 19])
+            (WhiteSpace[19, 20])
+            (dotToken: Dot[20, 21])
+            (Unexpected WhiteSpace[21, 22])
+            (componentName: SELECT[22, 28])
+          )
+        )
+      )
+    )
+  )
+)

@@ -172,6 +172,7 @@ export enum SyntaxKind {
     ColumnIdentifierSimpleExpression = "ColumnIdentifierSimpleExpression",
     ScopedSystemVariableIdentifier = "ScopedSystemVariableIdentifier",
     UnscopedSystemVariableIdentifier = "UnscopedSystemVariableIdentifier",
+    UserVariableIdentifier = "UserVariableIdentifier",
     IntervalExpression = "IntervalExpression",
     LikeEscape = "LikeEscape",
     ExpressionTuple1 = "ExpressionTuple1",

@@ -113,6 +113,14 @@ export function acceptsToken (expect : MyTokenSymbol, token : MyToken) {
     return expect.otherTokenKinds.includes(token.tokenKind);
 }
 
+export function consumesUnexpectedToken (expect : MyTokenSymbol, token : MyToken) {
+    if (expect.consumeUnexpectedTokenKinds == undefined) {
+        return false;
+    }
+
+    return expect.consumeUnexpectedTokenKinds.includes(token.tokenKind);
+}
+
 export function isFinished (state : MyState) {
     return state.dot == state.rule.symbols.length;
 }
@@ -612,10 +620,30 @@ export function scan (
     tryGetState : TryGetStateDelegate,
     addState : (state : MyState) => void
 ) {
-    const token = tokens[state.tokenIndex];
-    if (token == undefined || !acceptsToken(expect, token)) {
+    let token = tokens[state.tokenIndex];
+    if (token == undefined) {
         return;
     }
+
+    const accepts = acceptsToken(expect, token);
+    const consumesUnexpected = (
+        accepts ?
+        false :
+        consumesUnexpectedToken(expect, token)
+    );
+
+    if (!accepts && !consumesUnexpected) {
+        return;
+    }
+
+    if (consumesUnexpected) {
+        token = {
+            ...token,
+            errorKind : "Unexpected",
+            expectedTokenKind : expect.tokenKind,
+        };
+    }
+
     if (tryGetState(state.rule, state.dot+1, state.tokenIndex+1, state.startTokenIndex, state.ident) != undefined) {
         return;
     }
@@ -629,7 +657,11 @@ export function scan (
             ...token,
             tokenIndex : state.tokenIndex,
         }),
-        errorCount : state.errorCount,
+        errorCount : (
+            consumesUnexpected ?
+            state.errorCount + 1 :
+            state.errorCount
+        ),
 
         ident : state.ident,
 

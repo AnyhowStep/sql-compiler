@@ -1,0 +1,19 @@
+SELECT @ x
+-----
+`(item[]: ExpressionSelectItem[7, 10]`
+`(expression: UserVariableIdentifier[7, 8]`
+`(atToken: At[7, 8])`
+`(WhiteSpace[8, 9])`
+`(alias: Alias[9, 10]`
+`(alias: Identifier[9, 10])`
+
+-----
+SELECT @
+x
+-----
+`(item[]: ExpressionSelectItem[7, 10]`
+`(expression: UserVariableIdentifier[7, 8]`
+`(atToken: At[7, 8])`
+`(LineBreak[8, 9])`
+`(alias: Alias[9, 10]`
+`(alias: Identifier[9, 10])`

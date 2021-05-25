@@ -48,7 +48,6 @@ export const customTokenKinds = [
      * Identifiers
      */
     "Identifier",
-    "UserVariableIdentifier",
     /**
      * For macro calls,
      * `#macroName(x, y, z)`
@@ -82,7 +81,7 @@ export const customTokenKinds = [
     "QuestionMark",
 
     "ColonEqual",
-    "AtAt",
+    "At",
 
     "Tilde",
     "Caret",

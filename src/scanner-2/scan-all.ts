@@ -1,5 +1,5 @@
 import {MyToken} from "../grammar-runtime-3";
-import {CharacterCodes, isDigit, isUnquotedIdentifierCharacter, isWhiteSpace} from "./character-code";
+import {CharacterCodes, isDigit, isWhiteSpace} from "./character-code";
 import {defaultLexerSettings, LexerSettings} from "./lexer-settings";
 import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent} from "./scan-util";
 import {TokenKind} from "./token.generated";
@@ -414,56 +414,58 @@ export function scan (state : LexerState) : TokenKind {
             return TokenKind.Colon;
 
         case CharacterCodes.at:
-            if (state.peek(1) == CharacterCodes.at) {
-                state.advance();
-                state.advance();
+            state.advance();
+            return TokenKind.At;
+            // if (state.peek(1) == CharacterCodes.at) {
+            //     state.advance();
+            //     state.advance();
 
-                return TokenKind.AtAt;
-            } else if (
-                state.peek(1) == CharacterCodes.doubleQuote ||
-                state.peek(1) == CharacterCodes.backtick ||
-                state.peek(1) == CharacterCodes.singleQuote
-            ) {
-                state.advance();
-                scanQuotedIdentifier(state);
-                return TokenKind.UserVariableIdentifier;
-            } else if (
-                isUnquotedIdentifierCharacter(state.peek(1))
-            ) {
-                state.advance();
-                //This may be empty.
-                const str = tryScanUnquotedIdentifier(state, state.customDelimiter);
-                if (str.length == 0) {
-                    /**
-                     * @todo Investigate why MySQL allows this,
-                     * ```sql
-                     *  SELECT @;
-                     * ```
-                     *
-                     * @todo Investigate why MySQL allows this,
-                     * ```sql
-                     *  CREATE DEFINER=root @ FUNCTION FOO () RETURNS BOOLEAN RETURN TRUE;
-                     * ```
-                     */
-                    return TokenKind.UserVariableIdentifier;
-                } else {
-                    return TokenKind.UserVariableIdentifier;
-                }
-            } else {
-                /**
-                 * @todo Investigate why MySQL allows this,
-                 * ```sql
-                 *  SELECT @;
-                 * ```
-                 *
-                 * @todo Investigate why MySQL allows this,
-                 * ```sql
-                 *  CREATE DEFINER=root @ FUNCTION FOO () RETURNS BOOLEAN RETURN TRUE;
-                 * ```
-                 */
-                state.advance();
-                return TokenKind.UserVariableIdentifier;
-            }
+            //     return TokenKind.At;
+            // } else if (
+            //     state.peek(1) == CharacterCodes.doubleQuote ||
+            //     state.peek(1) == CharacterCodes.backtick ||
+            //     state.peek(1) == CharacterCodes.singleQuote
+            // ) {
+            //     state.advance();
+            //     scanQuotedIdentifier(state);
+            //     return TokenKind.UserVariableIdentifier;
+            // } else if (
+            //     isUnquotedIdentifierCharacter(state.peek(1))
+            // ) {
+            //     state.advance();
+            //     //This may be empty.
+            //     const str = tryScanUnquotedIdentifier(state, state.customDelimiter);
+            //     if (str.length == 0) {
+            //         /**
+            //          * @todo Investigate why MySQL allows this,
+            //          * ```sql
+            //          *  SELECT @;
+            //          * ```
+            //          *
+            //          * @todo Investigate why MySQL allows this,
+            //          * ```sql
+            //          *  CREATE DEFINER=root @ FUNCTION FOO () RETURNS BOOLEAN RETURN TRUE;
+            //          * ```
+            //          */
+            //         return TokenKind.UserVariableIdentifier;
+            //     } else {
+            //         return TokenKind.UserVariableIdentifier;
+            //     }
+            // } else {
+            //     /**
+            //      * @todo Investigate why MySQL allows this,
+            //      * ```sql
+            //      *  SELECT @;
+            //      * ```
+            //      *
+            //      * @todo Investigate why MySQL allows this,
+            //      * ```sql
+            //      *  CREATE DEFINER=root @ FUNCTION FOO () RETURNS BOOLEAN RETURN TRUE;
+            //      * ```
+            //      */
+            //     state.advance();
+            //     return TokenKind.UserVariableIdentifier;
+            // }
         case CharacterCodes.doubleQuote:
             scanQuotedIdentifier(state);
             return TokenKind.DoubleQuotedLiteral;
