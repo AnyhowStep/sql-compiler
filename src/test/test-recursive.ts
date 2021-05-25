@@ -31,7 +31,7 @@ export function testRecursive (dirOrPath : string, callback : (args : CallbackAr
             if (timeoutMatch != undefined) {
                 this.timeout(parseInt(timeoutMatch[1]));
             } else {
-                this.timeout(4000);
+                this.timeout(8000);
             }
             callback({
                 fileName : path.basename(dirOrPath),
