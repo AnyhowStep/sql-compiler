@@ -175,6 +175,7 @@ export interface MySqlRuleCollection {
     ScopedSystemVariableIdentifier : Rule|TopLevelRuleModifier,
     UnscopedSystemVariableIdentifier : Rule|TopLevelRuleModifier,
     UserVariableIdentifier : Rule|TopLevelRuleModifier,
+    ParamMarker : Rule|TopLevelRuleModifier,
     IntervalExpression : Rule|TopLevelRuleModifier,
     LikeEscape : Rule|TopLevelRuleModifier,
     ExpressionTuple1 : Rule|TopLevelRuleModifier,

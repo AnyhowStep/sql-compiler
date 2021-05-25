@@ -1,7 +1,7 @@
 import {cannotExpect, choice, field, optional, precedence, seq, tokenSymbol, useCustomExtra} from "../../grammar-builder";
 import {CustomExtras} from "../custom-extras";
 import {Precedence} from "../precedence";
-import {dotIdentOrReserved, identifierNoScopeKeyword, identifierOrReservedOrStringLiteral} from "../rule-util";
+import {dotIdentOrReserved, identifier, identifierNoScopeKeyword, identifierOrReservedOrStringLiteral} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -14,11 +14,12 @@ export const SimpleExpression = choice(
     /**
      * This `Ident` could reference column, stored procedure parameter, or some local variable.
      */
-    SyntaxKind.Ident,
+    identifier,
     SyntaxKind.ColumnIdentifierSimpleExpression,
     SyntaxKind.FunctionCall,
     //SyntaxKind.CollateSimpleExpression,
     SyntaxKind.Literal,
+    SyntaxKind.ParamMarker,
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10151
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10160
@@ -83,7 +84,7 @@ export const ColumnIdentifierSimpleExpression = choice(
  */
 export const ScopedSystemVariableIdentifier = seq(
     useCustomExtra(
-        CustomExtras.noWhiteSpace,
+        CustomExtras.noExtras,
         seq(
             field("atToken", TokenKind.At),
             field("atToken", TokenKind.At),
@@ -114,7 +115,7 @@ export const ScopedSystemVariableIdentifier = seq(
  */
 export const UnscopedSystemVariableIdentifier = seq(
     useCustomExtra(
-        CustomExtras.noWhiteSpace,
+        CustomExtras.noExtras,
         seq(
             field("atToken", TokenKind.At),
             field("atToken", TokenKind.At),
@@ -132,9 +133,18 @@ export const UnscopedSystemVariableIdentifier = seq(
 );
 
 export const UserVariableIdentifier = precedence(Precedence.UserVariableIdentifier, useCustomExtra(
-    CustomExtras.noWhiteSpace,
+    CustomExtras.noExtras,
     seq(
         field("atToken", TokenKind.At),
         optional(field("identifier", identifierOrReservedOrStringLiteral)),
     )
 ));
+
+/**
+ * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/gen_lex_token.cc#L289
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12845
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9505
+ */
+export const ParamMarker = field("questionMarkToken", TokenKind.QuestionMark);

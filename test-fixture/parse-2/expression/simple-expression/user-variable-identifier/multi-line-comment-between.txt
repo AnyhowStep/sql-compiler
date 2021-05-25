@@ -1,6 +1,8 @@
 SELECT @/**/x;
 -----
-`(expression: UserVariableIdentifier[7, 13]`
+`(item[]: ExpressionSelectItem[7, 13]`
+`(expression: UserVariableIdentifier[7, 8]`
 `(atToken: At[7, 8])`
 `(MultiLineComment[8, 12])`
-`(identifier: Identifier[12, 13])`
+`(alias: Alias[12, 13]`
+`(alias: Identifier[12, 13])`

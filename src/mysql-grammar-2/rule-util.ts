@@ -133,7 +133,7 @@ export function dotIdentOrReserved (
             field(identifierName, SyntaxKind.Ident),
         ),
         useCustomExtra(
-            CustomExtras.noWhiteSpace,
+            CustomExtras.noExtras,
             seq(
                 field("dotToken", cannotExpect(TokenKind.Dot)),
                 //No whitespace and linebreak allowed between dot and reserved tokens

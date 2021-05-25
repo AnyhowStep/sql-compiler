@@ -195,6 +195,7 @@ export const syntaxKinds = [
     "ScopedSystemVariableIdentifier",
     "UnscopedSystemVariableIdentifier",
     "UserVariableIdentifier",
+    "ParamMarker",
     "IntervalExpression",
     "LikeEscape",
     "ExpressionTuple1",

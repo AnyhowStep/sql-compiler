@@ -721,8 +721,7 @@ export const tokens = [
     "CloseBrace",
     "DelimiterSpace",
     "UNIQUE_KEY",
-    "UnderscoreCharacterSet",
-    "Expr"
+    "UnderscoreCharacterSet"
 ];
 
 export enum TokenKind {
@@ -1447,8 +1446,7 @@ export enum TokenKind {
     CloseBrace = "CloseBrace",
     DelimiterSpace = "DelimiterSpace",
     UNIQUE_KEY = "UNIQUE_KEY",
-    UnderscoreCharacterSet = "UnderscoreCharacterSet",
-    Expr = "Expr"
+    UnderscoreCharacterSet = "UnderscoreCharacterSet"
 }
 
 export const reservedKeywords = [

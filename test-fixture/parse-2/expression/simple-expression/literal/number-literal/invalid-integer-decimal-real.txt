@@ -1,0 +1,50 @@
+SELECT e0
+-----
+(SourceFile[0, 9]
+  (statement[]: TrailingStatement[0, 9]
+    (statement: Select[0, 9]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 9]
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: Identifier[7, 9])
+        )
+      )
+    )
+  )
+)
+
+-----
+SELECT .
+-----
+(SourceFile[0, 8]
+  (statement[]: TrailingStatement[0, 8]
+    (statement: Select[0, 8]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 8]
+        (item[]: ExpressionSelectItem[7, 8]
+          (Expected expression: Identifier[7, 8])
+        )
+      )
+    )
+  )
+)
+
+-----
+SELECT .e0
+-----
+(SourceFile[0, 10]
+  (statement[]: TrailingStatement[0, 10]
+    (statement: Select[0, 10]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (Unexpected Dot[7, 8])
+      (selectItemList1: SelectItemList1[8, 10]
+        (item[]: ExpressionSelectItem[8, 10]
+          (expression: Identifier[8, 10])
+        )
+      )
+    )
+  )
+)

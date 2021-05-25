@@ -173,6 +173,7 @@ export enum SyntaxKind {
     ScopedSystemVariableIdentifier = "ScopedSystemVariableIdentifier",
     UnscopedSystemVariableIdentifier = "UnscopedSystemVariableIdentifier",
     UserVariableIdentifier = "UserVariableIdentifier",
+    ParamMarker = "ParamMarker",
     IntervalExpression = "IntervalExpression",
     LikeEscape = "LikeEscape",
     ExpressionTuple1 = "ExpressionTuple1",

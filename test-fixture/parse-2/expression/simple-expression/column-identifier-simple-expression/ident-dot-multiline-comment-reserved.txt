@@ -1,4 +1,4 @@
-SELECT T./* This is okay =) */SELECT
+SELECT T./* This is not okay*/SELECT
 -----
 (SourceFile[0, 36]
   (statement[]: TrailingStatement[0, 36]
@@ -10,7 +10,7 @@ SELECT T./* This is okay =) */SELECT
           (expression: ColumnIdentifierSimpleExpression[7, 36]
             (tableName: Identifier[7, 8])
             (dotToken[]: Dot[8, 9])
-            (MultiLineComment[9, 30])
+            (Unexpected MultiLineComment[9, 30])
             (columnName: SELECT[30, 36])
           )
         )

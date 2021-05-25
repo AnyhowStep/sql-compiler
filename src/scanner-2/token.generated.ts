@@ -721,8 +721,7 @@ export enum TokenKind {
     CloseBrace = "CloseBrace",
     DelimiterSpace = "DelimiterSpace",
     UNIQUE_KEY = "UNIQUE_KEY",
-    UnderscoreCharacterSet = "UnderscoreCharacterSet",
-    Expr = "Expr"
+    UnderscoreCharacterSet = "UnderscoreCharacterSet"
 }
 
 export enum ReservedKeyword {

@@ -9,10 +9,7 @@ export const mySqlGrammar : MySqlGrammar = {
     extras,
     lineBreakToken : TokenKind.LineBreak,
     customExtras : {
-        [CustomExtras.noWhiteSpace] : [
-            TokenKind.MultiLineComment,
-            TokenKind.ExecutionComment,
-        ],
+        [CustomExtras.noExtras] : [],
         [CustomExtras.noLineBreak] : extras
             .filter(e => e != TokenKind.LineBreak),
     },

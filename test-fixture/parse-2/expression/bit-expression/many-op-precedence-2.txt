@@ -1,0 +1,39 @@
+SELECT a^b*c+d>>e&f|g
+-----
+(SourceFile[0, 21]
+  (statement[]: TrailingStatement[0, 21]
+    (statement: Select[0, 21]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 21]
+        (item[]: ExpressionSelectItem[7, 21]
+          (expression: BinaryBitExpression[7, 21]
+            (left: BinaryBitExpression[7, 19]
+              (left: BinaryBitExpression[7, 17]
+                (left: BinaryBitExpression[7, 14]
+                  (left: BinaryBitExpression[7, 12]
+                    (left: BinaryBitExpression[7, 10]
+                      (left: Identifier[7, 8])
+                      (operator: Caret[8, 9])
+                      (right: Identifier[9, 10])
+                    )
+                    (operator: Asterisk[10, 11])
+                    (right: Identifier[11, 12])
+                  )
+                  (operator: Plus[12, 13])
+                  (right: Identifier[13, 14])
+                )
+                (operator: GreaterGreater[14, 16])
+                (right: Identifier[16, 17])
+              )
+              (operator: Ampersand[17, 18])
+              (right: Identifier[18, 19])
+            )
+            (operator: Bar[19, 20])
+            (right: Identifier[20, 21])
+          )
+        )
+      )
+    )
+  )
+)

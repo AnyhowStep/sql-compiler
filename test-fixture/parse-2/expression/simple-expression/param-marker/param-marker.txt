@@ -1,0 +1,5 @@
+SELECT ?
+-----
+`(item[]: ExpressionSelectItem[7, 8]`
+`(expression: ParamMarker[7, 8]`
+`(questionMarkToken: QuestionMark[7, 8])`

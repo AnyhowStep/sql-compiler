@@ -384,7 +384,10 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
                 state.getUniqueName(customExtraName),
                 repeat(consumeUnexpected(
                     tokenSymbol(
-                        customExtraTokens[0],
+                        /**
+                         * @todo Find an appropriate token kind for the case where `customExtraTokens` is empty array.
+                         */
+                        customExtraTokens[0] ?? "",
                         ...(customExtraTokens.slice(1))
                     ),
                     grammar.extras
