@@ -1,0 +1,30 @@
+SELECT @/**/@/**/SESSION/**/./**/sql_mode
+-----
+`(expression: ScopedSystemVariableIdentifier[7, 41]`
+`(atToken[]: At[7, 8])`
+`(MultiLineComment[8, 12])`
+`(atToken[]: At[12, 13])`
+`(MultiLineComment[13, 17])`
+`(scope: SESSION[17, 24])`
+`(MultiLineComment[24, 28])`
+`(dotToken[]: Dot[28, 29])`
+`(MultiLineComment[29, 33])`
+`(instanceName: Identifier[33, 41])`
+
+-----
+SELECT @/**/@/**/SESSION/**/./**/sql_mode/**/./**/SELECT
+-----
+`(expression: ScopedSystemVariableIdentifier[7, 56]`
+`(atToken[]: At[7, 8])`
+`(MultiLineComment[8, 12])`
+`(atToken[]: At[12, 13])`
+`(MultiLineComment[13, 17])`
+`(scope: SESSION[17, 24])`
+`(MultiLineComment[24, 28])`
+`(dotToken[]: Dot[28, 29])`
+`(MultiLineComment[29, 33])`
+`(instanceName: Identifier[33, 41])`
+`(MultiLineComment[41, 45])`
+`(dotToken[]: Dot[45, 46])`
+`(MultiLineComment[46, 50])`
+`(componentName: SELECT[50, 56])`

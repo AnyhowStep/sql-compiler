@@ -30,4 +30,6 @@ export const Precedence = {
      * + `SELECT 'ab'`
      */
     ConcatenatedTextLiteral : 1,
+
+    UserVariableIdentifier : 1,
 };

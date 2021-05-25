@@ -23,6 +23,19 @@ export const identifier = tokenSymbol(
 );
 
 /**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13833
+ */
+export const identifierNoScopeKeyword = tokenSymbol(
+    TokenKind.Identifier,
+    TokenKind.DoubleQuotedLiteral,
+    ...nonReservedKeywords.filter(keyword => (
+        keyword != TokenKind.SESSION &&
+        keyword != TokenKind.LOCAL &&
+        keyword != TokenKind.GLOBAL
+    )),
+);
+
+/**
  * Double quoted literals are a pain.
  * They may be string literals, or identifiers.
  * Depending on the `ANSI_QUOTES` config
@@ -34,6 +47,13 @@ export const stringLiteral = tokenSymbol(
 
 export const identifierOrStringLiteral = tokenSymbol2(
     identifier,
+    TokenKind.StringLiteral,
+);
+
+export const identifierOrReservedOrStringLiteral = tokenSymbol2(
+    identifier,
+    TokenKind.UnderscoreCharacterSet,
+    ...reservedKeywords,
     TokenKind.StringLiteral,
 );
 

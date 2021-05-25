@@ -1,6 +1,7 @@
-import {cannotExpect, choice, field, optional, seq, tokenSymbol, useCustomExtra} from "../../grammar-builder";
+import {cannotExpect, choice, field, optional, precedence, seq, tokenSymbol, useCustomExtra} from "../../grammar-builder";
 import {CustomExtras} from "../custom-extras";
-import {dotIdentOrReserved} from "../rule-util";
+import {Precedence} from "../precedence";
+import {dotIdentOrReserved, identifierNoScopeKeyword, identifierOrReservedOrStringLiteral} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -22,7 +23,7 @@ export const SimpleExpression = choice(
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10151
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10160
      */
-    TokenKind.UserVariableIdentifier,
+    SyntaxKind.UserVariableIdentifier,
     SyntaxKind.ScopedSystemVariableIdentifier,
     SyntaxKind.UnscopedSystemVariableIdentifier,
     SyntaxKind.ParenthesizedExpression,
@@ -77,12 +78,15 @@ export const ColumnIdentifierSimpleExpression = choice(
  *
  * The `@@x.y.z` syntax is documented here,
  * https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10164
  */
 export const ScopedSystemVariableIdentifier = seq(
     useCustomExtra(
         CustomExtras.noWhiteSpace,
         seq(
-            field("atAtToken", TokenKind.AtAt),
+            field("atToken", TokenKind.At),
+            field("atToken", TokenKind.At),
             field("scope", tokenSymbol(
                 TokenKind.SESSION,
                 TokenKind.LOCAL,
@@ -105,17 +109,32 @@ export const ScopedSystemVariableIdentifier = seq(
  * `@@GLOBAL.hot_cache.key_buffer_size`
  *
  * Because `hot_cache.key_buffer_size` is `GLOBAL`-only.
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10164
  */
 export const UnscopedSystemVariableIdentifier = seq(
     useCustomExtra(
         CustomExtras.noWhiteSpace,
         seq(
-            field("atAtToken", TokenKind.AtAt),
+            field("atToken", TokenKind.At),
+            field("atToken", TokenKind.At),
             //I don't know why they call it "instance"
-            field("instanceName", SyntaxKind.Ident),
+            /**
+             * We use a subset of valid identifiers to prevent ambiguity with
+             * `ScopedSystemVariableIdentifier`
+             */
+            field("instanceName", identifierNoScopeKeyword),
         )
     ),
     //https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/item_func.cc#L7810
     //https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
     optional(dotIdentOrReserved("componentName")),
 );
+
+export const UserVariableIdentifier = precedence(Precedence.UserVariableIdentifier, useCustomExtra(
+    CustomExtras.noWhiteSpace,
+    seq(
+        field("atToken", TokenKind.At),
+        optional(field("identifier", identifierOrReservedOrStringLiteral)),
+    )
+));

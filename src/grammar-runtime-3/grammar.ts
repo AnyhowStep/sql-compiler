@@ -8,6 +8,8 @@ export interface MyTokenSymbol {
      * Defaults to `true`.
      */
     canExpect : boolean,
+
+    consumeUnexpectedTokenKinds? : string[] | undefined;
 }
 
 export type MySymbol =

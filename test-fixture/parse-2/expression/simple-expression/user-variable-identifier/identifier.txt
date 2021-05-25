@@ -1,0 +1,46 @@
+SELECT @`x`
+-----
+`(expression: UserVariableIdentifier[7, 11]`
+`(atToken: At[7, 8])`
+`(identifier: Identifier[8, 11])`
+
+-----
+SELECT @"x"
+-----
+`(expression: UserVariableIdentifier[7, 11]`
+`(atToken: At[7, 8])`
+`(identifier: DoubleQuotedLiteral[8, 11])`
+
+-----
+SELECT @'x'
+-----
+`(expression: UserVariableIdentifier[7, 11]`
+`(atToken: At[7, 8])`
+`(identifier: StringLiteral[8, 11])`
+
+-----
+SELECT @x
+-----
+`(expression: UserVariableIdentifier[7, 9]`
+`(atToken: At[7, 8])`
+`(identifier: Identifier[8, 9])`
+
+-----
+SELECT @
+-----
+`(expression: UserVariableIdentifier[7, 8]`
+`(atToken: At[7, 8])`
+
+-----
+SELECT @SELECT
+-----
+`(expression: UserVariableIdentifier[7, 14]`
+`(atToken: At[7, 8])`
+`(identifier: SELECT[8, 14])`
+
+-----
+SELECT @NOW
+-----
+`(expression: UserVariableIdentifier[7, 11]`
+`(atToken: At[7, 8])`
+`(identifier: NOW[8, 11])`

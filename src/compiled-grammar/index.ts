@@ -8,6 +8,12 @@ export interface CompiledTokenSymbol {
      */
     otherTokenKinds? : string[] | undefined;
     canExpect : boolean;
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     * @see compiled-grammar-generator
+     */
+    consumeUnexpectedTokenKinds? : string[] | undefined;
 }
 
 export type CompiledSymbol =
