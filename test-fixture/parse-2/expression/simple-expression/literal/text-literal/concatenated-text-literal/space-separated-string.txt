@@ -1,0 +1,61 @@
+SELECT n'a' 'b'
+
+-----
+(SourceFile[0, 16]
+  (statement[]: TrailingStatement[0, 15]
+    (statement: Select[0, 15]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 15]
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: ConcatenatedTextLiteral[7, 15]
+            (item[]: NationalStringLiteral[7, 11])
+            (WhiteSpace[11, 12])
+            (item[]: StringLiteral[12, 15])
+          )
+        )
+      )
+    )
+  )
+  (LineBreak[15, 16])
+)
+
+-----
+SELECT _utf8  'a' 'b' 'c' 'd'
+
+-----
+(SourceFile[0, 30]
+  (statement[]: TrailingStatement[0, 29]
+    (statement: Select[0, 29]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 29]
+        (item[]: ExpressionSelectItem[7, 29]
+          (expression: ConcatenatedTextLiteral[7, 29]
+            (item[]: UnderscoreCharacterSetStringLiteral[7, 17]
+              (underscoreCharacterSetToken: UnderscoreCharacterSet[7, 12])
+              (WhiteSpace[12, 14])
+              (stringLiteralToken: StringLiteral[14, 17])
+            )
+            (WhiteSpace[17, 18])
+            (item[]: StringLiteral[18, 21])
+            (WhiteSpace[21, 22])
+            (item[]: StringLiteral[22, 25])
+            (WhiteSpace[25, 26])
+            (item[]: StringLiteral[26, 29])
+          )
+        )
+      )
+    )
+  )
+  (LineBreak[29, 30])
+)
+
+-----
+SELECT 'a' 'b'
+-----
+`(item[]: ExpressionSelectItem[7, 14]`
+`(expression: ConcatenatedTextLiteral[7, 14]`
+`(item[]: StringLiteral[7, 10])`
+`(WhiteSpace[10, 11])`
+`(item[]: StringLiteral[11, 14])`

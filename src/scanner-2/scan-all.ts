@@ -466,6 +466,9 @@ export function scan (state : LexerState) : TokenKind {
             //     state.advance();
             //     return TokenKind.UserVariableIdentifier;
             // }
+        case CharacterCodes.question:
+            state.advance();
+            return TokenKind.QuestionMark;
         case CharacterCodes.doubleQuote:
             scanQuotedIdentifier(state);
             return TokenKind.DoubleQuotedLiteral;

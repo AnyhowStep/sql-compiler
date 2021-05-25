@@ -31,5 +31,16 @@ export const Precedence = {
      */
     ConcatenatedTextLiteral : 1,
 
+    /**
+     * ```
+     *  SELECT DATE '2020-01-01'
+     * ```
+     *
+     * Could be one of the following,
+     * + `SELECT DATE AS '2020-01-01'`
+     * + `SELECT (DATE '2020-01-01')`
+     */
+    TemporalLiteral : 1,
+
     UserVariableIdentifier : 1,
 };

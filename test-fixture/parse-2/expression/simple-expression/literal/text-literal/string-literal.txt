@@ -1,0 +1,36 @@
+SELECT 'a';
+-----
+(SourceFile[0, 11]
+  (statement[]: TrailingStatement[0, 11]
+    (statement: Select[0, 10]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 10]
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: StringLiteral[7, 10])
+        )
+      )
+    )
+    (semiColonToken: SemiColon[10, 11])
+    (EndOfStatement[11, 11])
+  )
+)
+
+-----
+SELECT "b";
+-----
+(SourceFile[0, 11]
+  (statement[]: TrailingStatement[0, 11]
+    (statement: Select[0, 10]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 10]
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: DoubleQuotedLiteral[7, 10])
+        )
+      )
+    )
+    (semiColonToken: SemiColon[10, 11])
+    (EndOfStatement[11, 11])
+  )
+)

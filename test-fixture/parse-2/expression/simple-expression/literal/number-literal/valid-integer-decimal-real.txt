@@ -1,0 +1,60 @@
+SELECT 0, 0e0, .0, .0e0, 00, 00e0, 0., 0.e0, 0.0, 0.0e0
+-----
+(SourceFile[0, 55]
+  (statement[]: TrailingStatement[0, 55]
+    (statement: Select[0, 55]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 55]
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: IntegerLiteral[7, 8])
+        )
+        (commaToken[]: Comma[8, 9])
+        (WhiteSpace[9, 10])
+        (item[]: ExpressionSelectItem[10, 13]
+          (expression: RealLiteral[10, 13])
+        )
+        (commaToken[]: Comma[13, 14])
+        (WhiteSpace[14, 15])
+        (item[]: ExpressionSelectItem[15, 17]
+          (expression: DecimalLiteral[15, 17])
+        )
+        (commaToken[]: Comma[17, 18])
+        (WhiteSpace[18, 19])
+        (item[]: ExpressionSelectItem[19, 23]
+          (expression: RealLiteral[19, 23])
+        )
+        (commaToken[]: Comma[23, 24])
+        (WhiteSpace[24, 25])
+        (item[]: ExpressionSelectItem[25, 27]
+          (expression: IntegerLiteral[25, 27])
+        )
+        (commaToken[]: Comma[27, 28])
+        (WhiteSpace[28, 29])
+        (item[]: ExpressionSelectItem[29, 33]
+          (expression: RealLiteral[29, 33])
+        )
+        (commaToken[]: Comma[33, 34])
+        (WhiteSpace[34, 35])
+        (item[]: ExpressionSelectItem[35, 37]
+          (expression: DecimalLiteral[35, 37])
+        )
+        (commaToken[]: Comma[37, 38])
+        (WhiteSpace[38, 39])
+        (item[]: ExpressionSelectItem[39, 43]
+          (expression: RealLiteral[39, 43])
+        )
+        (commaToken[]: Comma[43, 44])
+        (WhiteSpace[44, 45])
+        (item[]: ExpressionSelectItem[45, 48]
+          (expression: DecimalLiteral[45, 48])
+        )
+        (commaToken[]: Comma[48, 49])
+        (WhiteSpace[49, 50])
+        (item[]: ExpressionSelectItem[50, 55]
+          (expression: RealLiteral[50, 55])
+        )
+      )
+    )
+  )
+)

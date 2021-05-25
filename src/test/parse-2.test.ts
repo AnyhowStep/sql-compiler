@@ -77,11 +77,14 @@ suite("Should parse as expected", () => {
         root,
         ({
             //fileName,
-            //curPath,
+            curPath,
             raw,
         }) => {
             const result : TestCase[] = [];
             const arr = raw.split("\n-----\n");
+            if (arr.length%2 != 0) {
+                console.error(curPath);
+            }
 
             let line = 1;
 

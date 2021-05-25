@@ -1,0 +1,15 @@
+SELECT _utf8 'test'
+-----
+`(item[]: ExpressionSelectItem[7, 19]`
+`(expression: UnderscoreCharacterSetStringLiteral[7, 19]`
+`(underscoreCharacterSetToken: UnderscoreCharacterSet[7, 12])`
+`(WhiteSpace[12, 13])`
+`(stringLiteralToken: StringLiteral[13, 19])`
+-----
+SELECT _notACharacterSet 'test'
+-----
+`(item[]: ExpressionSelectItem[7, 31]`
+`(expression: Identifier[7, 24])`
+`(WhiteSpace[24, 25])`
+`(alias: Alias[25, 31]`
+`(alias: StringLiteral[25, 31])`

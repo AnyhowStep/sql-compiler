@@ -1,0 +1,18 @@
+SELECT CASCADE
+-----
+(SourceFile[0, 14]
+  (statement[]: TrailingStatement[0, 14]
+    (statement: Select[0, 14]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 14]
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: UserVariableIdentifier[7, 14]
+            (Expected atToken: At[7, 7])
+            (identifier: CASCADE[7, 14])
+          )
+        )
+      )
+    )
+  )
+)

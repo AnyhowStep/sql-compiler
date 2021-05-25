@@ -2,9 +2,9 @@ SELECT @/**/@/**/sql_mode
 -----
 `(expression: UnscopedSystemVariableIdentifier[7, 25]`
 `(atToken[]: At[7, 8])`
-`(MultiLineComment[8, 12])`
+`(Unexpected MultiLineComment[8, 12])`
 `(atToken[]: At[12, 13])`
-`(MultiLineComment[13, 17])`
+`(Unexpected MultiLineComment[13, 17])`
 `(instanceName: Identifier[17, 25])`
 
 -----
@@ -12,37 +12,37 @@ SELECT @/**/@/**/sql_mode ./**/SELECT
 -----
 `(expression: UnscopedSystemVariableIdentifier[7, 37]`
 `(atToken[]: At[7, 8])`
-`(MultiLineComment[8, 12])`
+`(Unexpected MultiLineComment[8, 12])`
 `(atToken[]: At[12, 13])`
-`(MultiLineComment[13, 17])`
+`(Unexpected MultiLineComment[13, 17])`
 `(instanceName: Identifier[17, 25])`
 `(WhiteSpace[25, 26])`
 `(dotToken: Dot[26, 27])`
-`(MultiLineComment[27, 31])`
+`(Unexpected MultiLineComment[27, 31])`
 `(componentName: SELECT[31, 37])`
 
 -----
-SELECT @/**/@/**/sql_mode ./**/KEY
+SELECT @/**/@/**/sql_mode ./**/NDB
 -----
 `(expression: UnscopedSystemVariableIdentifier[7, 34]`
 `(atToken[]: At[7, 8])`
-`(MultiLineComment[8, 12])`
+`(Unexpected MultiLineComment[8, 12])`
 `(atToken[]: At[12, 13])`
-`(MultiLineComment[13, 17])`
+`(Unexpected MultiLineComment[13, 17])`
 `(instanceName: Identifier[17, 25])`
 `(WhiteSpace[25, 26])`
 `(dotToken: Dot[26, 27])`
 `(MultiLineComment[27, 31])`
-`(componentName: KEY[31, 34])`
+`(componentName: NDB[31, 34])`
 
 -----
 SELECT @/**/@/**/sql_mode ./**/xxx
 -----
 `(expression: UnscopedSystemVariableIdentifier[7, 34]`
 `(atToken[]: At[7, 8])`
-`(MultiLineComment[8, 12])`
+`(Unexpected MultiLineComment[8, 12])`
 `(atToken[]: At[12, 13])`
-`(MultiLineComment[13, 17])`
+`(Unexpected MultiLineComment[13, 17])`
 `(instanceName: Identifier[17, 25])`
 `(WhiteSpace[25, 26])`
 `(dotToken: Dot[26, 27])`

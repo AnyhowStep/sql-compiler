@@ -41,6 +41,7 @@ export const ConcatenatedTextLiteral = precedence(Precedence.ConcatenatedTextLit
             stringLiteral,
             TokenKind.NationalStringLiteral,
         ),
+        //Hex and Bit literals not allowed here
         SyntaxKind.UnderscoreCharacterSetStringLiteral,
     )),
     repeat1(field("item", stringLiteral)),
@@ -58,14 +59,14 @@ export const NumberLiteral = choice(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12934
  */
-export const TemporalLiteral = seq(
+export const TemporalLiteral = precedence(Precedence.TemporalLiteral, seq(
     field("temporalToken", choice(
         TokenKind.DATE,
         TokenKind.TIME,
         TokenKind.TIMESTAMP,
     )),
     field("str", stringLiteral),
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12900
