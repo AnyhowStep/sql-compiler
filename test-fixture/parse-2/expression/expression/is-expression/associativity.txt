@@ -2,17 +2,65 @@ SELECT x IS TRUE IS FALSE
 -- This is actually invalid.
 -- You can, however write, `SELECT (x IS TRUE) IS FALSE`
 -----
-`(expression: IsExpression[7, 25]`
-`(left: IsNullBooleanPrimaryExpression[7, 16]`
-`(expression: Identifier[7, 8])`
-`(WhiteSpace[8, 9])`
-`(isToken: IS[9, 11])`
-`(WhiteSpace[11, 12])`
-`(Expected nullToken: NULL[12, 16])`
-`(WhiteSpace[16, 17])`
-`(isToken: IS[17, 19])`
-`(WhiteSpace[19, 20])`
-`(right: FALSE[20, 25])`
+(SourceFile[0, 111]
+  (statement[]: TrailingStatement[0, 25]
+    (statement: Select[0, 25]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 25]
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: Identifier[7, 8])
+        )
+        (WhiteSpace[8, 9])
+        (Expected commaToken[]: Comma[9, 11])
+        (WhiteSpace[11, 12])
+        (item[]: ExpressionSelectItem[12, 25]
+          (expression: IsExpression[12, 25]
+            (left: TRUE[12, 16])
+            (WhiteSpace[16, 17])
+            (isToken: IS[17, 19])
+            (WhiteSpace[19, 20])
+            (right: FALSE[20, 25])
+          )
+        )
+      )
+    )
+  )
+  (LineBreak[25, 26])
+  (SingleLineComment[26, 54])
+  (LineBreak[54, 55])
+  (SingleLineComment[55, 111])
+)
+
+(SourceFile[0, 111]
+  (statement[]: TrailingStatement[0, 25]
+    (statement: Select[0, 25]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 25]
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: IsExpression[7, 16]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (right: TRUE[12, 16])
+          )
+        )
+        (WhiteSpace[16, 17])
+        (Expected commaToken[]: Comma[17, 19])
+        (WhiteSpace[19, 20])
+        (item[]: ExpressionSelectItem[20, 25]
+          (expression: FALSE[20, 25])
+        )
+      )
+    )
+  )
+  (LineBreak[25, 26])
+  (SingleLineComment[26, 54])
+  (LineBreak[54, 55])
+  (SingleLineComment[55, 111])
+)
 
 -----
 SELECT (x IS TRUE) IS FALSE

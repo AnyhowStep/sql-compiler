@@ -14,6 +14,18 @@ export interface CompiledTokenSymbol {
      * @see compiled-grammar-generator
      */
     consumeUnexpectedTokenKinds? : string[] | undefined;
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     * @see compiled-grammar-generator
+     */
+    skipExpectationCost? : number|undefined;
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     * @see compiled-grammar-generator
+     */
+    skipExpectationAfterExtraCost? : number|undefined;
 }
 
 export type CompiledSymbol =

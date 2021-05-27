@@ -1,0 +1,25 @@
+SELECT _latin1 x'0a' 'a' 'b'
+-----
+(SourceFile[0, 28]
+  (statement[]: TrailingStatement[0, 24]
+    (statement: Select[0, 24]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 24]
+        (item[]: ExpressionSelectItem[7, 24]
+          (expression: UnderscoreCharacterSetHexLiteral[7, 20]
+            (underscoreCharacterSetToken: UnderscoreCharacterSet[7, 14])
+            (WhiteSpace[14, 15])
+            (hexLiteralToken: HexLiteral[15, 20])
+          )
+          (WhiteSpace[20, 21])
+          (alias: Alias[21, 24]
+            (alias: StringLiteral[21, 24])
+          )
+        )
+      )
+    )
+  )
+  (WhiteSpace[24, 25])
+  (Unexpected StringLiteral[25, 28])
+)

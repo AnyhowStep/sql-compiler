@@ -3,7 +3,7 @@ DELIMITER A
 /* But you should see CRE<custom delimiter>TE SCHEMA D */
 /* This will cause syntax errors */
 CREATE SCHEMA D;
--- timeout 6000
+-- timeout 9000
 -----
 (SourceFile[0, 192]
   (statement[]: DelimiterStatement[0, 11]

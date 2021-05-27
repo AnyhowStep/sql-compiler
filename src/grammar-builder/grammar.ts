@@ -125,6 +125,8 @@ export function tokenSymbol (
             tokenKind,
             otherTokenKinds : undefined,
             consumeUnexpectedTokenKinds : undefined,
+            skipExpectationCost : undefined,
+            skipExpectationAfterExtraCost : undefined,
         };
     } else {
         return {
@@ -132,6 +134,8 @@ export function tokenSymbol (
             tokenKind,
             otherTokenKinds,
             consumeUnexpectedTokenKinds : undefined,
+            skipExpectationCost : undefined,
+            skipExpectationAfterExtraCost : undefined,
         };
     }
 }
@@ -163,17 +167,13 @@ export function tokenSymbol2 (
 
     if (tokenSymbolRule.otherTokenKinds == undefined) {
         return {
-            ruleKind : "tokenSymbol",
-            tokenKind : tokenSymbolRule.tokenKind,
+            ...tokenSymbolRule,
             otherTokenKinds,
-            consumeUnexpectedTokenKinds : tokenSymbolRule.consumeUnexpectedTokenKinds,
         };
     } else {
         return {
-            ruleKind : "tokenSymbol",
-            tokenKind : tokenSymbolRule.tokenKind,
+            ...tokenSymbolRule,
             otherTokenKinds : [...tokenSymbolRule.otherTokenKinds, ...otherTokenKinds],
-            consumeUnexpectedTokenKinds : tokenSymbolRule.consumeUnexpectedTokenKinds,
         };
     }
 }
@@ -182,17 +182,34 @@ export function cannotExpect (
     tokenSymbolRule : string|TokenSymbolRule
 ) : TokenSymbolRule {
     if (typeof tokenSymbolRule == "string") {
-        return {
-            ruleKind : "tokenSymbol",
-            tokenKind : tokenSymbolRule,
-            otherTokenKinds : undefined,
-            canExpect : false,
-            consumeUnexpectedTokenKinds : undefined,
-        };
+        tokenSymbolRule = tokenSymbol(tokenSymbolRule);
     }
+
     return {
         ...tokenSymbolRule,
         canExpect : false,
+    };
+}
+
+export function skipExpectationCost (skipExpectationCost : number, tokenSymbolRule : string|TokenSymbolRule) : TokenSymbolRule {
+    if (typeof tokenSymbolRule == "string") {
+        tokenSymbolRule = tokenSymbol(tokenSymbolRule);
+    }
+
+    return {
+        ...tokenSymbolRule,
+        skipExpectationCost,
+    };
+}
+
+export function skipExpectationAfterExtraCost (skipExpectationAfterExtraCost : number, tokenSymbolRule : string|TokenSymbolRule) : TokenSymbolRule {
+    if (typeof tokenSymbolRule == "string") {
+        tokenSymbolRule = tokenSymbol(tokenSymbolRule);
+    }
+
+    return {
+        ...tokenSymbolRule,
+        skipExpectationAfterExtraCost,
     };
 }
 
@@ -265,6 +282,10 @@ export interface TokenSymbolRule extends RuleBase {
     canExpect? : false,
 
     consumeUnexpectedTokenKinds : string[] | undefined,
+
+    skipExpectationCost : number | undefined,
+
+    skipExpectationAfterExtraCost : number | undefined,
 }
 
 export interface AliasRule extends RuleBase {

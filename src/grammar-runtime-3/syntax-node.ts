@@ -4,6 +4,7 @@ export interface MyToken<TokenKindT extends string=string> {
 
     errorKind? : "Expected"|"Unexpected",
     expectedTokenKind? : string;
+    skipExpectationAfterExtraCost? : number | undefined;
 
     start : number,
     end : number,

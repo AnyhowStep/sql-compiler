@@ -44,6 +44,8 @@ export function buildToken (
                 tokenKind : rule,
                 otherTokenKinds : undefined,
                 canExpect : true,
+                skipExpectationCost : undefined,
+                skipExpectationAfterExtraCost : undefined,
             };
         } else {
             return rule;
@@ -123,6 +125,8 @@ export function buildToken (
                 otherTokenKinds : rule.otherTokenKinds,
                 canExpect : rule.canExpect !== false,
                 consumeUnexpectedTokenKinds : rule.consumeUnexpectedTokenKinds,
+                skipExpectationCost : rule.skipExpectationCost,
+                skipExpectationAfterExtraCost : rule.skipExpectationAfterExtraCost,
             };
         }
         case "alias": {
