@@ -2,6 +2,11 @@ BINLOG
 
 -----
 (SourceFile[0, 7]
-  (Unexpected BINLOG[0, 6])
+  (statement[]: TrailingStatement[0, 6]
+    (statement: BinLogStatement[0, 6]
+      (binLogToken: BINLOG[0, 6])
+      (Expected str: StringLiteral[6, 6])
+    )
+  )
   (LineBreak[6, 7])
 )

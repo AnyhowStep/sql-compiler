@@ -1,0 +1,20 @@
+SELECT _notACharacterSet x'aaaa'
+-----
+(SourceFile[0, 32]
+  (statement[]: TrailingStatement[0, 32]
+    (statement: Select[0, 32]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 32]
+        (item[]: ExpressionSelectItem[7, 24]
+          (expression: Identifier[7, 24])
+        )
+        (Expected commaToken[]: Comma[24, 24])
+        (WhiteSpace[24, 25])
+        (item[]: ExpressionSelectItem[25, 32]
+          (expression: HexLiteral[25, 32])
+        )
+      )
+    )
+  )
+)

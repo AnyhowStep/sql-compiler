@@ -1,0 +1,29 @@
+SELECT _latin1 0b1111
+-----
+`(item[]: ExpressionSelectItem[7, 21]`
+`(expression: UnderscoreCharacterSetBitLiteral[7, 21]`
+`(underscoreCharacterSetToken: UnderscoreCharacterSet[7, 14])`
+`(WhiteSpace[14, 15])`
+`(bitLiteralToken: BitLiteral[15, 21])`
+
+-----
+SELECT _notACharacterSet 0b11111
+-----
+(SourceFile[0, 32]
+  (statement[]: TrailingStatement[0, 32]
+    (statement: Select[0, 32]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 32]
+        (item[]: ExpressionSelectItem[7, 24]
+          (expression: Identifier[7, 24])
+        )
+        (Expected commaToken[]: Comma[24, 24])
+        (WhiteSpace[24, 25])
+        (item[]: ExpressionSelectItem[25, 32]
+          (expression: BitLiteral[25, 32])
+        )
+      )
+    )
+  )
+)

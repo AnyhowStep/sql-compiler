@@ -1,0 +1,45 @@
+SELECT x'aa'
+-----
+`(item[]: ExpressionSelectItem[7, 12]`
+`(expression: HexLiteral[7, 12])`
+
+-----
+SELECT X'aa'
+-----
+`(item[]: ExpressionSelectItem[7, 12]`
+`(expression: HexLiteral[7, 12])`
+
+-----
+SELECT 0xa
+-----
+`(item[]: ExpressionSelectItem[7, 10]`
+`(expression: HexLiteral[7, 10])`
+
+-----
+SELECT x/**/'aa'
+-----
+`(selectItemList1: SelectItemList1[7, 16]`
+`(item[]: ExpressionSelectItem[7, 16]`
+`(expression: Identifier[7, 8])`
+`(MultiLineComment[8, 12])`
+`(alias: Alias[12, 16]`
+`(alias: StringLiteral[12, 16])`
+
+-----
+SELECT X/**/'aa'
+-----
+`(selectItemList1: SelectItemList1[7, 16]`
+`(item[]: ExpressionSelectItem[7, 16]`
+`(expression: Identifier[7, 8])`
+`(MultiLineComment[8, 12])`
+`(alias: Alias[12, 16]`
+`(alias: StringLiteral[12, 16])`
+
+-----
+SELECT 0x/**/a
+-----
+`(item[]: ExpressionSelectItem[7, 14]`
+`(expression: Identifier[7, 9])`
+`(MultiLineComment[9, 13])`
+`(alias: Alias[13, 14]`
+`(alias: Identifier[13, 14])`

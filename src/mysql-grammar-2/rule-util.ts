@@ -5,7 +5,7 @@
  * + Tuple    = parenthesized list
  */
 
-import {cannotExpect, choice, field, optional, repeat, repeat1, Rule, seq, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
+import {cannotExpect, choice, field, optional, repeat, repeat1, Rule, seq, skipExpectationAfterExtraCost, skipExpectationCost, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
 import {CustomExtras} from "./custom-extras";
 import {SyntaxKind} from "./syntax-kind.generated";
 import {nonReservedKeywords, reservedKeywords, TokenKind} from "./token.generated";
@@ -57,10 +57,18 @@ export const identifierOrReservedOrStringLiteral = tokenSymbol2(
     TokenKind.StringLiteral,
 );
 
+export const itemSeparator =  skipExpectationAfterExtraCost(
+    0.1,
+    skipExpectationCost(0.1, TokenKind.Comma)
+);
+
 export function semiList1 (rule : Rule) {
     return seq(
         field("item", rule),
         repeat(seq(
+            /**
+             * @todo Determine if `itemSeparator` should be used for optionals...
+             */
             field("commaToken", optional(TokenKind.Comma)),
             field("item", rule),
         )),
@@ -71,7 +79,7 @@ export function list1 (rule : Rule) {
     return seq(
         field("item", rule),
         repeat(seq(
-            field("commaToken", TokenKind.Comma),
+            field("commaToken", itemSeparator),
             field("item", rule),
         )),
     );
@@ -81,7 +89,7 @@ export function list2 (rule : Rule) {
     return seq(
         field("item", rule),
         repeat1(seq(
-            field("commaToken", TokenKind.Comma),
+            field("commaToken", itemSeparator),
             field("item", rule),
         )),
     );
@@ -90,10 +98,10 @@ export function list2 (rule : Rule) {
 export function list3 (rule : Rule) {
     return seq(
         field("item", rule),
-        field("commaToken", TokenKind.Comma),
+        field("commaToken", itemSeparator),
         field("item", rule),
         repeat1(seq(
-            field("commaToken", TokenKind.Comma),
+            field("commaToken", itemSeparator),
             field("item", rule),
         )),
     );

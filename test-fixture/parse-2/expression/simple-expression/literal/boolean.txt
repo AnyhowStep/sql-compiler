@@ -1,0 +1,22 @@
+SELECT TRUE
+-----
+`(item[]: ExpressionSelectItem[7, 11]`
+`(expression: TRUE[7, 11])`
+
+-----
+SELECT TrUe
+-----
+`(item[]: ExpressionSelectItem[7, 11]`
+`(expression: TRUE[7, 11])`
+
+-----
+SELECT FALSE
+-----
+`(item[]: ExpressionSelectItem[7, 12]`
+`(expression: FALSE[7, 12])`
+
+-----
+SELECT FaLsE
+-----
+`(item[]: ExpressionSelectItem[7, 12]`
+`(expression: FALSE[7, 12])`

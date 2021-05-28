@@ -1,0 +1,10 @@
+SELECT NULL
+-----
+`(item[]: ExpressionSelectItem[7, 11]`
+`(expression: NULL[7, 11])`
+
+-----
+SELECT NuLl
+-----
+`(item[]: ExpressionSelectItem[7, 11]`
+`(expression: NULL[7, 11])`

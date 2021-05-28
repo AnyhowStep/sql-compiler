@@ -1,0 +1,58 @@
+SELECT b'11'
+-----
+`(item[]: ExpressionSelectItem[7, 12]`
+`(expression: BitLiteral[7, 12])`
+
+-----
+SELECT B'11'
+-----
+`(item[]: ExpressionSelectItem[7, 12]`
+`(expression: BitLiteral[7, 12])`
+
+-----
+SELECT 0b1
+-----
+`(item[]: ExpressionSelectItem[7, 10]`
+`(expression: BitLiteral[7, 10])`
+
+-----
+SELECT b/**/'11'
+-----
+`(selectItemList1: SelectItemList1[7, 16]`
+`(item[]: ExpressionSelectItem[7, 16]`
+`(expression: Identifier[7, 8])`
+`(MultiLineComment[8, 12])`
+`(alias: Alias[12, 16]`
+`(alias: StringLiteral[12, 16])`
+
+-----
+SELECT B/**/'11'
+-----
+`(selectItemList1: SelectItemList1[7, 16]`
+`(item[]: ExpressionSelectItem[7, 16]`
+`(expression: Identifier[7, 8])`
+`(MultiLineComment[8, 12])`
+`(alias: Alias[12, 16]`
+`(alias: StringLiteral[12, 16])`
+
+-----
+SELECT 0b/**/1
+-----
+(SourceFile[0, 14]
+  (statement[]: TrailingStatement[0, 14]
+    (statement: Select[0, 14]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 14]
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: Identifier[7, 9])
+        )
+        (Expected commaToken[]: Comma[9, 9])
+        (MultiLineComment[9, 13])
+        (item[]: ExpressionSelectItem[13, 14]
+          (expression: IntegerLiteral[13, 14])
+        )
+      )
+    )
+  )
+)

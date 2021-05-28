@@ -10,6 +10,8 @@ export interface MyTokenSymbol {
     canExpect : boolean,
 
     consumeUnexpectedTokenKinds? : string[] | undefined;
+    skipExpectationCost? : number | undefined;
+    skipExpectationAfterExtraCost? : number | undefined;
 }
 
 export type MySymbol =

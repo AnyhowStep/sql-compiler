@@ -1,0 +1,36 @@
+SELECT N'test'
+-----
+`(item[]: ExpressionSelectItem[7, 14]`
+`(expression: NationalStringLiteral[7, 14])`
+
+-----
+SELECT N/**/'test'
+-----
+`(item[]: ExpressionSelectItem[7, 18]`
+`(expression: Identifier[7, 8])`
+`(MultiLineComment[8, 12])`
+`(alias: Alias[12, 18]`
+`(alias: StringLiteral[12, 18])`
+
+-----
+SELECT N 'test'
+-----
+`(item[]: ExpressionSelectItem[7, 15]`
+`(expression: Identifier[7, 8])`
+`(WhiteSpace[8, 9])`
+`(alias: Alias[9, 15]`
+`(alias: StringLiteral[9, 15])`
+
+-----
+SELECT N"test"
+-----
+`(item[]: ExpressionSelectItem[7, 14]`
+`(expression: Identifier[7, 8])`
+`(alias: Alias[8, 14]`
+`(alias: DoubleQuotedLiteral[8, 14])`
+
+-----
+SELECT N'test'
+-----
+`(item[]: ExpressionSelectItem[7, 14]`
+`(expression: NationalStringLiteral[7, 14])`

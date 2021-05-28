@@ -1,5 +1,5 @@
 import {choice, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
-import {list, list1, list2, parentheses} from "../../rule-util";
+import {itemSeparator, list, list1, list2, parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 import {interval, intervalTimeStamp} from "../interval-expression";
@@ -24,17 +24,17 @@ export const Expression1_Arguments = parentheses(
 
 export const Expression2_Arguments = parentheses(seq(
     field("item", SyntaxKind.Expression),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("item", SyntaxKind.Expression),
 ));
 
 export const Expression4_Arguments = parentheses(seq(
     field("item", SyntaxKind.Expression),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("item", SyntaxKind.Expression),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("item", SyntaxKind.Expression),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("item", SyntaxKind.Expression),
 ));
 
@@ -101,7 +101,7 @@ export const Trim_Arguments = parentheses(seq(
  */
 export const DateAdd_Arguments = parentheses(seq(
     field("expression", SyntaxKind.Expression),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("intervalExpression", SyntaxKind.IntervalExpression),
 ));
 
@@ -124,7 +124,7 @@ export const GetFormat_Arguments = parentheses(seq(
         TokenKind.DATE,
         TokenKind.TIME,
     )),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("expression", SyntaxKind.Expression),
 ));
 
@@ -157,9 +157,9 @@ export const ForLength = seq(
  */
 export const TimestampAdd_Arguments = parentheses(seq(
     field("temporalUnit", intervalTimeStamp),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("interval", SyntaxKind.Expression),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("dateTime", SyntaxKind.Expression),
 ));
 
@@ -168,8 +168,8 @@ export const TimestampAdd_Arguments = parentheses(seq(
  */
 export const TimestampDiff_Arguments = parentheses(seq(
     field("temporalUnit", intervalTimeStamp),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("startDateTime", SyntaxKind.Expression),
-    field("commaToken", TokenKind.Comma),
+    field("commaToken", itemSeparator),
     field("endDateTime", SyntaxKind.Expression),
 ));
