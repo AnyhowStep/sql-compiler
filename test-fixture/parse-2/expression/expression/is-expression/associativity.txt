@@ -68,7 +68,7 @@ SELECT (x IS TRUE) IS FALSE
 -----
 `(left: ParenthesizedExpression[7, 18]`
 `(openParenthesesToken: OpenParentheses[7, 8])`
-`(expression: IsExpression[8, 17]`
+`(item: IsExpression[8, 17]`
 `(left: Identifier[8, 9])`
 `(WhiteSpace[9, 10])`
 `(isToken: IS[10, 12])`

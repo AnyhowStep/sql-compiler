@@ -1,0 +1,17 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X, Y)
+  PARTITIONS 5
+  SUBPARTITION BY HASH (X)
+  (
+    PARTITION a VALUES IN ((1))
+  );
+-----
+`!
+      (partition: ListPartitionByColumnTuple2[32, 146]
+!`
+`!
+        (partitionCount: PartitionCount[67, 79]
+!`
+`!
+        (subPartition: HashSubPartition[82, 106]
+!`

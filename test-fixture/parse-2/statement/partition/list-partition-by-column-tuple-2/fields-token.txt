@@ -1,0 +1,13 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST FIELDS (X, Y) (
+    PARTITION a VALUES IN ((1))
+  );
+-- This is semantically invalid because `(1)` only has one element but requires two.
+-- Because the partition has two columns.
+-----
+`!
+      (partition: ListPartitionByColumnTuple2[32, 101]
+!`
+`!
+        (columnsToken: FIELDS[50, 56])
+!`

@@ -1,0 +1,16 @@
+CREATE TABLE T (X INT, Y INT, Z INT)
+  PARTITION BY KEY (X, Y, Z)
+-----
+`!
+        (identTuple1: IdentTuple1[56, 65]
+          (openParenthesesToken: OpenParentheses[56, 57])
+          (item[]: Identifier[57, 58])
+          (commaToken[]: Comma[58, 59])
+          (WhiteSpace[59, 60])
+          (item[]: Identifier[60, 61])
+          (commaToken[]: Comma[61, 62])
+          (WhiteSpace[62, 63])
+          (item[]: Identifier[63, 64])
+          (closeParenthesesToken: CloseParentheses[64, 65])
+        )
+!`

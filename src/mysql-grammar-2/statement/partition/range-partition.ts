@@ -1,4 +1,4 @@
-import {optional, seq} from "../../../grammar-builder";
+import {field, optional, seq} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -14,10 +14,7 @@ export const RangePartition = seq(
      */
     SyntaxKind.BitExpression,
     TokenKind.CloseParentheses,
-    optional(seq(
-        TokenKind.PARTITIONS,
-        TokenKind.IntegerLiteral,
-    )),
+    field("partitionCount", optional(SyntaxKind.PartitionCount)),
     optional(SyntaxKind.SubPartition),
     SyntaxKind.SingletonRangePartitionDefinitionTuple1,
 );

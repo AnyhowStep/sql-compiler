@@ -1,0 +1,25 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN ((1), (2))
+  );
+-- This is semantically invalid
+-- However, we push this check down to the linter
+-----
+`!
+      (partition: ListPartitionByColumn[32, 104]
+        (partitionToken: PARTITION[32, 41])
+        (WhiteSpace[41, 42])
+        (byToken: BY[42, 44])
+        (WhiteSpace[44, 45])
+        (listToken: LIST[45, 49])
+        (WhiteSpace[49, 50])
+        (columnsToken: COLUMNS[50, 57])
+        (WhiteSpace[57, 58])
+        (parenthesizedIdent: ParenthesizedIdent[58, 61]
+          (openParenthesesToken: OpenParentheses[58, 59])
+          (item: Identifier[59, 60])
+          (closeParenthesesToken: CloseParentheses[60, 61])
+        )
+        (WhiteSpace[61, 62])
+        (listPartitionDefinitionTuple1: MultitonListPartitionDefinitionTuple1[62, 104]
+!`

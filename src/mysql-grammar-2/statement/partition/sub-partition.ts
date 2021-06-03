@@ -1,7 +1,7 @@
-import {choice} from "../../../grammar-builder";
+import {choice, inline} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
-export const SubPartition = choice(
+export const SubPartition = inline(choice(
     SyntaxKind.HashSubPartition,
     SyntaxKind.KeySubPartition,
-);
+));

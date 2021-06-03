@@ -1366,11 +1366,22 @@ function cmpPrecedence (
         !("tokenKind" in a.data.children[0]) &&
         !("tokenKind" in b.data.children[0])
     ) {
-        const aPrec = a.data.children[0].precedence;
-        const bPrec = b.data.children[0].precedence;
+        const aFirst = a.data.children[0];
+        const bFirst = b.data.children[0];
+        const aPrec = aFirst.precedence;
+        const bPrec = bFirst.precedence;
         if (aPrec != bPrec) {
-            //Reverse the -1 and 1
-            return aPrec < bPrec ? 1 : -1;
+            if (
+                aFirst.children
+                    .some(c => "syntaxKind" in c && c.syntaxKind == bFirst.syntaxKind) ||
+                bFirst.children
+                    .some(c => "syntaxKind" in c && c.syntaxKind == aFirst.syntaxKind)
+            ) {
+                //Reverse the -1 and 1
+                return aPrec < bPrec ? 1 : -1;
+            } else {
+                return aPrec < bPrec ? -1 : 1;
+            }
         }
         return 0;
     }

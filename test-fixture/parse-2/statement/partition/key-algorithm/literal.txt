@@ -1,0 +1,39 @@
+CREATE TABLE T (X INT)
+  PARTITION BY KEY ALGORITHM = 1111 (X);
+-----
+`!
+        (keyAlgorithm: KeyAlgorithm[42, 58]
+          (algorithmToken: ALGORITHM[42, 51])
+          (WhiteSpace[51, 52])
+          (equalToken: Equal[52, 53])
+          (WhiteSpace[53, 54])
+          (keyAlgorithm: IntegerLiteral[54, 58])
+        )
+!`
+-----
+CREATE TABLE T (X INT)
+  PARTITION BY KEY ALGORITHM = 0x02 (X);
+-----
+`!
+        (keyAlgorithm: KeyAlgorithm[42, 58]
+          (algorithmToken: ALGORITHM[42, 51])
+          (WhiteSpace[51, 52])
+          (equalToken: Equal[52, 53])
+          (WhiteSpace[53, 54])
+          (keyAlgorithm: HexLiteral[54, 58])
+        )
+!`
+-----
+CREATE TABLE T (X INT)
+  PARTITION BY KEY ALGORITHM = x'1' (X);
+-- Technically, x'1' is invalid. It should be x'01'
+-----
+`!
+        (keyAlgorithm: KeyAlgorithm[42, 58]
+          (algorithmToken: ALGORITHM[42, 51])
+          (WhiteSpace[51, 52])
+          (equalToken: Equal[52, 53])
+          (WhiteSpace[53, 54])
+          (keyAlgorithm: HexLiteral[54, 58])
+        )
+!`

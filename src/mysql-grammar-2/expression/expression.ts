@@ -1,5 +1,5 @@
 import {alias, cannotExpect, choice, field, optional, precedence, seq, tokenSymbol} from "../../grammar-builder";
-import {tuple1} from "../rule-util";
+import {parentheses, tuple1} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -57,3 +57,7 @@ export const Expression = choice(
 );
 
 export const ExpressionTuple1 = tuple1(SyntaxKind.Expression);
+
+export const ParenthesizedExpression = parentheses(
+    field("item", SyntaxKind.Expression)
+);

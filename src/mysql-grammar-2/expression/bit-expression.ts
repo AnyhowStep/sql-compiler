@@ -1,11 +1,15 @@
 import {alias, choice, field, seq, cannotExpect, tokenSymbol, precedence} from "../../grammar-builder";
-import {tuple1} from "../rule-util";
+import {parentheses, tuple1} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
 export const BitExpressionTuple1 = tuple1(SyntaxKind.BitExpression);
 
 export const BitExpressionTuple1Tuple1 = tuple1(SyntaxKind.BitExpressionTuple1);
+
+export const ParenthesizedBitExpression = parentheses(
+    field("item", SyntaxKind.BitExpression)
+);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9399

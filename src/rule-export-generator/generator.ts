@@ -6,7 +6,7 @@ function getFilesRecursive (directory : string, result : string[]) : string[] {
         const fullPath = directory + "/" + path;
         if (path.endsWith(".ts")) {
             result.push(fullPath);
-        } else {
+        } else if (fs.statSync(fullPath).isDirectory()) {
             getFilesRecursive(fullPath, result);
         }
     }

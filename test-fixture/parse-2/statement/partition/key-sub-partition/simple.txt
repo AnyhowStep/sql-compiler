@@ -1,0 +1,23 @@
+CREATE TABLE T (X INT)
+  PARTITION BY LIST COLUMNS(`X`)
+  SUBPARTITION BY KEY (X)
+  (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+  );
+
+-----
+`!
+        (subPartition: KeySubPartition[58, 81]
+          (subPartitionToken: SUBPARTITION[58, 70])
+          (WhiteSpace[70, 71])
+          (byToken: BY[71, 73])
+          (WhiteSpace[73, 74])
+          (keyToken: KEY[74, 77])
+          (WhiteSpace[77, 78])
+          (identTuple1: IdentTuple1[78, 81]
+            (openParenthesesToken: OpenParentheses[78, 79])
+            (item[]: Identifier[79, 80])
+            (closeParenthesesToken: CloseParentheses[80, 81])
+          )
+        )
+!`

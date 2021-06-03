@@ -1,0 +1,8 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY LIST COLUMNS(`X`) (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+      ENGINE InnoDB
+  );
+-----
+`(item[]: SingletonListPartitionDefinition[63, 117]`
+`(partitionDefinitionOptionRepeat1: PartitionDefinitionOptionRepeat1[104, 117]`

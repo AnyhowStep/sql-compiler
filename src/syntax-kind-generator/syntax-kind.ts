@@ -148,7 +148,12 @@ export const syntaxKinds = [
     "MultitonListPartitionDefinitionTuple1",
     "SingletonRangePartitionDefinition",
     "SingletonRangePartitionDefinitionTuple1",
+    "ListPartitionDefinitionTuple1",
     "RangePartition",
+
+    "PartitionCount",
+    "SubPartitionCount",
+    "KeyAlgorithm",
 
     "PartitionDefinitionOption",
     "PartitionDefinitionOptionRepeat1",
@@ -171,6 +176,7 @@ export const syntaxKinds = [
 
     "UserDefinedExpression",
     "Expression",
+    "ParenthesizedExpression",
     "IsExpression",
     "NotExpression",
 
@@ -188,9 +194,10 @@ export const syntaxKinds = [
     "RegExpPredicate",
 
     "BitExpression",
+    "ParenthesizedBitExpression",
 
     "SimpleExpression",
-    "ParenthesizedExpression",
+    "ParenthesizedExpressionSimpleExpression",
     "ColumnIdentifierSimpleExpression",
     "ScopedSystemVariableIdentifier",
     "UnscopedSystemVariableIdentifier",
@@ -277,6 +284,7 @@ export const syntaxKinds = [
     "TableIdentifier",
     "ColumnIdentifier",
 
+    "ParenthesizedIdent",
     "IdentTuple1",
     "IdentTuple2",
     "TableIdentifierTuple",
