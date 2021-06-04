@@ -38,6 +38,16 @@ export interface CompiledRule {
     symbols : CompiledSymbol[];
     precedence : number;
     penalizeErrorStart : boolean;
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     * @see compiled-grammar-generator
+     *
+     * This should only ever be used like so,
+     * `allowedSyntaxKinds(choice())` or,
+     * `allowedSyntaxKinds(SyntaxKind.SomeChoiceRule)`
+     */
+     allowedSyntaxKinds? : string[] | undefined;
 }
 
 export interface CompiledQuantity {

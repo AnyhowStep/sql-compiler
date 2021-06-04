@@ -135,6 +135,7 @@ export function push (data : MySyntaxNode, token : MyToken2) : MySyntaxNode {
 
         fields : data.fields,
         precedence : data.precedence,
+        errorKind : undefined,
 
         startTokenIndex : data.startTokenIndex,
         endTokenIndex : (
@@ -233,6 +234,7 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
 
             fields : parent.fields,
             precedence : parent.precedence,
+            errorKind : undefined,
 
             startTokenIndex : parent.startTokenIndex,
             endTokenIndex : child.endTokenIndex,
@@ -257,6 +259,7 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
 
             fields : mergeFields(parentShape, parent.fields, newFields),
             precedence : parent.precedence,
+            errorKind : undefined,
 
             startTokenIndex : parent.startTokenIndex,
             endTokenIndex : child.endTokenIndex,
@@ -264,20 +267,42 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
     }
 }
 
-export function inlineChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntaxNode) : MySyntaxNode {
+export function inlineChild (
+    grammar : MyGrammar,
+    parent : MySyntaxNode,
+    child : MySyntaxNode,
+    allowedSyntaxKinds : string[] | undefined
+) : MySyntaxNode {
     const childLabel = grammar.ruleName2Label[child.syntaxKind];
     const parentShape = grammar.ruleName2Shape[grammar.ruleName2Alias[parent.syntaxKind] ?? parent.syntaxKind];
 
+    const childChildren = (
+        allowedSyntaxKinds == undefined ?
+        child.children :
+        child.children.map((c) : MySyntaxNode|MyToken2 => {
+            if ("tokenKind" in c) {
+                return c;
+            }
+            if (allowedSyntaxKinds.includes(c.syntaxKind)) {
+                return c;
+            }
+            return {
+                ...c,
+                errorKind : "Unexpected",
+            };
+        })
+    );
     if (childLabel == undefined) {
         return {
             syntaxKind : parent.syntaxKind,
-            children : [...parent.children, ...child.children],
+            children : [...parent.children, ...childChildren],
 
             start : parent.start,
             end : child.end,
 
             fields : mergeFields(parentShape, parent.fields, child.fields),
             precedence : parent.precedence,
+            errorKind : undefined,
 
             startTokenIndex : parent.startTokenIndex,
             endTokenIndex : child.endTokenIndex,
@@ -287,27 +312,27 @@ export function inlineChild (grammar : MyGrammar, parent : MySyntaxNode, child :
         const newFields : Fields = {};
 
         if (field.quantity.multiple) {
-            newFields[childLabel] = [...child.children];
+            newFields[childLabel] = [...childChildren];
         } else {
-            const tmp = child.children.filter(item => {
+            const tmp = childChildren.filter(item => {
                 return "children" in item || item.errorKind != "Unexpected";
             });
             if (tmp.length == 0) {
                 if (field.quantity.required) {
-                    throw new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${child.children.length}/${tmp.length} children; but field is required`);
+                    throw new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${childChildren.length}/${tmp.length} children; but field is required`);
                 } else {
                     newFields[childLabel] = undefined;
                 }
             } else if (tmp.length == 1) {
                 newFields[childLabel] = tmp[0];
             } else {
-                throw new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${child.children.length}/${tmp.length} children`);
+                throw new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${childChildren.length}/${tmp.length} children`);
             }
         }
 
         return {
             syntaxKind : parent.syntaxKind,
-            children : [...parent.children, ...child.children],
+            children : [...parent.children, ...childChildren],
 
             start : parent.start,
             end : child.end,
@@ -318,6 +343,7 @@ export function inlineChild (grammar : MyGrammar, parent : MySyntaxNode, child :
                 newFields
             ),
             precedence : parent.precedence,
+            errorKind : undefined,
 
             startTokenIndex : parent.startTokenIndex,
             endTokenIndex : child.endTokenIndex,
@@ -717,6 +743,13 @@ export function complete3 (
             state.data.children[state.data.children.length-1].end
         ),
         syntaxKind : stateDataSyntaxKind,
+        errorKind : (
+            state.rule.allowedSyntaxKinds == undefined ?
+            undefined :
+            state.rule.allowedSyntaxKinds.includes(state.data.syntaxKind) ?
+            undefined :
+            "Unexpected"
+        ),
     };
 
     const shouldInline = (
@@ -725,7 +758,7 @@ export function complete3 (
     );
     const nextData = (
         shouldInline ?
-        inlineChild(grammar, other.data, stateData) :
+        inlineChild(grammar, other.data, stateData, state.rule.allowedSyntaxKinds) :
         pushChild(grammar, other.data, stateData)
     );
 
@@ -803,7 +836,7 @@ export function complete3 (
 
             const newNextData = (
                 shouldInline ?
-                inlineChild(grammar, newOtherData, newStateData) :
+                inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds) :
                 pushChild(grammar, newOtherData, newStateData)
             );
             //Combined two errors into one
@@ -947,7 +980,7 @@ export function complete2 (
     );
     const nextData = (
         shouldInline ?
-        inlineChild(grammar, other.data, stateData) :
+        inlineChild(grammar, other.data, stateData, state.rule.allowedSyntaxKinds) :
         pushChild(grammar, other.data, stateData)
     );
 
@@ -1084,7 +1117,7 @@ export function complete2 (
 
             const newNextData = (
                 shouldInline ?
-                inlineChild(grammar, newOtherData, newStateData) :
+                inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds) :
                 pushChild(grammar, newOtherData, newStateData)
             );
 
@@ -1237,6 +1270,7 @@ export function predictRule (
 
             fields : grammar.ruleName2Fields[expect],
             precedence : rule.precedence,
+            errorKind : undefined,
 
             startTokenIndex : state.tokenIndex,
             endTokenIndex : state.tokenIndex,
@@ -1324,6 +1358,7 @@ export function makeStateSet0 (grammar : MyGrammar) : MyStateSet {
 
                 fields : grammar.ruleName2Fields[grammar.start],
                 precedence : rule.precedence,
+                errorKind : undefined,
 
                 startTokenIndex : 0,
                 endTokenIndex : 0,

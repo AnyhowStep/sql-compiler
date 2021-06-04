@@ -302,6 +302,11 @@ export function buildRule (
             true :
             (rule.penalizeErrorStart ?? true)
         ),
+        allowedSyntaxKinds : (
+            typeof rule == "string" ?
+            undefined :
+            rule.allowedSyntaxKinds
+        ),
     });
     return ruleName;
 }

@@ -3,7 +3,7 @@ CREATE TABLE T (X INT, Y INT)
     PARTITION a VALUES IN ((1), (2))
   );
 -- This is semantically invalid
--- However, we push this check down to the linter
+-- MySQL parses `(x)` as a BitExpressionTuple1, rather than ParenthesizedExpression
 -----
 `!
       (partition: ListPartitionByColumn[32, 104]
@@ -21,5 +21,5 @@ CREATE TABLE T (X INT, Y INT)
           (closeParenthesesToken: CloseParentheses[60, 61])
         )
         (WhiteSpace[61, 62])
-        (listPartitionDefinitionTuple1: MultitonListPartitionDefinitionTuple1[62, 104]
+        (Unexpected listPartitionDefinitionTuple1: MultitonListPartitionDefinitionTuple1[62, 104]
 !`

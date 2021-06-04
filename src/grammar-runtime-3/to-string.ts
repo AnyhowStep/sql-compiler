@@ -76,7 +76,8 @@ export function toString2 (node : MySyntaxNode) : string {
 
             if (findLabelResult == undefined) {
                 if ("children" in node) {
-                    buffer.push(`${indent}(${node.syntaxKind}${range}`);
+                    const errorKindStr = node.errorKind == undefined ? "" : `${node.errorKind} `;
+                    buffer.push(`${indent}(${errorKindStr}${node.syntaxKind}${range}`);
                 } else {
                     const errorKindStr = node.errorKind == undefined ? "" : `${node.errorKind} `;
                     buffer.push(`${indent}(${errorKindStr}${node.tokenKind}${range})`);
@@ -104,7 +105,8 @@ export function toString2 (node : MySyntaxNode) : string {
 
 
             if ("children" in node) {
-                buffer.push(`${indent}(${label}${node.syntaxKind}${range}`);
+                const errorKindStr = node.errorKind == undefined ? "" : `${node.errorKind} `;
+                buffer.push(`${indent}(${errorKindStr}${label}${node.syntaxKind}${range}`);
             } else {
                 const errorKindStr = node.errorKind == undefined ? "" : `${node.errorKind} `;
                 buffer.push(`${indent}(${errorKindStr}${label}${node.tokenKind}${range})`);

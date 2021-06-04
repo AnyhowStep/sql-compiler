@@ -26,6 +26,7 @@ export interface MyRule {
     runTimeId : number;
     precedence : number;
     penalizeErrorStart : boolean;
+    allowedSyntaxKinds : string[] | undefined;
 }
 
 export interface MyGrammar {
@@ -121,6 +122,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
         rules.push({
             ...rule,
             runTimeId : ++runTimeId,
+            allowedSyntaxKinds : rule.allowedSyntaxKinds,
         });
         ruleRunTimeId2Precedence.push(rule.precedence);
 

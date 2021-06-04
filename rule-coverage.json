@@ -1,9 +1,9 @@
 {
-  "coveredCount": 824,
-  "uncoveredCount": 916,
-  "totalCount": 1740,
-  "coveredRatio": 0.4735632183908046,
-  "uncoveredRatio": 0.5264367816091954,
+  "coveredCount": 823,
+  "uncoveredCount": 915,
+  "totalCount": 1738,
+  "coveredRatio": 0.4735327963176064,
+  "uncoveredRatio": 0.5264672036823935,
   "uncoveredRules": [
     {
       "name": "noLineBreak$9$optional$10$repeat1$11",
@@ -11355,13 +11355,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByColumnTuple2$optional$887",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ListPartitionByExpression$field$899",
+      "name": "ListPartitionByExpression$field$898",
       "symbols": [
         {
           "tokenKind": "PARTITION",
@@ -11372,7 +11366,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$field$900",
+      "name": "ListPartitionByExpression$field$899",
       "symbols": [
         {
           "tokenKind": "BY",
@@ -11383,7 +11377,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$field$901",
+      "name": "ListPartitionByExpression$field$900",
       "symbols": [
         {
           "tokenKind": "LIST",
@@ -11394,7 +11388,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$field$902",
+      "name": "ListPartitionByExpression$field$901",
       "symbols": [
         "ParenthesizedBitExpression"
       ],
@@ -11402,13 +11396,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$optional$903",
+      "name": "ListPartitionByExpression$optional$902",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$optional$903$field$904",
+      "name": "ListPartitionByExpression$optional$902$field$903",
       "symbols": [
         "PartitionCount"
       ],
@@ -11416,22 +11410,22 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$optional$903",
+      "name": "ListPartitionByExpression$optional$902",
       "symbols": [
         "extras$1",
-        "ListPartitionByExpression$optional$903$field$904"
+        "ListPartitionByExpression$optional$902$field$903"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$optional$905",
+      "name": "ListPartitionByExpression$optional$904",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$optional$905$field$906",
+      "name": "ListPartitionByExpression$optional$904$field$905",
       "symbols": [
         "SubPartition"
       ],
@@ -11439,36 +11433,39 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$optional$905",
+      "name": "ListPartitionByExpression$optional$904",
       "symbols": [
         "extras$1",
-        "ListPartitionByExpression$optional$905$field$906"
+        "ListPartitionByExpression$optional$904$field$905"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "ListPartitionByExpression$field$907",
+      "name": "ListPartitionByExpression$field$906",
       "symbols": [
         "ListPartitionDefinitionTuple1"
       ],
       "precedence": 0,
-      "penalizeErrorStart": true
+      "penalizeErrorStart": true,
+      "allowedSyntaxKinds": [
+        "SingletonListPartitionDefinitionTuple1"
+      ]
     },
     {
       "name": "ListPartitionByExpression",
       "symbols": [
+        "ListPartitionByExpression$field$898",
+        "extras$1",
         "ListPartitionByExpression$field$899",
         "extras$1",
         "ListPartitionByExpression$field$900",
         "extras$1",
         "ListPartitionByExpression$field$901",
+        "ListPartitionByExpression$optional$902",
+        "ListPartitionByExpression$optional$904",
         "extras$1",
-        "ListPartitionByExpression$field$902",
-        "ListPartitionByExpression$optional$903",
-        "ListPartitionByExpression$optional$905",
-        "extras$1",
-        "ListPartitionByExpression$field$907"
+        "ListPartitionByExpression$field$906"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -11482,7 +11479,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "MultitonListPartitionDefinition$optional$908",
+      "name": "MultitonListPartitionDefinition$optional$907",
       "symbols": [
         "extras$1",
         "PartitionDefinitionOptionRepeat1"
@@ -11491,7 +11488,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "MultitonListPartitionDefinition$optional$909",
+      "name": "MultitonListPartitionDefinition$optional$908",
       "symbols": [
         "extras$1",
         "SubPartitionDefinitionTuple1"
@@ -11500,7 +11497,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913$item$914$field$915",
+      "name": "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912$item$913$field$914",
       "symbols": [
         {
           "tokenKind": "Comma",
@@ -11513,7 +11510,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913$item$914$field$916",
+      "name": "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912$item$913$field$915",
       "symbols": [
         "MultitonListPartitionDefinition"
       ],
@@ -11521,38 +11518,38 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913$item$914",
+      "name": "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912$item$913",
       "symbols": [
-        "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913$item$914$field$915",
+        "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912$item$913$field$914",
         "extras$1",
-        "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913$item$914$field$916"
+        "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912$item$913$field$915"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913",
+      "name": "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912",
       "symbols": [
-        "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913$item$914"
+        "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912$item$913"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913",
+      "name": "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912",
       "symbols": [
-        "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913",
+        "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912",
         "extras$1",
-        "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913$item$914"
+        "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912$item$913"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "MultitonListPartitionDefinitionTuple1$optional$912",
+      "name": "MultitonListPartitionDefinitionTuple1$optional$911",
       "symbols": [
         "extras$1",
-        "MultitonListPartitionDefinitionTuple1$optional$912$repeat1$913"
+        "MultitonListPartitionDefinitionTuple1$optional$911$repeat1$912"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -11614,7 +11611,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionEngine$optional$920$field$921",
+      "name": "PartitionDefinitionOptionEngine$optional$919$field$920",
       "symbols": [
         {
           "tokenKind": "STORAGE",
@@ -11625,16 +11622,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionEngine$optional$920",
+      "name": "PartitionDefinitionOptionEngine$optional$919",
       "symbols": [
-        "PartitionDefinitionOptionEngine$optional$920$field$921",
+        "PartitionDefinitionOptionEngine$optional$919$field$920",
         "extras$1"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionEngine$optional$923$field$924",
+      "name": "PartitionDefinitionOptionEngine$optional$922$field$923",
       "symbols": [
         {
           "tokenKind": "Equal",
@@ -11645,16 +11642,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionEngine$optional$923",
+      "name": "PartitionDefinitionOptionEngine$optional$922",
       "symbols": [
         "extras$1",
-        "PartitionDefinitionOptionEngine$optional$923$field$924"
+        "PartitionDefinitionOptionEngine$optional$922$field$923"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMaxRows$field$926",
+      "name": "PartitionDefinitionOptionMaxRows$field$925",
       "symbols": [
         {
           "tokenKind": "MAX_ROWS",
@@ -11665,13 +11662,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMaxRows$optional$927",
+      "name": "PartitionDefinitionOptionMaxRows$optional$926",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMaxRows$optional$927$field$928",
+      "name": "PartitionDefinitionOptionMaxRows$optional$926$field$927",
       "symbols": [
         {
           "tokenKind": "Equal",
@@ -11682,16 +11679,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMaxRows$optional$927",
+      "name": "PartitionDefinitionOptionMaxRows$optional$926",
       "symbols": [
         "extras$1",
-        "PartitionDefinitionOptionMaxRows$optional$927$field$928"
+        "PartitionDefinitionOptionMaxRows$optional$926$field$927"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMaxRows$field$929",
+      "name": "PartitionDefinitionOptionMaxRows$field$928",
       "symbols": [
         {
           "tokenKind": "IntegerLiteral",
@@ -11704,16 +11701,16 @@
     {
       "name": "PartitionDefinitionOptionMaxRows",
       "symbols": [
-        "PartitionDefinitionOptionMaxRows$field$926",
-        "PartitionDefinitionOptionMaxRows$optional$927",
+        "PartitionDefinitionOptionMaxRows$field$925",
+        "PartitionDefinitionOptionMaxRows$optional$926",
         "extras$1",
-        "PartitionDefinitionOptionMaxRows$field$929"
+        "PartitionDefinitionOptionMaxRows$field$928"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMinRows$field$930",
+      "name": "PartitionDefinitionOptionMinRows$field$929",
       "symbols": [
         {
           "tokenKind": "MIN_ROWS",
@@ -11724,13 +11721,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMinRows$optional$931",
+      "name": "PartitionDefinitionOptionMinRows$optional$930",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMinRows$optional$931$field$932",
+      "name": "PartitionDefinitionOptionMinRows$optional$930$field$931",
       "symbols": [
         {
           "tokenKind": "Equal",
@@ -11741,16 +11738,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMinRows$optional$931",
+      "name": "PartitionDefinitionOptionMinRows$optional$930",
       "symbols": [
         "extras$1",
-        "PartitionDefinitionOptionMinRows$optional$931$field$932"
+        "PartitionDefinitionOptionMinRows$optional$930$field$931"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionMinRows$field$933",
+      "name": "PartitionDefinitionOptionMinRows$field$932",
       "symbols": [
         {
           "tokenKind": "IntegerLiteral",
@@ -11763,16 +11760,16 @@
     {
       "name": "PartitionDefinitionOptionMinRows",
       "symbols": [
-        "PartitionDefinitionOptionMinRows$field$930",
-        "PartitionDefinitionOptionMinRows$optional$931",
+        "PartitionDefinitionOptionMinRows$field$929",
+        "PartitionDefinitionOptionMinRows$optional$930",
         "extras$1",
-        "PartitionDefinitionOptionMinRows$field$933"
+        "PartitionDefinitionOptionMinRows$field$932"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionComment$field$934",
+      "name": "PartitionDefinitionOptionComment$field$933",
       "symbols": [
         {
           "tokenKind": "COMMENT",
@@ -11783,13 +11780,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionComment$optional$935",
+      "name": "PartitionDefinitionOptionComment$optional$934",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionComment$optional$935$field$936",
+      "name": "PartitionDefinitionOptionComment$optional$934$field$935",
       "symbols": [
         {
           "tokenKind": "Equal",
@@ -11800,16 +11797,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionComment$optional$935",
+      "name": "PartitionDefinitionOptionComment$optional$934",
       "symbols": [
         "extras$1",
-        "PartitionDefinitionOptionComment$optional$935$field$936"
+        "PartitionDefinitionOptionComment$optional$934$field$935"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionComment$field$937",
+      "name": "PartitionDefinitionOptionComment$field$936",
       "symbols": [
         {
           "tokenKind": "StringLiteral",
@@ -11825,16 +11822,16 @@
     {
       "name": "PartitionDefinitionOptionComment",
       "symbols": [
-        "PartitionDefinitionOptionComment$field$934",
-        "PartitionDefinitionOptionComment$optional$935",
+        "PartitionDefinitionOptionComment$field$933",
+        "PartitionDefinitionOptionComment$optional$934",
         "extras$1",
-        "PartitionDefinitionOptionComment$field$937"
+        "PartitionDefinitionOptionComment$field$936"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionDataDirectory$field$938",
+      "name": "PartitionDefinitionOptionDataDirectory$field$937",
       "symbols": [
         {
           "tokenKind": "DATA",
@@ -11845,7 +11842,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionDataDirectory$field$939",
+      "name": "PartitionDefinitionOptionDataDirectory$field$938",
       "symbols": [
         {
           "tokenKind": "DIRECTORY",
@@ -11856,13 +11853,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionDataDirectory$optional$940",
+      "name": "PartitionDefinitionOptionDataDirectory$optional$939",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionDataDirectory$optional$940$field$941",
+      "name": "PartitionDefinitionOptionDataDirectory$optional$939$field$940",
       "symbols": [
         {
           "tokenKind": "Equal",
@@ -11873,16 +11870,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionDataDirectory$optional$940",
+      "name": "PartitionDefinitionOptionDataDirectory$optional$939",
       "symbols": [
         "extras$1",
-        "PartitionDefinitionOptionDataDirectory$optional$940$field$941"
+        "PartitionDefinitionOptionDataDirectory$optional$939$field$940"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionDataDirectory$field$942",
+      "name": "PartitionDefinitionOptionDataDirectory$field$941",
       "symbols": [
         {
           "tokenKind": "StringLiteral",
@@ -11898,18 +11895,18 @@
     {
       "name": "PartitionDefinitionOptionDataDirectory",
       "symbols": [
+        "PartitionDefinitionOptionDataDirectory$field$937",
+        "extras$1",
         "PartitionDefinitionOptionDataDirectory$field$938",
+        "PartitionDefinitionOptionDataDirectory$optional$939",
         "extras$1",
-        "PartitionDefinitionOptionDataDirectory$field$939",
-        "PartitionDefinitionOptionDataDirectory$optional$940",
-        "extras$1",
-        "PartitionDefinitionOptionDataDirectory$field$942"
+        "PartitionDefinitionOptionDataDirectory$field$941"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionIndexDirectory$field$943",
+      "name": "PartitionDefinitionOptionIndexDirectory$field$942",
       "symbols": [
         {
           "tokenKind": "INDEX",
@@ -11920,7 +11917,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionIndexDirectory$field$944",
+      "name": "PartitionDefinitionOptionIndexDirectory$field$943",
       "symbols": [
         {
           "tokenKind": "DIRECTORY",
@@ -11931,13 +11928,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionIndexDirectory$optional$945",
+      "name": "PartitionDefinitionOptionIndexDirectory$optional$944",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionIndexDirectory$optional$945$field$946",
+      "name": "PartitionDefinitionOptionIndexDirectory$optional$944$field$945",
       "symbols": [
         {
           "tokenKind": "Equal",
@@ -11948,16 +11945,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionIndexDirectory$optional$945",
+      "name": "PartitionDefinitionOptionIndexDirectory$optional$944",
       "symbols": [
         "extras$1",
-        "PartitionDefinitionOptionIndexDirectory$optional$945$field$946"
+        "PartitionDefinitionOptionIndexDirectory$optional$944$field$945"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionIndexDirectory$field$947",
+      "name": "PartitionDefinitionOptionIndexDirectory$field$946",
       "symbols": [
         {
           "tokenKind": "StringLiteral",
@@ -11973,18 +11970,18 @@
     {
       "name": "PartitionDefinitionOptionIndexDirectory",
       "symbols": [
+        "PartitionDefinitionOptionIndexDirectory$field$942",
+        "extras$1",
         "PartitionDefinitionOptionIndexDirectory$field$943",
+        "PartitionDefinitionOptionIndexDirectory$optional$944",
         "extras$1",
-        "PartitionDefinitionOptionIndexDirectory$field$944",
-        "PartitionDefinitionOptionIndexDirectory$optional$945",
-        "extras$1",
-        "PartitionDefinitionOptionIndexDirectory$field$947"
+        "PartitionDefinitionOptionIndexDirectory$field$946"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionTablespace$field$948",
+      "name": "PartitionDefinitionOptionTablespace$field$947",
       "symbols": [
         {
           "tokenKind": "TABLESPACE",
@@ -11995,13 +11992,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionTablespace$optional$949",
+      "name": "PartitionDefinitionOptionTablespace$optional$948",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionTablespace$optional$949$field$950",
+      "name": "PartitionDefinitionOptionTablespace$optional$948$field$949",
       "symbols": [
         {
           "tokenKind": "Equal",
@@ -12012,16 +12009,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionTablespace$optional$949",
+      "name": "PartitionDefinitionOptionTablespace$optional$948",
       "symbols": [
         "extras$1",
-        "PartitionDefinitionOptionTablespace$optional$949$field$950"
+        "PartitionDefinitionOptionTablespace$optional$948$field$949"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionTablespace$field$951",
+      "name": "PartitionDefinitionOptionTablespace$field$950",
       "symbols": [
         "Ident"
       ],
@@ -12031,16 +12028,16 @@
     {
       "name": "PartitionDefinitionOptionTablespace",
       "symbols": [
-        "PartitionDefinitionOptionTablespace$field$948",
-        "PartitionDefinitionOptionTablespace$optional$949",
+        "PartitionDefinitionOptionTablespace$field$947",
+        "PartitionDefinitionOptionTablespace$optional$948",
         "extras$1",
-        "PartitionDefinitionOptionTablespace$field$951"
+        "PartitionDefinitionOptionTablespace$field$950"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionNodeGroup$field$952",
+      "name": "PartitionDefinitionOptionNodeGroup$field$951",
       "symbols": [
         {
           "tokenKind": "NODEGROUP",
@@ -12051,13 +12048,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionNodeGroup$optional$953",
+      "name": "PartitionDefinitionOptionNodeGroup$optional$952",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionNodeGroup$optional$953$field$954",
+      "name": "PartitionDefinitionOptionNodeGroup$optional$952$field$953",
       "symbols": [
         {
           "tokenKind": "Equal",
@@ -12068,16 +12065,16 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionNodeGroup$optional$953",
+      "name": "PartitionDefinitionOptionNodeGroup$optional$952",
       "symbols": [
         "extras$1",
-        "PartitionDefinitionOptionNodeGroup$optional$953$field$954"
+        "PartitionDefinitionOptionNodeGroup$optional$952$field$953"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionNodeGroup$field$955",
+      "name": "PartitionDefinitionOptionNodeGroup$field$954",
       "symbols": [
         {
           "tokenKind": "IntegerLiteral",
@@ -12093,20 +12090,20 @@
     {
       "name": "PartitionDefinitionOptionNodeGroup",
       "symbols": [
-        "PartitionDefinitionOptionNodeGroup$field$952",
-        "PartitionDefinitionOptionNodeGroup$optional$953",
+        "PartitionDefinitionOptionNodeGroup$field$951",
+        "PartitionDefinitionOptionNodeGroup$optional$952",
         "extras$1",
-        "PartitionDefinitionOptionNodeGroup$field$955"
+        "PartitionDefinitionOptionNodeGroup$field$954"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "PartitionDefinitionOptionRepeat1$repeat1$956",
+      "name": "PartitionDefinitionOptionRepeat1$repeat1$955",
       "symbols": [
-        "PartitionDefinitionOptionRepeat1$repeat1$956",
+        "PartitionDefinitionOptionRepeat1$repeat1$955",
         "extras$1",
-        "PartitionDefinitionOptionRepeat1$repeat1$956$item$957"
+        "PartitionDefinitionOptionRepeat1$repeat1$955$item$956"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -12120,13 +12117,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "RangePartition$optional$959",
+      "name": "RangePartition$optional$958",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "RangePartition$optional$959$field$960",
+      "name": "RangePartition$optional$958$field$959",
       "symbols": [
         "PartitionCount"
       ],
@@ -12134,22 +12131,22 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "RangePartition$optional$959",
+      "name": "RangePartition$optional$958",
       "symbols": [
         "extras$1",
-        "RangePartition$optional$959$field$960"
+        "RangePartition$optional$958$field$959"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "RangePartition$optional$961",
+      "name": "RangePartition$optional$960",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "RangePartition$optional$961",
+      "name": "RangePartition$optional$960",
       "symbols": [
         "extras$1",
         "SubPartition"
@@ -12186,8 +12183,8 @@
           "tokenKind": "CloseParentheses",
           "canExpect": true
         },
-        "RangePartition$optional$959",
-        "RangePartition$optional$961",
+        "RangePartition$optional$958",
+        "RangePartition$optional$960",
         "extras$1",
         "SingletonRangePartitionDefinitionTuple1"
       ],
@@ -12195,7 +12192,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974$item$975$field$976",
+      "name": "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973$item$974$field$975",
       "symbols": [
         {
           "tokenKind": "Comma",
@@ -12208,7 +12205,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974$item$975$field$977",
+      "name": "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973$item$974$field$976",
       "symbols": [
         "SingletonListPartitionDefinition"
       ],
@@ -12216,44 +12213,44 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974$item$975",
+      "name": "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973$item$974",
       "symbols": [
-        "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974$item$975$field$976",
+        "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973$item$974$field$975",
         "extras$1",
-        "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974$item$975$field$977"
+        "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973$item$974$field$976"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974",
+      "name": "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973",
       "symbols": [
-        "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974$item$975"
+        "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973$item$974"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974",
+      "name": "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973",
       "symbols": [
-        "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974",
+        "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973",
         "extras$1",
-        "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974$item$975"
+        "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973$item$974"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonListPartitionDefinitionTuple1$optional$973",
+      "name": "SingletonListPartitionDefinitionTuple1$optional$972",
       "symbols": [
         "extras$1",
-        "SingletonListPartitionDefinitionTuple1$optional$973$repeat1$974"
+        "SingletonListPartitionDefinitionTuple1$optional$972$repeat1$973"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$choice$979$field$980",
+      "name": "SingletonRangePartitionDefinition$choice$978$field$979",
       "symbols": [
         {
           "tokenKind": "OpenParentheses",
@@ -12264,7 +12261,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$choice$979$choice$981",
+      "name": "SingletonRangePartitionDefinition$choice$978$choice$980",
       "symbols": [
         "BitExpression"
       ],
@@ -12272,7 +12269,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$choice$979$choice$981",
+      "name": "SingletonRangePartitionDefinition$choice$978$choice$980",
       "symbols": [
         {
           "tokenKind": "MAXVALUE",
@@ -12283,7 +12280,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$choice$979$field$982",
+      "name": "SingletonRangePartitionDefinition$choice$978$field$981",
       "symbols": [
         {
           "tokenKind": "CloseParentheses",
@@ -12294,19 +12291,19 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$choice$979",
+      "name": "SingletonRangePartitionDefinition$choice$978",
       "symbols": [
-        "SingletonRangePartitionDefinition$choice$979$field$980",
+        "SingletonRangePartitionDefinition$choice$978$field$979",
         "extras$1",
-        "SingletonRangePartitionDefinition$choice$979$choice$981",
+        "SingletonRangePartitionDefinition$choice$978$choice$980",
         "extras$1",
-        "SingletonRangePartitionDefinition$choice$979$field$982"
+        "SingletonRangePartitionDefinition$choice$978$field$981"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$choice$979",
+      "name": "SingletonRangePartitionDefinition$choice$978",
       "symbols": [
         {
           "tokenKind": "MAXVALUE",
@@ -12317,13 +12314,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$optional$983",
+      "name": "SingletonRangePartitionDefinition$optional$982",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$optional$983",
+      "name": "SingletonRangePartitionDefinition$optional$982",
       "symbols": [
         "extras$1",
         "PartitionDefinitionOptionRepeat1"
@@ -12332,13 +12329,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$optional$984",
+      "name": "SingletonRangePartitionDefinition$optional$983",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$optional$984",
+      "name": "SingletonRangePartitionDefinition$optional$983",
       "symbols": [
         "extras$1",
         "SubPartitionDefinitionTuple1"
@@ -12371,15 +12368,15 @@
           "canExpect": true
         },
         "extras$1",
-        "SingletonRangePartitionDefinition$choice$979",
-        "SingletonRangePartitionDefinition$optional$983",
-        "SingletonRangePartitionDefinition$optional$984"
+        "SingletonRangePartitionDefinition$choice$978",
+        "SingletonRangePartitionDefinition$optional$982",
+        "SingletonRangePartitionDefinition$optional$983"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$field$985",
+      "name": "SingletonRangePartitionDefinitionTuple1$field$984",
       "symbols": [
         {
           "tokenKind": "OpenParentheses",
@@ -12390,7 +12387,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$field$986",
+      "name": "SingletonRangePartitionDefinitionTuple1$field$985",
       "symbols": [
         "SingletonRangePartitionDefinition"
       ],
@@ -12398,13 +12395,13 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$987",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$986",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988$item$989$field$990",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987$item$988$field$989",
       "symbols": [
         {
           "tokenKind": "Comma",
@@ -12417,7 +12414,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988$item$989$field$991",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987$item$988$field$990",
       "symbols": [
         "SingletonRangePartitionDefinition"
       ],
@@ -12425,44 +12422,44 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988$item$989",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987$item$988",
       "symbols": [
-        "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988$item$989$field$990",
+        "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987$item$988$field$989",
         "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988$item$989$field$991"
+        "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987$item$988$field$990"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987",
       "symbols": [
-        "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988$item$989"
+        "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987$item$988"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987",
       "symbols": [
-        "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988",
+        "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987",
         "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988$item$989"
+        "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987$item$988"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$987",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$986",
       "symbols": [
         "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$optional$987$repeat1$988"
+        "SingletonRangePartitionDefinitionTuple1$optional$986$repeat1$987"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$field$992",
+      "name": "SingletonRangePartitionDefinitionTuple1$field$991",
       "symbols": [
         {
           "tokenKind": "CloseParentheses",
@@ -12475,24 +12472,24 @@
     {
       "name": "SingletonRangePartitionDefinitionTuple1",
       "symbols": [
+        "SingletonRangePartitionDefinitionTuple1$field$984",
+        "extras$1",
         "SingletonRangePartitionDefinitionTuple1$field$985",
+        "SingletonRangePartitionDefinitionTuple1$optional$986",
         "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$field$986",
-        "SingletonRangePartitionDefinitionTuple1$optional$987",
-        "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$field$992"
+        "SingletonRangePartitionDefinitionTuple1$field$991"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinition$optional$995",
+      "name": "SubPartitionDefinition$optional$994",
       "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$998$repeat1$999$item$1000$field$1001",
+      "name": "SubPartitionDefinitionTuple1$optional$997$repeat1$998$item$999$field$1000",
       "symbols": [
         {
           "tokenKind": "Comma",
@@ -12505,7 +12502,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$998$repeat1$999$item$1000$field$1002",
+      "name": "SubPartitionDefinitionTuple1$optional$997$repeat1$998$item$999$field$1001",
       "symbols": [
         "SubPartitionDefinition"
       ],
@@ -12513,44 +12510,44 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$998$repeat1$999$item$1000",
+      "name": "SubPartitionDefinitionTuple1$optional$997$repeat1$998$item$999",
       "symbols": [
-        "SubPartitionDefinitionTuple1$optional$998$repeat1$999$item$1000$field$1001",
+        "SubPartitionDefinitionTuple1$optional$997$repeat1$998$item$999$field$1000",
         "extras$1",
-        "SubPartitionDefinitionTuple1$optional$998$repeat1$999$item$1000$field$1002"
+        "SubPartitionDefinitionTuple1$optional$997$repeat1$998$item$999$field$1001"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$998$repeat1$999",
+      "name": "SubPartitionDefinitionTuple1$optional$997$repeat1$998",
       "symbols": [
-        "SubPartitionDefinitionTuple1$optional$998$repeat1$999$item$1000"
+        "SubPartitionDefinitionTuple1$optional$997$repeat1$998$item$999"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$998$repeat1$999",
+      "name": "SubPartitionDefinitionTuple1$optional$997$repeat1$998",
       "symbols": [
-        "SubPartitionDefinitionTuple1$optional$998$repeat1$999",
+        "SubPartitionDefinitionTuple1$optional$997$repeat1$998",
         "extras$1",
-        "SubPartitionDefinitionTuple1$optional$998$repeat1$999$item$1000"
+        "SubPartitionDefinitionTuple1$optional$997$repeat1$998$item$999"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$998",
+      "name": "SubPartitionDefinitionTuple1$optional$997",
       "symbols": [
         "extras$1",
-        "SubPartitionDefinitionTuple1$optional$998$repeat1$999"
+        "SubPartitionDefinitionTuple1$optional$997$repeat1$998"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1018",
+      "name": "ParenthesizedSelect$field$1017",
       "symbols": [
         {
           "tokenKind": "OpenParentheses",
@@ -12561,7 +12558,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1019$choice$1020",
+      "name": "ParenthesizedSelect$field$1018$choice$1019",
       "symbols": [
         "Select"
       ],
@@ -12569,7 +12566,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1019$choice$1020",
+      "name": "ParenthesizedSelect$field$1018$choice$1019",
       "symbols": [
         "ParenthesizedSelect"
       ],
@@ -12577,15 +12574,15 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1019",
+      "name": "ParenthesizedSelect$field$1018",
       "symbols": [
-        "ParenthesizedSelect$field$1019$choice$1020"
+        "ParenthesizedSelect$field$1018$choice$1019"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1021",
+      "name": "ParenthesizedSelect$field$1020",
       "symbols": [
         {
           "tokenKind": "CloseParentheses",
@@ -12598,11 +12595,11 @@
     {
       "name": "ParenthesizedSelect",
       "symbols": [
+        "ParenthesizedSelect$field$1017",
+        "extras$1",
         "ParenthesizedSelect$field$1018",
         "extras$1",
-        "ParenthesizedSelect$field$1019",
-        "extras$1",
-        "ParenthesizedSelect$field$1021"
+        "ParenthesizedSelect$field$1020"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -12636,7 +12633,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2736
+      "coverageCount": 2732
     },
     {
       "rule": {
@@ -12659,7 +12656,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 279
+      "coverageCount": 275
     },
     {
       "rule": {
@@ -25182,24 +25179,15 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumnTuple2$optional$887$field$888",
+        "name": "ListPartitionByColumnTuple2$field$887",
         "symbols": [
           "ListPartitionDefinitionTuple1"
         ],
         "precedence": 0,
-        "penalizeErrorStart": true
-      },
-      "coverageCount": 5
-    },
-    {
-      "rule": {
-        "name": "ListPartitionByColumnTuple2$optional$887",
-        "symbols": [
-          "extras$1",
-          "ListPartitionByColumnTuple2$optional$887$field$888"
-        ],
-        "precedence": 0,
-        "penalizeErrorStart": true
+        "penalizeErrorStart": true,
+        "allowedSyntaxKinds": [
+          "MultitonListPartitionDefinitionTuple1"
+        ]
       },
       "coverageCount": 5
     },
@@ -25218,7 +25206,8 @@
           "ListPartitionByColumnTuple2$field$882",
           "ListPartitionByColumnTuple2$optional$883",
           "ListPartitionByColumnTuple2$optional$885",
-          "ListPartitionByColumnTuple2$optional$887"
+          "extras$1",
+          "ListPartitionByColumnTuple2$field$887"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25227,7 +25216,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$field$889",
+        "name": "ListPartitionByColumn$field$888",
         "symbols": [
           {
             "tokenKind": "PARTITION",
@@ -25241,7 +25230,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$field$890",
+        "name": "ListPartitionByColumn$field$889",
         "symbols": [
           {
             "tokenKind": "BY",
@@ -25255,7 +25244,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$field$891",
+        "name": "ListPartitionByColumn$field$890",
         "symbols": [
           {
             "tokenKind": "LIST",
@@ -25269,7 +25258,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$field$892",
+        "name": "ListPartitionByColumn$field$891",
         "symbols": [
           {
             "tokenKind": "COLUMNS",
@@ -25286,7 +25275,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$field$893",
+        "name": "ListPartitionByColumn$field$892",
         "symbols": [
           "ParenthesizedIdent"
         ],
@@ -25297,7 +25286,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$optional$894",
+        "name": "ListPartitionByColumn$optional$893",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25306,7 +25295,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$optional$894$field$895",
+        "name": "ListPartitionByColumn$optional$893$field$894",
         "symbols": [
           "PartitionCount"
         ],
@@ -25317,10 +25306,10 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$optional$894",
+        "name": "ListPartitionByColumn$optional$893",
         "symbols": [
           "extras$1",
-          "ListPartitionByColumn$optional$894$field$895"
+          "ListPartitionByColumn$optional$893$field$894"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25329,7 +25318,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$optional$896",
+        "name": "ListPartitionByColumn$optional$895",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25338,7 +25327,7 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$optional$896$field$897",
+        "name": "ListPartitionByColumn$optional$895$field$896",
         "symbols": [
           "SubPartition"
         ],
@@ -25349,10 +25338,10 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$optional$896",
+        "name": "ListPartitionByColumn$optional$895",
         "symbols": [
           "extras$1",
-          "ListPartitionByColumn$optional$896$field$897"
+          "ListPartitionByColumn$optional$895$field$896"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25361,12 +25350,15 @@
     },
     {
       "rule": {
-        "name": "ListPartitionByColumn$field$898",
+        "name": "ListPartitionByColumn$field$897",
         "symbols": [
           "ListPartitionDefinitionTuple1"
         ],
         "precedence": 0,
-        "penalizeErrorStart": true
+        "penalizeErrorStart": true,
+        "allowedSyntaxKinds": [
+          "SingletonListPartitionDefinitionTuple1"
+        ]
       },
       "coverageCount": 15
     },
@@ -25374,6 +25366,8 @@
       "rule": {
         "name": "ListPartitionByColumn",
         "symbols": [
+          "ListPartitionByColumn$field$888",
+          "extras$1",
           "ListPartitionByColumn$field$889",
           "extras$1",
           "ListPartitionByColumn$field$890",
@@ -25381,12 +25375,10 @@
           "ListPartitionByColumn$field$891",
           "extras$1",
           "ListPartitionByColumn$field$892",
+          "ListPartitionByColumn$optional$893",
+          "ListPartitionByColumn$optional$895",
           "extras$1",
-          "ListPartitionByColumn$field$893",
-          "ListPartitionByColumn$optional$894",
-          "ListPartitionByColumn$optional$896",
-          "extras$1",
-          "ListPartitionByColumn$field$898"
+          "ListPartitionByColumn$field$897"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25439,7 +25431,7 @@
     },
     {
       "rule": {
-        "name": "MultitonListPartitionDefinition$optional$908",
+        "name": "MultitonListPartitionDefinition$optional$907",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25448,7 +25440,7 @@
     },
     {
       "rule": {
-        "name": "MultitonListPartitionDefinition$optional$909",
+        "name": "MultitonListPartitionDefinition$optional$908",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25477,8 +25469,8 @@
           },
           "extras$1",
           "BitExpressionTuple1Tuple1",
-          "MultitonListPartitionDefinition$optional$908",
-          "MultitonListPartitionDefinition$optional$909"
+          "MultitonListPartitionDefinition$optional$907",
+          "MultitonListPartitionDefinition$optional$908"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25487,7 +25479,7 @@
     },
     {
       "rule": {
-        "name": "MultitonListPartitionDefinitionTuple1$field$910",
+        "name": "MultitonListPartitionDefinitionTuple1$field$909",
         "symbols": [
           {
             "tokenKind": "OpenParentheses",
@@ -25501,7 +25493,7 @@
     },
     {
       "rule": {
-        "name": "MultitonListPartitionDefinitionTuple1$field$911",
+        "name": "MultitonListPartitionDefinitionTuple1$field$910",
         "symbols": [
           "MultitonListPartitionDefinition"
         ],
@@ -25512,7 +25504,7 @@
     },
     {
       "rule": {
-        "name": "MultitonListPartitionDefinitionTuple1$optional$912",
+        "name": "MultitonListPartitionDefinitionTuple1$optional$911",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25521,7 +25513,7 @@
     },
     {
       "rule": {
-        "name": "MultitonListPartitionDefinitionTuple1$field$917",
+        "name": "MultitonListPartitionDefinitionTuple1$field$916",
         "symbols": [
           {
             "tokenKind": "CloseParentheses",
@@ -25537,12 +25529,12 @@
       "rule": {
         "name": "MultitonListPartitionDefinitionTuple1",
         "symbols": [
+          "MultitonListPartitionDefinitionTuple1$field$909",
+          "extras$1",
           "MultitonListPartitionDefinitionTuple1$field$910",
+          "MultitonListPartitionDefinitionTuple1$optional$911",
           "extras$1",
-          "MultitonListPartitionDefinitionTuple1$field$911",
-          "MultitonListPartitionDefinitionTuple1$optional$912",
-          "extras$1",
-          "MultitonListPartitionDefinitionTuple1$field$917"
+          "MultitonListPartitionDefinitionTuple1$field$916"
         ],
         "precedence": 1,
         "penalizeErrorStart": true
@@ -25551,7 +25543,7 @@
     },
     {
       "rule": {
-        "name": "PartitionCount$field$918",
+        "name": "PartitionCount$field$917",
         "symbols": [
           {
             "tokenKind": "PARTITIONS",
@@ -25565,7 +25557,7 @@
     },
     {
       "rule": {
-        "name": "PartitionCount$field$919",
+        "name": "PartitionCount$field$918",
         "symbols": [
           {
             "tokenKind": "IntegerLiteral",
@@ -25584,9 +25576,9 @@
       "rule": {
         "name": "PartitionCount",
         "symbols": [
-          "PartitionCount$field$918",
+          "PartitionCount$field$917",
           "extras$1",
-          "PartitionCount$field$919"
+          "PartitionCount$field$918"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25606,7 +25598,7 @@
     },
     {
       "rule": {
-        "name": "PartitionDefinitionOptionEngine$optional$920",
+        "name": "PartitionDefinitionOptionEngine$optional$919",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25615,7 +25607,7 @@
     },
     {
       "rule": {
-        "name": "PartitionDefinitionOptionEngine$field$922",
+        "name": "PartitionDefinitionOptionEngine$field$921",
         "symbols": [
           {
             "tokenKind": "ENGINE",
@@ -25629,7 +25621,7 @@
     },
     {
       "rule": {
-        "name": "PartitionDefinitionOptionEngine$optional$923",
+        "name": "PartitionDefinitionOptionEngine$optional$922",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -25638,7 +25630,7 @@
     },
     {
       "rule": {
-        "name": "PartitionDefinitionOptionEngine$field$925",
+        "name": "PartitionDefinitionOptionEngine$field$924",
         "symbols": [
           {
             "tokenKind": "Identifier",
@@ -26080,11 +26072,11 @@
       "rule": {
         "name": "PartitionDefinitionOptionEngine",
         "symbols": [
-          "PartitionDefinitionOptionEngine$optional$920",
-          "PartitionDefinitionOptionEngine$field$922",
-          "PartitionDefinitionOptionEngine$optional$923",
+          "PartitionDefinitionOptionEngine$optional$919",
+          "PartitionDefinitionOptionEngine$field$921",
+          "PartitionDefinitionOptionEngine$optional$922",
           "extras$1",
-          "PartitionDefinitionOptionEngine$field$925"
+          "PartitionDefinitionOptionEngine$field$924"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26093,7 +26085,7 @@
     },
     {
       "rule": {
-        "name": "PartitionDefinitionOptionRepeat1$repeat1$956$item$957$field$958",
+        "name": "PartitionDefinitionOptionRepeat1$repeat1$955$item$956$field$957",
         "symbols": [
           "PartitionDefinitionOption"
         ],
@@ -26104,9 +26096,9 @@
     },
     {
       "rule": {
-        "name": "PartitionDefinitionOptionRepeat1$repeat1$956$item$957",
+        "name": "PartitionDefinitionOptionRepeat1$repeat1$955$item$956",
         "symbols": [
-          "PartitionDefinitionOptionRepeat1$repeat1$956$item$957$field$958"
+          "PartitionDefinitionOptionRepeat1$repeat1$955$item$956$field$957"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26115,9 +26107,9 @@
     },
     {
       "rule": {
-        "name": "PartitionDefinitionOptionRepeat1$repeat1$956",
+        "name": "PartitionDefinitionOptionRepeat1$repeat1$955",
         "symbols": [
-          "PartitionDefinitionOptionRepeat1$repeat1$956$item$957"
+          "PartitionDefinitionOptionRepeat1$repeat1$955$item$956"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26128,7 +26120,7 @@
       "rule": {
         "name": "PartitionDefinitionOptionRepeat1",
         "symbols": [
-          "PartitionDefinitionOptionRepeat1$repeat1$956"
+          "PartitionDefinitionOptionRepeat1$repeat1$955"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26170,7 +26162,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$field$962",
+        "name": "SingletonListPartitionDefinition$field$961",
         "symbols": [
           {
             "tokenKind": "PARTITION",
@@ -26184,7 +26176,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$field$963",
+        "name": "SingletonListPartitionDefinition$field$962",
         "symbols": [
           "Ident"
         ],
@@ -26195,7 +26187,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$field$964",
+        "name": "SingletonListPartitionDefinition$field$963",
         "symbols": [
           {
             "tokenKind": "VALUES",
@@ -26209,7 +26201,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$field$965",
+        "name": "SingletonListPartitionDefinition$field$964",
         "symbols": [
           {
             "tokenKind": "IN",
@@ -26223,7 +26215,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$field$966",
+        "name": "SingletonListPartitionDefinition$field$965",
         "symbols": [
           "BitExpressionTuple1"
         ],
@@ -26234,7 +26226,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$optional$967",
+        "name": "SingletonListPartitionDefinition$optional$966",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26243,7 +26235,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$optional$967$field$968",
+        "name": "SingletonListPartitionDefinition$optional$966$field$967",
         "symbols": [
           "PartitionDefinitionOptionRepeat1"
         ],
@@ -26254,10 +26246,10 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$optional$967",
+        "name": "SingletonListPartitionDefinition$optional$966",
         "symbols": [
           "extras$1",
-          "SingletonListPartitionDefinition$optional$967$field$968"
+          "SingletonListPartitionDefinition$optional$966$field$967"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26266,7 +26258,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$optional$969",
+        "name": "SingletonListPartitionDefinition$optional$968",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26275,7 +26267,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$optional$969$field$970",
+        "name": "SingletonListPartitionDefinition$optional$968$field$969",
         "symbols": [
           "SubPartitionDefinitionTuple1"
         ],
@@ -26286,10 +26278,10 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinition$optional$969",
+        "name": "SingletonListPartitionDefinition$optional$968",
         "symbols": [
           "extras$1",
-          "SingletonListPartitionDefinition$optional$969$field$970"
+          "SingletonListPartitionDefinition$optional$968$field$969"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26300,6 +26292,8 @@
       "rule": {
         "name": "SingletonListPartitionDefinition",
         "symbols": [
+          "SingletonListPartitionDefinition$field$961",
+          "extras$1",
           "SingletonListPartitionDefinition$field$962",
           "extras$1",
           "SingletonListPartitionDefinition$field$963",
@@ -26307,10 +26301,8 @@
           "SingletonListPartitionDefinition$field$964",
           "extras$1",
           "SingletonListPartitionDefinition$field$965",
-          "extras$1",
-          "SingletonListPartitionDefinition$field$966",
-          "SingletonListPartitionDefinition$optional$967",
-          "SingletonListPartitionDefinition$optional$969"
+          "SingletonListPartitionDefinition$optional$966",
+          "SingletonListPartitionDefinition$optional$968"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26319,7 +26311,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinitionTuple1$field$971",
+        "name": "SingletonListPartitionDefinitionTuple1$field$970",
         "symbols": [
           {
             "tokenKind": "OpenParentheses",
@@ -26333,7 +26325,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinitionTuple1$field$972",
+        "name": "SingletonListPartitionDefinitionTuple1$field$971",
         "symbols": [
           "SingletonListPartitionDefinition"
         ],
@@ -26344,7 +26336,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinitionTuple1$optional$973",
+        "name": "SingletonListPartitionDefinitionTuple1$optional$972",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26353,7 +26345,7 @@
     },
     {
       "rule": {
-        "name": "SingletonListPartitionDefinitionTuple1$field$978",
+        "name": "SingletonListPartitionDefinitionTuple1$field$977",
         "symbols": [
           {
             "tokenKind": "CloseParentheses",
@@ -26369,12 +26361,12 @@
       "rule": {
         "name": "SingletonListPartitionDefinitionTuple1",
         "symbols": [
+          "SingletonListPartitionDefinitionTuple1$field$970",
+          "extras$1",
           "SingletonListPartitionDefinitionTuple1$field$971",
+          "SingletonListPartitionDefinitionTuple1$optional$972",
           "extras$1",
-          "SingletonListPartitionDefinitionTuple1$field$972",
-          "SingletonListPartitionDefinitionTuple1$optional$973",
-          "extras$1",
-          "SingletonListPartitionDefinitionTuple1$field$978"
+          "SingletonListPartitionDefinitionTuple1$field$977"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26383,7 +26375,7 @@
     },
     {
       "rule": {
-        "name": "SubPartitionCount$field$993",
+        "name": "SubPartitionCount$field$992",
         "symbols": [
           {
             "tokenKind": "SUBPARTITIONS",
@@ -26397,7 +26389,7 @@
     },
     {
       "rule": {
-        "name": "SubPartitionCount$field$994",
+        "name": "SubPartitionCount$field$993",
         "symbols": [
           {
             "tokenKind": "IntegerLiteral",
@@ -26416,9 +26408,9 @@
       "rule": {
         "name": "SubPartitionCount",
         "symbols": [
-          "SubPartitionCount$field$993",
+          "SubPartitionCount$field$992",
           "extras$1",
-          "SubPartitionCount$field$994"
+          "SubPartitionCount$field$993"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26427,7 +26419,7 @@
     },
     {
       "rule": {
-        "name": "SubPartitionDefinition$optional$995",
+        "name": "SubPartitionDefinition$optional$994",
         "symbols": [
           "extras$1",
           "PartitionDefinitionOptionRepeat1"
@@ -26876,7 +26868,7 @@
             ],
             "canExpect": true
           },
-          "SubPartitionDefinition$optional$995"
+          "SubPartitionDefinition$optional$994"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26885,7 +26877,7 @@
     },
     {
       "rule": {
-        "name": "SubPartitionDefinitionTuple1$field$996",
+        "name": "SubPartitionDefinitionTuple1$field$995",
         "symbols": [
           {
             "tokenKind": "OpenParentheses",
@@ -26899,7 +26891,7 @@
     },
     {
       "rule": {
-        "name": "SubPartitionDefinitionTuple1$field$997",
+        "name": "SubPartitionDefinitionTuple1$field$996",
         "symbols": [
           "SubPartitionDefinition"
         ],
@@ -26910,7 +26902,7 @@
     },
     {
       "rule": {
-        "name": "SubPartitionDefinitionTuple1$optional$998",
+        "name": "SubPartitionDefinitionTuple1$optional$997",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26919,7 +26911,7 @@
     },
     {
       "rule": {
-        "name": "SubPartitionDefinitionTuple1$field$1003",
+        "name": "SubPartitionDefinitionTuple1$field$1002",
         "symbols": [
           {
             "tokenKind": "CloseParentheses",
@@ -26935,12 +26927,12 @@
       "rule": {
         "name": "SubPartitionDefinitionTuple1",
         "symbols": [
+          "SubPartitionDefinitionTuple1$field$995",
+          "extras$1",
           "SubPartitionDefinitionTuple1$field$996",
+          "SubPartitionDefinitionTuple1$optional$997",
           "extras$1",
-          "SubPartitionDefinitionTuple1$field$997",
-          "SubPartitionDefinitionTuple1$optional$998",
-          "extras$1",
-          "SubPartitionDefinitionTuple1$field$1003"
+          "SubPartitionDefinitionTuple1$field$1002"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26971,7 +26963,7 @@
     },
     {
       "rule": {
-        "name": "Alias$optional$1004",
+        "name": "Alias$optional$1003",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -26980,7 +26972,7 @@
     },
     {
       "rule": {
-        "name": "Alias$optional$1004$field$1005",
+        "name": "Alias$optional$1003$field$1004",
         "symbols": [
           {
             "tokenKind": "AS",
@@ -26994,9 +26986,9 @@
     },
     {
       "rule": {
-        "name": "Alias$optional$1004",
+        "name": "Alias$optional$1003",
         "symbols": [
-          "Alias$optional$1004$field$1005",
+          "Alias$optional$1003$field$1004",
           "extras$1"
         ],
         "precedence": 0,
@@ -27006,7 +26998,7 @@
     },
     {
       "rule": {
-        "name": "Alias$field$1006",
+        "name": "Alias$field$1005",
         "symbols": [
           {
             "tokenKind": "Identifier",
@@ -27448,8 +27440,8 @@
       "rule": {
         "name": "Alias",
         "symbols": [
-          "Alias$optional$1004",
-          "Alias$field$1006"
+          "Alias$optional$1003",
+          "Alias$field$1005"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27458,7 +27450,7 @@
     },
     {
       "rule": {
-        "name": "ExpressionSelectItem$field$1007",
+        "name": "ExpressionSelectItem$field$1006",
         "symbols": [
           "Expression"
         ],
@@ -27469,7 +27461,7 @@
     },
     {
       "rule": {
-        "name": "ExpressionSelectItem$optional$1008",
+        "name": "ExpressionSelectItem$optional$1007",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27478,7 +27470,7 @@
     },
     {
       "rule": {
-        "name": "ExpressionSelectItem$optional$1008$field$1009",
+        "name": "ExpressionSelectItem$optional$1007$field$1008",
         "symbols": [
           "Alias"
         ],
@@ -27489,10 +27481,10 @@
     },
     {
       "rule": {
-        "name": "ExpressionSelectItem$optional$1008",
+        "name": "ExpressionSelectItem$optional$1007",
         "symbols": [
           "extras$1",
-          "ExpressionSelectItem$optional$1008$field$1009"
+          "ExpressionSelectItem$optional$1007$field$1008"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27503,8 +27495,8 @@
       "rule": {
         "name": "ExpressionSelectItem",
         "symbols": [
-          "ExpressionSelectItem$field$1007",
-          "ExpressionSelectItem$optional$1008"
+          "ExpressionSelectItem$field$1006",
+          "ExpressionSelectItem$optional$1007"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27513,7 +27505,7 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$field$1010",
+        "name": "SelectItemList1$field$1009",
         "symbols": [
           "ExpressionSelectItem"
         ],
@@ -27524,7 +27516,7 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1011",
+        "name": "SelectItemList1$optional$1010",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27533,7 +27525,7 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1011$repeat1$1012$item$1013$field$1014",
+        "name": "SelectItemList1$optional$1010$repeat1$1011$item$1012$field$1013",
         "symbols": [
           {
             "tokenKind": "Comma",
@@ -27549,7 +27541,7 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1011$repeat1$1012$item$1013$field$1015",
+        "name": "SelectItemList1$optional$1010$repeat1$1011$item$1012$field$1014",
         "symbols": [
           "ExpressionSelectItem"
         ],
@@ -27560,11 +27552,11 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1011$repeat1$1012$item$1013",
+        "name": "SelectItemList1$optional$1010$repeat1$1011$item$1012",
         "symbols": [
-          "SelectItemList1$optional$1011$repeat1$1012$item$1013$field$1014",
+          "SelectItemList1$optional$1010$repeat1$1011$item$1012$field$1013",
           "extras$1",
-          "SelectItemList1$optional$1011$repeat1$1012$item$1013$field$1015"
+          "SelectItemList1$optional$1010$repeat1$1011$item$1012$field$1014"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27573,9 +27565,9 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1011$repeat1$1012",
+        "name": "SelectItemList1$optional$1010$repeat1$1011",
         "symbols": [
-          "SelectItemList1$optional$1011$repeat1$1012$item$1013"
+          "SelectItemList1$optional$1010$repeat1$1011$item$1012"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27584,11 +27576,11 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1011$repeat1$1012",
+        "name": "SelectItemList1$optional$1010$repeat1$1011",
         "symbols": [
-          "SelectItemList1$optional$1011$repeat1$1012",
+          "SelectItemList1$optional$1010$repeat1$1011",
           "extras$1",
-          "SelectItemList1$optional$1011$repeat1$1012$item$1013"
+          "SelectItemList1$optional$1010$repeat1$1011$item$1012"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27597,10 +27589,10 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1011",
+        "name": "SelectItemList1$optional$1010",
         "symbols": [
           "extras$1",
-          "SelectItemList1$optional$1011$repeat1$1012"
+          "SelectItemList1$optional$1010$repeat1$1011"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27611,8 +27603,8 @@
       "rule": {
         "name": "SelectItemList1",
         "symbols": [
-          "SelectItemList1$field$1010",
-          "SelectItemList1$optional$1011"
+          "SelectItemList1$field$1009",
+          "SelectItemList1$optional$1010"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27621,7 +27613,7 @@
     },
     {
       "rule": {
-        "name": "Select$field$1016",
+        "name": "Select$field$1015",
         "symbols": [
           {
             "tokenKind": "SELECT",
@@ -27635,7 +27627,7 @@
     },
     {
       "rule": {
-        "name": "Select$field$1017",
+        "name": "Select$field$1016",
         "symbols": [
           "SelectItemList1"
         ],
@@ -27648,9 +27640,9 @@
       "rule": {
         "name": "Select",
         "symbols": [
-          "Select$field$1016",
+          "Select$field$1015",
           "extras$1",
-          "Select$field$1017"
+          "Select$field$1016"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27670,7 +27662,7 @@
     },
     {
       "rule": {
-        "name": "LeadingStatement$optional$1022",
+        "name": "LeadingStatement$optional$1021",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27679,7 +27671,7 @@
     },
     {
       "rule": {
-        "name": "LeadingStatement$optional$1022$field$1023",
+        "name": "LeadingStatement$optional$1021$field$1022",
         "symbols": [
           "Statement"
         ],
@@ -27690,9 +27682,9 @@
     },
     {
       "rule": {
-        "name": "LeadingStatement$optional$1022",
+        "name": "LeadingStatement$optional$1021",
         "symbols": [
-          "LeadingStatement$optional$1022$field$1023",
+          "LeadingStatement$optional$1021$field$1022",
           "extras$1"
         ],
         "precedence": 0,
@@ -27704,7 +27696,7 @@
       "rule": {
         "name": "LeadingStatement",
         "symbols": [
-          "LeadingStatement$optional$1022",
+          "LeadingStatement$optional$1021",
           "StatementTail"
         ],
         "precedence": 0,
@@ -27714,7 +27706,7 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024",
+        "name": "SourceFile$choice$1023",
         "symbols": [
           "extras$1"
         ],
@@ -27725,7 +27717,7 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$optional$1026",
+        "name": "SourceFile$choice$1023$seq$1024$optional$1025",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27734,7 +27726,7 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027$item$1028$field$1029$choice$1030",
+        "name": "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026$item$1027$field$1028$choice$1029",
         "symbols": [
           "LeadingStatement"
         ],
@@ -27745,7 +27737,7 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027$item$1028$field$1029$choice$1030",
+        "name": "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026$item$1027$field$1028$choice$1029",
         "symbols": [
           "DelimiterStatement"
         ],
@@ -27756,9 +27748,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027$item$1028$field$1029",
+        "name": "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026$item$1027$field$1028",
         "symbols": [
-          "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027$item$1028$field$1029$choice$1030"
+          "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026$item$1027$field$1028$choice$1029"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27767,9 +27759,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027$item$1028",
+        "name": "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026$item$1027",
         "symbols": [
-          "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027$item$1028$field$1029"
+          "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026$item$1027$field$1028"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27778,9 +27770,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027",
+        "name": "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026",
         "symbols": [
-          "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027$item$1028"
+          "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026$item$1027"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27789,11 +27781,11 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027",
+        "name": "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026",
         "symbols": [
-          "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027",
+          "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026",
           "extras$1",
-          "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027$item$1028"
+          "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026$item$1027"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27802,9 +27794,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$optional$1026",
+        "name": "SourceFile$choice$1023$seq$1024$optional$1025",
         "symbols": [
-          "SourceFile$choice$1024$seq$1025$optional$1026$repeat1$1027",
+          "SourceFile$choice$1023$seq$1024$optional$1025$repeat1$1026",
           "extras$1"
         ],
         "precedence": 0,
@@ -27814,7 +27806,7 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$field$1031$choice$1032",
+        "name": "SourceFile$choice$1023$seq$1024$field$1030$choice$1031",
         "symbols": [
           "TrailingStatement"
         ],
@@ -27825,7 +27817,7 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$field$1031$choice$1032",
+        "name": "SourceFile$choice$1023$seq$1024$field$1030$choice$1031",
         "symbols": [
           "DelimiterStatement"
         ],
@@ -27836,9 +27828,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025$field$1031",
+        "name": "SourceFile$choice$1023$seq$1024$field$1030",
         "symbols": [
-          "SourceFile$choice$1024$seq$1025$field$1031$choice$1032"
+          "SourceFile$choice$1023$seq$1024$field$1030$choice$1031"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27847,10 +27839,10 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024$seq$1025",
+        "name": "SourceFile$choice$1023$seq$1024",
         "symbols": [
-          "SourceFile$choice$1024$seq$1025$optional$1026",
-          "SourceFile$choice$1024$seq$1025$field$1031"
+          "SourceFile$choice$1023$seq$1024$optional$1025",
+          "SourceFile$choice$1023$seq$1024$field$1030"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27859,10 +27851,10 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1024",
+        "name": "SourceFile$choice$1023",
         "symbols": [
           "extras$1",
-          "SourceFile$choice$1024$seq$1025",
+          "SourceFile$choice$1023$seq$1024",
           "extras$1"
         ],
         "precedence": 0,
@@ -27874,7 +27866,7 @@
       "rule": {
         "name": "SourceFile",
         "symbols": [
-          "SourceFile$choice$1024"
+          "SourceFile$choice$1023"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27883,7 +27875,7 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1033$field$1034",
+        "name": "StatementTail$choice$1032$field$1033",
         "symbols": [
           {
             "tokenKind": "SemiColon",
@@ -27897,7 +27889,7 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1033$optional$1035",
+        "name": "StatementTail$choice$1032$optional$1034",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27906,7 +27898,7 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1033$optional$1035$field$1036",
+        "name": "StatementTail$choice$1032$optional$1034$field$1035",
         "symbols": [
           {
             "tokenKind": "CustomDelimiter",
@@ -27920,10 +27912,10 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1033$optional$1035",
+        "name": "StatementTail$choice$1032$optional$1034",
         "symbols": [
           "extras$1",
-          "StatementTail$choice$1033$optional$1035$field$1036"
+          "StatementTail$choice$1032$optional$1034$field$1035"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27932,10 +27924,10 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1033",
+        "name": "StatementTail$choice$1032",
         "symbols": [
-          "StatementTail$choice$1033$field$1034",
-          "StatementTail$choice$1033$optional$1035"
+          "StatementTail$choice$1032$field$1033",
+          "StatementTail$choice$1032$optional$1034"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27944,7 +27936,7 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1033$field$1037",
+        "name": "StatementTail$choice$1032$field$1036",
         "symbols": [
           {
             "tokenKind": "CustomDelimiter",
@@ -27958,9 +27950,9 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1033",
+        "name": "StatementTail$choice$1032",
         "symbols": [
-          "StatementTail$choice$1033$field$1037"
+          "StatementTail$choice$1032$field$1036"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -27971,7 +27963,7 @@
       "rule": {
         "name": "StatementTail",
         "symbols": [
-          "StatementTail$choice$1033",
+          "StatementTail$choice$1032",
           "extras$1",
           {
             "tokenKind": "EndOfStatement",
@@ -28040,7 +28032,7 @@
     },
     {
       "rule": {
-        "name": "TrailingStatement$field$1038",
+        "name": "TrailingStatement$field$1037",
         "symbols": [
           "Statement"
         ],
@@ -28051,7 +28043,7 @@
     },
     {
       "rule": {
-        "name": "TrailingStatement$optional$1039",
+        "name": "TrailingStatement$optional$1038",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -28060,7 +28052,7 @@
     },
     {
       "rule": {
-        "name": "TrailingStatement$optional$1039",
+        "name": "TrailingStatement$optional$1038",
         "symbols": [
           "extras$1",
           "StatementTail"
@@ -28074,8 +28066,8 @@
       "rule": {
         "name": "TrailingStatement",
         "symbols": [
-          "TrailingStatement$field$1038",
-          "TrailingStatement$optional$1039"
+          "TrailingStatement$field$1037",
+          "TrailingStatement$optional$1038"
         ],
         "precedence": 0,
         "penalizeErrorStart": true

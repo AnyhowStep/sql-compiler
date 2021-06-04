@@ -1,4 +1,4 @@
-import {field, optional, seq} from "../../../grammar-builder";
+import {allowedSyntaxKinds, field, optional, seq} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -12,5 +12,8 @@ export const ListPartitionByExpression = seq(
     field("parenthesizedBitExpression", SyntaxKind.ParenthesizedBitExpression),
     field("partitionCount", optional(SyntaxKind.PartitionCount)),
     field("subPartition", optional(SyntaxKind.SubPartition)),
-    field("listPartitionDefinitionTuple1", SyntaxKind.ListPartitionDefinitionTuple1),
+    field("listPartitionDefinitionTuple1", allowedSyntaxKinds(
+        [SyntaxKind.SingletonListPartitionDefinitionTuple1],
+        SyntaxKind.ListPartitionDefinitionTuple1
+    )),
 );
