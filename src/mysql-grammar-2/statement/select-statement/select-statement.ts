@@ -18,7 +18,9 @@ export const SelectStatement = choice(
     SyntaxKind.Select,
 );
 
-export const ParenthesizedSelect = parentheses(field("item", choice(
-    SyntaxKind.Select,
-    SyntaxKind.ParenthesizedSelect,
-)));
+export const ParenthesizedSelect = parentheses(
+    field("item", choice(
+        SyntaxKind.Select,
+        SyntaxKind.ParenthesizedSelect,
+    ))
+);

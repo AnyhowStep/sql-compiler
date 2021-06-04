@@ -1,0 +1,35 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY HASH((X IS NULL));
+-- The expression `(X IS NULL)` is a bit expression.
+-- However, `X IS NULL` is not.
+-- So, `(X IS NULL)` is actually not allowed.
+-- MySQL itself will parse this successfully but say,
+-- `ER_PARTITION_FUNCTION_IS_NOT_ALLOWED: This partition function is not allowed`
+-- TODO, should we just allow all kinds of expression during parse and look for invalid
+-- expression kinds during linting?
+-- https://dev.mysql.com/doc/refman/5.7/en/partitioning-limitations-functions.html
+-----
+`!
+      (partition: HashPartition[26, 56]
+        (partitionToken: PARTITION[26, 35])
+        (WhiteSpace[35, 36])
+        (byToken: BY[36, 38])
+        (WhiteSpace[38, 39])
+        (hashToken: HASH[39, 43])
+        (parenthesizedBitExpression: ParenthesizedBitExpression[43, 56]
+          (openParenthesesToken: OpenParentheses[43, 44])
+          (item: ParenthesizedExpression[44, 55]
+            (openParenthesesToken: OpenParentheses[44, 45])
+            (item: IsNullBooleanPrimaryExpression[45, 54]
+              (expression: Identifier[45, 46])
+              (WhiteSpace[46, 47])
+              (isToken: IS[47, 49])
+              (WhiteSpace[49, 50])
+              (nullToken: NULL[50, 54])
+            )
+            (closeParenthesesToken: CloseParentheses[54, 55])
+          )
+          (closeParenthesesToken: CloseParentheses[55, 56])
+        )
+      )
+!`

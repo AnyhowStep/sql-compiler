@@ -1,0 +1,25 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY HASH(X)
+  PARTITIONS 10;
+-----
+`!
+      (partition: HashPartition[26, 62]
+        (partitionToken: PARTITION[26, 35])
+        (WhiteSpace[35, 36])
+        (byToken: BY[36, 38])
+        (WhiteSpace[38, 39])
+        (hashToken: HASH[39, 43])
+        (parenthesizedBitExpression: ParenthesizedBitExpression[43, 46]
+          (openParenthesesToken: OpenParentheses[43, 44])
+          (item: Identifier[44, 45])
+          (closeParenthesesToken: CloseParentheses[45, 46])
+        )
+        (LineBreak[46, 47])
+        (WhiteSpace[47, 49])
+        (partitionCount: PartitionCount[49, 62]
+          (partitionsToken: PARTITIONS[49, 59])
+          (WhiteSpace[59, 60])
+          (partitionCount: IntegerLiteral[60, 62])
+        )
+      )
+!`

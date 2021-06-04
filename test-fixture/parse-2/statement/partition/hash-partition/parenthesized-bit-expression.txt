@@ -1,0 +1,26 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY HASH(X IS NULL);
+-- The expression `X IS NULL` is not a bit expression.
+-- So, this is a syntax error.
+-- MySQL itself reports this as a syntax error by saying `IS NULL)` is unexpected
+-- TODO, should we just allow all kinds of expression during parse and look for invalid
+-- expression kinds during linting?
+-----
+`!
+      (partition: HashPartition[26, 54]
+        (partitionToken: PARTITION[26, 35])
+        (WhiteSpace[35, 36])
+        (byToken: BY[36, 38])
+        (WhiteSpace[38, 39])
+        (hashToken: HASH[39, 43])
+        (parenthesizedBitExpression: ParenthesizedBitExpression[43, 54]
+          (openParenthesesToken: OpenParentheses[43, 44])
+          (Unexpected Identifier[44, 45])
+          (WhiteSpace[45, 46])
+          (Unexpected IS[46, 48])
+          (WhiteSpace[48, 49])
+          (item: NULL[49, 53])
+          (closeParenthesesToken: CloseParentheses[53, 54])
+        )
+      )
+!`

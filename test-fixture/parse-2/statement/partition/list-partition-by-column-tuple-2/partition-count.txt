@@ -1,0 +1,16 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X, Y)
+  PARTITIONS 5 (
+    PARTITION a VALUES IN ((1))
+  );
+-----
+`!
+      (partition: ListPartitionByColumnTuple2[32, 117]
+!`
+`!
+        (partitionCount: PartitionCount[67, 79]
+          (partitionsToken: PARTITIONS[67, 77])
+          (WhiteSpace[77, 78])
+          (partitionCount: IntegerLiteral[78, 79])
+        )
+!`

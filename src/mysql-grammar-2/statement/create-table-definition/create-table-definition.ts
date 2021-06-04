@@ -1,5 +1,5 @@
 import {choice, field, optional, seq} from "../../../grammar-builder";
-import {parentheses, tuple1} from "../../rule-util";
+import {tuple1} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -39,9 +39,7 @@ export const GeneratedColumnDefinition = seq(
     field("collateExplicit", optional(SyntaxKind.CollateExplicit)),
     field("generatedAlways", optional(SyntaxKind.GeneratedAlways)),
     field("asToken", TokenKind.AS),
-    parentheses(
-        field("expression", SyntaxKind.Expression)
-    ),
+    field("parenthesizedExpression", SyntaxKind.ParenthesizedExpression),
     field("storedAttribute", optional(choice(
         TokenKind.VIRTUAL,
         TokenKind.STORED,

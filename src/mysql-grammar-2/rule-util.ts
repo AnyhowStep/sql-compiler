@@ -57,6 +57,38 @@ export const identifierOrReservedOrStringLiteral = tokenSymbol2(
     TokenKind.StringLiteral,
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10984
+ */
+export const ulong_num = tokenSymbol(
+    TokenKind.IntegerLiteral,
+    TokenKind.HexLiteral,
+    TokenKind.DecimalLiteral,
+    TokenKind.RealLiteral,
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10993
+ */
+export const real_ulong_num = tokenSymbol(
+    TokenKind.IntegerLiteral,
+    TokenKind.HexLiteral,
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L11001
+ */
+export const ulonglong_num = tokenSymbol(
+    TokenKind.IntegerLiteral,
+    TokenKind.DecimalLiteral,
+    TokenKind.RealLiteral,
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L11009
+ */
+export const real_ulonglong_num = TokenKind.IntegerLiteral;
+
 export const itemSeparator =  skipExpectationAfterExtraCost(
     0.1,
     skipExpectationCost(0.1, TokenKind.Comma)

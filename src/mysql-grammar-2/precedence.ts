@@ -43,4 +43,10 @@ export const Precedence = {
     TemporalLiteral : 1,
 
     UserVariableIdentifier : 1,
+
+    /**
+     * MultitonListPartitionDefinitionTuple1 vs
+     * SingletonListPartitionDefinitionTuple1
+     */
+    MultitonListPartitionDefinitionTuple1 : 1,
 };

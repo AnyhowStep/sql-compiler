@@ -9,7 +9,7 @@ SELECT (x)
         (item[]: ExpressionSelectItem[7, 10]
           (expression: ParenthesizedExpression[7, 10]
             (openParenthesesToken: OpenParentheses[7, 8])
-            (expression: Identifier[8, 9])
+            (item: Identifier[8, 9])
             (closeParenthesesToken: CloseParentheses[9, 10])
           )
         )
@@ -30,9 +30,9 @@ SELECT ((x))
         (item[]: ExpressionSelectItem[7, 12]
           (expression: ParenthesizedExpression[7, 12]
             (openParenthesesToken: OpenParentheses[7, 8])
-            (expression: ParenthesizedExpression[8, 11]
+            (item: ParenthesizedExpression[8, 11]
               (openParenthesesToken: OpenParentheses[8, 9])
-              (expression: Identifier[9, 10])
+              (item: Identifier[9, 10])
               (closeParenthesesToken: CloseParentheses[10, 11])
             )
             (closeParenthesesToken: CloseParentheses[11, 12])
@@ -55,25 +55,25 @@ SELECT ((((((((((x))))))))))
         (item[]: ExpressionSelectItem[7, 28]
           (expression: ParenthesizedExpression[7, 28]
             (openParenthesesToken: OpenParentheses[7, 8])
-            (expression: ParenthesizedExpression[8, 27]
+            (item: ParenthesizedExpression[8, 27]
               (openParenthesesToken: OpenParentheses[8, 9])
-              (expression: ParenthesizedExpression[9, 26]
+              (item: ParenthesizedExpression[9, 26]
                 (openParenthesesToken: OpenParentheses[9, 10])
-                (expression: ParenthesizedExpression[10, 25]
+                (item: ParenthesizedExpression[10, 25]
                   (openParenthesesToken: OpenParentheses[10, 11])
-                  (expression: ParenthesizedExpression[11, 24]
+                  (item: ParenthesizedExpression[11, 24]
                     (openParenthesesToken: OpenParentheses[11, 12])
-                    (expression: ParenthesizedExpression[12, 23]
+                    (item: ParenthesizedExpression[12, 23]
                       (openParenthesesToken: OpenParentheses[12, 13])
-                      (expression: ParenthesizedExpression[13, 22]
+                      (item: ParenthesizedExpression[13, 22]
                         (openParenthesesToken: OpenParentheses[13, 14])
-                        (expression: ParenthesizedExpression[14, 21]
+                        (item: ParenthesizedExpression[14, 21]
                           (openParenthesesToken: OpenParentheses[14, 15])
-                          (expression: ParenthesizedExpression[15, 20]
+                          (item: ParenthesizedExpression[15, 20]
                             (openParenthesesToken: OpenParentheses[15, 16])
-                            (expression: ParenthesizedExpression[16, 19]
+                            (item: ParenthesizedExpression[16, 19]
                               (openParenthesesToken: OpenParentheses[16, 17])
-                              (expression: Identifier[17, 18])
+                              (item: Identifier[17, 18])
                               (closeParenthesesToken: CloseParentheses[18, 19])
                             )
                             (closeParenthesesToken: CloseParentheses[19, 20])

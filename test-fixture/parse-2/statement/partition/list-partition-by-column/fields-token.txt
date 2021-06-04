@@ -1,0 +1,23 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST FIELDS (X) (
+    PARTITION a VALUES IN (1, 2)
+  );
+-----
+`!
+      (partition: ListPartitionByColumn[32, 99]
+        (partitionToken: PARTITION[32, 41])
+        (WhiteSpace[41, 42])
+        (byToken: BY[42, 44])
+        (WhiteSpace[44, 45])
+        (listToken: LIST[45, 49])
+        (WhiteSpace[49, 50])
+        (columnsToken: FIELDS[50, 56])
+        (WhiteSpace[56, 57])
+        (parenthesizedIdent: ParenthesizedIdent[57, 60]
+          (openParenthesesToken: OpenParentheses[57, 58])
+          (item: Identifier[58, 59])
+          (closeParenthesesToken: CloseParentheses[59, 60])
+        )
+        (WhiteSpace[60, 61])
+        (listPartitionDefinitionTuple1: SingletonListPartitionDefinitionTuple1[61, 99]
+!`

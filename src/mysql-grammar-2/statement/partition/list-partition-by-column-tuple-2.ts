@@ -1,17 +1,17 @@
-import {optional, seq} from "../../../grammar-builder";
+import {allowedSyntaxKinds, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
 export const ListPartitionByColumnTuple2 = seq(
-    TokenKind.PARTITION,
-    TokenKind.BY,
-    TokenKind.LIST,
-    TokenKind.COLUMNS,
-    SyntaxKind.IdentTuple2,
-    optional(seq(
-        TokenKind.PARTITIONS,
-        TokenKind.IntegerLiteral,
+    field("partitionToken", TokenKind.PARTITION),
+    field("byToken", TokenKind.BY),
+    field("listToken", TokenKind.LIST),
+    field("columnsToken", tokenSymbol(TokenKind.COLUMNS, TokenKind.FIELDS)),
+    field("identTuple2", SyntaxKind.IdentTuple2),
+    field("partitionCount", optional(SyntaxKind.PartitionCount)),
+    field("subPartition", optional(SyntaxKind.SubPartition)),
+    field("listPartitionDefinitionTuple1", allowedSyntaxKinds(
+            [SyntaxKind.MultitonListPartitionDefinitionTuple1],
+            SyntaxKind.ListPartitionDefinitionTuple1
     )),
-    optional(SyntaxKind.SubPartition),
-    optional(SyntaxKind.MultitonListPartitionDefinitionTuple1),
 );

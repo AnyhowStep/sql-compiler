@@ -235,10 +235,28 @@ export function disablePenalizeErrorStart (rule : RuleObj) : RuleObj {
     };
 }
 
+export function allowedSyntaxKinds (
+    allowedSyntaxKinds : string[],
+    rule : Rule
+) : RuleObj {
+    if (typeof rule == "string") {
+        return {
+            ...seqNoFlatten(rule),
+            allowedSyntaxKinds,
+        };
+    } else {
+        return {
+            ...rule,
+            allowedSyntaxKinds,
+        };
+    }
+}
+
 export interface RuleBase {
     precedence? : number;
     customExtraName? : string;
     penalizeErrorStart? : boolean;
+    allowedSyntaxKinds? : string[];
 }
 
 export interface SeqRule extends RuleBase {

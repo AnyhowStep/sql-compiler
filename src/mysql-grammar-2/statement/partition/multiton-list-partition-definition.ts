@@ -1,4 +1,5 @@
-import {optional, seq} from "../../../grammar-builder";
+import {optional, precedence, seq} from "../../../grammar-builder";
+import {Precedence} from "../../precedence";
 import {tuple1} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
@@ -21,4 +22,7 @@ export const MultitonListPartitionDefinition = seq(
     optional(SyntaxKind.SubPartitionDefinitionTuple1),
 );
 
-export const MultitonListPartitionDefinitionTuple1 = tuple1(SyntaxKind.MultitonListPartitionDefinition);
+export const MultitonListPartitionDefinitionTuple1 = precedence(
+    Precedence.MultitonListPartitionDefinitionTuple1,
+    tuple1(SyntaxKind.MultitonListPartitionDefinition)
+);

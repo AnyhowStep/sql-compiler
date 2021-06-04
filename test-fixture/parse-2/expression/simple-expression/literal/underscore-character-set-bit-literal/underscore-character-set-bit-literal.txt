@@ -1,5 +1,5 @@
 SELECT _latin1 b'aaa';
--- Technically, 0s and 1s allowed
+-- Technically, only 0s and 1s allowed
 -- We push error-reporting down the pipeline
 -----
 `(item[]: ExpressionSelectItem[7, 21]`

@@ -1,4 +1,4 @@
-import {cannotExpect, choice, field, optional, precedence, seq, tokenSymbol, useCustomExtra} from "../../grammar-builder";
+import {alias, cannotExpect, choice, field, inline, optional, precedence, seq, tokenSymbol, useCustomExtra} from "../../grammar-builder";
 import {CustomExtras} from "../custom-extras";
 import {Precedence} from "../precedence";
 import {dotIdentOrReserved, identifier, identifierNoScopeKeyword, identifierOrReservedOrStringLiteral} from "../rule-util";
@@ -27,14 +27,14 @@ export const SimpleExpression = choice(
     SyntaxKind.UserVariableIdentifier,
     SyntaxKind.ScopedSystemVariableIdentifier,
     SyntaxKind.UnscopedSystemVariableIdentifier,
-    SyntaxKind.ParenthesizedExpression,
+    SyntaxKind.ParenthesizedExpressionSimpleExpression,
 );
 
-export const ParenthesizedExpression = seq(
+export const ParenthesizedExpressionSimpleExpression = inline(alias(SyntaxKind.ParenthesizedExpression, seq(
     field("openParenthesesToken", cannotExpect(TokenKind.OpenParentheses)),
-    field("expression", SyntaxKind.Expression),
+    field("item", SyntaxKind.Expression),
     field("closeParenthesesToken", TokenKind.CloseParentheses),
-);
+)));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12993

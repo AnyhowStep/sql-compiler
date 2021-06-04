@@ -1,0 +1,55 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X, Y) (
+    PARTITION a VALUES IN ((1))
+  );
+-- This is semantically invalid because `(1)` only has one element but requires two.
+-- Because the partition has two columns.
+-----
+`!
+      (partition: ListPartitionByColumnTuple2[32, 102]
+        (partitionToken: PARTITION[32, 41])
+        (WhiteSpace[41, 42])
+        (byToken: BY[42, 44])
+        (WhiteSpace[44, 45])
+        (listToken: LIST[45, 49])
+        (WhiteSpace[49, 50])
+        (columnsToken: COLUMNS[50, 57])
+        (WhiteSpace[57, 58])
+        (identTuple2: IdentTuple2[58, 64]
+          (openParenthesesToken: OpenParentheses[58, 59])
+          (item[]: Identifier[59, 60])
+          (commaToken[]: Comma[60, 61])
+          (WhiteSpace[61, 62])
+          (item[]: Identifier[62, 63])
+          (closeParenthesesToken: CloseParentheses[63, 64])
+        )
+        (WhiteSpace[64, 65])
+        (listPartitionDefinitionTuple1: MultitonListPartitionDefinitionTuple1[65, 102]
+          (openParenthesesToken: OpenParentheses[65, 66])
+          (LineBreak[66, 67])
+          (WhiteSpace[67, 71])
+          (item[]: MultitonListPartitionDefinition[71, 98]
+            (PARTITION[71, 80])
+            (WhiteSpace[80, 81])
+            (Identifier[81, 82])
+            (WhiteSpace[82, 83])
+            (VALUES[83, 89])
+            (WhiteSpace[89, 90])
+            (IN[90, 92])
+            (WhiteSpace[92, 93])
+            (BitExpressionTuple1Tuple1[93, 98]
+              (openParenthesesToken: OpenParentheses[93, 94])
+              (item[]: BitExpressionTuple1[94, 97]
+                (openParenthesesToken: OpenParentheses[94, 95])
+                (item[]: IntegerLiteral[95, 96])
+                (closeParenthesesToken: CloseParentheses[96, 97])
+              )
+              (closeParenthesesToken: CloseParentheses[97, 98])
+            )
+          )
+          (LineBreak[98, 99])
+          (WhiteSpace[99, 101])
+          (closeParenthesesToken: CloseParentheses[101, 102])
+        )
+      )
+!`

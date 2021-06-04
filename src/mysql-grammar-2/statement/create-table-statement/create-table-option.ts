@@ -1,5 +1,5 @@
 import {choice, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
-import {identifierOrStringLiteral, semiList1, stringLiteral} from "../../rule-util";
+import {identifierOrStringLiteral, semiList1, stringLiteral, ulonglong_num, ulong_num} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -40,22 +40,28 @@ export const CreateTableOptionEngine = seq(
     field("engine", identifierOrStringLiteral),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5923
+ */
 export const CreateTableOptionMaxRows = seq(
     field("maxRowsToken", TokenKind.MAX_ROWS),
     field("equalToken", optional(TokenKind.Equal)),
-    field("maxRows", TokenKind.IntegerLiteral),
+    field("maxRows", ulonglong_num),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5928
+ */
 export const CreateTableOptionMinRows = seq(
     field("minRowsToken", TokenKind.MIN_ROWS),
     field("equalToken", optional(TokenKind.Equal)),
-    field("minRows", TokenKind.IntegerLiteral),
+    field("minRows", ulonglong_num),
 );
 
 export const CreateTableOptionAverageRowLength = seq(
     field("avgRowLengthToken", TokenKind.AVG_ROW_LENGTH),
     field("equalToken", optional(TokenKind.Equal)),
-    field("averageRowLength", TokenKind.IntegerLiteral),
+    field("averageRowLength", ulong_num),
 );
 
 export const CreateTableOptionPassword = seq(
@@ -85,23 +91,28 @@ export const CreateTableOptionEncryption = seq(
 export const CreateTableOptionAutoIncrement = seq(
     field("autoIncrementToken", TokenKind.AUTO_INCREMENT),
     field("equalToken", optional(TokenKind.Equal)),
-    field("autoIncrement", TokenKind.IntegerLiteral),
+    field("autoIncrement", ulonglong_num),
 );
 
 export const CreateTableOptionPackKeys = seq(
     field("packKeysToken", TokenKind.PACK_KEYS),
     field("equalToken", optional(TokenKind.Equal)),
     field("packKeys", choice(
-        TokenKind.IntegerLiteral,
+        ulong_num,
         TokenKind.DEFAULT,
     )),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5984
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5999
+ */
 export const CreateTableOptionStatsAutoRecalc = seq(
-    field("packKeysToken", TokenKind.PACK_KEYS),
+    field("statsAutoRecalcToken", TokenKind.STATS_AUTO_RECALC),
     field("equalToken", optional(TokenKind.Equal)),
-    field("packKeys", choice(
-        TokenKind.IntegerLiteral,
+    field("statsAutoRecalc", choice(
+        ulong_num,
         TokenKind.DEFAULT,
     )),
 );
@@ -110,7 +121,7 @@ export const CreateTableOptionStatsPersistent = seq(
     field("statsPersistentToken", TokenKind.STATS_PERSISTENT),
     field("equalToken", optional(TokenKind.Equal)),
     field("statsPersistent", choice(
-        TokenKind.IntegerLiteral,
+        ulong_num,
         TokenKind.DEFAULT,
     )),
 );
@@ -119,7 +130,7 @@ export const CreateTableOptionStatsSamplePages = seq(
     field("statsSamplePagesToken", TokenKind.STATS_SAMPLE_PAGES),
     field("equalToken", optional(TokenKind.Equal)),
     field("statsSamplePages", choice(
-        TokenKind.IntegerLiteral,
+        ulong_num,
         TokenKind.DEFAULT,
     )),
 );
@@ -127,13 +138,13 @@ export const CreateTableOptionStatsSamplePages = seq(
 export const CreateTableOptionChecksum = seq(
     field("checksumToken", tokenSymbol(TokenKind.CHECKSUM, TokenKind.TABLE_CHECKSUM)),
     field("equalToken", optional(TokenKind.Equal)),
-    field("checksum", TokenKind.IntegerLiteral),
+    field("checksum", ulong_num),
 );
 
 export const CreateTableOptionDelayKeyWrite = seq(
     field("delayKeyWriteToken", TokenKind.DELAY_KEY_WRITE),
     field("equalToken", optional(TokenKind.Equal)),
-    field("delayKeyWrite", TokenKind.IntegerLiteral),
+    field("delayKeyWrite", ulong_num),
 );
 
 export const CreateTableOptionRowFormat = seq(
@@ -218,5 +229,5 @@ export const CreateTableOptionConnection = seq(
 export const CreateTableOptionKeyBlockSize = seq(
     field("keyBlockSizeToken", TokenKind.KEY_BLOCK_SIZE),
     field("equalToken", optional(TokenKind.Equal)),
-    field("keyBlockSize", TokenKind.IntegerLiteral),
+    field("keyBlockSize", ulong_num),
 );

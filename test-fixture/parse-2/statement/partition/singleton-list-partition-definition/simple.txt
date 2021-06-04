@@ -1,0 +1,18 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY LIST COLUMNS(`X`) (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+  );
+
+-----
+`!
+          (item[]: SingletonListPartitionDefinition[63, 97]
+            (partitionToken: PARTITION[63, 72])
+            (WhiteSpace[72, 73])
+            (partitionName: Identifier[73, 74])
+            (WhiteSpace[74, 75])
+            (valuesToken: VALUES[75, 81])
+            (WhiteSpace[81, 82])
+            (inToken: IN[82, 84])
+            (WhiteSpace[84, 85])
+            (bitExpressionTuple1: BitExpressionTuple1[85, 97]
+!`

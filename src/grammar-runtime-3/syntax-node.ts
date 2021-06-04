@@ -31,4 +31,9 @@ export interface MySyntaxNode {
     fields : Fields;
 
     precedence : number;
+    /**
+     * We don't have `Expected` yet.
+     * Errors in `MySyntaxNode` do not increase `errorCount` of the state.
+     */
+    errorKind : "Unexpected"|undefined,
 }

@@ -1,0 +1,15 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY LIST COLUMNS(`X`) (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+      (
+        SUBPARTITION b ENGINE InnoDB
+      )
+  );
+-- The above should technically be a syntax error.
+-- We would minimally need to add the following,
+-- SUBPARTITION BY KEY (X)
+
+-- You cannot have subpartitions otherwise.
+-----
+`(item[]: SingletonListPartitionDefinition[63, 150]`
+`(subPartitionDefinitionTuple1: SubPartitionDefinitionTuple1[104, 150]`

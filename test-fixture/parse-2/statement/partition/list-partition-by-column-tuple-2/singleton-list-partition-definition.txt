@@ -1,0 +1,31 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X, Y) (
+    PARTITION a VALUES IN (1)
+  );
+-- This is semantically invalid because we expect a `(bit_expr, bit_expr)` and not `bit_expr`.
+-----
+`!
+        (Unexpected listPartitionDefinitionTuple1: SingletonListPartitionDefinitionTuple1[65, 100]
+          (openParenthesesToken: OpenParentheses[65, 66])
+          (LineBreak[66, 67])
+          (WhiteSpace[67, 71])
+          (item[]: SingletonListPartitionDefinition[71, 96]
+            (partitionToken: PARTITION[71, 80])
+            (WhiteSpace[80, 81])
+            (partitionName: Identifier[81, 82])
+            (WhiteSpace[82, 83])
+            (valuesToken: VALUES[83, 89])
+            (WhiteSpace[89, 90])
+            (inToken: IN[90, 92])
+            (WhiteSpace[92, 93])
+            (bitExpressionTuple1: BitExpressionTuple1[93, 96]
+              (openParenthesesToken: OpenParentheses[93, 94])
+              (item[]: IntegerLiteral[94, 95])
+              (closeParenthesesToken: CloseParentheses[95, 96])
+            )
+          )
+          (LineBreak[96, 97])
+          (WhiteSpace[97, 99])
+          (closeParenthesesToken: CloseParentheses[99, 100])
+        )
+!`

@@ -1,5 +1,5 @@
 import {choice, field, optional, repeat1, seq} from "../../../grammar-builder";
-import {identifierOrStringLiteral, stringLiteral} from "../../rule-util";
+import {identifierOrStringLiteral, real_ulonglong_num, real_ulong_num, stringLiteral} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -21,16 +21,22 @@ export const PartitionDefinitionOptionEngine = seq(
     field("engine", identifierOrStringLiteral),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5839
+ */
 export const PartitionDefinitionOptionMaxRows = seq(
     field("maxRowsToken", TokenKind.MAX_ROWS),
     field("equalToken", optional(TokenKind.Equal)),
-    field("maxRows", TokenKind.IntegerLiteral),
+    field("maxRows", real_ulonglong_num),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5841
+ */
 export const PartitionDefinitionOptionMinRows = seq(
     field("minRowsToken", TokenKind.MIN_ROWS),
     field("equalToken", optional(TokenKind.Equal)),
-    field("minRows", TokenKind.IntegerLiteral),
+    field("minRows", real_ulonglong_num),
 );
 
 export const PartitionDefinitionOptionComment = seq(
@@ -59,10 +65,13 @@ export const PartitionDefinitionOptionTablespace = seq(
     field("tablespace", SyntaxKind.Ident),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5837
+ */
 export const PartitionDefinitionOptionNodeGroup = seq(
     field("nodeGroupToken", TokenKind.NODEGROUP),
     field("equalToken", optional(TokenKind.Equal)),
-    field("nodeGroup", TokenKind.IntegerLiteral),
+    field("nodeGroup", real_ulong_num),
 );
 
 export const PartitionDefinitionOptionRepeat1 = repeat1(field("item", SyntaxKind.PartitionDefinitionOption));

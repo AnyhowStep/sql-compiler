@@ -1,0 +1,18 @@
+CREATE TABLE T (X INT)
+  PARTITION BY KEY (X)
+-----
+`!
+      (partition: KeyPartition[25, 45]
+        (partitionToken: PARTITION[25, 34])
+        (WhiteSpace[34, 35])
+        (byToken: BY[35, 37])
+        (WhiteSpace[37, 38])
+        (keyToken: KEY[38, 41])
+        (WhiteSpace[41, 42])
+        (identTuple1: IdentTuple1[42, 45]
+          (openParenthesesToken: OpenParentheses[42, 43])
+          (item[]: Identifier[43, 44])
+          (closeParenthesesToken: CloseParentheses[44, 45])
+        )
+      )
+!`

@@ -1,0 +1,23 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY LIST COLUMNS(`X`)
+  SUBPARTITION BY HASH (X)
+  (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+  );
+
+-----
+`!
+        (subPartition: HashSubPartition[59, 83]
+          (subPartitionToken: SUBPARTITION[59, 71])
+          (WhiteSpace[71, 72])
+          (byToken: BY[72, 74])
+          (WhiteSpace[74, 75])
+          (hashToken: HASH[75, 79])
+          (WhiteSpace[79, 80])
+          (parenthesizedBitExpression: ParenthesizedBitExpression[80, 83]
+            (openParenthesesToken: OpenParentheses[80, 81])
+            (item: Identifier[81, 82])
+            (closeParenthesesToken: CloseParentheses[82, 83])
+          )
+        )
+!`

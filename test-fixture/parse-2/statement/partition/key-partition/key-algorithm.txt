@@ -1,0 +1,26 @@
+CREATE TABLE T (X INT)
+  PARTITION BY KEY ALGORITHM = 1 (X)
+-----
+`!
+      (partition: KeyPartition[25, 59]
+        (partitionToken: PARTITION[25, 34])
+        (WhiteSpace[34, 35])
+        (byToken: BY[35, 37])
+        (WhiteSpace[37, 38])
+        (keyToken: KEY[38, 41])
+        (WhiteSpace[41, 42])
+        (keyAlgorithm: KeyAlgorithm[42, 55]
+          (algorithmToken: ALGORITHM[42, 51])
+          (WhiteSpace[51, 52])
+          (equalToken: Equal[52, 53])
+          (WhiteSpace[53, 54])
+          (keyAlgorithm: IntegerLiteral[54, 55])
+        )
+        (WhiteSpace[55, 56])
+        (identTuple1: IdentTuple1[56, 59]
+          (openParenthesesToken: OpenParentheses[56, 57])
+          (item[]: Identifier[57, 58])
+          (closeParenthesesToken: CloseParentheses[58, 59])
+        )
+      )
+!`

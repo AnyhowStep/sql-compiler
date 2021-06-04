@@ -130,7 +130,35 @@ suite("Should parse as expected", () => {
                 .map(result => runtime.toString2(result))
                 .join("\n\n") + "\n";
 
-            if (expected.startsWith("`")) {
+            if (expected.startsWith("`!")) {
+                assert.strictEqual(
+                    results.length,
+                    1,
+                    [
+                        "",
+                        actual,
+                    ].join("\n")
+                );
+
+                const actual0 = runtime.toString2(results[0]) + "\n";
+
+                const expectedLines = expected
+                    .split(/`\!((?:.|\n)+?)\!`/g)
+                    .filter(s => !/^\s*$/.test(s));
+
+                for (const expectedLine of expectedLines) {
+                    assert.strictEqual(
+                        actual0.includes(expectedLine),
+                        true,
+                        [
+                            "",
+                            expectedLine,
+                            "===",
+                            actual,
+                        ].join("\n")
+                    );
+                }
+            } else if (expected.startsWith("`")) {
                 assert.strictEqual(
                     results.length,
                     1,
