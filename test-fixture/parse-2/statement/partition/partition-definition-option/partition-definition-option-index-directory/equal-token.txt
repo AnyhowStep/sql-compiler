@@ -1,0 +1,17 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      INDEX DIRECTORY = 'path'
+  );
+-----
+`!
+              (item[]: PartitionDefinitionOptionIndexDirectory[103, 127]
+                (indexToken: INDEX[103, 108])
+                (WhiteSpace[108, 109])
+                (directoryToken: DIRECTORY[109, 118])
+                (WhiteSpace[118, 119])
+                (equalToken: Equal[119, 120])
+                (WhiteSpace[120, 121])
+                (indexDirectory: StringLiteral[121, 127])
+              )
+!`

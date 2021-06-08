@@ -1,0 +1,27 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST FIELDS  (X+Y) (
+    PARTITION a VALUES IN (1, 2)
+  );
+-- X+Y is invalid. Seems like we parse it as ColumnTuple2
+-- timeout  4000
+-----
+`!
+      (partition: ListPartitionByColumnTuple2[32, 102]
+        (partitionToken: PARTITION[32, 41])
+        (WhiteSpace[41, 42])
+        (byToken: BY[42, 44])
+        (WhiteSpace[44, 45])
+        (listToken: LIST[45, 49])
+        (WhiteSpace[49, 50])
+        (columnsToken: FIELDS[50, 56])
+        (WhiteSpace[56, 58])
+        (identTuple2: IdentTuple2[58, 63]
+          (openParenthesesToken: OpenParentheses[58, 59])
+          (item[]: Identifier[59, 60])
+          (Expected commaToken[]: Comma[60, 61])
+          (item[]: Identifier[61, 62])
+          (closeParenthesesToken: CloseParentheses[62, 63])
+        )
+        (WhiteSpace[63, 64])
+        (Unexpected listPartitionDefinitionTuple1: SingletonListPartitionDefinitionTuple1[64, 102]
+!`

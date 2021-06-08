@@ -1,0 +1,11 @@
+`DELIMITER    `
+``
+-----
+(SourceFile[0, 14]
+  (statement[]: DelimiterStatement[0, 13]
+    (delimiterStart: DelimiterSpace[0, 10])
+    (WhiteSpace[10, 13])
+    (Expected customDelimiter: CustomDelimiter[13, 13])
+  )
+  (LineBreak[13, 14])
+)

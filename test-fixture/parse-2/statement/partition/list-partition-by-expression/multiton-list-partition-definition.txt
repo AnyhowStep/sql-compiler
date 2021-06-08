@@ -1,0 +1,25 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST (X+Y) (
+    PARTITION a VALUES IN ((1, 2), (3, 4))
+  );
+-----
+`!
+      (partition: ListPartitionByExpression[32, 104]
+        (partitionToken: PARTITION[32, 41])
+        (WhiteSpace[41, 42])
+        (byToken: BY[42, 44])
+        (WhiteSpace[44, 45])
+        (listToken: LIST[45, 49])
+        (WhiteSpace[49, 50])
+        (parenthesizedBitExpression: ParenthesizedBitExpression[50, 55]
+          (openParenthesesToken: OpenParentheses[50, 51])
+          (item: BinaryBitExpression[51, 54]
+            (left: Identifier[51, 52])
+            (operator: Plus[52, 53])
+            (right: Identifier[53, 54])
+          )
+          (closeParenthesesToken: CloseParentheses[54, 55])
+        )
+        (WhiteSpace[55, 56])
+        (Unexpected listPartitionDefinitionTuple1: MultitonListPartitionDefinitionTuple1[56, 104]
+!`

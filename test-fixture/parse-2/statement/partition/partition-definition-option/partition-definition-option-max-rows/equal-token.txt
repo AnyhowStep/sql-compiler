@@ -1,0 +1,15 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      MAX_ROWS = 123
+  );
+-----
+`!
+              (item[]: PartitionDefinitionOptionMaxRows[103, 117]
+                (maxRowsToken: MAX_ROWS[103, 111])
+                (WhiteSpace[111, 112])
+                (equalToken: Equal[112, 113])
+                (WhiteSpace[113, 114])
+                (maxRows: IntegerLiteral[114, 117])
+              )
+!`

@@ -1,0 +1,47 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X, Y) (
+    PARTITION a VALUES IN ((1, 2))
+      COMMENT 'test'
+      COMMENT 'test2'
+  );
+-----
+`!
+          (item[]: MultitonListPartitionDefinition[71, 144]
+            (partition: PARTITION[71, 80])
+            (WhiteSpace[80, 81])
+            (partitionName: Identifier[81, 82])
+            (WhiteSpace[82, 83])
+            (valuesToken: VALUES[83, 89])
+            (WhiteSpace[89, 90])
+            (inToken: IN[90, 92])
+            (WhiteSpace[92, 93])
+            (bitExpressionTuple1Tuple1: BitExpressionTuple1Tuple1[93, 101]
+              (openParenthesesToken: OpenParentheses[93, 94])
+              (item[]: BitExpressionTuple1[94, 100]
+                (openParenthesesToken: OpenParentheses[94, 95])
+                (item[]: IntegerLiteral[95, 96])
+                (commaToken[]: Comma[96, 97])
+                (WhiteSpace[97, 98])
+                (item[]: IntegerLiteral[98, 99])
+                (closeParenthesesToken: CloseParentheses[99, 100])
+              )
+              (closeParenthesesToken: CloseParentheses[100, 101])
+            )
+            (LineBreak[101, 102])
+            (WhiteSpace[102, 108])
+            (partitionDefinitionOptionRepeat1: PartitionDefinitionOptionRepeat1[108, 144]
+              (item[]: PartitionDefinitionOptionComment[108, 122]
+                (commentToken: COMMENT[108, 115])
+                (WhiteSpace[115, 116])
+                (comment: StringLiteral[116, 122])
+              )
+              (LineBreak[122, 123])
+              (WhiteSpace[123, 129])
+              (item[]: PartitionDefinitionOptionComment[129, 144]
+                (commentToken: COMMENT[129, 136])
+                (WhiteSpace[136, 137])
+                (comment: StringLiteral[137, 144])
+              )
+            )
+          )
+!`

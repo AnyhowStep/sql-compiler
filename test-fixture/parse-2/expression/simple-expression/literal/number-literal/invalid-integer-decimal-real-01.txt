@@ -1,0 +1,16 @@
+SELECT .e0
+-----
+(SourceFile[0, 10]
+  (statement[]: TrailingStatement[0, 10]
+    (statement: Select[0, 10]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (Unexpected Dot[7, 8])
+      (selectItemList1: SelectItemList1[8, 10]
+        (item[]: ExpressionSelectItem[8, 10]
+          (expression: Identifier[8, 10])
+        )
+      )
+    )
+  )
+)

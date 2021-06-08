@@ -1,0 +1,13 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      COMMENT 'test'
+  );
+-----
+`!
+              (item[]: PartitionDefinitionOptionComment[103, 117]
+                (commentToken: COMMENT[103, 110])
+                (WhiteSpace[110, 111])
+                (comment: StringLiteral[111, 117])
+              )
+!`

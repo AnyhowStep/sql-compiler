@@ -1,0 +1,15 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      NODEGROUP 1.1
+  );
+-- At least this input gives us what we want to see.
+-- timeout 16000
+-----
+`!
+              (item[]: PartitionDefinitionOptionNodeGroup[103, 116]
+                (nodeGroupToken: NODEGROUP[103, 112])
+                (WhiteSpace[112, 113])
+                (Expected nodeGroup: IntegerLiteral[113, 116])
+              )
+!`

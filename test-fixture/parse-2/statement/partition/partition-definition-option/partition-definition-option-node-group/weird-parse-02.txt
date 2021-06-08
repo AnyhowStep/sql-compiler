@@ -1,0 +1,31 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      NODEGROUP
+  );
+-- We would prefer it to say "NODEGROUP, Expected IntegerLiteral"
+-- Instead, it thinks `NODEGROUP` should be close parentheses,
+-- and then thinks the close parentheses after is unexpected...
+-- This should be fixed.
+-- If it sees "Expected ... extras ... Unexpected"
+-- and the tokenKind is the same for both errors,
+-- then it should realize it's messing up and avoid this situation.
+-- timeout 16000
+-- We seem to have,
+-- other = ... Expected CloseParentheses
+-- state = Unexpected NODEGROUP ... Unexpected CloseParentheses
+-- Then, we combine the first two errors into,
+-- result = ... Expected CloseParentheses ... Unexpected CloseParentheses
+-- TODO Fix this
+-----
+`!
+          (Expected closeParenthesesToken: CloseParentheses[103, 112])
+        )
+      )
+    )
+    (LineBreak[112, 113])
+    (WhiteSpace[113, 115])
+    (Unexpected CloseParentheses[115, 116])
+    (semiColonToken: SemiColon[116, 117])
+    (EndOfStatement[117, 117])
+!`

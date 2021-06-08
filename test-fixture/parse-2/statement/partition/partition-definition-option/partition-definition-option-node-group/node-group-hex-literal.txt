@@ -1,0 +1,27 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      NODEGROUP 0xaaa
+  );
+-----
+`!
+              (item[]: PartitionDefinitionOptionNodeGroup[103, 118]
+                (nodeGroupToken: NODEGROUP[103, 112])
+                (WhiteSpace[112, 113])
+                (nodeGroup: HexLiteral[113, 118])
+              )
+!`
+-----
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      NODEGROUP x'aa'
+  );
+-----
+`!
+              (item[]: PartitionDefinitionOptionNodeGroup[103, 118]
+                (nodeGroupToken: NODEGROUP[103, 112])
+                (WhiteSpace[112, 113])
+                (nodeGroup: HexLiteral[113, 118])
+              )
+!`

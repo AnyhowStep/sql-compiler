@@ -1,9 +1,23 @@
-import {choice, field, optional, repeat1, seq} from "../../../grammar-builder";
-import {identifierOrStringLiteral, real_ulonglong_num, real_ulong_num, stringLiteral} from "../../rule-util";
+import {choice, field, inline, optional, repeat1, seq, tokenSymbol} from "../../../grammar-builder";
+import {identifier, identifierOrStringLiteral, real_ulonglong_num, real_ulong_num, stringLiteral} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
-import {TokenKind} from "../../token.generated";
+import {nonReservedKeywords, reservedKeywords, TokenKind} from "../../token.generated";
 
-export const PartitionDefinitionOption = choice(
+// export const PartitionDefinitionOption = inline(preParse(
+//     SyntaxKind.PreParseOption,
+//     choice(
+//         SyntaxKind.PartitionDefinitionOptionEngine,
+//         SyntaxKind.PartitionDefinitionOptionMaxRows,
+//         SyntaxKind.PartitionDefinitionOptionMinRows,
+//         SyntaxKind.PartitionDefinitionOptionComment,
+//         SyntaxKind.PartitionDefinitionOptionDataDirectory,
+//         SyntaxKind.PartitionDefinitionOptionIndexDirectory,
+//         SyntaxKind.PartitionDefinitionOptionTablespace,
+//         SyntaxKind.PartitionDefinitionOptionNodeGroup
+//     )
+// ));
+
+export const PartitionDefinitionOption = inline(choice(
     SyntaxKind.PartitionDefinitionOptionEngine,
     SyntaxKind.PartitionDefinitionOptionMaxRows,
     SyntaxKind.PartitionDefinitionOptionMinRows,
@@ -12,8 +26,31 @@ export const PartitionDefinitionOption = choice(
     SyntaxKind.PartitionDefinitionOptionIndexDirectory,
     SyntaxKind.PartitionDefinitionOptionTablespace,
     SyntaxKind.PartitionDefinitionOptionNodeGroup
+));
+
+//export const PartitionDefinitionOption = inline(SyntaxKind.PreParseOption);
+
+export const PreParseOption = seq(
+    tokenSymbol(
+        reservedKeywords[0],
+        ...reservedKeywords,
+        ...nonReservedKeywords,
+    ),
+    optional(tokenSymbol(
+        reservedKeywords[0],
+        ...reservedKeywords,
+        ...nonReservedKeywords,
+    )),
+    optional(TokenKind.Equal),
+    choice(
+        identifier,
+        SyntaxKind.Literal
+    ),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5831
+ */
 export const PartitionDefinitionOptionEngine = seq(
     field("storageToken", optional(TokenKind.STORAGE)),
     field("engineToken", TokenKind.ENGINE),
@@ -45,6 +82,9 @@ export const PartitionDefinitionOptionComment = seq(
     field("comment", stringLiteral),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5843
+ */
 export const PartitionDefinitionOptionDataDirectory = seq(
     field("dataToken", TokenKind.DATA),
     field("directoryToken", TokenKind.DIRECTORY),
@@ -52,6 +92,9 @@ export const PartitionDefinitionOptionDataDirectory = seq(
     field("dataDirectory", stringLiteral),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5845
+ */
 export const PartitionDefinitionOptionIndexDirectory = seq(
     field("indexToken", TokenKind.INDEX),
     field("directoryToken", TokenKind.DIRECTORY),
@@ -59,6 +102,9 @@ export const PartitionDefinitionOptionIndexDirectory = seq(
     field("indexDirectory", stringLiteral),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5829
+ */
 export const PartitionDefinitionOptionTablespace = seq(
     field("tablespaceToken", TokenKind.TABLESPACE),
     field("equalToken", optional(TokenKind.Equal)),

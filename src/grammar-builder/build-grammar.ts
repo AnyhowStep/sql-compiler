@@ -307,6 +307,18 @@ export function buildRule (
             undefined :
             rule.allowedSyntaxKinds
         ),
+        postParse : (
+            typeof rule == "string" ?
+            undefined :
+            rule.postParse == undefined ?
+            undefined :
+            buildRule(
+                state,
+                `${ruleName}$postParse`,
+                rule.postParse,
+                uniqueExtrasName
+            )
+        ),
     });
     return ruleName;
 }
