@@ -1,0 +1,15 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      STORAGE ENGINE InnoDB
+  );
+-----
+`!
+              (item[]: PartitionDefinitionOptionEngine[103, 124]
+                (storageToken: STORAGE[103, 110])
+                (WhiteSpace[110, 111])
+                (engineToken: ENGINE[111, 117])
+                (WhiteSpace[117, 118])
+                (engine: Identifier[118, 124])
+              )
+!`

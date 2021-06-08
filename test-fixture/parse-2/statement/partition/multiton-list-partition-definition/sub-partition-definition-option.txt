@@ -1,0 +1,36 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X, Y) (
+    PARTITION a VALUES IN ((1, 2))
+      COMMENT 'test'
+      COMMENT 'test2'
+      (
+        SUBPARTITION a_sub1
+          COMMENT 'test3'
+          COMMENT 'test4'
+      )
+  );
+-- TODO SubPartitionDefinitionTuple1 is only valid if `subPartition` is set.
+-- Maybe create additional rules to catch this error during parse?
+-----
+`!
+          (item[]: MultitonListPartitionDefinition[71, 240]
+            (partition: PARTITION[71, 80])
+            (WhiteSpace[80, 81])
+            (partitionName: Identifier[81, 82])
+            (WhiteSpace[82, 83])
+            (valuesToken: VALUES[83, 89])
+            (WhiteSpace[89, 90])
+            (inToken: IN[90, 92])
+            (WhiteSpace[92, 93])
+            (bitExpressionTuple1Tuple1: BitExpressionTuple1Tuple1[93, 101]
+!`
+`!
+            (LineBreak[101, 102])
+            (WhiteSpace[102, 108])
+            (partitionDefinitionOptionRepeat1: PartitionDefinitionOptionRepeat1[108, 144]
+!`
+`!
+            (LineBreak[144, 145])
+            (WhiteSpace[145, 151])
+            (subPartitionDefinitionTuple1: SubPartitionDefinitionTuple1[151, 240]
+!`

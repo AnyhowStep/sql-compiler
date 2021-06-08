@@ -5,6 +5,7 @@ CREATE TABLE T (X CHAR)
 -- MySQL itself reports this as a syntax error by saying `IS NULL)` is unexpected
 -- TODO, should we just allow all kinds of expression during parse and look for invalid
 -- expression kinds during linting?
+-- timeout 4000
 -----
 `!
       (partition: HashPartition[26, 54]

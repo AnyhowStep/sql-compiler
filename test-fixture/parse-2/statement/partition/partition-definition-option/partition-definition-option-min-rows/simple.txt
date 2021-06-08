@@ -1,0 +1,13 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      MIN_ROWS 123
+  );
+-----
+`!
+              (item[]: PartitionDefinitionOptionMinRows[103, 115]
+                (minRowsToken: MIN_ROWS[103, 111])
+                (WhiteSpace[111, 112])
+                (minRows: IntegerLiteral[112, 115])
+              )
+!`

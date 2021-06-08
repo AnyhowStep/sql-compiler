@@ -252,11 +252,26 @@ export function allowedSyntaxKinds (
     }
 }
 
+export function preParse (
+    preParse : Rule,
+    postParse : Rule
+) : Rule {
+    if (typeof preParse == "string") {
+        preParse = seqNoFlatten(preParse);
+    }
+
+    return {
+        ...preParse,
+        postParse,
+    };
+}
+
 export interface RuleBase {
     precedence? : number;
     customExtraName? : string;
     penalizeErrorStart? : boolean;
     allowedSyntaxKinds? : string[];
+    postParse? : Rule,
 }
 
 export interface SeqRule extends RuleBase {

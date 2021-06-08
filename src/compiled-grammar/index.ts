@@ -47,7 +47,9 @@ export interface CompiledRule {
      * `allowedSyntaxKinds(choice())` or,
      * `allowedSyntaxKinds(SyntaxKind.SomeChoiceRule)`
      */
-     allowedSyntaxKinds? : string[] | undefined;
+    allowedSyntaxKinds? : string[] | undefined;
+
+    postParse? : string | undefined;
 }
 
 export interface CompiledQuantity {

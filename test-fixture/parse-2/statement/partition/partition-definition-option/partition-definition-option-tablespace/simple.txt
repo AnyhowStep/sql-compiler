@@ -1,0 +1,13 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      TABLESPACE someTablespace
+  );
+-----
+`!
+              (item[]: PartitionDefinitionOptionTablespace[103, 128]
+                (tablespaceToken: TABLESPACE[103, 113])
+                (WhiteSpace[113, 114])
+                (tablespace: Identifier[114, 128])
+              )
+!`

@@ -1,0 +1,18 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      NODEGROUP 'a'
+  );
+-- This input produces undesirable output.
+-- We would prefer it to say "Unexpected StringLiteral, Expected IntegerLiteral"
+-- But limitations with the... poorly hacked together parsing algorithm
+-- make such a result hard to achieve at the moment.
+-- timeout 32000
+-----
+`!
+              (item[]: PartitionDefinitionOptionNodeGroup[103, 116]
+                (nodeGroupToken: NODEGROUP[103, 112])
+                (WhiteSpace[112, 113])
+                (Expected nodeGroup: IntegerLiteral[113, 116])
+              )
+!`

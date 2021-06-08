@@ -877,6 +877,62 @@ export function complete3 (
     return nextState;
 }
 
+function getTokens (syntaxNode : MySyntaxNode) : MyToken2[] {
+    const result : MyToken2[] = [];
+    for (const child of syntaxNode.children) {
+        if ("tokenKind" in child) {
+            result.push(child);
+        } else {
+            result.push(...getTokens(child));
+        }
+    }
+    return result;
+}
+
+function offsetSyntaxTokenIndex (syntaxNode : MySyntaxNode, offset : number) : MySyntaxNode {
+    const children : MySyntaxNode["children"] = [];
+
+    for (const child of syntaxNode.children) {
+        if ("tokenKind" in child) {
+            children.push({
+                ...child,
+                tokenIndex : offset + child.tokenIndex,
+            });
+        } else {
+            children.push(offsetSyntaxTokenIndex(child, offset));
+        }
+    }
+
+    return {
+        ...syntaxNode,
+        children,
+
+        startTokenIndex : offset + syntaxNode.startTokenIndex,
+        endTokenIndex : offset + syntaxNode.endTokenIndex,
+    };
+}
+
+function offsetStateTokenIndex (state : MyState, offset : number) : MyState {
+    const pushEdge : MyState["pushEdge"] = new Map<MyState, MyState[]>();
+
+    for (const [p, completeEdges] of state.pushEdge) {
+        pushEdge.set(
+            offsetStateTokenIndex(p, offset),
+            completeEdges.map(completeEdge => {
+                return offsetStateTokenIndex(completeEdge, offset);
+            })
+        );
+    }
+
+    return {
+        ...state,
+        tokenIndex : state.tokenIndex + offset,
+        startTokenIndex : state.startTokenIndex + offset,
+        data : offsetSyntaxTokenIndex(state.data, offset),
+        pushEdge,
+    };
+}
+
 export function complete2 (
     grammar : MyGrammar,
     tokens : MyToken[],
@@ -886,6 +942,53 @@ export function complete2 (
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
     addState : (state : MyState) => void
 ) {
+    if (state.rule.postParse != undefined) {
+        try {
+            const postParseStates = parse(
+                {
+                    ...grammar,
+                    start : state.rule.postParse,
+                },
+                getTokens(state.data)
+                    .filter(token => {
+                        return token.tokenIndex >= 0;
+                    })
+                    .map(token => {
+                        return {
+                            ...token,
+                            tokenIndex : undefined,
+                            errorKind : undefined,
+                            expectedTokenKind : undefined,
+                            skipExpectationAfterExtraCost : undefined,
+                        };
+                    }),
+            );
+            for (const postParseState of postParseStates) {
+                const postParseState2 = offsetStateTokenIndex(
+                    postParseState,
+                    state.startTokenIndex
+                );
+                if (postParseState2.startTokenIndex == 0) {
+                    postParseState2;
+                }
+                complete2(
+                    grammar,
+                    tokens,
+                    postParseState2,
+                    other,
+                    tryGetState,
+                    tryGetFinishedStates,
+                    addState
+                );
+            }
+            if (postParseStates.length > 0) {
+                return;
+            }
+        } catch (error) {
+            error;
+        }
+    }
+
     const nextIdent = other.ident + "-" + state.ident;
 
     const isExtra = grammar.allExtrasSubRuleNames.has(state.rule.name);
@@ -958,6 +1061,7 @@ export function complete2 (
              */
             //return;
         }
+
     }
 
     const stateDataSyntaxKind = (
@@ -1079,24 +1183,6 @@ export function complete2 (
              */
             //Combined two errors into one
             errorCount -= 1;
-            if (existing != undefined) {
-                if (errorCount == existing.errorCount) {
-                    const completeEdges = existing.pushEdge.get(other);
-                    if (completeEdges == undefined) {
-                        existing.pushEdge.set(other, [state]);
-                    } else {
-                        if (!completeEdges.includes(state)) {
-                            completeEdges.push(state);
-                        }
-                    }
-                } else if (errorCount < existing.errorCount) {
-                    existing.errorCount = errorCount;
-                    existing.pushEdge.clear();
-                    existing.pushEdge.set(other, [state]);
-                }
-                return;
-            }
-
 
             const newOtherData : MySyntaxNode = replaceLastToken(
                 other.data,
@@ -1114,6 +1200,47 @@ export function complete2 (
                 start : firstChild.end,
                 startTokenIndex : firstChild.tokenIndex+1,
             };
+
+            //Check if we have (Expected T ... Unexpected T)
+            //after combining errors
+            // {
+            //     const firstNonExtraToken = tryGetFirstNonExtraToken(grammar, newStateData);
+            //     if (
+            //         firstNonExtraToken != undefined &&
+            //         firstNonExtraToken.errorKind == "Unexpected" &&
+            //         firstNonExtraToken.tokenKind == lastToken.tokenKind
+            //     ) {
+            //         //Skip
+            //         return;
+            //     }
+            // }
+
+            if (existing != undefined) {
+                // const completeEdges = existing.pushEdge.get(other);
+                // if (completeEdges == undefined) {
+                //     existing.pushEdge.set(other, [state]);
+                // } else {
+                //     if (!completeEdges.includes(state)) {
+                //         completeEdges.push(state);
+                //     }
+                // }
+                if (errorCount == existing.errorCount) {
+                    const completeEdges = existing.pushEdge.get(other);
+                    if (completeEdges == undefined) {
+                        existing.pushEdge.set(other, [state]);
+                    } else {
+                        if (!completeEdges.includes(state)) {
+                            completeEdges.push(state);
+                        }
+                    }
+                } else if (errorCount < existing.errorCount) {
+                    existing.errorCount = errorCount;
+                    existing.pushEdge.clear();
+                    existing.pushEdge.set(other, [state]);
+                }
+                return;
+            }
+
 
             const newNextData = (
                 shouldInline ?
@@ -1142,6 +1269,14 @@ export function complete2 (
     }
 
     if (existing != undefined) {
+        // const completeEdges = existing.pushEdge.get(other);
+        // if (completeEdges == undefined) {
+        //     existing.pushEdge.set(other, [state]);
+        // } else {
+        //     if (!completeEdges.includes(state)) {
+        //         completeEdges.push(state);
+        //     }
+        // }
         if (errorCount == existing.errorCount) {
             const completeEdges = existing.pushEdge.get(other);
             if (completeEdges == undefined) {
@@ -1284,6 +1419,7 @@ export function predictRule (
 
     ++addStatePredictRule;
     addState(nextState);
+
     return true;
 }
 
@@ -1455,8 +1591,18 @@ function blah (
         if (completeEdges.length == 0) {
             for (const other of others) {
                 const lastChild = state.data.children[state.data.children.length-1] as MyToken2;
-                const expect = other.rule.symbols[other.dot];
+                let expect = other.rule.symbols[other.dot];
 
+                if (lastChild.errorKind == "Expected" && !(expect instanceof Object && "tokenKind" in expect)) {
+                    let unexpectedCount = 0;
+                    for (const child of state.data.children) {
+                        if ("tokenKind" in child && child.errorKind == "Unexpected") {
+                            ++unexpectedCount;
+                        }
+                    }
+                    //TODO Why does this happen?
+                    expect = other.rule.symbols[other.dot-unexpectedCount];
+                }
                 if (lastChild.errorKind == "Expected" && !(expect instanceof Object && "tokenKind" in expect)) {
                     throw new Error(JSON.stringify(other));
                 }
@@ -1663,6 +1809,7 @@ export function parse (
 
     let redoCount = 0;
     let lastRedoAt = -1;
+    let returnAtRedoCount : undefined|number = undefined;
     //eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i=0; i<=tokens.length; ++i) {
         const stateSet = stateSets.get(i);
@@ -1712,8 +1859,18 @@ export function parse (
         );
 
         if (i == tokens.length) {
-            const result = getResults(grammar, stateSet);
-            if (result.length > 0) {
+            const result = (
+                returnAtRedoCount == undefined ?
+                getResults(grammar, stateSet) :
+                redoCount < returnAtRedoCount ?
+                [] :
+                getResults(grammar, stateSet)
+            );
+            if (result.length > 0 && returnAtRedoCount == undefined) {
+                //TODO Figure ou thow to increase this without making time complexity explode
+                returnAtRedoCount = redoCount + 0;
+            }
+            if (result.length > 0 && returnAtRedoCount != undefined && redoCount >= returnAtRedoCount) {
                 return result;
             } else {
                 if (i <= lastRedoAt) {
@@ -2009,6 +2166,30 @@ export function tryGetFirstNonExtraToken (grammar : MyGrammar, node : MySyntaxNo
     return undefined;
 }
 
+export function tryGetLastNonExtraToken (grammar : MyGrammar, node : MySyntaxNode) : MyToken|undefined {
+    if (node.children.length == 0) {
+        return undefined;
+    }
+
+    //eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i=node.children.length-1; i>=0; --i) {
+        const child = node.children[i];
+        if ("tokenKind" in child) {
+            if (grammar.extras.has(child.tokenKind)) {
+                continue;
+            }
+            return child;
+        } else {
+            const result = tryGetLastNonExtraToken(grammar, child);
+            if (result != undefined) {
+                return result;
+            }
+        }
+    }
+
+    return undefined;
+}
+
 /**
  * Assumes `MySyntaxNode` always has at least one child
  */
@@ -2174,14 +2355,18 @@ export function skipExpectation (
         }
 
         const uniqueExtrasName = grammar.ruleName2Extras[state.rule.name];
+        const extrasName = (
+            uniqueExtrasName == undefined ?
+            undefined :
+            grammar.customExtrasNameMap[uniqueExtrasName]
+        );
+        const extrasTokens = (
+            extrasName == undefined ?
+            grammar.extras :
+            grammar.customExtras[extrasName]
+        );
         if (uniqueExtrasName != undefined) {
-            const extrasName = grammar.customExtrasNameMap[uniqueExtrasName];
 
-            const extrasTokens = (
-                extrasName == undefined ?
-                grammar.extras :
-                grammar.customExtras[extrasName]
-            );
             if (extrasTokens.has(token.tokenKind)) {
                 //continue;
             }
@@ -2200,6 +2385,20 @@ export function skipExpectation (
         //      */
         //     continue;
         // }
+
+        if (
+            !extrasTokens.has(expect.tokenKind) &&
+            state.tokenIndex-1 >= 0 &&
+            extrasTokens.has(token.tokenKind) &&
+            extrasTokens.has(tokens[state.tokenIndex-1].tokenKind)
+        ) {
+            /**
+             * We have extra . extra
+             *
+             * We do not want an expect T between two extras
+             */
+            continue;
+        }
 
         {
             /**
