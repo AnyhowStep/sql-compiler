@@ -10,7 +10,7 @@ CREATE TABLE T (X INT, Y INT)
 -- If it sees "Expected ... extras ... Unexpected"
 -- and the tokenKind is the same for both errors,
 -- then it should realize it's messing up and avoid this situation.
--- timeout 16000
+-- timeout 32000
 -- We seem to have,
 -- other = ... Expected CloseParentheses
 -- state = Unexpected NODEGROUP ... Unexpected CloseParentheses

@@ -4,7 +4,7 @@ CREATE TABLE T (X INT, Y INT)
       NODEGROUP 1.1
   );
 -- At least this input gives us what we want to see.
--- timeout 16000
+-- timeout 32000
 -----
 `!
               (item[]: PartitionDefinitionOptionNodeGroup[103, 116]

@@ -7,7 +7,7 @@ CREATE TABLE T (X INT, Y INT)
 -- We would prefer it to say "Unexpected StringLiteral, Expected IntegerLiteral"
 -- But limitations with the... poorly hacked together parsing algorithm
 -- make such a result hard to achieve at the moment.
--- timeout 16000
+-- timeout 32000
 -----
 `!
               (item[]: PartitionDefinitionOptionNodeGroup[103, 116]
