@@ -1,11 +1,38 @@
 SELECT _latin1 x'0a' 'a' 'b'
 -----
 (SourceFile[0, 28]
-  (statement[]: TrailingStatement[0, 24]
-    (statement: Select[0, 24]
+  (statement[]: TrailingStatement[0, 28]
+    (statement: Select[0, 28]
       (selectToken: SELECT[0, 6])
       (WhiteSpace[6, 7])
-      (selectItemList1: SelectItemList1[7, 24]
+      (selectItemList1: SelectItemList1[7, 28]
+        (item[]: ExpressionSelectItem[7, 20]
+          (expression: UnderscoreCharacterSetHexLiteral[7, 20]
+            (underscoreCharacterSetToken: UnderscoreCharacterSet[7, 14])
+            (WhiteSpace[14, 15])
+            (hexLiteralToken: HexLiteral[15, 20])
+          )
+        )
+        (Expected commaToken[]: Comma[20, 20])
+        (WhiteSpace[20, 21])
+        (item[]: ExpressionSelectItem[21, 28]
+          (expression: ConcatenatedTextLiteral[21, 28]
+            (item[]: StringLiteral[21, 24])
+            (WhiteSpace[24, 25])
+            (item[]: StringLiteral[25, 28])
+          )
+        )
+      )
+    )
+  )
+)
+
+(SourceFile[0, 28]
+  (statement[]: TrailingStatement[0, 28]
+    (statement: Select[0, 28]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 28]
         (item[]: ExpressionSelectItem[7, 24]
           (expression: UnderscoreCharacterSetHexLiteral[7, 20]
             (underscoreCharacterSetToken: UnderscoreCharacterSet[7, 14])
@@ -17,9 +44,12 @@ SELECT _latin1 x'0a' 'a' 'b'
             (alias: StringLiteral[21, 24])
           )
         )
+        (Expected commaToken[]: Comma[24, 24])
+        (WhiteSpace[24, 25])
+        (item[]: ExpressionSelectItem[25, 28]
+          (expression: StringLiteral[25, 28])
+        )
       )
     )
   )
-  (WhiteSpace[24, 25])
-  (Unexpected StringLiteral[25, 28])
 )

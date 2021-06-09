@@ -1,0 +1,10 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY LIST COLUMNS (X) (
+    PARTITION a VALUES IN (1, 2)
+      NODEGROUP 1
+  );
+-----
+`!
+            (partitionDefinitionOptionRepeat1: PartitionDefinitionOptionRepeat1[103, 114]
+              (item[]: PartitionDefinitionOptionNodeGroup[103, 114]
+!`
