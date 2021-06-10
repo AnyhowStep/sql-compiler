@@ -16,16 +16,15 @@ CREATE TABLE T (X INT, Y INT)
 -- state = Unexpected NODEGROUP ... Unexpected CloseParentheses
 -- Then, we combine the first two errors into,
 -- result = ... Expected CloseParentheses ... Unexpected CloseParentheses
--- TODO Fix this
+
+-- The parser now produces the expected behaviour
+-- but this test will be left in place to check for regressions
 -----
 `!
-          (Expected closeParenthesesToken: CloseParentheses[103, 112])
-        )
-      )
-    )
-    (LineBreak[112, 113])
-    (WhiteSpace[113, 115])
-    (Unexpected CloseParentheses[115, 116])
-    (semiColonToken: SemiColon[116, 117])
-    (EndOfStatement[117, 117])
+              (item[]: PartitionDefinitionOptionNodeGroup[103, 115]
+                (nodeGroupToken: NODEGROUP[103, 112])
+                (LineBreak[112, 113])
+                (WhiteSpace[113, 115])
+                (Expected nodeGroup: IntegerLiteral[115, 115])
+              )
 !`

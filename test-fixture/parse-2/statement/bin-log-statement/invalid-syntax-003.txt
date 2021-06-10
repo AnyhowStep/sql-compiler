@@ -1,15 +1,23 @@
 CREATE BINLOG 'aGVsbG8='
-
+-- Would be better if it just said `CREATE` was unexpected
+-- and just gave us the complete `BinLogStatement`.
+-- TODO Fix?
 -----
-(SourceFile[0, 25]
-  (Unexpected CREATE[0, 6])
-  (WhiteSpace[6, 7])
-  (statement[]: TrailingStatement[7, 24]
-    (statement: BinLogStatement[7, 24]
-      (binLogToken: BINLOG[7, 13])
-      (WhiteSpace[13, 14])
-      (str: StringLiteral[14, 24])
+(SourceFile[0, 148]
+  (statement[]: TrailingStatement[0, 13]
+    (statement: CreateSchemaStatement[0, 13]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (Expected schemaToken: SCHEMA[7, 7])
+      (identifier: BINLOG[7, 13])
     )
   )
+  (WhiteSpace[13, 14])
+  (Unexpected StringLiteral[14, 24])
   (LineBreak[24, 25])
+  (SingleLineComment[25, 83])
+  (LineBreak[83, 84])
+  (SingleLineComment[84, 135])
+  (LineBreak[135, 136])
+  (SingleLineComment[136, 148])
 )

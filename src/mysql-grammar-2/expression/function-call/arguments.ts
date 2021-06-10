@@ -1,4 +1,4 @@
-import {choice, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
+import {cannotExpect, choice, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {itemSeparator, list, list1, list2, parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
@@ -14,8 +14,10 @@ export const ExpressionList2_Arguments = parentheses(
     list2(SyntaxKind.Expression)
 );
 
-export const UserDefinedExpressionList_Arguments = parentheses(
-    list(SyntaxKind.UserDefinedExpression)
+export const UserDefinedExpressionList_Arguments = seq(
+    field("openParenthesesToken", cannotExpect(TokenKind.OpenParentheses)),
+    list(SyntaxKind.UserDefinedExpression),
+    field("closeParenthesesToken", TokenKind.CloseParentheses),
 );
 
 export const Expression1_Arguments = parentheses(

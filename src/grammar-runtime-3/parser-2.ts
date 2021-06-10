@@ -88,6 +88,17 @@ export interface MyStateSet {
         tryGetState : TryGetStateDelegate,
         addState : (state : MyState) => void
     ) : void;
+    eagerSkipExpectation (
+        grammar : MyGrammar,
+        tokens : MyToken[],
+        tryGetState : TryGetStateDelegate,
+        addState : (state : MyState) => void
+    ) : void;
+
+    getSkipUnexpectedCount () : number;
+    canSkipUnexpected () : boolean;
+    setSkipUnexpectedCount (count : number) : void;
+    getSize () : number;
 
     getResults (grammar : MyGrammar) : MyState[];
 }
@@ -444,6 +455,7 @@ class MyStateSetImpl implements MyStateSet {
     private closed : MyState[] = [];
     private skipUnexpectedStartIndex = 0;
     private skipExpectationStartIndex = 0;
+    private skipUnexpectedCount = 0;
 
     /**
      * Sorted by `errorCount ASC`.
@@ -451,6 +463,10 @@ class MyStateSetImpl implements MyStateSet {
      * These states have not been processed yet.
      */
     private states : MyState[] = [];
+
+    getSize () {
+        return this.closed.length + this.states.length;
+    }
 
     getStatesExpecting (expect : string) : MyState[] {
         return [
@@ -586,6 +602,7 @@ class MyStateSetImpl implements MyStateSet {
             this.skipUnexpectedStartIndex
         );
         this.skipUnexpectedStartIndex = this.closed.length;
+        ++this.skipUnexpectedCount;
     }
 
     skipExpectation (
@@ -603,6 +620,36 @@ class MyStateSetImpl implements MyStateSet {
             this.skipExpectationStartIndex
         );
         this.skipExpectationStartIndex = this.closed.length;
+    }
+
+    eagerSkipExpectation (
+        grammar : MyGrammar,
+        tokens : MyToken[],
+        tryGetState : TryGetStateDelegate,
+        addState : (state : MyState) => void
+    ) : void {
+        /**
+         * Will modify the `this.closed` array
+         */
+        const newSkipExpectationStartIndex = eagerSkipExpectation(
+            grammar,
+            tokens,
+            this.closed,
+            tryGetState,
+            addState,
+            this.skipExpectationStartIndex
+        );
+        this.skipExpectationStartIndex = newSkipExpectationStartIndex;
+    }
+
+    getSkipUnexpectedCount () : number {
+        return this.skipUnexpectedCount;
+    }
+    canSkipUnexpected () : boolean {
+        return this.skipExpectationStartIndex < this.closed.length;
+    }
+    setSkipUnexpectedCount (count : number) {
+        this.skipUnexpectedCount = count;
     }
 
     getResults (grammar : MyGrammar) : MyState[] {
@@ -1816,6 +1863,11 @@ export function parse (
         if (stateSet == undefined) {
             throw new Error(`Unable to find state set for ${i}`);
         }
+        if (stateSets.get(i+1) == undefined) {
+            const x = new MyStateSetImpl();
+            stateSets.set(i+1, x);
+            x.setSkipUnexpectedCount(redoCount);
+        }
         if (!stateSet.hasOpenStates()) {
             //throw new Error(`State set ${i} is empty`);
             // for (let j=0; j<=i; ++j) {
@@ -1874,23 +1926,62 @@ export function parse (
                 return result;
             } else {
                 if (i <= lastRedoAt) {
-                    throw new Error(`How did we get here? Could not parse`);
+                    //throw new Error(`How did we get here? Could not parse`);
                 }
+                // for (let j=0; j<=i; ++j) {
+                // //for (let j=i-1; j<=i; ++j) {
+                //     const tmp = stateSets.get(j);
+                //     if (tmp == undefined) {
+                //         throw new Error(`State ${j} should be set`);
+                //     }
+
+                //     if (j<i) {
+                //         tmp.skipUnexpected(
+                //             grammar,
+                //             tokens,
+                //             tryGetState,
+                //             addState
+                //         );
+                //     }
+                //     tmp.skipExpectation(
+                //         grammar,
+                //         tokens,
+                //         tryGetState,
+                //         addState
+                //     );
+                // }
+
                 for (let j=0; j<=i; ++j) {
-                //for (let j=i-1; j<=i; ++j) {
                     const tmp = stateSets.get(j);
                     if (tmp == undefined) {
                         throw new Error(`State ${j} should be set`);
                     }
+                    tmp.eagerSkipExpectation(
+                        grammar,
+                        tokens,
+                        tryGetState,
+                        addState
+                    );
+                }
 
-                    if (j<i) {
-                        tmp.skipUnexpected(
-                            grammar,
-                            tokens,
-                            tryGetState,
-                            addState
-                        );
+                stateSet.skipExpectation(
+                    grammar,
+                    tokens,
+                    tryGetState,
+                    addState
+                );
+
+                for (let count=redoCount; count>=0; --count) {
+                    const tmp = findLastSkippableStateSetWithSkipUnexpectedCount(stateSets, count, i-1);
+                    if (tmp == undefined) {
+                        continue;
                     }
+                    tmp.skipUnexpected(
+                        grammar,
+                        tokens,
+                        tryGetState,
+                        addState
+                    );
                     tmp.skipExpectation(
                         grammar,
                         tokens,
@@ -1911,11 +2002,48 @@ export function parse (
 
         const nextStateSet = stateSets.get(i+1);
         if ((nextStateSet == undefined || !nextStateSet.hasOpenStates()) && i > lastRedoAt) {
+            if (nextStateSet == undefined) {
+                throw new Error(`Should have state ${i+1}`);
+            }
+            if (nextStateSet.getSize() == 0) {
+                nextStateSet.setSkipUnexpectedCount(redoCount+1);
+            }
+            // for (let j=0; j<=i; ++j) {
+            // //for (let j=i-1; j<=i; ++j) {
+            //     const tmp = stateSets.get(j);
+            //     if (tmp == undefined) {
+            //         throw new Error(`State ${j} should be set`);
+            //     }
+            //     tmp.skipUnexpected(
+            //         grammar,
+            //         tokens,
+            //         tryGetState,
+            //         addState
+            //     );
+            //     tmp.skipExpectation(
+            //         grammar,
+            //         tokens,
+            //         tryGetState,
+            //         addState
+            //     );
+            // }
             for (let j=0; j<=i; ++j) {
-            //for (let j=i-1; j<=i; ++j) {
                 const tmp = stateSets.get(j);
                 if (tmp == undefined) {
                     throw new Error(`State ${j} should be set`);
+                }
+                tmp.eagerSkipExpectation(
+                    grammar,
+                    tokens,
+                    tryGetState,
+                    addState
+                );
+            }
+
+            for (let count=redoCount; count>=0; --count) {
+                const tmp = findLastSkippableStateSetWithSkipUnexpectedCount(stateSets, count, i);
+                if (tmp == undefined) {
+                    continue;
                 }
                 tmp.skipUnexpected(
                     grammar,
@@ -2481,4 +2609,103 @@ export function skipExpectation (
         ++addStateSkipExpectation;
         addState(nextState);
     }
+}
+
+/**
+ * Will modify the `states` array.
+ */
+export function eagerSkipExpectation (
+    grammar : MyGrammar,
+    tokens : MyToken[],
+    states : MyState[],
+    tryGetState : TryGetStateDelegate,
+    addState : (state : MyState) => void,
+    startIndex : number = 0
+) : number {
+    let foundCount = 0;
+    for (let i=startIndex; i<states.length; ++i) {
+        const state = states[i];
+        if (isFinished(state)) {
+            continue;
+        }
+        const expect = state.rule.symbols[state.dot];
+        if (typeof expect == "string") {
+            continue;
+        }
+        if (expect.skipExpectationAfterExtraCost == undefined) {
+            continue;
+        }
+        if (expect.skipExpectationAfterExtraCost <= 0) {
+            continue;
+        }
+
+        const swapIndex = startIndex+foundCount;
+        states[i] = states[swapIndex];
+        states[swapIndex] = state;
+
+        ++foundCount;
+    }
+
+    if (foundCount == 0) {
+        return startIndex;
+    }
+
+    skipExpectation(
+        grammar,
+        tokens,
+        states.slice(startIndex, startIndex+foundCount),
+        tryGetState,
+        addState,
+        0
+    );
+
+    return startIndex+foundCount;
+}
+
+export function findLastSkippableStateSetWithSkipUnexpectedCount (
+    stateSets : Map<number, MyStateSet>,
+    count : number,
+    startIndex : number
+) : MyStateSet|undefined {
+    for (let index=startIndex; index>=0; --index) {
+        const stateSet = stateSets.get(index);
+        if (stateSet == undefined) {
+            throw new Error(`No state set ${index}`);
+        }
+
+        if (
+            stateSet.getSkipUnexpectedCount() == count &&
+            stateSet.canSkipUnexpected()
+        ) {
+            return stateSet;
+        }
+    }
+
+    return undefined;
+}
+
+/**
+ * This is a terrible idea.
+ * Breaks many tests, too.
+ */
+export function findFirstSkippableStateSetWithSkipUnexpectedCount (
+    stateSets : Map<number, MyStateSet>,
+    count : number,
+    endIndex : number
+) : MyStateSet|undefined {
+    for (let index=0; index<=endIndex; ++index) {
+        const stateSet = stateSets.get(index);
+        if (stateSet == undefined) {
+            throw new Error(`No state set ${index}`);
+        }
+
+        if (
+            stateSet.getSkipUnexpectedCount() == count &&
+            stateSet.canSkipUnexpected()
+        ) {
+            return stateSet;
+        }
+    }
+
+    return undefined;
 }
