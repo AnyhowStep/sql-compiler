@@ -1,6 +1,7 @@
 SELECT a+INTERVAL b DAY<<INTERVAL c DAY
 -- The above is invalid.
 -- INTERVAL c DAY is not a simple expression
+-- timeout  4000
 -----
 `!
         (item[]: ExpressionSelectItem[7, 39]
