@@ -1,0 +1,49 @@
+SELECT a*b+INTERVAL c DAY<<d
+-----
+`!
+          (expression: BinaryBitExpression[7, 28]
+            (left: BinaryBitExpression[7, 25]
+              (left: BinaryBitExpression[7, 10]
+                (left: Identifier[7, 8])
+                (operator: Asterisk[8, 9])
+                (right: Identifier[9, 10])
+              )
+              (operator: Plus[10, 11])
+              (right: IntervalExpression[11, 25]
+                (intervalToken: INTERVAL[11, 19])
+                (WhiteSpace[19, 20])
+                (expression: Identifier[20, 21])
+                (WhiteSpace[21, 22])
+                (temporalUnit: DAY[22, 25])
+              )
+            )
+            (operator: LessLess[25, 27])
+            (right: Identifier[27, 28])
+          )
+!`
+-----
+SELECT a<<b+INTERVAL c DAY*d
+-- It is evaluated: a << [(b+c) * d]
+-- Because of the unique nature of b+INTERVAL
+-----
+`!
+          (expression: BinaryBitExpression[7, 28]
+            (left: Identifier[7, 8])
+            (operator: LessLess[8, 10])
+            (right: BinaryBitExpression[10, 28]
+              (left: BinaryBitExpression[10, 26]
+                (left: Identifier[10, 11])
+                (operator: Plus[11, 12])
+                (right: IntervalExpression[12, 26]
+                  (intervalToken: INTERVAL[12, 20])
+                  (WhiteSpace[20, 21])
+                  (expression: Identifier[21, 22])
+                  (WhiteSpace[22, 23])
+                  (temporalUnit: DAY[23, 26])
+                )
+              )
+              (operator: Asterisk[26, 27])
+              (right: Identifier[27, 28])
+            )
+          )
+!`

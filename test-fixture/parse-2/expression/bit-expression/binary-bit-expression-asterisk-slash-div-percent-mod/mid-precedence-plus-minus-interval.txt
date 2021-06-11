@@ -1,0 +1,48 @@
+SELECT a+INTERVAL b DAY*c^d
+-- Should be parsed as (a+b) * (c^d)
+-----
+`!
+          (expression: BinaryBitExpression[7, 27]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: Asterisk[23, 24])
+            (right: BinaryBitExpression[24, 27]
+              (left: Identifier[24, 25])
+              (operator: Caret[25, 26])
+              (right: Identifier[26, 27])
+            )
+          )
+!`
+-----
+SELECT a^b*c+INTERVAL d DAY
+-----
+`!
+          (expression: BinaryBitExpression[7, 27]
+            (left: BinaryBitExpression[7, 12]
+              (left: BinaryBitExpression[7, 10]
+                (left: Identifier[7, 8])
+                (operator: Caret[8, 9])
+                (right: Identifier[9, 10])
+              )
+              (operator: Asterisk[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (operator: Plus[12, 13])
+            (right: IntervalExpression[13, 27]
+              (intervalToken: INTERVAL[13, 21])
+              (WhiteSpace[21, 22])
+              (expression: Identifier[22, 23])
+              (WhiteSpace[23, 24])
+              (temporalUnit: DAY[24, 27])
+            )
+          )
+!`

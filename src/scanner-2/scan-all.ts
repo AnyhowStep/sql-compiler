@@ -164,7 +164,7 @@ export function scan (state : LexerState) : TokenKind {
     //https://dev.mysql.com/doc/refman/8.0/en/charset-national.html
     if (ch == CharacterCodes.n || ch == CharacterCodes.N) {
         if (state.peek(1) == CharacterCodes.singleQuote) {
-            state.advance();    
+            state.advance();
             scanQuotedString(state);
             return TokenKind.NationalStringLiteral;
         } else {
@@ -229,6 +229,9 @@ export function scan (state : LexerState) : TokenKind {
         case CharacterCodes.asterisk:
             state.advance();
             return TokenKind.Asterisk;
+        case CharacterCodes.percent:
+            state.advance();
+            return TokenKind.Percent;
         case CharacterCodes.minus:
             if (state.peek(1) == CharacterCodes.minus) {
                 /**

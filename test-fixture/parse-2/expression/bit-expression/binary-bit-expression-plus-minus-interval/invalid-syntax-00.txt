@@ -1,0 +1,59 @@
+SELECT a+INTERVAL b DAY<<INTERVAL c DAY
+-- The above is invalid.
+-- INTERVAL c DAY is not a simple expression
+-- timeout  4000
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 39]
+          (expression: BinaryBitExpression[7, 35]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: LessLess[23, 25])
+            (Unexpected INTERVAL[25, 33])
+            (WhiteSpace[33, 34])
+            (right: Identifier[34, 35])
+          )
+          (WhiteSpace[35, 36])
+          (alias: Alias[36, 39]
+            (alias: DAY[36, 39])
+          )
+        )
+!`
+-----
+SELECT a+INTERVAL b DAY<<c DAY
+-- The above is interesting.
+-- This is exactly how MySQL parses it.
+-- c is an expression, DAY is a non-reserved keyword and can be an alias.
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 30]
+          (expression: BinaryBitExpression[7, 26]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: LessLess[23, 25])
+            (right: Identifier[25, 26])
+          )
+          (WhiteSpace[26, 27])
+          (alias: Alias[27, 30]
+            (alias: DAY[27, 30])
+          )
+        )
+!`

@@ -28,7 +28,23 @@ export const SimpleExpression = choice(
     SyntaxKind.ScopedSystemVariableIdentifier,
     SyntaxKind.UnscopedSystemVariableIdentifier,
     SyntaxKind.ParenthesizedExpressionSimpleExpression,
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9582-L9583
+     */
+    SyntaxKind.IntervalExpressionPlus,
 );
+
+export const IntervalExpressionPlus = precedence(60, seq(
+    field("left", SyntaxKind.IntervalExpression),
+    field("operator", cannotExpect(tokenSymbol(
+        TokenKind.Plus,
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9583
+         */
+        //TokenKind.Minus,
+    ))),
+    field("right", SyntaxKind.Expression),
+));
 
 export const ParenthesizedExpressionSimpleExpression = inline(alias(SyntaxKind.ParenthesizedExpression, seq(
     field("openParenthesesToken", cannotExpect(TokenKind.OpenParentheses)),

@@ -209,6 +209,7 @@ export const syntaxKinds = [
     "ExpressionTuple1",
     "BitExpressionTuple1",
     "BitExpressionTuple1Tuple1",
+    "IntervalExpressionPlus",
 
     "SignedLiteral",
     "Literal",

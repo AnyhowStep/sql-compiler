@@ -1,0 +1,40 @@
+SELECT a*b+INTERVAL c DAY
+-----
+`!
+          (expression: BinaryBitExpression[7, 25]
+            (left: BinaryBitExpression[7, 10]
+              (left: Identifier[7, 8])
+              (operator: Asterisk[8, 9])
+              (right: Identifier[9, 10])
+            )
+            (operator: Plus[10, 11])
+            (right: IntervalExpression[11, 25]
+              (intervalToken: INTERVAL[11, 19])
+              (WhiteSpace[19, 20])
+              (expression: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (temporalUnit: DAY[22, 25])
+            )
+          )
+!`
+-----
+SELECT a+INTERVAL b DAY*c
+-- We get (a + b) * c because of the unique nature of a+INTERVAL
+-----
+`!
+          (expression: BinaryBitExpression[7, 25]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: Asterisk[23, 24])
+            (right: Identifier[24, 25])
+          )
+!`
