@@ -1,0 +1,46 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY RANGE (X+Y) (
+    PARTITION a VALUES LESS THAN (MAXVALUE)
+  );
+-----
+`!
+          (item[]: SingletonRangePartitionDefinition[63, 102]
+            (partitionToken: PARTITION[63, 72])
+            (WhiteSpace[72, 73])
+            (partitionName: Identifier[73, 74])
+            (WhiteSpace[74, 75])
+            (valuesToken: VALUES[75, 81])
+            (WhiteSpace[81, 82])
+            (lessToken: LESS[82, 86])
+            (WhiteSpace[86, 87])
+            (thanToken: THAN[87, 91])
+            (WhiteSpace[91, 92])
+            (maxValue: ParenthesizedMaxValue[92, 102]
+              (openParenthesesToken: OpenParentheses[92, 93])
+              (item: MAXVALUE[93, 101])
+              (closeParenthesesToken: CloseParentheses[101, 102])
+            )
+          )
+!`
+-----
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY RANGE (X+Y) (
+    PARTITION a VALUES LESS THAN (100+200)
+  );
+-----
+`!
+          (item[]: SingletonRangePartitionDefinition[63, 101]
+            (partitionToken: PARTITION[63, 72])
+            (WhiteSpace[72, 73])
+            (partitionName: Identifier[73, 74])
+            (WhiteSpace[74, 75])
+            (valuesToken: VALUES[75, 81])
+            (WhiteSpace[81, 82])
+            (lessToken: LESS[82, 86])
+            (WhiteSpace[86, 87])
+            (thanToken: THAN[87, 91])
+            (WhiteSpace[91, 92])
+            (maxValue: ParenthesizedMaxValue[92, 101]
+              (openParenthesesToken: OpenParentheses[92, 93])
+              (item: BinaryBitExpression[93, 100]
+!`

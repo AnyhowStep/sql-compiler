@@ -1,0 +1,17 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY RANGE (X+Y) (
+    PARTITION a VALUES LESS THAN (100)
+      COMMENT 'test'
+      (
+        SUBPARTITION b COMMENT 'test2'
+      )
+  );
+-----
+`!
+              (item[]: SubPartitionDefinition[135, 165]
+                (subPartitionToken: SUBPARTITION[135, 147])
+                (WhiteSpace[147, 148])
+                (subPartitionName: Identifier[148, 149])
+                (WhiteSpace[149, 150])
+                (partitionDefinitionOptionRepeat1: PartitionDefinitionOptionRepeat1[150, 165]
+!`

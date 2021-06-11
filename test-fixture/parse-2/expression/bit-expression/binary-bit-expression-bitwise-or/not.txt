@@ -1,0 +1,13 @@
+SELECT NOT 1|2
+-----
+`!
+          (expression: NotExpression[7, 14]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BinaryBitExpression[11, 14]
+              (left: IntegerLiteral[11, 12])
+              (operator: Bar[12, 13])
+              (right: IntegerLiteral[13, 14])
+            )
+          )
+!`

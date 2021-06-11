@@ -1,0 +1,35 @@
+SELECT a IS NULL|b
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 18]
+          (expression: IsNullBooleanPrimaryExpression[7, 16]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (nullToken: NULL[12, 16])
+          )
+          (alias: Alias[16, 18]
+            (Unexpected Bar[16, 17])
+            (alias: Identifier[17, 18])
+          )
+        )
+!`
+-----
+SELECT a IS NULL|2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: IsNullBooleanPrimaryExpression[7, 16]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (nullToken: NULL[12, 16])
+          )
+        )
+        (Expected commaToken[]: Comma[16, 17])
+        (item[]: ExpressionSelectItem[17, 18]
+          (expression: IntegerLiteral[17, 18])
+        )
+!`

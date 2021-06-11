@@ -1,9 +1,9 @@
 {
-  "coveredCount": 904,
-  "uncoveredCount": 865,
-  "totalCount": 1769,
-  "coveredRatio": 0.5110231769361221,
-  "uncoveredRatio": 0.4889768230638779,
+  "coveredCount": 948,
+  "uncoveredCount": 823,
+  "totalCount": 1771,
+  "coveredRatio": 0.5352907961603613,
+  "uncoveredRatio": 0.4647092038396386,
   "uncoveredRules": [
     {
       "name": "noLineBreak$9$optional$10$repeat1$11",
@@ -236,43 +236,6 @@
       "symbols": [
         "extras$1",
         "IsExpression$optional$234$field$235"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "NotExpression$field$237",
-      "symbols": [
-        {
-          "tokenKind": "NOT",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "NotExpression$field$238",
-      "symbols": [
-        "Expression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "NotExpression",
-      "symbols": [
-        "NotExpression$field$237",
-        "extras$1",
-        "NotExpression$field$238"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "Expression",
-      "symbols": [
-        "NotExpression"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -13226,127 +13189,6 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "Partition",
-      "symbols": [
-        "RangePartition"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$field$968",
-      "symbols": [
-        {
-          "tokenKind": "PARTITION",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$field$969",
-      "symbols": [
-        {
-          "tokenKind": "BY",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$field$970",
-      "symbols": [
-        {
-          "tokenKind": "RANGE",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$field$971",
-      "symbols": [
-        "ParenthesizedBitExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$optional$972",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$optional$972$field$973",
-      "symbols": [
-        "PartitionCount"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$optional$972",
-      "symbols": [
-        "extras$1",
-        "RangePartition$optional$972$field$973"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$optional$974",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$optional$974$field$975",
-      "symbols": [
-        "SubPartition"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$optional$974",
-      "symbols": [
-        "extras$1",
-        "RangePartition$optional$974$field$975"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition$field$976",
-      "symbols": [
-        "SingletonRangePartitionDefinitionTuple1"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RangePartition",
-      "symbols": [
-        "RangePartition$field$968",
-        "extras$1",
-        "RangePartition$field$969",
-        "extras$1",
-        "RangePartition$field$970",
-        "extras$1",
-        "RangePartition$field$971",
-        "RangePartition$optional$972",
-        "RangePartition$optional$974",
-        "extras$1",
-        "RangePartition$field$976"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "SingletonListPartitionDefinitionTuple1$optional$988$repeat1$989$item$990$field$991",
       "symbols": [
         {
@@ -13405,222 +13247,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinition$field$994",
-      "symbols": [
-        {
-          "tokenKind": "PARTITION",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$995",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$996",
-      "symbols": [
-        {
-          "tokenKind": "VALUES",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$997",
-      "symbols": [
-        {
-          "tokenKind": "LESS",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$998",
-      "symbols": [
-        {
-          "tokenKind": "THAN",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$999$choice$1000$field$1001",
-      "symbols": [
-        {
-          "tokenKind": "OpenParentheses",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$999$choice$1000$choice$1002",
-      "symbols": [
-        "BitExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$999$choice$1000$choice$1002",
-      "symbols": [
-        {
-          "tokenKind": "MAXVALUE",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$999$choice$1000$field$1003",
-      "symbols": [
-        {
-          "tokenKind": "CloseParentheses",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$999$choice$1000",
-      "symbols": [
-        "SingletonRangePartitionDefinition$field$999$choice$1000$field$1001",
-        "extras$1",
-        "SingletonRangePartitionDefinition$field$999$choice$1000$choice$1002",
-        "extras$1",
-        "SingletonRangePartitionDefinition$field$999$choice$1000$field$1003"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$999$choice$1000",
-      "symbols": [
-        {
-          "tokenKind": "MAXVALUE",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$field$999",
-      "symbols": [
-        "SingletonRangePartitionDefinition$field$999$choice$1000"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$optional$1004",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$optional$1004$field$1005",
-      "symbols": [
-        "PartitionDefinitionOptionRepeat1"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$optional$1004",
-      "symbols": [
-        "extras$1",
-        "SingletonRangePartitionDefinition$optional$1004$field$1005"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$optional$1006",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$optional$1006$field$1007",
-      "symbols": [
-        "SubPartitionDefinitionTuple1"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition$optional$1006",
-      "symbols": [
-        "extras$1",
-        "SingletonRangePartitionDefinition$optional$1006$field$1007"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinition",
-      "symbols": [
-        "SingletonRangePartitionDefinition$field$994",
-        "extras$1",
-        "SingletonRangePartitionDefinition$field$995",
-        "extras$1",
-        "SingletonRangePartitionDefinition$field$996",
-        "extras$1",
-        "SingletonRangePartitionDefinition$field$997",
-        "extras$1",
-        "SingletonRangePartitionDefinition$field$998",
-        "extras$1",
-        "SingletonRangePartitionDefinition$field$999",
-        "SingletonRangePartitionDefinition$optional$1004",
-        "SingletonRangePartitionDefinition$optional$1006"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinitionTuple1$field$1008",
-      "symbols": [
-        {
-          "tokenKind": "OpenParentheses",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinitionTuple1$field$1009",
-      "symbols": [
-        "SingletonRangePartitionDefinition"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$1010",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011$item$1012$field$1013",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012$item$1013$field$1014",
       "symbols": [
         {
           "tokenKind": "Comma",
@@ -13633,7 +13260,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011$item$1012$field$1014",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012$item$1013$field$1015",
       "symbols": [
         "SingletonRangePartitionDefinition"
       ],
@@ -13641,74 +13268,44 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011$item$1012",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012$item$1013",
       "symbols": [
-        "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011$item$1012$field$1013",
+        "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012$item$1013$field$1014",
         "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011$item$1012$field$1014"
+        "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012$item$1013$field$1015"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012",
       "symbols": [
-        "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011$item$1012"
+        "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012$item$1013"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012",
       "symbols": [
-        "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011",
+        "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012",
         "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011$item$1012"
+        "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012$item$1013"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$optional$1010",
+      "name": "SingletonRangePartitionDefinitionTuple1$optional$1011",
       "symbols": [
         "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$optional$1010$repeat1$1011"
+        "SingletonRangePartitionDefinitionTuple1$optional$1011$repeat1$1012"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SingletonRangePartitionDefinitionTuple1$field$1015",
-      "symbols": [
-        {
-          "tokenKind": "CloseParentheses",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SingletonRangePartitionDefinitionTuple1",
-      "symbols": [
-        "SingletonRangePartitionDefinitionTuple1$field$1008",
-        "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$field$1009",
-        "SingletonRangePartitionDefinitionTuple1$optional$1010",
-        "extras$1",
-        "SingletonRangePartitionDefinitionTuple1$field$1015"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SubPartitionDefinition$optional$1020",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025$item$1026$field$1027",
+      "name": "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026$item$1027$field$1028",
       "symbols": [
         {
           "tokenKind": "Comma",
@@ -13721,7 +13318,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025$item$1026$field$1028",
+      "name": "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026$item$1027$field$1029",
       "symbols": [
         "SubPartitionDefinition"
       ],
@@ -13729,44 +13326,44 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025$item$1026",
+      "name": "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026$item$1027",
       "symbols": [
-        "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025$item$1026$field$1027",
+        "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026$item$1027$field$1028",
         "extras$1",
-        "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025$item$1026$field$1028"
+        "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026$item$1027$field$1029"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025",
+      "name": "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026",
       "symbols": [
-        "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025$item$1026"
+        "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026$item$1027"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025",
+      "name": "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026",
       "symbols": [
-        "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025",
+        "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026",
         "extras$1",
-        "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025$item$1026"
+        "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026$item$1027"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "SubPartitionDefinitionTuple1$optional$1024",
+      "name": "SubPartitionDefinitionTuple1$optional$1025",
       "symbols": [
         "extras$1",
-        "SubPartitionDefinitionTuple1$optional$1024$repeat1$1025"
+        "SubPartitionDefinitionTuple1$optional$1025$repeat1$1026"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1044",
+      "name": "ParenthesizedSelect$field$1045",
       "symbols": [
         {
           "tokenKind": "OpenParentheses",
@@ -13777,7 +13374,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1045$choice$1046",
+      "name": "ParenthesizedSelect$field$1046$choice$1047",
       "symbols": [
         "Select"
       ],
@@ -13785,7 +13382,7 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1045$choice$1046",
+      "name": "ParenthesizedSelect$field$1046$choice$1047",
       "symbols": [
         "ParenthesizedSelect"
       ],
@@ -13793,15 +13390,15 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1045",
+      "name": "ParenthesizedSelect$field$1046",
       "symbols": [
-        "ParenthesizedSelect$field$1045$choice$1046"
+        "ParenthesizedSelect$field$1046$choice$1047"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1047",
+      "name": "ParenthesizedSelect$field$1048",
       "symbols": [
         {
           "tokenKind": "CloseParentheses",
@@ -13814,11 +13411,11 @@
     {
       "name": "ParenthesizedSelect",
       "symbols": [
-        "ParenthesizedSelect$field$1044",
-        "extras$1",
         "ParenthesizedSelect$field$1045",
         "extras$1",
-        "ParenthesizedSelect$field$1047"
+        "ParenthesizedSelect$field$1046",
+        "extras$1",
+        "ParenthesizedSelect$field$1048"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -13832,7 +13429,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2623
+      "coverageCount": 3034
     },
     {
       "rule": {
@@ -13852,7 +13449,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3806
+      "coverageCount": 4315
     },
     {
       "rule": {
@@ -13863,7 +13460,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3310
+      "coverageCount": 3729
     },
     {
       "rule": {
@@ -13875,7 +13472,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 496
+      "coverageCount": 586
     },
     {
       "rule": {
@@ -13886,7 +13483,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3310
+      "coverageCount": 3729
     },
     {
       "rule": {
@@ -13897,7 +13494,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5933
+      "coverageCount": 6763
     },
     {
       "rule": {
@@ -14532,7 +14129,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 65
+      "coverageCount": 69
     },
     {
       "rule": {
@@ -14609,7 +14206,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 151
+      "coverageCount": 177
     },
     {
       "rule": {
@@ -15097,7 +14694,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 36
+      "coverageCount": 40
     },
     {
       "rule": {
@@ -15273,7 +14870,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 36
+      "coverageCount": 40
     },
     {
       "rule": {
@@ -15282,7 +14879,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 32
+      "coverageCount": 36
     },
     {
       "rule": {
@@ -15314,7 +14911,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 15
+      "coverageCount": 19
     },
     {
       "rule": {
@@ -15350,7 +14947,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 36
+      "coverageCount": 40
     },
     {
       "rule": {
@@ -16526,7 +16123,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 131
+      "coverageCount": 157
     },
     {
       "rule": {
@@ -16565,7 +16162,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 151
+      "coverageCount": 177
     },
     {
       "rule": {
@@ -16574,7 +16171,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 135
+      "coverageCount": 161
     },
     {
       "rule": {
@@ -16606,7 +16203,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 137
+      "coverageCount": 163
     },
     {
       "rule": {
@@ -16642,7 +16239,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 151
+      "coverageCount": 177
     },
     {
       "rule": {
@@ -17668,7 +17265,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 61
+      "coverageCount": 65
     },
     {
       "rule": {
@@ -17679,7 +17276,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 61
+      "coverageCount": 65
     },
     {
       "rule": {
@@ -17704,7 +17301,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 73
+      "coverageCount": 85
     },
     {
       "rule": {
@@ -17715,7 +17312,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 73
+      "coverageCount": 85
     },
     {
       "rule": {
@@ -17728,7 +17325,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 73
+      "coverageCount": 85
     },
     {
       "rule": {
@@ -17739,7 +17336,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 53
+      "coverageCount": 57
     },
     {
       "rule": {
@@ -17752,7 +17349,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 20
+      "coverageCount": 28
     },
     {
       "rule": {
@@ -17764,7 +17361,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 53
+      "coverageCount": 57
     },
     {
       "rule": {
@@ -17778,7 +17375,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 61
+      "coverageCount": 65
     },
     {
       "rule": {
@@ -17794,7 +17391,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 61
+      "coverageCount": 65
     },
     {
       "rule": {
@@ -17935,7 +17532,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 13
+      "coverageCount": 30
     },
     {
       "rule": {
@@ -17946,7 +17543,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 13
+      "coverageCount": 30
     },
     {
       "rule": {
@@ -17960,7 +17557,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 13
+      "coverageCount": 30
     },
     {
       "rule": {
@@ -17975,7 +17572,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 13
+      "coverageCount": 30
     },
     {
       "rule": {
@@ -17986,7 +17583,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 324
+      "coverageCount": 473
     },
     {
       "rule": {
@@ -17997,7 +17594,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -18011,7 +17608,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -18022,7 +17619,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -18034,10 +17631,10 @@
           "extras$1",
           "BitExpression$alias$192$field$195"
         ],
-        "precedence": 0,
+        "precedence": 1,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -18048,7 +17645,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -18059,7 +17656,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 8
+      "coverageCount": 26
     },
     {
       "rule": {
@@ -18073,7 +17670,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 8
+      "coverageCount": 26
     },
     {
       "rule": {
@@ -18084,7 +17681,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 8
+      "coverageCount": 26
     },
     {
       "rule": {
@@ -18099,7 +17696,7 @@
         "precedence": 10,
         "penalizeErrorStart": true
       },
-      "coverageCount": 8
+      "coverageCount": 26
     },
     {
       "rule": {
@@ -18110,7 +17707,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 8
+      "coverageCount": 26
     },
     {
       "rule": {
@@ -18121,7 +17718,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3
+      "coverageCount": 25
     },
     {
       "rule": {
@@ -18138,7 +17735,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3
+      "coverageCount": 25
     },
     {
       "rule": {
@@ -18149,7 +17746,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3
+      "coverageCount": 25
     },
     {
       "rule": {
@@ -18164,7 +17761,7 @@
         "precedence": 20,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3
+      "coverageCount": 25
     },
     {
       "rule": {
@@ -18175,7 +17772,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3
+      "coverageCount": 25
     },
     {
       "rule": {
@@ -18186,7 +17783,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 7
+      "coverageCount": 29
     },
     {
       "rule": {
@@ -18203,7 +17800,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 7
+      "coverageCount": 29
     },
     {
       "rule": {
@@ -18214,7 +17811,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 7
+      "coverageCount": 29
     },
     {
       "rule": {
@@ -18229,7 +17826,7 @@
         "precedence": 30,
         "penalizeErrorStart": true
       },
-      "coverageCount": 7
+      "coverageCount": 29
     },
     {
       "rule": {
@@ -18240,7 +17837,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 7
+      "coverageCount": 29
     },
     {
       "rule": {
@@ -18381,7 +17978,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 148
+      "coverageCount": 178
     },
     {
       "rule": {
@@ -18392,7 +17989,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -18403,7 +18000,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -18417,7 +18014,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -18426,7 +18023,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -18440,7 +18037,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -18456,7 +18053,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -18528,6 +18125,44 @@
     },
     {
       "rule": {
+        "name": "NotExpression$field$237",
+        "symbols": [
+          {
+            "tokenKind": "NOT",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "NotExpression$field$238",
+        "symbols": [
+          "Expression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "NotExpression",
+        "symbols": [
+          "NotExpression$field$237",
+          "extras$1",
+          "NotExpression$field$238"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
         "name": "Expression",
         "symbols": [
           "BooleanPrimaryExpression"
@@ -18535,7 +18170,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 144
+      "coverageCount": 174
     },
     {
       "rule": {
@@ -18547,6 +18182,17 @@
         "penalizeErrorStart": true
       },
       "coverageCount": 4
+    },
+    {
+      "rule": {
+        "name": "Expression",
+        "symbols": [
+          "NotExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
     },
     {
       "rule": {
@@ -18568,7 +18214,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 145
+      "coverageCount": 178
     },
     {
       "rule": {
@@ -18840,7 +18486,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 137
+      "coverageCount": 170
     },
     {
       "rule": {
@@ -19088,7 +18734,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 148
+      "coverageCount": 178
     },
     {
       "rule": {
@@ -19527,7 +19173,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 89
+      "coverageCount": 205
     },
     {
       "rule": {
@@ -19549,7 +19195,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 190
+      "coverageCount": 223
     },
     {
       "rule": {
@@ -22248,7 +21894,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -22259,7 +21905,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -22698,7 +22344,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 856
+      "coverageCount": 925
     },
     {
       "rule": {
@@ -22712,7 +22358,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 14
+      "coverageCount": 15
     },
     {
       "rule": {
@@ -22723,7 +22369,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 14
+      "coverageCount": 15
     },
     {
       "rule": {
@@ -22732,7 +22378,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 13
+      "coverageCount": 14
     },
     {
       "rule": {
@@ -22822,7 +22468,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 14
+      "coverageCount": 15
     },
     {
       "rule": {
@@ -22838,7 +22484,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 14
+      "coverageCount": 15
     },
     {
       "rule": {
@@ -22959,7 +22605,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -22970,7 +22616,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -22984,7 +22630,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -22999,7 +22645,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -23010,7 +22656,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 266
+      "coverageCount": 283
     },
     {
       "rule": {
@@ -23021,7 +22667,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 266
+      "coverageCount": 283
     },
     {
       "rule": {
@@ -23410,7 +23056,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 54
+      "coverageCount": 58
     },
     {
       "rule": {
@@ -25108,7 +24754,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25119,7 +24765,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25128,7 +24774,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 217
+      "coverageCount": 221
     },
     {
       "rule": {
@@ -25144,7 +24790,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 51
+      "coverageCount": 64
     },
     {
       "rule": {
@@ -25155,7 +24801,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 51
+      "coverageCount": 64
     },
     {
       "rule": {
@@ -25168,7 +24814,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 51
+      "coverageCount": 64
     },
     {
       "rule": {
@@ -25179,7 +24825,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 63
     },
     {
       "rule": {
@@ -25204,7 +24850,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 63
     },
     {
       "rule": {
@@ -25218,7 +24864,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25234,7 +24880,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25245,7 +24891,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -25256,7 +24902,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -25267,7 +24913,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -25278,7 +24924,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -25289,7 +24935,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -25298,7 +24944,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -25312,7 +24958,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 318
+      "coverageCount": 348
     },
     {
       "rule": {
@@ -25326,7 +24972,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25335,7 +24981,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25349,7 +24995,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25358,7 +25004,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25369,7 +25015,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25380,7 +25026,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25389,7 +25035,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25409,7 +25055,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 72
+      "coverageCount": 89
     },
     {
       "rule": {
@@ -25421,7 +25067,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 72
+      "coverageCount": 89
     },
     {
       "rule": {
@@ -25442,7 +25088,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -25731,7 +25377,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 8
     },
     {
       "rule": {
@@ -25745,7 +25391,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 8
     },
     {
       "rule": {
@@ -25754,7 +25400,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -25794,7 +25440,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 8
     },
     {
       "rule": {
@@ -25805,7 +25451,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 8
     },
     {
       "rule": {
@@ -25825,7 +25471,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -25837,7 +25483,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 1
+      "coverageCount": 5
     },
     {
       "rule": {
@@ -25856,7 +25502,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 8
     },
     {
       "rule": {
@@ -26102,7 +25748,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 6
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -26116,7 +25762,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 6
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -26125,7 +25771,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -26165,7 +25811,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 6
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -26174,7 +25820,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -26208,7 +25854,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 6
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -26217,7 +25863,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -26260,7 +25906,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 6
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -26445,7 +26091,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -26459,7 +26105,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -26473,7 +26119,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -26490,7 +26136,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -26501,7 +26147,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -26510,7 +26156,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 40
+      "coverageCount": 44
     },
     {
       "rule": {
@@ -26553,7 +26199,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 8
+      "coverageCount": 12
     },
     {
       "rule": {
@@ -26565,7 +26211,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 8
+      "coverageCount": 12
     },
     {
       "rule": {
@@ -26579,7 +26225,7 @@
           "SingletonListPartitionDefinitionTuple1"
         ]
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -26602,7 +26248,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -26765,7 +26411,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -26798,7 +26444,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 45
+      "coverageCount": 49
     },
     {
       "rule": {
@@ -27036,7 +26682,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 11
+      "coverageCount": 13
     },
     {
       "rule": {
@@ -27053,7 +26699,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 11
+      "coverageCount": 13
     },
     {
       "rule": {
@@ -27066,7 +26712,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 11
+      "coverageCount": 13
     },
     {
       "rule": {
@@ -27110,7 +26756,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 10
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -27861,7 +27507,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 10
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -27870,7 +27516,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 9
+      "coverageCount": 17
     },
     {
       "rule": {
@@ -27913,7 +27559,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 10
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -27927,7 +27573,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 10
+      "coverageCount": 18
     },
     {
       "rule": {
@@ -28284,7 +27930,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 37
+      "coverageCount": 45
     },
     {
       "rule": {
@@ -28295,7 +27941,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 37
+      "coverageCount": 45
     },
     {
       "rule": {
@@ -28306,7 +27952,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 32
+      "coverageCount": 40
     },
     {
       "rule": {
@@ -28330,7 +27976,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 32
+      "coverageCount": 40
     },
     {
       "rule": {
@@ -28363,7 +28009,167 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 59
+      "coverageCount": 63
+    },
+    {
+      "rule": {
+        "name": "Partition",
+        "symbols": [
+          "RangePartition"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "RangePartition$field$968",
+        "symbols": [
+          {
+            "tokenKind": "PARTITION",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "RangePartition$field$969",
+        "symbols": [
+          {
+            "tokenKind": "BY",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "RangePartition$field$970",
+        "symbols": [
+          {
+            "tokenKind": "RANGE",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "RangePartition$field$971",
+        "symbols": [
+          "ParenthesizedBitExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "RangePartition$optional$972",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 11
+    },
+    {
+      "rule": {
+        "name": "RangePartition$optional$972$field$973",
+        "symbols": [
+          "PartitionCount"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "RangePartition$optional$972",
+        "symbols": [
+          "extras$1",
+          "RangePartition$optional$972$field$973"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "RangePartition$optional$974",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "RangePartition$optional$974$field$975",
+        "symbols": [
+          "SubPartition"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "RangePartition$optional$974",
+        "symbols": [
+          "extras$1",
+          "RangePartition$optional$974$field$975"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "RangePartition$field$976",
+        "symbols": [
+          "SingletonRangePartitionDefinitionTuple1"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "RangePartition",
+        "symbols": [
+          "RangePartition$field$968",
+          "extras$1",
+          "RangePartition$field$969",
+          "extras$1",
+          "RangePartition$field$970",
+          "extras$1",
+          "RangePartition$field$971",
+          "RangePartition$optional$972",
+          "RangePartition$optional$974",
+          "extras$1",
+          "RangePartition$field$976"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
     },
     {
       "rule": {
@@ -28377,7 +28183,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28388,7 +28194,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28402,7 +28208,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28416,7 +28222,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28427,7 +28233,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28436,7 +28242,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 22
+      "coverageCount": 26
     },
     {
       "rule": {
@@ -28468,7 +28274,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 49
+      "coverageCount": 53
     },
     {
       "rule": {
@@ -28512,7 +28318,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28526,7 +28332,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28537,7 +28343,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28546,7 +28352,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28560,7 +28366,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
@@ -28576,11 +28382,344 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 50
+      "coverageCount": 54
     },
     {
       "rule": {
-        "name": "SubPartitionCount$field$1016",
+        "name": "ParenthesizedMaxValue$field$994",
+        "symbols": [
+          {
+            "tokenKind": "OpenParentheses",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedMaxValue$field$995$choice$996",
+        "symbols": [
+          "BitExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 11
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedMaxValue$field$995$choice$996",
+        "symbols": [
+          {
+            "tokenKind": "MAXVALUE",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedMaxValue$field$995",
+        "symbols": [
+          "ParenthesizedMaxValue$field$995$choice$996"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedMaxValue$field$997",
+        "symbols": [
+          {
+            "tokenKind": "CloseParentheses",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedMaxValue",
+        "symbols": [
+          "ParenthesizedMaxValue$field$994",
+          "extras$1",
+          "ParenthesizedMaxValue$field$995",
+          "extras$1",
+          "ParenthesizedMaxValue$field$997"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$field$998",
+        "symbols": [
+          {
+            "tokenKind": "PARTITION",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$field$999",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$field$1000",
+        "symbols": [
+          {
+            "tokenKind": "VALUES",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$field$1001",
+        "symbols": [
+          {
+            "tokenKind": "LESS",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$field$1002",
+        "symbols": [
+          {
+            "tokenKind": "THAN",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$field$1003$choice$1004",
+        "symbols": [
+          "ParenthesizedMaxValue"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 12
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$field$1003$choice$1004",
+        "symbols": [
+          {
+            "tokenKind": "MAXVALUE",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$field$1003",
+        "symbols": [
+          "SingletonRangePartitionDefinition$field$1003$choice$1004"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$optional$1005",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 7
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$optional$1005$field$1006",
+        "symbols": [
+          "PartitionDefinitionOptionRepeat1"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 6
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$optional$1005",
+        "symbols": [
+          "extras$1",
+          "SingletonRangePartitionDefinition$optional$1005$field$1006"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 6
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$optional$1007",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 8
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$optional$1007$field$1008",
+        "symbols": [
+          "SubPartitionDefinitionTuple1"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 5
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition$optional$1007",
+        "symbols": [
+          "extras$1",
+          "SingletonRangePartitionDefinition$optional$1007$field$1008"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 5
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinition",
+        "symbols": [
+          "SingletonRangePartitionDefinition$field$998",
+          "extras$1",
+          "SingletonRangePartitionDefinition$field$999",
+          "extras$1",
+          "SingletonRangePartitionDefinition$field$1000",
+          "extras$1",
+          "SingletonRangePartitionDefinition$field$1001",
+          "extras$1",
+          "SingletonRangePartitionDefinition$field$1002",
+          "extras$1",
+          "SingletonRangePartitionDefinition$field$1003",
+          "SingletonRangePartitionDefinition$optional$1005",
+          "SingletonRangePartitionDefinition$optional$1007"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinitionTuple1$field$1009",
+        "symbols": [
+          {
+            "tokenKind": "OpenParentheses",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinitionTuple1$field$1010",
+        "symbols": [
+          "SingletonRangePartitionDefinition"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinitionTuple1$optional$1011",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinitionTuple1$field$1016",
+        "symbols": [
+          {
+            "tokenKind": "CloseParentheses",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SingletonRangePartitionDefinitionTuple1",
+        "symbols": [
+          "SingletonRangePartitionDefinitionTuple1$field$1009",
+          "extras$1",
+          "SingletonRangePartitionDefinitionTuple1$field$1010",
+          "SingletonRangePartitionDefinitionTuple1$optional$1011",
+          "extras$1",
+          "SingletonRangePartitionDefinitionTuple1$field$1016"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 13
+    },
+    {
+      "rule": {
+        "name": "SubPartitionCount$field$1017",
         "symbols": [
           {
             "tokenKind": "SUBPARTITIONS",
@@ -28590,11 +28729,11 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 6
     },
     {
       "rule": {
-        "name": "SubPartitionCount$field$1017",
+        "name": "SubPartitionCount$field$1018",
         "symbols": [
           {
             "tokenKind": "IntegerLiteral",
@@ -28607,24 +28746,24 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 6
     },
     {
       "rule": {
         "name": "SubPartitionCount",
         "symbols": [
-          "SubPartitionCount$field$1016",
+          "SubPartitionCount$field$1017",
           "extras$1",
-          "SubPartitionCount$field$1017"
+          "SubPartitionCount$field$1018"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 6
     },
     {
       "rule": {
-        "name": "SubPartitionDefinition$field$1018",
+        "name": "SubPartitionDefinition$field$1019",
         "symbols": [
           {
             "tokenKind": "SUBPARTITION",
@@ -28634,11 +28773,11 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 7
     },
     {
       "rule": {
-        "name": "SubPartitionDefinition$field$1019",
+        "name": "SubPartitionDefinition$field$1020",
         "symbols": [
           {
             "tokenKind": "Identifier",
@@ -29074,48 +29213,57 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 7
     },
     {
       "rule": {
-        "name": "SubPartitionDefinition$optional$1020$field$1021",
+        "name": "SubPartitionDefinition$optional$1021",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 3
+    },
+    {
+      "rule": {
+        "name": "SubPartitionDefinition$optional$1021$field$1022",
         "symbols": [
           "PartitionDefinitionOptionRepeat1"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 4
     },
     {
       "rule": {
-        "name": "SubPartitionDefinition$optional$1020",
+        "name": "SubPartitionDefinition$optional$1021",
         "symbols": [
           "extras$1",
-          "SubPartitionDefinition$optional$1020$field$1021"
+          "SubPartitionDefinition$optional$1021$field$1022"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 4
     },
     {
       "rule": {
         "name": "SubPartitionDefinition",
         "symbols": [
-          "SubPartitionDefinition$field$1018",
-          "extras$1",
           "SubPartitionDefinition$field$1019",
-          "SubPartitionDefinition$optional$1020"
+          "extras$1",
+          "SubPartitionDefinition$field$1020",
+          "SubPartitionDefinition$optional$1021"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 7
     },
     {
       "rule": {
-        "name": "SubPartitionDefinitionTuple1$field$1022",
+        "name": "SubPartitionDefinitionTuple1$field$1023",
         "symbols": [
           {
             "tokenKind": "OpenParentheses",
@@ -29125,31 +29273,31 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 7
     },
     {
       "rule": {
-        "name": "SubPartitionDefinitionTuple1$field$1023",
+        "name": "SubPartitionDefinitionTuple1$field$1024",
         "symbols": [
           "SubPartitionDefinition"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 7
     },
     {
       "rule": {
-        "name": "SubPartitionDefinitionTuple1$optional$1024",
+        "name": "SubPartitionDefinitionTuple1$optional$1025",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 7
     },
     {
       "rule": {
-        "name": "SubPartitionDefinitionTuple1$field$1029",
+        "name": "SubPartitionDefinitionTuple1$field$1030",
         "symbols": [
           {
             "tokenKind": "CloseParentheses",
@@ -29159,23 +29307,23 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 7
     },
     {
       "rule": {
         "name": "SubPartitionDefinitionTuple1",
         "symbols": [
-          "SubPartitionDefinitionTuple1$field$1022",
-          "extras$1",
           "SubPartitionDefinitionTuple1$field$1023",
-          "SubPartitionDefinitionTuple1$optional$1024",
           "extras$1",
-          "SubPartitionDefinitionTuple1$field$1029"
+          "SubPartitionDefinitionTuple1$field$1024",
+          "SubPartitionDefinitionTuple1$optional$1025",
+          "extras$1",
+          "SubPartitionDefinitionTuple1$field$1030"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 2
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -29186,7 +29334,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 8
     },
     {
       "rule": {
@@ -29197,20 +29345,20 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 6
+      "coverageCount": 7
     },
     {
       "rule": {
-        "name": "Alias$optional$1030",
+        "name": "Alias$optional$1031",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 29
+      "coverageCount": 30
     },
     {
       "rule": {
-        "name": "Alias$optional$1030$field$1031",
+        "name": "Alias$optional$1031$field$1032",
         "symbols": [
           {
             "tokenKind": "AS",
@@ -29224,9 +29372,9 @@
     },
     {
       "rule": {
-        "name": "Alias$optional$1030",
+        "name": "Alias$optional$1031",
         "symbols": [
-          "Alias$optional$1030$field$1031",
+          "Alias$optional$1031$field$1032",
           "extras$1"
         ],
         "precedence": 0,
@@ -29236,7 +29384,7 @@
     },
     {
       "rule": {
-        "name": "Alias$field$1032",
+        "name": "Alias$field$1033",
         "symbols": [
           {
             "tokenKind": "Identifier",
@@ -29672,98 +29820,98 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 30
+      "coverageCount": 31
     },
     {
       "rule": {
         "name": "Alias",
         "symbols": [
-          "Alias$optional$1030",
-          "Alias$field$1032"
+          "Alias$optional$1031",
+          "Alias$field$1033"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 30
+      "coverageCount": 31
     },
     {
       "rule": {
-        "name": "ExpressionSelectItem$field$1033",
+        "name": "ExpressionSelectItem$field$1034",
         "symbols": [
           "Expression"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 133
+      "coverageCount": 163
     },
     {
       "rule": {
-        "name": "ExpressionSelectItem$optional$1034",
+        "name": "ExpressionSelectItem$optional$1035",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 103
+      "coverageCount": 132
     },
     {
       "rule": {
-        "name": "ExpressionSelectItem$optional$1034$field$1035",
+        "name": "ExpressionSelectItem$optional$1035$field$1036",
         "symbols": [
           "Alias"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 30
+      "coverageCount": 31
     },
     {
       "rule": {
-        "name": "ExpressionSelectItem$optional$1034",
+        "name": "ExpressionSelectItem$optional$1035",
         "symbols": [
           "extras$1",
-          "ExpressionSelectItem$optional$1034$field$1035"
+          "ExpressionSelectItem$optional$1035$field$1036"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 30
+      "coverageCount": 31
     },
     {
       "rule": {
         "name": "ExpressionSelectItem",
         "symbols": [
-          "ExpressionSelectItem$field$1033",
-          "ExpressionSelectItem$optional$1034"
+          "ExpressionSelectItem$field$1034",
+          "ExpressionSelectItem$optional$1035"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 133
+      "coverageCount": 163
     },
     {
       "rule": {
-        "name": "SelectItemList1$field$1036",
+        "name": "SelectItemList1$field$1037",
         "symbols": [
           "ExpressionSelectItem"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 113
+      "coverageCount": 142
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1037",
+        "name": "SelectItemList1$optional$1038",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 101
+      "coverageCount": 129
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1037$repeat1$1038$item$1039$field$1040",
+        "name": "SelectItemList1$optional$1038$repeat1$1039$item$1040$field$1041",
         "symbols": [
           {
             "tokenKind": "Comma",
@@ -29775,50 +29923,50 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 20
+      "coverageCount": 21
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1037$repeat1$1038$item$1039$field$1041",
+        "name": "SelectItemList1$optional$1038$repeat1$1039$item$1040$field$1042",
         "symbols": [
           "ExpressionSelectItem"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 20
+      "coverageCount": 21
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1037$repeat1$1038$item$1039",
+        "name": "SelectItemList1$optional$1038$repeat1$1039$item$1040",
         "symbols": [
-          "SelectItemList1$optional$1037$repeat1$1038$item$1039$field$1040",
+          "SelectItemList1$optional$1038$repeat1$1039$item$1040$field$1041",
           "extras$1",
-          "SelectItemList1$optional$1037$repeat1$1038$item$1039$field$1041"
+          "SelectItemList1$optional$1038$repeat1$1039$item$1040$field$1042"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 20
+      "coverageCount": 21
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1037$repeat1$1038",
+        "name": "SelectItemList1$optional$1038$repeat1$1039",
         "symbols": [
-          "SelectItemList1$optional$1037$repeat1$1038$item$1039"
+          "SelectItemList1$optional$1038$repeat1$1039$item$1040"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 12
+      "coverageCount": 13
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1037$repeat1$1038",
+        "name": "SelectItemList1$optional$1038$repeat1$1039",
         "symbols": [
-          "SelectItemList1$optional$1037$repeat1$1038",
+          "SelectItemList1$optional$1038$repeat1$1039",
           "extras$1",
-          "SelectItemList1$optional$1037$repeat1$1038$item$1039"
+          "SelectItemList1$optional$1038$repeat1$1039$item$1040"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -29827,31 +29975,31 @@
     },
     {
       "rule": {
-        "name": "SelectItemList1$optional$1037",
+        "name": "SelectItemList1$optional$1038",
         "symbols": [
           "extras$1",
-          "SelectItemList1$optional$1037$repeat1$1038"
+          "SelectItemList1$optional$1038$repeat1$1039"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 12
+      "coverageCount": 13
     },
     {
       "rule": {
         "name": "SelectItemList1",
         "symbols": [
-          "SelectItemList1$field$1036",
-          "SelectItemList1$optional$1037"
+          "SelectItemList1$field$1037",
+          "SelectItemList1$optional$1038"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 113
+      "coverageCount": 142
     },
     {
       "rule": {
-        "name": "Select$field$1042",
+        "name": "Select$field$1043",
         "symbols": [
           {
             "tokenKind": "SELECT",
@@ -29861,31 +30009,31 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 113
+      "coverageCount": 142
     },
     {
       "rule": {
-        "name": "Select$field$1043",
+        "name": "Select$field$1044",
         "symbols": [
           "SelectItemList1"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 113
+      "coverageCount": 142
     },
     {
       "rule": {
         "name": "Select",
         "symbols": [
-          "Select$field$1042",
+          "Select$field$1043",
           "extras$1",
-          "Select$field$1043"
+          "Select$field$1044"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 113
+      "coverageCount": 142
     },
     {
       "rule": {
@@ -29896,11 +30044,11 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 113
+      "coverageCount": 142
     },
     {
       "rule": {
-        "name": "LeadingStatement$optional$1048",
+        "name": "LeadingStatement$optional$1049",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -29909,7 +30057,7 @@
     },
     {
       "rule": {
-        "name": "LeadingStatement$optional$1048$field$1049",
+        "name": "LeadingStatement$optional$1049$field$1050",
         "symbols": [
           "Statement"
         ],
@@ -29920,9 +30068,9 @@
     },
     {
       "rule": {
-        "name": "LeadingStatement$optional$1048",
+        "name": "LeadingStatement$optional$1049",
         "symbols": [
-          "LeadingStatement$optional$1048$field$1049",
+          "LeadingStatement$optional$1049$field$1050",
           "extras$1"
         ],
         "precedence": 0,
@@ -29934,7 +30082,7 @@
       "rule": {
         "name": "LeadingStatement",
         "symbols": [
-          "LeadingStatement$optional$1048",
+          "LeadingStatement$optional$1049",
           "StatementTail"
         ],
         "precedence": 0,
@@ -29944,7 +30092,7 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050",
+        "name": "SourceFile$choice$1051",
         "symbols": [
           "extras$1"
         ],
@@ -29955,16 +30103,16 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$optional$1052",
+        "name": "SourceFile$choice$1051$seq$1052$optional$1053",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 494
+      "coverageCount": 540
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053$item$1054$field$1055$choice$1056",
+        "name": "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054$item$1055$field$1056$choice$1057",
         "symbols": [
           "LeadingStatement"
         ],
@@ -29975,7 +30123,7 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053$item$1054$field$1055$choice$1056",
+        "name": "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054$item$1055$field$1056$choice$1057",
         "symbols": [
           "DelimiterStatement"
         ],
@@ -29986,9 +30134,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053$item$1054$field$1055",
+        "name": "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054$item$1055$field$1056",
         "symbols": [
-          "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053$item$1054$field$1055$choice$1056"
+          "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054$item$1055$field$1056$choice$1057"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -29997,9 +30145,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053$item$1054",
+        "name": "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054$item$1055",
         "symbols": [
-          "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053$item$1054$field$1055"
+          "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054$item$1055$field$1056"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -30008,9 +30156,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053",
+        "name": "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054",
         "symbols": [
-          "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053$item$1054"
+          "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054$item$1055"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -30019,11 +30167,11 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053",
+        "name": "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054",
         "symbols": [
-          "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053",
+          "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054",
           "extras$1",
-          "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053$item$1054"
+          "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054$item$1055"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -30032,9 +30180,9 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$optional$1052",
+        "name": "SourceFile$choice$1051$seq$1052$optional$1053",
         "symbols": [
-          "SourceFile$choice$1050$seq$1051$optional$1052$repeat1$1053",
+          "SourceFile$choice$1051$seq$1052$optional$1053$repeat1$1054",
           "extras$1"
         ],
         "precedence": 0,
@@ -30044,18 +30192,18 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$field$1057$choice$1058",
+        "name": "SourceFile$choice$1051$seq$1052$field$1058$choice$1059",
         "symbols": [
           "TrailingStatement"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 503
+      "coverageCount": 549
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$field$1057$choice$1058",
+        "name": "SourceFile$choice$1051$seq$1052$field$1058$choice$1059",
         "symbols": [
           "DelimiterStatement"
         ],
@@ -30066,54 +30214,54 @@
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051$field$1057",
+        "name": "SourceFile$choice$1051$seq$1052$field$1058",
         "symbols": [
-          "SourceFile$choice$1050$seq$1051$field$1057$choice$1058"
+          "SourceFile$choice$1051$seq$1052$field$1058$choice$1059"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 519
+      "coverageCount": 565
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050$seq$1051",
+        "name": "SourceFile$choice$1051$seq$1052",
         "symbols": [
-          "SourceFile$choice$1050$seq$1051$optional$1052",
-          "SourceFile$choice$1050$seq$1051$field$1057"
+          "SourceFile$choice$1051$seq$1052$optional$1053",
+          "SourceFile$choice$1051$seq$1052$field$1058"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 519
+      "coverageCount": 565
     },
     {
       "rule": {
-        "name": "SourceFile$choice$1050",
+        "name": "SourceFile$choice$1051",
         "symbols": [
           "extras$1",
-          "SourceFile$choice$1050$seq$1051",
+          "SourceFile$choice$1051$seq$1052",
           "extras$1"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 519
+      "coverageCount": 565
     },
     {
       "rule": {
         "name": "SourceFile",
         "symbols": [
-          "SourceFile$choice$1050"
+          "SourceFile$choice$1051"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 523
+      "coverageCount": 569
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1059$field$1060",
+        "name": "StatementTail$choice$1060$field$1061",
         "symbols": [
           {
             "tokenKind": "SemiColon",
@@ -30123,20 +30271,20 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 266
+      "coverageCount": 283
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1059$optional$1061",
+        "name": "StatementTail$choice$1060$optional$1062",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 260
+      "coverageCount": 277
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1059$optional$1061$field$1062",
+        "name": "StatementTail$choice$1060$optional$1062$field$1063",
         "symbols": [
           {
             "tokenKind": "CustomDelimiter",
@@ -30150,10 +30298,10 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1059$optional$1061",
+        "name": "StatementTail$choice$1060$optional$1062",
         "symbols": [
           "extras$1",
-          "StatementTail$choice$1059$optional$1061$field$1062"
+          "StatementTail$choice$1060$optional$1062$field$1063"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -30162,19 +30310,19 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1059",
+        "name": "StatementTail$choice$1060",
         "symbols": [
-          "StatementTail$choice$1059$field$1060",
-          "StatementTail$choice$1059$optional$1061"
+          "StatementTail$choice$1060$field$1061",
+          "StatementTail$choice$1060$optional$1062"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 266
+      "coverageCount": 283
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1059$field$1063",
+        "name": "StatementTail$choice$1060$field$1064",
         "symbols": [
           {
             "tokenKind": "CustomDelimiter",
@@ -30188,9 +30336,9 @@
     },
     {
       "rule": {
-        "name": "StatementTail$choice$1059",
+        "name": "StatementTail$choice$1060",
         "symbols": [
-          "StatementTail$choice$1059$field$1063"
+          "StatementTail$choice$1060$field$1064"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
@@ -30201,7 +30349,7 @@
       "rule": {
         "name": "StatementTail",
         "symbols": [
-          "StatementTail$choice$1059",
+          "StatementTail$choice$1060",
           "extras$1",
           {
             "tokenKind": "EndOfStatement",
@@ -30211,7 +30359,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 277
+      "coverageCount": 294
     },
     {
       "rule": {
@@ -30244,7 +30392,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 267
+      "coverageCount": 284
     },
     {
       "rule": {
@@ -30266,31 +30414,31 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 113
+      "coverageCount": 142
     },
     {
       "rule": {
-        "name": "TrailingStatement$field$1064",
+        "name": "TrailingStatement$field$1065",
         "symbols": [
           "Statement"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 495
+      "coverageCount": 541
     },
     {
       "rule": {
-        "name": "TrailingStatement$optional$1065",
+        "name": "TrailingStatement$optional$1066",
         "symbols": [],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 262
+      "coverageCount": 291
     },
     {
       "rule": {
-        "name": "TrailingStatement$optional$1065",
+        "name": "TrailingStatement$optional$1066",
         "symbols": [
           "extras$1",
           "StatementTail"
@@ -30298,19 +30446,19 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 233
+      "coverageCount": 250
     },
     {
       "rule": {
         "name": "TrailingStatement",
         "symbols": [
-          "TrailingStatement$field$1064",
-          "TrailingStatement$optional$1065"
+          "TrailingStatement$field$1065",
+          "TrailingStatement$optional$1066"
         ],
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 495
+      "coverageCount": 541
     },
     {
       "rule": {

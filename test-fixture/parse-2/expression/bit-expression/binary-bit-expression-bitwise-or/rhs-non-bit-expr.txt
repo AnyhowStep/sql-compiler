@@ -1,0 +1,23 @@
+SELECT a|NOT b
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: Identifier[7, 8])
+            (operator: Bar[8, 9])
+            (Unexpected NOT[9, 12])
+            (WhiteSpace[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT a|NOT 2
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: Identifier[7, 8])
+            (operator: Bar[8, 9])
+            (Unexpected NOT[9, 12])
+            (WhiteSpace[12, 13])
+            (right: IntegerLiteral[13, 14])
+          )
+!`

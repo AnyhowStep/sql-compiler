@@ -1,0 +1,55 @@
+SELECT a<<b<<c
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: BinaryBitExpression[7, 11]
+              (left: Identifier[7, 8])
+              (operator: LessLess[8, 10])
+              (right: Identifier[10, 11])
+            )
+            (operator: LessLess[11, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT a>>b>>c
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: BinaryBitExpression[7, 11]
+              (left: Identifier[7, 8])
+              (operator: GreaterGreater[8, 10])
+              (right: Identifier[10, 11])
+            )
+            (operator: GreaterGreater[11, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT a>>b<<c
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: BinaryBitExpression[7, 11]
+              (left: Identifier[7, 8])
+              (operator: GreaterGreater[8, 10])
+              (right: Identifier[10, 11])
+            )
+            (operator: LessLess[11, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT a<<b>>c
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: BinaryBitExpression[7, 11]
+              (left: Identifier[7, 8])
+              (operator: LessLess[8, 10])
+              (right: Identifier[10, 11])
+            )
+            (operator: GreaterGreater[11, 13])
+            (right: Identifier[13, 14])
+          )
+!`

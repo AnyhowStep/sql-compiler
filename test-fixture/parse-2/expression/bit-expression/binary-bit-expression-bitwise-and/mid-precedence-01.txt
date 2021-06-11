@@ -1,0 +1,35 @@
+SELECT a>>b&c|d
+-----
+`!
+          (expression: BinaryBitExpression[7, 15]
+            (left: BinaryBitExpression[7, 13]
+              (left: BinaryBitExpression[7, 11]
+                (left: Identifier[7, 8])
+                (operator: GreaterGreater[8, 10])
+                (right: Identifier[10, 11])
+              )
+              (operator: Ampersand[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (operator: Bar[13, 14])
+            (right: Identifier[14, 15])
+          )
+!`
+-----
+SELECT a|b&c>>d
+-----
+`!
+          (expression: BinaryBitExpression[7, 15]
+            (left: Identifier[7, 8])
+            (operator: Bar[8, 9])
+            (right: BinaryBitExpression[9, 15]
+              (left: Identifier[9, 10])
+              (operator: Ampersand[10, 11])
+              (right: BinaryBitExpression[11, 15]
+                (left: Identifier[11, 12])
+                (operator: GreaterGreater[12, 14])
+                (right: Identifier[14, 15])
+              )
+            )
+          )
+!`

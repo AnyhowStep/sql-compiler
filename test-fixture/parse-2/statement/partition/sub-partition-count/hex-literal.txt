@@ -1,0 +1,53 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY LIST COLUMNS(`X`)
+  SUBPARTITION BY HASH (X)
+  SUBPARTITIONS 0x1
+  (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+  );
+
+-----
+`!
+          (subPartitionCount: SubPartitionCount[86, 103]
+            (subPartitionsToken: SUBPARTITIONS[86, 99])
+            (WhiteSpace[99, 100])
+            (partitionCount: HexLiteral[100, 103])
+          )
+!`
+-----
+CREATE TABLE T (X CHAR)
+  PARTITION BY LIST COLUMNS(`X`)
+  SUBPARTITION BY HASH (X)
+  SUBPARTITIONS x'aa'
+  (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+  );
+
+-----
+`!
+          (subPartitionCount: SubPartitionCount[86, 105]
+            (subPartitionsToken: SUBPARTITIONS[86, 99])
+            (WhiteSpace[99, 100])
+            (partitionCount: HexLiteral[100, 105])
+          )
+!`
+-----
+CREATE TABLE T (X CHAR)
+  PARTITION BY LIST COLUMNS(`X`)
+  SUBPARTITION BY HASH (X)
+  SUBPARTITIONS 0x'aa'
+  (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+  );
+-- Typo above. 0x'aa' is not a hex literal.
+-----
+`!
+          (subPartitionCount: SubPartitionCount[86, 102]
+            (subPartitionsToken: SUBPARTITIONS[86, 99])
+            (WhiteSpace[99, 100])
+            (Expected partitionCount: IntegerLiteral[100, 102])
+          )
+        )
+        (Unexpected StringLiteral[102, 106])
+        (LineBreak[106, 107])
+!`
