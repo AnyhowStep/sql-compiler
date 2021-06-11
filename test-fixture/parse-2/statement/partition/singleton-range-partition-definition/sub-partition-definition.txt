@@ -1,0 +1,39 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY RANGE (X+Y) (
+    PARTITION a VALUES LESS THAN (100)
+      COMMENT 'test'
+      (
+        SUBPARTITION b COMMENT 'test2'
+      )
+  );
+-----
+`!
+          (item[]: SingletonRangePartitionDefinition[63, 173]
+            (partitionToken: PARTITION[63, 72])
+            (WhiteSpace[72, 73])
+            (partitionName: Identifier[73, 74])
+            (WhiteSpace[74, 75])
+            (valuesToken: VALUES[75, 81])
+            (WhiteSpace[81, 82])
+            (lessToken: LESS[82, 86])
+            (WhiteSpace[86, 87])
+            (thanToken: THAN[87, 91])
+            (WhiteSpace[91, 92])
+            (maxValue: ParenthesizedMaxValue[92, 97]
+              (openParenthesesToken: OpenParentheses[92, 93])
+              (item: IntegerLiteral[93, 96])
+              (closeParenthesesToken: CloseParentheses[96, 97])
+            )
+            (LineBreak[97, 98])
+            (WhiteSpace[98, 104])
+            (partitionDefinitionOptionRepeat1: PartitionDefinitionOptionRepeat1[104, 118]
+              (item[]: PartitionDefinitionOptionComment[104, 118]
+                (commentToken: COMMENT[104, 111])
+                (WhiteSpace[111, 112])
+                (comment: StringLiteral[112, 118])
+              )
+            )
+            (LineBreak[118, 119])
+            (WhiteSpace[119, 125])
+            (subPartitionDefinitionTuple1: SubPartitionDefinitionTuple1[125, 173]
+!`

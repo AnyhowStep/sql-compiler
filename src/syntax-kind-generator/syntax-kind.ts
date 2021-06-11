@@ -150,6 +150,7 @@ export const syntaxKinds = [
     "SingletonRangePartitionDefinitionTuple1",
     "ListPartitionDefinitionTuple1",
     "RangePartition",
+    "ParenthesizedMaxValue",
 
     "PartitionCount",
     "SubPartitionCount",

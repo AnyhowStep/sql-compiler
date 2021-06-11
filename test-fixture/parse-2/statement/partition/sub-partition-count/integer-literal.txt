@@ -1,0 +1,16 @@
+CREATE TABLE T (X CHAR)
+  PARTITION BY LIST COLUMNS(`X`)
+  SUBPARTITION BY HASH (X)
+  SUBPARTITIONS 10
+  (
+    PARTITION a VALUES IN (1, 2, 3, 4)
+  );
+
+-----
+`!
+          (subPartitionCount: SubPartitionCount[86, 102]
+            (subPartitionsToken: SUBPARTITIONS[86, 99])
+            (WhiteSpace[99, 100])
+            (partitionCount: IntegerLiteral[100, 102])
+          )
+!`

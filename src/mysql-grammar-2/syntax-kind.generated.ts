@@ -137,6 +137,7 @@ export enum SyntaxKind {
     SingletonRangePartitionDefinitionTuple1 = "SingletonRangePartitionDefinitionTuple1",
     ListPartitionDefinitionTuple1 = "ListPartitionDefinitionTuple1",
     RangePartition = "RangePartition",
+    ParenthesizedMaxValue = "ParenthesizedMaxValue",
     PartitionCount = "PartitionCount",
     SubPartitionCount = "SubPartitionCount",
     KeyAlgorithm = "KeyAlgorithm",

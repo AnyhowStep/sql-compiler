@@ -3,6 +3,10 @@ import {parentheses, tuple1} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
+export const ParenthesizedMaxValue = parentheses(
+    field("item", choice(SyntaxKind.BitExpression, TokenKind.MAXVALUE))
+);
+
 /**
  *
  */
@@ -17,12 +21,14 @@ export const SingletonRangePartitionDefinition = seq(
     field("thanToken", TokenKind.THAN),
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5574
+     *
+     * @todo `MAXVALUE` should only be the very last item
      */
     field("maxValue", choice(
         /**
          * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5688
          */
-        parentheses(choice(SyntaxKind.BitExpression, TokenKind.MAXVALUE)),
+        SyntaxKind.ParenthesizedMaxValue,
         TokenKind.MAXVALUE,
     )),
     /**

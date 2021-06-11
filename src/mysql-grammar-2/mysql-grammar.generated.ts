@@ -139,6 +139,7 @@ export interface MySqlRuleCollection {
     SingletonRangePartitionDefinitionTuple1 : Rule|TopLevelRuleModifier,
     ListPartitionDefinitionTuple1 : Rule|TopLevelRuleModifier,
     RangePartition : Rule|TopLevelRuleModifier,
+    ParenthesizedMaxValue : Rule|TopLevelRuleModifier,
     PartitionCount : Rule|TopLevelRuleModifier,
     SubPartitionCount : Rule|TopLevelRuleModifier,
     KeyAlgorithm : Rule|TopLevelRuleModifier,

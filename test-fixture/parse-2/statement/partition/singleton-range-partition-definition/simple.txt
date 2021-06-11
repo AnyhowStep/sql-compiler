@@ -1,0 +1,24 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY RANGE (X+Y) (
+    PARTITION a VALUES LESS THAN (100)
+  );
+-----
+`!
+          (item[]: SingletonRangePartitionDefinition[63, 97]
+            (partitionToken: PARTITION[63, 72])
+            (WhiteSpace[72, 73])
+            (partitionName: Identifier[73, 74])
+            (WhiteSpace[74, 75])
+            (valuesToken: VALUES[75, 81])
+            (WhiteSpace[81, 82])
+            (lessToken: LESS[82, 86])
+            (WhiteSpace[86, 87])
+            (thanToken: THAN[87, 91])
+            (WhiteSpace[91, 92])
+            (maxValue: ParenthesizedMaxValue[92, 97]
+              (openParenthesesToken: OpenParentheses[92, 93])
+              (item: IntegerLiteral[93, 96])
+              (closeParenthesesToken: CloseParentheses[96, 97])
+            )
+          )
+!`

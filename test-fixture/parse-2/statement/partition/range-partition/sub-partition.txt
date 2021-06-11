@@ -1,0 +1,55 @@
+CREATE TABLE T (X INT, Y INT)
+  PARTITION BY RANGE (X+Y)
+  PARTITION 10
+  SUBPARTITION BY KEY (X)
+  (
+    PARTITION a VALUES LESS THAN (100)
+  );
+-----
+`!
+      (partition: RangePartition[32, 144]
+        (partitionToken: PARTITION[32, 41])
+        (WhiteSpace[41, 42])
+        (byToken: BY[42, 44])
+        (WhiteSpace[44, 45])
+        (rangeToken: RANGE[45, 50])
+        (WhiteSpace[50, 51])
+        (parenthesizedBitExpression: ParenthesizedBitExpression[51, 56]
+          (openParenthesesToken: OpenParentheses[51, 52])
+          (item: BinaryBitExpression[52, 55]
+            (left: Identifier[52, 53])
+            (operator: Plus[53, 54])
+            (right: Identifier[54, 55])
+          )
+          (closeParenthesesToken: CloseParentheses[55, 56])
+        )
+        (LineBreak[56, 57])
+        (WhiteSpace[57, 59])
+        (partitionCount: PartitionCount[59, 71]
+          (Expected partitionsToken: PARTITIONS[59, 68])
+          (WhiteSpace[68, 69])
+          (partitionCount: IntegerLiteral[69, 71])
+        )
+        (LineBreak[71, 72])
+        (WhiteSpace[72, 74])
+        (subPartition: KeySubPartition[74, 97]
+          (subPartitionToken: SUBPARTITION[74, 86])
+          (WhiteSpace[86, 87])
+          (byToken: BY[87, 89])
+          (WhiteSpace[89, 90])
+          (keyToken: KEY[90, 93])
+          (WhiteSpace[93, 94])
+          (identTuple1: IdentTuple1[94, 97]
+            (openParenthesesToken: OpenParentheses[94, 95])
+            (item[]: Identifier[95, 96])
+            (closeParenthesesToken: CloseParentheses[96, 97])
+          )
+        )
+        (LineBreak[97, 98])
+        (WhiteSpace[98, 100])
+        (singletonRangePartitionDefinitionTuple1: SingletonRangePartitionDefinitionTuple1[100, 144]
+          (openParenthesesToken: OpenParentheses[100, 101])
+          (LineBreak[101, 102])
+          (WhiteSpace[102, 106])
+          (item[]: SingletonRangePartitionDefinition[106, 140]
+!`

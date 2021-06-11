@@ -18,13 +18,13 @@ export const ParenthesizedBitExpression = parentheses(
  */
 export const BitExpression = choice(
     SyntaxKind.SimpleExpression,
-    alias("BinaryBitExpression", seq(
+    alias("BinaryBitExpression", precedence(1, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.Bar,
         ))),
         field("right", SyntaxKind.BitExpression),
-    )),
+    ))),
     alias("BinaryBitExpression", precedence(10, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(tokenSymbol(

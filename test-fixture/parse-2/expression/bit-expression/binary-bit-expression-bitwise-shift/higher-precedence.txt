@@ -1,0 +1,27 @@
+SELECT a&b<<c
+-----
+`!
+          (expression: BinaryBitExpression[7, 13]
+            (left: Identifier[7, 8])
+            (operator: Ampersand[8, 9])
+            (right: BinaryBitExpression[9, 13]
+              (left: Identifier[9, 10])
+              (operator: LessLess[10, 12])
+              (right: Identifier[12, 13])
+            )
+          )
+!`
+-----
+SELECT a<<b&c
+-----
+`!
+          (expression: BinaryBitExpression[7, 13]
+            (left: BinaryBitExpression[7, 11]
+              (left: Identifier[7, 8])
+              (operator: LessLess[8, 10])
+              (right: Identifier[10, 11])
+            )
+            (operator: Ampersand[11, 12])
+            (right: Identifier[12, 13])
+          )
+!`

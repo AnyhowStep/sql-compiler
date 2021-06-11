@@ -1,0 +1,31 @@
+SELECT a|b IS NULL
+-----
+`!
+          (expression: IsNullBooleanPrimaryExpression[7, 18]
+            (expression: BinaryBitExpression[7, 10]
+              (left: Identifier[7, 8])
+              (operator: Bar[8, 9])
+              (right: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (isToken: IS[11, 13])
+            (WhiteSpace[13, 14])
+            (nullToken: NULL[14, 18])
+          )
+!`
+-----
+SELECT a|2 IS NULL
+-----
+`!
+          (expression: IsNullBooleanPrimaryExpression[7, 18]
+            (expression: BinaryBitExpression[7, 10]
+              (left: Identifier[7, 8])
+              (operator: Bar[8, 9])
+              (right: IntegerLiteral[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (isToken: IS[11, 13])
+            (WhiteSpace[13, 14])
+            (nullToken: NULL[14, 18])
+          )
+!`
