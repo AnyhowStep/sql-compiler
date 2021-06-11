@@ -1,0 +1,143 @@
+SELECT a*b*c
+-----
+`!
+          (expression: BinaryBitExpression[7, 12]
+            (left: BinaryBitExpression[7, 10]
+              (left: Identifier[7, 8])
+              (operator: Asterisk[8, 9])
+              (right: Identifier[9, 10])
+            )
+            (operator: Asterisk[10, 11])
+            (right: Identifier[11, 12])
+          )
+!`
+-----
+SELECT a/b/c
+-----
+`!
+          (expression: BinaryBitExpression[7, 12]
+            (left: BinaryBitExpression[7, 10]
+              (left: Identifier[7, 8])
+              (operator: Slash[8, 9])
+              (right: Identifier[9, 10])
+            )
+            (operator: Slash[10, 11])
+            (right: Identifier[11, 12])
+          )
+!`
+-----
+SELECT a DIV b DIV c
+-----
+`!
+          (expression: BinaryBitExpression[7, 20]
+            (left: BinaryBitExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: DIV[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: DIV[15, 18])
+            (WhiteSpace[18, 19])
+            (right: Identifier[19, 20])
+          )
+!`
+-----
+SELECT a%b%c
+-----
+`!
+          (expression: BinaryBitExpression[7, 12]
+            (left: BinaryBitExpression[7, 10]
+              (left: Identifier[7, 8])
+              (operator: Percent[8, 9])
+              (right: Identifier[9, 10])
+            )
+            (operator: Percent[10, 11])
+            (right: Identifier[11, 12])
+          )
+!`
+-----
+SELECT a MOD b MOD c
+-----
+`!
+          (expression: BinaryBitExpression[7, 20]
+            (left: BinaryBitExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: MOD[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: MOD[15, 18])
+            (WhiteSpace[18, 19])
+            (right: Identifier[19, 20])
+          )
+!`
+-----
+SELECT a*b/c
+-----
+`!
+          (expression: BinaryBitExpression[7, 12]
+            (left: BinaryBitExpression[7, 10]
+              (left: Identifier[7, 8])
+              (operator: Asterisk[8, 9])
+              (right: Identifier[9, 10])
+            )
+            (operator: Slash[10, 11])
+            (right: Identifier[11, 12])
+          )
+!`
+-----
+SELECT a/b DIV c
+-----
+`!
+          (expression: BinaryBitExpression[7, 16]
+            (left: BinaryBitExpression[7, 10]
+              (left: Identifier[7, 8])
+              (operator: Slash[8, 9])
+              (right: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: DIV[11, 14])
+            (WhiteSpace[14, 15])
+            (right: Identifier[15, 16])
+          )
+!`
+-----
+SELECT a DIV b % c
+-----
+`!
+          (expression: BinaryBitExpression[7, 18]
+            (left: BinaryBitExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: DIV[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: Percent[15, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a % b MOD c
+-----
+`!
+          (expression: BinaryBitExpression[7, 18]
+            (left: BinaryBitExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Percent[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: MOD[13, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`

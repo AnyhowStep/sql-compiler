@@ -1,0 +1,35 @@
+SELECT a+b*c^d
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: Identifier[7, 8])
+            (operator: Plus[8, 9])
+            (right: BinaryBitExpression[9, 14]
+              (left: Identifier[9, 10])
+              (operator: Asterisk[10, 11])
+              (right: BinaryBitExpression[11, 14]
+                (left: Identifier[11, 12])
+                (operator: Caret[12, 13])
+                (right: Identifier[13, 14])
+              )
+            )
+          )
+!`
+-----
+SELECT a^b*c+d
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: BinaryBitExpression[7, 12]
+              (left: BinaryBitExpression[7, 10]
+                (left: Identifier[7, 8])
+                (operator: Caret[8, 9])
+                (right: Identifier[9, 10])
+              )
+              (operator: Asterisk[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (operator: Plus[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`

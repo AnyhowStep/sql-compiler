@@ -1,0 +1,71 @@
+SELECT a*b+c<<d
+-----
+`!
+          (expression: BinaryBitExpression[7, 15]
+            (left: BinaryBitExpression[7, 12]
+              (left: BinaryBitExpression[7, 10]
+                (left: Identifier[7, 8])
+                (operator: Asterisk[8, 9])
+                (right: Identifier[9, 10])
+              )
+              (operator: Plus[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (operator: LessLess[12, 14])
+            (right: Identifier[14, 15])
+          )
+!`
+-----
+SELECT a<<b+c*d
+-----
+`!
+          (expression: BinaryBitExpression[7, 15]
+            (left: Identifier[7, 8])
+            (operator: LessLess[8, 10])
+            (right: BinaryBitExpression[10, 15]
+              (left: Identifier[10, 11])
+              (operator: Plus[11, 12])
+              (right: BinaryBitExpression[12, 15]
+                (left: Identifier[12, 13])
+                (operator: Asterisk[13, 14])
+                (right: Identifier[14, 15])
+              )
+            )
+          )
+!`
+-----
+SELECT a*b-c<<d
+-----
+`!
+          (expression: BinaryBitExpression[7, 15]
+            (left: BinaryBitExpression[7, 12]
+              (left: BinaryBitExpression[7, 10]
+                (left: Identifier[7, 8])
+                (operator: Asterisk[8, 9])
+                (right: Identifier[9, 10])
+              )
+              (operator: Minus[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (operator: LessLess[12, 14])
+            (right: Identifier[14, 15])
+          )
+!`
+-----
+SELECT a<<b-c*d
+-----
+`!
+          (expression: BinaryBitExpression[7, 15]
+            (left: Identifier[7, 8])
+            (operator: LessLess[8, 10])
+            (right: BinaryBitExpression[10, 15]
+              (left: Identifier[10, 11])
+              (operator: Minus[11, 12])
+              (right: BinaryBitExpression[12, 15]
+                (left: Identifier[12, 13])
+                (operator: Asterisk[13, 14])
+                (right: Identifier[14, 15])
+              )
+            )
+          )
+!`

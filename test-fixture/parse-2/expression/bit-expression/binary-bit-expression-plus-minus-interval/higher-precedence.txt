@@ -1,0 +1,39 @@
+SELECT a+INTERVAL b DAY<<c
+-----
+`!
+          (expression: BinaryBitExpression[7, 26]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: LessLess[23, 25])
+            (right: Identifier[25, 26])
+          )
+!`
+-----
+SELECT a<<b+INTERVAL c DAY
+-----
+`!
+          (expression: BinaryBitExpression[7, 26]
+            (left: Identifier[7, 8])
+            (operator: LessLess[8, 10])
+            (right: BinaryBitExpression[10, 26]
+              (left: Identifier[10, 11])
+              (operator: Plus[11, 12])
+              (right: IntervalExpression[12, 26]
+                (intervalToken: INTERVAL[12, 20])
+                (WhiteSpace[20, 21])
+                (expression: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (temporalUnit: DAY[23, 26])
+              )
+            )
+          )
+!`

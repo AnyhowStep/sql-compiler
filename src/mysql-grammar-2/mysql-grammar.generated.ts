@@ -188,6 +188,7 @@ export interface MySqlRuleCollection {
     ExpressionTuple1 : Rule|TopLevelRuleModifier,
     BitExpressionTuple1 : Rule|TopLevelRuleModifier,
     BitExpressionTuple1Tuple1 : Rule|TopLevelRuleModifier,
+    IntervalExpressionPlus : Rule|TopLevelRuleModifier,
     SignedLiteral : Rule|TopLevelRuleModifier,
     Literal : Rule|TopLevelRuleModifier,
     TextLiteral : Rule|TopLevelRuleModifier,

@@ -1600,8 +1600,34 @@ function cmpPrecedence (
             } else {
                 return aPrec < bPrec ? -1 : 1;
             }
+        } else {
+            if (
+                aFirst.children
+                    .some(c => "syntaxKind" in c && c.syntaxKind == bFirst.syntaxKind) ||
+                bFirst.children
+                    .some(c => "syntaxKind" in c && c.syntaxKind == aFirst.syntaxKind)
+            ) {
+                const aFirst2 = aFirst.children[0];
+                const bFirst2 = bFirst.children[0];
+                const aPrec2 = (
+                    "tokenKind" in aFirst2 ?
+                    0 :
+                    aFirst2.precedence
+                );
+                const bPrec2 = (
+                    "tokenKind" in bFirst2 ?
+                    0 :
+                    bFirst2.precedence
+                );
+                if (aPrec2 != bPrec2) {
+                    return aPrec < bPrec ? 1 : -1;
+                }
+                //@todo Left-associative?
+                return 0;
+            } else {
+                return 0;
+            }
         }
-        return 0;
     }
     //for (let tokenIndex=a.tokenIndex-1; tokenIndex>=a.startTokenIndex; --tokenIndex) {
     for (let tokenIndex=a.startTokenIndex; tokenIndex<a.tokenIndex; ++tokenIndex) {
@@ -1896,7 +1922,8 @@ export function parse (
             // ++redoCount;
             // //Go back to previous token
             // //i -= 2;
-            continue;
+            //console.log("continue", i);
+            //continue;
         }
 
         stateSet.processLowestErrorCountStates(

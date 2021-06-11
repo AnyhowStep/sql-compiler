@@ -1,0 +1,103 @@
+SELECT a+INTERVAL b DAY+INTERVAL c DAY
+-----
+`!
+          (expression: BinaryBitExpression[7, 38]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: Plus[23, 24])
+            (right: IntervalExpression[24, 38]
+              (intervalToken: INTERVAL[24, 32])
+              (WhiteSpace[32, 33])
+              (expression: Identifier[33, 34])
+              (WhiteSpace[34, 35])
+              (temporalUnit: DAY[35, 38])
+            )
+          )
+!`
+-----
+SELECT a-INTERVAL b DAY-INTERVAL c DAY
+-----
+`!
+          (expression: BinaryBitExpression[7, 38]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Minus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: Minus[23, 24])
+            (right: IntervalExpression[24, 38]
+              (intervalToken: INTERVAL[24, 32])
+              (WhiteSpace[32, 33])
+              (expression: Identifier[33, 34])
+              (WhiteSpace[34, 35])
+              (temporalUnit: DAY[35, 38])
+            )
+          )
+!`
+-----
+SELECT a-INTERVAL b DAY+INTERVAL c DAY
+-----
+`!
+          (expression: BinaryBitExpression[7, 38]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Minus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: Plus[23, 24])
+            (right: IntervalExpression[24, 38]
+              (intervalToken: INTERVAL[24, 32])
+              (WhiteSpace[32, 33])
+              (expression: Identifier[33, 34])
+              (WhiteSpace[34, 35])
+              (temporalUnit: DAY[35, 38])
+            )
+          )
+!`
+-----
+SELECT a+INTERVAL b DAY-INTERVAL c DAY
+-----
+`!
+          (expression: BinaryBitExpression[7, 38]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: Minus[23, 24])
+            (right: IntervalExpression[24, 38]
+              (intervalToken: INTERVAL[24, 32])
+              (WhiteSpace[32, 33])
+              (expression: Identifier[33, 34])
+              (WhiteSpace[34, 35])
+              (temporalUnit: DAY[35, 38])
+            )
+          )
+!`

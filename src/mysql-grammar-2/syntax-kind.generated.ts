@@ -186,6 +186,7 @@ export enum SyntaxKind {
     ExpressionTuple1 = "ExpressionTuple1",
     BitExpressionTuple1 = "BitExpressionTuple1",
     BitExpressionTuple1Tuple1 = "BitExpressionTuple1Tuple1",
+    IntervalExpressionPlus = "IntervalExpressionPlus",
     SignedLiteral = "SignedLiteral",
     Literal = "Literal",
     TextLiteral = "TextLiteral",
