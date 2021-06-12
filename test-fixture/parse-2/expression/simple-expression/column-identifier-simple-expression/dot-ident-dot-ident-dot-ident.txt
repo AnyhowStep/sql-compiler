@@ -1,0 +1,17 @@
+SELECT .A.B.C
+-- This is not allowed
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 13]
+          (expression: ColumnIdentifierSimpleExpression[7, 11]
+            (dotToken[]: Dot[7, 8])
+            (tableName: Identifier[8, 9])
+            (dotToken[]: Dot[9, 10])
+            (columnName: Identifier[10, 11])
+          )
+          (alias: Alias[11, 13]
+            (Unexpected Dot[11, 12])
+            (alias: Identifier[12, 13])
+          )
+        )
+!`

@@ -33,6 +33,10 @@ export const ComparisonBooleanPrimaryExpression = seq(
         TokenKind.Greater,
         TokenKind.LessEqual,
         TokenKind.Less,
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L67-L68
+         */
+        TokenKind.LessGreater,
         TokenKind.ExclamationEqual,
     ))),
     field("right", SyntaxKind.Predicate),
@@ -50,11 +54,17 @@ export const ComparisonSubQueryBooleanPrimaryExpression = seq(
         TokenKind.Greater,
         TokenKind.LessEqual,
         TokenKind.Less,
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L67-L68
+         */
+        TokenKind.LessGreater,
         TokenKind.ExclamationEqual,
     ))),
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9489
+     *
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L560
      */
-    field("quantifier", tokenSymbol(TokenKind.ALL, TokenKind.ANY)),
+    field("quantifier", tokenSymbol(TokenKind.ALL, TokenKind.ANY, TokenKind.SOME)),
     field("parenthesizedSelect", SyntaxKind.ParenthesizedSelect),
 );

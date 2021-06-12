@@ -1,0 +1,63 @@
+SELECT a = b = ANY (SELECT c)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 29]
+            (expression: ComparisonBooleanPrimaryExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Equal[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: Equal[13, 14])
+            (WhiteSpace[14, 15])
+            (quantifier: ANY[15, 18])
+            (WhiteSpace[18, 19])
+            (parenthesizedSelect: ParenthesizedSelect[19, 29]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item: Select[20, 28]
+                (selectToken: SELECT[20, 26])
+                (WhiteSpace[26, 27])
+                (selectItemList1: SelectItemList1[27, 28]
+                  (item[]: ExpressionSelectItem[27, 28]
+                    (expression: Identifier[27, 28])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT a = ANY (SELECT b) = c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 29]
+            (left: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+              (expression: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Equal[9, 10])
+              (WhiteSpace[10, 11])
+              (quantifier: ANY[11, 14])
+              (WhiteSpace[14, 15])
+              (parenthesizedSelect: ParenthesizedSelect[15, 25]
+                (openParenthesesToken: OpenParentheses[15, 16])
+                (item: Select[16, 24]
+                  (selectToken: SELECT[16, 22])
+                  (WhiteSpace[22, 23])
+                  (selectItemList1: SelectItemList1[23, 24]
+                    (item[]: ExpressionSelectItem[23, 24]
+                      (expression: Identifier[23, 24])
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[24, 25])
+              )
+            )
+            (WhiteSpace[25, 26])
+            (operator: Equal[26, 27])
+            (WhiteSpace[27, 28])
+            (right: Identifier[28, 29])
+          )
+!`

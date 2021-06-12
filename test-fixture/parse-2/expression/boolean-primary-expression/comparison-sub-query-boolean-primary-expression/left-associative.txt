@@ -1,0 +1,45 @@
+SELECT a = ANY (SELECT b) = ANY (SELECT c)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 42]
+            (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+              (expression: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Equal[9, 10])
+              (WhiteSpace[10, 11])
+              (quantifier: ANY[11, 14])
+              (WhiteSpace[14, 15])
+              (parenthesizedSelect: ParenthesizedSelect[15, 25]
+                (openParenthesesToken: OpenParentheses[15, 16])
+                (item: Select[16, 24]
+                  (selectToken: SELECT[16, 22])
+                  (WhiteSpace[22, 23])
+                  (selectItemList1: SelectItemList1[23, 24]
+                    (item[]: ExpressionSelectItem[23, 24]
+                      (expression: Identifier[23, 24])
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[24, 25])
+              )
+            )
+            (WhiteSpace[25, 26])
+            (operator: Equal[26, 27])
+            (WhiteSpace[27, 28])
+            (quantifier: ANY[28, 31])
+            (WhiteSpace[31, 32])
+            (parenthesizedSelect: ParenthesizedSelect[32, 42]
+              (openParenthesesToken: OpenParentheses[32, 33])
+              (item: Select[33, 41]
+                (selectToken: SELECT[33, 39])
+                (WhiteSpace[39, 40])
+                (selectItemList1: SelectItemList1[40, 41]
+                  (item[]: ExpressionSelectItem[40, 41]
+                    (expression: Identifier[40, 41])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`
