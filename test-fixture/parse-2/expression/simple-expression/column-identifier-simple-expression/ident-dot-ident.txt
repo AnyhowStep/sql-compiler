@@ -1,0 +1,9 @@
+SELECT A.B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 10]
+            (tableName: Identifier[7, 8])
+            (dotToken[]: Dot[8, 9])
+            (columnName: Identifier[9, 10])
+          )
+!`

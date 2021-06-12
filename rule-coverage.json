@@ -1,9 +1,9 @@
 {
-  "coveredCount": 957,
-  "uncoveredCount": 819,
+  "coveredCount": 1027,
+  "uncoveredCount": 749,
   "totalCount": 1776,
-  "coveredRatio": 0.5388513513513513,
-  "uncoveredRatio": 0.46114864864864863,
+  "coveredRatio": 0.5782657657657657,
+  "uncoveredRatio": 0.42173423423423423,
   "uncoveredRules": [
     {
       "name": "noLineBreak$9$optional$10$repeat1$11",
@@ -20,152 +20,6 @@
         "BitExpressionTuple1Tuple1$optional$183$repeat1$184",
         "extras$1",
         "BitExpressionTuple1Tuple1$optional$183$repeat1$184$item$185"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "BooleanPrimaryExpression",
-      "symbols": [
-        "ComparisonBooleanPrimaryExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "BooleanPrimaryExpression",
-      "symbols": [
-        "ComparisonSubQueryBooleanPrimaryExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "IsNullBooleanPrimaryExpression$optional$222$field$223",
-      "symbols": [
-        {
-          "tokenKind": "NOT",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "IsNullBooleanPrimaryExpression$optional$222",
-      "symbols": [
-        "extras$1",
-        "IsNullBooleanPrimaryExpression$optional$222$field$223"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonBooleanPrimaryExpression$field$225",
-      "symbols": [
-        "BooleanPrimaryExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonBooleanPrimaryExpression$field$226",
-      "symbols": [
-        {
-          "tokenKind": "Equal",
-          "otherTokenKinds": [
-            "LessEqualGreater",
-            "GreaterEqual",
-            "Greater",
-            "LessEqual",
-            "Less",
-            "ExclamationEqual"
-          ],
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonBooleanPrimaryExpression$field$227",
-      "symbols": [
-        "Predicate"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonBooleanPrimaryExpression",
-      "symbols": [
-        "ComparisonBooleanPrimaryExpression$field$225",
-        "extras$1",
-        "ComparisonBooleanPrimaryExpression$field$226",
-        "extras$1",
-        "ComparisonBooleanPrimaryExpression$field$227"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonSubQueryBooleanPrimaryExpression$field$228",
-      "symbols": [
-        "BooleanPrimaryExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonSubQueryBooleanPrimaryExpression$field$229",
-      "symbols": [
-        {
-          "tokenKind": "Equal",
-          "otherTokenKinds": [
-            "LessEqualGreater",
-            "GreaterEqual",
-            "Greater",
-            "LessEqual",
-            "Less",
-            "ExclamationEqual"
-          ],
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonSubQueryBooleanPrimaryExpression$field$230",
-      "symbols": [
-        {
-          "tokenKind": "ALL",
-          "otherTokenKinds": [
-            "ANY"
-          ],
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonSubQueryBooleanPrimaryExpression$field$231",
-      "symbols": [
-        "ParenthesizedSelect"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ComparisonSubQueryBooleanPrimaryExpression",
-      "symbols": [
-        "ComparisonSubQueryBooleanPrimaryExpression$field$228",
-        "extras$1",
-        "ComparisonSubQueryBooleanPrimaryExpression$field$229",
-        "extras$1",
-        "ComparisonSubQueryBooleanPrimaryExpression$field$230",
-        "extras$1",
-        "ComparisonSubQueryBooleanPrimaryExpression$field$231"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -338,66 +192,8 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ExpressionTuple1$field$251",
-      "symbols": [
-        {
-          "tokenKind": "OpenParentheses",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ExpressionTuple1$field$252",
-      "symbols": [
-        "Expression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "ExpressionTuple1$optional$253",
       "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ExpressionTuple1$optional$253$repeat1$254$item$255$field$256",
-      "symbols": [
-        {
-          "tokenKind": "Comma",
-          "canExpect": true,
-          "skipExpectationCost": 0.1,
-          "skipExpectationAfterExtraCost": 0.1
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ExpressionTuple1$optional$253$repeat1$254$item$255$field$257",
-      "symbols": [
-        "Expression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ExpressionTuple1$optional$253$repeat1$254$item$255",
-      "symbols": [
-        "ExpressionTuple1$optional$253$repeat1$254$item$255$field$256",
-        "extras$1",
-        "ExpressionTuple1$optional$253$repeat1$254$item$255$field$257"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ExpressionTuple1$optional$253$repeat1$254",
-      "symbols": [
-        "ExpressionTuple1$optional$253$repeat1$254$item$255"
-      ],
       "precedence": 0,
       "penalizeErrorStart": true
     },
@@ -407,39 +203,6 @@
         "ExpressionTuple1$optional$253$repeat1$254",
         "extras$1",
         "ExpressionTuple1$optional$253$repeat1$254$item$255"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ExpressionTuple1$optional$253",
-      "symbols": [
-        "extras$1",
-        "ExpressionTuple1$optional$253$repeat1$254"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ExpressionTuple1$field$258",
-      "symbols": [
-        {
-          "tokenKind": "CloseParentheses",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ExpressionTuple1",
-      "symbols": [
-        "ExpressionTuple1$field$251",
-        "extras$1",
-        "ExpressionTuple1$field$252",
-        "ExpressionTuple1$optional$253",
-        "extras$1",
-        "ExpressionTuple1$field$258"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -3604,22 +3367,6 @@
     {
       "name": "Predicate",
       "symbols": [
-        "InSubQueryPredicate"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "Predicate",
-      "symbols": [
-        "InExpressionTuple1Predicate"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "Predicate",
-      "symbols": [
         "BetweenPredicate"
       ],
       "precedence": 0,
@@ -3630,36 +3377,6 @@
       "symbols": [
         "SoundsLikePredicate"
       ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "Predicate",
-      "symbols": [
-        "LikePredicate"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "Predicate",
-      "symbols": [
-        "RegExpPredicate"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InSubQueryPredicate$field$459",
-      "symbols": [
-        "BitExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InSubQueryPredicate$optional$460",
-      "symbols": [],
       "precedence": 0,
       "penalizeErrorStart": true
     },
@@ -3684,52 +3401,6 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "InSubQueryPredicate$field$462",
-      "symbols": [
-        {
-          "tokenKind": "IN",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InSubQueryPredicate$field$463",
-      "symbols": [
-        "ParenthesizedSelect"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InSubQueryPredicate",
-      "symbols": [
-        "InSubQueryPredicate$field$459",
-        "InSubQueryPredicate$optional$460",
-        "extras$1",
-        "InSubQueryPredicate$field$462",
-        "extras$1",
-        "InSubQueryPredicate$field$463"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InExpressionTuple1Predicate$field$464",
-      "symbols": [
-        "BitExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InExpressionTuple1Predicate$optional$465",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "InExpressionTuple1Predicate$optional$465$field$466",
       "symbols": [
         {
@@ -3745,38 +3416,6 @@
       "symbols": [
         "extras$1",
         "InExpressionTuple1Predicate$optional$465$field$466"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InExpressionTuple1Predicate$field$467",
-      "symbols": [
-        {
-          "tokenKind": "IN",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InExpressionTuple1Predicate$field$468",
-      "symbols": [
-        "ExpressionTuple1"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "InExpressionTuple1Predicate",
-      "symbols": [
-        "InExpressionTuple1Predicate$field$464",
-        "InExpressionTuple1Predicate$optional$465",
-        "extras$1",
-        "InExpressionTuple1Predicate$field$467",
-        "extras$1",
-        "InExpressionTuple1Predicate$field$468"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -3923,20 +3562,6 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "LikePredicate$field$480",
-      "symbols": [
-        "BitExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "LikePredicate$optional$481",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "LikePredicate$optional$481$field$482",
       "symbols": [
         {
@@ -3957,31 +3582,6 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "LikePredicate$field$483",
-      "symbols": [
-        {
-          "tokenKind": "LIKE",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "LikePredicate$field$484",
-      "symbols": [
-        "SimpleExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "LikePredicate$optional$485",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "LikePredicate$optional$485$field$486",
       "symbols": [
         "LikeEscape"
@@ -3994,20 +3594,6 @@
       "symbols": [
         "extras$1",
         "LikePredicate$optional$485$field$486"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "LikePredicate",
-      "symbols": [
-        "LikePredicate$field$480",
-        "LikePredicate$optional$481",
-        "extras$1",
-        "LikePredicate$field$483",
-        "extras$1",
-        "LikePredicate$field$484",
-        "LikePredicate$optional$485"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -4042,20 +3628,6 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "RegExpPredicate$field$489",
-      "symbols": [
-        "BitExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RegExpPredicate$optional$490",
-      "symbols": [],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "RegExpPredicate$optional$490$field$491",
       "symbols": [
         {
@@ -4071,38 +3643,6 @@
       "symbols": [
         "extras$1",
         "RegExpPredicate$optional$490$field$491"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RegExpPredicate$field$492",
-      "symbols": [
-        {
-          "tokenKind": "REGEXP",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RegExpPredicate$field$493",
-      "symbols": [
-        "BitExpression"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "RegExpPredicate",
-      "symbols": [
-        "RegExpPredicate$field$489",
-        "RegExpPredicate$optional$490",
-        "extras$1",
-        "RegExpPredicate$field$492",
-        "extras$1",
-        "RegExpPredicate$field$493"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -4224,72 +3764,6 @@
         "IntervalExpressionPlus$field$500"
       ],
       "precedence": 60,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$506$field$507",
-      "symbols": [
-        {
-          "tokenKind": "Dot",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$506$field$508",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$506",
-      "symbols": [
-        "ColumnIdentifierSimpleExpression$choice$506$field$507",
-        "extras$1",
-        "ColumnIdentifierSimpleExpression$choice$506$field$508"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$field$511",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$512$field$513",
-      "symbols": [
-        {
-          "tokenKind": "Dot",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$512$field$514",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$512",
-      "symbols": [
-        "ColumnIdentifierSimpleExpression$choice$512$field$513",
-        "extras$1",
-        "ColumnIdentifierSimpleExpression$choice$512$field$514"
-      ],
-      "precedence": 0,
       "penalizeErrorStart": true
     },
     {
@@ -4557,35 +4031,6 @@
         "ColumnIdentifierSimpleExpression$choice$512$field$515",
         "noExtras$5",
         "ColumnIdentifierSimpleExpression$choice$512$field$516"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$517$field$518",
-      "symbols": [
-        {
-          "tokenKind": "Dot",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$517$field$519",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$517",
-      "symbols": [
-        "ColumnIdentifierSimpleExpression$choice$517$field$518",
-        "extras$1",
-        "ColumnIdentifierSimpleExpression$choice$517$field$519"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -4860,47 +4305,6 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ColumnIdentifierSimpleExpression",
-      "symbols": [
-        "ColumnIdentifierSimpleExpression$field$511",
-        "extras$1",
-        "ColumnIdentifierSimpleExpression$choice$512",
-        "extras$1",
-        "ColumnIdentifierSimpleExpression$choice$517"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$522$field$523",
-      "symbols": [
-        {
-          "tokenKind": "Dot",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$522$field$524",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$522",
-      "symbols": [
-        "ColumnIdentifierSimpleExpression$choice$522$field$523",
-        "extras$1",
-        "ColumnIdentifierSimpleExpression$choice$522$field$524"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "ColumnIdentifierSimpleExpression$choice$522$field$525",
       "symbols": [
         {
@@ -5170,35 +4574,6 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ColumnIdentifierSimpleExpression$choice$527$field$528",
-      "symbols": [
-        {
-          "tokenKind": "Dot",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$527$field$529",
-      "symbols": [
-        "Ident"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression$choice$527",
-      "symbols": [
-        "ColumnIdentifierSimpleExpression$choice$527$field$528",
-        "extras$1",
-        "ColumnIdentifierSimpleExpression$choice$527$field$529"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "ColumnIdentifierSimpleExpression$choice$527$field$530",
       "symbols": [
         {
@@ -5463,16 +4838,6 @@
         "ColumnIdentifierSimpleExpression$choice$527$field$530",
         "noExtras$5",
         "ColumnIdentifierSimpleExpression$choice$527$field$531"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ColumnIdentifierSimpleExpression",
-      "symbols": [
-        "ColumnIdentifierSimpleExpression$choice$522",
-        "extras$1",
-        "ColumnIdentifierSimpleExpression$choice$527"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -13289,59 +12654,9 @@
       "penalizeErrorStart": true
     },
     {
-      "name": "ParenthesizedSelect$field$1048",
-      "symbols": [
-        {
-          "tokenKind": "OpenParentheses",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ParenthesizedSelect$field$1049$choice$1050",
-      "symbols": [
-        "Select"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
       "name": "ParenthesizedSelect$field$1049$choice$1050",
       "symbols": [
         "ParenthesizedSelect"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ParenthesizedSelect$field$1049",
-      "symbols": [
-        "ParenthesizedSelect$field$1049$choice$1050"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ParenthesizedSelect$field$1051",
-      "symbols": [
-        {
-          "tokenKind": "CloseParentheses",
-          "canExpect": true
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true
-    },
-    {
-      "name": "ParenthesizedSelect",
-      "symbols": [
-        "ParenthesizedSelect$field$1048",
-        "extras$1",
-        "ParenthesizedSelect$field$1049",
-        "extras$1",
-        "ParenthesizedSelect$field$1051"
       ],
       "precedence": 0,
       "penalizeErrorStart": true
@@ -13355,7 +12670,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3318
+      "coverageCount": 3458
     },
     {
       "rule": {
@@ -13375,7 +12690,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4454
+      "coverageCount": 4737
     },
     {
       "rule": {
@@ -13386,7 +12701,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3855
+      "coverageCount": 4102
     },
     {
       "rule": {
@@ -13398,7 +12713,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 599
+      "coverageCount": 635
     },
     {
       "rule": {
@@ -13409,7 +12724,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 3855
+      "coverageCount": 4102
     },
     {
       "rule": {
@@ -13420,7 +12735,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 7173
+      "coverageCount": 7560
     },
     {
       "rule": {
@@ -17509,7 +16824,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 627
+      "coverageCount": 745
     },
     {
       "rule": {
@@ -17969,7 +17284,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 252
+      "coverageCount": 323
     },
     {
       "rule": {
@@ -17980,7 +17295,29 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 10
+    },
+    {
+      "rule": {
+        "name": "BooleanPrimaryExpression",
+        "symbols": [
+          "ComparisonBooleanPrimaryExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 45
+    },
+    {
+      "rule": {
+        "name": "BooleanPrimaryExpression",
+        "symbols": [
+          "ComparisonSubQueryBooleanPrimaryExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 15
     },
     {
       "rule": {
@@ -17991,7 +17328,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 10
     },
     {
       "rule": {
@@ -18005,7 +17342,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 10
     },
     {
       "rule": {
@@ -18014,7 +17351,33 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 9
+    },
+    {
+      "rule": {
+        "name": "IsNullBooleanPrimaryExpression$optional$222$field$223",
+        "symbols": [
+          {
+            "tokenKind": "NOT",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "IsNullBooleanPrimaryExpression$optional$222",
+        "symbols": [
+          "extras$1",
+          "IsNullBooleanPrimaryExpression$optional$222$field$223"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
     },
     {
       "rule": {
@@ -18028,7 +17391,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 10
     },
     {
       "rule": {
@@ -18044,7 +17407,147 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 10
+    },
+    {
+      "rule": {
+        "name": "ComparisonBooleanPrimaryExpression$field$225",
+        "symbols": [
+          "BooleanPrimaryExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 45
+    },
+    {
+      "rule": {
+        "name": "ComparisonBooleanPrimaryExpression$field$226",
+        "symbols": [
+          {
+            "tokenKind": "Equal",
+            "otherTokenKinds": [
+              "LessEqualGreater",
+              "GreaterEqual",
+              "Greater",
+              "LessEqual",
+              "Less",
+              "LessGreater",
+              "ExclamationEqual"
+            ],
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 45
+    },
+    {
+      "rule": {
+        "name": "ComparisonBooleanPrimaryExpression$field$227",
+        "symbols": [
+          "Predicate"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 45
+    },
+    {
+      "rule": {
+        "name": "ComparisonBooleanPrimaryExpression",
+        "symbols": [
+          "ComparisonBooleanPrimaryExpression$field$225",
+          "extras$1",
+          "ComparisonBooleanPrimaryExpression$field$226",
+          "extras$1",
+          "ComparisonBooleanPrimaryExpression$field$227"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 45
+    },
+    {
+      "rule": {
+        "name": "ComparisonSubQueryBooleanPrimaryExpression$field$228",
+        "symbols": [
+          "BooleanPrimaryExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 15
+    },
+    {
+      "rule": {
+        "name": "ComparisonSubQueryBooleanPrimaryExpression$field$229",
+        "symbols": [
+          {
+            "tokenKind": "Equal",
+            "otherTokenKinds": [
+              "LessEqualGreater",
+              "GreaterEqual",
+              "Greater",
+              "LessEqual",
+              "Less",
+              "LessGreater",
+              "ExclamationEqual"
+            ],
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 15
+    },
+    {
+      "rule": {
+        "name": "ComparisonSubQueryBooleanPrimaryExpression$field$230",
+        "symbols": [
+          {
+            "tokenKind": "ALL",
+            "otherTokenKinds": [
+              "ANY",
+              "SOME"
+            ],
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 15
+    },
+    {
+      "rule": {
+        "name": "ComparisonSubQueryBooleanPrimaryExpression$field$231",
+        "symbols": [
+          "ParenthesizedSelect"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 15
+    },
+    {
+      "rule": {
+        "name": "ComparisonSubQueryBooleanPrimaryExpression",
+        "symbols": [
+          "ComparisonSubQueryBooleanPrimaryExpression$field$228",
+          "extras$1",
+          "ComparisonSubQueryBooleanPrimaryExpression$field$229",
+          "extras$1",
+          "ComparisonSubQueryBooleanPrimaryExpression$field$230",
+          "extras$1",
+          "ComparisonSubQueryBooleanPrimaryExpression$field$231"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 15
     },
     {
       "rule": {
@@ -18055,7 +17558,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -18069,7 +17572,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -18078,7 +17581,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -18096,7 +17599,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -18112,7 +17615,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -18161,7 +17664,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 248
+      "coverageCount": 317
     },
     {
       "rule": {
@@ -18172,7 +17675,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 4
+      "coverageCount": 6
     },
     {
       "rule": {
@@ -18184,6 +17687,124 @@
         "penalizeErrorStart": true
       },
       "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1$field$251",
+        "symbols": [
+          {
+            "tokenKind": "OpenParentheses",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1$field$252",
+        "symbols": [
+          "Expression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1$optional$253$repeat1$254$item$255$field$256",
+        "symbols": [
+          {
+            "tokenKind": "Comma",
+            "canExpect": true,
+            "skipExpectationCost": 0.1,
+            "skipExpectationAfterExtraCost": 0.1
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1$optional$253$repeat1$254$item$255$field$257",
+        "symbols": [
+          "Expression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1$optional$253$repeat1$254$item$255",
+        "symbols": [
+          "ExpressionTuple1$optional$253$repeat1$254$item$255$field$256",
+          "extras$1",
+          "ExpressionTuple1$optional$253$repeat1$254$item$255$field$257"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1$optional$253$repeat1$254",
+        "symbols": [
+          "ExpressionTuple1$optional$253$repeat1$254$item$255"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1$optional$253",
+        "symbols": [
+          "extras$1",
+          "ExpressionTuple1$optional$253$repeat1$254"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1$field$258",
+        "symbols": [
+          {
+            "tokenKind": "CloseParentheses",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ExpressionTuple1",
+        "symbols": [
+          "ExpressionTuple1$field$251",
+          "extras$1",
+          "ExpressionTuple1$field$252",
+          "ExpressionTuple1$optional$253",
+          "extras$1",
+          "ExpressionTuple1$field$258"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
     },
     {
       "rule": {
@@ -18808,7 +18429,305 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 252
+      "coverageCount": 360
+    },
+    {
+      "rule": {
+        "name": "Predicate",
+        "symbols": [
+          "InSubQueryPredicate"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "Predicate",
+        "symbols": [
+          "InExpressionTuple1Predicate"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "Predicate",
+        "symbols": [
+          "LikePredicate"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "Predicate",
+        "symbols": [
+          "RegExpPredicate"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InSubQueryPredicate$field$459",
+        "symbols": [
+          "BitExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InSubQueryPredicate$optional$460",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InSubQueryPredicate$field$462",
+        "symbols": [
+          {
+            "tokenKind": "IN",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InSubQueryPredicate$field$463",
+        "symbols": [
+          "ParenthesizedSelect"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InSubQueryPredicate",
+        "symbols": [
+          "InSubQueryPredicate$field$459",
+          "InSubQueryPredicate$optional$460",
+          "extras$1",
+          "InSubQueryPredicate$field$462",
+          "extras$1",
+          "InSubQueryPredicate$field$463"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InExpressionTuple1Predicate$field$464",
+        "symbols": [
+          "BitExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InExpressionTuple1Predicate$optional$465",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InExpressionTuple1Predicate$field$467",
+        "symbols": [
+          {
+            "tokenKind": "IN",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InExpressionTuple1Predicate$field$468",
+        "symbols": [
+          "ExpressionTuple1"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "InExpressionTuple1Predicate",
+        "symbols": [
+          "InExpressionTuple1Predicate$field$464",
+          "InExpressionTuple1Predicate$optional$465",
+          "extras$1",
+          "InExpressionTuple1Predicate$field$467",
+          "extras$1",
+          "InExpressionTuple1Predicate$field$468"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "LikePredicate$field$480",
+        "symbols": [
+          "BitExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "LikePredicate$optional$481",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "LikePredicate$field$483",
+        "symbols": [
+          {
+            "tokenKind": "LIKE",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "LikePredicate$field$484",
+        "symbols": [
+          "SimpleExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "LikePredicate$optional$485",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "LikePredicate",
+        "symbols": [
+          "LikePredicate$field$480",
+          "LikePredicate$optional$481",
+          "extras$1",
+          "LikePredicate$field$483",
+          "extras$1",
+          "LikePredicate$field$484",
+          "LikePredicate$optional$485"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "RegExpPredicate$field$489",
+        "symbols": [
+          "BitExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "RegExpPredicate$optional$490",
+        "symbols": [],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "RegExpPredicate$field$492",
+        "symbols": [
+          {
+            "tokenKind": "REGEXP",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "RegExpPredicate$field$493",
+        "symbols": [
+          "BitExpression"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "RegExpPredicate",
+        "symbols": [
+          "RegExpPredicate$field$489",
+          "RegExpPredicate$optional$490",
+          "extras$1",
+          "RegExpPredicate$field$492",
+          "extras$1",
+          "RegExpPredicate$field$493"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
     },
     {
       "rule": {
@@ -19247,7 +19166,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 359
+      "coverageCount": 475
     },
     {
       "rule": {
@@ -19258,7 +19177,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 9
     },
     {
       "rule": {
@@ -19400,7 +19319,45 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 6
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$506$field$507",
+        "symbols": [
+          {
+            "tokenKind": "Dot",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$506$field$508",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$506",
+        "symbols": [
+          "ColumnIdentifierSimpleExpression$choice$506$field$507",
+          "extras$1",
+          "ColumnIdentifierSimpleExpression$choice$506$field$508"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
     },
     {
       "rule": {
@@ -19691,7 +19648,198 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 5
+      "coverageCount": 6
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$field$511",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$512$field$513",
+        "symbols": [
+          {
+            "tokenKind": "Dot",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$512$field$514",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$512",
+        "symbols": [
+          "ColumnIdentifierSimpleExpression$choice$512$field$513",
+          "extras$1",
+          "ColumnIdentifierSimpleExpression$choice$512$field$514"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$517$field$518",
+        "symbols": [
+          {
+            "tokenKind": "Dot",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$517$field$519",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$517",
+        "symbols": [
+          "ColumnIdentifierSimpleExpression$choice$517$field$518",
+          "extras$1",
+          "ColumnIdentifierSimpleExpression$choice$517$field$519"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression",
+        "symbols": [
+          "ColumnIdentifierSimpleExpression$field$511",
+          "extras$1",
+          "ColumnIdentifierSimpleExpression$choice$512",
+          "extras$1",
+          "ColumnIdentifierSimpleExpression$choice$517"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 1
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$522$field$523",
+        "symbols": [
+          {
+            "tokenKind": "Dot",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$522$field$524",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$522",
+        "symbols": [
+          "ColumnIdentifierSimpleExpression$choice$522$field$523",
+          "extras$1",
+          "ColumnIdentifierSimpleExpression$choice$522$field$524"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$527$field$528",
+        "symbols": [
+          {
+            "tokenKind": "Dot",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$527$field$529",
+        "symbols": [
+          "Ident"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression$choice$527",
+        "symbols": [
+          "ColumnIdentifierSimpleExpression$choice$527$field$528",
+          "extras$1",
+          "ColumnIdentifierSimpleExpression$choice$527$field$529"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
+    },
+    {
+      "rule": {
+        "name": "ColumnIdentifierSimpleExpression",
+        "symbols": [
+          "ColumnIdentifierSimpleExpression$choice$522",
+          "extras$1",
+          "ColumnIdentifierSimpleExpression$choice$527"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 2
     },
     {
       "rule": {
@@ -22418,7 +22566,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 925
+      "coverageCount": 934
     },
     {
       "rule": {
@@ -29428,7 +29576,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 32
+      "coverageCount": 33
     },
     {
       "rule": {
@@ -29894,7 +30042,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 33
+      "coverageCount": 34
     },
     {
       "rule": {
@@ -29906,7 +30054,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 33
+      "coverageCount": 34
     },
     {
       "rule": {
@@ -29917,7 +30065,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 211
+      "coverageCount": 278
     },
     {
       "rule": {
@@ -29926,7 +30074,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 178
+      "coverageCount": 244
     },
     {
       "rule": {
@@ -29937,7 +30085,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 33
+      "coverageCount": 34
     },
     {
       "rule": {
@@ -29949,7 +30097,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 33
+      "coverageCount": 34
     },
     {
       "rule": {
@@ -29961,7 +30109,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 211
+      "coverageCount": 278
     },
     {
       "rule": {
@@ -29972,7 +30120,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 190
+      "coverageCount": 256
     },
     {
       "rule": {
@@ -29981,7 +30129,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 177
+      "coverageCount": 242
     },
     {
       "rule": {
@@ -29997,7 +30145,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 21
+      "coverageCount": 22
     },
     {
       "rule": {
@@ -30008,7 +30156,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 21
+      "coverageCount": 22
     },
     {
       "rule": {
@@ -30021,7 +30169,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 21
+      "coverageCount": 22
     },
     {
       "rule": {
@@ -30032,7 +30180,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 13
+      "coverageCount": 14
     },
     {
       "rule": {
@@ -30057,7 +30205,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 13
+      "coverageCount": 14
     },
     {
       "rule": {
@@ -30069,7 +30217,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 190
+      "coverageCount": 256
     },
     {
       "rule": {
@@ -30083,7 +30231,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 190
+      "coverageCount": 256
     },
     {
       "rule": {
@@ -30094,7 +30242,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 190
+      "coverageCount": 256
     },
     {
       "rule": {
@@ -30107,7 +30255,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 190
+      "coverageCount": 256
     },
     {
       "rule": {
@@ -30118,7 +30266,72 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 190
+      "coverageCount": 239
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedSelect$field$1048",
+        "symbols": [
+          {
+            "tokenKind": "OpenParentheses",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 17
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedSelect$field$1049$choice$1050",
+        "symbols": [
+          "Select"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 17
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedSelect$field$1049",
+        "symbols": [
+          "ParenthesizedSelect$field$1049$choice$1050"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 17
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedSelect$field$1051",
+        "symbols": [
+          {
+            "tokenKind": "CloseParentheses",
+            "canExpect": true
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 17
+    },
+    {
+      "rule": {
+        "name": "ParenthesizedSelect",
+        "symbols": [
+          "ParenthesizedSelect$field$1048",
+          "extras$1",
+          "ParenthesizedSelect$field$1049",
+          "extras$1",
+          "ParenthesizedSelect$field$1051"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true
+      },
+      "coverageCount": 17
     },
     {
       "rule": {
@@ -30182,7 +30395,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 588
+      "coverageCount": 637
     },
     {
       "rule": {
@@ -30273,7 +30486,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 597
+      "coverageCount": 646
     },
     {
       "rule": {
@@ -30295,7 +30508,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 613
+      "coverageCount": 662
     },
     {
       "rule": {
@@ -30307,7 +30520,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 613
+      "coverageCount": 662
     },
     {
       "rule": {
@@ -30320,7 +30533,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 613
+      "coverageCount": 662
     },
     {
       "rule": {
@@ -30331,7 +30544,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 617
+      "coverageCount": 666
     },
     {
       "rule": {
@@ -30488,7 +30701,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 190
+      "coverageCount": 239
     },
     {
       "rule": {
@@ -30499,7 +30712,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 589
+      "coverageCount": 638
     },
     {
       "rule": {
@@ -30508,7 +30721,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 339
+      "coverageCount": 388
     },
     {
       "rule": {
@@ -30532,7 +30745,7 @@
         "precedence": 0,
         "penalizeErrorStart": true
       },
-      "coverageCount": 589
+      "coverageCount": 638
     },
     {
       "rule": {

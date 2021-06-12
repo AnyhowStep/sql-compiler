@@ -1,0 +1,13 @@
+SELECT a IS NOT NULL
+-----
+`!
+          (expression: IsNullBooleanPrimaryExpression[7, 20]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (notToken: NOT[12, 15])
+            (WhiteSpace[15, 16])
+            (nullToken: NULL[16, 20])
+          )
+!`

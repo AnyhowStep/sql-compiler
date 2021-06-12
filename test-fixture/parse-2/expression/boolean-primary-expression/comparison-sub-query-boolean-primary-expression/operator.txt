@@ -1,0 +1,103 @@
+SELECT a = ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (quantifier: ANY[11, 14])
+            (WhiteSpace[14, 15])
+            (parenthesizedSelect: ParenthesizedSelect[15, 25]
+!`
+-----
+SELECT a <=> ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 27]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: LessEqualGreater[9, 12])
+            (WhiteSpace[12, 13])
+            (quantifier: ANY[13, 16])
+            (WhiteSpace[16, 17])
+            (parenthesizedSelect: ParenthesizedSelect[17, 27]
+!`
+-----
+SELECT a >= ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 26]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: GreaterEqual[9, 11])
+            (WhiteSpace[11, 12])
+            (quantifier: ANY[12, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a > ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Greater[9, 10])
+            (WhiteSpace[10, 11])
+            (quantifier: ANY[11, 14])
+            (WhiteSpace[14, 15])
+            (parenthesizedSelect: ParenthesizedSelect[15, 25]
+!`
+-----
+SELECT a <= ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 26]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: LessEqual[9, 11])
+            (WhiteSpace[11, 12])
+            (quantifier: ANY[12, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a < ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Less[9, 10])
+            (WhiteSpace[10, 11])
+            (quantifier: ANY[11, 14])
+            (WhiteSpace[14, 15])
+            (parenthesizedSelect: ParenthesizedSelect[15, 25]
+!`
+-----
+SELECT a <> ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 26]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: LessGreater[9, 11])
+            (WhiteSpace[11, 12])
+            (quantifier: ANY[12, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a != ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 26]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: ExclamationEqual[9, 11])
+            (WhiteSpace[11, 12])
+            (quantifier: ANY[12, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`

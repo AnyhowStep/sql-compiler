@@ -1,0 +1,287 @@
+SELECT a = b = c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 16]
+            (left: ComparisonBooleanPrimaryExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Equal[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: Equal[13, 14])
+            (WhiteSpace[14, 15])
+            (right: Identifier[15, 16])
+          )
+!`
+-----
+SELECT a <=> b <=> c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 20]
+            (left: ComparisonBooleanPrimaryExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: LessEqualGreater[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: LessEqualGreater[15, 18])
+            (WhiteSpace[18, 19])
+            (right: Identifier[19, 20])
+          )
+!`
+-----
+SELECT a >= b >= c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 18]
+            (left: ComparisonBooleanPrimaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: GreaterEqual[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: GreaterEqual[14, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a > b > c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 16]
+            (left: ComparisonBooleanPrimaryExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Greater[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: Greater[13, 14])
+            (WhiteSpace[14, 15])
+            (right: Identifier[15, 16])
+          )
+!`
+-----
+SELECT a <= b <= c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 18]
+            (left: ComparisonBooleanPrimaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: LessEqual[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: LessEqual[14, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a < b < c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 16]
+            (left: ComparisonBooleanPrimaryExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Less[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: Less[13, 14])
+            (WhiteSpace[14, 15])
+            (right: Identifier[15, 16])
+          )
+!`
+-----
+SELECT a <> b <> c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 18]
+            (left: ComparisonBooleanPrimaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: LessGreater[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: LessGreater[14, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a != b != c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 18]
+            (left: ComparisonBooleanPrimaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: ExclamationEqual[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: ExclamationEqual[14, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a = b <=> c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 18]
+            (left: ComparisonBooleanPrimaryExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Equal[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: LessEqualGreater[13, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a <=> b >= c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 19]
+            (left: ComparisonBooleanPrimaryExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: LessEqualGreater[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: GreaterEqual[15, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`
+-----
+SELECT a >= b > c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 17]
+            (left: ComparisonBooleanPrimaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: GreaterEqual[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: Greater[14, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`
+-----
+SELECT a > b <= c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 17]
+            (left: ComparisonBooleanPrimaryExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Greater[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: LessEqual[13, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`
+-----
+SELECT a <= b < c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 17]
+            (left: ComparisonBooleanPrimaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: LessEqual[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: Less[14, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`
+-----
+SELECT a < b <> c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 17]
+            (left: ComparisonBooleanPrimaryExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Less[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: LessGreater[13, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`
+-----
+SELECT a <> b != c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 18]
+            (left: ComparisonBooleanPrimaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: LessGreater[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: ExclamationEqual[14, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a != b = c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 17]
+            (left: ComparisonBooleanPrimaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: ExclamationEqual[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: Equal[14, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`

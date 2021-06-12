@@ -1,0 +1,38 @@
+SELECT a = ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (quantifier: ANY[11, 14])
+            (WhiteSpace[14, 15])
+            (parenthesizedSelect: ParenthesizedSelect[15, 25]
+!`
+-----
+SELECT a = SOME (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 26]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (quantifier: SOME[11, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a = ALL (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (quantifier: ALL[11, 14])
+            (WhiteSpace[14, 15])
+            (parenthesizedSelect: ParenthesizedSelect[15, 25]
+!`

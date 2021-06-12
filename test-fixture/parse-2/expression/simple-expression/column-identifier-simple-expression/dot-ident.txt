@@ -1,0 +1,11 @@
+SELECT .A
+-- This is not allowed
+-----
+`!
+      (Unexpected Dot[7, 8])
+      (selectItemList1: SelectItemList1[8, 9]
+        (item[]: ExpressionSelectItem[8, 9]
+          (expression: Identifier[8, 9])
+        )
+      )
+!`

@@ -1,0 +1,17 @@
+SELECT a IS NULL IS NULL
+-----
+`!
+          (expression: IsNullBooleanPrimaryExpression[7, 24]
+            (expression: IsNullBooleanPrimaryExpression[7, 16]
+              (expression: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (isToken: IS[9, 11])
+              (WhiteSpace[11, 12])
+              (nullToken: NULL[12, 16])
+            )
+            (WhiteSpace[16, 17])
+            (isToken: IS[17, 19])
+            (WhiteSpace[19, 20])
+            (nullToken: NULL[20, 24])
+          )
+!`
