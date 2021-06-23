@@ -1,4 +1,4 @@
-import {field, optional, seq} from "../../../grammar-builder";
+import {field, seq} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
 /**
@@ -6,5 +6,5 @@ import {SyntaxKind} from "../../syntax-kind.generated";
  */
 export const UserDefinedExpression = seq(
     field("expression", SyntaxKind.Expression),
-    field("alias", optional(SyntaxKind.Alias)),
+    field("alias", SyntaxKind.Alias),
 );

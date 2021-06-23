@@ -1,0 +1,17 @@
+SELECT x NOT IN (y1)
+-----
+`!
+          (expression: InExpressionTuple1Predicate[7, 20]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (notToken: NOT[9, 12])
+            (WhiteSpace[12, 13])
+            (inToken: IN[13, 15])
+            (WhiteSpace[15, 16])
+            (expressionTuple1: ExpressionTuple1[16, 20]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (item[]: Identifier[17, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`

@@ -1,0 +1,11 @@
+SELECT a LIKE b
+-----
+`!
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+!`

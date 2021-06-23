@@ -1,0 +1,71 @@
+SELECT a XOR b OR c
+-----
+`!
+          (expression: BinaryExpression[7, 19]
+            (left: BinaryExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: XOR[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: OR[15, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`
+-----
+SELECT a OR b XOR c
+-----
+`!
+          (expression: BinaryExpression[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: OR[9, 11])
+            (WhiteSpace[11, 12])
+            (right: BinaryExpression[12, 19]
+              (left: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (operator: XOR[14, 17])
+              (WhiteSpace[17, 18])
+              (right: Identifier[18, 19])
+            )
+          )
+!`
+-----
+SELECT a XOR b || c
+-----
+`!
+          (expression: BinaryExpression[7, 19]
+            (left: BinaryExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: XOR[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: BarBar[15, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`
+-----
+SELECT a || b XOR c
+-----
+`!
+          (expression: BinaryExpression[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: BarBar[9, 11])
+            (WhiteSpace[11, 12])
+            (right: BinaryExpression[12, 19]
+              (left: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (operator: XOR[14, 17])
+              (WhiteSpace[17, 18])
+              (right: Identifier[18, 19])
+            )
+          )
+!`

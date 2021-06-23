@@ -1,0 +1,13 @@
+SELECT NOT NOT a
+-----
+`!
+          (expression: NotExpression[7, 16]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: NotExpression[11, 16]
+              (notToken: NOT[11, 14])
+              (WhiteSpace[14, 15])
+              (expression: Identifier[15, 16])
+            )
+          )
+!`

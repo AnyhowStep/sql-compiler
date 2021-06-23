@@ -1,0 +1,566 @@
+SELECT x SOUNDS LIKE @a := b
+-----
+`!
+          (expression: SoundsLikePredicate[7, 28]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: UserVariableIdentifierAssignment[21, 28]
+              (userVariableIdentifier: UserVariableIdentifier[21, 23]
+                (atToken: At[21, 22])
+                (identifier: Identifier[22, 23])
+              )
+              (WhiteSpace[23, 24])
+              (colonEqualToken: ColonEqual[24, 26])
+              (WhiteSpace[26, 27])
+              (expression: Identifier[27, 28])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a OR b
+-----
+`!
+          (expression: BinaryExpression[7, 27]
+            (left: SoundsLikePredicate[7, 22]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (soundsToken: SOUNDS[9, 15])
+              (WhiteSpace[15, 16])
+              (likeToken: LIKE[16, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+            )
+            (WhiteSpace[22, 23])
+            (operator: OR[23, 25])
+            (WhiteSpace[25, 26])
+            (right: Identifier[26, 27])
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a XOR b
+-----
+`!
+          (expression: BinaryExpression[7, 28]
+            (left: SoundsLikePredicate[7, 22]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (soundsToken: SOUNDS[9, 15])
+              (WhiteSpace[15, 16])
+              (likeToken: LIKE[16, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+            )
+            (WhiteSpace[22, 23])
+            (operator: XOR[23, 26])
+            (WhiteSpace[26, 27])
+            (right: Identifier[27, 28])
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a AND b
+-----
+`!
+          (expression: BinaryExpression[7, 28]
+            (left: SoundsLikePredicate[7, 22]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (soundsToken: SOUNDS[9, 15])
+              (WhiteSpace[15, 16])
+              (likeToken: LIKE[16, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+            )
+            (WhiteSpace[22, 23])
+            (operator: AND[23, 26])
+            (WhiteSpace[26, 27])
+            (right: Identifier[27, 28])
+          )
+!`
+-----
+SELECT x SOUNDS LIKE NOT a
+-- This is, indeed, a syntax error
+-----
+`!
+          (expression: SoundsLikePredicate[7, 26]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (Unexpected NOT[21, 24])
+            (WhiteSpace[24, 25])
+            (right: Identifier[25, 26])
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a BETWEEN b AND c
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: SoundsLikePredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: Identifier[21, 22])
+          )
+        )
+        (WhiteSpace[22, 23])
+        (Expected commaToken[]: Comma[23, 30])
+        (WhiteSpace[30, 31])
+        (item[]: ExpressionSelectItem[31, 38]
+          (expression: BinaryExpression[31, 38]
+            (left: Identifier[31, 32])
+            (WhiteSpace[32, 33])
+            (operator: AND[33, 36])
+            (WhiteSpace[36, 37])
+            (right: Identifier[37, 38])
+          )
+        )
+!`
+-----
+SELECT x SOUNDS LIKE a = b
+-- SOUNDS LIKE actually has higher precedence
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 26]
+            (left: SoundsLikePredicate[7, 22]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (soundsToken: SOUNDS[9, 15])
+              (WhiteSpace[15, 16])
+              (likeToken: LIKE[16, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+            )
+            (WhiteSpace[22, 23])
+            (operator: Equal[23, 24])
+            (WhiteSpace[24, 25])
+            (right: Identifier[25, 26])
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a = ANY (SELECT b)
+-- SOUNDS LIKE actually has higher precedence
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 39]
+            (expression: SoundsLikePredicate[7, 22]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (soundsToken: SOUNDS[9, 15])
+              (WhiteSpace[15, 16])
+              (likeToken: LIKE[16, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+            )
+            (WhiteSpace[22, 23])
+            (operator: Equal[23, 24])
+            (WhiteSpace[24, 25])
+            (quantifier: ANY[25, 28])
+            (WhiteSpace[28, 29])
+            (parenthesizedSelect: ParenthesizedSelect[29, 39]
+!`
+-----
+SELECT x SOUNDS LIKE a IS NULL
+-----
+`!
+          (expression: IsNullBooleanPrimaryExpression[7, 30]
+            (expression: SoundsLikePredicate[7, 22]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (soundsToken: SOUNDS[9, 15])
+              (WhiteSpace[15, 16])
+              (likeToken: LIKE[16, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+            )
+            (WhiteSpace[22, 23])
+            (isToken: IS[23, 25])
+            (WhiteSpace[25, 26])
+            (nullToken: NULL[26, 30])
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a IS UNKNOWN
+-----
+`!
+          (expression: IsExpression[7, 33]
+            (left: SoundsLikePredicate[7, 22]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (soundsToken: SOUNDS[9, 15])
+              (WhiteSpace[15, 16])
+              (likeToken: LIKE[16, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+            )
+            (WhiteSpace[22, 23])
+            (isToken: IS[23, 25])
+            (WhiteSpace[25, 26])
+            (right: UNKNOWN[26, 33])
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a LIKE b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: SoundsLikePredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: Identifier[21, 22])
+          )
+        )
+        (WhiteSpace[22, 23])
+        (Expected commaToken[]: Comma[23, 27])
+        (WhiteSpace[27, 28])
+        (item[]: ExpressionSelectItem[28, 29]
+          (expression: Identifier[28, 29])
+        )
+!`
+-----
+SELECT x SOUNDS LIKE a SOUNDS LIKE b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 29]
+          (expression: SoundsLikePredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: Identifier[21, 22])
+          )
+          (WhiteSpace[22, 23])
+          (alias: Alias[23, 29]
+            (alias: SOUNDS[23, 29])
+          )
+        )
+        (WhiteSpace[29, 30])
+        (Expected commaToken[]: Comma[30, 34])
+        (WhiteSpace[34, 35])
+        (item[]: ExpressionSelectItem[35, 36]
+          (expression: Identifier[35, 36])
+        )
+!`
+-----
+SELECT x SOUNDS LIKE a REGEXP b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: SoundsLikePredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: Identifier[21, 22])
+          )
+        )
+        (WhiteSpace[22, 23])
+        (Expected commaToken[]: Comma[23, 29])
+        (WhiteSpace[29, 30])
+        (item[]: ExpressionSelectItem[30, 31]
+          (expression: Identifier[30, 31])
+        )
+!`
+-----
+SELECT x SOUNDS LIKE a IN (SELECT b)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: SoundsLikePredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: Identifier[21, 22])
+          )
+        )
+        (WhiteSpace[22, 23])
+        (Expected commaToken[]: Comma[23, 25])
+        (WhiteSpace[25, 26])
+        (item[]: ExpressionSelectItem[26, 36]
+          (expression: ParenthesizedSelect[26, 36]
+            (openParenthesesToken: OpenParentheses[26, 27])
+            (item: Select[27, 35]
+              (selectToken: SELECT[27, 33])
+              (WhiteSpace[33, 34])
+              (selectItemList1: SelectItemList1[34, 35]
+                (item[]: ExpressionSelectItem[34, 35]
+                  (expression: Identifier[34, 35])
+                )
+              )
+            )
+            (closeParenthesesToken: CloseParentheses[35, 36])
+          )
+        )
+!`
+-----
+SELECT x SOUNDS LIKE a IN (b)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: SoundsLikePredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: Identifier[21, 22])
+          )
+        )
+        (WhiteSpace[22, 23])
+        (Expected commaToken[]: Comma[23, 25])
+        (WhiteSpace[25, 26])
+        (item[]: ExpressionSelectItem[26, 29]
+          (expression: ParenthesizedExpression[26, 29]
+            (openParenthesesToken: OpenParentheses[26, 27])
+            (item: Identifier[27, 28])
+            (closeParenthesesToken: CloseParentheses[28, 29])
+          )
+        )
+!`
+-----
+SELECT x SOUNDS LIKE a | b
+-----
+`!
+          (expression: SoundsLikePredicate[7, 26]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: BinaryBitExpression[21, 26]
+              (left: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (operator: Bar[23, 24])
+              (WhiteSpace[24, 25])
+              (right: Identifier[25, 26])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a & b
+-----
+`!
+          (expression: SoundsLikePredicate[7, 26]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: BinaryBitExpression[21, 26]
+              (left: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (operator: Ampersand[23, 24])
+              (WhiteSpace[24, 25])
+              (right: Identifier[25, 26])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a << b
+-----
+`!
+          (expression: SoundsLikePredicate[7, 27]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: BinaryBitExpression[21, 27]
+              (left: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (operator: LessLess[23, 25])
+              (WhiteSpace[25, 26])
+              (right: Identifier[26, 27])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a + b
+-----
+`!
+          (expression: SoundsLikePredicate[7, 26]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: BinaryBitExpression[21, 26]
+              (left: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (operator: Plus[23, 24])
+              (WhiteSpace[24, 25])
+              (right: Identifier[25, 26])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a * b
+-----
+`!
+          (expression: SoundsLikePredicate[7, 26]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: BinaryBitExpression[21, 26]
+              (left: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (operator: Asterisk[23, 24])
+              (WhiteSpace[24, 25])
+              (right: Identifier[25, 26])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a ^ b
+-----
+`!
+          (expression: SoundsLikePredicate[7, 26]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: BinaryBitExpression[21, 26]
+              (left: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (operator: Caret[23, 24])
+              (WhiteSpace[24, 25])
+              (right: Identifier[25, 26])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE - a
+-----
+`!
+          (expression: SoundsLikePredicate[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: PrefixSimpleExpression[21, 24]
+              (operator: Minus[21, 22])
+              (WhiteSpace[22, 23])
+              (expression: Identifier[23, 24])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE ! a
+-----
+`!
+          (expression: SoundsLikePredicate[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: Not2SimpleExpression[21, 24]
+              (exclamationToken: Exclamation[21, 22])
+              (WhiteSpace[22, 23])
+              (expression: Identifier[23, 24])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE BINARY a
+-----
+`!
+          (expression: SoundsLikePredicate[7, 29]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: PrefixSimpleExpression[21, 29]
+              (operator: BINARY[21, 27])
+              (WhiteSpace[27, 28])
+              (expression: Identifier[28, 29])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE a COLLATE utf8mb4_unicode_ci
+-----
+`!
+          (expression: SoundsLikePredicate[7, 49]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: CollateSimpleExpression[21, 49]
+              (expression: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (collateToken: COLLATE[23, 30])
+              (WhiteSpace[30, 31])
+              (collation: Identifier[31, 49])
+            )
+          )
+!`
+-----
+SELECT x SOUNDS LIKE INTERVAL a DAY + b
+-----
+`!
+          (expression: SoundsLikePredicate[7, 39]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: IntervalExpressionPlus[21, 39]
+              (left: IntervalExpression[21, 35]
+                (intervalToken: INTERVAL[21, 29])
+                (WhiteSpace[29, 30])
+                (expression: Identifier[30, 31])
+                (WhiteSpace[31, 32])
+                (temporalUnit: DAY[32, 35])
+              )
+              (WhiteSpace[35, 36])
+              (operator: Plus[36, 37])
+              (WhiteSpace[37, 38])
+              (right: Identifier[38, 39])
+            )
+          )
+!`

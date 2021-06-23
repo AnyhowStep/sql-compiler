@@ -1,0 +1,13 @@
+SELECT a NOT REGEXP b
+-----
+`!
+          (expression: RegExpPredicate[7, 21]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (notToken: NOT[9, 12])
+            (WhiteSpace[12, 13])
+            (regexpToken: REGEXP[13, 19])
+            (WhiteSpace[19, 20])
+            (right: Identifier[20, 21])
+          )
+!`

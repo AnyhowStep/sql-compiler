@@ -1,0 +1,17 @@
+SELECT a XOR b XOR c
+-----
+`!
+          (expression: BinaryExpression[7, 20]
+            (left: BinaryExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: XOR[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: XOR[15, 18])
+            (WhiteSpace[18, 19])
+            (right: Identifier[19, 20])
+          )
+!`

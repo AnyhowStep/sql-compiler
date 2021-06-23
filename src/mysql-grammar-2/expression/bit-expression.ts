@@ -18,21 +18,21 @@ export const ParenthesizedBitExpression = parentheses(
  */
 export const BitExpression = choice(
     SyntaxKind.SimpleExpression,
-    alias("BinaryBitExpression", precedence(1, seq(
+    alias("BinaryBitExpression", precedence(70, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.Bar,
         ))),
         field("right", SyntaxKind.BitExpression),
     ))),
-    alias("BinaryBitExpression", precedence(10, seq(
+    alias("BinaryBitExpression", precedence(80, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.Ampersand,
         ))),
         field("right", SyntaxKind.BitExpression),
     ))),
-    alias("BinaryBitExpression", precedence(20, seq(
+    alias("BinaryBitExpression", precedence(90, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.GreaterGreater,
@@ -40,7 +40,7 @@ export const BitExpression = choice(
         ))),
         field("right", SyntaxKind.BitExpression),
     ))),
-    alias("BinaryBitExpression", precedence(30, seq(
+    alias("BinaryBitExpression", precedence(100, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.Plus,
@@ -48,7 +48,7 @@ export const BitExpression = choice(
         ))),
         field("right", SyntaxKind.BitExpression),
     ))),
-    alias("BinaryBitExpression", precedence(30, seq(
+    alias("BinaryBitExpression", precedence(100, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.Plus,
@@ -56,7 +56,7 @@ export const BitExpression = choice(
         ))),
         field("right", SyntaxKind.IntervalExpression),
     ))),
-    alias("BinaryBitExpression", precedence(40, seq(
+    alias("BinaryBitExpression", precedence(110, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.Asterisk,
@@ -67,7 +67,7 @@ export const BitExpression = choice(
         ))),
         field("right", SyntaxKind.BitExpression),
     ))),
-    alias("BinaryBitExpression", precedence(50, seq(
+    alias("BinaryBitExpression", precedence(120, seq(
         field("left", SyntaxKind.BitExpression),
         field("operator", cannotExpect(TokenKind.Caret)),
         field("right", SyntaxKind.BitExpression),

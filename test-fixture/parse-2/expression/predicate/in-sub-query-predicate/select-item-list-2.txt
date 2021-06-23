@@ -1,0 +1,13 @@
+SELECT x IN (SELECT y1, y2)
+-- Semantically invalid.
+-- Syntactically valid.
+-- ER_OPERAND_COLUMNS: Operand should contain 1 column(s)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 27]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (inToken: IN[9, 11])
+            (WhiteSpace[11, 12])
+            (parenthesizedSelect: ParenthesizedSelect[12, 27]
+!`

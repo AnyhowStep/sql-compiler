@@ -1,0 +1,12 @@
+SELECT x NOT IN (SELECT y1)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 27]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (notToken: NOT[9, 12])
+            (WhiteSpace[12, 13])
+            (inToken: IN[13, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 27]
+!`

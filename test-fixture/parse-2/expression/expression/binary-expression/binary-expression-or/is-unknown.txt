@@ -1,0 +1,35 @@
+SELECT a OR b IS UNKNOWN
+-----
+`!
+          (expression: BinaryExpression[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: OR[9, 11])
+            (WhiteSpace[11, 12])
+            (right: IsExpression[12, 24]
+              (left: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (isToken: IS[14, 16])
+              (WhiteSpace[16, 17])
+              (right: UNKNOWN[17, 24])
+            )
+          )
+!`
+-----
+SELECT a || b IS UNKNOWN
+-----
+`!
+          (expression: BinaryExpression[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: BarBar[9, 11])
+            (WhiteSpace[11, 12])
+            (right: IsExpression[12, 24]
+              (left: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (isToken: IS[14, 16])
+              (WhiteSpace[16, 17])
+              (right: UNKNOWN[17, 24])
+            )
+          )
+!`

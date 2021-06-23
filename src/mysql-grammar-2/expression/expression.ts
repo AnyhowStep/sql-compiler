@@ -6,7 +6,7 @@ import {TokenKind} from "../token.generated";
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9272-L9292
  */
-export const IsExpression = seq(
+export const IsExpression = precedence(60, seq(
     field("left", SyntaxKind.BooleanPrimaryExpression),
     field("isToken", cannotExpect(TokenKind.IS)),
     field("notToken", optional(TokenKind.NOT)),
@@ -15,12 +15,15 @@ export const IsExpression = seq(
         TokenKind.FALSE,
         TokenKind.UNKNOWN,
     )),
-);
+));
 
-export const NotExpression = seq(
-    field("notToken", cannotExpect(TokenKind.NOT)),
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9268
+ */
+export const NotExpression = precedence(40, seq(
+    field("notToken", cannotExpect(tokenSymbol(TokenKind.NOT))),
     field("expression", SyntaxKind.Expression),
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9250
@@ -31,23 +34,46 @@ export const Expression = choice(
     SyntaxKind.BooleanPrimaryExpression,
     SyntaxKind.IsExpression,
     SyntaxKind.NotExpression,
-    alias("BinaryExpression", seq(
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9251
+     */
+    alias("BinaryExpression", precedence(10, seq(
         field("left", SyntaxKind.Expression),
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9459
+         *
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L690
+         *
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_lex.cc#L881
+         *
+         * @todo Implement `TokenKind.BarBar_Concat`?
+         */
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.OR,
             TokenKind.BarBar,
         ))),
         field("right", SyntaxKind.Expression),
-    )),
-    alias("BinaryExpression", precedence(10, seq(
+    ))),
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9257
+     */
+    alias("BinaryExpression", precedence(20, seq(
         field("left", SyntaxKind.Expression),
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.XOR,
         ))),
         field("right", SyntaxKind.Expression),
     ))),
-    alias("BinaryExpression", precedence(20, seq(
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9262
+     */
+    alias("BinaryExpression", precedence(30, seq(
         field("left", SyntaxKind.Expression),
+        /**
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9464
+         *
+         * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L64
+         */
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.AND,
             TokenKind.AmpersandAmpersand,

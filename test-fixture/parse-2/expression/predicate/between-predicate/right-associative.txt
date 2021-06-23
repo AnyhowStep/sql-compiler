@@ -1,0 +1,26 @@
+SELECT a BETWEEN b AND c BETWEEN d AND e
+-- https://www.db-fiddle.com/f/eLqMAKQHmfzCVFKMB9raFn/0
+-----
+`!
+          (expression: BetweenPredicate[7, 40]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (betweenToken: BETWEEN[9, 16])
+            (WhiteSpace[16, 17])
+            (middle: Identifier[17, 18])
+            (WhiteSpace[18, 19])
+            (andToken: AND[19, 22])
+            (WhiteSpace[22, 23])
+            (right: BetweenPredicate[23, 40]
+              (left: Identifier[23, 24])
+              (WhiteSpace[24, 25])
+              (betweenToken: BETWEEN[25, 32])
+              (WhiteSpace[32, 33])
+              (middle: Identifier[33, 34])
+              (WhiteSpace[34, 35])
+              (andToken: AND[35, 38])
+              (WhiteSpace[38, 39])
+              (right: Identifier[39, 40])
+            )
+          )
+!`

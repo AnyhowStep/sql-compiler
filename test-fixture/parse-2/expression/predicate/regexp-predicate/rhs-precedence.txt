@@ -1,0 +1,489 @@
+SELECT x REGEXP @a := b
+-----
+`!
+          (expression: RegExpPredicate[7, 23]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: UserVariableIdentifierAssignment[16, 23]
+              (userVariableIdentifier: UserVariableIdentifier[16, 18]
+                (atToken: At[16, 17])
+                (identifier: Identifier[17, 18])
+              )
+              (WhiteSpace[18, 19])
+              (colonEqualToken: ColonEqual[19, 21])
+              (WhiteSpace[21, 22])
+              (expression: Identifier[22, 23])
+            )
+          )
+!`
+-----
+SELECT x REGEXP a OR b
+-----
+`!
+          (expression: BinaryExpression[7, 22]
+            (left: RegExpPredicate[7, 17]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (regexpToken: REGEXP[9, 15])
+              (WhiteSpace[15, 16])
+              (right: Identifier[16, 17])
+            )
+            (WhiteSpace[17, 18])
+            (operator: OR[18, 20])
+            (WhiteSpace[20, 21])
+            (right: Identifier[21, 22])
+          )
+!`
+-----
+SELECT x REGEXP a XOR b
+-----
+`!
+          (expression: BinaryExpression[7, 23]
+            (left: RegExpPredicate[7, 17]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (regexpToken: REGEXP[9, 15])
+              (WhiteSpace[15, 16])
+              (right: Identifier[16, 17])
+            )
+            (WhiteSpace[17, 18])
+            (operator: XOR[18, 21])
+            (WhiteSpace[21, 22])
+            (right: Identifier[22, 23])
+          )
+!`
+-----
+SELECT x REGEXP a AND b
+-----
+`!
+          (expression: BinaryExpression[7, 23]
+            (left: RegExpPredicate[7, 17]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (regexpToken: REGEXP[9, 15])
+              (WhiteSpace[15, 16])
+              (right: Identifier[16, 17])
+            )
+            (WhiteSpace[17, 18])
+            (operator: AND[18, 21])
+            (WhiteSpace[21, 22])
+            (right: Identifier[22, 23])
+          )
+!`
+-----
+SELECT x REGEXP NOT a
+-- This is, indeed, a syntax error
+-----
+`!
+          (expression: RegExpPredicate[7, 21]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (Unexpected NOT[16, 19])
+            (WhiteSpace[19, 20])
+            (right: Identifier[20, 21])
+          )
+!`
+-----
+SELECT x REGEXP a BETWEEN b AND c
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 17]
+          (expression: RegExpPredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+        )
+        (WhiteSpace[17, 18])
+        (Expected commaToken[]: Comma[18, 25])
+        (WhiteSpace[25, 26])
+        (item[]: ExpressionSelectItem[26, 33]
+          (expression: BinaryExpression[26, 33]
+            (left: Identifier[26, 27])
+            (WhiteSpace[27, 28])
+            (operator: AND[28, 31])
+            (WhiteSpace[31, 32])
+            (right: Identifier[32, 33])
+          )
+        )
+!`
+-----
+SELECT x REGEXP a = b
+-- REGEXP actually has higher precedence
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 21]
+            (left: RegExpPredicate[7, 17]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (regexpToken: REGEXP[9, 15])
+              (WhiteSpace[15, 16])
+              (right: Identifier[16, 17])
+            )
+            (WhiteSpace[17, 18])
+            (operator: Equal[18, 19])
+            (WhiteSpace[19, 20])
+            (right: Identifier[20, 21])
+          )
+!`
+-----
+SELECT x REGEXP a = ANY (SELECT b)
+-- REGEXP actually has higher precedence
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 34]
+            (expression: RegExpPredicate[7, 17]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (regexpToken: REGEXP[9, 15])
+              (WhiteSpace[15, 16])
+              (right: Identifier[16, 17])
+            )
+            (WhiteSpace[17, 18])
+            (operator: Equal[18, 19])
+            (WhiteSpace[19, 20])
+            (quantifier: ANY[20, 23])
+            (WhiteSpace[23, 24])
+            (parenthesizedSelect: ParenthesizedSelect[24, 34]
+!`
+-----
+SELECT x REGEXP a IS NULL
+-----
+`!
+          (expression: IsNullBooleanPrimaryExpression[7, 25]
+            (expression: RegExpPredicate[7, 17]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (regexpToken: REGEXP[9, 15])
+              (WhiteSpace[15, 16])
+              (right: Identifier[16, 17])
+            )
+            (WhiteSpace[17, 18])
+            (isToken: IS[18, 20])
+            (WhiteSpace[20, 21])
+            (nullToken: NULL[21, 25])
+          )
+!`
+-----
+SELECT x REGEXP a IS UNKNOWN
+-----
+`!
+          (expression: IsExpression[7, 28]
+            (left: RegExpPredicate[7, 17]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (regexpToken: REGEXP[9, 15])
+              (WhiteSpace[15, 16])
+              (right: Identifier[16, 17])
+            )
+            (WhiteSpace[17, 18])
+            (isToken: IS[18, 20])
+            (WhiteSpace[20, 21])
+            (right: UNKNOWN[21, 28])
+          )
+!`
+-----
+SELECT x REGEXP a LIKE b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 17]
+          (expression: RegExpPredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+        )
+        (WhiteSpace[17, 18])
+        (Expected commaToken[]: Comma[18, 22])
+        (WhiteSpace[22, 23])
+        (item[]: ExpressionSelectItem[23, 24]
+          (expression: Identifier[23, 24])
+        )
+!`
+-----
+SELECT x REGEXP a REGEXP b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 17]
+          (expression: RegExpPredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+        )
+        (WhiteSpace[17, 18])
+        (Expected commaToken[]: Comma[18, 24])
+        (WhiteSpace[24, 25])
+        (item[]: ExpressionSelectItem[25, 26]
+          (expression: Identifier[25, 26])
+        )
+!`
+-----
+SELECT x REGEXP a IN (SELECT b)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 17]
+          (expression: RegExpPredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+        )
+        (WhiteSpace[17, 18])
+        (Expected commaToken[]: Comma[18, 20])
+        (WhiteSpace[20, 21])
+        (item[]: ExpressionSelectItem[21, 31]
+          (expression: ParenthesizedSelect[21, 31]
+            (openParenthesesToken: OpenParentheses[21, 22])
+            (item: Select[22, 30]
+              (selectToken: SELECT[22, 28])
+              (WhiteSpace[28, 29])
+              (selectItemList1: SelectItemList1[29, 30]
+                (item[]: ExpressionSelectItem[29, 30]
+                  (expression: Identifier[29, 30])
+                )
+              )
+            )
+            (closeParenthesesToken: CloseParentheses[30, 31])
+          )
+        )
+!`
+-----
+SELECT x REGEXP a IN (b)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 17]
+          (expression: RegExpPredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+        )
+        (WhiteSpace[17, 18])
+        (Expected commaToken[]: Comma[18, 20])
+        (WhiteSpace[20, 21])
+        (item[]: ExpressionSelectItem[21, 24]
+          (expression: ParenthesizedExpression[21, 24]
+            (openParenthesesToken: OpenParentheses[21, 22])
+            (item: Identifier[22, 23])
+            (closeParenthesesToken: CloseParentheses[23, 24])
+          )
+        )
+!`
+-----
+SELECT x REGEXP a | b
+-----
+`!
+          (expression: RegExpPredicate[7, 21]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: BinaryBitExpression[16, 21]
+              (left: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (operator: Bar[18, 19])
+              (WhiteSpace[19, 20])
+              (right: Identifier[20, 21])
+            )
+          )
+!`
+-----
+SELECT x REGEXP a & b
+-----
+`!
+          (expression: RegExpPredicate[7, 21]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: BinaryBitExpression[16, 21]
+              (left: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (operator: Ampersand[18, 19])
+              (WhiteSpace[19, 20])
+              (right: Identifier[20, 21])
+            )
+          )
+!`
+-----
+SELECT x REGEXP a << b
+-----
+`!
+          (expression: RegExpPredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: BinaryBitExpression[16, 22]
+              (left: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (operator: LessLess[18, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+            )
+          )
+!`
+-----
+SELECT x REGEXP a + b
+-----
+`!
+          (expression: RegExpPredicate[7, 21]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: BinaryBitExpression[16, 21]
+              (left: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (operator: Plus[18, 19])
+              (WhiteSpace[19, 20])
+              (right: Identifier[20, 21])
+            )
+          )
+!`
+-----
+SELECT x REGEXP a * b
+-----
+`!
+          (expression: RegExpPredicate[7, 21]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: BinaryBitExpression[16, 21]
+              (left: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (operator: Asterisk[18, 19])
+              (WhiteSpace[19, 20])
+              (right: Identifier[20, 21])
+            )
+          )
+!`
+-----
+SELECT x REGEXP a ^ b
+-----
+`!
+          (expression: RegExpPredicate[7, 21]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: BinaryBitExpression[16, 21]
+              (left: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (operator: Caret[18, 19])
+              (WhiteSpace[19, 20])
+              (right: Identifier[20, 21])
+            )
+          )
+!`
+-----
+SELECT x REGEXP - a
+-----
+`!
+          (expression: RegExpPredicate[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: PrefixSimpleExpression[16, 19]
+              (operator: Minus[16, 17])
+              (WhiteSpace[17, 18])
+              (expression: Identifier[18, 19])
+            )
+          )
+!`
+-----
+SELECT x REGEXP ! a
+-----
+`!
+          (expression: RegExpPredicate[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: Not2SimpleExpression[16, 19]
+              (exclamationToken: Exclamation[16, 17])
+              (WhiteSpace[17, 18])
+              (expression: Identifier[18, 19])
+            )
+          )
+!`
+-----
+SELECT x REGEXP BINARY a
+-----
+`!
+          (expression: RegExpPredicate[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: PrefixSimpleExpression[16, 24]
+              (operator: BINARY[16, 22])
+              (WhiteSpace[22, 23])
+              (expression: Identifier[23, 24])
+            )
+          )
+!`
+-----
+SELECT x REGEXP a COLLATE utf8mb4_unicode_ci
+-----
+`!
+          (expression: RegExpPredicate[7, 44]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: CollateSimpleExpression[16, 44]
+              (expression: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (collateToken: COLLATE[18, 25])
+              (WhiteSpace[25, 26])
+              (collation: Identifier[26, 44])
+            )
+          )
+!`
+-----
+SELECT x REGEXP INTERVAL a DAY + b
+-----
+`!
+          (expression: RegExpPredicate[7, 34]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: IntervalExpressionPlus[16, 34]
+              (left: IntervalExpression[16, 30]
+                (intervalToken: INTERVAL[16, 24])
+                (WhiteSpace[24, 25])
+                (expression: Identifier[25, 26])
+                (WhiteSpace[26, 27])
+                (temporalUnit: DAY[27, 30])
+              )
+              (WhiteSpace[30, 31])
+              (operator: Plus[31, 32])
+              (WhiteSpace[32, 33])
+              (right: Identifier[33, 34])
+            )
+          )
+!`

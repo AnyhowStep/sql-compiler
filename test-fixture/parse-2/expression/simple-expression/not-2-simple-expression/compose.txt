@@ -1,0 +1,35 @@
+SELECT !!a
+-----
+`!
+          (expression: Not2SimpleExpression[7, 10]
+            (exclamationToken: Exclamation[7, 8])
+            (expression: Not2SimpleExpression[8, 10]
+              (exclamationToken: Exclamation[8, 9])
+              (expression: Identifier[9, 10])
+            )
+          )
+!`
+-----
+SELECT NOT!a
+-----
+`!
+          (expression: NotExpression[7, 12]
+            (notToken: NOT[7, 10])
+            (expression: Not2SimpleExpression[10, 12]
+              (exclamationToken: Exclamation[10, 11])
+              (expression: Identifier[11, 12])
+            )
+          )
+!`
+-----
+SELECT !NOT a
+-- This is invalid
+-----
+`!
+          (expression: Not2SimpleExpression[7, 13]
+            (exclamationToken: Exclamation[7, 8])
+            (Unexpected NOT[8, 11])
+            (WhiteSpace[11, 12])
+            (expression: Identifier[12, 13])
+          )
+!`

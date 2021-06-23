@@ -1,0 +1,510 @@
+SELECT x LIKE @a := b
+-----
+`!
+          (expression: LikePredicate[7, 21]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: UserVariableIdentifierAssignment[14, 21]
+              (userVariableIdentifier: UserVariableIdentifier[14, 16]
+                (atToken: At[14, 15])
+                (identifier: Identifier[15, 16])
+              )
+              (WhiteSpace[16, 17])
+              (colonEqualToken: ColonEqual[17, 19])
+              (WhiteSpace[19, 20])
+              (expression: Identifier[20, 21])
+            )
+          )
+!`
+-----
+SELECT x LIKE a OR b
+-----
+`!
+          (expression: BinaryExpression[7, 20]
+            (left: LikePredicate[7, 15]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (likeToken: LIKE[9, 13])
+              (WhiteSpace[13, 14])
+              (right: Identifier[14, 15])
+            )
+            (WhiteSpace[15, 16])
+            (operator: OR[16, 18])
+            (WhiteSpace[18, 19])
+            (right: Identifier[19, 20])
+          )
+!`
+-----
+SELECT x LIKE a XOR b
+-----
+`!
+          (expression: BinaryExpression[7, 21]
+            (left: LikePredicate[7, 15]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (likeToken: LIKE[9, 13])
+              (WhiteSpace[13, 14])
+              (right: Identifier[14, 15])
+            )
+            (WhiteSpace[15, 16])
+            (operator: XOR[16, 19])
+            (WhiteSpace[19, 20])
+            (right: Identifier[20, 21])
+          )
+!`
+-----
+SELECT x LIKE a AND b
+-----
+`!
+          (expression: BinaryExpression[7, 21]
+            (left: LikePredicate[7, 15]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (likeToken: LIKE[9, 13])
+              (WhiteSpace[13, 14])
+              (right: Identifier[14, 15])
+            )
+            (WhiteSpace[15, 16])
+            (operator: AND[16, 19])
+            (WhiteSpace[19, 20])
+            (right: Identifier[20, 21])
+          )
+!`
+-----
+SELECT x LIKE NOT a
+-- This is, indeed, a syntax error
+-----
+`!
+          (expression: LikePredicate[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (Unexpected NOT[14, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`
+-----
+SELECT x LIKE a BETWEEN b AND c
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 23])
+        (WhiteSpace[23, 24])
+        (item[]: ExpressionSelectItem[24, 31]
+          (expression: BinaryExpression[24, 31]
+            (left: Identifier[24, 25])
+            (WhiteSpace[25, 26])
+            (operator: AND[26, 29])
+            (WhiteSpace[29, 30])
+            (right: Identifier[30, 31])
+          )
+        )
+!`
+-----
+SELECT x LIKE a = b
+-- LIKE actually has higher precedence
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 19]
+            (left: LikePredicate[7, 15]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (likeToken: LIKE[9, 13])
+              (WhiteSpace[13, 14])
+              (right: Identifier[14, 15])
+            )
+            (WhiteSpace[15, 16])
+            (operator: Equal[16, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`
+-----
+SELECT x LIKE a = ANY (SELECT b)
+-- LIKE actually has higher precedence
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 32]
+            (expression: LikePredicate[7, 15]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (likeToken: LIKE[9, 13])
+              (WhiteSpace[13, 14])
+              (right: Identifier[14, 15])
+            )
+            (WhiteSpace[15, 16])
+            (operator: Equal[16, 17])
+            (WhiteSpace[17, 18])
+            (quantifier: ANY[18, 21])
+            (WhiteSpace[21, 22])
+            (parenthesizedSelect: ParenthesizedSelect[22, 32]
+!`
+-----
+SELECT x LIKE a IS NULL
+-----
+`!
+          (expression: IsNullBooleanPrimaryExpression[7, 23]
+            (expression: LikePredicate[7, 15]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (likeToken: LIKE[9, 13])
+              (WhiteSpace[13, 14])
+              (right: Identifier[14, 15])
+            )
+            (WhiteSpace[15, 16])
+            (isToken: IS[16, 18])
+            (WhiteSpace[18, 19])
+            (nullToken: NULL[19, 23])
+          )
+!`
+-----
+SELECT x LIKE a IS UNKNOWN
+-----
+`!
+          (expression: IsExpression[7, 26]
+            (left: LikePredicate[7, 15]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (likeToken: LIKE[9, 13])
+              (WhiteSpace[13, 14])
+              (right: Identifier[14, 15])
+            )
+            (WhiteSpace[15, 16])
+            (isToken: IS[16, 18])
+            (WhiteSpace[18, 19])
+            (right: UNKNOWN[19, 26])
+          )
+!`
+-----
+SELECT x LIKE a LIKE b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 20])
+        (WhiteSpace[20, 21])
+        (item[]: ExpressionSelectItem[21, 22]
+          (expression: Identifier[21, 22])
+        )
+!`
+-----
+SELECT x LIKE a REGEXP b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 22])
+        (WhiteSpace[22, 23])
+        (item[]: ExpressionSelectItem[23, 24]
+          (expression: Identifier[23, 24])
+        )
+!`
+-----
+SELECT x LIKE a IN (SELECT b)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 18])
+        (WhiteSpace[18, 19])
+        (item[]: ExpressionSelectItem[19, 29]
+          (expression: ParenthesizedSelect[19, 29]
+            (openParenthesesToken: OpenParentheses[19, 20])
+            (item: Select[20, 28]
+              (selectToken: SELECT[20, 26])
+              (WhiteSpace[26, 27])
+              (selectItemList1: SelectItemList1[27, 28]
+                (item[]: ExpressionSelectItem[27, 28]
+                  (expression: Identifier[27, 28])
+                )
+              )
+            )
+            (closeParenthesesToken: CloseParentheses[28, 29])
+          )
+        )
+!`
+-----
+SELECT x LIKE a IN (b)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 18])
+        (WhiteSpace[18, 19])
+        (item[]: ExpressionSelectItem[19, 22]
+          (expression: ParenthesizedExpression[19, 22]
+            (openParenthesesToken: OpenParentheses[19, 20])
+            (item: Identifier[20, 21])
+            (closeParenthesesToken: CloseParentheses[21, 22])
+          )
+        )
+!`
+-----
+SELECT x LIKE a | b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 17])
+        (WhiteSpace[17, 18])
+        (item[]: ExpressionSelectItem[18, 19]
+          (expression: Identifier[18, 19])
+        )
+!`
+-----
+SELECT x LIKE a & b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 17])
+        (WhiteSpace[17, 18])
+        (item[]: ExpressionSelectItem[18, 19]
+          (expression: Identifier[18, 19])
+        )
+!`
+-----
+SELECT x LIKE a << b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 18])
+        (WhiteSpace[18, 19])
+        (item[]: ExpressionSelectItem[19, 20]
+          (expression: Identifier[19, 20])
+        )
+!`
+-----
+SELECT x LIKE a + b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 16])
+        (item[]: ExpressionSelectItem[16, 19]
+          (expression: PrefixSimpleExpression[16, 19]
+            (operator: Plus[16, 17])
+            (WhiteSpace[17, 18])
+            (expression: Identifier[18, 19])
+          )
+        )
+!`
+-----
+SELECT x LIKE a * b
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 17])
+        (WhiteSpace[17, 18])
+        (item[]: ExpressionSelectItem[18, 19]
+          (expression: Identifier[18, 19])
+        )
+!`
+-----
+SELECT x LIKE a ^ b
+-- This is, indeed, invalid syntax
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 17])
+        (WhiteSpace[17, 18])
+        (item[]: ExpressionSelectItem[18, 19]
+          (expression: Identifier[18, 19])
+        )
+!`
+-----
+SELECT x LIKE - a
+-----
+`!
+          (expression: LikePredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: PrefixSimpleExpression[14, 17]
+              (operator: Minus[14, 15])
+              (WhiteSpace[15, 16])
+              (expression: Identifier[16, 17])
+            )
+          )
+!`
+-----
+SELECT x LIKE ! a
+-----
+`!
+          (expression: LikePredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Not2SimpleExpression[14, 17]
+              (exclamationToken: Exclamation[14, 15])
+              (WhiteSpace[15, 16])
+              (expression: Identifier[16, 17])
+            )
+          )
+!`
+-----
+SELECT x LIKE BINARY a
+-----
+`!
+          (expression: LikePredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: PrefixSimpleExpression[14, 22]
+              (operator: BINARY[14, 20])
+              (WhiteSpace[20, 21])
+              (expression: Identifier[21, 22])
+            )
+          )
+!`
+-----
+SELECT x LIKE a COLLATE utf8mb4_unicode_ci
+-----
+`!
+          (expression: LikePredicate[7, 42]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: CollateSimpleExpression[14, 42]
+              (expression: Identifier[14, 15])
+              (WhiteSpace[15, 16])
+              (collateToken: COLLATE[16, 23])
+              (WhiteSpace[23, 24])
+              (collation: Identifier[24, 42])
+            )
+          )
+!`
+-----
+SELECT x LIKE INTERVAL a DAY + b
+-----
+`!
+          (expression: LikePredicate[7, 32]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: IntervalExpressionPlus[14, 32]
+              (left: IntervalExpression[14, 28]
+                (intervalToken: INTERVAL[14, 22])
+                (WhiteSpace[22, 23])
+                (expression: Identifier[23, 24])
+                (WhiteSpace[24, 25])
+                (temporalUnit: DAY[25, 28])
+              )
+              (WhiteSpace[28, 29])
+              (operator: Plus[29, 30])
+              (WhiteSpace[30, 31])
+              (right: Identifier[31, 32])
+            )
+          )
+!`

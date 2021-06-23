@@ -1,0 +1,492 @@
+SELECT @a := b IN (SELECT x)
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 28]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqualToken: ColonEqual[10, 12])
+            (WhiteSpace[12, 13])
+            (expression: InSubQueryPredicate[13, 28]
+              (expression: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (inToken: IN[15, 17])
+              (WhiteSpace[17, 18])
+              (parenthesizedSelect: ParenthesizedSelect[18, 28]
+!`
+-----
+SELECT a OR b IN (SELECT x)
+-----
+`!
+          (expression: BinaryExpression[7, 27]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: OR[9, 11])
+            (WhiteSpace[11, 12])
+            (right: InSubQueryPredicate[12, 27]
+              (expression: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (inToken: IN[14, 16])
+              (WhiteSpace[16, 17])
+              (parenthesizedSelect: ParenthesizedSelect[17, 27]
+!`
+-----
+SELECT a XOR b IN (SELECT x)
+-----
+`!
+          (expression: BinaryExpression[7, 28]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: XOR[9, 12])
+            (WhiteSpace[12, 13])
+            (right: InSubQueryPredicate[13, 28]
+              (expression: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (inToken: IN[15, 17])
+              (WhiteSpace[17, 18])
+              (parenthesizedSelect: ParenthesizedSelect[18, 28]
+!`
+-----
+SELECT a AND b IN (SELECT x)
+-----
+`!
+          (expression: BinaryExpression[7, 28]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: AND[9, 12])
+            (WhiteSpace[12, 13])
+            (right: InSubQueryPredicate[13, 28]
+              (expression: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (inToken: IN[15, 17])
+              (WhiteSpace[17, 18])
+              (parenthesizedSelect: ParenthesizedSelect[18, 28]
+!`
+-----
+SELECT NOT a IN (SELECT x)
+-----
+`!
+          (expression: NotExpression[7, 26]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: InSubQueryPredicate[11, 26]
+              (expression: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (inToken: IN[13, 15])
+              (WhiteSpace[15, 16])
+              (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a BETWEEN b AND c IN (SELECT x)
+-----
+`!
+          (expression: BetweenPredicate[7, 38]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (betweenToken: BETWEEN[9, 16])
+            (WhiteSpace[16, 17])
+            (middle: Identifier[17, 18])
+            (WhiteSpace[18, 19])
+            (andToken: AND[19, 22])
+            (WhiteSpace[22, 23])
+            (right: InSubQueryPredicate[23, 38]
+              (expression: Identifier[23, 24])
+              (WhiteSpace[24, 25])
+              (inToken: IN[25, 27])
+              (WhiteSpace[27, 28])
+              (parenthesizedSelect: ParenthesizedSelect[28, 38]
+!`
+-----
+SELECT a = b IN (SELECT x)
+-- IN actually has higher precedence
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 26]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (right: InSubQueryPredicate[11, 26]
+              (expression: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (inToken: IN[13, 15])
+              (WhiteSpace[15, 16])
+              (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a = ANY (SELECT b) IN (SELECT x)
+-- IN actually has higher precedence
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: ComparisonBooleanPrimaryExpression[7, 14]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (right: ANY[11, 14])
+          )
+        )
+        (Expected commaToken[]: Comma[14, 14])
+        (WhiteSpace[14, 15])
+        (item[]: ExpressionSelectItem[15, 39]
+          (expression: InSubQueryPredicate[15, 39]
+            (expression: ParenthesizedSelect[15, 25]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item: Select[16, 24]
+                (selectToken: SELECT[16, 22])
+                (WhiteSpace[22, 23])
+                (selectItemList1: SelectItemList1[23, 24]
+                  (item[]: ExpressionSelectItem[23, 24]
+                    (expression: Identifier[23, 24])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+            (WhiteSpace[25, 26])
+            (inToken: IN[26, 28])
+            (WhiteSpace[28, 29])
+            (parenthesizedSelect: ParenthesizedSelect[29, 39]
+!`
+-----
+SELECT a IS NULL IN (SELECT x)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: IsNullBooleanPrimaryExpression[7, 16]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (nullToken: NULL[12, 16])
+          )
+        )
+        (WhiteSpace[16, 17])
+        (Expected commaToken[]: Comma[17, 19])
+        (WhiteSpace[19, 20])
+        (item[]: ExpressionSelectItem[20, 30]
+          (expression: ParenthesizedSelect[20, 30]
+!`
+-----
+SELECT a IS UNKNOWN IN (SELECT x)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 19]
+          (expression: IsExpression[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (right: UNKNOWN[12, 19])
+          )
+        )
+        (WhiteSpace[19, 20])
+        (Expected commaToken[]: Comma[20, 22])
+        (WhiteSpace[22, 23])
+        (item[]: ExpressionSelectItem[23, 33]
+          (expression: ParenthesizedSelect[23, 33]
+!`
+-----
+SELECT a LIKE b IN (SELECT x)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: LikePredicate[7, 15]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 18])
+        (WhiteSpace[18, 19])
+        (item[]: ExpressionSelectItem[19, 29]
+          (expression: ParenthesizedSelect[19, 29]
+!`
+-----
+SELECT a SOUNDS LIKE b IN (SELECT x)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: SoundsLikePredicate[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: Identifier[21, 22])
+          )
+        )
+        (WhiteSpace[22, 23])
+        (Expected commaToken[]: Comma[23, 25])
+        (WhiteSpace[25, 26])
+        (item[]: ExpressionSelectItem[26, 36]
+          (expression: ParenthesizedSelect[26, 36]
+!`
+-----
+SELECT a REGEXP b IN (SELECT x)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 17]
+          (expression: RegExpPredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+        )
+        (WhiteSpace[17, 18])
+        (Expected commaToken[]: Comma[18, 20])
+        (WhiteSpace[20, 21])
+        (item[]: ExpressionSelectItem[21, 31]
+          (expression: ParenthesizedSelect[21, 31]
+!`
+-----
+SELECT a IN (SELECT b) IN (SELECT x)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: InSubQueryPredicate[7, 22]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (inToken: IN[9, 11])
+            (WhiteSpace[11, 12])
+            (parenthesizedSelect: ParenthesizedSelect[12, 22]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item: Select[13, 21]
+                (selectToken: SELECT[13, 19])
+                (WhiteSpace[19, 20])
+                (selectItemList1: SelectItemList1[20, 21]
+                  (item[]: ExpressionSelectItem[20, 21]
+                    (expression: Identifier[20, 21])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+        )
+        (WhiteSpace[22, 23])
+        (Expected commaToken[]: Comma[23, 25])
+        (WhiteSpace[25, 26])
+        (item[]: ExpressionSelectItem[26, 36]
+          (expression: ParenthesizedSelect[26, 36]
+!`
+-----
+SELECT a IN (b) IN (SELECT x)
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: InExpressionTuple1Predicate[7, 15]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (inToken: IN[9, 11])
+            (WhiteSpace[11, 12])
+            (expressionTuple1: ExpressionTuple1[12, 15]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 18])
+        (WhiteSpace[18, 19])
+        (item[]: ExpressionSelectItem[19, 29]
+          (expression: ParenthesizedSelect[19, 29]
+!`
+-----
+SELECT a | b IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 26]
+            (expression: BinaryBitExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Bar[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (inToken: IN[13, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a & b IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 26]
+            (expression: BinaryBitExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Ampersand[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (inToken: IN[13, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a << b IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 27]
+            (expression: BinaryBitExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: LessLess[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (inToken: IN[14, 16])
+            (WhiteSpace[16, 17])
+            (parenthesizedSelect: ParenthesizedSelect[17, 27]
+!`
+-----
+SELECT a + b IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 26]
+            (expression: BinaryBitExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Plus[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (inToken: IN[13, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a * b IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 26]
+            (expression: BinaryBitExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Asterisk[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (inToken: IN[13, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT a ^ b IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 26]
+            (expression: BinaryBitExpression[7, 12]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Caret[9, 10])
+              (WhiteSpace[10, 11])
+              (right: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (inToken: IN[13, 15])
+            (WhiteSpace[15, 16])
+            (parenthesizedSelect: ParenthesizedSelect[16, 26]
+!`
+-----
+SELECT - a IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 24]
+            (expression: PrefixSimpleExpression[7, 10]
+              (operator: Minus[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (inToken: IN[11, 13])
+            (WhiteSpace[13, 14])
+            (parenthesizedSelect: ParenthesizedSelect[14, 24]
+!`
+-----
+SELECT ! a IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 24]
+            (expression: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (inToken: IN[11, 13])
+            (WhiteSpace[13, 14])
+            (parenthesizedSelect: ParenthesizedSelect[14, 24]
+!`
+-----
+SELECT BINARY a IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 29]
+            (expression: PrefixSimpleExpression[7, 15]
+              (operator: BINARY[7, 13])
+              (WhiteSpace[13, 14])
+              (expression: Identifier[14, 15])
+            )
+            (WhiteSpace[15, 16])
+            (inToken: IN[16, 18])
+            (WhiteSpace[18, 19])
+            (parenthesizedSelect: ParenthesizedSelect[19, 29]
+!`
+-----
+SELECT a COLLATE utf8mb4_unicode_ci IN (SELECT x)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 49]
+            (expression: CollateSimpleExpression[7, 35]
+              (expression: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (collateToken: COLLATE[9, 16])
+              (WhiteSpace[16, 17])
+              (collation: Identifier[17, 35])
+            )
+            (WhiteSpace[35, 36])
+            (inToken: IN[36, 38])
+            (WhiteSpace[38, 39])
+            (parenthesizedSelect: ParenthesizedSelect[39, 49]
+!`
+-----
+SELECT INTERVAL a DAY + b IN (SELECT x)
+-----
+`!
+          (expression: IntervalExpressionPlus[7, 39]
+            (left: IntervalExpression[7, 21]
+              (intervalToken: INTERVAL[7, 15])
+              (WhiteSpace[15, 16])
+              (expression: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (temporalUnit: DAY[18, 21])
+            )
+            (WhiteSpace[21, 22])
+            (operator: Plus[22, 23])
+            (WhiteSpace[23, 24])
+            (right: InSubQueryPredicate[24, 39]
+!`
