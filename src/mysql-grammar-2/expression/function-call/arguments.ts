@@ -16,7 +16,7 @@ export const ExpressionList2_Arguments = parentheses(
 
 export const UserDefinedExpressionList_Arguments = seq(
     field("openParenthesesToken", cannotExpect(TokenKind.OpenParentheses)),
-    list(SyntaxKind.UserDefinedExpression),
+    list(choice(SyntaxKind.Expression, SyntaxKind.UserDefinedExpression)),
     field("closeParenthesesToken", TokenKind.CloseParentheses),
 );
 

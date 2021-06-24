@@ -1,5 +1,5 @@
-import {choice, field, seq} from "../../../grammar-builder";
-import {dotIdentOrReserved} from "../../rule-util";
+import {choice, field, inline, seq} from "../../../grammar-builder";
+import {dotIdentOrReserved, maybeUserDefinedFunctionCall_FunctionName} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
 /**
@@ -27,7 +27,7 @@ import {SyntaxKind} from "../../syntax-kind.generated";
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9994
  */
 export const MaybeUserDefinedFunctionCall = seq(
-    field("functionName", SyntaxKind.Ident),
+    field("functionName", maybeUserDefinedFunctionCall_FunctionName),
     field("arguments", SyntaxKind.UserDefinedExpressionList_Arguments),
 );
 
@@ -40,9 +40,9 @@ export const QualifiedFunctionCall = seq(
     field("arguments", SyntaxKind.ExpressionList_Arguments),
 );
 
-export const FunctionCall = choice(
+export const FunctionCall = inline(choice(
     SyntaxKind.MaybeUserDefinedFunctionCall,
     SyntaxKind.QualifiedFunctionCall,
     SyntaxKind.KeywordFunctionCall,
     SyntaxKind.NonKeywordFunctionCall,
-);
+));

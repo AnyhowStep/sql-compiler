@@ -1,0 +1,66 @@
+SELECT a = ANY (SELECT b) BETWEEN c AND d
+-- https://www.db-fiddle.com/f/9F9ZCGV3QDs6fPysLMQ7Yh/0
+-- https://github.com/AnyhowStep/sql-compiler/issues/29
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: ComparisonBooleanPrimaryExpression[7, 14]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (right: ANY[11, 14])
+          )
+        )
+        (Expected commaToken[]: Comma[14, 14])
+        (WhiteSpace[14, 15])
+        (item[]: ExpressionSelectItem[15, 41]
+          (expression: BetweenPredicate[15, 41]
+            (left: ParenthesizedSelect[15, 25]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item: Select[16, 24]
+                (selectToken: SELECT[16, 22])
+                (WhiteSpace[22, 23])
+                (selectItemList1: SelectItemList1[23, 24]
+                  (item[]: ExpressionSelectItem[23, 24]
+                    (expression: Identifier[23, 24])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+            (WhiteSpace[25, 26])
+            (betweenToken: BETWEEN[26, 33])
+            (WhiteSpace[33, 34])
+            (middle: Identifier[34, 35])
+            (WhiteSpace[35, 36])
+            (andToken: AND[36, 39])
+            (WhiteSpace[39, 40])
+            (right: Identifier[40, 41])
+          )
+        )
+!`
+-----
+SELECT a BETWEEN b AND c = ANY (SELECT d)
+-- https://www.db-fiddle.com/f/94vjphuui98o7AkYy8Z5oQ/0
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 41]
+            (expression: BetweenPredicate[7, 24]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (betweenToken: BETWEEN[9, 16])
+              (WhiteSpace[16, 17])
+              (middle: Identifier[17, 18])
+              (WhiteSpace[18, 19])
+              (andToken: AND[19, 22])
+              (WhiteSpace[22, 23])
+              (right: Identifier[23, 24])
+            )
+            (WhiteSpace[24, 25])
+            (operator: Equal[25, 26])
+            (WhiteSpace[26, 27])
+            (quantifier: ANY[27, 30])
+            (WhiteSpace[30, 31])
+            (parenthesizedSelect: ParenthesizedSelect[31, 41]
+!`

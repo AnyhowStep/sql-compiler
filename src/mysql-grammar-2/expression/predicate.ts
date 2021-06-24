@@ -1,4 +1,4 @@
-import {cannotExpect, choice, field, optional, seq} from "../../grammar-builder";
+import {cannotExpect, choice, field, optional, precedence, seq} from "../../grammar-builder";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -17,46 +17,55 @@ export const Predicate = choice(
     SyntaxKind.RegExpPredicate,
 );
 
-export const InSubQueryPredicate = seq(
+export const InSubQueryPredicate = precedence(60, seq(
     field("expression", SyntaxKind.BitExpression),
     field("notToken", optional(TokenKind.NOT)),
     field("inToken", TokenKind.IN),
     field("parenthesizedSelect", SyntaxKind.ParenthesizedSelect),
-);
+));
 
-export const InExpressionTuple1Predicate = seq(
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9338-L9353
+ */
+export const InExpressionTuple1Predicate = precedence(60, seq(
     field("expression", SyntaxKind.BitExpression),
     field("notToken", optional(TokenKind.NOT)),
     field("inToken", cannotExpect(TokenKind.IN)),
     field("expressionTuple1", SyntaxKind.ExpressionTuple1),
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9360
  */
-export const BetweenPredicate = seq(
+export const BetweenPredicate = precedence(50, seq(
     field("left", SyntaxKind.BitExpression),
     field("notToken", optional(TokenKind.NOT)),
     field("betweenToken", cannotExpect(TokenKind.BETWEEN)),
     field("middle", SyntaxKind.BitExpression),
     field("andToken", TokenKind.AND),
     field("right", SyntaxKind.Predicate),
-);
+));
 
-export const SoundsLikePredicate = seq(
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9368
+ */
+export const SoundsLikePredicate = precedence(60, seq(
     field("left", SyntaxKind.BitExpression),
     field("soundsToken", cannotExpect(TokenKind.SOUNDS)),
     field("likeToken", TokenKind.LIKE),
     field("right", SyntaxKind.BitExpression),
-);
+));
 
-export const LikePredicate = seq(
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9376-L9380
+ */
+export const LikePredicate = precedence(60, seq(
     field("left", SyntaxKind.BitExpression),
     field("notToken", optional(TokenKind.NOT)),
     field("likeToken", cannotExpect(TokenKind.LIKE)),
     field("right", SyntaxKind.SimpleExpression),
     field("escape", optional(SyntaxKind.LikeEscape)),
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9376
@@ -66,9 +75,12 @@ export const LikeEscape = seq(
     field("expression", SyntaxKind.SimpleExpression),
 );
 
-export const RegExpPredicate = seq(
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9387-L9391
+ */
+export const RegExpPredicate = precedence(60, seq(
     field("left", SyntaxKind.BitExpression),
     field("notToken", optional(TokenKind.NOT)),
     field("regexpToken", cannotExpect(TokenKind.REGEXP)),
     field("right", SyntaxKind.BitExpression),
-);
+));

@@ -203,6 +203,7 @@ export const syntaxKinds = [
     "ScopedSystemVariableIdentifier",
     "UnscopedSystemVariableIdentifier",
     "UserVariableIdentifier",
+    "UserVariableIdentifierAssignment",
     "ParamMarker",
     "IntervalExpression",
     "LikeEscape",
@@ -210,6 +211,9 @@ export const syntaxKinds = [
     "BitExpressionTuple1",
     "BitExpressionTuple1Tuple1",
     "IntervalExpressionPlus",
+    "Not2SimpleExpression",
+    "PrefixSimpleExpression",
+    "CollateSimpleExpression",
 
     "SignedLiteral",
     "Literal",

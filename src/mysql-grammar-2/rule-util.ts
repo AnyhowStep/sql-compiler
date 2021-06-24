@@ -23,6 +23,46 @@ export const identifier = tokenSymbol(
 );
 
 /**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9610
+ */
+const keywordFunctionCall_FunctionName = new Set<string>([
+    TokenKind.CHAR,
+    TokenKind.CHARACTER,
+    TokenKind.CURRENT_USER,
+    TokenKind.DATE,
+    TokenKind.DAY,
+    TokenKind.SQL_TSI_DAY,
+    TokenKind.HOUR,
+    TokenKind.SQL_TSI_HOUR,
+    TokenKind.INSERT,
+    TokenKind.INTERVAL,
+    TokenKind.LEFT,
+    TokenKind.MINUTE,
+    TokenKind.SQL_TSI_MINUTE,
+    TokenKind.MONTH,
+    TokenKind.SQL_TSI_MONTH,
+    TokenKind.RIGHT,
+    TokenKind.SECOND,
+    TokenKind.SQL_TSI_SECOND,
+    TokenKind.TIME,
+    TokenKind.TIMESTAMP,
+    TokenKind.TRIM,
+    TokenKind.USER,
+    TokenKind.SESSION_USER,
+    TokenKind.SYSTEM_USER,
+    TokenKind.YEAR,
+    TokenKind.SQL_TSI_YEAR,
+]);
+
+export const maybeUserDefinedFunctionCall_FunctionName = tokenSymbol(
+    TokenKind.Identifier,
+    TokenKind.DoubleQuotedLiteral,
+    ...nonReservedKeywords.filter(
+        tokenKind => !keywordFunctionCall_FunctionName.has(tokenKind)
+    ),
+);
+
+/**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13833
  */
 export const identifierNoScopeKeyword = tokenSymbol(

@@ -1,0 +1,22 @@
+SELECT x IN (SELECT)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 20]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (inToken: IN[9, 11])
+            (WhiteSpace[11, 12])
+            (parenthesizedSelect: ParenthesizedSelect[12, 20]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item: Select[13, 19]
+                (selectToken: SELECT[13, 19])
+                (selectItemList1: SelectItemList1[19, 19]
+                  (item[]: ExpressionSelectItem[19, 19]
+                    (Expected expression: Identifier[19, 19])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`

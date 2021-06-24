@@ -1,0 +1,15 @@
+SELECT x IN ()
+-----
+`!
+          (expression: InExpressionTuple1Predicate[7, 14]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (inToken: IN[9, 11])
+            (WhiteSpace[11, 12])
+            (expressionTuple1: ExpressionTuple1[12, 14]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (Expected item[]: Identifier[13, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`

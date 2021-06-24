@@ -25,16 +25,79 @@ export const SimpleExpression = choice(
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10160
      */
     SyntaxKind.UserVariableIdentifier,
+    SyntaxKind.UserVariableIdentifierAssignment,
     SyntaxKind.ScopedSystemVariableIdentifier,
     SyntaxKind.UnscopedSystemVariableIdentifier,
+    SyntaxKind.Not2SimpleExpression,
     SyntaxKind.ParenthesizedExpressionSimpleExpression,
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9582-L9583
      */
     SyntaxKind.IntervalExpressionPlus,
+    SyntaxKind.PrefixSimpleExpression,
+    SyntaxKind.CollateSimpleExpression,
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9528
+     */
+    SyntaxKind.ParenthesizedSelect,
 );
 
-export const IntervalExpressionPlus = precedence(60, seq(
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9524
+ */
+export const Not2SimpleExpression = precedence(140, seq(
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9469-L9476
+     *
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_lex.cc#L878
+     *
+     * @todo Implement `TokenKind.NOT2`
+     *
+     * `NOT2` is just `NOT` with `HIGH_NOT_PRECEDENCE` enabled.
+     *
+     * https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_high_not_precedence
+     */
+    field("exclamationToken", cannotExpect(tokenSymbol(TokenKind.Exclamation))),
+    field("expression", SyntaxKind.SimpleExpression),
+));
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9512-L9520
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9554
+ */
+export const PrefixSimpleExpression = precedence(140, seq(
+    field("operator", cannotExpect(tokenSymbol(
+        TokenKind.Plus,
+        TokenKind.Minus,
+        TokenKind.Tilde,
+        TokenKind.BINARY,
+    ))),
+    field("expression", SyntaxKind.SimpleExpression),
+));
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9500
+ */
+export const CollateSimpleExpression = precedence(140, seq(
+    field("expression", SyntaxKind.SimpleExpression),
+    field("collateToken", TokenKind.COLLATE),
+    field("collation", SyntaxKind.CollationName),
+));
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9582
+ */
+//export const IntervalExpressionPlus = precedence(160, seq(
+/**
+ * + BETWEEN > INTERVAL
+ * + INTERVAL > AND
+ *
+ * BETWEEN = 50
+ * NOT = 40
+ * AND = 30
+ */
+export const IntervalExpressionPlus = precedence(45, seq(
     field("left", SyntaxKind.IntervalExpression),
     field("operator", cannotExpect(tokenSymbol(
         TokenKind.Plus,
@@ -155,6 +218,15 @@ export const UserVariableIdentifier = precedence(Precedence.UserVariableIdentifi
         optional(field("identifier", identifierOrReservedOrStringLiteral)),
     )
 ));
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10156
+ */
+export const UserVariableIdentifierAssignment = seq(
+    field("userVariableIdentifier", SyntaxKind.UserVariableIdentifier),
+    field("colonEqualToken", TokenKind.ColonEqual),
+    field("expression", SyntaxKind.Expression),
+);
 
 /**
  * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/gen_lex_token.cc#L289

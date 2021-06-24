@@ -16,6 +16,38 @@ SELECT a = b = c
           )
 !`
 -----
+SELECT a = ANY (SELECT b) = c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 29]
+            (left: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+              (expression: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Equal[9, 10])
+              (WhiteSpace[10, 11])
+              (quantifier: ANY[11, 14])
+              (WhiteSpace[14, 15])
+              (parenthesizedSelect: ParenthesizedSelect[15, 25]
+                (openParenthesesToken: OpenParentheses[15, 16])
+                (item: Select[16, 24]
+                  (selectToken: SELECT[16, 22])
+                  (WhiteSpace[22, 23])
+                  (selectItemList1: SelectItemList1[23, 24]
+                    (item[]: ExpressionSelectItem[23, 24]
+                      (expression: Identifier[23, 24])
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[24, 25])
+              )
+            )
+            (WhiteSpace[25, 26])
+            (operator: Equal[26, 27])
+            (WhiteSpace[27, 28])
+            (right: Identifier[28, 29])
+          )
+!`
+-----
 SELECT a <=> b <=> c
 -----
 `!
@@ -157,6 +189,38 @@ SELECT a = b <=> c
             (operator: LessEqualGreater[13, 16])
             (WhiteSpace[16, 17])
             (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a = ANY (SELECT b) <=> c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 31]
+            (left: ComparisonSubQueryBooleanPrimaryExpression[7, 25]
+              (expression: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: Equal[9, 10])
+              (WhiteSpace[10, 11])
+              (quantifier: ANY[11, 14])
+              (WhiteSpace[14, 15])
+              (parenthesizedSelect: ParenthesizedSelect[15, 25]
+                (openParenthesesToken: OpenParentheses[15, 16])
+                (item: Select[16, 24]
+                  (selectToken: SELECT[16, 22])
+                  (WhiteSpace[22, 23])
+                  (selectItemList1: SelectItemList1[23, 24]
+                    (item[]: ExpressionSelectItem[23, 24]
+                      (expression: Identifier[23, 24])
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[24, 25])
+              )
+            )
+            (WhiteSpace[25, 26])
+            (operator: LessEqualGreater[26, 29])
+            (WhiteSpace[29, 30])
+            (right: Identifier[30, 31])
           )
 !`
 -----

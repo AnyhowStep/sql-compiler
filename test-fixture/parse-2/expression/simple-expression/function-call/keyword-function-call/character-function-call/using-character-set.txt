@@ -1,0 +1,80 @@
+SELECT CHAR(USING utf8mb4)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 26]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 26]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (Unexpected USING[12, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT CHAR(x USING utf8mb4)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 28]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 28]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (usingCharacterSetName: UsingCharacterSetName[14, 27]
+                (usingToken: USING[14, 19])
+                (WhiteSpace[19, 20])
+                (characterSetName: Identifier[20, 27])
+              )
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT CHAR(x, y USING utf8mb4)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 31]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 31]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (WhiteSpace[16, 17])
+              (usingCharacterSetName: UsingCharacterSetName[17, 30]
+                (usingToken: USING[17, 22])
+                (WhiteSpace[22, 23])
+                (characterSetName: Identifier[23, 30])
+              )
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT CHAR(x, y, z USING utf8mb4)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 34]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 34]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (WhiteSpace[19, 20])
+              (usingCharacterSetName: UsingCharacterSetName[20, 33]
+                (usingToken: USING[20, 25])
+                (WhiteSpace[25, 26])
+                (characterSetName: Identifier[26, 33])
+              )
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`

@@ -1,0 +1,17 @@
+SELECT a LIKE b ESCAPE c
+-----
+`!
+          (expression: LikePredicate[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+            (WhiteSpace[15, 16])
+            (escape: LikeEscape[16, 24]
+              (escapeToken: ESCAPE[16, 22])
+              (WhiteSpace[22, 23])
+              (expression: Identifier[23, 24])
+            )
+          )
+!`

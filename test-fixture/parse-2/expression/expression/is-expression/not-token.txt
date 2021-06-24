@@ -1,0 +1,13 @@
+SELECT a IS NOT TRUE
+-----
+`!
+          (expression: IsExpression[7, 20]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (notToken: NOT[12, 15])
+            (WhiteSpace[15, 16])
+            (right: TRUE[16, 20])
+          )
+!`

@@ -1,0 +1,25 @@
+SELECT CHAR(x)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 14]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 14]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`
+-----
+SELECT CHARACTER(x)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 19]
+            (functionName: CHARACTER[7, 16])
+            (arguments: Character_Arguments[16, 19]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`

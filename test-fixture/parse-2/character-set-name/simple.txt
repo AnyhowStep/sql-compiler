@@ -1,0 +1,55 @@
+CREATE TABLE T (
+  X CHAR CHARACTER SET "utf8mb4"
+)
+-----
+`!
+              (characterSetName: DoubleQuotedLiteral[40, 49])
+!`
+-----
+CREATE TABLE T (
+  X CHAR CHARACTER SET 'utf8mb4'
+)
+-----
+`!
+              (characterSetName: StringLiteral[40, 49])
+!`
+-----
+CREATE TABLE T (
+  X CHAR CHARACTER SET BINARY
+)
+-----
+`!
+              (characterSetName: BINARY[40, 46])
+!`
+-----
+CREATE TABLE T (
+  X CHAR CHARACTER SET qwerty
+)
+-----
+`!
+              (characterSetName: Identifier[40, 46])
+!`
+-----
+CREATE TABLE T (
+  X CHAR CHARACTER SET `wert`
+)
+-----
+`!
+              (characterSetName: Identifier[40, 46])
+!`
+-----
+CREATE TABLE T (
+  X CHAR CHARACTER SET ALWAYS
+)
+-----
+`!
+              (characterSetName: ALWAYS[40, 46])
+!`
+-----
+CREATE TABLE T (
+  X CHAR CHARACTER SET CREATE
+)
+-----
+`!
+              (Expected characterSetName: Identifier[40, 46])
+!`

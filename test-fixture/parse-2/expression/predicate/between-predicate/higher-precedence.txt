@@ -1,0 +1,239 @@
+SELECT NOT a BETWEEN b AND c
+-----
+`!
+          (expression: NotExpression[7, 28]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BetweenPredicate[11, 28]
+              (left: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (betweenToken: BETWEEN[13, 20])
+              (WhiteSpace[20, 21])
+              (middle: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (andToken: AND[23, 26])
+              (WhiteSpace[26, 27])
+              (right: Identifier[27, 28])
+            )
+          )
+!`
+-----
+SELECT x AND a BETWEEN b AND c
+-----
+`!
+          (expression: BinaryExpression[7, 30]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: AND[9, 12])
+            (WhiteSpace[12, 13])
+            (right: BetweenPredicate[13, 30]
+              (left: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (betweenToken: BETWEEN[15, 22])
+              (WhiteSpace[22, 23])
+              (middle: Identifier[23, 24])
+              (WhiteSpace[24, 25])
+              (andToken: AND[25, 28])
+              (WhiteSpace[28, 29])
+              (right: Identifier[29, 30])
+            )
+          )
+!`
+-----
+SELECT a BETWEEN b AND c AND x
+-----
+`!
+          (expression: BinaryExpression[7, 30]
+            (left: BetweenPredicate[7, 24]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (betweenToken: BETWEEN[9, 16])
+              (WhiteSpace[16, 17])
+              (middle: Identifier[17, 18])
+              (WhiteSpace[18, 19])
+              (andToken: AND[19, 22])
+              (WhiteSpace[22, 23])
+              (right: Identifier[23, 24])
+            )
+            (WhiteSpace[24, 25])
+            (operator: AND[25, 28])
+            (WhiteSpace[28, 29])
+            (right: Identifier[29, 30])
+          )
+!`
+-----
+SELECT x && a BETWEEN b AND c
+-----
+`!
+          (expression: BinaryExpression[7, 29]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: AmpersandAmpersand[9, 11])
+            (WhiteSpace[11, 12])
+            (right: BetweenPredicate[12, 29]
+              (left: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (betweenToken: BETWEEN[14, 21])
+              (WhiteSpace[21, 22])
+              (middle: Identifier[22, 23])
+              (WhiteSpace[23, 24])
+              (andToken: AND[24, 27])
+              (WhiteSpace[27, 28])
+              (right: Identifier[28, 29])
+            )
+          )
+!`
+-----
+SELECT a BETWEEN b AND c && x
+-----
+`!
+          (expression: BinaryExpression[7, 29]
+            (left: BetweenPredicate[7, 24]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (betweenToken: BETWEEN[9, 16])
+              (WhiteSpace[16, 17])
+              (middle: Identifier[17, 18])
+              (WhiteSpace[18, 19])
+              (andToken: AND[19, 22])
+              (WhiteSpace[22, 23])
+              (right: Identifier[23, 24])
+            )
+            (WhiteSpace[24, 25])
+            (operator: AmpersandAmpersand[25, 27])
+            (WhiteSpace[27, 28])
+            (right: Identifier[28, 29])
+          )
+!`
+-----
+SELECT x XOR a BETWEEN b AND c
+-----
+`!
+          (expression: BinaryExpression[7, 30]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: XOR[9, 12])
+            (WhiteSpace[12, 13])
+            (right: BetweenPredicate[13, 30]
+              (left: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (betweenToken: BETWEEN[15, 22])
+              (WhiteSpace[22, 23])
+              (middle: Identifier[23, 24])
+              (WhiteSpace[24, 25])
+              (andToken: AND[25, 28])
+              (WhiteSpace[28, 29])
+              (right: Identifier[29, 30])
+            )
+          )
+!`
+-----
+SELECT a BETWEEN b AND c XOR x
+-----
+`!
+          (expression: BinaryExpression[7, 30]
+            (left: BetweenPredicate[7, 24]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (betweenToken: BETWEEN[9, 16])
+              (WhiteSpace[16, 17])
+              (middle: Identifier[17, 18])
+              (WhiteSpace[18, 19])
+              (andToken: AND[19, 22])
+              (WhiteSpace[22, 23])
+              (right: Identifier[23, 24])
+            )
+            (WhiteSpace[24, 25])
+            (operator: XOR[25, 28])
+            (WhiteSpace[28, 29])
+            (right: Identifier[29, 30])
+          )
+!`
+-----
+SELECT x OR a BETWEEN b AND c
+-----
+`!
+          (expression: BinaryExpression[7, 29]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: OR[9, 11])
+            (WhiteSpace[11, 12])
+            (right: BetweenPredicate[12, 29]
+              (left: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (betweenToken: BETWEEN[14, 21])
+              (WhiteSpace[21, 22])
+              (middle: Identifier[22, 23])
+              (WhiteSpace[23, 24])
+              (andToken: AND[24, 27])
+              (WhiteSpace[27, 28])
+              (right: Identifier[28, 29])
+            )
+          )
+!`
+-----
+SELECT a BETWEEN b AND c OR x
+-----
+`!
+          (expression: BinaryExpression[7, 29]
+            (left: BetweenPredicate[7, 24]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (betweenToken: BETWEEN[9, 16])
+              (WhiteSpace[16, 17])
+              (middle: Identifier[17, 18])
+              (WhiteSpace[18, 19])
+              (andToken: AND[19, 22])
+              (WhiteSpace[22, 23])
+              (right: Identifier[23, 24])
+            )
+            (WhiteSpace[24, 25])
+            (operator: OR[25, 27])
+            (WhiteSpace[27, 28])
+            (right: Identifier[28, 29])
+          )
+!`
+-----
+SELECT x || a BETWEEN b AND c
+-----
+`!
+          (expression: BinaryExpression[7, 29]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: BarBar[9, 11])
+            (WhiteSpace[11, 12])
+            (right: BetweenPredicate[12, 29]
+              (left: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (betweenToken: BETWEEN[14, 21])
+              (WhiteSpace[21, 22])
+              (middle: Identifier[22, 23])
+              (WhiteSpace[23, 24])
+              (andToken: AND[24, 27])
+              (WhiteSpace[27, 28])
+              (right: Identifier[28, 29])
+            )
+          )
+!`
+-----
+SELECT a BETWEEN b AND c || x
+-----
+`!
+          (expression: BinaryExpression[7, 29]
+            (left: BetweenPredicate[7, 24]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (betweenToken: BETWEEN[9, 16])
+              (WhiteSpace[16, 17])
+              (middle: Identifier[17, 18])
+              (WhiteSpace[18, 19])
+              (andToken: AND[19, 22])
+              (WhiteSpace[22, 23])
+              (right: Identifier[23, 24])
+            )
+            (WhiteSpace[24, 25])
+            (operator: BarBar[25, 27])
+            (WhiteSpace[27, 28])
+            (right: Identifier[28, 29])
+          )
+!`

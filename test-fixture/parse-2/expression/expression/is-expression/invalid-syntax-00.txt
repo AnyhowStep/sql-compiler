@@ -1,0 +1,38 @@
+SELECT a IS UNKNOWN IS NULL
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 19]
+          (expression: IsExpression[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (right: UNKNOWN[12, 19])
+          )
+        )
+        (WhiteSpace[19, 20])
+        (Expected commaToken[]: Comma[20, 22])
+        (WhiteSpace[22, 23])
+        (item[]: ExpressionSelectItem[23, 27]
+          (expression: NULL[23, 27])
+        )
+!`
+-----
+SELECT a IS NULL IS UNKNOWN
+-- This is OK
+-----
+`!
+          (expression: IsExpression[7, 27]
+            (left: IsNullBooleanPrimaryExpression[7, 16]
+              (expression: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (isToken: IS[9, 11])
+              (WhiteSpace[11, 12])
+              (nullToken: NULL[12, 16])
+            )
+            (WhiteSpace[16, 17])
+            (isToken: IS[17, 19])
+            (WhiteSpace[19, 20])
+            (right: UNKNOWN[20, 27])
+          )
+!`

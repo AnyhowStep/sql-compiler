@@ -1,0 +1,21 @@
+SELECT NOT ! NOT ! a
+-- The `NOT` and `!` operators are actually different rules, usually.
+-- They're the same if high_not_precedence is enabled
+-----
+`!
+          (expression: NotExpression[7, 20]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: Not2SimpleExpression[11, 20]
+              (exclamationToken: Exclamation[11, 12])
+              (WhiteSpace[12, 13])
+              (Unexpected NOT[13, 16])
+              (WhiteSpace[16, 17])
+              (expression: Not2SimpleExpression[17, 20]
+                (exclamationToken: Exclamation[17, 18])
+                (WhiteSpace[18, 19])
+                (expression: Identifier[19, 20])
+              )
+            )
+          )
+!`

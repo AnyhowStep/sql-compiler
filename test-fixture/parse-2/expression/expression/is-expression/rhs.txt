@@ -1,0 +1,35 @@
+SELECT a IS TRUE
+-----
+`!
+          (expression: IsExpression[7, 16]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (right: TRUE[12, 16])
+          )
+!`
+-----
+SELECT a IS FALSE
+-----
+`!
+          (expression: IsExpression[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (right: FALSE[12, 17])
+          )
+!`
+-----
+SELECT a IS UNKNOWN
+-----
+`!
+          (expression: IsExpression[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (right: UNKNOWN[12, 19])
+          )
+!`

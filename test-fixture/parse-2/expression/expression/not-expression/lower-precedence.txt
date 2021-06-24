@@ -1,0 +1,252 @@
+SELECT NOT a BETWEEN b AND c
+-----
+`!
+          (expression: NotExpression[7, 28]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BetweenPredicate[11, 28]
+              (left: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (betweenToken: BETWEEN[13, 20])
+              (WhiteSpace[20, 21])
+              (middle: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (andToken: AND[23, 26])
+              (WhiteSpace[26, 27])
+              (right: Identifier[27, 28])
+            )
+          )
+!`
+-----
+SELECT NOT a = b
+-----
+`!
+          (expression: NotExpression[7, 16]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: ComparisonBooleanPrimaryExpression[11, 16]
+              (left: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (operator: Equal[13, 14])
+              (WhiteSpace[14, 15])
+              (right: Identifier[15, 16])
+            )
+          )
+!`
+-----
+SELECT NOT a = ANY (SELECT b)
+-----
+`!
+          (expression: NotExpression[7, 29]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: ComparisonSubQueryBooleanPrimaryExpression[11, 29]
+!`
+-----
+SELECT NOT a = ANY (SELECT b)
+-----
+`!
+          (expression: NotExpression[7, 29]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: ComparisonSubQueryBooleanPrimaryExpression[11, 29]
+!`
+-----
+SELECT NOT a IS UNKNOWN
+-----
+`!
+          (expression: NotExpression[7, 23]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: IsExpression[11, 23]
+              (left: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (isToken: IS[13, 15])
+              (WhiteSpace[15, 16])
+              (right: UNKNOWN[16, 23])
+            )
+          )
+!`
+-----
+SELECT NOT a IS NULL
+-----
+`!
+          (expression: NotExpression[7, 20]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: IsNullBooleanPrimaryExpression[11, 20]
+              (expression: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (isToken: IS[13, 15])
+              (WhiteSpace[15, 16])
+              (nullToken: NULL[16, 20])
+            )
+          )
+!`
+-----
+SELECT NOT a LIKE b
+-----
+`!
+          (expression: NotExpression[7, 19]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: LikePredicate[11, 19]
+              (left: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (likeToken: LIKE[13, 17])
+              (WhiteSpace[17, 18])
+              (right: Identifier[18, 19])
+            )
+          )
+!`
+-----
+SELECT NOT a REGEXP b
+-----
+`!
+          (expression: NotExpression[7, 21]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: RegExpPredicate[11, 21]
+              (left: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (regexpToken: REGEXP[13, 19])
+              (WhiteSpace[19, 20])
+              (right: Identifier[20, 21])
+            )
+          )
+!`
+-----
+SELECT NOT a IN (SELECT b)
+-----
+`!
+          (expression: NotExpression[7, 26]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: InSubQueryPredicate[11, 26]
+              (expression: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (inToken: IN[13, 15])
+              (WhiteSpace[15, 16])
+              (parenthesizedSelect: ParenthesizedSelect[16, 26]
+                (openParenthesesToken: OpenParentheses[16, 17])
+                (item: Select[17, 25]
+                  (selectToken: SELECT[17, 23])
+                  (WhiteSpace[23, 24])
+                  (selectItemList1: SelectItemList1[24, 25]
+                    (item[]: ExpressionSelectItem[24, 25]
+                      (expression: Identifier[24, 25])
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[25, 26])
+              )
+            )
+          )
+!`
+-----
+SELECT NOT a IN (b1, b2)
+-----
+`!
+          (expression: NotExpression[7, 24]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: InExpressionTuple1Predicate[11, 24]
+              (expression: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (inToken: IN[13, 15])
+              (WhiteSpace[15, 16])
+              (expressionTuple1: ExpressionTuple1[16, 24]
+                (openParenthesesToken: OpenParentheses[16, 17])
+                (item[]: Identifier[17, 19])
+                (commaToken[]: Comma[19, 20])
+                (WhiteSpace[20, 21])
+                (item[]: Identifier[21, 23])
+                (closeParenthesesToken: CloseParentheses[23, 24])
+              )
+            )
+          )
+!`
+-----
+SELECT NOT a|b
+-----
+`!
+          (expression: NotExpression[7, 14]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BinaryBitExpression[11, 14]
+              (left: Identifier[11, 12])
+              (operator: Bar[12, 13])
+              (right: Identifier[13, 14])
+            )
+          )
+!`
+-----
+SELECT NOT a&b
+-----
+`!
+          (expression: NotExpression[7, 14]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BinaryBitExpression[11, 14]
+              (left: Identifier[11, 12])
+              (operator: Ampersand[12, 13])
+              (right: Identifier[13, 14])
+            )
+          )
+!`
+-----
+SELECT NOT a<<b
+-----
+`!
+          (expression: NotExpression[7, 15]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BinaryBitExpression[11, 15]
+              (left: Identifier[11, 12])
+              (operator: LessLess[12, 14])
+              (right: Identifier[14, 15])
+            )
+          )
+!`
+-----
+SELECT NOT a+b
+-----
+`!
+          (expression: NotExpression[7, 14]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BinaryBitExpression[11, 14]
+              (left: Identifier[11, 12])
+              (operator: Plus[12, 13])
+              (right: Identifier[13, 14])
+            )
+          )
+!`
+-----
+SELECT NOT a*b
+-----
+`!
+          (expression: NotExpression[7, 14]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BinaryBitExpression[11, 14]
+              (left: Identifier[11, 12])
+              (operator: Asterisk[12, 13])
+              (right: Identifier[13, 14])
+            )
+          )
+!`
+-----
+SELECT NOT a^b
+-----
+`!
+          (expression: NotExpression[7, 14]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: BinaryBitExpression[11, 14]
+              (left: Identifier[11, 12])
+              (operator: Caret[12, 13])
+              (right: Identifier[13, 14])
+            )
+          )
+!`

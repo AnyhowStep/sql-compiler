@@ -1,0 +1,10 @@
+SELECT x IN (SELECT y1)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 23]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (inToken: IN[9, 11])
+            (WhiteSpace[11, 12])
+            (parenthesizedSelect: ParenthesizedSelect[12, 23]
+!`

@@ -1,0 +1,13 @@
+SELECT a NOT LIKE b
+-----
+`!
+          (expression: LikePredicate[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (notToken: NOT[9, 12])
+            (WhiteSpace[12, 13])
+            (likeToken: LIKE[13, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`

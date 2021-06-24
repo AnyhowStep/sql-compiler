@@ -1,0 +1,77 @@
+SELECT CHAR()
+-----
+`!
+          (expression: CharacterFunctionCall[7, 13]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 13]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (Expected item[]: Identifier[12, 12])
+              (closeParenthesesToken: CloseParentheses[12, 13])
+            )
+          )
+!`
+-----
+SELECT CHAR(x)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 14]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 14]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`
+-----
+SELECT CHAR(x, y)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 17]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 17]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT CHAR(x, y, z)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 20]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 20]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT CHAR(NOT 1)
+-----
+`!
+          (expression: CharacterFunctionCall[7, 18]
+            (functionName: CHAR[7, 11])
+            (arguments: Character_Arguments[11, 18]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: NotExpression[12, 17]
+                (notToken: NOT[12, 15])
+                (WhiteSpace[15, 16])
+                (expression: IntegerLiteral[16, 17])
+              )
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`

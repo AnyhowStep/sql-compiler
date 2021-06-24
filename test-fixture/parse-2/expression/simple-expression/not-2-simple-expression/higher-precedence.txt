@@ -1,0 +1,79 @@
+SELECT !   a AND b
+-----
+`!
+          (expression: BinaryExpression[7, 18]
+            (left: Not2SimpleExpression[7, 12]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 11])
+              (expression: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: AND[13, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT !   a && b
+-----
+`!
+          (expression: BinaryExpression[7, 17]
+            (left: Not2SimpleExpression[7, 12]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 11])
+              (expression: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: AmpersandAmpersand[13, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`
+-----
+SELECT !   a XOR b
+-----
+`!
+          (expression: BinaryExpression[7, 18]
+            (left: Not2SimpleExpression[7, 12]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 11])
+              (expression: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: XOR[13, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT !   a OR b
+-----
+`!
+          (expression: BinaryExpression[7, 17]
+            (left: Not2SimpleExpression[7, 12]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 11])
+              (expression: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: OR[13, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`
+-----
+SELECT !   a || b
+-----
+`!
+          (expression: BinaryExpression[7, 17]
+            (left: Not2SimpleExpression[7, 12]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 11])
+              (expression: Identifier[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (operator: BarBar[13, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`

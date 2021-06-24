@@ -1,4 +1,4 @@
-import {cannotExpect, choice, field, optional, seq, tokenSymbol} from "../../grammar-builder";
+import {cannotExpect, choice, field, optional, precedence, seq, tokenSymbol} from "../../grammar-builder";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -14,14 +14,14 @@ export const BooleanPrimaryExpression = choice(
     SyntaxKind.ComparisonSubQueryBooleanPrimaryExpression,
 );
 
-export const IsNullBooleanPrimaryExpression = seq(
+export const IsNullBooleanPrimaryExpression = precedence(60, seq(
     field("expression", SyntaxKind.BooleanPrimaryExpression),
     field("isToken", cannotExpect(TokenKind.IS)),
     field("notToken", optional(TokenKind.NOT)),
     field("nullToken", TokenKind.NULL),
-);
+));
 
-export const ComparisonBooleanPrimaryExpression = seq(
+export const ComparisonBooleanPrimaryExpression = precedence(60, seq(
     field("left", SyntaxKind.BooleanPrimaryExpression),
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9479
@@ -40,9 +40,9 @@ export const ComparisonBooleanPrimaryExpression = seq(
         TokenKind.ExclamationEqual,
     ))),
     field("right", SyntaxKind.Predicate),
-);
+));
 
-export const ComparisonSubQueryBooleanPrimaryExpression = seq(
+export const ComparisonSubQueryBooleanPrimaryExpression = precedence(60, seq(
     field("expression", SyntaxKind.BooleanPrimaryExpression),
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9479
@@ -67,4 +67,4 @@ export const ComparisonSubQueryBooleanPrimaryExpression = seq(
      */
     field("quantifier", tokenSymbol(TokenKind.ALL, TokenKind.ANY, TokenKind.SOME)),
     field("parenthesizedSelect", SyntaxKind.ParenthesizedSelect),
-);
+));

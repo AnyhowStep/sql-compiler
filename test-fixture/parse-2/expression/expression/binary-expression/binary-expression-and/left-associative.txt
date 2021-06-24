@@ -1,0 +1,71 @@
+SELECT a AND b AND c
+-----
+`!
+          (expression: BinaryExpression[7, 20]
+            (left: BinaryExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: AND[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: AND[15, 18])
+            (WhiteSpace[18, 19])
+            (right: Identifier[19, 20])
+          )
+!`
+-----
+SELECT a && b && c
+-----
+`!
+          (expression: BinaryExpression[7, 18]
+            (left: BinaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: AmpersandAmpersand[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: AmpersandAmpersand[14, 16])
+            (WhiteSpace[16, 17])
+            (right: Identifier[17, 18])
+          )
+!`
+-----
+SELECT a AND b && c
+-----
+`!
+          (expression: BinaryExpression[7, 19]
+            (left: BinaryExpression[7, 14]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: AND[9, 12])
+              (WhiteSpace[12, 13])
+              (right: Identifier[13, 14])
+            )
+            (WhiteSpace[14, 15])
+            (operator: AmpersandAmpersand[15, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`
+-----
+SELECT a && b AND c
+-----
+`!
+          (expression: BinaryExpression[7, 19]
+            (left: BinaryExpression[7, 13]
+              (left: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (operator: AmpersandAmpersand[9, 11])
+              (WhiteSpace[11, 12])
+              (right: Identifier[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (operator: AND[14, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`

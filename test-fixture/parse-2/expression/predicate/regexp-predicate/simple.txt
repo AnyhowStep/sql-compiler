@@ -1,0 +1,11 @@
+SELECT a REGEXP b
+-----
+`!
+          (expression: RegExpPredicate[7, 17]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`
