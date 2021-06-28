@@ -1,17 +1,27 @@
-import {cannotExpect, choice, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
-import {itemSeparator, list, list1, list2, parentheses} from "../../rule-util";
+import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline} from "../../../grammar-builder";
+import {itemSeparator, list, list1, parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 import {interval, intervalTimeStamp} from "../interval-expression";
 
-export const Empty_Arguments = parentheses(seq());
-
-export const ExpressionList_Arguments = parentheses(
-    list(SyntaxKind.Expression)
+export const Empty_Arguments = fieldLengthCheck(
+    "item",
+    0,
+    0,
+    SyntaxKind.ExpressionList_ArgumentsImpl
 );
 
-export const ExpressionList2_Arguments = parentheses(
-    list2(SyntaxKind.Expression)
+export const ExpressionList_ArgumentsImpl = inline(parentheses(
+    list(SyntaxKind.Expression)
+));
+
+export const ExpressionList_Arguments = SyntaxKind.ExpressionList_ArgumentsImpl;
+
+export const ExpressionList2_Arguments = fieldLengthCheck(
+    "item",
+    2,
+    Infinity,
+    SyntaxKind.ExpressionList_ArgumentsImpl
 );
 
 export const UserDefinedExpressionList_Arguments = seq(
@@ -20,25 +30,33 @@ export const UserDefinedExpressionList_Arguments = seq(
     field("closeParenthesesToken", TokenKind.CloseParentheses),
 );
 
-export const Expression1_Arguments = parentheses(
-    field("item", SyntaxKind.Expression),
+export const Expression1_Arguments = fieldLengthCheck(
+    "item",
+    1,
+    1,
+    SyntaxKind.ExpressionList_ArgumentsImpl
 );
 
-export const Expression2_Arguments = parentheses(seq(
-    field("item", SyntaxKind.Expression),
-    field("commaToken", itemSeparator),
-    field("item", SyntaxKind.Expression),
-));
+export const Expression2_Arguments = fieldLengthCheck(
+    "item",
+    2,
+    2,
+    SyntaxKind.ExpressionList_ArgumentsImpl
+);
 
-export const Expression4_Arguments = parentheses(seq(
-    field("item", SyntaxKind.Expression),
-    field("commaToken", itemSeparator),
-    field("item", SyntaxKind.Expression),
-    field("commaToken", itemSeparator),
-    field("item", SyntaxKind.Expression),
-    field("commaToken", itemSeparator),
-    field("item", SyntaxKind.Expression),
-));
+export const Expression4_Arguments = fieldLengthCheck(
+    "item",
+    4,
+    4,
+    SyntaxKind.ExpressionList_ArgumentsImpl
+);
+
+export const Expression1To2_Arguments = fieldLengthCheck(
+    "item",
+    1,
+    2,
+    SyntaxKind.ExpressionList_ArgumentsImpl
+);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9611-L9615

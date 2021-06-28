@@ -11,7 +11,7 @@ export const ListPartitionByColumnTuple2 = seq(
     field("partitionCount", optional(SyntaxKind.PartitionCount)),
     field("subPartition", optional(SyntaxKind.SubPartition)),
     field("listPartitionDefinitionTuple1", allowedSyntaxKinds(
-            [SyntaxKind.MultitonListPartitionDefinitionTuple1],
-            SyntaxKind.ListPartitionDefinitionTuple1
+        [SyntaxKind.MultitonListPartitionDefinitionTuple1],
+        SyntaxKind.ListPartitionDefinitionTuple1
     )),
 );

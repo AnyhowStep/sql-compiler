@@ -1,0 +1,27 @@
+SELECT INSERT(a, b, c, d, e, f)
+-----
+`!
+          (expression: InsertFunctionCall[7, 31]
+            (functionName: INSERT[7, 13])
+            ({Expected exactly 4 item, found 6} arguments: Expression4_Arguments[13, 31]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`

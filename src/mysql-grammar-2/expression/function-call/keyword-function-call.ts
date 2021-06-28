@@ -1,4 +1,4 @@
-import {allowedSyntaxKinds, choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
+import {choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -33,23 +33,24 @@ export const ExtractFromDateTimeFunctionCall = seq(
     field("functionName", tokenSymbol(
         TokenKind.DATE,
         TokenKind.DAY,
+        TokenKind.SQL_TSI_DAY,
         TokenKind.HOUR,
+        TokenKind.SQL_TSI_HOUR,
         TokenKind.MINUTE,
+        TokenKind.SQL_TSI_MINUTE,
         TokenKind.MONTH,
+        TokenKind.SQL_TSI_MONTH,
         TokenKind.SECOND,
+        TokenKind.SQL_TSI_SECOND,
         TokenKind.TIME,
-        TokenKind.TIMESTAMP,
+        /**
+         * @see TimestampFunctionCall
+         */
+        //TokenKind.TIMESTAMP,
         TokenKind.YEAR,
+        TokenKind.SQL_TSI_YEAR,
     )),
-    field("arguments", allowedSyntaxKinds(
-        [
-            SyntaxKind.Expression1_Arguments,
-        ],
-        choice(
-            SyntaxKind.Expression1_Arguments,
-            SyntaxKind.ExpressionList2_Arguments,
-        )
-    )),
+    field("arguments", SyntaxKind.Expression1_Arguments),
 );
 
 /**
@@ -86,17 +87,32 @@ export const RightFunctionCall = seq(
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9675
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9671
  */
-export const TimestampAddTimeFunctionCall = seq(
+//export const TimestampAddTimeFunctionCall = seq(
+export const TimestampFunctionCall = seq(
     field("functionName", TokenKind.TIMESTAMP),
-    field("arguments", SyntaxKind.Expression2_Arguments),
+    field("arguments", SyntaxKind.Expression1To2_Arguments),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9679-L9710
+ */
+export const TrimFunctionCall = seq(
+    field("functionName", TokenKind.TRIM),
+    field("arguments", SyntaxKind.Trim_Arguments),
 );
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9715
  */
 export const UserFunctionCall = seq(
-    field("functionName", TokenKind.USER),
+    field("functionName", tokenSymbol(
+        TokenKind.USER,
+        TokenKind.SESSION_USER,
+        TokenKind.SYSTEM_USER,
+    )),
     field("arguments", SyntaxKind.Empty_Arguments),
 );
 
@@ -111,6 +127,8 @@ export const KeywordFunctionCall = inline(choice(
     SyntaxKind.IntervalFunctionCall,
     SyntaxKind.LeftFunctionCall,
     SyntaxKind.RightFunctionCall,
-    SyntaxKind.TimestampAddTimeFunctionCall,
+    //SyntaxKind.TimestampAddTimeFunctionCall,
+    SyntaxKind.TimestampFunctionCall,
+    SyntaxKind.TrimFunctionCall,
     SyntaxKind.UserFunctionCall,
 ));

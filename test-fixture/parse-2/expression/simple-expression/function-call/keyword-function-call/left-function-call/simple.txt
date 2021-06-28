@@ -1,0 +1,59 @@
+SELECT LEFT()
+-----
+`!
+          (expression: LeftFunctionCall[7, 13]
+            (functionName: LEFT[7, 11])
+            ({Expected exactly 2 item, found 0} arguments: Expression2_Arguments[11, 13]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (closeParenthesesToken: CloseParentheses[12, 13])
+            )
+          )
+!`
+-----
+SELECT LEFT(a)
+-----
+`!
+          (expression: LeftFunctionCall[7, 14]
+            (functionName: LEFT[7, 11])
+            ({Expected exactly 2 item, found 1} arguments: Expression2_Arguments[11, 14]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`
+-----
+SELECT LEFT(a, b)
+-----
+`!
+          (expression: LeftFunctionCall[7, 17]
+            (functionName: LEFT[7, 11])
+            (arguments: Expression2_Arguments[11, 17]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT LEFT(a, b, c)
+-----
+`!
+          (expression: LeftFunctionCall[7, 20]
+            (functionName: LEFT[7, 11])
+            ({Expected exactly 2 item, found 3} arguments: Expression2_Arguments[11, 20]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`

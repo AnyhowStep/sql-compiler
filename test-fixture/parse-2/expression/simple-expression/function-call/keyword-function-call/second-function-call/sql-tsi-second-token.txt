@@ -1,0 +1,114 @@
+SELECT SQL_TSI_SECOND()
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 23]
+            (functionName: SQL_TSI_SECOND[7, 21])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[21, 23]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT SQL_TSI_SECOND(NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 28]
+            (functionName: SQL_TSI_SECOND[7, 21])
+            (arguments: Expression1_Arguments[21, 28]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (item[]: NotExpression[22, 27]
+                (notToken: NOT[22, 25])
+                (WhiteSpace[25, 26])
+                (expression: IntegerLiteral[26, 27])
+              )
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT SQL_TSI_SECOND (NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 29]
+            (functionName: SQL_TSI_SECOND[7, 21])
+            (WhiteSpace[21, 22])
+            (arguments: Expression1_Arguments[22, 29]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (item[]: NotExpression[23, 28]
+                (notToken: NOT[23, 26])
+                (WhiteSpace[26, 27])
+                (expression: IntegerLiteral[27, 28])
+              )
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT SQL_TSI_SECOND(x, y)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 27]
+            (functionName: SQL_TSI_SECOND[7, 21])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[21, 27]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (item[]: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT SQL_TSI_SECOND(x, y, z)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 30]
+            (functionName: SQL_TSI_SECOND[7, 21])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[21, 30]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (item[]: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Identifier[25, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (item[]: Identifier[28, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT `SQL_TSI_SECOND`(x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 29]
+            (functionName: Identifier[7, 23])
+            (arguments: UserDefinedExpressionList_Arguments[23, 29]
+              (openParenthesesToken: OpenParentheses[23, 24])
+              (item[]: Identifier[24, 25])
+              (commaToken[]: Comma[25, 26])
+              (WhiteSpace[26, 27])
+              (item[]: Identifier[27, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT `SQL_TSI_SECOND` (x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 30]
+            (functionName: Identifier[7, 23])
+            (WhiteSpace[23, 24])
+            (arguments: UserDefinedExpressionList_Arguments[24, 30]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (item[]: Identifier[25, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (item[]: Identifier[28, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`

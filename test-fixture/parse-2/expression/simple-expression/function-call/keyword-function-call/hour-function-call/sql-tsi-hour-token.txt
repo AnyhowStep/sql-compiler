@@ -1,0 +1,114 @@
+SELECT SQL_TSI_HOUR()
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 21]
+            (functionName: SQL_TSI_HOUR[7, 19])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[19, 21]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT SQL_TSI_HOUR(NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 26]
+            (functionName: SQL_TSI_HOUR[7, 19])
+            (arguments: Expression1_Arguments[19, 26]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: NotExpression[20, 25]
+                (notToken: NOT[20, 23])
+                (WhiteSpace[23, 24])
+                (expression: IntegerLiteral[24, 25])
+              )
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT SQL_TSI_HOUR (NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 27]
+            (functionName: SQL_TSI_HOUR[7, 19])
+            (WhiteSpace[19, 20])
+            (arguments: Expression1_Arguments[20, 27]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: NotExpression[21, 26]
+                (notToken: NOT[21, 24])
+                (WhiteSpace[24, 25])
+                (expression: IntegerLiteral[25, 26])
+              )
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT SQL_TSI_HOUR(x, y)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 25]
+            (functionName: SQL_TSI_HOUR[7, 19])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[19, 25]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT SQL_TSI_HOUR(x, y, z)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 28]
+            (functionName: SQL_TSI_HOUR[7, 19])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[19, 28]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT `SQL_TSI_HOUR`(x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 27]
+            (functionName: Identifier[7, 21])
+            (arguments: UserDefinedExpressionList_Arguments[21, 27]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (item[]: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT `SQL_TSI_HOUR` (x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 28]
+            (functionName: Identifier[7, 21])
+            (WhiteSpace[21, 22])
+            (arguments: UserDefinedExpressionList_Arguments[22, 28]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`

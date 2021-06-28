@@ -237,7 +237,9 @@ export const syntaxKinds = [
     "IntervalFunctionCall",
     "LeftFunctionCall",
     "RightFunctionCall",
-    "TimestampAddTimeFunctionCall",
+    //"TimestampAddTimeFunctionCall",
+    "TimestampFunctionCall",
+    "TrimFunctionCall",
     "UserFunctionCall",
     "AddDateFunctionCall",
     "CurrentDateFunctionCall",
@@ -255,12 +257,14 @@ export const syntaxKinds = [
     "UtcTimestampFunctionCall",
 
     "Empty_Arguments",
+    "ExpressionList_ArgumentsImpl",
     "ExpressionList_Arguments",
     "ExpressionList2_Arguments",
     "UserDefinedExpressionList_Arguments",
     "Expression1_Arguments",
     "Expression2_Arguments",
     "Expression4_Arguments",
+    "Expression1To2_Arguments",
 
     "Character_Arguments",
     "UsingCharacterSetName",
@@ -295,6 +299,4 @@ export const syntaxKinds = [
     "IdentTuple2",
     "TableIdentifierTuple",
     "TableIdentifierList1",
-
-    "PreParseOption",
 ];

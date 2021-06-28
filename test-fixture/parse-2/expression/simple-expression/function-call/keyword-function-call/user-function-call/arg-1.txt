@@ -1,0 +1,38 @@
+SELECT USER(a)
+-----
+`!
+          (expression: UserFunctionCall[7, 14]
+            (functionName: USER[7, 11])
+            ({Expected exactly 0 item, found 1} arguments: Empty_Arguments[11, 14]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`
+-----
+SELECT SESSION_USER(a)
+-----
+`!
+          (expression: UserFunctionCall[7, 22]
+            (functionName: SESSION_USER[7, 19])
+            ({Expected exactly 0 item, found 1} arguments: Empty_Arguments[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT SYSTEM_USER(a)
+-----
+`!
+          (expression: UserFunctionCall[7, 21]
+            (functionName: SYSTEM_USER[7, 18])
+            ({Expected exactly 0 item, found 1} arguments: Empty_Arguments[18, 21]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`

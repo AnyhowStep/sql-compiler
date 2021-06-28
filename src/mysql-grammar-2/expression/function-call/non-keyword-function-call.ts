@@ -2,7 +2,7 @@
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9737
  */
 
-import {choice, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
+import {choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -44,11 +44,15 @@ export const CurrentTimeFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9754
  *
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9759
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9742
  */
 export const DateAddIntervalFunctionCall = seq(
     field("functionName", tokenSymbol(
         TokenKind.DATE_ADD,
         TokenKind.DATE_SUB,
+        TokenKind.ADDDATE,
+        TokenKind.SUBDATE,
     )),
     field("arguments", SyntaxKind.DateAdd_Arguments),
 );
@@ -137,7 +141,7 @@ export const UtcTimestampFunctionCall = seq(
     field("arguments", SyntaxKind.DateTimePrecisionArg),
 );
 
-export const NonKeywordFunctionCall = choice(
+export const NonKeywordFunctionCall = inline(choice(
     SyntaxKind.AddDateFunctionCall,
     SyntaxKind.CurrentDateFunctionCall,
     SyntaxKind.CurrentTimeFunctionCall,
@@ -152,4 +156,4 @@ export const NonKeywordFunctionCall = choice(
     SyntaxKind.UtcDateFunctionCall,
     SyntaxKind.UtcTimeFunctionCall,
     SyntaxKind.UtcTimestampFunctionCall,
-);
+));

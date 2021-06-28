@@ -214,7 +214,8 @@ export interface MySqlRuleCollection {
     IntervalFunctionCall : Rule|TopLevelRuleModifier,
     LeftFunctionCall : Rule|TopLevelRuleModifier,
     RightFunctionCall : Rule|TopLevelRuleModifier,
-    TimestampAddTimeFunctionCall : Rule|TopLevelRuleModifier,
+    TimestampFunctionCall : Rule|TopLevelRuleModifier,
+    TrimFunctionCall : Rule|TopLevelRuleModifier,
     UserFunctionCall : Rule|TopLevelRuleModifier,
     AddDateFunctionCall : Rule|TopLevelRuleModifier,
     CurrentDateFunctionCall : Rule|TopLevelRuleModifier,
@@ -231,12 +232,14 @@ export interface MySqlRuleCollection {
     UtcTimeFunctionCall : Rule|TopLevelRuleModifier,
     UtcTimestampFunctionCall : Rule|TopLevelRuleModifier,
     Empty_Arguments : Rule|TopLevelRuleModifier,
+    ExpressionList_ArgumentsImpl : Rule|TopLevelRuleModifier,
     ExpressionList_Arguments : Rule|TopLevelRuleModifier,
     ExpressionList2_Arguments : Rule|TopLevelRuleModifier,
     UserDefinedExpressionList_Arguments : Rule|TopLevelRuleModifier,
     Expression1_Arguments : Rule|TopLevelRuleModifier,
     Expression2_Arguments : Rule|TopLevelRuleModifier,
     Expression4_Arguments : Rule|TopLevelRuleModifier,
+    Expression1To2_Arguments : Rule|TopLevelRuleModifier,
     Character_Arguments : Rule|TopLevelRuleModifier,
     UsingCharacterSetName : Rule|TopLevelRuleModifier,
     DateAdd_Arguments : Rule|TopLevelRuleModifier,
@@ -265,8 +268,7 @@ export interface MySqlRuleCollection {
     IdentTuple1 : Rule|TopLevelRuleModifier,
     IdentTuple2 : Rule|TopLevelRuleModifier,
     TableIdentifierTuple : Rule|TopLevelRuleModifier,
-    TableIdentifierList1 : Rule|TopLevelRuleModifier,
-    PreParseOption : Rule|TopLevelRuleModifier
+    TableIdentifierList1 : Rule|TopLevelRuleModifier
 }
 export interface MySqlGrammar extends GrammarConfig {
     rules : MySqlRuleCollection;

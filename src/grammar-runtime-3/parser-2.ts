@@ -1,5 +1,5 @@
 import {CompiledShape} from "../compiled-grammar";
-import {MyGrammar, MyRule, MyTokenSymbol} from "./grammar";
+import {FieldCheck, FieldLengthCheck, MyGrammar, MyRule, MyTokenSymbol} from "./grammar";
 import {Fields, MySyntaxNode, MyToken, MyToken2} from "./syntax-node";
 
 let addStateScan = 0;
@@ -147,6 +147,7 @@ export function push (data : MySyntaxNode, token : MyToken2) : MySyntaxNode {
         fields : data.fields,
         precedence : data.precedence,
         errorKind : undefined,
+        fieldErrors : undefined,
 
         startTokenIndex : data.startTokenIndex,
         endTokenIndex : (
@@ -232,6 +233,55 @@ export function push (data : MySyntaxNode, token : MyToken2) : MySyntaxNode {
     //*/
 }
 
+export function isValidFieldLength (
+    fieldCheck : FieldLengthCheck,
+    value : Fields[string]
+) {
+    if (!(value instanceof Array)) {
+        return false;
+    }
+
+    if (fieldCheck.minLength != undefined && isFinite(fieldCheck.minLength)) {
+        if (value.length < fieldCheck.minLength) {
+            return false;
+        }
+    }
+
+    if (fieldCheck.maxLength != undefined && isFinite(fieldCheck.maxLength)) {
+        if (value.length > fieldCheck.maxLength) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+export function doFieldChecks (rule : MyRule, node : MySyntaxNode) : MySyntaxNode {
+    if (rule.fieldCheckArr == undefined || rule.fieldCheckArr.length == 0) {
+        return node;
+    }
+
+    const fieldErrors : FieldCheck[] = [];
+    for (const fieldCheck of rule.fieldCheckArr) {
+        const value = node.fields[fieldCheck.field];
+        if (!isValidFieldLength(fieldCheck, value)) {
+            fieldErrors.push(fieldCheck);
+        }
+    }
+
+    if (fieldErrors.length == 0) {
+        return node;
+    }
+
+    return {
+        ...node,
+        fieldErrors : [
+            ...(node.fieldErrors ?? []),
+            ...fieldErrors,
+        ],
+    };
+}
+
 export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : MySyntaxNode) : MySyntaxNode {
     const childLabel = grammar.ruleName2Label[child.syntaxKind];
 
@@ -246,6 +296,7 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
             fields : parent.fields,
             precedence : parent.precedence,
             errorKind : undefined,
+            fieldErrors : undefined,
 
             startTokenIndex : parent.startTokenIndex,
             endTokenIndex : child.endTokenIndex,
@@ -271,6 +322,7 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
             fields : mergeFields(parentShape, parent.fields, newFields),
             precedence : parent.precedence,
             errorKind : undefined,
+            fieldErrors : undefined,
 
             startTokenIndex : parent.startTokenIndex,
             endTokenIndex : child.endTokenIndex,
@@ -292,15 +344,28 @@ export function inlineChild (
         child.children :
         child.children.map((c) : MySyntaxNode|MyToken2 => {
             if ("tokenKind" in c) {
-                return c;
+                if (allowedSyntaxKinds.includes(c.tokenKind)) {
+                    return c;
+                }
+                if (grammar.extras.has(c.tokenKind)) {
+                    //Special case for extras.
+                    //We don't include them as part of errors.
+                    return c;
+                }
+                return {
+                    ...c,
+                    errorKind : "Unexpected",
+                    expectedTokenKind : undefined,
+                };
+            } else {
+                if (allowedSyntaxKinds.includes(c.syntaxKind)) {
+                    return c;
+                }
+                return {
+                    ...c,
+                    errorKind : "Unexpected",
+                };
             }
-            if (allowedSyntaxKinds.includes(c.syntaxKind)) {
-                return c;
-            }
-            return {
-                ...c,
-                errorKind : "Unexpected",
-            };
         })
     );
     if (childLabel == undefined) {
@@ -314,6 +379,7 @@ export function inlineChild (
             fields : mergeFields(parentShape, parent.fields, child.fields),
             precedence : parent.precedence,
             errorKind : undefined,
+            fieldErrors : undefined,
 
             startTokenIndex : parent.startTokenIndex,
             endTokenIndex : child.endTokenIndex,
@@ -355,6 +421,7 @@ export function inlineChild (
             ),
             precedence : parent.precedence,
             errorKind : undefined,
+            fieldErrors : undefined,
 
             startTokenIndex : parent.startTokenIndex,
             endTokenIndex : child.endTokenIndex,
@@ -895,7 +962,7 @@ export function complete3 (
                 tokenIndex : state.tokenIndex,
                 startTokenIndex : other.startTokenIndex,
 
-                data : newNextData,
+                data : doFieldChecks(other.rule, newNextData),
                 errorCount,
 
                 ident : nextIdent,
@@ -913,7 +980,7 @@ export function complete3 (
         tokenIndex : state.tokenIndex,
         startTokenIndex : other.startTokenIndex,
 
-        data : nextData,
+        data : doFieldChecks(other.rule, nextData),
         errorCount,
 
         ident : nextIdent,
@@ -924,7 +991,7 @@ export function complete3 (
     return nextState;
 }
 
-function getTokens (syntaxNode : MySyntaxNode) : MyToken2[] {
+export function getTokens (syntaxNode : MySyntaxNode) : MyToken2[] {
     const result : MyToken2[] = [];
     for (const child of syntaxNode.children) {
         if ("tokenKind" in child) {
@@ -959,7 +1026,7 @@ function offsetSyntaxTokenIndex (syntaxNode : MySyntaxNode, offset : number) : M
     };
 }
 
-function offsetStateTokenIndex (state : MyState, offset : number) : MyState {
+export function offsetStateTokenIndex (state : MyState, offset : number) : MyState {
     const pushEdge : MyState["pushEdge"] = new Map<MyState, MyState[]>();
 
     for (const [p, completeEdges] of state.pushEdge) {
@@ -989,53 +1056,6 @@ export function complete2 (
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
     addState : (state : MyState) => void
 ) {
-    if (state.rule.postParse != undefined) {
-        try {
-            const postParseStates = parse(
-                {
-                    ...grammar,
-                    start : state.rule.postParse,
-                },
-                getTokens(state.data)
-                    .filter(token => {
-                        return token.tokenIndex >= 0;
-                    })
-                    .map(token => {
-                        return {
-                            ...token,
-                            tokenIndex : undefined,
-                            errorKind : undefined,
-                            expectedTokenKind : undefined,
-                            skipExpectationAfterExtraCost : undefined,
-                        };
-                    }),
-            );
-            for (const postParseState of postParseStates) {
-                const postParseState2 = offsetStateTokenIndex(
-                    postParseState,
-                    state.startTokenIndex
-                );
-                if (postParseState2.startTokenIndex == 0) {
-                    postParseState2;
-                }
-                complete2(
-                    grammar,
-                    tokens,
-                    postParseState2,
-                    other,
-                    tryGetState,
-                    tryGetFinishedStates,
-                    addState
-                );
-            }
-            if (postParseStates.length > 0) {
-                return;
-            }
-        } catch (error) {
-            error;
-        }
-    }
-
     const nextIdent = other.ident + "-" + state.ident;
 
     const isExtra = grammar.allExtrasSubRuleNames.has(state.rule.name);
@@ -1453,6 +1473,7 @@ export function predictRule (
             fields : grammar.ruleName2Fields[expect],
             precedence : rule.precedence,
             errorKind : undefined,
+            fieldErrors : undefined,
 
             startTokenIndex : state.tokenIndex,
             endTokenIndex : state.tokenIndex,
@@ -1542,6 +1563,7 @@ export function makeStateSet0 (grammar : MyGrammar) : MyStateSet {
                 fields : grammar.ruleName2Fields[grammar.start],
                 precedence : rule.precedence,
                 errorKind : undefined,
+                fieldErrors : undefined,
 
                 startTokenIndex : 0,
                 endTokenIndex : 0,

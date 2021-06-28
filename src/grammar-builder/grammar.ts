@@ -234,7 +234,13 @@ export function disablePenalizeErrorStart (rule : RuleObj) : RuleObj {
         penalizeErrorStart : false,
     };
 }
-
+/**
+ *
+ * This should only ever be used like so,
+ * `allowedSyntaxKinds(choice())` or,
+ * `allowedSyntaxKinds(seq())` or,
+ * `allowedSyntaxKinds(SyntaxKind.SomeChoiceRule)`
+ */
 export function allowedSyntaxKinds (
     allowedSyntaxKinds : string[],
     rule : Rule
@@ -252,26 +258,48 @@ export function allowedSyntaxKinds (
     }
 }
 
-export function preParse (
-    preParse : Rule,
-    postParse : Rule
-) : Rule {
-    if (typeof preParse == "string") {
-        preParse = seqNoFlatten(preParse);
+export function fieldLengthCheck (
+    field : string,
+    minLength : number,
+    maxLength : number,
+    rule : Rule
+) : RuleObj {
+    if (typeof rule == "string") {
+        rule = seqNoFlatten(rule);
     }
 
+    const fieldCheckArr = rule.fieldCheckArr ?? [];
     return {
-        ...preParse,
-        postParse,
+        ...rule,
+        fieldCheckArr : [
+            ...fieldCheckArr,
+            {
+                type : "FieldLengthCheck",
+                field,
+                minLength,
+                maxLength,
+            },
+        ],
     };
 }
+
+export interface FieldLengthCheck {
+    type : "FieldLengthCheck",
+    field : string,
+    minLength : number,
+    maxLength : number,
+}
+
+export type FieldCheck =
+    | FieldLengthCheck
+;
 
 export interface RuleBase {
     precedence? : number;
     customExtraName? : string;
     penalizeErrorStart? : boolean;
     allowedSyntaxKinds? : string[];
-    postParse? : Rule,
+    fieldCheckArr? : FieldCheck[];
 }
 
 export interface SeqRule extends RuleBase {

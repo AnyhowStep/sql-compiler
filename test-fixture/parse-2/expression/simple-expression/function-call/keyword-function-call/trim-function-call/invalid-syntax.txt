@@ -1,0 +1,180 @@
+SELECT TRIM()
+-----
+`!
+          (expression: TrimFunctionCall[7, 13]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 13]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (Expected expression: Identifier[12, 12])
+              (closeParenthesesToken: CloseParentheses[12, 13])
+            )
+          )
+!`
+-----
+SELECT TRIM(FROM expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 22]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 22]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (Unexpected FROM[12, 16])
+              (WhiteSpace[16, 17])
+              (expression: Identifier[17, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT TRIM(TRAILING expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 26]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 26]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveSpaceExpression[12, 21]
+                (trimDirection: TRAILING[12, 20])
+                (WhiteSpace[20, 21])
+                (Expected fromToken: FROM[21, 21])
+              )
+              (expression: Identifier[21, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT TRIM(BOTH expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 22]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 22]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveSpaceExpression[12, 17]
+                (trimDirection: BOTH[12, 16])
+                (WhiteSpace[16, 17])
+                (Expected fromToken: FROM[17, 17])
+              )
+              (expression: Identifier[17, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT TRIM(LEADING expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 25]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 25]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveSpaceExpression[12, 20]
+                (trimDirection: LEADING[12, 19])
+                (WhiteSpace[19, 20])
+                (Expected fromToken: FROM[20, 20])
+              )
+              (expression: Identifier[20, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT TRIM(TRAILING expr expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 31]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 31]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveStringExpression[12, 26]
+                (trimDirection: TRAILING[12, 20])
+                (WhiteSpace[20, 21])
+                (expression: Identifier[21, 25])
+                (WhiteSpace[25, 26])
+                (Expected fromToken: FROM[26, 26])
+              )
+              (expression: Identifier[26, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT TRIM(BOTH expr expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 27]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 27]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveStringExpression[12, 22]
+                (trimDirection: BOTH[12, 16])
+                (WhiteSpace[16, 17])
+                (expression: Identifier[17, 21])
+                (WhiteSpace[21, 22])
+                (Expected fromToken: FROM[22, 22])
+              )
+              (expression: Identifier[22, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT TRIM(LEADING expr expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 30]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 30]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveStringExpression[12, 25]
+                (trimDirection: LEADING[12, 19])
+                (WhiteSpace[19, 20])
+                (expression: Identifier[20, 24])
+                (WhiteSpace[24, 25])
+                (Expected fromToken: FROM[25, 25])
+              )
+              (expression: Identifier[25, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT TRIM(expr expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 22]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 22]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveStringExpression[12, 17]
+                (expression: Identifier[12, 16])
+                (WhiteSpace[16, 17])
+                (Expected fromToken: FROM[17, 17])
+              )
+              (expression: Identifier[17, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT TRIM(@expr expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 23]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 23]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveStringExpression[12, 18]
+                (expression: UserVariableIdentifier[12, 17]
+                  (atToken: At[12, 13])
+                  (identifier: Identifier[13, 17])
+                )
+                (WhiteSpace[17, 18])
+                (Expected fromToken: FROM[18, 18])
+              )
+              (expression: Identifier[18, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`

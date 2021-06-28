@@ -13,6 +13,8 @@ import {TokenKind} from "../token.generated";
 export const SimpleExpression = choice(
     /**
      * This `Ident` could reference column, stored procedure parameter, or some local variable.
+     *
+     * @todo Make the first token a dummy `TokenKind.Expr`?
      */
     identifier,
     SyntaxKind.ColumnIdentifierSimpleExpression,
@@ -81,7 +83,7 @@ export const PrefixSimpleExpression = precedence(140, seq(
  */
 export const CollateSimpleExpression = precedence(140, seq(
     field("expression", SyntaxKind.SimpleExpression),
-    field("collateToken", TokenKind.COLLATE),
+    field("collateToken", cannotExpect(TokenKind.COLLATE)),
     field("collation", SyntaxKind.CollationName),
 ));
 
@@ -224,7 +226,7 @@ export const UserVariableIdentifier = precedence(Precedence.UserVariableIdentifi
  */
 export const UserVariableIdentifierAssignment = seq(
     field("userVariableIdentifier", SyntaxKind.UserVariableIdentifier),
-    field("colonEqualToken", TokenKind.ColonEqual),
+    field("colonEqualToken", cannotExpect(TokenKind.ColonEqual)),
     field("expression", SyntaxKind.Expression),
 );
 

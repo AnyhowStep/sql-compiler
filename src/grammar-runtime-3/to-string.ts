@@ -1,4 +1,5 @@
-import {MySyntaxNode, MyToken} from "./syntax-node";
+import {FieldCheck, FieldLengthCheck} from "./grammar";
+import {Fields, MySyntaxNode, MyToken} from "./syntax-node";
 import {walk} from "./walk";
 
 function isEqualSyntaxNode (a : MySyntaxNode, b : MySyntaxNode) {
@@ -64,6 +65,64 @@ function findLabel (parent : MySyntaxNode, node : MySyntaxNode|MyToken) : { labe
     return undefined;
 }
 
+function getRangeStr (fieldCheck : FieldLengthCheck) {
+    const minLength = (
+        fieldCheck.minLength == undefined || !isFinite(fieldCheck.minLength) ?
+        0 :
+        fieldCheck.minLength
+    );
+
+    if (fieldCheck.maxLength == undefined || !isFinite(fieldCheck.maxLength)) {
+        //No max
+        return `at least ${minLength}`;
+    }
+
+    if (minLength == fieldCheck.maxLength) {
+        return `exactly ${minLength}`;
+    }
+
+    return `${minLength} - ${fieldCheck.maxLength}`;
+}
+
+function getLengthStr (value : Fields[string]) {
+    if (value instanceof Array) {
+        return value.length;
+    }
+    return -1;
+}
+
+function getFieldErrorsString (node : MySyntaxNode, fieldErrors : FieldCheck[]) {
+    const fieldErrorStrs : string[] = [];
+    for (const fieldCheck of fieldErrors) {
+        const value = node.fields[fieldCheck.field];
+
+        fieldErrorStrs.push(
+            `{Expected ${getRangeStr(fieldCheck)} ${fieldCheck.field}, found ${getLengthStr(value)}}`
+        );
+    }
+
+    return fieldErrorStrs;
+}
+export function getErrorString (node : MySyntaxNode) : string {
+    if (node.errorKind == undefined) {
+        if (node.fieldErrors == undefined || node.fieldErrors.length == 0) {
+            //No error
+            return "";
+        } else {
+            return getFieldErrorsString(node, node.fieldErrors).join("; ") + " ";
+        }
+    } else {
+        if (node.fieldErrors == undefined || node.fieldErrors.length == 0) {
+            return node.errorKind + " ";
+        } else {
+            return [
+                node.errorKind,
+                ...getFieldErrorsString(node, node.fieldErrors),
+            ].join("; ") + " ";
+        }
+    }
+}
+
 export function toString2 (node : MySyntaxNode) : string {
     const buffer : string[] = [];
 
@@ -76,8 +135,7 @@ export function toString2 (node : MySyntaxNode) : string {
 
             if (findLabelResult == undefined) {
                 if ("children" in node) {
-                    const errorKindStr = node.errorKind == undefined ? "" : `${node.errorKind} `;
-                    buffer.push(`${indent}(${errorKindStr}${node.syntaxKind}${range}`);
+                    buffer.push(`${indent}(${getErrorString(node)}${node.syntaxKind}${range}`);
                 } else {
                     const errorKindStr = node.errorKind == undefined ? "" : `${node.errorKind} `;
                     buffer.push(`${indent}(${errorKindStr}${node.tokenKind}${range})`);
@@ -105,8 +163,7 @@ export function toString2 (node : MySyntaxNode) : string {
 
 
             if ("children" in node) {
-                const errorKindStr = node.errorKind == undefined ? "" : `${node.errorKind} `;
-                buffer.push(`${indent}(${errorKindStr}${label}${node.syntaxKind}${range}`);
+                buffer.push(`${indent}(${getErrorString(node)}${label}${node.syntaxKind}${range}`);
             } else {
                 const errorKindStr = node.errorKind == undefined ? "" : `${node.errorKind} `;
                 buffer.push(`${indent}(${errorKindStr}${label}${node.tokenKind}${range})`);

@@ -19,6 +19,17 @@ export type MySymbol =
     | MyTokenSymbol
 ;
 
+export interface FieldLengthCheck {
+    type : "FieldLengthCheck",
+    field : string,
+    minLength : number|null,
+    maxLength : number|null,
+}
+
+export type FieldCheck =
+    | FieldLengthCheck
+;
+
 export interface MyRule {
     name : string;
     symbols : MySymbol[];
@@ -27,7 +38,7 @@ export interface MyRule {
     precedence : number;
     penalizeErrorStart : boolean;
     allowedSyntaxKinds : string[] | undefined;
-    postParse : string | undefined;
+    fieldCheckArr : FieldCheck[] | undefined;
 }
 
 export interface MyGrammar {
@@ -124,7 +135,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
             ...rule,
             runTimeId : ++runTimeId,
             allowedSyntaxKinds : rule.allowedSyntaxKinds,
-            postParse : rule.postParse,
+            fieldCheckArr : rule.fieldCheckArr,
         });
         ruleRunTimeId2Precedence.push(rule.precedence);
 
