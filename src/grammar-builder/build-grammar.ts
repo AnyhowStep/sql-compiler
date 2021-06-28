@@ -307,17 +307,10 @@ export function buildRule (
             undefined :
             rule.allowedSyntaxKinds
         ),
-        postParse : (
+        fieldCheckArr : (
             typeof rule == "string" ?
             undefined :
-            rule.postParse == undefined ?
-            undefined :
-            buildRule(
-                state,
-                `${ruleName}$postParse`,
-                rule.postParse,
-                uniqueExtrasName
-            )
+            rule.fieldCheckArr
         ),
     });
     return ruleName;

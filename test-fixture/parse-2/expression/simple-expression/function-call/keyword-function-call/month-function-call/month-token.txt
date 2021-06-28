@@ -1,0 +1,114 @@
+SELECT MONTH()
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 14]
+            (functionName: MONTH[7, 12])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[12, 14]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`
+-----
+SELECT MONTH(NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 19]
+            (functionName: MONTH[7, 12])
+            (arguments: Expression1_Arguments[12, 19]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: NotExpression[13, 18]
+                (notToken: NOT[13, 16])
+                (WhiteSpace[16, 17])
+                (expression: IntegerLiteral[17, 18])
+              )
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT MONTH (NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 20]
+            (functionName: MONTH[7, 12])
+            (WhiteSpace[12, 13])
+            (arguments: Expression1_Arguments[13, 20]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: NotExpression[14, 19]
+                (notToken: NOT[14, 17])
+                (WhiteSpace[17, 18])
+                (expression: IntegerLiteral[18, 19])
+              )
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT MONTH(x, y)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 18]
+            (functionName: MONTH[7, 12])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[12, 18]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (commaToken[]: Comma[14, 15])
+              (WhiteSpace[15, 16])
+              (item[]: Identifier[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT MONTH(x, y, z)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 21]
+            (functionName: MONTH[7, 12])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[12, 21]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (commaToken[]: Comma[14, 15])
+              (WhiteSpace[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT `MONTH`(x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 20]
+            (functionName: Identifier[7, 14])
+            (arguments: UserDefinedExpressionList_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT `MONTH` (x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 21]
+            (functionName: Identifier[7, 14])
+            (WhiteSpace[14, 15])
+            (arguments: UserDefinedExpressionList_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`

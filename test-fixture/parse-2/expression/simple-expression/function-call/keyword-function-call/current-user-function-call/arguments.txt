@@ -21,17 +21,12 @@ SELECT CURRENT_USER()
 SELECT CURRENT_USER(x)
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 19]
-          (expression: CurrentUserFunctionCall[7, 19]
+          (expression: CurrentUserFunctionCall[7, 22]
             (functionName: CURRENT_USER[7, 19])
+            ({Expected exactly 0 item, found 1} arguments: Empty_Arguments[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
           )
-        )
-        (Expected commaToken[]: Comma[19, 19])
-        (item[]: ExpressionSelectItem[19, 22]
-          (expression: ParenthesizedExpression[19, 22]
-            (openParenthesesToken: OpenParentheses[19, 20])
-            (item: Identifier[20, 21])
-            (closeParenthesesToken: CloseParentheses[21, 22])
-          )
-        )
 !`

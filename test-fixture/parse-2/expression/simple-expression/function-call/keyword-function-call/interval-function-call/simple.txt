@@ -1,0 +1,81 @@
+SELECT INTERVAL()
+-----
+`!
+          (expression: IntervalFunctionCall[7, 17]
+            (functionName: INTERVAL[7, 15])
+            ({Expected at least 2 item, found 0} arguments: ExpressionList2_Arguments[15, 17]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT INTERVAL(a)
+-----
+`!
+          (expression: IntervalFunctionCall[7, 18]
+            (functionName: INTERVAL[7, 15])
+            ({Expected at least 2 item, found 1} arguments: ExpressionList2_Arguments[15, 18]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT INTERVAL(a, b)
+-----
+`!
+          (expression: IntervalFunctionCall[7, 21]
+            (functionName: INTERVAL[7, 15])
+            (arguments: ExpressionList2_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT INTERVAL(a, b, c)
+-----
+`!
+          (expression: IntervalFunctionCall[7, 24]
+            (functionName: INTERVAL[7, 15])
+            (arguments: ExpressionList2_Arguments[15, 24]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT INTERVAL(a, b, c, d)
+-----
+`!
+          (expression: IntervalFunctionCall[7, 27]
+            (functionName: INTERVAL[7, 15])
+            (arguments: ExpressionList2_Arguments[15, 27]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`

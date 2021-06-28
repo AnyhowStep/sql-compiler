@@ -1,0 +1,18 @@
+SELECT DAY(@expr expr)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 22]
+            (functionName: DAY[7, 10])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[10, 22]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: UserVariableIdentifier[11, 16]
+                (atToken: At[11, 12])
+                (identifier: Identifier[12, 16])
+              )
+              (Expected commaToken[]: Comma[16, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`

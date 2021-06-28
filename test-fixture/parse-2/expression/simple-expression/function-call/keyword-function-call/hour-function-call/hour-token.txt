@@ -1,0 +1,114 @@
+SELECT HOUR()
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 13]
+            (functionName: HOUR[7, 11])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[11, 13]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (closeParenthesesToken: CloseParentheses[12, 13])
+            )
+          )
+!`
+-----
+SELECT HOUR(NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 18]
+            (functionName: HOUR[7, 11])
+            (arguments: Expression1_Arguments[11, 18]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: NotExpression[12, 17]
+                (notToken: NOT[12, 15])
+                (WhiteSpace[15, 16])
+                (expression: IntegerLiteral[16, 17])
+              )
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT HOUR (NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 19]
+            (functionName: HOUR[7, 11])
+            (WhiteSpace[11, 12])
+            (arguments: Expression1_Arguments[12, 19]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: NotExpression[13, 18]
+                (notToken: NOT[13, 16])
+                (WhiteSpace[16, 17])
+                (expression: IntegerLiteral[17, 18])
+              )
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT HOUR(x, y)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 17]
+            (functionName: HOUR[7, 11])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[11, 17]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT HOUR(x, y, z)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 20]
+            (functionName: HOUR[7, 11])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[11, 20]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT `HOUR`(x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 19]
+            (functionName: Identifier[7, 13])
+            (arguments: UserDefinedExpressionList_Arguments[13, 19]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT `HOUR` (x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 20]
+            (functionName: Identifier[7, 13])
+            (WhiteSpace[13, 14])
+            (arguments: UserDefinedExpressionList_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`

@@ -18,9 +18,15 @@ SELECT a+INTERVAL b DAY<<INTERVAL c DAY
               )
             )
             (operator: LessLess[23, 25])
-            (Unexpected INTERVAL[25, 33])
-            (WhiteSpace[33, 34])
-            (right: Identifier[34, 35])
+            (right: IntervalFunctionCall[25, 35]
+              (functionName: INTERVAL[25, 33])
+              (WhiteSpace[33, 34])
+              ({Expected at least 2 item, found 1} arguments: ExpressionList2_Arguments[34, 35]
+                (Expected openParenthesesToken: OpenParentheses[34, 34])
+                (item[]: Identifier[34, 35])
+                (Expected closeParenthesesToken: CloseParentheses[35, 35])
+              )
+            )
           )
           (WhiteSpace[35, 36])
           (alias: Alias[36, 39]

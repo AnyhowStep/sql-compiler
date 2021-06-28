@@ -1,0 +1,18 @@
+SELECT TRIM(expr FROM expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 27]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 27]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveStringExpression[12, 21]
+                (expression: Identifier[12, 16])
+                (WhiteSpace[16, 17])
+                (fromToken: FROM[17, 21])
+              )
+              (WhiteSpace[21, 22])
+              (expression: Identifier[22, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`

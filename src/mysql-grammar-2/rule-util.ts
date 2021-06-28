@@ -54,11 +54,44 @@ const keywordFunctionCall_FunctionName = new Set<string>([
     TokenKind.SQL_TSI_YEAR,
 ]);
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9737
+ */
+const nonKeywordFunctionCall_FunctionName = new Set<string>([
+    TokenKind.ADDDATE,
+    TokenKind.CURRENT_DATE,
+    TokenKind.CURDATE,
+    TokenKind.CURRENT_TIME,
+    TokenKind.CURTIME,
+    TokenKind.DATE_ADD,
+    TokenKind.DATE_SUB,
+    TokenKind.EXTRACT,
+    TokenKind.GET_FORMAT,
+    TokenKind.CURRENT_TIMESTAMP,
+    TokenKind.NOW,
+    TokenKind.LOCALTIME,
+    TokenKind.LOCALTIMESTAMP,
+    TokenKind.POSITION,
+    TokenKind.SUBDATE,
+    TokenKind.SUBSTRING,
+    TokenKind.SUBSTR,
+    TokenKind.MID,
+    TokenKind.SYSDATE,
+    TokenKind.TIMESTAMPADD,
+    TokenKind.TIMESTAMPDIFF,
+    TokenKind.UTC_DATE,
+    TokenKind.UTC_TIME,
+    TokenKind.UTC_TIMESTAMP,
+]);
+
 export const maybeUserDefinedFunctionCall_FunctionName = tokenSymbol(
     TokenKind.Identifier,
     TokenKind.DoubleQuotedLiteral,
     ...nonReservedKeywords.filter(
-        tokenKind => !keywordFunctionCall_FunctionName.has(tokenKind)
+        tokenKind => (
+            !keywordFunctionCall_FunctionName.has(tokenKind) &&
+            !nonKeywordFunctionCall_FunctionName.has(tokenKind)
+        )
     ),
 );
 

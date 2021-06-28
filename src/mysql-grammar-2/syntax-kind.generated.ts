@@ -212,7 +212,8 @@ export enum SyntaxKind {
     IntervalFunctionCall = "IntervalFunctionCall",
     LeftFunctionCall = "LeftFunctionCall",
     RightFunctionCall = "RightFunctionCall",
-    TimestampAddTimeFunctionCall = "TimestampAddTimeFunctionCall",
+    TimestampFunctionCall = "TimestampFunctionCall",
+    TrimFunctionCall = "TrimFunctionCall",
     UserFunctionCall = "UserFunctionCall",
     AddDateFunctionCall = "AddDateFunctionCall",
     CurrentDateFunctionCall = "CurrentDateFunctionCall",
@@ -229,12 +230,14 @@ export enum SyntaxKind {
     UtcTimeFunctionCall = "UtcTimeFunctionCall",
     UtcTimestampFunctionCall = "UtcTimestampFunctionCall",
     Empty_Arguments = "Empty_Arguments",
+    ExpressionList_ArgumentsImpl = "ExpressionList_ArgumentsImpl",
     ExpressionList_Arguments = "ExpressionList_Arguments",
     ExpressionList2_Arguments = "ExpressionList2_Arguments",
     UserDefinedExpressionList_Arguments = "UserDefinedExpressionList_Arguments",
     Expression1_Arguments = "Expression1_Arguments",
     Expression2_Arguments = "Expression2_Arguments",
     Expression4_Arguments = "Expression4_Arguments",
+    Expression1To2_Arguments = "Expression1To2_Arguments",
     Character_Arguments = "Character_Arguments",
     UsingCharacterSetName = "UsingCharacterSetName",
     DateAdd_Arguments = "DateAdd_Arguments",
@@ -263,6 +266,5 @@ export enum SyntaxKind {
     IdentTuple1 = "IdentTuple1",
     IdentTuple2 = "IdentTuple2",
     TableIdentifierTuple = "TableIdentifierTuple",
-    TableIdentifierList1 = "TableIdentifierList1",
-    PreParseOption = "PreParseOption"
+    TableIdentifierList1 = "TableIdentifierList1"
 }

@@ -33,6 +33,17 @@ export type CompiledSymbol =
     | CompiledTokenSymbol
 ;
 
+export interface FieldLengthCheck {
+    type : "FieldLengthCheck",
+    field : string,
+    minLength : number|null,
+    maxLength : number|null,
+}
+
+export type FieldCheck =
+    | FieldLengthCheck
+;
+
 export interface CompiledRule {
     name : string;
     symbols : CompiledSymbol[];
@@ -45,11 +56,16 @@ export interface CompiledRule {
      *
      * This should only ever be used like so,
      * `allowedSyntaxKinds(choice())` or,
+     * `allowedSyntaxKinds(seq())` or,
      * `allowedSyntaxKinds(SyntaxKind.SomeChoiceRule)`
      */
     allowedSyntaxKinds? : string[] | undefined;
 
-    postParse? : string | undefined;
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     */
+     fieldCheckArr? : FieldCheck[];
 }
 
 export interface CompiledQuantity {

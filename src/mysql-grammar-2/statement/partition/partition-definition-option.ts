@@ -1,21 +1,7 @@
-import {choice, field, inline, optional, repeat1, seq, tokenSymbol} from "../../../grammar-builder";
-import {identifier, identifierOrStringLiteral, real_ulonglong_num, real_ulong_num, stringLiteral} from "../../rule-util";
+import {choice, field, inline, optional, repeat1, seq} from "../../../grammar-builder";
+import {identifierOrStringLiteral, real_ulonglong_num, real_ulong_num, stringLiteral} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
-import {nonReservedKeywords, reservedKeywords, TokenKind} from "../../token.generated";
-
-// export const PartitionDefinitionOption = inline(preParse(
-//     SyntaxKind.PreParseOption,
-//     choice(
-//         SyntaxKind.PartitionDefinitionOptionEngine,
-//         SyntaxKind.PartitionDefinitionOptionMaxRows,
-//         SyntaxKind.PartitionDefinitionOptionMinRows,
-//         SyntaxKind.PartitionDefinitionOptionComment,
-//         SyntaxKind.PartitionDefinitionOptionDataDirectory,
-//         SyntaxKind.PartitionDefinitionOptionIndexDirectory,
-//         SyntaxKind.PartitionDefinitionOptionTablespace,
-//         SyntaxKind.PartitionDefinitionOptionNodeGroup
-//     )
-// ));
+import {TokenKind} from "../../token.generated";
 
 export const PartitionDefinitionOption = inline(choice(
     SyntaxKind.PartitionDefinitionOptionEngine,
@@ -27,26 +13,6 @@ export const PartitionDefinitionOption = inline(choice(
     SyntaxKind.PartitionDefinitionOptionTablespace,
     SyntaxKind.PartitionDefinitionOptionNodeGroup
 ));
-
-//export const PartitionDefinitionOption = inline(SyntaxKind.PreParseOption);
-
-export const PreParseOption = seq(
-    tokenSymbol(
-        reservedKeywords[0],
-        ...reservedKeywords,
-        ...nonReservedKeywords,
-    ),
-    optional(tokenSymbol(
-        reservedKeywords[0],
-        ...reservedKeywords,
-        ...nonReservedKeywords,
-    )),
-    optional(TokenKind.Equal),
-    choice(
-        identifier,
-        SyntaxKind.Literal
-    ),
-);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L5831

@@ -1,0 +1,18 @@
+SELECT TRIM(TRAILING FROM expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 31]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 31]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveSpaceExpression[12, 25]
+                (trimDirection: TRAILING[12, 20])
+                (WhiteSpace[20, 21])
+                (fromToken: FROM[21, 25])
+              )
+              (WhiteSpace[25, 26])
+              (expression: Identifier[26, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`

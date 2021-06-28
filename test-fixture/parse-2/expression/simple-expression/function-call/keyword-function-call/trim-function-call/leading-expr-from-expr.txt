@@ -1,0 +1,20 @@
+SELECT TRIM(LEADING expr FROM expr)
+-----
+`!
+          (expression: TrimFunctionCall[7, 35]
+            (functionName: TRIM[7, 11])
+            (arguments: Trim_Arguments[11, 35]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (trimExpression: Trim_RemoveStringExpression[12, 29]
+                (trimDirection: LEADING[12, 19])
+                (WhiteSpace[19, 20])
+                (expression: Identifier[20, 24])
+                (WhiteSpace[24, 25])
+                (fromToken: FROM[25, 29])
+              )
+              (WhiteSpace[29, 30])
+              (expression: Identifier[30, 34])
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`

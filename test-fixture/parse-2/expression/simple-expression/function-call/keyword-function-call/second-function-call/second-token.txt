@@ -1,0 +1,114 @@
+SELECT SECOND()
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 15]
+            (functionName: SECOND[7, 13])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[13, 15]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT SECOND(NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 20]
+            (functionName: SECOND[7, 13])
+            (arguments: Expression1_Arguments[13, 20]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: NotExpression[14, 19]
+                (notToken: NOT[14, 17])
+                (WhiteSpace[17, 18])
+                (expression: IntegerLiteral[18, 19])
+              )
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT SECOND (NOT 1)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 21]
+            (functionName: SECOND[7, 13])
+            (WhiteSpace[13, 14])
+            (arguments: Expression1_Arguments[14, 21]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: NotExpression[15, 20]
+                (notToken: NOT[15, 18])
+                (WhiteSpace[18, 19])
+                (expression: IntegerLiteral[19, 20])
+              )
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT SECOND(x, y)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 19]
+            (functionName: SECOND[7, 13])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[13, 19]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT SECOND(x, y, z)
+-----
+`!
+          (expression: ExtractFromDateTimeFunctionCall[7, 22]
+            (functionName: SECOND[7, 13])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[13, 22]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT `SECOND`(x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 21]
+            (functionName: Identifier[7, 15])
+            (arguments: UserDefinedExpressionList_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT `SECOND` (x, y)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 22]
+            (functionName: Identifier[7, 15])
+            (WhiteSpace[15, 16])
+            (arguments: UserDefinedExpressionList_Arguments[16, 22]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`

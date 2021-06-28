@@ -1,3 +1,5 @@
+import {FieldCheck} from "./grammar";
+
 export interface MyToken<TokenKindT extends string=string> {
     tokenKind : TokenKindT;
     text : string,
@@ -36,4 +38,5 @@ export interface MySyntaxNode {
      * Errors in `MySyntaxNode` do not increase `errorCount` of the state.
      */
     errorKind : "Unexpected"|undefined,
+    fieldErrors : undefined | FieldCheck[],
 }
