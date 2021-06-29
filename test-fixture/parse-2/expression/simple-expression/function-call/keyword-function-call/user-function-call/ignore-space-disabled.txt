@@ -1,0 +1,82 @@
+-- @@ignore_space = false
+SELECT USER()
+-----
+`!
+          (expression: UserFunctionCall[33, 39]
+            (functionName: USER[33, 37])
+            (arguments: Empty_Arguments[37, 39]
+              (openParenthesesToken: OpenParentheses[37, 38])
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SESSION_USER()
+-----
+`!
+          (expression: UserFunctionCall[33, 47]
+            (functionName: SESSION_USER[33, 45])
+            (arguments: Empty_Arguments[45, 47]
+              (openParenthesesToken: OpenParentheses[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SYSTEM_USER()
+-----
+`!
+          (expression: UserFunctionCall[33, 46]
+            (functionName: SYSTEM_USER[33, 44])
+            (arguments: Empty_Arguments[44, 46]
+              (openParenthesesToken: OpenParentheses[44, 45])
+              (closeParenthesesToken: CloseParentheses[45, 46])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT USER ()
+-- Yeap. This refers to the builtin function, regardless of IGNORE_SPACE.
+-- However, its synonyms are different.
+-----
+`!
+          (expression: UserFunctionCall[33, 40]
+            (functionName: USER[33, 37])
+            (WhiteSpace[37, 38])
+            (arguments: Empty_Arguments[38, 40]
+              (openParenthesesToken: OpenParentheses[38, 39])
+              (closeParenthesesToken: CloseParentheses[39, 40])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SESSION_USER ()
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 48]
+            (functionName: Identifier[33, 45])
+            (WhiteSpace[45, 46])
+            (arguments: UserDefinedExpressionList_Arguments[46, 48]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (closeParenthesesToken: CloseParentheses[47, 48])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SYSTEM_USER ()
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 47]
+            (functionName: Identifier[33, 44])
+            (WhiteSpace[44, 45])
+            (arguments: UserDefinedExpressionList_Arguments[45, 47]
+              (openParenthesesToken: OpenParentheses[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`

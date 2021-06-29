@@ -1,0 +1,546 @@
+-- https://github.com/mysql/mysql-server/blob/7ed30a748964c009d4909cb8b4b22036ebdef239/mysql-test/t/parser.test#L197-L369
+create table ADDDATE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[135, 142]
+        (tableName: ADDDATE[135, 142])
+      )
+!`
+-----
+create table ADDDATE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (tableName: ADDDATE[13, 20])
+      )
+!`
+-----
+create table BIT_AND(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table BIT_AND (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table BIT_OR(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 19]
+        (Expected tableName: Identifier[13, 19])
+      )
+!`
+-----
+create table BIT_OR (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 19]
+        (Expected tableName: Identifier[13, 19])
+      )
+!`
+-----
+create table BIT_XOR(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table BIT_XOR (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table CAST(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 17]
+        (Expected tableName: Identifier[13, 17])
+      )
+!`
+-----
+create table CAST (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 17]
+        (Expected tableName: Identifier[13, 17])
+      )
+!`
+-----
+create table COUNT(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 18]
+        (Expected tableName: Identifier[13, 18])
+      )
+!`
+-----
+create table COUNT (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 18]
+        (Expected tableName: Identifier[13, 18])
+      )
+!`
+-----
+create table CURDATE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table CURDATE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table CURTIME(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table CURTIME (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table DATE_ADD(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table DATE_ADD (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table DATE_SUB(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table DATE_SUB (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table EXTRACT(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table EXTRACT (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table GROUP_CONCAT(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 25]
+        (Expected tableName: Identifier[13, 25])
+      )
+!`
+-----
+create table GROUP_CONCAT (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 25]
+        (Expected tableName: Identifier[13, 25])
+      )
+!`
+-----
+# Limitation removed in 5.1
+create table GROUP_UNIQUE_USERS(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[41, 59]
+        (tableName: Identifier[41, 59])
+      )
+!`
+-----
+create table GROUP_UNIQUE_USERS (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 31]
+        (tableName: Identifier[13, 31])
+      )
+!`
+-----
+create table MAX(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table MAX (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table MID(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table MID (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table MIN(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table MIN (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table NOW(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table NOW (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table POSITION(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table POSITION (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table SESSION_USER(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 25]
+        (tableName: SESSION_USER[13, 25])
+      )
+!`
+-----
+create table SESSION_USER (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 25]
+        (tableName: SESSION_USER[13, 25])
+      )
+!`
+-----
+create table STD(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table STD (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table STDDEV(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 19]
+        (Expected tableName: Identifier[13, 19])
+      )
+!`
+-----
+create table STDDEV (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 19]
+        (Expected tableName: Identifier[13, 19])
+      )
+!`
+-----
+create table STDDEV_POP(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 23]
+        (Expected tableName: Identifier[13, 23])
+      )
+!`
+-----
+create table STDDEV_POP (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 23]
+        (Expected tableName: Identifier[13, 23])
+      )
+!`
+-----
+create table STDDEV_SAMP(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 24]
+        (Expected tableName: Identifier[13, 24])
+      )
+!`
+-----
+create table STDDEV_SAMP (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 24]
+        (Expected tableName: Identifier[13, 24])
+      )
+!`
+-----
+create table SUBDATE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (tableName: SUBDATE[13, 20])
+      )
+!`
+-----
+create table SUBDATE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (tableName: SUBDATE[13, 20])
+      )
+!`
+-----
+create table SUBSTR(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 19]
+        (Expected tableName: Identifier[13, 19])
+      )
+!`
+-----
+create table SUBSTR (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 19]
+        (Expected tableName: Identifier[13, 19])
+      )
+!`
+-----
+create table SUBSTRING(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 22]
+        (Expected tableName: Identifier[13, 22])
+      )
+!`
+-----
+create table SUBSTRING (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 22]
+        (Expected tableName: Identifier[13, 22])
+      )
+!`
+-----
+create table SUM(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table SUM (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 16]
+        (Expected tableName: Identifier[13, 16])
+      )
+!`
+-----
+create table SYSDATE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table SYSDATE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table SYSTEM_USER(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 24]
+        (tableName: SYSTEM_USER[13, 24])
+      )
+!`
+-----
+create table SYSTEM_USER (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 24]
+        (tableName: SYSTEM_USER[13, 24])
+      )
+!`
+-----
+create table TRIM(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 17]
+        (Expected tableName: Identifier[13, 17])
+      )
+!`
+-----
+create table TRIM (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 17]
+        (Expected tableName: Identifier[13, 17])
+      )
+!`
+-----
+# Limitation removed in 5.1
+create table UNIQUE_USERS(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[41, 53]
+        (tableName: Identifier[41, 53])
+      )
+!`
+-----
+create table UNIQUE_USERS (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 25]
+        (tableName: Identifier[13, 25])
+      )
+!`
+-----
+create table VARIANCE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table VARIANCE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table VAR_POP(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table VAR_POP (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 20]
+        (Expected tableName: Identifier[13, 20])
+      )
+!`
+-----
+create table VAR_SAMP(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`
+-----
+create table VAR_SAMP (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[13, 21]
+        (Expected tableName: Identifier[13, 21])
+      )
+!`

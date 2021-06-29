@@ -1,4 +1,4 @@
-import {reservedKeywords, nonReservedKeywords} from "./keywords";
+import {functionKeywords, reservedKeywords, nonReservedKeywords} from "./keywords";
 
 export const customTokenKinds = [
     /**
@@ -129,6 +129,10 @@ export const customTokenKinds = [
 //https://dev.mysql.com/doc/refman/5.7/en/manual-info.html
 //TODO : https://dev.mysql.com/doc/refman/5.7/en/keywords.html
 export const tokenKinds = [
+    "START_OF_FUNCTION_KEYWORD",
+    ...functionKeywords,
+    "END_OF_FUNCTION_KEYWORD",
+
     "START_OF_RESERVED_KEYWORD",
     ...reservedKeywords,
     "END_OF_RESERVED_KEYWORD",

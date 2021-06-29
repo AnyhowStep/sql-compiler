@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT TRIM(expr)
+-----
+`!
+          (expression: TrimFunctionCall[33, 43]
+            (functionName: TRIM[33, 37])
+            (arguments: Trim_Arguments[37, 43]
+              (openParenthesesToken: OpenParentheses[37, 38])
+              (expression: Identifier[38, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT TRIM (expr)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 44]
+            (functionName: Identifier[33, 37])
+            (WhiteSpace[37, 38])
+            (arguments: UserDefinedExpressionList_Arguments[38, 44]
+              (openParenthesesToken: OpenParentheses[38, 39])
+              (item[]: Identifier[39, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`

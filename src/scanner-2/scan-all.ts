@@ -1,7 +1,7 @@
 import {MyToken} from "../grammar-runtime-3";
 import {CharacterCodes, isDigit, isWhiteSpace} from "./character-code";
 import {defaultLexerSettings, LexerSettings} from "./lexer-settings";
-import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, scanQuotedIdentifier, scanTillEndOfLineOrEof, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent} from "./scan-util";
+import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, scanQuotedIdentifier, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent, scanSingleLineComment} from "./scan-util";
 import {TokenKind} from "./token.generated";
 
 export interface LexerState {
@@ -67,6 +67,7 @@ export function scanAll (settings : Partial<LexerSettings>, text : string) : MyT
     const result : MyToken[] = [];
     const mySettings : LexerSettings = {
         characterSet : settings.characterSet ?? defaultLexerSettings.characterSet,
+        ignoreSpace : settings.ignoreSpace ?? defaultLexerSettings.ignoreSpace,
     };
     const state = new MyLexerState(mySettings, text);
 
@@ -221,7 +222,7 @@ export function scan (state : LexerState) : TokenKind {
             state.advance();
             return TokenKind.CloseParentheses;
         case CharacterCodes.pound:
-            scanTillEndOfLineOrEof(state);
+            scanSingleLineComment(state);
             return TokenKind.SingleLineComment;
         case CharacterCodes.caret:
             state.advance();
@@ -241,7 +242,7 @@ export function scan (state : LexerState) : TokenKind {
                  *
                  * However, we'll leave that to a linter down the pipeline
                  */
-                scanTillEndOfLineOrEof(state);
+                 scanSingleLineComment(state);
                 return TokenKind.SingleLineComment;
             }
             state.advance();

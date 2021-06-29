@@ -8,8 +8,12 @@ export interface CharacterSet {
 }
 export interface LexerSettings {
     characterSet : Map<string, CharacterSet>;
+
+    ignoreSpace : boolean,
 }
 
 export const defaultLexerSettings : LexerSettings = {
     characterSet,
+
+    ignoreSpace : true,
 };

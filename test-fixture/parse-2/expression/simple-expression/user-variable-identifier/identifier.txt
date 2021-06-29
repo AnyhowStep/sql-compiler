@@ -43,4 +43,31 @@ SELECT @NOW
 -----
 `(expression: UserVariableIdentifier[7, 11]`
 `(atToken: At[7, 8])`
-`(identifier: NOW[8, 11])`
+`(identifier: Identifier[8, 11])`
+-----
+SELECT @CURRENT_TIMESTAMP
+-----
+`!
+          (expression: UserVariableIdentifier[7, 25]
+            (atToken: At[7, 8])
+            (identifier: CURRENT_TIMESTAMP[8, 25])
+          )
+!`
+-----
+SELECT @LOCALTIME
+-----
+`!
+          (expression: UserVariableIdentifier[7, 17]
+            (atToken: At[7, 8])
+            (identifier: LOCALTIME[8, 17])
+          )
+!`
+-----
+SELECT @LOCALTIMESTAMP
+-----
+`!
+          (expression: UserVariableIdentifier[7, 22]
+            (atToken: At[7, 8])
+            (identifier: LOCALTIMESTAMP[8, 22])
+          )
+!`

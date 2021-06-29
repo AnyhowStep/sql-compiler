@@ -1,6 +1,6 @@
 import {CharacterCodes, isDigit, isLineBreak, isUnquotedIdentifierCharacter} from "./character-code";
 import {LexerState, scan} from "./scan-all";
-import {Extras, NonReservedKeyword, ReservedKeyword, TokenKind} from "./token.generated";
+import {Extras, FunctionKeyword, NonReservedKeyword, ReservedKeyword, TokenKind} from "./token.generated";
 
 /**
  * If it does not encounter a closing quote,
@@ -118,6 +118,25 @@ export function scanTillEndOfLineOrEof (state : LexerState) {
 
     state.index = tmp.index;
     return;
+}
+
+export function scanSingleLineComment (state : LexerState) {
+    const startIndex = state.index;
+    scanTillEndOfLineOrEof(state);
+    const endIndex = state.index;
+
+    const commentText = state.text.substring(startIndex, endIndex);
+    /**
+     * Hacky support for special syntax to modify lexer state dynamically.
+     *
+     * ```
+     * @@ignore_space = false
+     * ```
+     */
+    const ignoreSpaceMatch = /.*@@ignore_space\s*=\s*(\w+)/.exec(commentText);
+    if (ignoreSpaceMatch != undefined) {
+        state.settings.ignoreSpace = ignoreSpaceMatch[1].toLowerCase() == "true";
+    }
 }
 
 export function tryScanString (state : LexerState, str : string, overwriteIndex = true) {
@@ -348,6 +367,9 @@ export function tryScanNumberExponent (state : LexerState) {
 
 export function tryGetKeywordTokenKind (str : string) : TokenKind|undefined {
     str = str.toUpperCase();
+    if (Object.prototype.hasOwnProperty.call(FunctionKeyword, str)) {
+        return str as TokenKind;
+    }
     if (Object.prototype.hasOwnProperty.call(ReservedKeyword, str)) {
         return str as TokenKind;
     }
@@ -460,8 +482,46 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
         }
     }
 
-    state.index = tmp.index;
-    return keywordTokenKind;
+    /**
+     * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/sql_lex.cc#L1490-L1505
+     *
+     *
+     */
+    const peeked = (
+        state.settings.ignoreSpace ?
+        peekTokenAfterExtras(tmp) :
+        peekToken(tmp)
+    );
+
+    if (peeked == TokenKind.OpenParentheses) {
+        /**
+         * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/sql_lex.cc#L893-L898
+         *
+         * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h
+         *
+         * We check `sql_keywords_and_funcs` for keywords.
+         */
+        state.index = tmp.index;
+        return keywordTokenKind;
+    } else {
+        /**
+         * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/sql_lex.cc#L893-L898
+         *
+         * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h
+         *
+         * We check `sql_keywords` for keywords.
+         */
+        if (Object.prototype.hasOwnProperty.call(FunctionKeyword, keywordTokenKind)) {
+            /**
+             * We treat this as just an identifier.
+             */
+            state.index = tmp.index;
+            return TokenKind.Identifier;
+        } else {
+            state.index = tmp.index;
+            return keywordTokenKind;
+        }
+    }
 }
 
 export function scanDelimiter (state : LexerState) {
@@ -587,10 +647,24 @@ export function scanOthers (state : LexerState) : TokenKind {
 export function peekTokenAfterExtras (state : LexerState) : TokenKind {
     const tmp = state.clone();
     while (!tmp.isEof(0)) {
+        /**
+         * @todo Use a `tryScanExtra()` function.
+         * Using `scan()` will result in recursive `scan()` calls
+         * whenever we encounter a keyword.
+         */
         const tokenKind = scan(tmp);
         if (Object.prototype.hasOwnProperty.call(Extras, tokenKind)) {
             continue;
         }
+        return tokenKind;
+    }
+    return TokenKind.EndOfFile;
+}
+
+export function peekToken (state : LexerState) : TokenKind {
+    const tmp = state.clone();
+    if (!tmp.isEof(0)) {
+        const tokenKind = scan(tmp);
         return tokenKind;
     }
     return TokenKind.EndOfFile;

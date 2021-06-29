@@ -115,6 +115,13 @@ export function field (
     };
 }
 
+export function getTokenKinds (rule : TokenSymbolRule) {
+    return [
+        rule.tokenKind,
+        ...(rule.otherTokenKinds ?? []),
+    ];
+}
+
 export function tokenSymbol (
     tokenKind : string,
     ...otherTokenKinds : string[]
