@@ -1,0 +1,614 @@
+-- https://github.com/mysql/mysql-server/blob/7ed30a748964c009d4909cb8b4b22036ebdef239/mysql-test/t/parser.test#L197-L369
+-- @@ignore_space = false
+create table ADDDATE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[161, 168]
+        (tableName: ADDDATE[161, 168])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table ADDDATE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table BIT_AND(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (Expected tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table BIT_AND (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table BIT_OR(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 45]
+        (Expected tableName: Identifier[39, 45])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table BIT_OR (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 45]
+        (tableName: Identifier[39, 45])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table BIT_XOR(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (Expected tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table BIT_XOR (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table CAST(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 43]
+        (Expected tableName: Identifier[39, 43])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table CAST (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 43]
+        (tableName: Identifier[39, 43])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table COUNT(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 44]
+        (Expected tableName: Identifier[39, 44])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table COUNT (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 44]
+        (tableName: Identifier[39, 44])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table CURDATE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (Expected tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table CURDATE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table CURTIME(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (Expected tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table CURTIME (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table DATE_ADD(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (Expected tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table DATE_ADD (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table DATE_SUB(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (Expected tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table DATE_SUB (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table EXTRACT(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (Expected tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table EXTRACT (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table GROUP_CONCAT(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 51]
+        (Expected tableName: Identifier[39, 51])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table GROUP_CONCAT (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 51]
+        (tableName: Identifier[39, 51])
+      )
+!`
+-----
+-- @@ignore_space = false
+# Limitation removed in 5.1
+create table GROUP_UNIQUE_USERS(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[67, 85]
+        (tableName: Identifier[67, 85])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table GROUP_UNIQUE_USERS (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 57]
+        (tableName: Identifier[39, 57])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table MAX(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (Expected tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table MAX (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table MID(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (Expected tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table MID (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table MIN(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (Expected tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table MIN (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table NOW(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (Expected tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table NOW (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table POSITION(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (Expected tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table POSITION (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SESSION_USER(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 51]
+        (tableName: SESSION_USER[39, 51])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SESSION_USER (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 51]
+        (tableName: Identifier[39, 51])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table STD(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (Expected tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table STD (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table STDDEV(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 45]
+        (Expected tableName: Identifier[39, 45])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table STDDEV (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 45]
+        (tableName: Identifier[39, 45])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table STDDEV_POP(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 49]
+        (Expected tableName: Identifier[39, 49])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table STDDEV_POP (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 49]
+        (tableName: Identifier[39, 49])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table STDDEV_SAMP(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 50]
+        (Expected tableName: Identifier[39, 50])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table STDDEV_SAMP (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 50]
+        (tableName: Identifier[39, 50])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SUBDATE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: SUBDATE[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SUBDATE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SUBSTR(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 45]
+        (Expected tableName: Identifier[39, 45])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SUBSTR (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 45]
+        (tableName: Identifier[39, 45])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SUBSTRING(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 48]
+        (Expected tableName: Identifier[39, 48])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SUBSTRING (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 48]
+        (tableName: Identifier[39, 48])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SUM(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (Expected tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SUM (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 42]
+        (tableName: Identifier[39, 42])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SYSDATE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (Expected tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SYSDATE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SYSTEM_USER(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 50]
+        (tableName: SYSTEM_USER[39, 50])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table SYSTEM_USER (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 50]
+        (tableName: Identifier[39, 50])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table TRIM(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 43]
+        (Expected tableName: Identifier[39, 43])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table TRIM (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 43]
+        (tableName: Identifier[39, 43])
+      )
+!`
+-----
+-- @@ignore_space = false
+# Limitation removed in 5.1
+create table UNIQUE_USERS(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[67, 79]
+        (tableName: Identifier[67, 79])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table UNIQUE_USERS (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 51]
+        (tableName: Identifier[39, 51])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table VARIANCE(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (Expected tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table VARIANCE (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table VAR_POP(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (Expected tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table VAR_POP (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 46]
+        (tableName: Identifier[39, 46])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table VAR_SAMP(a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (Expected tableName: Identifier[39, 47])
+      )
+!`
+-----
+-- @@ignore_space = false
+create table VAR_SAMP (a int);
+-----
+`!
+      (tableIdentifier: TableIdentifier[39, 47]
+        (tableName: Identifier[39, 47])
+      )
+!`

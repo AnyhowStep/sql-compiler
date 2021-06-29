@@ -1,0 +1,30 @@
+SELECT ADDDATE()
+-----
+`!
+          (expression: AddDateFunctionCall[7, 16]
+            (functionName: ADDDATE[7, 14])
+            ({Expected exactly 2 item, found 0} arguments: Expression2_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT ADDDATE(a, b, c)
+-----
+`!
+          (expression: AddDateFunctionCall[7, 23]
+            (functionName: ADDDATE[7, 14])
+            ({Expected exactly 2 item, found 3} arguments: Expression2_Arguments[14, 23]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`

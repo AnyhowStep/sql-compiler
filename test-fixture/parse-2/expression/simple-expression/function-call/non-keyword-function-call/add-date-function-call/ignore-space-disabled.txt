@@ -1,0 +1,84 @@
+-- @@ignore_space = false
+SELECT ADDDATE(a, b)
+-- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+-- If IGNORE_SPACE is enabled, this is refers to builtin function
+-- If IGNORE_SPACE is disabled, this is refers to builtin function
+-- No space, so no change in name resolution
+-----
+`!
+          (expression: AddDateFunctionCall[33, 46]
+            (functionName: ADDDATE[33, 40])
+            (arguments: Expression2_Arguments[40, 46]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (item[]: Identifier[41, 42])
+              (commaToken[]: Comma[42, 43])
+              (WhiteSpace[43, 44])
+              (item[]: Identifier[44, 45])
+              (closeParenthesesToken: CloseParentheses[45, 46])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT ADDDATE (a, b)
+-- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+-- If IGNORE_SPACE is enabled, this is refers to builtin function
+-- If IGNORE_SPACE is disabled, this is refers to stored function
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 47]
+            (functionName: Identifier[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: UserDefinedExpressionList_Arguments[41, 47]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: Identifier[42, 43])
+              (commaToken[]: Comma[43, 44])
+              (WhiteSpace[44, 45])
+              (item[]: Identifier[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT ADDDATE/**/(a, b)
+-- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+-- If IGNORE_SPACE is enabled, this is refers to builtin function
+-- If IGNORE_SPACE is disabled, this is refers to stored function
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 50]
+            (functionName: Identifier[33, 40])
+            (MultiLineComment[40, 44])
+            (arguments: UserDefinedExpressionList_Arguments[44, 50]
+              (openParenthesesToken: OpenParentheses[44, 45])
+              (item[]: Identifier[45, 46])
+              (commaToken[]: Comma[46, 47])
+              (WhiteSpace[47, 48])
+              (item[]: Identifier[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT ADDDATE
+(a, b)
+-- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+-- If IGNORE_SPACE is enabled, this is refers to builtin function
+-- If IGNORE_SPACE is disabled, this is refers to stored function
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 47]
+            (functionName: Identifier[33, 40])
+            (LineBreak[40, 41])
+            (arguments: UserDefinedExpressionList_Arguments[41, 47]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: Identifier[42, 43])
+              (commaToken[]: Comma[43, 44])
+              (WhiteSpace[44, 45])
+              (item[]: Identifier[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`

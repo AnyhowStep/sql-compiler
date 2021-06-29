@@ -1,0 +1,80 @@
+SELECT ADDDATE(a, b)
+-- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+-- If IGNORE_SPACE is enabled, this is refers to builtin function
+-- If IGNORE_SPACE is disabled, this is refers to builtin function
+-- No space, so no change in name resolution
+-----
+`!
+          (expression: AddDateFunctionCall[7, 20]
+            (functionName: ADDDATE[7, 14])
+            (arguments: Expression2_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT ADDDATE (a, b)
+-- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+-- If IGNORE_SPACE is enabled, this is refers to builtin function
+-- If IGNORE_SPACE is disabled, this is refers to stored function
+-----
+`!
+          (expression: AddDateFunctionCall[7, 21]
+            (functionName: ADDDATE[7, 14])
+            (WhiteSpace[14, 15])
+            (arguments: Expression2_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT ADDDATE/**/(a, b)
+-- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+-- If IGNORE_SPACE is enabled, this is refers to builtin function
+-- If IGNORE_SPACE is disabled, this is refers to stored function
+-----
+`!
+          (expression: AddDateFunctionCall[7, 24]
+            (functionName: ADDDATE[7, 14])
+            (MultiLineComment[14, 18])
+            (arguments: Expression2_Arguments[18, 24]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT ADDDATE
+(a, b)
+-- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ignore_space
+-- If IGNORE_SPACE is enabled, this is refers to builtin function
+-- If IGNORE_SPACE is disabled, this is refers to stored function
+-----
+`!
+          (expression: AddDateFunctionCall[7, 21]
+            (functionName: ADDDATE[7, 14])
+            (LineBreak[14, 15])
+            (arguments: Expression2_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`

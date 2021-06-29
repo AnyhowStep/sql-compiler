@@ -1,33 +1,41 @@
 CREATE TABLE T (NOW INT);
 
 -----
-(SourceFile[0, 26]
-  (statement[]: TrailingStatement[0, 25]
-    (statement: CreateTableStatement[0, 24]
-      (createToken: CREATE[0, 6])
-      (WhiteSpace[6, 7])
-      (tableToken: TABLE[7, 12])
-      (WhiteSpace[12, 13])
-      (tableIdentifier: TableIdentifier[13, 14]
-        (tableName: Identifier[13, 14])
-      )
-      (WhiteSpace[14, 15])
-      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[15, 24]
-        (openParenthesesToken: OpenParentheses[15, 16])
-        (item[]: NonGeneratedColumnDefinition[16, 23]
+`!
           (columnIdentifier: ColumnIdentifier[16, 19]
-            (columnName: NOW[16, 19])
+            (columnName: Identifier[16, 19])
           )
-          (WhiteSpace[19, 20])
-          (dataType: IntegerDataType[20, 23]
-            (integerToken: INT[20, 23])
+!`
+-----
+-- This is a synonym for NOW when referring to the NOW() function.
+-- But this is invalid here because it is not a SYM_FN.
+-- https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h#L841
+CREATE TABLE T (CURRENT_TIMESTAMP INT);
+-----
+`!
+          (columnIdentifier: ColumnIdentifier[241, 258]
+            (Expected columnName: Identifier[241, 258])
           )
-        )
-        (closeParenthesesToken: CloseParentheses[23, 24])
-      )
-    )
-    (semiColonToken: SemiColon[24, 25])
-    (EndOfStatement[25, 25])
-  )
-  (LineBreak[25, 26])
-)
+!`
+-----
+-- This is a synonym for NOW when referring to the NOW() function.
+-- But this is invalid here because it is not a SYM_FN.
+-- https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h#L841
+CREATE TABLE T (LOCALTIME INT);
+-----
+`!
+          (columnIdentifier: ColumnIdentifier[241, 250]
+            (Expected columnName: Identifier[241, 250])
+          )
+!`
+-----
+-- This is a synonym for NOW when referring to the NOW() function.
+-- But this is invalid here because it is not a SYM_FN.
+-- https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h#L841
+CREATE TABLE T (LOCALTIMESTAMP INT);
+-----
+`!
+          (columnIdentifier: ColumnIdentifier[241, 255]
+            (Expected columnName: Identifier[241, 255])
+          )
+!`
