@@ -1,0 +1,26 @@
+-- @@ignore_space = false
+SELECT CURDATE()
+-----
+`!
+          (expression: CurrentDateFunctionCall[33, 42]
+            (functionName: CURDATE[33, 40])
+            (arguments: Empty_Arguments[40, 42]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT CURDATE ()
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 43]
+            (functionName: Identifier[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: UserDefinedExpressionList_Arguments[41, 43]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`

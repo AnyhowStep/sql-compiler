@@ -1,0 +1,28 @@
+SELECT CURRENT_DATE(a)
+-----
+`!
+          (expression: CurrentDateFunctionCall[7, 22]
+            (functionName: CURRENT_DATE[7, 19])
+            ({Expected exactly 0 item, found 1} arguments: Empty_Arguments[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT CURRENT_DATE(a, b)
+-----
+`!
+          (expression: CurrentDateFunctionCall[7, 25]
+            (functionName: CURRENT_DATE[7, 19])
+            ({Expected exactly 0 item, found 2} arguments: Empty_Arguments[19, 25]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`

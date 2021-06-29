@@ -1,0 +1,13 @@
+SELECT CURDATE
+-----
+`!
+          (expression: Identifier[7, 14])
+!`
+-----
+SELECT CURRENT_DATE
+-----
+`!
+          (expression: CurrentDateFunctionCall[7, 19]
+            (functionName: CURRENT_DATE[7, 19])
+          )
+!`

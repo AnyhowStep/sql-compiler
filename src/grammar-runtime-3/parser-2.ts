@@ -802,7 +802,20 @@ export function scan (
 function isAllError (state : Pick<MyState["data"], "children">) : boolean {
     for (const child of state.children) {
         if ("tokenKind" in child) {
+            /**
+             * We're changing the definition of "Error" here...
+             * Pretty ugly hack.
+             */
             if (child.errorKind == undefined) {
+                return false;
+            }
+            /**
+             * This is an error, yes. But it's not "really" an error,
+             * according to the grammar.
+             *
+             * @todo make this less hacky
+             */
+            if (child.errorKind == "Unexpected" && child.expectedTokenKind == undefined) {
                 return false;
             }
         } else {

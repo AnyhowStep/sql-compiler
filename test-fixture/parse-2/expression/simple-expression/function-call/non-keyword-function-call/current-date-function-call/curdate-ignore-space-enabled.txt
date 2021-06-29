@@ -1,0 +1,24 @@
+SELECT CURDATE()
+-----
+`!
+          (expression: CurrentDateFunctionCall[7, 16]
+            (functionName: CURDATE[7, 14])
+            (arguments: Empty_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT CURDATE ()
+-----
+`!
+          (expression: CurrentDateFunctionCall[7, 17]
+            (functionName: CURDATE[7, 14])
+            (WhiteSpace[14, 15])
+            (arguments: Empty_Arguments[15, 17]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`

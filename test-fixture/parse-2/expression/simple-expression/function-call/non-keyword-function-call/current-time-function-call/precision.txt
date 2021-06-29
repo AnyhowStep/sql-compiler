@@ -1,0 +1,106 @@
+SELECT CURRENT_TIME(6)
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 22]
+            (functionName: CURRENT_TIME[7, 19])
+            (arguments: DateTimePrecisionArg[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: IntegerLiteral[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIME(7)
+-- 7 is a semantic error, not syntactic (not according to our grammar, anyway)
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 22]
+            (functionName: CURRENT_TIME[7, 19])
+            (arguments: DateTimePrecisionArg[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: IntegerLiteral[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIME(a)
+-- Only integer literal allowed
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 22]
+            (functionName: CURRENT_TIME[7, 19])
+            (arguments: DateTimePrecisionArg[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIME(@a)
+-- Only integer literal allowed
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 23]
+            (functionName: CURRENT_TIME[7, 19])
+            (arguments: DateTimePrecisionArg[19, 23]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected item[]: UserVariableIdentifier[20, 22]
+                (atToken: At[20, 21])
+                (identifier: Identifier[21, 22])
+              )
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIME(1.2)
+-- Only integer literal allowed
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 24]
+            (functionName: CURRENT_TIME[7, 19])
+            (arguments: DateTimePrecisionArg[19, 24]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected item[]: DecimalLiteral[20, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIME(-1)
+-- Only integer literal allowed
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 23]
+            (functionName: CURRENT_TIME[7, 19])
+            (arguments: DateTimePrecisionArg[19, 23]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected item[]: PrefixSimpleExpression[20, 22]
+                (operator: Minus[20, 21])
+                (expression: IntegerLiteral[21, 22])
+              )
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIME(1-1)
+-- Only integer literal allowed
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 24]
+            (functionName: CURRENT_TIME[7, 19])
+            (arguments: DateTimePrecisionArg[19, 24]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected item[]: BinaryBitExpression[20, 23]
+                (left: IntegerLiteral[20, 21])
+                (operator: Minus[21, 22])
+                (right: IntegerLiteral[22, 23])
+              )
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`

@@ -1,0 +1,26 @@
+-- @@ignore_space = false
+SELECT CURTIME()
+-----
+`!
+          (expression: CurrentTimeFunctionCall[33, 42]
+            (functionName: CURTIME[33, 40])
+            (arguments: DateTimePrecisionArg[40, 42]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT CURTIME ()
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 43]
+            (functionName: Identifier[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: UserDefinedExpressionList_Arguments[41, 43]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`

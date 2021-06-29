@@ -1,0 +1,26 @@
+-- @@ignore_space = false
+SELECT CURRENT_DATE()
+-----
+`!
+          (expression: CurrentDateFunctionCall[33, 47]
+            (functionName: CURRENT_DATE[33, 45])
+            (arguments: Empty_Arguments[45, 47]
+              (openParenthesesToken: OpenParentheses[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT CURRENT_DATE ()
+-----
+`!
+          (expression: CurrentDateFunctionCall[33, 48]
+            (functionName: CURRENT_DATE[33, 45])
+            (WhiteSpace[45, 46])
+            (arguments: Empty_Arguments[46, 48]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (closeParenthesesToken: CloseParentheses[47, 48])
+            )
+          )
+!`

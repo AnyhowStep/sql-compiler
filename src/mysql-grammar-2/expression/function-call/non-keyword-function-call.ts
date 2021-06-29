@@ -148,6 +148,7 @@ export const NonKeywordFunctionCall = inline(choice(
     SyntaxKind.DateAddIntervalFunctionCall,
     SyntaxKind.ExtractFunctionCall,
     SyntaxKind.GetFormatFunctionCall,
+    SyntaxKind.Now,
     SyntaxKind.PositionFunctionCall,
     SyntaxKind.SubstringFunctionCall,
     SyntaxKind.SysDateFunctionCall,

@@ -1,0 +1,24 @@
+SELECT CURRENT_TIME()
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 21]
+            (functionName: CURRENT_TIME[7, 19])
+            (arguments: DateTimePrecisionArg[19, 21]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIME ()
+-----
+`!
+          (expression: CurrentTimeFunctionCall[7, 22]
+            (functionName: CURRENT_TIME[7, 19])
+            (WhiteSpace[19, 20])
+            (arguments: DateTimePrecisionArg[20, 22]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
