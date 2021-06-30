@@ -13,6 +13,8 @@ export interface LexerState {
 
     nextZeroWidthTokenKind : TokenKind|undefined;
 
+    memoizedTokenKind : Map<number, TokenKind>;
+
     peek (offset : number) : number;
     advance () : number;
     clone () : LexerState;
@@ -27,14 +29,16 @@ export class MyLexerState implements LexerState {
     public expectCustomDelimiter : boolean;
     public customDelimiter : string;
     public nextZeroWidthTokenKind : TokenKind|undefined;
+    public memoizedTokenKind : Map<number, TokenKind>;
 
-    public constructor (settings : LexerSettings, text : string) {
+    public constructor (settings : LexerSettings, text : string, memoizedTokenKind : Map<number, TokenKind> = new Map()) {
         this.settings = settings;
         this.text = text;
         this.index = 0;
         this.expectCustomDelimiter = false;
         this.customDelimiter = "";
         this.nextZeroWidthTokenKind = undefined;
+        this.memoizedTokenKind = memoizedTokenKind;
     }
 
     public peek (offset : number) : number {
@@ -50,7 +54,10 @@ export class MyLexerState implements LexerState {
         return result;
     }
     public clone () : LexerState {
-        const result = new MyLexerState(this.settings, this.text);
+        /**
+         * We do not clone `this.memoizedTokenKind` because all clones will end up deriving the same info anyway.
+         */
+        const result = new MyLexerState(this.settings, this.text, this.memoizedTokenKind);
         result.index = this.index;
         result.expectCustomDelimiter = this.expectCustomDelimiter;
         result.customDelimiter = this.customDelimiter;

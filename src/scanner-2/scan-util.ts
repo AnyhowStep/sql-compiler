@@ -485,6 +485,12 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
         }
     }
 
+    const memoized = state.memoizedTokenKind.get(tmp.index);
+    if (memoized != undefined) {
+        state.index = tmp.index;
+        return memoized;
+    }
+
     /**
      * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/sql_lex.cc#L1490-L1505
      *
@@ -505,6 +511,7 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
          * We check `sql_keywords_and_funcs` for keywords.
          */
         state.index = tmp.index;
+        state.memoizedTokenKind.set(state.index, keywordTokenKind);
         return keywordTokenKind;
     } else {
         /**
@@ -519,9 +526,11 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
              * We treat this as just an identifier.
              */
             state.index = tmp.index;
+            state.memoizedTokenKind.set(state.index, TokenKind.Identifier);
             return TokenKind.Identifier;
         } else {
             state.index = tmp.index;
+            state.memoizedTokenKind.set(state.index, keywordTokenKind);
             return keywordTokenKind;
         }
     }
@@ -647,24 +656,9 @@ export function scanOthers (state : LexerState) : TokenKind {
     return tokenKind;
 }
 
-/**
- * If the next token is a keyword, we may not handle it accurately.
- */
 export function peekTokenAfterExtras (state : LexerState) : TokenKind {
     const tmp = state.clone();
-    tmp.settings = {
-        ...tmp.settings,
-        /**
-         * Setting this to `false` prevents us from O(n^2) recursion.
-         */
-        ignoreSpace : false,
-    };
     while (!tmp.isEof(0)) {
-        /**
-         * @todo Use a `tryScanExtra()` function.
-         * Using `scan()` will result in recursive `scan()` calls
-         * whenever we encounter a keyword.
-         */
         const tokenKind = scan(tmp);
         if (Object.prototype.hasOwnProperty.call(Extras, tokenKind)) {
             continue;
