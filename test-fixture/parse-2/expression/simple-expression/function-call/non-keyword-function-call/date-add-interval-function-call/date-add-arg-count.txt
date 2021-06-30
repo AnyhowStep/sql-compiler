@@ -1,0 +1,159 @@
+SELECT DATE_ADD()
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 17]
+            (functionName: DATE_ADD[7, 15])
+            (arguments: DateAddInterval_Arguments[15, 17]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (Expected expression: Identifier[16, 16])
+              (Expected commaToken[]: Comma[16, 16])
+              (intervalExpression: IntervalExpression[16, 16]
+                (Expected intervalToken: INTERVAL[16, 16])
+                (Expected expression: Identifier[16, 16])
+                (Expected temporalUnit: DAY[16, 16])
+              )
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT DATE_ADD(a)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 18]
+            (functionName: DATE_ADD[7, 15])
+            (arguments: DateAddInterval_Arguments[15, 18]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (expression: Identifier[16, 17])
+              (Expected commaToken[]: Comma[17, 17])
+              (intervalExpression: IntervalExpression[17, 17]
+                (Expected intervalToken: INTERVAL[17, 17])
+                (Expected expression: Identifier[17, 17])
+                (Expected temporalUnit: DAY[17, 17])
+              )
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT DATE_ADD(a, INTERVAL 1 DAY, c)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 37]
+            (functionName: DATE_ADD[7, 15])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateAddInterval_Arguments[15, 37]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (expression: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (intervalExpression: IntervalExpression[19, 33]
+                (intervalToken: INTERVAL[19, 27])
+                (WhiteSpace[27, 28])
+                (expression: IntegerLiteral[28, 29])
+                (WhiteSpace[29, 30])
+                (temporalUnit: DAY[30, 33])
+              )
+              (commaToken[]: Comma[33, 34])
+              (WhiteSpace[34, 35])
+              (extraItem[]: Identifier[35, 36])
+              (closeParenthesesToken: CloseParentheses[36, 37])
+            )
+          )
+!`
+-----
+SELECT DATE_ADD(a, INTERVAL 1 DAY, c, d)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 40]
+            (functionName: DATE_ADD[7, 15])
+            ({Expected exactly 0 extraItem, found 2} arguments: DateAddInterval_Arguments[15, 40]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (expression: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (intervalExpression: IntervalExpression[19, 33]
+                (intervalToken: INTERVAL[19, 27])
+                (WhiteSpace[27, 28])
+                (expression: IntegerLiteral[28, 29])
+                (WhiteSpace[29, 30])
+                (temporalUnit: DAY[30, 33])
+              )
+              (commaToken[]: Comma[33, 34])
+              (WhiteSpace[34, 35])
+              (extraItem[]: Identifier[35, 36])
+              (commaToken[]: Comma[36, 37])
+              (WhiteSpace[37, 38])
+              (extraItem[]: Identifier[38, 39])
+              (closeParenthesesToken: CloseParentheses[39, 40])
+            )
+          )
+!`
+-----
+SELECT DATE_ADD(a, b, c)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 24]
+            (functionName: DATE_ADD[7, 15])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateAddInterval_Arguments[15, 24]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (expression: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (intervalExpression: IntervalExpression[19, 20]
+                (Expected intervalToken: INTERVAL[19, 19])
+                (expression: Identifier[19, 20])
+                (Expected temporalUnit: DAY[20, 20])
+              )
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (extraItem[]: Identifier[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT DATE_ADD(a, b, c, d)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 27]
+            (functionName: DATE_ADD[7, 15])
+            ({Expected exactly 0 extraItem, found 2} arguments: DateAddInterval_Arguments[15, 27]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (expression: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (intervalExpression: IntervalExpression[19, 20]
+                (Expected intervalToken: INTERVAL[19, 19])
+                (expression: Identifier[19, 20])
+                (Expected temporalUnit: DAY[20, 20])
+              )
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (extraItem[]: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (extraItem[]: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT DATE_ADD(a, b)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 21]
+            (functionName: DATE_ADD[7, 15])
+            (arguments: DateAddInterval_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (expression: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (intervalExpression: IntervalExpression[19, 20]
+                (Expected intervalToken: INTERVAL[19, 19])
+                (expression: Identifier[19, 20])
+                (Expected temporalUnit: DAY[20, 20])
+              )
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`

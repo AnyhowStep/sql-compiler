@@ -54,7 +54,7 @@ export const DateAddIntervalFunctionCall = seq(
         TokenKind.ADDDATE,
         TokenKind.SUBDATE,
     )),
-    field("arguments", SyntaxKind.DateAdd_Arguments),
+    field("arguments", SyntaxKind.DateAddInterval_Arguments),
 );
 
 /**

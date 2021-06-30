@@ -1,0 +1,18 @@
+SELECT DATE_ADD()
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 17]
+            (functionName: DATE_ADD[7, 15])
+            (arguments: DateAddInterval_Arguments[15, 17]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (Expected expression: Identifier[16, 16])
+              (Expected commaToken[]: Comma[16, 16])
+              (intervalExpression: IntervalExpression[16, 16]
+                (Expected intervalToken: INTERVAL[16, 16])
+                (Expected expression: Identifier[16, 16])
+                (Expected temporalUnit: DAY[16, 16])
+              )
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`

@@ -1,4 +1,4 @@
-import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline} from "../../../grammar-builder";
+import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat} from "../../../grammar-builder";
 import {itemSeparator, list, list1, parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
@@ -119,11 +119,20 @@ export const Trim_Arguments = parentheses(seq(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9754-L9759
  */
-export const DateAdd_Arguments = parentheses(seq(
-    field("expression", SyntaxKind.Expression),
-    field("commaToken", itemSeparator),
-    field("intervalExpression", SyntaxKind.IntervalExpression),
-));
+export const DateAddInterval_Arguments = fieldLengthCheck(
+    "extraItem",
+    0,
+    0,
+    parentheses(seq(
+        field("expression", SyntaxKind.Expression),
+        field("commaToken", itemSeparator),
+        field("intervalExpression", SyntaxKind.IntervalExpression),
+        repeat(seq(
+            field("commaToken", itemSeparator),
+            field("extraItem", SyntaxKind.Expression),
+        ))
+    ))
+);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9764

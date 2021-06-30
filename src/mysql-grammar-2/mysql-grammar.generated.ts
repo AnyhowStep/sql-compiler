@@ -242,7 +242,7 @@ export interface MySqlRuleCollection {
     Expression1To2_Arguments : Rule|TopLevelRuleModifier,
     Character_Arguments : Rule|TopLevelRuleModifier,
     UsingCharacterSetName : Rule|TopLevelRuleModifier,
-    DateAdd_Arguments : Rule|TopLevelRuleModifier,
+    DateAddInterval_Arguments : Rule|TopLevelRuleModifier,
     Extract_Arguments : Rule|TopLevelRuleModifier,
     GetFormat_Arguments : Rule|TopLevelRuleModifier,
     Position_Arguments : Rule|TopLevelRuleModifier,

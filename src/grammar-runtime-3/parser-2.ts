@@ -352,6 +352,9 @@ export function inlineChild (
                     //We don't include them as part of errors.
                     return c;
                 }
+                if (c.errorKind != undefined) {
+                    return c;
+                }
                 return {
                     ...c,
                     errorKind : "Unexpected",
@@ -360,6 +363,9 @@ export function inlineChild (
             } else {
                 if (allowedSyntaxKinds.includes(c.syntaxKind)) {
                     return c;
+                }
+                if (c.errorKind != undefined) {
+                    throw new Error("Ugh");
                 }
                 return {
                     ...c,
@@ -392,7 +398,23 @@ export function inlineChild (
             newFields[childLabel] = [...childChildren];
         } else {
             const tmp = childChildren.filter(item => {
-                return "children" in item || item.errorKind != "Unexpected";
+                if ("children" in item) {
+                    return true;
+                }
+                /**
+                 * This is an error, yes. But it's not "really" an error,
+                 * according to the grammar.
+                 *
+                 * @todo make this less hacky
+                 */
+                if (item.errorKind == "Unexpected") {
+                    if (item.expectedTokenKind == undefined) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                return true;
             });
             if (tmp.length == 0) {
                 if (field.quantity.required) {

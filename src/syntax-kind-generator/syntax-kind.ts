@@ -268,7 +268,7 @@ export const syntaxKinds = [
 
     "Character_Arguments",
     "UsingCharacterSetName",
-    "DateAdd_Arguments",
+    "DateAddInterval_Arguments",
     "Extract_Arguments",
     "GetFormat_Arguments",
     "Position_Arguments",

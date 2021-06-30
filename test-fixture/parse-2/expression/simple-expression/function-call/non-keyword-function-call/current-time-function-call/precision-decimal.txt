@@ -6,7 +6,7 @@ SELECT CURRENT_TIME(1.2)
             (functionName: CURRENT_TIME[7, 19])
             (arguments: DateTimePrecisionArg[19, 24]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Unexpected item[]: DecimalLiteral[20, 23])
+              (Unexpected dateTimePrecision: DecimalLiteral[20, 23])
               (closeParenthesesToken: CloseParentheses[23, 24])
             )
           )

@@ -1,0 +1,134 @@
+SELECT ADDDATE()
+-----
+`!
+          (expression: AddDateFunctionCall[7, 16]
+            (functionName: ADDDATE[7, 14])
+            ({Expected exactly 2 item, found 0} arguments: Expression2_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT ADDDATE(a)
+-----
+`!
+          (expression: AddDateFunctionCall[7, 17]
+            (functionName: ADDDATE[7, 14])
+            ({Expected exactly 2 item, found 1} arguments: Expression2_Arguments[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT ADDDATE(a, INTERVAL 1 DAY, c)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 36]
+            (functionName: ADDDATE[7, 14])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateAddInterval_Arguments[14, 36]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (expression: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (intervalExpression: IntervalExpression[18, 32]
+                (intervalToken: INTERVAL[18, 26])
+                (WhiteSpace[26, 27])
+                (expression: IntegerLiteral[27, 28])
+                (WhiteSpace[28, 29])
+                (temporalUnit: DAY[29, 32])
+              )
+              (commaToken[]: Comma[32, 33])
+              (WhiteSpace[33, 34])
+              (extraItem[]: Identifier[34, 35])
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`
+-----
+SELECT ADDDATE(a, INTERVAL 1 DAY, c, d)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 39]
+            (functionName: ADDDATE[7, 14])
+            ({Expected exactly 0 extraItem, found 2} arguments: DateAddInterval_Arguments[14, 39]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (expression: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (intervalExpression: IntervalExpression[18, 32]
+                (intervalToken: INTERVAL[18, 26])
+                (WhiteSpace[26, 27])
+                (expression: IntegerLiteral[27, 28])
+                (WhiteSpace[28, 29])
+                (temporalUnit: DAY[29, 32])
+              )
+              (commaToken[]: Comma[32, 33])
+              (WhiteSpace[33, 34])
+              (extraItem[]: Identifier[34, 35])
+              (commaToken[]: Comma[35, 36])
+              (WhiteSpace[36, 37])
+              (extraItem[]: Identifier[37, 38])
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+SELECT ADDDATE(a, b, c)
+-----
+`!
+          (expression: AddDateFunctionCall[7, 23]
+            (functionName: ADDDATE[7, 14])
+            ({Expected exactly 2 item, found 3} arguments: Expression2_Arguments[14, 23]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT ADDDATE(a, b, c, d)
+-----
+`!
+          (expression: AddDateFunctionCall[7, 26]
+            (functionName: ADDDATE[7, 14])
+            ({Expected exactly 2 item, found 4} arguments: Expression2_Arguments[14, 26]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Identifier[24, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT ADDDATE(a, b)
+-----
+`!
+          (expression: AddDateFunctionCall[7, 20]
+            (functionName: ADDDATE[7, 14])
+            (arguments: Expression2_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`

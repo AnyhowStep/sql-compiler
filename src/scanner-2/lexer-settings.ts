@@ -7,9 +7,9 @@ export interface CharacterSet {
     maxLength : number;
 }
 export interface LexerSettings {
-    characterSet : Map<string, CharacterSet>;
+    readonly characterSet : Map<string, CharacterSet>;
 
-    ignoreSpace : boolean,
+    readonly ignoreSpace : boolean,
 }
 
 export const defaultLexerSettings : LexerSettings = {
