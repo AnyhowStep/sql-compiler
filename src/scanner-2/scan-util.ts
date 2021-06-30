@@ -135,7 +135,10 @@ export function scanSingleLineComment (state : LexerState) {
      */
     const ignoreSpaceMatch = /.*@@ignore_space\s*=\s*(\w+)/.exec(commentText);
     if (ignoreSpaceMatch != undefined) {
-        state.settings.ignoreSpace = ignoreSpaceMatch[1].toLowerCase() == "true";
+        state.settings = {
+            ...state.settings,
+            ignoreSpace : ignoreSpaceMatch[1].toLowerCase() == "true",
+        };
     }
 }
 
@@ -644,8 +647,18 @@ export function scanOthers (state : LexerState) : TokenKind {
     return tokenKind;
 }
 
+/**
+ * If the next token is a keyword, we may not handle it accurately.
+ */
 export function peekTokenAfterExtras (state : LexerState) : TokenKind {
     const tmp = state.clone();
+    tmp.settings = {
+        ...tmp.settings,
+        /**
+         * Setting this to `false` prevents us from O(n^2) recursion.
+         */
+        ignoreSpace : false,
+    };
     while (!tmp.isEof(0)) {
         /**
          * @todo Use a `tryScanExtra()` function.
