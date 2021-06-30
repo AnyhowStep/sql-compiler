@@ -1,0 +1,54 @@
+-- @@ignore_space = false
+SELECT DATE_ADD(a, INTERVAL 1 DAY)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[33, 60]
+            (functionName: DATE_ADD[33, 41])
+            (arguments: DateAddInterval_Arguments[41, 60]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (expression: Identifier[42, 43])
+              (commaToken[]: Comma[43, 44])
+              (WhiteSpace[44, 45])
+              (intervalExpression: IntervalExpression[45, 59]
+                (intervalToken: INTERVAL[45, 53])
+                (WhiteSpace[53, 54])
+                (expression: IntegerLiteral[54, 55])
+                (WhiteSpace[55, 56])
+                (temporalUnit: DAY[56, 59])
+              )
+              (closeParenthesesToken: CloseParentheses[59, 60])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT DATE_ADD (a, INTERVAL 1 DAY)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 61]
+            (functionName: Identifier[33, 41])
+            (WhiteSpace[41, 42])
+            (arguments: UserDefinedExpressionList_Arguments[42, 61]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (item[]: Identifier[43, 44])
+              (commaToken[]: Comma[44, 45])
+              (WhiteSpace[45, 46])
+              (item[]: UserDefinedExpression[46, 60]
+                (expression: IntervalFunctionCall[46, 57]
+                  (functionName: INTERVAL[46, 54])
+                  (WhiteSpace[54, 55])
+                  ({Expected at least 2 item, found 1} arguments: ExpressionList2_Arguments[55, 57]
+                    (Expected openParenthesesToken: OpenParentheses[55, 55])
+                    (item[]: IntegerLiteral[55, 56])
+                    (WhiteSpace[56, 57])
+                    (Expected closeParenthesesToken: CloseParentheses[57, 57])
+                  )
+                )
+                (alias: Alias[57, 60]
+                  (alias: DAY[57, 60])
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[60, 61])
+            )
+          )
+!`

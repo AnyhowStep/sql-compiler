@@ -1,0 +1,44 @@
+SELECT DATE_ADD(a, INTERVAL 1 DAY)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 34]
+            (functionName: DATE_ADD[7, 15])
+            (arguments: DateAddInterval_Arguments[15, 34]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (expression: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (intervalExpression: IntervalExpression[19, 33]
+                (intervalToken: INTERVAL[19, 27])
+                (WhiteSpace[27, 28])
+                (expression: IntegerLiteral[28, 29])
+                (WhiteSpace[29, 30])
+                (temporalUnit: DAY[30, 33])
+              )
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT DATE_ADD (a, INTERVAL 1 DAY)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 35]
+            (functionName: DATE_ADD[7, 15])
+            (WhiteSpace[15, 16])
+            (arguments: DateAddInterval_Arguments[16, 35]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (expression: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (intervalExpression: IntervalExpression[20, 34]
+                (intervalToken: INTERVAL[20, 28])
+                (WhiteSpace[28, 29])
+                (expression: IntegerLiteral[29, 30])
+                (WhiteSpace[30, 31])
+                (temporalUnit: DAY[31, 34])
+              )
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`

@@ -240,7 +240,7 @@ export enum SyntaxKind {
     Expression1To2_Arguments = "Expression1To2_Arguments",
     Character_Arguments = "Character_Arguments",
     UsingCharacterSetName = "UsingCharacterSetName",
-    DateAdd_Arguments = "DateAdd_Arguments",
+    DateAddInterval_Arguments = "DateAddInterval_Arguments",
     Extract_Arguments = "Extract_Arguments",
     GetFormat_Arguments = "GetFormat_Arguments",
     Position_Arguments = "Position_Arguments",

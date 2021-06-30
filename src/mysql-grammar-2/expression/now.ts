@@ -20,17 +20,17 @@ export const Now = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6825
  */
 export const DateTimePrecisionArg = fieldLengthCheck(
-    "item",
+    "extraItem",
     0,
-    1,
+    0,
     parentheses(optional(seq(
-        field("item", allowedSyntaxKinds(
+        field("dateTimePrecision", allowedSyntaxKinds(
             [TokenKind.IntegerLiteral],
             SyntaxKind.Expression
         )),
         repeat(seq(
             field("commaToken", itemSeparator),
-            field("item", SyntaxKind.Expression),
+            field("extraItem", SyntaxKind.Expression),
         )),
     )))
 );
