@@ -1,8 +1,7 @@
-import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat} from "../../../grammar-builder";
+import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat, skipExpectationCost, skipExpectationAfterExtraCost} from "../../../grammar-builder";
 import {itemSeparator, list, list1, parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
-import {interval, intervalTimeStamp} from "../interval-expression";
 
 export const Empty_Arguments = fieldLengthCheck(
     "item",
@@ -137,11 +136,23 @@ export const DateAddInterval_Arguments = fieldLengthCheck(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9764
  */
-export const Extract_Arguments = parentheses(seq(
-    field("temporalUnit", interval),
-    field("fromToken", TokenKind.FROM),
-    field("expression", SyntaxKind.Expression),
-));
+export const Extract_Arguments = fieldLengthCheck(
+    "extraItem",
+    0,
+    0,
+    parentheses(seq(
+        field("temporalUnit", SyntaxKind.TemporalUnit),
+        field("fromToken", skipExpectationAfterExtraCost(
+            0.0,
+            skipExpectationCost(0.1, TokenKind.FROM)
+        )),
+        field("expression", SyntaxKind.Expression),
+        repeat(seq(
+            field("commaToken", itemSeparator),
+            field("extraItem", SyntaxKind.Expression),
+        ))
+    ))
+);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9768
@@ -185,7 +196,7 @@ export const ForLength = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9810-L9814
  */
 export const TimestampAdd_Arguments = parentheses(seq(
-    field("temporalUnit", intervalTimeStamp),
+    field("temporalUnit", SyntaxKind.TemporalUnitTimeStamp),
     field("commaToken", itemSeparator),
     field("interval", SyntaxKind.Expression),
     field("commaToken", itemSeparator),
@@ -196,7 +207,7 @@ export const TimestampAdd_Arguments = parentheses(seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9814
  */
 export const TimestampDiff_Arguments = parentheses(seq(
-    field("temporalUnit", intervalTimeStamp),
+    field("temporalUnit", SyntaxKind.TemporalUnitTimeStamp),
     field("commaToken", itemSeparator),
     field("startDateTime", SyntaxKind.Expression),
     field("commaToken", itemSeparator),

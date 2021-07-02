@@ -140,6 +140,14 @@ export function scanSingleLineComment (state : LexerState) {
             ignoreSpace : ignoreSpaceMatch[1].toLowerCase() == "true",
         };
     }
+
+    const highNotPrecedenceMatch = /.*@@high_not_precedence\s*=\s*(\w+)/.exec(commentText);
+    if (highNotPrecedenceMatch != undefined) {
+        state.settings = {
+            ...state.settings,
+            highNotPrecedence : highNotPrecedenceMatch[1].toLowerCase() == "true",
+        };
+    }
 }
 
 export function tryScanString (state : LexerState, str : string, overwriteIndex = true) {
@@ -368,12 +376,18 @@ export function tryScanNumberExponent (state : LexerState) {
     }
 }
 
-export function tryGetKeywordTokenKind (str : string) : TokenKind|undefined {
+export function tryGetKeywordTokenKind (state : LexerState, str : string) : TokenKind|undefined {
     str = str.toUpperCase();
     if (Object.prototype.hasOwnProperty.call(FunctionKeyword, str)) {
         return str as TokenKind;
     }
     if (Object.prototype.hasOwnProperty.call(ReservedKeyword, str)) {
+        /**
+         * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/sql_lex.cc#L905-L907
+         */
+        if (str == TokenKind.NOT && state.settings.highNotPrecedence) {
+            return TokenKind.NOT2;
+        }
         return str as TokenKind;
     }
     if (Object.prototype.hasOwnProperty.call(NonReservedKeyword, str)) {
@@ -468,7 +482,7 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
         }
     }
 
-    const keywordTokenKind = tryGetKeywordTokenKind(str);
+    const keywordTokenKind = tryGetKeywordTokenKind(tmp, str);
     if (keywordTokenKind == undefined) {
         if (str.startsWith("_")) {
             const maybeCharacterSet = str.substr(1);

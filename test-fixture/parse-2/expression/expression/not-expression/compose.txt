@@ -11,3 +11,18 @@ SELECT NOT NOT a
             )
           )
 !`
+-----
+-- @@high_not_precedence = true
+SELECT NOT NOT a
+-----
+`!
+          (expression: Not2SimpleExpression[39, 48]
+            (exclamationToken: NOT2[39, 42])
+            (WhiteSpace[42, 43])
+            (expression: Not2SimpleExpression[43, 48]
+              (exclamationToken: NOT2[43, 46])
+              (WhiteSpace[46, 47])
+              (expression: Identifier[47, 48])
+            )
+          )
+!`

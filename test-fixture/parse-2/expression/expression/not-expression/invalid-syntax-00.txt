@@ -19,3 +19,28 @@ SELECT NOT ! NOT ! a
             )
           )
 !`
+-----
+-- @@high_not_precedence = true
+SELECT NOT ! NOT ! a
+-- The `NOT` and `!` operators are actually different rules, usually.
+-- They're the same if high_not_precedence is enabled
+-----
+`!
+          (expression: Not2SimpleExpression[39, 52]
+            (exclamationToken: NOT2[39, 42])
+            (WhiteSpace[42, 43])
+            (expression: Not2SimpleExpression[43, 52]
+              (exclamationToken: Exclamation[43, 44])
+              (WhiteSpace[44, 45])
+              (expression: Not2SimpleExpression[45, 52]
+                (exclamationToken: NOT2[45, 48])
+                (WhiteSpace[48, 49])
+                (expression: Not2SimpleExpression[49, 52]
+                  (exclamationToken: Exclamation[49, 50])
+                  (WhiteSpace[50, 51])
+                  (expression: Identifier[51, 52])
+                )
+              )
+            )
+          )
+!`

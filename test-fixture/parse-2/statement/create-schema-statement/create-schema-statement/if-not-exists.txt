@@ -21,3 +21,31 @@ CREATE SCHEMA IF NOT EXISTS e
   )
   (LineBreak[29, 30])
 )
+
+-----
+-- @@high_not_precedence = true
+CREATE SCHEMA IF NOT EXISTS e
+
+-----
+(SourceFile[0, 62]
+  (SingleLineComment[0, 31])
+  (LineBreak[31, 32])
+  (statement[]: TrailingStatement[32, 61]
+    (statement: CreateSchemaStatement[32, 61]
+      (createToken: CREATE[32, 38])
+      (WhiteSpace[38, 39])
+      (schemaToken: SCHEMA[39, 45])
+      (WhiteSpace[45, 46])
+      (ifNotExists: IfNotExists[46, 59]
+        (ifToken: IF[46, 48])
+        (WhiteSpace[48, 49])
+        (notToken: NOT2[49, 52])
+        (WhiteSpace[52, 53])
+        (existsToken: EXISTS[53, 59])
+      )
+      (WhiteSpace[59, 60])
+      (identifier: Identifier[60, 61])
+    )
+  )
+  (LineBreak[61, 62])
+)

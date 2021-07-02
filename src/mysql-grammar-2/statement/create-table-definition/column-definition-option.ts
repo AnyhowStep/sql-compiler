@@ -32,7 +32,7 @@ export const ColumnDefinitionOption = choice(
 export const ColumnDefinitionOptionNull = field("nullToken", TokenKind.NULL);
 
 export const ColumnDefinitionOptionNotNull = seq(
-    field("notToken", TokenKind.NOT),
+    field("notToken", SyntaxKind.Not),
     field("nullToken", TokenKind.NULL),
 );
 

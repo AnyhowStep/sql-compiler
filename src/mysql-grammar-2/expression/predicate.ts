@@ -19,7 +19,7 @@ export const Predicate = choice(
 
 export const InSubQueryPredicate = precedence(60, seq(
     field("expression", SyntaxKind.BitExpression),
-    field("notToken", optional(TokenKind.NOT)),
+    field("notToken", optional(SyntaxKind.Not)),
     field("inToken", TokenKind.IN),
     field("parenthesizedSelect", SyntaxKind.ParenthesizedSelect),
 ));
@@ -29,7 +29,7 @@ export const InSubQueryPredicate = precedence(60, seq(
  */
 export const InExpressionTuple1Predicate = precedence(60, seq(
     field("expression", SyntaxKind.BitExpression),
-    field("notToken", optional(TokenKind.NOT)),
+    field("notToken", optional(SyntaxKind.Not)),
     field("inToken", cannotExpect(TokenKind.IN)),
     field("expressionTuple1", SyntaxKind.ExpressionTuple1),
 ));
@@ -39,7 +39,7 @@ export const InExpressionTuple1Predicate = precedence(60, seq(
  */
 export const BetweenPredicate = precedence(50, seq(
     field("left", SyntaxKind.BitExpression),
-    field("notToken", optional(TokenKind.NOT)),
+    field("notToken", optional(SyntaxKind.Not)),
     field("betweenToken", cannotExpect(TokenKind.BETWEEN)),
     field("middle", SyntaxKind.BitExpression),
     field("andToken", TokenKind.AND),
@@ -61,7 +61,7 @@ export const SoundsLikePredicate = precedence(60, seq(
  */
 export const LikePredicate = precedence(60, seq(
     field("left", SyntaxKind.BitExpression),
-    field("notToken", optional(TokenKind.NOT)),
+    field("notToken", optional(SyntaxKind.Not)),
     field("likeToken", cannotExpect(TokenKind.LIKE)),
     field("right", SyntaxKind.SimpleExpression),
     field("escape", optional(SyntaxKind.LikeEscape)),
@@ -80,7 +80,7 @@ export const LikeEscape = seq(
  */
 export const RegExpPredicate = precedence(60, seq(
     field("left", SyntaxKind.BitExpression),
-    field("notToken", optional(TokenKind.NOT)),
+    field("notToken", optional(SyntaxKind.Not)),
     field("regexpToken", cannotExpect(TokenKind.REGEXP)),
     field("right", SyntaxKind.BitExpression),
 ));

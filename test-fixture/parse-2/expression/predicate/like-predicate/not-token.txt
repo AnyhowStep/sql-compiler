@@ -11,3 +11,18 @@ SELECT a NOT LIKE b
             (right: Identifier[18, 19])
           )
 !`
+-----
+-- @@high_not_precedence = true
+SELECT a NOT LIKE b
+-----
+`!
+          (expression: LikePredicate[39, 51]
+            (left: Identifier[39, 40])
+            (WhiteSpace[40, 41])
+            (notToken: NOT2[41, 44])
+            (WhiteSpace[44, 45])
+            (likeToken: LIKE[45, 49])
+            (WhiteSpace[49, 50])
+            (right: Identifier[50, 51])
+          )
+!`

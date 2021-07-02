@@ -1,0 +1,127 @@
+SELECT EXTRACT()
+-- TODO Fix output for this?
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 16]
+            (Expected functionName: Identifier[7, 14])
+            (arguments: UserDefinedExpressionList_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(a)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 17]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (Expected temporalUnit: DAY[15, 15])
+              (Expected fromToken: FROM[15, 15])
+              (expression: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(a, b)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 20]
+            (functionName: EXTRACT[7, 14])
+            ({Expected exactly 0 extraItem, found 1} arguments: Extract_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (Expected temporalUnit: DAY[15, 15])
+              (Expected fromToken: FROM[15, 15])
+              (expression: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (extraItem[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(DAY FROM expr, b)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 32]
+            (functionName: EXTRACT[7, 14])
+            ({Expected exactly 0 extraItem, found 1} arguments: Extract_Arguments[14, 32]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY[15, 18])
+              (WhiteSpace[18, 19])
+              (fromToken: FROM[19, 23])
+              (WhiteSpace[23, 24])
+              (expression: Identifier[24, 28])
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (extraItem[]: Identifier[30, 31])
+              (closeParenthesesToken: CloseParentheses[31, 32])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(a, b, c)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 23]
+            (functionName: EXTRACT[7, 14])
+            ({Expected exactly 0 extraItem, found 2} arguments: Extract_Arguments[14, 23]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (Expected temporalUnit: DAY[15, 15])
+              (Expected fromToken: FROM[15, 15])
+              (expression: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (extraItem[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (extraItem[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(DAY FROM expr, b, c)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 35]
+            (functionName: EXTRACT[7, 14])
+            ({Expected exactly 0 extraItem, found 2} arguments: Extract_Arguments[14, 35]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY[15, 18])
+              (WhiteSpace[18, 19])
+              (fromToken: FROM[19, 23])
+              (WhiteSpace[23, 24])
+              (expression: Identifier[24, 28])
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (extraItem[]: Identifier[30, 31])
+              (commaToken[]: Comma[31, 32])
+              (WhiteSpace[32, 33])
+              (extraItem[]: Identifier[33, 34])
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(DAY )
+-- TODO Fix output for this?
+-- FROM should really be suggested after whitespace
+-----
+`!
+          (expression: ExtractFunctionCall[7, 20]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY[15, 18])
+              (Expected fromToken: FROM[18, 18])
+              (Expected expression: Identifier[18, 18])
+              (WhiteSpace[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`

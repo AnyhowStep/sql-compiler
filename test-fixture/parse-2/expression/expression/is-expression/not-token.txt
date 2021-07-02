@@ -11,3 +11,18 @@ SELECT a IS NOT TRUE
             (right: TRUE[16, 20])
           )
 !`
+-----
+-- @@high_not_precedence = true
+SELECT a IS NOT TRUE
+-----
+`!
+          (expression: IsExpression[39, 52]
+            (left: Identifier[39, 40])
+            (WhiteSpace[40, 41])
+            (isToken: IS[41, 43])
+            (WhiteSpace[43, 44])
+            (notToken: NOT2[44, 47])
+            (WhiteSpace[47, 48])
+            (right: TRUE[48, 52])
+          )
+!`

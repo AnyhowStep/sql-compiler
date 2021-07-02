@@ -724,7 +724,8 @@ export const tokens = [
     "CloseBrace",
     "DelimiterSpace",
     "UNIQUE_KEY",
-    "UnderscoreCharacterSet"
+    "UnderscoreCharacterSet",
+    "NOT2"
 ];
 
 export enum TokenKind {
@@ -1452,7 +1453,8 @@ export enum TokenKind {
     CloseBrace = "CloseBrace",
     DelimiterSpace = "DelimiterSpace",
     UNIQUE_KEY = "UNIQUE_KEY",
-    UnderscoreCharacterSet = "UnderscoreCharacterSet"
+    UnderscoreCharacterSet = "UnderscoreCharacterSet",
+    NOT2 = "NOT2"
 }
 
 export const functionKeywords = [
