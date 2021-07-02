@@ -59,7 +59,7 @@ export const Not2SimpleExpression = precedence(140, seq(
      *
      * https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_high_not_precedence
      */
-    field("exclamationToken", cannotExpect(tokenSymbol(TokenKind.Exclamation))),
+    field("exclamationToken", cannotExpect(tokenSymbol(TokenKind.Exclamation, TokenKind.NOT2))),
     field("expression", SyntaxKind.SimpleExpression),
 ));
 

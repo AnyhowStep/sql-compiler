@@ -9,7 +9,7 @@ import {TokenKind} from "../token.generated";
 export const IsExpression = precedence(60, seq(
     field("left", SyntaxKind.BooleanPrimaryExpression),
     field("isToken", cannotExpect(TokenKind.IS)),
-    field("notToken", optional(TokenKind.NOT)),
+    field("notToken", optional(SyntaxKind.Not)),
     field("right", tokenSymbol(
         TokenKind.TRUE,
         TokenKind.FALSE,
@@ -21,6 +21,9 @@ export const IsExpression = precedence(60, seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9268
  */
 export const NotExpression = precedence(40, seq(
+    /**
+     * We want to use `TokenKind.NOT` here, not `SyntaxKind.Not`
+     */
     field("notToken", cannotExpect(tokenSymbol(TokenKind.NOT))),
     field("expression", SyntaxKind.Expression),
 ));

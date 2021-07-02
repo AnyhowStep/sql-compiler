@@ -75,6 +75,7 @@ export function scanAll (settings : Partial<LexerSettings>, text : string) : MyT
     const mySettings : LexerSettings = {
         characterSet : settings.characterSet ?? defaultLexerSettings.characterSet,
         ignoreSpace : settings.ignoreSpace ?? defaultLexerSettings.ignoreSpace,
+        highNotPrecedence : settings.highNotPrecedence ?? defaultLexerSettings.highNotPrecedence,
     };
     const state = new MyLexerState(mySettings, text);
 

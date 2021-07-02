@@ -33,3 +33,30 @@ SELECT !NOT a
             (expression: Identifier[12, 13])
           )
 !`
+-----
+-- @@high_not_precedence = true
+SELECT NOT!a
+-----
+`!
+          (expression: Not2SimpleExpression[39, 44]
+            (exclamationToken: NOT2[39, 42])
+            (expression: Not2SimpleExpression[42, 44]
+              (exclamationToken: Exclamation[42, 43])
+              (expression: Identifier[43, 44])
+            )
+          )
+!`
+-----
+-- @@high_not_precedence = true
+SELECT !NOT a
+-----
+`!
+          (expression: Not2SimpleExpression[39, 45]
+            (exclamationToken: Exclamation[39, 40])
+            (expression: Not2SimpleExpression[40, 45]
+              (exclamationToken: NOT2[40, 43])
+              (WhiteSpace[43, 44])
+              (expression: Identifier[44, 45])
+            )
+          )
+!`

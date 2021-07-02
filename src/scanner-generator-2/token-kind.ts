@@ -124,6 +124,13 @@ export const customTokenKinds = [
      * This has higher priority than identifiers on a lexing level
      */
     "UnderscoreCharacterSet",
+
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9469-L9476
+     *
+     * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/sql_lex.cc#L905-L907
+     */
+    "NOT2",
 ];
 
 //https://dev.mysql.com/doc/refman/5.7/en/manual-info.html

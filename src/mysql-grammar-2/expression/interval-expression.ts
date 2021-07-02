@@ -1,4 +1,4 @@
-import {field, seq, tokenSymbol, tokenSymbol2} from "../../grammar-builder";
+import {field, inline, seq, skipExpectationAfterExtraCost, skipExpectationCost, tokenSymbol, tokenSymbol2} from "../../grammar-builder";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -46,11 +46,18 @@ export const interval = tokenSymbol2(
     TokenKind.YEAR_MONTH,
 );
 
+export const TemporalUnitTimeStamp = inline(intervalTimeStamp);
+
+export const TemporalUnit = inline(skipExpectationAfterExtraCost(
+    0.0,
+    skipExpectationCost(0.1, interval)
+));
+
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9424-L9428
  */
 export const IntervalExpression = seq(
     field("intervalToken", TokenKind.INTERVAL),
     field("expression", SyntaxKind.Expression),
-    field("temporalUnit", interval),
+    field("temporalUnit", SyntaxKind.TemporalUnit),
 );

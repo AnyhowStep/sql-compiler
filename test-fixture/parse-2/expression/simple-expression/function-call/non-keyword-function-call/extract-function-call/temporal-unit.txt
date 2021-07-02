@@ -1,0 +1,475 @@
+SELECT EXTRACT(DAY FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 29]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 29]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY[15, 18])
+              (WhiteSpace[18, 19])
+              (fromToken: FROM[19, 23])
+              (WhiteSpace[23, 24])
+              (expression: Identifier[24, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(WEEK FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 30]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 30]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: WEEK[15, 19])
+              (WhiteSpace[19, 20])
+              (fromToken: FROM[20, 24])
+              (WhiteSpace[24, 25])
+              (expression: Identifier[25, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(HOUR FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 30]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 30]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: HOUR[15, 19])
+              (WhiteSpace[19, 20])
+              (fromToken: FROM[20, 24])
+              (WhiteSpace[24, 25])
+              (expression: Identifier[25, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(MINUTE FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 32]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 32]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: MINUTE[15, 21])
+              (WhiteSpace[21, 22])
+              (fromToken: FROM[22, 26])
+              (WhiteSpace[26, 27])
+              (expression: Identifier[27, 31])
+              (closeParenthesesToken: CloseParentheses[31, 32])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(MONTH FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 31]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 31]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: MONTH[15, 20])
+              (WhiteSpace[20, 21])
+              (fromToken: FROM[21, 25])
+              (WhiteSpace[25, 26])
+              (expression: Identifier[26, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(QUARTER FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 33]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 33]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: QUARTER[15, 22])
+              (WhiteSpace[22, 23])
+              (fromToken: FROM[23, 27])
+              (WhiteSpace[27, 28])
+              (expression: Identifier[28, 32])
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 32]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 32]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SECOND[15, 21])
+              (WhiteSpace[21, 22])
+              (fromToken: FROM[22, 26])
+              (WhiteSpace[26, 27])
+              (expression: Identifier[27, 31])
+              (closeParenthesesToken: CloseParentheses[31, 32])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(MICROSECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 37]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 37]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: MICROSECOND[15, 26])
+              (WhiteSpace[26, 27])
+              (fromToken: FROM[27, 31])
+              (WhiteSpace[31, 32])
+              (expression: Identifier[32, 36])
+              (closeParenthesesToken: CloseParentheses[36, 37])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(YEAR FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 30]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 30]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: YEAR[15, 19])
+              (WhiteSpace[19, 20])
+              (fromToken: FROM[20, 24])
+              (WhiteSpace[24, 25])
+              (expression: Identifier[25, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(DAY_HOUR FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 34]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 34]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY_HOUR[15, 23])
+              (WhiteSpace[23, 24])
+              (fromToken: FROM[24, 28])
+              (WhiteSpace[28, 29])
+              (expression: Identifier[29, 33])
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(DAY_MICROSECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 41]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 41]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY_MICROSECOND[15, 30])
+              (WhiteSpace[30, 31])
+              (fromToken: FROM[31, 35])
+              (WhiteSpace[35, 36])
+              (expression: Identifier[36, 40])
+              (closeParenthesesToken: CloseParentheses[40, 41])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(DAY_MINUTE FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 36]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 36]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY_MINUTE[15, 25])
+              (WhiteSpace[25, 26])
+              (fromToken: FROM[26, 30])
+              (WhiteSpace[30, 31])
+              (expression: Identifier[31, 35])
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(DAY_SECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 36]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 36]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY_SECOND[15, 25])
+              (WhiteSpace[25, 26])
+              (fromToken: FROM[26, 30])
+              (WhiteSpace[30, 31])
+              (expression: Identifier[31, 35])
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(HOUR_MICROSECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 42]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 42]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: HOUR_MICROSECOND[15, 31])
+              (WhiteSpace[31, 32])
+              (fromToken: FROM[32, 36])
+              (WhiteSpace[36, 37])
+              (expression: Identifier[37, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(HOUR_MINUTE FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 37]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 37]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: HOUR_MINUTE[15, 26])
+              (WhiteSpace[26, 27])
+              (fromToken: FROM[27, 31])
+              (WhiteSpace[31, 32])
+              (expression: Identifier[32, 36])
+              (closeParenthesesToken: CloseParentheses[36, 37])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(HOUR_SECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 37]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 37]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: HOUR_SECOND[15, 26])
+              (WhiteSpace[26, 27])
+              (fromToken: FROM[27, 31])
+              (WhiteSpace[31, 32])
+              (expression: Identifier[32, 36])
+              (closeParenthesesToken: CloseParentheses[36, 37])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(MINUTE_MICROSECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 44]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 44]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: MINUTE_MICROSECOND[15, 33])
+              (WhiteSpace[33, 34])
+              (fromToken: FROM[34, 38])
+              (WhiteSpace[38, 39])
+              (expression: Identifier[39, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(MINUTE_SECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 39]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 39]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: MINUTE_SECOND[15, 28])
+              (WhiteSpace[28, 29])
+              (fromToken: FROM[29, 33])
+              (WhiteSpace[33, 34])
+              (expression: Identifier[34, 38])
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SECOND_MICROSECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 44]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 44]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SECOND_MICROSECOND[15, 33])
+              (WhiteSpace[33, 34])
+              (fromToken: FROM[34, 38])
+              (WhiteSpace[38, 39])
+              (expression: Identifier[39, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(YEAR_MONTH FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 36]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 36]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: YEAR_MONTH[15, 25])
+              (WhiteSpace[25, 26])
+              (fromToken: FROM[26, 30])
+              (WhiteSpace[30, 31])
+              (expression: Identifier[31, 35])
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SQL_TSI_SECOND FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 40]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 40]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SQL_TSI_SECOND[15, 29])
+              (WhiteSpace[29, 30])
+              (fromToken: FROM[30, 34])
+              (WhiteSpace[34, 35])
+              (expression: Identifier[35, 39])
+              (closeParenthesesToken: CloseParentheses[39, 40])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SQL_TSI_MINUTE FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 40]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 40]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SQL_TSI_MINUTE[15, 29])
+              (WhiteSpace[29, 30])
+              (fromToken: FROM[30, 34])
+              (WhiteSpace[34, 35])
+              (expression: Identifier[35, 39])
+              (closeParenthesesToken: CloseParentheses[39, 40])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SQL_TSI_HOUR FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 38]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 38]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SQL_TSI_HOUR[15, 27])
+              (WhiteSpace[27, 28])
+              (fromToken: FROM[28, 32])
+              (WhiteSpace[32, 33])
+              (expression: Identifier[33, 37])
+              (closeParenthesesToken: CloseParentheses[37, 38])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SQL_TSI_DAY FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 37]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 37]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SQL_TSI_DAY[15, 26])
+              (WhiteSpace[26, 27])
+              (fromToken: FROM[27, 31])
+              (WhiteSpace[31, 32])
+              (expression: Identifier[32, 36])
+              (closeParenthesesToken: CloseParentheses[36, 37])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SQL_TSI_WEEK FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 38]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 38]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SQL_TSI_WEEK[15, 27])
+              (WhiteSpace[27, 28])
+              (fromToken: FROM[28, 32])
+              (WhiteSpace[32, 33])
+              (expression: Identifier[33, 37])
+              (closeParenthesesToken: CloseParentheses[37, 38])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SQL_TSI_MONTH FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 39]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 39]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SQL_TSI_MONTH[15, 28])
+              (WhiteSpace[28, 29])
+              (fromToken: FROM[29, 33])
+              (WhiteSpace[33, 34])
+              (expression: Identifier[34, 38])
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SQL_TSI_QUARTER FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 41]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 41]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SQL_TSI_QUARTER[15, 30])
+              (WhiteSpace[30, 31])
+              (fromToken: FROM[31, 35])
+              (WhiteSpace[35, 36])
+              (expression: Identifier[36, 40])
+              (closeParenthesesToken: CloseParentheses[40, 41])
+            )
+          )
+!`
+-----
+SELECT EXTRACT(SQL_TSI_YEAR FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 38]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 38]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: SQL_TSI_YEAR[15, 27])
+              (WhiteSpace[27, 28])
+              (fromToken: FROM[28, 32])
+              (WhiteSpace[32, 33])
+              (expression: Identifier[33, 37])
+              (closeParenthesesToken: CloseParentheses[37, 38])
+            )
+          )
+!`

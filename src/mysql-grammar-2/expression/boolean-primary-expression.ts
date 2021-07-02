@@ -17,7 +17,7 @@ export const BooleanPrimaryExpression = choice(
 export const IsNullBooleanPrimaryExpression = precedence(60, seq(
     field("expression", SyntaxKind.BooleanPrimaryExpression),
     field("isToken", cannotExpect(TokenKind.IS)),
-    field("notToken", optional(TokenKind.NOT)),
+    field("notToken", optional(SyntaxKind.Not)),
     field("nullToken", TokenKind.NULL),
 ));
 

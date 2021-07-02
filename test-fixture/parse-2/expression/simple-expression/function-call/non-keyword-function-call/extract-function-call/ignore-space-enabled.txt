@@ -1,0 +1,34 @@
+SELECT EXTRACT(DAY FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 29]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 29]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (temporalUnit: DAY[15, 18])
+              (WhiteSpace[18, 19])
+              (fromToken: FROM[19, 23])
+              (WhiteSpace[23, 24])
+              (expression: Identifier[24, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT EXTRACT (DAY FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[7, 30]
+            (functionName: EXTRACT[7, 14])
+            (WhiteSpace[14, 15])
+            (arguments: Extract_Arguments[15, 30]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (temporalUnit: DAY[16, 19])
+              (WhiteSpace[19, 20])
+              (fromToken: FROM[20, 24])
+              (WhiteSpace[24, 25])
+              (expression: Identifier[25, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`

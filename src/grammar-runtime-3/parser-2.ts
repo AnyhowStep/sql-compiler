@@ -2719,7 +2719,7 @@ export function eagerSkipExpectation (
         if (expect.skipExpectationAfterExtraCost == undefined) {
             continue;
         }
-        if (expect.skipExpectationAfterExtraCost <= 0) {
+        if (expect.skipExpectationAfterExtraCost < 0) {
             continue;
         }
 

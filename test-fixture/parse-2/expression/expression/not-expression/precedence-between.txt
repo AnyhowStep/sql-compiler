@@ -1,6 +1,5 @@
 SELECT NOT a BETWEEN b AND c
 -- https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_high_not_precedence
--- TODO Implement @@sql_mode special case?
 -----
 `!
           (expression: NotExpression[7, 28]
@@ -17,5 +16,26 @@ SELECT NOT a BETWEEN b AND c
               (WhiteSpace[26, 27])
               (right: Identifier[27, 28])
             )
+          )
+!`
+-----
+-- @@high_not_precedence = true
+SELECT NOT a BETWEEN b AND c
+-----
+`!
+          (expression: BetweenPredicate[39, 60]
+            (left: Not2SimpleExpression[39, 44]
+              (exclamationToken: NOT2[39, 42])
+              (WhiteSpace[42, 43])
+              (expression: Identifier[43, 44])
+            )
+            (WhiteSpace[44, 45])
+            (betweenToken: BETWEEN[45, 52])
+            (WhiteSpace[52, 53])
+            (middle: Identifier[53, 54])
+            (WhiteSpace[54, 55])
+            (andToken: AND[55, 58])
+            (WhiteSpace[58, 59])
+            (right: Identifier[59, 60])
           )
 !`

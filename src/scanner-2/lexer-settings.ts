@@ -10,10 +10,12 @@ export interface LexerSettings {
     readonly characterSet : Map<string, CharacterSet>;
 
     readonly ignoreSpace : boolean,
+    readonly highNotPrecedence : boolean,
 }
 
 export const defaultLexerSettings : LexerSettings = {
     characterSet,
 
     ignoreSpace : true,
+    highNotPrecedence : false,
 };

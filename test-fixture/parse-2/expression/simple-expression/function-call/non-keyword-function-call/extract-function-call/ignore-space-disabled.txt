@@ -1,0 +1,36 @@
+-- @@ignore_space = false
+SELECT EXTRACT(DAY FROM expr)
+-----
+`!
+          (expression: ExtractFunctionCall[33, 55]
+            (functionName: EXTRACT[33, 40])
+            (arguments: Extract_Arguments[40, 55]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (temporalUnit: DAY[41, 44])
+              (WhiteSpace[44, 45])
+              (fromToken: FROM[45, 49])
+              (WhiteSpace[49, 50])
+              (expression: Identifier[50, 54])
+              (closeParenthesesToken: CloseParentheses[54, 55])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT EXTRACT (DAY FROM expr)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 56]
+            (functionName: Identifier[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: UserDefinedExpressionList_Arguments[41, 56]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: DAY[42, 45])
+              (WhiteSpace[45, 46])
+              (Expected commaToken[]: Comma[46, 50])
+              (WhiteSpace[50, 51])
+              (item[]: Identifier[51, 55])
+              (closeParenthesesToken: CloseParentheses[55, 56])
+            )
+          )
+!`

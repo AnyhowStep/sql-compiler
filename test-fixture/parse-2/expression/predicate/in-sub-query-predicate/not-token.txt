@@ -10,3 +10,17 @@ SELECT x NOT IN (SELECT y1)
             (WhiteSpace[15, 16])
             (parenthesizedSelect: ParenthesizedSelect[16, 27]
 !`
+-----
+-- @@high_not_precedence = true
+SELECT x NOT IN (SELECT y1)
+-----
+`!
+          (expression: InSubQueryPredicate[39, 59]
+            (expression: Identifier[39, 40])
+            (WhiteSpace[40, 41])
+            (notToken: NOT2[41, 44])
+            (WhiteSpace[44, 45])
+            (inToken: IN[45, 47])
+            (WhiteSpace[47, 48])
+            (parenthesizedSelect: ParenthesizedSelect[48, 59]
+!`

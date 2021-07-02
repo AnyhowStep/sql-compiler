@@ -206,6 +206,8 @@ export const syntaxKinds = [
     "UserVariableIdentifierAssignment",
     "ParamMarker",
     "IntervalExpression",
+    "TemporalUnitTimeStamp",
+    "TemporalUnit",
     "LikeEscape",
     "ExpressionTuple1",
     "BitExpressionTuple1",
@@ -214,6 +216,7 @@ export const syntaxKinds = [
     "Not2SimpleExpression",
     "PrefixSimpleExpression",
     "CollateSimpleExpression",
+    "Not",
 
     "SignedLiteral",
     "Literal",
