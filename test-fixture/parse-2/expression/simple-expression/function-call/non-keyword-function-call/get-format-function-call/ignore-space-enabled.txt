@@ -1,0 +1,32 @@
+SELECT GET_FORMAT(DATE, expr)
+-----
+`!
+          (expression: GetFormatFunctionCall[7, 29]
+            (functionName: GET_FORMAT[7, 17])
+            (arguments: GetFormat_Arguments[17, 29]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (format: DATE[18, 22])
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (expression: Identifier[24, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT GET_FORMAT (DATE, expr)
+-----
+`!
+          (expression: GetFormatFunctionCall[7, 30]
+            (functionName: GET_FORMAT[7, 17])
+            (WhiteSpace[17, 18])
+            (arguments: GetFormat_Arguments[18, 30]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (format: DATE[19, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (expression: Identifier[25, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`

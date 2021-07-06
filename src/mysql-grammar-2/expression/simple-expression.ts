@@ -216,7 +216,7 @@ export const UnscopedSystemVariableIdentifier = seq(
 export const UserVariableIdentifier = precedence(Precedence.UserVariableIdentifier, useCustomExtra(
     CustomExtras.noExtras,
     seq(
-        field("atToken", TokenKind.At),
+        field("atToken", cannotExpect(TokenKind.At)),
         optional(field("identifier", identifierOrReservedOrStringLiteral)),
     )
 ));
@@ -225,7 +225,16 @@ export const UserVariableIdentifier = precedence(Precedence.UserVariableIdentifi
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10156
  */
 export const UserVariableIdentifierAssignment = seq(
-    field("userVariableIdentifier", SyntaxKind.UserVariableIdentifier),
+    field("userVariableIdentifier", alias(
+        SyntaxKind.UserVariableIdentifier,
+        useCustomExtra(
+            CustomExtras.noExtras,
+            seq(
+                field("atToken", TokenKind.At),
+                optional(field("identifier", identifierOrReservedOrStringLiteral)),
+            )
+        )
+    )),
     field("colonEqualToken", cannotExpect(TokenKind.ColonEqual)),
     field("expression", SyntaxKind.Expression),
 );

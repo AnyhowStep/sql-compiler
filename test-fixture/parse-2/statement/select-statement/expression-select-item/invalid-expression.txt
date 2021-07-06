@@ -10,10 +10,7 @@ SELECT SELECT AS tmp
       (WhiteSpace[6, 7])
       (selectItemList1: SelectItemList1[7, 20]
         (item[]: ExpressionSelectItem[7, 20]
-          (expression: UserVariableIdentifier[7, 13]
-            (Expected atToken: At[7, 7])
-            (identifier: SELECT[7, 13])
-          )
+          (Expected expression: Identifier[7, 13])
           (WhiteSpace[13, 14])
           (alias: Alias[14, 20]
             (asToken: AS[14, 16])

@@ -1,0 +1,17 @@
+SELECT ANY()
+-----
+`!
+  (statement[]: TrailingStatement[0, 10]
+    (statement: Select[0, 10]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 10]
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: ANY[7, 10])
+        )
+      )
+    )
+  )
+  (Unexpected OpenParentheses[10, 11])
+  (Unexpected CloseParentheses[11, 12])
+!`

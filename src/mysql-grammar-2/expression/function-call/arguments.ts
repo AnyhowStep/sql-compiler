@@ -157,16 +157,35 @@ export const Extract_Arguments = fieldLengthCheck(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9768
  */
-export const GetFormat_Arguments = parentheses(seq(
-    field("format", tokenSymbol(
-        TokenKind.DATETIME,
-        TokenKind.TIMESTAMP,
-        TokenKind.DATE,
-        TokenKind.TIME,
-    )),
-    field("commaToken", itemSeparator),
-    field("expression", SyntaxKind.Expression),
-));
+export const GetFormat_Arguments = fieldLengthCheck(
+    "extraItem",
+    0,
+    0,
+    /**
+     * Notes:
+     * When parser encounters open parentheses, it should look for matching close parentheses.
+     * If no matching close parentheses found, continue regular parsing.
+     *
+     * If found, all contents between parentheses should belong to the rule.
+     */
+    parentheses(seq(
+        field("format", tokenSymbol(
+            /**
+             * DATETIME and TIMESTAMP are synonyms
+             */
+            TokenKind.DATETIME,
+            TokenKind.TIMESTAMP,
+            TokenKind.DATE,
+            TokenKind.TIME,
+        )),
+        field("commaToken", itemSeparator),
+        field("expression", SyntaxKind.Expression),
+        repeat(seq(
+            field("commaToken", itemSeparator),
+            field("extraItem", SyntaxKind.Expression),
+        ))
+    ))
+);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9777

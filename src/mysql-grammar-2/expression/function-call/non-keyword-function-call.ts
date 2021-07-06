@@ -2,7 +2,7 @@
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9737
  */
 
-import {choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
+import {cannotExpect, choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -14,7 +14,7 @@ import {TokenKind} from "../../token.generated";
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9781-L9785
  */
 export const AddDateFunctionCall = seq(
-    field("functionName", tokenSymbol(TokenKind.ADDDATE, TokenKind.SUBDATE)),
+    field("functionName", cannotExpect(tokenSymbol(TokenKind.ADDDATE, TokenKind.SUBDATE))),
     field("arguments", SyntaxKind.Expression2_Arguments),
 );
 
@@ -22,10 +22,10 @@ export const AddDateFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9746
  */
 export const CurrentDateFunctionCall = seq(
-    field("functionName", tokenSymbol(
+    field("functionName", cannotExpect(tokenSymbol(
         TokenKind.CURRENT_DATE,
         TokenKind.CURDATE,
-    )),
+    ))),
     field("arguments", optional(SyntaxKind.Empty_Arguments)),
 );
 
@@ -33,10 +33,10 @@ export const CurrentDateFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9750
  */
 export const CurrentTimeFunctionCall = seq(
-    field("functionName", tokenSymbol(
+    field("functionName", cannotExpect(tokenSymbol(
         TokenKind.CURRENT_TIME,
         TokenKind.CURTIME,
-    )),
+    ))),
     field("arguments", optional(SyntaxKind.DateTimePrecisionArg)),
 );
 
@@ -48,12 +48,12 @@ export const CurrentTimeFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9742
  */
 export const DateAddIntervalFunctionCall = seq(
-    field("functionName", tokenSymbol(
+    field("functionName", cannotExpect(tokenSymbol(
         TokenKind.DATE_ADD,
         TokenKind.DATE_SUB,
         TokenKind.ADDDATE,
         TokenKind.SUBDATE,
-    )),
+    ))),
     field("arguments", SyntaxKind.DateAddInterval_Arguments),
 );
 
@@ -61,7 +61,7 @@ export const DateAddIntervalFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9764
  */
 export const ExtractFunctionCall = seq(
-    field("functionName", TokenKind.EXTRACT),
+    field("functionName", cannotExpect(TokenKind.EXTRACT)),
     field("arguments", SyntaxKind.Extract_Arguments),
 );
 
@@ -69,7 +69,7 @@ export const ExtractFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9768
  */
 export const GetFormatFunctionCall = seq(
-    field("functionName", TokenKind.GET_FORMAT),
+    field("functionName", cannotExpect(TokenKind.GET_FORMAT)),
     field("arguments", SyntaxKind.GetFormat_Arguments),
 );
 
@@ -77,7 +77,7 @@ export const GetFormatFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9777
  */
 export const PositionFunctionCall = seq(
-    field("functionName", TokenKind.POSITION),
+    field("functionName", cannotExpect(TokenKind.POSITION)),
     field("arguments", SyntaxKind.Position_Arguments),
 );
 
@@ -85,11 +85,11 @@ export const PositionFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9789-L9801
  */
 export const SubstringFunctionCall = seq(
-    field("functionName", tokenSymbol(
+    field("functionName", cannotExpect(tokenSymbol(
         TokenKind.SUBSTRING,
         TokenKind.SUBSTR,
         TokenKind.MID,
-    )),
+    ))),
     field("arguments", SyntaxKind.Substring_Arguments),
 );
 
@@ -97,7 +97,7 @@ export const SubstringFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9805
  */
 export const SysDateFunctionCall = seq(
-    field("functionName", TokenKind.SYSDATE),
+    field("functionName", cannotExpect(TokenKind.SYSDATE)),
     field("arguments", SyntaxKind.DateTimePrecisionArg),
 );
 
@@ -105,7 +105,7 @@ export const SysDateFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9810-L9814
  */
 export const TimestampAddFunctionCall = seq(
-    field("functionName", TokenKind.TIMESTAMPADD),
+    field("functionName", cannotExpect(TokenKind.TIMESTAMPADD)),
     field("arguments", SyntaxKind.TimestampAdd_Arguments),
 );
 
@@ -113,7 +113,7 @@ export const TimestampAddFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9814
  */
 export const TimestampDiffFunctionCall = seq(
-    field("functionName", TokenKind.TIMESTAMPDIFF),
+    field("functionName", cannotExpect(TokenKind.TIMESTAMPDIFF)),
     field("arguments", SyntaxKind.TimestampDiff_Arguments),
 );
 
@@ -121,7 +121,7 @@ export const TimestampDiffFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9818
  */
 export const UtcDateFunctionCall = seq(
-    field("functionName", TokenKind.UTC_DATE),
+    field("functionName", cannotExpect(TokenKind.UTC_DATE)),
     field("arguments", optional(SyntaxKind.Empty_Arguments)),
 );
 
@@ -129,7 +129,7 @@ export const UtcDateFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9822
  */
 export const UtcTimeFunctionCall = seq(
-    field("functionName", TokenKind.UTC_TIME),
+    field("functionName", cannotExpect(TokenKind.UTC_TIME)),
     field("arguments", SyntaxKind.DateTimePrecisionArg),
 );
 
@@ -137,7 +137,7 @@ export const UtcTimeFunctionCall = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9826
  */
 export const UtcTimestampFunctionCall = seq(
-    field("functionName", TokenKind.UTC_TIMESTAMP),
+    field("functionName", cannotExpect(TokenKind.UTC_TIMESTAMP)),
     field("arguments", SyntaxKind.DateTimePrecisionArg),
 );
 

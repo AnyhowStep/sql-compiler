@@ -1,0 +1,3 @@
+SELECT a IN (b) REGEXP x
+-- This is, indeed, a syntax error
+-----
