@@ -1,0 +1,14 @@
+SELECT GET_FORMAT(DATE)
+-----
+`!
+          (expression: GetFormatFunctionCall[7, 23]
+            (functionName: GET_FORMAT[7, 17])
+            (arguments: GetFormat_Arguments[17, 23]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (format: DATE[18, 22])
+              (Expected commaToken[]: Comma[22, 22])
+              (Expected expression: Identifier[22, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`

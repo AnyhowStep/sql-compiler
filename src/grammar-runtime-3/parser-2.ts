@@ -63,6 +63,7 @@ export interface MyStateSet {
         startTokenIndex : number
     ) : MyState[];
     add (state : MyState) : void;
+    reopen (state : MyState) : void;
 
     hasOpenStates () : boolean;
     processLowestErrorCountStates (
@@ -73,6 +74,7 @@ export interface MyStateSet {
         tryGetState : TryGetStateDelegate,
         tryGetFinishedStates : TryGetFinishedStatesDelegate,
         addState : (state : MyState) => void,
+        reopenState : (state : MyState) => void,
         onCloseFinishedState : OnCloseFinishedStateDelegate,
     ) : void;
 
@@ -93,14 +95,17 @@ export interface MyStateSet {
         tokens : MyToken[],
         tryGetState : TryGetStateDelegate,
         addState : (state : MyState) => void
-    ) : void;
+    ) : number;
 
     getSkipUnexpectedCount () : number;
     canSkipUnexpected () : boolean;
     setSkipUnexpectedCount (count : number) : void;
     getSize () : number;
 
-    getResults (grammar : MyGrammar) : MyState[];
+    getResults (grammar : MyGrammar, startIndex : number) : MyState[];
+
+    getClosed () : readonly MyState[];
+    getOpened () : readonly MyState[];
 }
 
 export interface MyStateSetCollection {
@@ -541,7 +546,10 @@ class MyStateSetImpl implements MyStateSet {
     /**
      * These states have already been processed.
      */
-    private closed : MyState[] = [];
+    /**
+     * This should not be public. This is a hack.
+     */
+    public closed : MyState[] = [];
     private skipUnexpectedStartIndex = 0;
     private skipExpectationStartIndex = 0;
     private skipUnexpectedCount = 0;
@@ -615,6 +623,14 @@ class MyStateSetImpl implements MyStateSet {
         this.states.push(state);
     }
 
+    reopen (state : MyState) : void {
+        const index = this.closed.indexOf(state);
+        if (index >= 0) {
+            this.closed.splice(index, 1);
+            this.states.push(state);
+        }
+    }
+
     hasOpenStates () : boolean {
         return this.states.length > 0;
     }
@@ -627,6 +643,7 @@ class MyStateSetImpl implements MyStateSet {
         tryGetState : TryGetStateDelegate,
         tryGetFinishedStates : TryGetFinishedStatesDelegate,
         addState : (state : MyState) => void,
+        reopenState : (state : MyState) => void,
         onCloseFinishedState : OnCloseFinishedStateDelegate,
     ) : void {
         /**
@@ -647,7 +664,8 @@ class MyStateSetImpl implements MyStateSet {
                     getStatesExpecting,
                     tryGetState,
                     tryGetFinishedStates,
-                    addState
+                    addState,
+                    reopenState
                 );
                 if (completedAllExpecting) {
                     this.states.splice(index, 1);
@@ -659,7 +677,7 @@ class MyStateSetImpl implements MyStateSet {
             } else {
                 const expect = state.rule.symbols[state.dot];
                 if (typeof expect == "string") {
-                    const hasAllNextState = predict(maxErrorCount, grammar, tokens, state, expect, tryGetState, tryGetFinishedStates, addState);
+                    const hasAllNextState = predict(maxErrorCount, grammar, tokens, state, expect, tryGetState, tryGetFinishedStates, addState, reopenState);
                     if (hasAllNextState) {
                         this.states.splice(index, 1);
                         this.closed.push(state);
@@ -716,7 +734,7 @@ class MyStateSetImpl implements MyStateSet {
         tokens : MyToken[],
         tryGetState : TryGetStateDelegate,
         addState : (state : MyState) => void
-    ) : void {
+    ) : number {
         /**
          * Will modify the `this.closed` array
          */
@@ -728,7 +746,9 @@ class MyStateSetImpl implements MyStateSet {
             addState,
             this.skipExpectationStartIndex
         );
+        const foundCount = newSkipExpectationStartIndex - this.skipExpectationStartIndex;
         this.skipExpectationStartIndex = newSkipExpectationStartIndex;
+        return foundCount;
     }
 
     getSkipUnexpectedCount () : number {
@@ -741,12 +761,12 @@ class MyStateSetImpl implements MyStateSet {
         this.skipUnexpectedCount = count;
     }
 
-    getResults (grammar : MyGrammar) : MyState[] {
+    getResults (grammar : MyGrammar, startIndex : number) : MyState[] {
         return [
             ...this.closed
                 .filter((state) => {
                     return (
-                        state.startTokenIndex == 0 &&
+                        state.startTokenIndex == startIndex &&
                         isFinished(state) &&
                         state.rule.name == grammar.start
                     );
@@ -754,12 +774,20 @@ class MyStateSetImpl implements MyStateSet {
             ...this.states
                 .filter((state) => {
                     return (
-                        state.startTokenIndex == 0 &&
+                        state.startTokenIndex == startIndex &&
                         isFinished(state) &&
                         state.rule.name == grammar.start
                     );
                 }),
         ];
+    }
+
+    getClosed () {
+        return this.closed;
+    }
+
+    getOpened () {
+        return this.states;
     }
 }
 
@@ -1082,6 +1110,30 @@ export function offsetStateTokenIndex (state : MyState, offset : number) : MySta
     };
 }
 
+function expectsCloseParenthesesAtEnd (grammar : MyGrammar, state : MyState) {
+    if (state.dot != 0) {
+        return false;
+    }
+    const symbol = state.rule.symbols[state.rule.symbols.length-1];
+    if (typeof symbol != "string") {
+        return symbol.tokenKind == "CloseParentheses";
+    }
+
+    const lastRules = grammar.byName[symbol];
+    if (lastRules.length != 1) {
+        return false;
+    }
+    const lastRule = lastRules[0];
+    if (lastRule.symbols.length != 1) {
+        return false;
+    }
+    const lastRuleSymbol = lastRule.symbols[0];
+    if (typeof lastRuleSymbol == "string") {
+        return false;
+    }
+    return lastRuleSymbol.tokenKind == "CloseParentheses";
+}
+
 export function complete2 (
     grammar : MyGrammar,
     tokens : MyToken[],
@@ -1089,8 +1141,23 @@ export function complete2 (
     other : MyState,
     tryGetState : TryGetStateDelegate,
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
-    addState : (state : MyState) => void
+    addState : (state : MyState) => void,
+    reopenState : (state : MyState) => void,
 ) {
+    const stateIsOpenParentheses = (
+        state.data.children.length == 1 &&
+        "tokenKind" in state.data.children[0] &&
+        state.data.children[0].tokenKind == "OpenParentheses" &&
+        (
+            state.data.children[0].errorKind == undefined //||
+            //state.data.children[0].errorKind == "Expected"
+        )
+    );
+    const otherExpectsMatchingCloseParentheses = (
+        stateIsOpenParentheses &&
+        expectsCloseParenthesesAtEnd(grammar, other)
+    );
+
     const nextIdent = other.ident + "-" + state.ident;
 
     const isExtra = grammar.allExtrasSubRuleNames.has(state.rule.name);
@@ -1339,6 +1406,31 @@ export function complete2 (
                     existing.errorCount = errorCount;
                     existing.pushEdge.clear();
                     existing.pushEdge.set(other, [state]);
+                    //TODO
+                    /**
+                     * Without processing `existing` again,
+                     *
+                     * 1. A expects B
+                     * 2. B expects C1 | C2
+                     * 3. C1 completes
+                     * 4. B takes C1
+                     * 5. B completes
+                     * 6. A takes B
+                     * 7. A completes
+                     * 8. C2 completes with fewer errors
+                     * 9. B replaces C1 pushEdge with C2
+                     * 10. But B is never processed again, and A is never processed again.
+                     *
+                     * Therefore, we need to process `B` again with this new info.
+                     */
+                    const lastToken = tryGetLastToken(state.data);
+                    if (lastToken?.tokenKind == "CloseParentheses"/* && lastToken.errorKind == undefined*/) {
+                        reopenState(existing);
+                    } else if (state.data.children.length == 0) {
+                        //reopenState(existing);
+                    } else {
+                        //reopenState(existing);
+                    }
                 }
                 return;
             }
@@ -1366,6 +1458,18 @@ export function complete2 (
 
             ++addStateComplete2;
             addState(nextState);
+            if (otherExpectsMatchingCloseParentheses) {
+                parseMatchingCloseParentheses(
+                    grammar,
+                    tokens,
+                    state,
+                    other,
+                    nextState,
+                    tryGetState,
+                    tryGetFinishedStates,
+                    addState
+                );
+            }
             return;
         }
     }
@@ -1392,6 +1496,31 @@ export function complete2 (
             existing.errorCount = errorCount;
             existing.pushEdge.clear();
             existing.pushEdge.set(other, [state]);
+            //TODO
+            /**
+             * Without processing `existing` again,
+             *
+             * 1. A expects B
+             * 2. B expects C1 | C2
+             * 3. C1 completes
+             * 4. B takes C1
+             * 5. B completes
+             * 6. A takes B
+             * 7. A completes
+             * 8. C2 completes with fewer errors
+             * 9. B replaces C1 pushEdge with C2
+             * 10. But B is never processed again, and A is never processed again.
+             *
+             * Therefore, we need to process `B` again with this new info.
+             */
+            const lastToken = tryGetLastToken(state.data);
+            if (lastToken?.tokenKind == "CloseParentheses"/* && lastToken.errorKind == undefined*/) {
+                reopenState(existing);
+            } else if (state.data.children.length == 0) {
+                //reopenState(existing);
+            } else {
+                //reopenState(existing);
+            }
         }
         return;
     }
@@ -1411,6 +1540,131 @@ export function complete2 (
 
     ++addStateComplete2;
     addState(nextState);
+    if (otherExpectsMatchingCloseParentheses) {
+        parseMatchingCloseParentheses(
+            grammar,
+            tokens,
+            state,
+            other,
+            nextState,
+            tryGetState,
+            tryGetFinishedStates,
+            addState
+        );
+    }
+}
+
+function findMatchingCloseParentheses (
+    tokens : MyToken[],
+    startIndex : number
+) : number|undefined {
+    let openCount = 0;
+
+    for (let i=startIndex; i<tokens.length; ++i) {
+        const tokenKind = tokens[i].tokenKind;
+        if (tokenKind == "OpenParentheses") {
+            ++openCount;
+        }
+        if (tokenKind == "CloseParentheses") {
+            --openCount;
+            if (openCount <= 0) {
+                return i;
+            }
+        }
+    }
+
+    return undefined;
+}
+
+function parseMatchingCloseParentheses (
+    grammar : MyGrammar,
+    tokens : MyToken[],
+    state : MyState,
+    other : MyState,
+    nextState : MyState,
+    tryGetState : TryGetStateDelegate,
+    tryGetFinishedStates : TryGetFinishedStatesDelegate,
+    addState : (state : MyState) => void
+) {
+    tryGetFinishedStates;
+
+    const startIndex = other.tokenIndex;
+    const endIndex = findMatchingCloseParentheses(tokens, startIndex);
+    if (endIndex == undefined) {
+        return;
+    }
+    const tmpStateSets = new Map<number, MyStateSet>();
+    {
+        const tmpStateSet = new MyStateSetImpl();
+        tmpStateSet.add(other);
+        tmpStateSets.set(other.tokenIndex, tmpStateSet);
+    }
+    {
+        if (state.tokenIndex != nextState.tokenIndex) {
+            throw new Error(`Expected to have same tokenIndex`);
+        }
+        const tmpStateSet = new MyStateSetImpl();
+        /**
+         * Pushing directly to closed is a hack.
+         */
+        tmpStateSet.closed.push(state);
+        tmpStateSet.add(nextState);
+        tmpStateSets.set(state.tokenIndex, tmpStateSet);
+    }
+
+    const results = parse(
+        {
+            ...grammar,
+            start : nextState.rule.name,
+        },
+        tokens,
+        startIndex,
+        endIndex+1,
+        tmpStateSets
+    );
+
+    const arr = [...tmpStateSets];
+    arr.sort((a, b) => {
+        return a[0] - b[0];
+    });
+
+    for (const [_tokenIndex, tmpStateSet] of arr) {
+        for (const state of tmpStateSet.getClosed()) {
+            if (tryGetState(
+                state.rule,
+                state.dot,
+                state.tokenIndex,
+                state.startTokenIndex,
+                state.ident
+            ) == undefined) {
+                addState(state);
+            }
+        }
+
+        for (const state of tmpStateSet.getOpened()) {
+            if (tryGetState(
+                state.rule,
+                state.dot,
+                state.tokenIndex,
+                state.startTokenIndex,
+                state.ident
+            ) == undefined) {
+                addState(state);
+            }
+        }
+    }
+
+    for (const result of results) {
+        if (tryGetState(
+            result.rule,
+            result.dot,
+            result.tokenIndex,
+            result.startTokenIndex,
+            result.ident
+        ) == undefined) {
+            addState(result);
+        }
+    }
 }
 
 /**
@@ -1424,7 +1678,8 @@ export function complete (
     getStatesExpecting : GetStatesExpectingDelegate,
     tryGetState : TryGetStateDelegate,
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
-    addState : (state : MyState) => void
+    addState : (state : MyState) => void,
+    reopenState : (state : MyState) => void,
 ) : boolean {
     const expecting = getStatesExpecting(state.startTokenIndex, state.rule.name);
     for (const other of expecting) {
@@ -1435,7 +1690,8 @@ export function complete (
             other,
             tryGetState,
             tryGetFinishedStates,
-            addState
+            addState,
+            reopenState
         );
     }
 
@@ -1451,7 +1707,8 @@ export function predictRule (
     rule : MyRule,
     tryGetState : TryGetStateDelegate,
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
-    addState : (state : MyState) => void
+    addState : (state : MyState) => void,
+    reopenState : (state : MyState) => void,
 ) : boolean {
     const existing = tryGetState(rule, 0, state.tokenIndex, state.tokenIndex, rule.runTimeId.toString());
     const hasExisting = existing != undefined;
@@ -1477,7 +1734,8 @@ export function predictRule (
                 state,
                 tryGetState,
                 tryGetFinishedStates,
-                addState
+                addState,
+                reopenState,
             );
         }
 
@@ -1534,7 +1792,8 @@ export function earleyPredict (
     expect : string,
     tryGetState : TryGetStateDelegate,
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
-    addState : (state : MyState) => void
+    addState : (state : MyState) => void,
+    reopenState : (state : MyState) => void,
 ) : boolean {
     let hasAllNextState = true;
     const rules = grammar.byName[expect];
@@ -1549,7 +1808,8 @@ export function earleyPredict (
             rule,
             tryGetState,
             tryGetFinishedStates,
-            addState
+            addState,
+            reopenState
         );
         hasAllNextState = hasAllNextState && hasNextState;
     }
@@ -1565,7 +1825,8 @@ export function predict (
     expect : string,
     tryGetState : TryGetStateDelegate,
     tryGetFinishedStates : TryGetFinishedStatesDelegate,
-    addState : (state : MyState) => void
+    addState : (state : MyState) => void,
+    reopenState : (state : MyState) => void,
 ) : boolean {
     return earleyPredict(
         maxErrorCount,
@@ -1575,7 +1836,8 @@ export function predict (
         expect,
         tryGetState,
         tryGetFinishedStates,
-        addState
+        addState,
+        reopenState
     );
 }
 
@@ -1825,9 +2087,10 @@ function blah (
 
 export function getResults2 (
     grammar : MyGrammar,
-    resultStateSet : MyStateSet
+    resultStateSet : MyStateSet,
+    startIndex : number
 ) {
-    const resultStates = resultStateSet.getResults(grammar);
+    const resultStates = resultStateSet.getResults(grammar, startIndex);
     const minErrorCount = resultStates.reduce(
         (min, cur) => Math.min(min, cur.errorCount),
         Infinity
@@ -1841,9 +2104,10 @@ export function getResults2 (
 
 export function getResults (
     grammar : MyGrammar,
-    resultStateSet : MyStateSet
+    resultStateSet : MyStateSet,
+    startIndex : number
 ) {
-    const resultStates = resultStateSet.getResults(grammar);
+    const resultStates = resultStateSet.getResults(grammar, startIndex);
     const arr : MyState[] = [];
     for (const state of resultStates) {
         arr.push(...blah(grammar, state, 0, new Set()));
@@ -1860,10 +2124,15 @@ export function getResults (
 
 export function parse (
     grammar : MyGrammar,
-    tokens : MyToken[]
+    tokens : MyToken[],
+    startIndex = 0,
+    endIndex = tokens.length,
+    stateSetsInit = new Map<number, MyStateSet>()
 ) : MyState[] {
-    const stateSets = new Map<number, MyStateSet>();
-    stateSets.set(0, makeStateSet0(grammar));
+    const stateSets = stateSetsInit;
+    if (startIndex == 0 && !stateSets.has(0)) {
+        stateSets.set(0, makeStateSet0(grammar));
+    }
 
     function getStatesExpecting (tokenIndex : number, expect : string) : MyState[] {
         let stateSet = stateSets.get(tokenIndex);
@@ -1929,6 +2198,11 @@ export function parse (
         const stateSet = stateSets.get(state.tokenIndex);
         if (stateSet == undefined) {
             const x = new MyStateSetImpl();
+            const prv = stateSets.get(state.tokenIndex-1);
+            if (prv != undefined) {
+                //TODO Is this correct?
+                x.setSkipUnexpectedCount(prv.getSkipUnexpectedCount());
+            }
             x.add(state);
             stateSets.set(state.tokenIndex, x);
             return;
@@ -1937,11 +2211,20 @@ export function parse (
         stateSet.add(state);
     }
 
+    function reopenState (state : MyState) {
+        const stateSet = stateSets.get(state.tokenIndex);
+        if (stateSet == undefined) {
+            throw new Error(`State set ${state.tokenIndex} not found`);
+        }
+
+        stateSet.reopen(state);
+    }
+
     let redoCount = 0;
     let lastRedoAt = -1;
     let returnAtRedoCount : undefined|number = undefined;
     //eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i=0; i<=tokens.length; ++i) {
+    for (let i=startIndex; i<=endIndex; ++i) {
         const stateSet = stateSets.get(i);
         if (stateSet == undefined) {
             throw new Error(`Unable to find state set for ${i}`);
@@ -1991,16 +2274,17 @@ export function parse (
             tryGetState,
             tryGetFinishedStates,
             addState,
+            reopenState,
             onCloseFinishedState
         );
 
-        if (i == tokens.length) {
+        if (i == endIndex) {
             const result = (
                 returnAtRedoCount == undefined ?
-                getResults(grammar, stateSet) :
+                getResults(grammar, stateSet, startIndex) :
                 redoCount < returnAtRedoCount ?
                 [] :
-                getResults(grammar, stateSet)
+                getResults(grammar, stateSet, startIndex)
             );
             if (result.length > 0 && returnAtRedoCount == undefined) {
                 //TODO Figure ou thow to increase this without making time complexity explode
@@ -2035,17 +2319,39 @@ export function parse (
                 //     );
                 // }
 
-                for (let j=0; j<=i; ++j) {
+                for (let j=startIndex; j<=i; ++j) {
                     const tmp = stateSets.get(j);
                     if (tmp == undefined) {
                         throw new Error(`State ${j} should be set`);
                     }
-                    tmp.eagerSkipExpectation(
+                    const foundCount = tmp.eagerSkipExpectation(
                         grammar,
                         tokens,
                         tryGetState,
                         addState
                     );
+                    if (foundCount > 0) {
+                        tmp.processLowestErrorCountStates(
+                            redoCount,
+                            grammar,
+                            tokens,
+                            getStatesExpecting,
+                            tryGetState,
+                            tryGetFinishedStates,
+                            addState,
+                            reopenState,
+                            onCloseFinishedState
+                        );
+                        const tmp2 = stateSets.get(j+1);
+                        if (tmp2 != undefined && j+1 < endIndex) {
+                            tmp2.skipUnexpected(
+                                grammar,
+                                tokens,
+                                tryGetState,
+                                addState
+                            );
+                        }
+                    }
                 }
 
                 stateSet.skipExpectation(
@@ -2056,7 +2362,7 @@ export function parse (
                 );
 
                 for (let count=redoCount; count>=0; --count) {
-                    const tmp = findLastSkippableStateSetWithSkipUnexpectedCount(stateSets, count, i-1);
+                    const tmp = findLastSkippableStateSetWithSkipUnexpectedCount(stateSets, count, i-1, startIndex);
                     if (tmp == undefined) {
                         continue;
                     }
@@ -2074,12 +2380,10 @@ export function parse (
                     );
                 }
 
-                //Start from zero
+                //Start from startIndex
                 lastRedoAt = i;
-                i = -1;
+                i = startIndex-1;
                 ++redoCount;
-                //Go back to previous token
-                //i -= 2;
                 continue;
             }
         }
@@ -2111,21 +2415,43 @@ export function parse (
             //         addState
             //     );
             // }
-            for (let j=0; j<=i; ++j) {
+            for (let j=startIndex; j<=i; ++j) {
                 const tmp = stateSets.get(j);
                 if (tmp == undefined) {
                     throw new Error(`State ${j} should be set`);
                 }
-                tmp.eagerSkipExpectation(
+                const foundCount = tmp.eagerSkipExpectation(
                     grammar,
                     tokens,
                     tryGetState,
                     addState
                 );
+                if (foundCount > 0) {
+                    tmp.processLowestErrorCountStates(
+                        redoCount,
+                        grammar,
+                        tokens,
+                        getStatesExpecting,
+                        tryGetState,
+                        tryGetFinishedStates,
+                        addState,
+                        reopenState,
+                        onCloseFinishedState
+                    );
+                    const tmp2 = stateSets.get(j+1);
+                    if (tmp2 != undefined && j+1 < endIndex) {
+                        tmp2.skipUnexpected(
+                            grammar,
+                            tokens,
+                            tryGetState,
+                            addState
+                        );
+                    }
+                }
             }
 
             for (let count=redoCount; count>=0; --count) {
-                const tmp = findLastSkippableStateSetWithSkipUnexpectedCount(stateSets, count, i);
+                const tmp = findLastSkippableStateSetWithSkipUnexpectedCount(stateSets, count, i, startIndex);
                 if (tmp == undefined) {
                     continue;
                 }
@@ -2143,12 +2469,10 @@ export function parse (
                 );
             }
 
-            //Start from zero
+            //Start from startIndex
             lastRedoAt = i;
-            i = -1;
+            i = startIndex-1;
             ++redoCount;
-            //Go back to previous token
-            //i -= 2;
             continue;
         }
     }
@@ -2214,6 +2538,9 @@ export function skipUnexpected (
             continue;
         }
 
+        if (skippedToken == undefined) {
+            debugger;
+        }
         if (grammar.cannotUnexpect.has(skippedToken.tokenKind)) {
             continue;
         }
@@ -2411,6 +2738,18 @@ export function getLastToken (node : MySyntaxNode) : MyToken {
         return child;
     } else {
         return getLastToken(child);
+    }
+}
+
+export function tryGetLastToken (node : MySyntaxNode) : MyToken|undefined {
+    if (node.children.length == 0) {
+        return undefined;
+    }
+    const child = node.children[node.children.length-1];
+    if ("tokenKind" in child) {
+        return child;
+    } else {
+        return tryGetLastToken(child);
     }
 }
 
@@ -2749,9 +3088,10 @@ export function eagerSkipExpectation (
 export function findLastSkippableStateSetWithSkipUnexpectedCount (
     stateSets : Map<number, MyStateSet>,
     count : number,
-    startIndex : number
+    startIndex : number,
+    minIndex : number
 ) : MyStateSet|undefined {
-    for (let index=startIndex; index>=0; --index) {
+    for (let index=startIndex; index>=minIndex; --index) {
         const stateSet = stateSets.get(index);
         if (stateSet == undefined) {
             throw new Error(`No state set ${index}`);
@@ -2775,9 +3115,10 @@ export function findLastSkippableStateSetWithSkipUnexpectedCount (
 export function findFirstSkippableStateSetWithSkipUnexpectedCount (
     stateSets : Map<number, MyStateSet>,
     count : number,
-    endIndex : number
+    endIndex : number,
+    minIndex : number
 ) : MyStateSet|undefined {
-    for (let index=0; index<=endIndex; ++index) {
+    for (let index=minIndex; index<=endIndex; ++index) {
         const stateSet = stateSets.get(index);
         if (stateSet == undefined) {
             throw new Error(`No state set ${index}`);

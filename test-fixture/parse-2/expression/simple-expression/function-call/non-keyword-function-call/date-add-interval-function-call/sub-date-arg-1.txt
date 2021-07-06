@@ -1,0 +1,22 @@
+SELECT SUBDATE (a, INTERVAL 1 DAY)
+-----
+`!
+          (expression: DateAddIntervalFunctionCall[7, 34]
+            (functionName: SUBDATE[7, 14])
+            (WhiteSpace[14, 15])
+            (arguments: DateAddInterval_Arguments[15, 34]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (expression: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (intervalExpression: IntervalExpression[19, 33]
+                (intervalToken: INTERVAL[19, 27])
+                (WhiteSpace[27, 28])
+                (expression: IntegerLiteral[28, 29])
+                (WhiteSpace[29, 30])
+                (temporalUnit: DAY[30, 33])
+              )
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`

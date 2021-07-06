@@ -314,7 +314,7 @@ SELECT a IN (SELECT b) SOUNDS LIKE x
 -- This is, indeed, a syntax error
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 29]
+        (item[]: ExpressionSelectItem[7, 22]
           (expression: InSubQueryPredicate[7, 22]
             (expression: Identifier[7, 8])
             (WhiteSpace[8, 9])
@@ -334,16 +334,17 @@ SELECT a IN (SELECT b) SOUNDS LIKE x
               (closeParenthesesToken: CloseParentheses[21, 22])
             )
           )
-          (WhiteSpace[22, 23])
-          (alias: Alias[23, 29]
-            (alias: SOUNDS[23, 29])
-          )
         )
-        (WhiteSpace[29, 30])
-        (Expected commaToken[]: Comma[30, 34])
-        (WhiteSpace[34, 35])
-        (item[]: ExpressionSelectItem[35, 36]
-          (expression: Identifier[35, 36])
+        (Expected commaToken[]: Comma[22, 22])
+        (WhiteSpace[22, 23])
+        (item[]: ExpressionSelectItem[23, 36]
+          (expression: LikePredicate[23, 36]
+            (left: SOUNDS[23, 29])
+            (WhiteSpace[29, 30])
+            (likeToken: LIKE[30, 34])
+            (WhiteSpace[34, 35])
+            (right: Identifier[35, 36])
+          )
         )
 !`
 -----
@@ -351,7 +352,7 @@ SELECT a IN (b) SOUNDS LIKE x
 -- This is, indeed, a syntax error
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 22]
+        (item[]: ExpressionSelectItem[7, 15]
           (expression: InExpressionTuple1Predicate[7, 15]
             (expression: Identifier[7, 8])
             (WhiteSpace[8, 9])
@@ -363,16 +364,17 @@ SELECT a IN (b) SOUNDS LIKE x
               (closeParenthesesToken: CloseParentheses[14, 15])
             )
           )
-          (WhiteSpace[15, 16])
-          (alias: Alias[16, 22]
-            (alias: SOUNDS[16, 22])
-          )
         )
-        (WhiteSpace[22, 23])
-        (Expected commaToken[]: Comma[23, 27])
-        (WhiteSpace[27, 28])
-        (item[]: ExpressionSelectItem[28, 29]
-          (expression: Identifier[28, 29])
+        (Expected commaToken[]: Comma[15, 15])
+        (WhiteSpace[15, 16])
+        (item[]: ExpressionSelectItem[16, 29]
+          (expression: LikePredicate[16, 29]
+            (left: SOUNDS[16, 22])
+            (WhiteSpace[22, 23])
+            (likeToken: LIKE[23, 27])
+            (WhiteSpace[27, 28])
+            (right: Identifier[28, 29])
+          )
         )
 !`
 -----
