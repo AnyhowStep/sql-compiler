@@ -465,7 +465,7 @@ export const identifierOrReserved = tokenSymbol2(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9610
  */
-const keywordFunctionCall_FunctionName = new Set<string>([
+export const keywordFunctionCall_FunctionName = new Set<string>([
     TokenKind.CHAR,
     TokenKind.CHARACTER,
     TokenKind.CURRENT_USER,
@@ -497,7 +497,7 @@ const keywordFunctionCall_FunctionName = new Set<string>([
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9737
  */
-const nonKeywordFunctionCall_FunctionName = new Set<string>([
+ export const nonKeywordFunctionCall_FunctionName = new Set<string>([
     TokenKind.ADDDATE,
     TokenKind.CURRENT_DATE,
     TokenKind.CURDATE,
@@ -524,15 +524,20 @@ const nonKeywordFunctionCall_FunctionName = new Set<string>([
     TokenKind.UTC_TIMESTAMP,
 ]);
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13112
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9994
+ */
 export const maybeUserDefinedFunctionCall_FunctionName = tokenSymbol(
     TokenKind.Identifier,
     TokenKind.DoubleQuotedLiteral,
-    ...getTokenKinds(keyword).filter(
+    /*...getTokenKinds(keyword).filter(
         tokenKind => (
             !keywordFunctionCall_FunctionName.has(tokenKind) &&
             !nonKeywordFunctionCall_FunctionName.has(tokenKind)
         )
-    ),
+    ),*/
 );
 
 /**
@@ -601,6 +606,11 @@ export const ulonglong_num = tokenSymbol(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L11009
  */
 export const real_ulonglong_num = TokenKind.IntegerLiteral;
+
+export const char = tokenSymbol(
+    TokenKind.CHAR,
+    TokenKind.CHARACTER,
+);
 
 export const itemSeparator =  skipExpectationAfterExtraCost(
     0.1,

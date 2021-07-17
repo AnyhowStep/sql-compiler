@@ -26,8 +26,14 @@ export interface FieldLengthCheck {
     maxLength : number|null,
 }
 
+export interface FieldRequiredCheck {
+    type : "FieldRequiredCheck",
+    field : string,
+}
+
 export type FieldCheck =
     | FieldLengthCheck
+    | FieldRequiredCheck
 ;
 
 export interface MyRule {
@@ -38,13 +44,16 @@ export interface MyRule {
     precedence : number;
     penalizeErrorStart : boolean;
     allowedSyntaxKinds : string[] | undefined;
+    disallowedSyntaxKinds : string[] | undefined;
     fieldCheckArr : FieldCheck[] | undefined;
+    greedySkipExpectation : boolean;
 }
 
 export interface MyGrammar {
     tokens : Set<string>;
     extras : Set<string>;
     lineBreakToken : string;
+    singleLineCommentToken : string;
     customExtras : Record<string, Set<string>>;
     cannotUnexpect : Set<string>;
 
@@ -96,6 +105,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
     const tokens = new Set<string>(compiled.tokens);
     const extras = new Set<string>(compiled.extras);
     const lineBreakToken = compiled.lineBreakToken;
+    const singleLineCommentToken = compiled.singleLineCommentToken;
     const customExtras = fromEntries(
         Object.entries(compiled.customExtras).map(([extrasName, tokens]) => {
             return [
@@ -135,6 +145,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
             ...rule,
             runTimeId : ++runTimeId,
             allowedSyntaxKinds : rule.allowedSyntaxKinds,
+            disallowedSyntaxKinds : rule.disallowedSyntaxKinds,
             fieldCheckArr : rule.fieldCheckArr,
         });
         ruleRunTimeId2Precedence.push(rule.precedence);
@@ -146,6 +157,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
         tokens,
         extras,
         lineBreakToken,
+        singleLineCommentToken,
         customExtras,
         cannotUnexpect,
 

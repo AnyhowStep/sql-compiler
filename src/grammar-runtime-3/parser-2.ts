@@ -1,5 +1,5 @@
 import {CompiledShape} from "../compiled-grammar";
-import {FieldCheck, FieldLengthCheck, MyGrammar, MyRule, MyTokenSymbol} from "./grammar";
+import {FieldCheck, FieldLengthCheck, FieldRequiredCheck, MyGrammar, MyRule, MyTokenSymbol} from "./grammar";
 import {Fields, MySyntaxNode, MyToken, MyToken2} from "./syntax-node";
 
 let addStateScan = 0;
@@ -114,7 +114,7 @@ export interface MyStateSetCollection {
     ) : MyState|undefined;
 }
 
-export function acceptsToken (expect : MyTokenSymbol, token : MyToken) {
+export function acceptsToken (expect : MyTokenSymbol, token : Pick<MyToken, "tokenKind">) {
     if (expect.tokenKind == token.tokenKind) {
         return true;
     }
@@ -256,6 +256,13 @@ export function isValidFieldLength (
     return true;
 }
 
+export function isValidFieldRequired (
+    _fieldCheck : FieldRequiredCheck,
+    value : Fields[string]
+) {
+    return value != undefined;
+}
+
 export function doFieldChecks (rule : MyRule, node : MySyntaxNode) : MySyntaxNode {
     if (rule.fieldCheckArr == undefined || rule.fieldCheckArr.length == 0) {
         return node;
@@ -264,8 +271,17 @@ export function doFieldChecks (rule : MyRule, node : MySyntaxNode) : MySyntaxNod
     const fieldErrors : FieldCheck[] = [];
     for (const fieldCheck of rule.fieldCheckArr) {
         const value = node.fields[fieldCheck.field];
-        if (!isValidFieldLength(fieldCheck, value)) {
-            fieldErrors.push(fieldCheck);
+        switch (fieldCheck.type) {
+            case "FieldLengthCheck":
+                if (!isValidFieldLength(fieldCheck, value)) {
+                    fieldErrors.push(fieldCheck);
+                }
+                break;
+            case "FieldRequiredCheck":
+                if (!isValidFieldRequired(fieldCheck, value)) {
+                    fieldErrors.push(fieldCheck);
+                }
+                break;
         }
     }
 
@@ -330,21 +346,36 @@ export function pushChild (grammar : MyGrammar, parent : MySyntaxNode, child : M
     }
 }
 
+function allowed (
+    kind : string,
+    allowedSyntaxKinds : string[] | undefined,
+    disallowedSyntaxKinds : string[] | undefined
+) {
+    if (allowedSyntaxKinds != undefined && !allowedSyntaxKinds.includes(kind)) {
+        return false;
+    }
+
+    if (disallowedSyntaxKinds != undefined && disallowedSyntaxKinds.includes(kind)) {
+        return false;
+    }
+
+    return true;
+}
+
 export function inlineChild (
     grammar : MyGrammar,
     parent : MySyntaxNode,
     child : MySyntaxNode,
-    allowedSyntaxKinds : string[] | undefined
+    allowedSyntaxKinds : string[] | undefined,
+    disallowedSyntaxKinds : string[] | undefined
 ) : MySyntaxNode {
     const childLabel = grammar.ruleName2Label[child.syntaxKind];
     const parentShape = grammar.ruleName2Shape[grammar.ruleName2Alias[parent.syntaxKind] ?? parent.syntaxKind];
 
     const childChildren = (
-        allowedSyntaxKinds == undefined ?
-        child.children :
         child.children.map((c) : MySyntaxNode|MyToken2 => {
             if ("tokenKind" in c) {
-                if (allowedSyntaxKinds.includes(c.tokenKind)) {
+                if (allowed(c.tokenKind, allowedSyntaxKinds, disallowedSyntaxKinds)) {
                     return c;
                 }
                 if (grammar.extras.has(c.tokenKind)) {
@@ -361,7 +392,7 @@ export function inlineChild (
                     expectedTokenKind : undefined,
                 };
             } else {
-                if (allowedSyntaxKinds.includes(c.syntaxKind)) {
+                if (allowed(c.syntaxKind, allowedSyntaxKinds, disallowedSyntaxKinds)) {
                     return c;
                 }
                 if (c.errorKind != undefined) {
@@ -671,6 +702,17 @@ class MyStateSetImpl implements MyStateSet {
                     this.closed.push(state);
 
                     scan(state, tokens, expect, tryGetState, addState);
+
+                    if (state.rule.greedySkipExpectation) {
+                        skipExpectation(
+                            grammar,
+                            tokens,
+                            [state],
+                            tryGetState,
+                            addState,
+                            0
+                        );
+                    }
                 }
             }
         }
@@ -893,9 +935,7 @@ export function complete3 (
         ),
         syntaxKind : stateDataSyntaxKind,
         errorKind : (
-            state.rule.allowedSyntaxKinds == undefined ?
-            undefined :
-            state.rule.allowedSyntaxKinds.includes(state.data.syntaxKind) ?
+            allowed(state.data.syntaxKind, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) ?
             undefined :
             "Unexpected"
         ),
@@ -907,13 +947,13 @@ export function complete3 (
     );
     const nextData = (
         shouldInline ?
-        inlineChild(grammar, other.data, stateData, state.rule.allowedSyntaxKinds) :
+        inlineChild(grammar, other.data, stateData, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) :
         pushChild(grammar, other.data, stateData)
     );
 
     const firstToken = tryGetFirstToken(stateData);
 
-    let errorCount = other.errorCount + state.errorCount;
+    let errorCount = other.errorCount + state.errorCount + (stateData.syntaxKind == "Missing" ? Math.max(stateData.children.length, 1) : 0);
 
     const lastChild = other.data.children[other.data.children.length-1];
     if (
@@ -958,6 +998,7 @@ export function complete3 (
 
         if (
             "tokenKind" in firstChild &&
+            lastToken != undefined &&
             lastToken.errorKind == "Expected" &&
             firstChild.errorKind == "Unexpected" &&
             lastToken.start == lastToken.end &&
@@ -983,29 +1024,36 @@ export function complete3 (
                 startTokenIndex : firstChild.tokenIndex+1,
             };
 
-            const newNextData = (
-                shouldInline ?
-                inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds) :
-                pushChild(grammar, newOtherData, newStateData)
-            );
-            //Combined two errors into one
-            errorCount -= 1;
+            try {
+                const newNextData = (
+                    shouldInline ?
+                    inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) :
+                    pushChild(grammar, newOtherData, newStateData)
+                );
+                //Combined two errors into one
+                errorCount -= 1;
 
-            const nextState : MyState = {
-                rule : other.rule,
-                dot : other.dot+1,
-                tokenIndex : state.tokenIndex,
-                startTokenIndex : other.startTokenIndex,
+                const nextState : MyState = {
+                    rule : other.rule,
+                    dot : other.dot+1,
+                    tokenIndex : state.tokenIndex,
+                    startTokenIndex : other.startTokenIndex,
 
-                data : doFieldChecks(other.rule, newNextData),
-                errorCount,
+                    data : doFieldChecks(other.rule, newNextData),
+                    errorCount,
 
-                ident : nextIdent,
+                    ident : nextIdent,
 
-                pushEdge : new Map<MyState, MyState[]>([[other, [state]]]),
-            };
+                    pushEdge : new Map<MyState, MyState[]>([[other, [state]]]),
+                };
 
-            return nextState;
+                return nextState;
+            } catch (err) {
+                const message : string = String(err.message);
+                if (!message.includes("children; but field is required")) {
+                    throw err;
+                }
+            }
         }
     }
 
@@ -1186,7 +1234,7 @@ export function complete2 (
     );
     const nextData = (
         shouldInline ?
-        inlineChild(grammar, other.data, stateData, state.rule.allowedSyntaxKinds) :
+        inlineChild(grammar, other.data, stateData, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) :
         pushChild(grammar, other.data, stateData)
     );
 
@@ -1275,6 +1323,7 @@ export function complete2 (
 
         if (
             "tokenKind" in firstChild &&
+            lastToken != undefined &&
             lastToken.errorKind == "Expected" &&
             firstChild.errorKind == "Unexpected" &&
             lastToken.start == lastToken.end &&
@@ -1346,7 +1395,7 @@ export function complete2 (
 
             const newNextData = (
                 shouldInline ?
-                inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds) :
+                inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) :
                 pushChild(grammar, newOtherData, newStateData)
             );
 
@@ -2046,6 +2095,16 @@ export function parse (
                         tryGetState,
                         addState
                     );
+
+                    if (
+                        j < tokens.length &&
+                        (
+                            tokens[j].tokenKind == grammar.lineBreakToken //||
+                            //tokens[j].tokenKind == grammar.singleLineCommentToken
+                        )
+                    ) {
+                        tmp.skipExpectation(grammar, tokens, tryGetState, addState);
+                    }
                 }
 
                 stateSet.skipExpectation(
@@ -2122,6 +2181,13 @@ export function parse (
                     tryGetState,
                     addState
                 );
+
+                if (
+                    tokens[j].tokenKind == grammar.lineBreakToken //||
+                    //tokens[j].tokenKind == grammar.singleLineCommentToken
+                ) {
+                    tmp.skipExpectation(grammar, tokens, tryGetState, addState);
+                }
             }
 
             for (let count=redoCount; count>=0; --count) {
@@ -2402,10 +2468,10 @@ export function tryGetLastNonExtraToken (grammar : MyGrammar, node : MySyntaxNod
     return undefined;
 }
 
-/**
- * Assumes `MySyntaxNode` always has at least one child
- */
-export function getLastToken (node : MySyntaxNode) : MyToken {
+export function getLastToken (node : MySyntaxNode) : MyToken|undefined {
+    if (node.children.length == 0) {
+        return undefined;
+    }
     const child = node.children[node.children.length-1];
     if ("tokenKind" in child) {
         return child;
@@ -2504,6 +2570,7 @@ export function replaceLastToken (node : MySyntaxNode, newLastToken : MyToken2) 
         };
     }
 }
+
 /**
  * This adds states to the current `stateSet`
  */
@@ -2539,6 +2606,38 @@ export function skipExpectation (
         }
 
         if (expect.canExpect === false) {
+            continue;
+        }
+
+        if (
+            state.tokenIndex > 0 &&
+            tokens[state.tokenIndex-1].tokenKind == grammar.singleLineCommentToken &&
+            !acceptsToken(
+                expect,
+                { tokenKind : grammar.lineBreakToken }
+            )
+        ) {
+            /**
+             * Input,
+             * ```sql
+             *  -- test
+             * 1;
+             * ```
+             *
+             * If we expect `SELECT` just after single line comment,
+             *```sql
+             *  -- test SELECT
+             * 1;
+             * ```
+             *
+             * This does not make sense. We should expect it after a new line in this case,
+             * ```sql
+             *  -- test
+             * SELECT 1;
+             * ```
+             *
+             * We can only really expect a new line after a single line comment.
+             */
             continue;
         }
 
@@ -2581,6 +2680,40 @@ export function skipExpectation (
 
             if (extrasTokens.has(token.tokenKind)) {
                 //continue;
+            }
+        }
+
+        {
+            let x = state.tokenIndex;
+            while (x < tokens.length) {
+                const t = tokens[x];
+                if (extrasTokens.has(t.tokenKind)) {
+                    ++x;
+                    continue;
+                } else {
+                    break;
+                }
+            }
+            //At this point we do not have an extra, or we are at Eof
+            if (x < tokens.length && acceptsToken(expect, tokens[x])) {
+                continue;
+            }
+        }
+
+        {
+            let x = state.tokenIndex-1;
+            while (x >= 0) {
+                const t = tokens[x];
+                if (extrasTokens.has(t.tokenKind)) {
+                    --x;
+                    continue;
+                } else {
+                    break;
+                }
+            }
+            //At this point we do not have an extra, or we are at beginning of file
+            if (x >= 0 && acceptsToken(expect, tokens[x]) && (expect.otherTokenKinds == undefined || expect.otherTokenKinds.length == 0)) {
+                continue;
             }
         }
 
@@ -2645,12 +2778,18 @@ export function skipExpectation (
                 //             errorKind : "Expected",
                 //             start : token.start,
                 //             end : token.end,
+                //             tokenIndex : -1,
+                //             skipExpectationAfterExtraCost : expect.skipExpectationAfterExtraCost,
                 //         }
                 //     ),
-                //     errorCount : state.errorCount+1,
+                //     errorCount : (
+                //         state.errorCount +
+                //         (expect.skipExpectationCost ?? 1)
+                //     ),
 
                 //     ident : state.ident,
-                //     edges : [state],
+
+                //     pushEdge : new Map<MyState, MyState[]>([[state, []]]),
                 // };
 
                 // ++addStateSkipExpectation;

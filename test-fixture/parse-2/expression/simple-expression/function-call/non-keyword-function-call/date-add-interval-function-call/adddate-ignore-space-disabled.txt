@@ -34,20 +34,16 @@ SELECT ADDDATE (a, INTERVAL 1 DAY)
               (item[]: Identifier[42, 43])
               (commaToken[]: Comma[43, 44])
               (WhiteSpace[44, 45])
-              (item[]: UserDefinedExpression[45, 59]
-                (expression: IntervalFunctionCall[45, 56]
-                  (functionName: INTERVAL[45, 53])
+              (item[]: IntervalExpressionPlus[45, 59]
+                (left: IntervalExpression[45, 59]
+                  (intervalToken: INTERVAL[45, 53])
                   (WhiteSpace[53, 54])
-                  ({Expected at least 2 item, found 1} arguments: ExpressionList2_Arguments[54, 56]
-                    (Expected openParenthesesToken: OpenParentheses[54, 54])
-                    (item[]: IntegerLiteral[54, 55])
-                    (WhiteSpace[55, 56])
-                    (Expected closeParenthesesToken: CloseParentheses[56, 56])
-                  )
+                  (expression: IntegerLiteral[54, 55])
+                  (WhiteSpace[55, 56])
+                  (temporalUnit: DAY[56, 59])
                 )
-                (alias: Alias[56, 59]
-                  (alias: DAY[56, 59])
-                )
+                (Expected operator: Plus[59, 59])
+                (Expected right: Identifier[59, 59])
               )
               (closeParenthesesToken: CloseParentheses[59, 60])
             )

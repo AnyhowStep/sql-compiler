@@ -96,9 +96,18 @@ function getFieldErrorsString (node : MySyntaxNode, fieldErrors : FieldCheck[]) 
     for (const fieldCheck of fieldErrors) {
         const value = node.fields[fieldCheck.field];
 
-        fieldErrorStrs.push(
-            `{Expected ${getRangeStr(fieldCheck)} ${fieldCheck.field}, found ${getLengthStr(value)}}`
-        );
+        switch (fieldCheck.type) {
+            case "FieldLengthCheck":
+                fieldErrorStrs.push(
+                    `{Expected ${getRangeStr(fieldCheck)} ${fieldCheck.field}, found ${getLengthStr(value)}}`
+                );
+                break;
+            case "FieldRequiredCheck":
+                fieldErrorStrs.push(
+                    `{Expected ${fieldCheck.field}}`
+                );
+                break;
+        }
     }
 
     return fieldErrorStrs;

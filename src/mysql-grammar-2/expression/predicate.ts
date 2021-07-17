@@ -20,7 +20,7 @@ export const Predicate = choice(
 export const InSubQueryPredicate = precedence(60, seq(
     field("expression", SyntaxKind.BitExpression),
     field("notToken", optional(SyntaxKind.Not)),
-    field("inToken", TokenKind.IN),
+    field("inToken", cannotExpect(TokenKind.IN)),
     field("parenthesizedSelect", SyntaxKind.ParenthesizedSelect),
 ));
 

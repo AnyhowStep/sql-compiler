@@ -234,8 +234,10 @@ export enum SyntaxKind {
     UtcTimestampFunctionCall = "UtcTimestampFunctionCall",
     Empty_Arguments = "Empty_Arguments",
     ExpressionList_ArgumentsImpl = "ExpressionList_ArgumentsImpl",
+    ExpressionList_Arguments_NoExpectImpl = "ExpressionList_Arguments_NoExpectImpl",
     ExpressionList_Arguments = "ExpressionList_Arguments",
     ExpressionList2_Arguments = "ExpressionList2_Arguments",
+    ExpressionList2_Arguments_NoExpect = "ExpressionList2_Arguments_NoExpect",
     UserDefinedExpressionList_Arguments = "UserDefinedExpressionList_Arguments",
     Expression1_Arguments = "Expression1_Arguments",
     Expression2_Arguments = "Expression2_Arguments",
@@ -269,5 +271,6 @@ export enum SyntaxKind {
     IdentTuple1 = "IdentTuple1",
     IdentTuple2 = "IdentTuple2",
     TableIdentifierTuple = "TableIdentifierTuple",
-    TableIdentifierList1 = "TableIdentifierList1"
+    TableIdentifierList1 = "TableIdentifierList1",
+    Missing = "Missing"
 }

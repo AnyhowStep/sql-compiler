@@ -1,0 +1,15 @@
+SELECT--test
+-----
+(SourceFile[0, 12]
+  (statement[]: TrailingStatement[0, 6]
+    (statement: Select[0, 6]
+      (selectToken: SELECT[0, 6])
+      (selectItemList1: SelectItemList1[6, 6]
+        (item[]: ExpressionSelectItem[6, 6]
+          (Expected expression: Identifier[6, 6])
+        )
+      )
+    )
+  )
+  (SingleLineComment[6, 12])
+)

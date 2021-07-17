@@ -1,0 +1,27 @@
+-- @@ignore_space = false
+SELECT SUBDATE (a, INTERVAL 1 DAY)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 60]
+            (functionName: Identifier[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: UserDefinedExpressionList_Arguments[41, 60]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: Identifier[42, 43])
+              (commaToken[]: Comma[43, 44])
+              (WhiteSpace[44, 45])
+              (item[]: IntervalExpressionPlus[45, 59]
+                (left: IntervalExpression[45, 59]
+                  (intervalToken: INTERVAL[45, 53])
+                  (WhiteSpace[53, 54])
+                  (expression: IntegerLiteral[54, 55])
+                  (WhiteSpace[55, 56])
+                  (temporalUnit: DAY[56, 59])
+                )
+                (Expected operator: Plus[59, 59])
+                (Expected right: Identifier[59, 59])
+              )
+              (closeParenthesesToken: CloseParentheses[59, 60])
+            )
+          )
+!`

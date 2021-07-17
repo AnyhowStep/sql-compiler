@@ -8,6 +8,7 @@ export const mySqlGrammar : MySqlGrammar = {
     tokens,
     extras,
     lineBreakToken : TokenKind.LineBreak,
+    singleLineCommentToken : TokenKind.SingleLineComment,
     customExtras : {
         [CustomExtras.noExtras] : [],
         [CustomExtras.noLineBreak] : extras
@@ -46,7 +47,6 @@ export const mySqlGrammar : MySqlGrammar = {
         SyntaxKind.SelectStatement,
 
         SyntaxKind.VarChar,
-        SyntaxKind.Char,
         SyntaxKind.CharacterSetName,
         SyntaxKind.CollationName,
 

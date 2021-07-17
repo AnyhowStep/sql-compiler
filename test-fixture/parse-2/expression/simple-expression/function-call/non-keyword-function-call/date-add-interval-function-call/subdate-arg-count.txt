@@ -23,6 +23,29 @@ SELECT SUBDATE(a)
           )
 !`
 -----
+SELECT SUBDATE(INTERVAL 1 DAY)
+-----
+`!
+          (expression: AddDateFunctionCall[7, 30]
+            (functionName: SUBDATE[7, 14])
+            ({Expected exactly 2 item, found 1} arguments: Expression2_Arguments[14, 30]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: IntervalExpressionPlus[15, 29]
+                (left: IntervalExpression[15, 29]
+                  (intervalToken: INTERVAL[15, 23])
+                  (WhiteSpace[23, 24])
+                  (expression: IntegerLiteral[24, 25])
+                  (WhiteSpace[25, 26])
+                  (temporalUnit: DAY[26, 29])
+                )
+                (Expected operator: Plus[29, 29])
+                (Expected right: Identifier[29, 29])
+              )
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
 SELECT SUBDATE(a, INTERVAL 1 DAY, c)
 -----
 `!

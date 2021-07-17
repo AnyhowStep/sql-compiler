@@ -236,8 +236,10 @@ export interface MySqlRuleCollection {
     UtcTimestampFunctionCall : Rule|TopLevelRuleModifier,
     Empty_Arguments : Rule|TopLevelRuleModifier,
     ExpressionList_ArgumentsImpl : Rule|TopLevelRuleModifier,
+    ExpressionList_Arguments_NoExpectImpl : Rule|TopLevelRuleModifier,
     ExpressionList_Arguments : Rule|TopLevelRuleModifier,
     ExpressionList2_Arguments : Rule|TopLevelRuleModifier,
+    ExpressionList2_Arguments_NoExpect : Rule|TopLevelRuleModifier,
     UserDefinedExpressionList_Arguments : Rule|TopLevelRuleModifier,
     Expression1_Arguments : Rule|TopLevelRuleModifier,
     Expression2_Arguments : Rule|TopLevelRuleModifier,
@@ -271,7 +273,8 @@ export interface MySqlRuleCollection {
     IdentTuple1 : Rule|TopLevelRuleModifier,
     IdentTuple2 : Rule|TopLevelRuleModifier,
     TableIdentifierTuple : Rule|TopLevelRuleModifier,
-    TableIdentifierList1 : Rule|TopLevelRuleModifier
+    TableIdentifierList1 : Rule|TopLevelRuleModifier,
+    Missing : Rule|TopLevelRuleModifier
 }
 export interface MySqlGrammar extends GrammarConfig {
     rules : MySqlRuleCollection;

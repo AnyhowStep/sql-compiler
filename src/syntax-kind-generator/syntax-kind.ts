@@ -261,8 +261,10 @@ export const syntaxKinds = [
 
     "Empty_Arguments",
     "ExpressionList_ArgumentsImpl",
+    "ExpressionList_Arguments_NoExpectImpl",
     "ExpressionList_Arguments",
     "ExpressionList2_Arguments",
+    "ExpressionList2_Arguments_NoExpect",
     "UserDefinedExpressionList_Arguments",
     "Expression1_Arguments",
     "Expression2_Arguments",
@@ -302,4 +304,6 @@ export const syntaxKinds = [
     "IdentTuple2",
     "TableIdentifierTuple",
     "TableIdentifierList1",
+
+    "Missing",
 ];
