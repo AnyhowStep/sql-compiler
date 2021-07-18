@@ -953,7 +953,7 @@ export function complete3 (
 
     const firstToken = tryGetFirstToken(stateData);
 
-    let errorCount = other.errorCount + state.errorCount + (stateData.syntaxKind == "Missing" ? Math.max(stateData.children.length, 1) : 0);
+    let errorCount = other.errorCount + state.errorCount;
 
     const lastChild = other.data.children[other.data.children.length-1];
     if (
