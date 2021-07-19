@@ -1,0 +1,63 @@
+SELECT GET_FORMAT(DATETIME, expr)
+-----
+`!
+          (expression: GetFormatFunctionCall[7, 33]
+            (functionName: GET_FORMAT[7, 17])
+            (arguments: GetFormat_Arguments[17, 33]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (format: DATETIME[18, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (expression: Identifier[28, 32])
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`
+-----
+SELECT GET_FORMAT(TIMESTAMP, expr)
+-----
+`!
+          (expression: GetFormatFunctionCall[7, 34]
+            (functionName: GET_FORMAT[7, 17])
+            (arguments: GetFormat_Arguments[17, 34]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (format: TIMESTAMP[18, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (expression: Identifier[29, 33])
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT GET_FORMAT(DATE, expr)
+-----
+`!
+          (expression: GetFormatFunctionCall[7, 29]
+            (functionName: GET_FORMAT[7, 17])
+            (arguments: GetFormat_Arguments[17, 29]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (format: DATE[18, 22])
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (expression: Identifier[24, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT GET_FORMAT(TIME, expr)
+-----
+`!
+          (expression: GetFormatFunctionCall[7, 29]
+            (functionName: GET_FORMAT[7, 17])
+            (arguments: GetFormat_Arguments[17, 29]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (format: TIME[18, 22])
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (expression: Identifier[24, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`

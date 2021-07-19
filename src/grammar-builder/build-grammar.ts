@@ -307,10 +307,20 @@ export function buildRule (
             undefined :
             rule.allowedSyntaxKinds
         ),
+        disallowedSyntaxKinds : (
+            typeof rule == "string" ?
+            undefined :
+            rule.disallowedSyntaxKinds
+        ),
         fieldCheckArr : (
             typeof rule == "string" ?
             undefined :
             rule.fieldCheckArr
+        ),
+        greedySkipExpectation : (
+            typeof rule == "string" ?
+            false :
+            rule.greedySkipExpectation === true
         ),
     });
     return ruleName;
@@ -491,6 +501,7 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
         tokens : grammar.tokens,
         extras : grammar.extras,
         lineBreakToken : grammar.lineBreakToken,
+        singleLineCommentToken : grammar.singleLineCommentToken,
         customExtras : grammar.customExtras,
         cannotUnexpect : grammar.cannotUnexpect,
 

@@ -265,6 +265,40 @@ export function allowedSyntaxKinds (
     }
 }
 
+/**
+ *
+ * This should only ever be used like so,
+ * `disallowedSyntaxKinds(choice())` or,
+ * `disallowedSyntaxKinds(seq())` or,
+ * `disallowedSyntaxKinds(SyntaxKind.SomeChoiceRule)`
+ */
+export function disallowedSyntaxKinds (
+    disallowedSyntaxKinds : string[],
+    rule : Rule
+) : RuleObj {
+    if (typeof rule == "string") {
+        return {
+            ...seqNoFlatten(rule),
+            disallowedSyntaxKinds,
+        };
+    } else {
+        return {
+            ...rule,
+            disallowedSyntaxKinds,
+        };
+    }
+}
+
+export function greedySkipExpectation (rule : Rule) : RuleObj {
+    if (typeof rule == "string") {
+        rule = tokenSymbol(rule);
+    }
+    return {
+        ...rule,
+        greedySkipExpectation : true,
+    };
+}
+
 export function fieldLengthCheck (
     field : string,
     minLength : number,
@@ -290,6 +324,27 @@ export function fieldLengthCheck (
     };
 }
 
+export function fieldRequiredCheck (
+    field : string,
+    rule : Rule
+) : RuleObj {
+    if (typeof rule == "string") {
+        rule = seqNoFlatten(rule);
+    }
+
+    const fieldCheckArr = rule.fieldCheckArr ?? [];
+    return {
+        ...rule,
+        fieldCheckArr : [
+            ...fieldCheckArr,
+            {
+                type : "FieldRequiredCheck",
+                field,
+            },
+        ],
+    };
+}
+
 export interface FieldLengthCheck {
     type : "FieldLengthCheck",
     field : string,
@@ -297,8 +352,14 @@ export interface FieldLengthCheck {
     maxLength : number,
 }
 
+export interface FieldRequiredCheck {
+    type : "FieldRequiredCheck",
+    field : string,
+}
+
 export type FieldCheck =
     | FieldLengthCheck
+    | FieldRequiredCheck
 ;
 
 export interface RuleBase {
@@ -306,7 +367,9 @@ export interface RuleBase {
     customExtraName? : string;
     penalizeErrorStart? : boolean;
     allowedSyntaxKinds? : string[];
+    disallowedSyntaxKinds? : string[];
     fieldCheckArr? : FieldCheck[];
+    greedySkipExpectation? : boolean;
 }
 
 export interface SeqRule extends RuleBase {
@@ -442,6 +505,7 @@ export interface GrammarConfig {
      */
     extras : string[];
     lineBreakToken : string;
+    singleLineCommentToken : string;
     customExtras : Record<string, string[]>;
     cannotUnexpect : string[];
 

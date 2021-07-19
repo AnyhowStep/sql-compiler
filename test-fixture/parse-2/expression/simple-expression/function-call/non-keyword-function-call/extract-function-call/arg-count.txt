@@ -1,11 +1,29 @@
 SELECT EXTRACT()
--- TODO Fix output for this?
+-- DONE: Fixed output for this
 -----
 `!
-          (expression: MaybeUserDefinedFunctionCall[7, 16]
-            (Expected functionName: Identifier[7, 14])
-            (arguments: UserDefinedExpressionList_Arguments[14, 16]
+          (expression: ExtractFunctionCall[7, 16]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 16]
               (openParenthesesToken: OpenParentheses[14, 15])
+              (Expected temporalUnit: DAY[15, 15])
+              (Expected fromToken: FROM[15, 15])
+              (Expected expression: Identifier[15, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT EXTRACT()
+-----
+`!
+          (expression: ExtractFunctionCall[7, 16]
+            (functionName: EXTRACT[7, 14])
+            (arguments: Extract_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (Expected temporalUnit: DAY[15, 15])
+              (Expected fromToken: FROM[15, 15])
+              (Expected expression: Identifier[15, 15])
               (closeParenthesesToken: CloseParentheses[15, 16])
             )
           )
@@ -109,7 +127,7 @@ SELECT EXTRACT(DAY FROM expr, b, c)
 !`
 -----
 SELECT EXTRACT(DAY )
--- TODO Fix output for this?
+-- DONE: Fixed output for this
 -- FROM should really be suggested after whitespace
 -----
 `!
@@ -118,9 +136,9 @@ SELECT EXTRACT(DAY )
             (arguments: Extract_Arguments[14, 20]
               (openParenthesesToken: OpenParentheses[14, 15])
               (temporalUnit: DAY[15, 18])
-              (Expected fromToken: FROM[18, 18])
-              (Expected expression: Identifier[18, 18])
               (WhiteSpace[18, 19])
+              (Expected fromToken: FROM[19, 19])
+              (Expected expression: Identifier[19, 19])
               (closeParenthesesToken: CloseParentheses[19, 20])
             )
           )

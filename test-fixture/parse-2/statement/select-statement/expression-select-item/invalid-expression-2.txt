@@ -7,10 +7,7 @@ SELECT CASCADE
       (WhiteSpace[6, 7])
       (selectItemList1: SelectItemList1[7, 14]
         (item[]: ExpressionSelectItem[7, 14]
-          (expression: UserVariableIdentifier[7, 14]
-            (Expected atToken: At[7, 7])
-            (identifier: CASCADE[7, 14])
-          )
+          (Expected expression: Identifier[7, 14])
         )
       )
     )

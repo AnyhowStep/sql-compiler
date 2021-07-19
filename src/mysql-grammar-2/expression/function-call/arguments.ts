@@ -1,7 +1,9 @@
-import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat, skipExpectationCost, skipExpectationAfterExtraCost} from "../../../grammar-builder";
+import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat} from "../../../grammar-builder";
+import {disallowedSyntaxKinds, greedySkipExpectation} from "../../../grammar-builder/grammar";
 import {itemSeparator, list, list1, parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
+import {interval} from "../interval-expression";
 
 export const Empty_Arguments = fieldLengthCheck(
     "item",
@@ -14,6 +16,12 @@ export const ExpressionList_ArgumentsImpl = inline(parentheses(
     list(SyntaxKind.Expression)
 ));
 
+export const ExpressionList_Arguments_NoExpectImpl = inline(seq(
+    field("openParenthesesToken", cannotExpect(TokenKind.OpenParentheses)),
+    list(SyntaxKind.Expression),
+    field("closeParenthesesToken", TokenKind.CloseParentheses),
+));
+
 export const ExpressionList_Arguments = SyntaxKind.ExpressionList_ArgumentsImpl;
 
 export const ExpressionList2_Arguments = fieldLengthCheck(
@@ -21,6 +29,13 @@ export const ExpressionList2_Arguments = fieldLengthCheck(
     2,
     Infinity,
     SyntaxKind.ExpressionList_ArgumentsImpl
+);
+
+export const ExpressionList2_Arguments_NoExpect = fieldLengthCheck(
+    "item",
+    2,
+    Infinity,
+    SyntaxKind.ExpressionList_Arguments_NoExpectImpl
 );
 
 export const UserDefinedExpressionList_Arguments = seq(
@@ -141,11 +156,8 @@ export const Extract_Arguments = fieldLengthCheck(
     0,
     0,
     parentheses(seq(
-        field("temporalUnit", SyntaxKind.TemporalUnit),
-        field("fromToken", skipExpectationAfterExtraCost(
-            0.0,
-            skipExpectationCost(0.1, TokenKind.FROM)
-        )),
+        field("temporalUnit", greedySkipExpectation(interval)),
+        field("fromToken", greedySkipExpectation(TokenKind.FROM)),
         field("expression", SyntaxKind.Expression),
         repeat(seq(
             field("commaToken", itemSeparator),
@@ -157,16 +169,41 @@ export const Extract_Arguments = fieldLengthCheck(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9768
  */
-export const GetFormat_Arguments = parentheses(seq(
-    field("format", tokenSymbol(
-        TokenKind.DATETIME,
-        TokenKind.TIMESTAMP,
-        TokenKind.DATE,
-        TokenKind.TIME,
-    )),
-    field("commaToken", itemSeparator),
-    field("expression", SyntaxKind.Expression),
-));
+export const GetFormat_Arguments = fieldLengthCheck(
+    "extraItem",
+    0,
+    0,
+    /**
+     * Notes:
+     * When parser encounters open parentheses, it should look for matching close parentheses.
+     * If no matching close parentheses found, continue regular parsing.
+     *
+     * If found, all contents between parentheses should belong to the rule.
+     */
+    parentheses(seq(
+        field("format", greedySkipExpectation(tokenSymbol(
+            /**
+             * DATETIME and TIMESTAMP are synonyms
+             */
+            TokenKind.DATETIME,
+            TokenKind.TIMESTAMP,
+            TokenKind.DATE,
+            TokenKind.TIME,
+        ))),
+        field("commaToken", greedySkipExpectation(itemSeparator)),
+        field("expression", choice(
+            greedySkipExpectation(TokenKind.Identifier),
+            disallowedSyntaxKinds(
+                [TokenKind.Identifier],
+                SyntaxKind.Expression
+            )
+        )),
+        repeat(seq(
+            field("commaToken", itemSeparator),
+            field("extraItem", SyntaxKind.Expression),
+        )),
+    ))
+);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9777

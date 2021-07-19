@@ -1,4 +1,4 @@
-import {choice, field, precedence, repeat1, seq, tokenSymbol2} from "../../grammar-builder";
+import {choice, field, precedence, repeat1, seq, tokenSymbol, tokenSymbol2} from "../../grammar-builder";
 import {Precedence} from "../precedence";
 import {stringLiteral} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
@@ -11,11 +11,16 @@ export const Literal = choice(
     SyntaxKind.TextLiteral,
     SyntaxKind.NumberLiteral,
     SyntaxKind.TemporalLiteral,
-    TokenKind.NULL,
-    TokenKind.FALSE,
-    TokenKind.TRUE,
-    TokenKind.HexLiteral,
-    TokenKind.BitLiteral,
+    /**
+     * @todo Make the first token a dummy `TokenKind.Expr`?
+     */
+    tokenSymbol(
+        TokenKind.NULL,
+        TokenKind.FALSE,
+        TokenKind.TRUE,
+        TokenKind.HexLiteral,
+        TokenKind.BitLiteral,
+    ),
     SyntaxKind.UnderscoreCharacterSetHexLiteral,
     SyntaxKind.UnderscoreCharacterSetBitLiteral,
 );

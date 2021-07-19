@@ -4,8 +4,7 @@ SELECT a+INTERVAL b DAY<<INTERVAL c DAY
 -- timeout  8000
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 39]
-          (expression: BinaryBitExpression[7, 35]
+          (expression: BinaryBitExpression[7, 39]
             (left: BinaryBitExpression[7, 23]
               (left: Identifier[7, 8])
               (operator: Plus[8, 9])
@@ -18,21 +17,18 @@ SELECT a+INTERVAL b DAY<<INTERVAL c DAY
               )
             )
             (operator: LessLess[23, 25])
-            (right: IntervalFunctionCall[25, 35]
-              (functionName: INTERVAL[25, 33])
-              (WhiteSpace[33, 34])
-              ({Expected at least 2 item, found 1} arguments: ExpressionList2_Arguments[34, 35]
-                (Expected openParenthesesToken: OpenParentheses[34, 34])
-                (item[]: Identifier[34, 35])
-                (Expected closeParenthesesToken: CloseParentheses[35, 35])
+            (right: IntervalExpressionPlus[25, 39]
+              (left: IntervalExpression[25, 39]
+                (intervalToken: INTERVAL[25, 33])
+                (WhiteSpace[33, 34])
+                (expression: Identifier[34, 35])
+                (WhiteSpace[35, 36])
+                (temporalUnit: DAY[36, 39])
               )
+              (Expected operator: Plus[39, 39])
+              (Expected right: Identifier[39, 39])
             )
           )
-          (WhiteSpace[35, 36])
-          (alias: Alias[36, 39]
-            (alias: DAY[36, 39])
-          )
-        )
 !`
 -----
 SELECT a+INTERVAL b DAY<<c DAY
@@ -62,4 +58,66 @@ SELECT a+INTERVAL b DAY<<c DAY
             (alias: DAY[27, 30])
           )
         )
+!`
+-----
+SELECT a+INTERVAL b DAY<<INTERVAL c DAY
+
+-----
+`!
+          (expression: BinaryBitExpression[7, 39]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: LessLess[23, 25])
+            (right: IntervalExpressionPlus[25, 39]
+              (left: IntervalExpression[25, 39]
+                (intervalToken: INTERVAL[25, 33])
+                (WhiteSpace[33, 34])
+                (expression: Identifier[34, 35])
+                (WhiteSpace[35, 36])
+                (temporalUnit: DAY[36, 39])
+              )
+              (Expected operator: Plus[39, 39])
+              (Expected right: Identifier[39, 39])
+            )
+          )
+!`
+-----
+SELECT a+INTERVAL b DAY<<INTERVAL c DAY
+-- Test
+-----
+`!
+          (expression: BinaryBitExpression[7, 39]
+            (left: BinaryBitExpression[7, 23]
+              (left: Identifier[7, 8])
+              (operator: Plus[8, 9])
+              (right: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+            )
+            (operator: LessLess[23, 25])
+            (right: IntervalExpressionPlus[25, 39]
+              (left: IntervalExpression[25, 39]
+                (intervalToken: INTERVAL[25, 33])
+                (WhiteSpace[33, 34])
+                (expression: Identifier[34, 35])
+                (WhiteSpace[35, 36])
+                (temporalUnit: DAY[36, 39])
+              )
+              (Expected operator: Plus[39, 39])
+              (Expected right: Identifier[39, 39])
+            )
+          )
 !`

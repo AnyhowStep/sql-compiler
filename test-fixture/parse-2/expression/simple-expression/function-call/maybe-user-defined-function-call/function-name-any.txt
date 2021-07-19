@@ -1,0 +1,15 @@
+SELECT ANY()
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: ANY[7, 10])
+        )
+        (Expected commaToken[]: Comma[10, 10])
+        (item[]: ExpressionSelectItem[10, 12]
+          (expression: ParenthesizedExpression[10, 12]
+            (openParenthesesToken: OpenParentheses[10, 11])
+            (Expected item: Identifier[11, 11])
+            (closeParenthesesToken: CloseParentheses[11, 12])
+          )
+        )
+!`

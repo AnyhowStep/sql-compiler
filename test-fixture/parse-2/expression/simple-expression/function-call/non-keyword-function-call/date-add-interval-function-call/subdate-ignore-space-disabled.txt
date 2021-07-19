@@ -34,22 +34,42 @@ SELECT SUBDATE (a, INTERVAL 1 DAY)
               (item[]: Identifier[42, 43])
               (commaToken[]: Comma[43, 44])
               (WhiteSpace[44, 45])
-              (item[]: UserDefinedExpression[45, 59]
-                (expression: IntervalFunctionCall[45, 56]
-                  (functionName: INTERVAL[45, 53])
+              (item[]: IntervalExpressionPlus[45, 59]
+                (left: IntervalExpression[45, 59]
+                  (intervalToken: INTERVAL[45, 53])
                   (WhiteSpace[53, 54])
-                  ({Expected at least 2 item, found 1} arguments: ExpressionList2_Arguments[54, 56]
-                    (Expected openParenthesesToken: OpenParentheses[54, 54])
-                    (item[]: IntegerLiteral[54, 55])
-                    (WhiteSpace[55, 56])
-                    (Expected closeParenthesesToken: CloseParentheses[56, 56])
-                  )
+                  (expression: IntegerLiteral[54, 55])
+                  (WhiteSpace[55, 56])
+                  (temporalUnit: DAY[56, 59])
                 )
-                (alias: Alias[56, 59]
-                  (alias: DAY[56, 59])
-                )
+                (Expected operator: Plus[59, 59])
+                (Expected right: Identifier[59, 59])
               )
               (closeParenthesesToken: CloseParentheses[59, 60])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SUBDATE (a, 1 DAY)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 51]
+            (functionName: Identifier[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: UserDefinedExpressionList_Arguments[41, 51]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: Identifier[42, 43])
+              (commaToken[]: Comma[43, 44])
+              (WhiteSpace[44, 45])
+              (item[]: UserDefinedExpression[45, 50]
+                (expression: IntegerLiteral[45, 46])
+                (WhiteSpace[46, 47])
+                (alias: Alias[47, 50]
+                  (alias: DAY[47, 50])
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[50, 51])
             )
           )
 !`

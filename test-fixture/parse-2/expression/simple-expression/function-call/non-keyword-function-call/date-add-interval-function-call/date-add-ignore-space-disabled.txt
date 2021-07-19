@@ -33,20 +33,16 @@ SELECT DATE_ADD (a, INTERVAL 1 DAY)
               (item[]: Identifier[43, 44])
               (commaToken[]: Comma[44, 45])
               (WhiteSpace[45, 46])
-              (item[]: UserDefinedExpression[46, 60]
-                (expression: IntervalFunctionCall[46, 57]
-                  (functionName: INTERVAL[46, 54])
+              (item[]: IntervalExpressionPlus[46, 60]
+                (left: IntervalExpression[46, 60]
+                  (intervalToken: INTERVAL[46, 54])
                   (WhiteSpace[54, 55])
-                  ({Expected at least 2 item, found 1} arguments: ExpressionList2_Arguments[55, 57]
-                    (Expected openParenthesesToken: OpenParentheses[55, 55])
-                    (item[]: IntegerLiteral[55, 56])
-                    (WhiteSpace[56, 57])
-                    (Expected closeParenthesesToken: CloseParentheses[57, 57])
-                  )
+                  (expression: IntegerLiteral[55, 56])
+                  (WhiteSpace[56, 57])
+                  (temporalUnit: DAY[57, 60])
                 )
-                (alias: Alias[57, 60]
-                  (alias: DAY[57, 60])
-                )
+                (Expected operator: Plus[60, 60])
+                (Expected right: Identifier[60, 60])
               )
               (closeParenthesesToken: CloseParentheses[60, 61])
             )

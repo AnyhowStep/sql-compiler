@@ -40,8 +40,14 @@ export interface FieldLengthCheck {
     maxLength : number|null,
 }
 
+export interface FieldRequiredCheck {
+    type : "FieldRequiredCheck",
+    field : string,
+}
+
 export type FieldCheck =
     | FieldLengthCheck
+    | FieldRequiredCheck
 ;
 
 export interface CompiledRule {
@@ -60,12 +66,25 @@ export interface CompiledRule {
      * `allowedSyntaxKinds(SyntaxKind.SomeChoiceRule)`
      */
     allowedSyntaxKinds? : string[] | undefined;
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     * @see compiled-grammar-generator
+     *
+     * This should only ever be used like so,
+     * `disallowedSyntaxKinds(choice())` or,
+     * `disallowedSyntaxKinds(seq())` or,
+     * `disallowedSyntaxKinds(SyntaxKind.SomeChoiceRule)`
+     */
+    disallowedSyntaxKinds? : string[] | undefined;
 
     /**
      * I don't like optional properties.
      * This is a HACK to get JSON.stringify() output to be assignable statically.
      */
-     fieldCheckArr? : FieldCheck[];
+    fieldCheckArr? : FieldCheck[];
+
+    greedySkipExpectation : boolean;
 }
 
 export interface CompiledQuantity {
@@ -90,6 +109,7 @@ export interface CompiledGrammar {
     tokens : string[];
     extras : string[];
     lineBreakToken : string;
+    singleLineCommentToken : string;
     customExtras : Record<string, string[]>;
     cannotUnexpect : string[];
 
