@@ -1,0 +1,23 @@
+SELECT MID
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: Identifier[7, 10])
+        )
+!`
+-----
+SELECT SUBSTR
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 13]
+          (expression: Identifier[7, 13])
+        )
+!`
+-----
+SELECT SUBSTRING
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: Identifier[7, 16])
+        )
+!`

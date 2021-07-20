@@ -1,0 +1,7 @@
+SELECT POSITION
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: Identifier[7, 15])
+        )
+!`

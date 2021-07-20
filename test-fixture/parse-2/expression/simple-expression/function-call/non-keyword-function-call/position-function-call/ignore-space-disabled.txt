@@ -1,0 +1,86 @@
+-- @@ignore_space = false
+SELECT POSITION(a IN b)
+-----
+`!
+          (expression: PositionFunctionCall[33, 49]
+            (functionName: POSITION[33, 41])
+            (arguments: Position_Arguments[41, 49]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (left: Identifier[42, 43])
+              (WhiteSpace[43, 44])
+              (inToken: IN[44, 46])
+              (WhiteSpace[46, 47])
+              (right: Identifier[47, 48])
+              (closeParenthesesToken: CloseParentheses[48, 49])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT POSITION (a IN b)
+-- TODO Make output look better?
+-- Maybe expect `POSITION (a IN (b))` ?
+-----
+(SourceFile[0, 123]
+  (SingleLineComment[0, 25])
+  (LineBreak[25, 26])
+  (statement[]: TrailingStatement[26, 50]
+    (statement: Select[26, 50]
+      (selectToken: SELECT[26, 32])
+      (WhiteSpace[32, 33])
+      (selectItemList1: SelectItemList1[33, 50]
+        (item[]: ExpressionSelectItem[33, 50]
+          (expression: MaybeUserDefinedFunctionCall[33, 50]
+            (functionName: Identifier[33, 41])
+            (WhiteSpace[41, 42])
+            (arguments: UserDefinedExpressionList_Arguments[42, 50]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (item[]: Identifier[43, 44])
+              (WhiteSpace[44, 45])
+              (Expected commaToken[]: Comma[45, 47])
+              (WhiteSpace[47, 48])
+              (item[]: Identifier[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+        )
+      )
+    )
+  )
+  (LineBreak[50, 51])
+  (SingleLineComment[51, 83])
+  (LineBreak[83, 84])
+  (SingleLineComment[84, 123])
+)
+
+-----
+-- @@ignore_space = false
+SELECT POSITION (a IN b)
+-----
+(SourceFile[0, 50]
+  (SingleLineComment[0, 25])
+  (LineBreak[25, 26])
+  (statement[]: TrailingStatement[26, 47]
+    (statement: Select[26, 47]
+      (selectToken: SELECT[26, 32])
+      (WhiteSpace[32, 33])
+      (selectItemList1: SelectItemList1[33, 47]
+        (item[]: ExpressionSelectItem[33, 47]
+          (expression: MaybeUserDefinedFunctionCall[33, 47]
+            (functionName: Identifier[33, 41])
+            (WhiteSpace[41, 42])
+            (arguments: UserDefinedExpressionList_Arguments[42, 47]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (item[]: Identifier[43, 44])
+              (WhiteSpace[44, 45])
+              (Expected closeParenthesesToken: CloseParentheses[45, 47])
+            )
+          )
+        )
+      )
+    )
+  )
+  (WhiteSpace[47, 48])
+  (Unexpected Identifier[48, 49])
+  (Unexpected CloseParentheses[49, 50])
+)

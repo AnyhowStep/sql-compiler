@@ -1,0 +1,71 @@
+-- @@ignore_space = false
+SELECT MID(a FROM b)
+-----
+`!
+          (expression: SubstringFunctionCall[33, 46]
+            (functionName: MID[33, 36])
+            (arguments: Substring_Arguments_From[36, 46]
+              (openParenthesesToken: OpenParentheses[36, 37])
+              (str: Identifier[37, 38])
+              (WhiteSpace[38, 39])
+              (fromToken: FROM[39, 43])
+              (WhiteSpace[43, 44])
+              (startPosition: Identifier[44, 45])
+              (closeParenthesesToken: CloseParentheses[45, 46])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT MID (a FROM b)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 47]
+            (functionName: Identifier[33, 36])
+            (WhiteSpace[36, 37])
+            (arguments: UserDefinedExpressionList_Arguments[37, 47]
+              (openParenthesesToken: OpenParentheses[37, 38])
+              (item[]: Identifier[38, 39])
+              (WhiteSpace[39, 40])
+              (Expected commaToken[]: Comma[40, 44])
+              (WhiteSpace[44, 45])
+              (item[]: Identifier[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT MID(a, b)
+-----
+`!
+          (expression: SubstringFunctionCall[33, 42]
+            (functionName: MID[33, 36])
+            (arguments: Expression2To3_Arguments[36, 42]
+              (openParenthesesToken: OpenParentheses[36, 37])
+              (item[]: Identifier[37, 38])
+              (commaToken[]: Comma[38, 39])
+              (WhiteSpace[39, 40])
+              (item[]: Identifier[40, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT MID (a, b)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 43]
+            (functionName: Identifier[33, 36])
+            (WhiteSpace[36, 37])
+            (arguments: UserDefinedExpressionList_Arguments[37, 43]
+              (openParenthesesToken: OpenParentheses[37, 38])
+              (item[]: Identifier[38, 39])
+              (commaToken[]: Comma[39, 40])
+              (WhiteSpace[40, 41])
+              (item[]: Identifier[41, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`
