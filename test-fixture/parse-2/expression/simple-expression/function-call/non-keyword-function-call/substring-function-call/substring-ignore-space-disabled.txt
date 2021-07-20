@@ -1,0 +1,71 @@
+-- @@ignore_space = false
+SELECT SUBSTRING(a FROM b)
+-----
+`!
+          (expression: SubstringFunctionCall[33, 52]
+            (functionName: SUBSTRING[33, 42])
+            (arguments: Substring_Arguments_From[42, 52]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (str: Identifier[43, 44])
+              (WhiteSpace[44, 45])
+              (fromToken: FROM[45, 49])
+              (WhiteSpace[49, 50])
+              (startPosition: Identifier[50, 51])
+              (closeParenthesesToken: CloseParentheses[51, 52])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SUBSTRING (a FROM b)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 53]
+            (functionName: Identifier[33, 42])
+            (WhiteSpace[42, 43])
+            (arguments: UserDefinedExpressionList_Arguments[43, 53]
+              (openParenthesesToken: OpenParentheses[43, 44])
+              (item[]: Identifier[44, 45])
+              (WhiteSpace[45, 46])
+              (Expected commaToken[]: Comma[46, 50])
+              (WhiteSpace[50, 51])
+              (item[]: Identifier[51, 52])
+              (closeParenthesesToken: CloseParentheses[52, 53])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SUBSTRING(a, b)
+-----
+`!
+          (expression: SubstringFunctionCall[33, 48]
+            (functionName: SUBSTRING[33, 42])
+            (arguments: Expression2To3_Arguments[42, 48]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (item[]: Identifier[43, 44])
+              (commaToken[]: Comma[44, 45])
+              (WhiteSpace[45, 46])
+              (item[]: Identifier[46, 47])
+              (closeParenthesesToken: CloseParentheses[47, 48])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SUBSTRING (a, b)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 49]
+            (functionName: Identifier[33, 42])
+            (WhiteSpace[42, 43])
+            (arguments: UserDefinedExpressionList_Arguments[43, 49]
+              (openParenthesesToken: OpenParentheses[43, 44])
+              (item[]: Identifier[44, 45])
+              (commaToken[]: Comma[45, 46])
+              (WhiteSpace[46, 47])
+              (item[]: Identifier[47, 48])
+              (closeParenthesesToken: CloseParentheses[48, 49])
+            )
+          )
+!`

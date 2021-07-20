@@ -270,6 +270,7 @@ export const syntaxKinds = [
     "Expression2_Arguments",
     "Expression4_Arguments",
     "Expression1To2_Arguments",
+    "Expression2To3_Arguments",
 
     "Character_Arguments",
     "UsingCharacterSetName",
@@ -283,6 +284,8 @@ export const syntaxKinds = [
     "Trim_RemoveSpaceExpression",
     "Trim_Arguments",
     "Substring_Arguments",
+    "Substring_Arguments_From",
+    "Substring_Arguments_Comma",
     "ForLength",
 
     "Now",

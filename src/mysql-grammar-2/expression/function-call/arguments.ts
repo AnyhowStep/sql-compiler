@@ -1,6 +1,6 @@
 import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat} from "../../../grammar-builder";
-import {disallowedSyntaxKinds, greedySkipExpectation} from "../../../grammar-builder/grammar";
-import {itemSeparator, list, list1, parentheses} from "../../rule-util";
+import {greedySkipExpectation} from "../../../grammar-builder/grammar";
+import {greedySkipExpression, itemSeparator, list, list1, parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 import {interval} from "../interval-expression";
@@ -69,6 +69,13 @@ export const Expression1To2_Arguments = fieldLengthCheck(
     "item",
     1,
     2,
+    SyntaxKind.ExpressionList_ArgumentsImpl
+);
+
+export const Expression2To3_Arguments = fieldLengthCheck(
+    "item",
+    2,
+    3,
     SyntaxKind.ExpressionList_ArgumentsImpl
 );
 
@@ -191,13 +198,7 @@ export const GetFormat_Arguments = fieldLengthCheck(
             TokenKind.TIME,
         ))),
         field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("expression", choice(
-            greedySkipExpectation(TokenKind.Identifier),
-            disallowedSyntaxKinds(
-                [TokenKind.Identifier],
-                SyntaxKind.Expression
-            )
-        )),
+        field("expression", greedySkipExpression),
         repeat(seq(
             field("commaToken", itemSeparator),
             field("extraItem", SyntaxKind.Expression),
@@ -217,17 +218,36 @@ export const Position_Arguments = parentheses(seq(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9789-L9801
  */
-export const Substring_Arguments = parentheses(seq(
-    field("str", SyntaxKind.Expression),
-    field("fromToken", tokenSymbol(TokenKind.FROM, TokenKind.Comma)),
-    field("startPosition", SyntaxKind.Expression),
-    field("forLength", optional(SyntaxKind.ForLength)),
+export const Substring_Arguments = inline(choice(
+    SyntaxKind.Substring_Arguments_From,
+    SyntaxKind.Substring_Arguments_Comma,
 ));
 
 export const ForLength = seq(
-    field("forToken", tokenSymbol(TokenKind.FOR, TokenKind.Comma)),
+    field("forToken", tokenSymbol(TokenKind.FOR)),
     field("length", SyntaxKind.Expression),
 );
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9797-L9801
+ */
+export const Substring_Arguments_From = fieldLengthCheck(
+    "extraItem",
+    0,
+    0,
+    parentheses(seq(
+        field("str", greedySkipExpression),
+        field("fromToken", tokenSymbol(TokenKind.FROM)),
+        field("startPosition", SyntaxKind.Expression),
+        field("forLength", optional(SyntaxKind.ForLength)),
+        repeat(seq(
+            field("commaToken", itemSeparator),
+            field("extraItem", SyntaxKind.Expression),
+        )),
+    ))
+);
+
+export const Substring_Arguments_Comma = inline(SyntaxKind.Expression2To3_Arguments);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9810-L9814

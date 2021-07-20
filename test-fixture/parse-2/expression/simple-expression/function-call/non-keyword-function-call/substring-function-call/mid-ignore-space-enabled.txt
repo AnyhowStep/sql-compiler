@@ -1,0 +1,67 @@
+SELECT MID(a FROM b)
+-----
+`!
+          (expression: SubstringFunctionCall[7, 20]
+            (functionName: MID[7, 10])
+            (arguments: Substring_Arguments_From[10, 20]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (str: Identifier[11, 12])
+              (WhiteSpace[12, 13])
+              (fromToken: FROM[13, 17])
+              (WhiteSpace[17, 18])
+              (startPosition: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT MID (a FROM b)
+-----
+`!
+          (expression: SubstringFunctionCall[7, 21]
+            (functionName: MID[7, 10])
+            (WhiteSpace[10, 11])
+            (arguments: Substring_Arguments_From[11, 21]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (str: Identifier[12, 13])
+              (WhiteSpace[13, 14])
+              (fromToken: FROM[14, 18])
+              (WhiteSpace[18, 19])
+              (startPosition: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT MID(a, b)
+-----
+`!
+          (expression: SubstringFunctionCall[7, 16]
+            (functionName: MID[7, 10])
+            (arguments: Expression2To3_Arguments[10, 16]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: Identifier[11, 12])
+              (commaToken[]: Comma[12, 13])
+              (WhiteSpace[13, 14])
+              (item[]: Identifier[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT MID (a, b)
+-----
+`!
+          (expression: SubstringFunctionCall[7, 17]
+            (functionName: MID[7, 10])
+            (WhiteSpace[10, 11])
+            (arguments: Expression2To3_Arguments[11, 17]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`

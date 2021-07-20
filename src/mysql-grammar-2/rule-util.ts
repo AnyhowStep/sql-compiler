@@ -5,7 +5,7 @@
  * + Tuple    = parenthesized list
  */
 
-import {cannotExpect, choice, field, getTokenKinds, optional, repeat, repeat1, Rule, seq, skipExpectationAfterExtraCost, skipExpectationCost, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
+import {cannotExpect, choice, disallowedSyntaxKinds, field, getTokenKinds, greedySkipExpectation, optional, repeat, repeat1, Rule, seq, skipExpectationAfterExtraCost, skipExpectationCost, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
 import {CustomExtras} from "./custom-extras";
 import {SyntaxKind} from "./syntax-kind.generated";
 import {reservedKeywords, TokenKind} from "./token.generated";
@@ -610,6 +610,14 @@ export const real_ulonglong_num = TokenKind.IntegerLiteral;
 export const char = tokenSymbol(
     TokenKind.CHAR,
     TokenKind.CHARACTER,
+);
+
+export const greedySkipExpression = choice(
+    greedySkipExpectation(TokenKind.Identifier),
+    disallowedSyntaxKinds(
+        [TokenKind.Identifier],
+        SyntaxKind.Expression
+    )
 );
 
 export const itemSeparator =  skipExpectationAfterExtraCost(

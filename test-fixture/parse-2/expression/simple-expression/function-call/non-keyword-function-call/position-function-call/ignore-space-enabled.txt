@@ -1,0 +1,34 @@
+SELECT POSITION(a IN b)
+-----
+`!
+          (expression: PositionFunctionCall[7, 23]
+            (functionName: POSITION[7, 15])
+            (arguments: Position_Arguments[15, 23]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (left: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (inToken: IN[18, 20])
+              (WhiteSpace[20, 21])
+              (right: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT POSITION (a IN b)
+-----
+`!
+          (expression: PositionFunctionCall[7, 24]
+            (functionName: POSITION[7, 15])
+            (WhiteSpace[15, 16])
+            (arguments: Position_Arguments[16, 24]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (left: Identifier[17, 18])
+              (WhiteSpace[18, 19])
+              (inToken: IN[19, 21])
+              (WhiteSpace[21, 22])
+              (right: Identifier[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`

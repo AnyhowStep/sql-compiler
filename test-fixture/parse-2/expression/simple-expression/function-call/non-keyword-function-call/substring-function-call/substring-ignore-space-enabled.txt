@@ -1,0 +1,67 @@
+SELECT SUBSTRING(a FROM b)
+-----
+`!
+          (expression: SubstringFunctionCall[7, 26]
+            (functionName: SUBSTRING[7, 16])
+            (arguments: Substring_Arguments_From[16, 26]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (str: Identifier[17, 18])
+              (WhiteSpace[18, 19])
+              (fromToken: FROM[19, 23])
+              (WhiteSpace[23, 24])
+              (startPosition: Identifier[24, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT SUBSTRING (a FROM b)
+-----
+`!
+          (expression: SubstringFunctionCall[7, 27]
+            (functionName: SUBSTRING[7, 16])
+            (WhiteSpace[16, 17])
+            (arguments: Substring_Arguments_From[17, 27]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (str: Identifier[18, 19])
+              (WhiteSpace[19, 20])
+              (fromToken: FROM[20, 24])
+              (WhiteSpace[24, 25])
+              (startPosition: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT SUBSTRING(a, b)
+-----
+`!
+          (expression: SubstringFunctionCall[7, 22]
+            (functionName: SUBSTRING[7, 16])
+            (arguments: Expression2To3_Arguments[16, 22]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT SUBSTRING (a, b)
+-----
+`!
+          (expression: SubstringFunctionCall[7, 23]
+            (functionName: SUBSTRING[7, 16])
+            (WhiteSpace[16, 17])
+            (arguments: Expression2To3_Arguments[17, 23]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
