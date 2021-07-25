@@ -45,4 +45,5 @@ export const FunctionCall = inline(choice(
     SyntaxKind.QualifiedFunctionCall,
     SyntaxKind.KeywordFunctionCall,
     SyntaxKind.NonKeywordFunctionCall,
+    SyntaxKind.ConflictFunctionCall,
 ));

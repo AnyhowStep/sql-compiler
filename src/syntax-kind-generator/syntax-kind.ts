@@ -233,6 +233,7 @@ export const syntaxKinds = [
     "QualifiedFunctionCall",
     "KeywordFunctionCall",
     "NonKeywordFunctionCall",
+    "ConflictFunctionCall",
     "CharacterFunctionCall",
     "CurrentUserFunctionCall",
     "ExtractFromDateTimeFunctionCall",
@@ -258,6 +259,9 @@ export const syntaxKinds = [
     "UtcDateFunctionCall",
     "UtcTimeFunctionCall",
     "UtcTimestampFunctionCall",
+
+    "AsciiFunctionCall",
+    "CharSetFunctionCall",
 
     "Empty_Arguments",
     "ExpressionList_ArgumentsImpl",

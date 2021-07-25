@@ -1,0 +1,53 @@
+SELECT UTC_TIME()
+-----
+`!
+          (expression: UtcTimeFunctionCall[7, 17]
+            (functionName: UTC_TIME[7, 15])
+            (arguments: DateTimePrecisionArg[15, 17]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT UTC_TIME(1)
+-----
+`!
+          (expression: UtcTimeFunctionCall[7, 18]
+            (functionName: UTC_TIME[7, 15])
+            (arguments: DateTimePrecisionArg[15, 18]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (dateTimePrecision: IntegerLiteral[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT UTC_TIME(a)
+-----
+`!
+          (expression: UtcTimeFunctionCall[7, 18]
+            (functionName: UTC_TIME[7, 15])
+            (arguments: DateTimePrecisionArg[15, 18]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (Unexpected dateTimePrecision: Identifier[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT UTC_TIME(1, b)
+-----
+`!
+          (expression: UtcTimeFunctionCall[7, 21]
+            (functionName: UTC_TIME[7, 15])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (dateTimePrecision: IntegerLiteral[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (extraItem[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`

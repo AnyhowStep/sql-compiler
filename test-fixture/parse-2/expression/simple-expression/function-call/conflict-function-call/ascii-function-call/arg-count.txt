@@ -1,0 +1,59 @@
+SELECT ASCII()
+-----
+`!
+          (expression: AsciiFunctionCall[7, 14]
+            (functionName: ASCII[7, 12])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[12, 14]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`
+-----
+SELECT ASCII(a)
+-----
+`!
+          (expression: AsciiFunctionCall[7, 15]
+            (functionName: ASCII[7, 12])
+            (arguments: Expression1_Arguments[12, 15]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT ASCII(a, b)
+-----
+`!
+          (expression: AsciiFunctionCall[7, 18]
+            (functionName: ASCII[7, 12])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[12, 18]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (commaToken[]: Comma[14, 15])
+              (WhiteSpace[15, 16])
+              (item[]: Identifier[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT ASCII(a, b, c)
+-----
+`!
+          (expression: AsciiFunctionCall[7, 21]
+            (functionName: ASCII[7, 12])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[12, 21]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (commaToken[]: Comma[14, 15])
+              (WhiteSpace[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`

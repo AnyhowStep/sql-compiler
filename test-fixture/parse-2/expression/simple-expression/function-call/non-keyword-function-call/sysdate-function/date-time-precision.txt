@@ -1,0 +1,66 @@
+SELECT SYSDATE()
+-----
+`!
+          (expression: SysDateFunctionCall[7, 16]
+            (functionName: SYSDATE[7, 14])
+            (arguments: DateTimePrecisionArg[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT SYSDATE(1)
+-----
+`!
+          (expression: SysDateFunctionCall[7, 17]
+            (functionName: SYSDATE[7, 14])
+            (arguments: DateTimePrecisionArg[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (dateTimePrecision: IntegerLiteral[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT SYSDATE(1.1)
+-----
+`!
+          (expression: SysDateFunctionCall[7, 19]
+            (functionName: SYSDATE[7, 14])
+            (arguments: DateTimePrecisionArg[14, 19]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (Unexpected dateTimePrecision: DecimalLiteral[15, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT SYSDATE(1, 2)
+-----
+`!
+          (expression: SysDateFunctionCall[7, 20]
+            (functionName: SYSDATE[7, 14])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (dateTimePrecision: IntegerLiteral[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (extraItem[]: IntegerLiteral[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT SYSDATE(a)
+-----
+`!
+          (expression: SysDateFunctionCall[7, 17]
+            (functionName: SYSDATE[7, 14])
+            (arguments: DateTimePrecisionArg[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (Unexpected dateTimePrecision: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`

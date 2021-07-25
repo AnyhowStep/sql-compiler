@@ -3,7 +3,7 @@ import {greedySkipExpectation} from "../../../grammar-builder/grammar";
 import {greedySkipExpression, itemSeparator, list, list1, parentheses} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
-import {interval} from "../interval-expression";
+import {interval, intervalTimeStamp} from "../interval-expression";
 
 export const Empty_Arguments = fieldLengthCheck(
     "item",
@@ -252,21 +252,39 @@ export const Substring_Arguments_Comma = inline(SyntaxKind.Expression2To3_Argume
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9810-L9814
  */
-export const TimestampAdd_Arguments = parentheses(seq(
-    field("temporalUnit", SyntaxKind.TemporalUnitTimeStamp),
-    field("commaToken", itemSeparator),
-    field("interval", SyntaxKind.Expression),
-    field("commaToken", itemSeparator),
-    field("dateTime", SyntaxKind.Expression),
-));
+export const TimestampAdd_Arguments = fieldLengthCheck(
+    "extraItem",
+    0,
+    0,
+    parentheses(seq(
+        field("temporalUnit", greedySkipExpectation(intervalTimeStamp)),
+        field("commaToken", greedySkipExpectation(itemSeparator)),
+        field("interval", greedySkipExpression),
+        field("commaToken", greedySkipExpectation(itemSeparator)),
+        field("dateTime", greedySkipExpression),
+        repeat(seq(
+            field("commaToken", itemSeparator),
+            field("extraItem", SyntaxKind.Expression),
+        )),
+    ))
+);
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9814
  */
-export const TimestampDiff_Arguments = parentheses(seq(
-    field("temporalUnit", SyntaxKind.TemporalUnitTimeStamp),
-    field("commaToken", itemSeparator),
-    field("startDateTime", SyntaxKind.Expression),
-    field("commaToken", itemSeparator),
-    field("endDateTime", SyntaxKind.Expression),
-));
+export const TimestampDiff_Arguments = fieldLengthCheck(
+    "extraItem",
+    0,
+    0,
+    parentheses(seq(
+        field("temporalUnit", greedySkipExpectation(intervalTimeStamp)),
+        field("commaToken", greedySkipExpectation(itemSeparator)),
+        field("startDateTime", greedySkipExpression),
+        field("commaToken", greedySkipExpectation(itemSeparator)),
+        field("endDateTime", greedySkipExpression),
+        repeat(seq(
+            field("commaToken", itemSeparator),
+            field("extraItem", SyntaxKind.Expression),
+        )),
+    ))
+);

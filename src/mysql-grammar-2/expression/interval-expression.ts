@@ -46,7 +46,10 @@ export const interval = tokenSymbol2(
     TokenKind.YEAR_MONTH,
 );
 
-export const TemporalUnitTimeStamp = inline(intervalTimeStamp);
+export const TemporalUnitTimeStamp = inline(skipExpectationAfterExtraCost(
+    0.0,
+    skipExpectationCost(0.1, intervalTimeStamp)
+));
 
 export const TemporalUnit = inline(skipExpectationAfterExtraCost(
     0.0,

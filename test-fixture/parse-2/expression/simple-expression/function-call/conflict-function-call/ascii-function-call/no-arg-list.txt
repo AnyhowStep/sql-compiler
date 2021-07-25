@@ -1,0 +1,7 @@
+SELECT ASCII
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 12]
+          (expression: ASCII[7, 12])
+        )
+!`

@@ -1,0 +1,40 @@
+SELECT UTC_DATE()
+-----
+`!
+          (expression: UtcDateFunctionCall[7, 17]
+            (functionName: UTC_DATE[7, 15])
+            (arguments: Empty_Arguments[15, 17]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT UTC_DATE(a)
+-----
+`!
+          (expression: UtcDateFunctionCall[7, 18]
+            (functionName: UTC_DATE[7, 15])
+            ({Expected exactly 0 item, found 1} arguments: Empty_Arguments[15, 18]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT UTC_DATE(a, b)
+-----
+`!
+          (expression: UtcDateFunctionCall[7, 21]
+            (functionName: UTC_DATE[7, 15])
+            ({Expected exactly 0 item, found 2} arguments: Empty_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`

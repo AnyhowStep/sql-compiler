@@ -1,0 +1,7 @@
+SELECT UTC_DATE
+-----
+`!
+          (expression: UtcDateFunctionCall[7, 15]
+            (functionName: UTC_DATE[7, 15])
+          )
+!`

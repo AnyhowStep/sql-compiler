@@ -1,0 +1,24 @@
+SELECT SYSDATE()
+-----
+`!
+          (expression: SysDateFunctionCall[7, 16]
+            (functionName: SYSDATE[7, 14])
+            (arguments: DateTimePrecisionArg[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT SYSDATE ()
+-----
+`!
+          (expression: SysDateFunctionCall[7, 17]
+            (functionName: SYSDATE[7, 14])
+            (WhiteSpace[14, 15])
+            (arguments: DateTimePrecisionArg[15, 17]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`

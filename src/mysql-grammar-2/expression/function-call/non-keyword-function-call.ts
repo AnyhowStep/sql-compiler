@@ -130,7 +130,7 @@ export const UtcDateFunctionCall = seq(
  */
 export const UtcTimeFunctionCall = seq(
     field("functionName", cannotExpect(TokenKind.UTC_TIME)),
-    field("arguments", SyntaxKind.DateTimePrecisionArg),
+    field("arguments", optional(SyntaxKind.DateTimePrecisionArg)),
 );
 
 /**
@@ -138,7 +138,7 @@ export const UtcTimeFunctionCall = seq(
  */
 export const UtcTimestampFunctionCall = seq(
     field("functionName", cannotExpect(TokenKind.UTC_TIMESTAMP)),
-    field("arguments", SyntaxKind.DateTimePrecisionArg),
+    field("arguments", optional(SyntaxKind.DateTimePrecisionArg)),
 );
 
 export const NonKeywordFunctionCall = inline(choice(

@@ -1,0 +1,24 @@
+SELECT UTC_TIMESTAMP()
+-----
+`!
+          (expression: UtcTimestampFunctionCall[7, 22]
+            (functionName: UTC_TIMESTAMP[7, 20])
+            (arguments: DateTimePrecisionArg[20, 22]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT UTC_TIMESTAMP ()
+-----
+`!
+          (expression: UtcTimestampFunctionCall[7, 23]
+            (functionName: UTC_TIMESTAMP[7, 20])
+            (WhiteSpace[20, 21])
+            (arguments: DateTimePrecisionArg[21, 23]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`

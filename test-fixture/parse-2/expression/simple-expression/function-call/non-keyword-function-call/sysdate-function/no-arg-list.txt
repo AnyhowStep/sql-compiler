@@ -1,0 +1,7 @@
+SELECT SYSDATE
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: Identifier[7, 14])
+        )
+!`

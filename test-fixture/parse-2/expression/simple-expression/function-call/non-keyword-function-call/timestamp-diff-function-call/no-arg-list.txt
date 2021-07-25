@@ -1,0 +1,7 @@
+SELECT TIMESTAMPDIFF
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 20]
+          (expression: TIMESTAMPDIFF[7, 20])
+        )
+!`
