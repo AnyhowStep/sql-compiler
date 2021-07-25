@@ -1,0 +1,26 @@
+SELECT ASCII(a)
+-----
+`!
+          (expression: AsciiFunctionCall[7, 15]
+            (functionName: ASCII[7, 12])
+            (arguments: Expression1_Arguments[12, 15]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT ASCII (a)
+-----
+`!
+          (expression: AsciiFunctionCall[7, 16]
+            (functionName: ASCII[7, 12])
+            (WhiteSpace[12, 13])
+            (arguments: Expression1_Arguments[13, 16]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`

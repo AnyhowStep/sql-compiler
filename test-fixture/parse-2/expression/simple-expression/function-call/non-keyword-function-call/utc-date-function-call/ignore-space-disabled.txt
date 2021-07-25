@@ -1,0 +1,26 @@
+-- @@ignore_space = false
+SELECT UTC_DATE()
+-----
+`!
+          (expression: UtcDateFunctionCall[33, 43]
+            (functionName: UTC_DATE[33, 41])
+            (arguments: Empty_Arguments[41, 43]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT UTC_DATE ()
+-----
+`!
+          (expression: UtcDateFunctionCall[33, 44]
+            (functionName: UTC_DATE[33, 41])
+            (WhiteSpace[41, 42])
+            (arguments: Empty_Arguments[42, 44]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`

@@ -1,0 +1,40 @@
+-- @@ignore_space = false
+SELECT TIMESTAMPADD(DAY, b, c)
+-----
+`!
+          (expression: TimestampAddFunctionCall[33, 56]
+            (functionName: TIMESTAMPADD[33, 45])
+            (arguments: TimestampAdd_Arguments[45, 56]
+              (openParenthesesToken: OpenParentheses[45, 46])
+              (temporalUnit: DAY[46, 49])
+              (commaToken[]: Comma[49, 50])
+              (WhiteSpace[50, 51])
+              (interval: Identifier[51, 52])
+              (commaToken[]: Comma[52, 53])
+              (WhiteSpace[53, 54])
+              (dateTime: Identifier[54, 55])
+              (closeParenthesesToken: CloseParentheses[55, 56])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT TIMESTAMPADD (DAY, b, c)
+-----
+`!
+          (expression: TimestampAddFunctionCall[33, 57]
+            (functionName: TIMESTAMPADD[33, 45])
+            (WhiteSpace[45, 46])
+            (arguments: TimestampAdd_Arguments[46, 57]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (temporalUnit: DAY[47, 50])
+              (commaToken[]: Comma[50, 51])
+              (WhiteSpace[51, 52])
+              (interval: Identifier[52, 53])
+              (commaToken[]: Comma[53, 54])
+              (WhiteSpace[54, 55])
+              (dateTime: Identifier[55, 56])
+              (closeParenthesesToken: CloseParentheses[56, 57])
+            )
+          )
+!`

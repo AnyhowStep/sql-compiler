@@ -1,0 +1,26 @@
+-- @@ignore_space = false
+SELECT UTC_TIMESTAMP()
+-----
+`!
+          (expression: UtcTimestampFunctionCall[33, 48]
+            (functionName: UTC_TIMESTAMP[33, 46])
+            (arguments: DateTimePrecisionArg[46, 48]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (closeParenthesesToken: CloseParentheses[47, 48])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT UTC_TIMESTAMP ()
+-----
+`!
+          (expression: UtcTimestampFunctionCall[33, 49]
+            (functionName: UTC_TIMESTAMP[33, 46])
+            (WhiteSpace[46, 47])
+            (arguments: DateTimePrecisionArg[47, 49]
+              (openParenthesesToken: OpenParentheses[47, 48])
+              (closeParenthesesToken: CloseParentheses[48, 49])
+            )
+          )
+!`

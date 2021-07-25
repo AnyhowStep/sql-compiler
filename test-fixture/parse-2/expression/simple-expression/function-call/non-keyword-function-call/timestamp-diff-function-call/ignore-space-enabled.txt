@@ -1,0 +1,38 @@
+SELECT TIMESTAMPDIFF(DAY, b, c)
+-----
+`!
+          (expression: TimestampDiffFunctionCall[7, 31]
+            (functionName: TIMESTAMPDIFF[7, 20])
+            (arguments: TimestampDiff_Arguments[20, 31]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (temporalUnit: DAY[21, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (startDateTime: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (endDateTime: Identifier[29, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT TIMESTAMPDIFF (DAY, b, c)
+-----
+`!
+          (expression: TimestampDiffFunctionCall[7, 32]
+            (functionName: TIMESTAMPDIFF[7, 20])
+            (WhiteSpace[20, 21])
+            (arguments: TimestampDiff_Arguments[21, 32]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (temporalUnit: DAY[22, 25])
+              (commaToken[]: Comma[25, 26])
+              (WhiteSpace[26, 27])
+              (startDateTime: Identifier[27, 28])
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (endDateTime: Identifier[30, 31])
+              (closeParenthesesToken: CloseParentheses[31, 32])
+            )
+          )
+!`

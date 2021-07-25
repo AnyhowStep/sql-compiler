@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT ASCII(a)
+-----
+`!
+          (expression: AsciiFunctionCall[33, 41]
+            (functionName: ASCII[33, 38])
+            (arguments: Expression1_Arguments[38, 41]
+              (openParenthesesToken: OpenParentheses[38, 39])
+              (item[]: Identifier[39, 40])
+              (closeParenthesesToken: CloseParentheses[40, 41])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT ASCII (a)
+-----
+`!
+          (expression: AsciiFunctionCall[33, 42]
+            (functionName: ASCII[33, 38])
+            (WhiteSpace[38, 39])
+            (arguments: Expression1_Arguments[39, 42]
+              (openParenthesesToken: OpenParentheses[39, 40])
+              (item[]: Identifier[40, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`

@@ -1,0 +1,38 @@
+SELECT TIMESTAMPADD(DAY, b, c)
+-----
+`!
+          (expression: TimestampAddFunctionCall[7, 30]
+            (functionName: TIMESTAMPADD[7, 19])
+            (arguments: TimestampAdd_Arguments[19, 30]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (temporalUnit: DAY[20, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (interval: Identifier[25, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (dateTime: Identifier[28, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT TIMESTAMPADD (DAY, b, c)
+-----
+`!
+          (expression: TimestampAddFunctionCall[7, 31]
+            (functionName: TIMESTAMPADD[7, 19])
+            (WhiteSpace[19, 20])
+            (arguments: TimestampAdd_Arguments[20, 31]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (temporalUnit: DAY[21, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (interval: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (dateTime: Identifier[29, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`

@@ -1,0 +1,7 @@
+SELECT TIMESTAMPADD
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 19]
+          (expression: TIMESTAMPADD[7, 19])
+        )
+!`
