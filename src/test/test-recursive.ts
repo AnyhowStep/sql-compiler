@@ -80,7 +80,7 @@ export function testRecursive2 (
                 if (timeoutMatch != undefined) {
                     this.timeout(parseInt(timeoutMatch[1]));
                 } else {
-                    this.timeout(4000);
+                    this.timeout(8000);
                 }
                 testCallback(testCase);
             });
