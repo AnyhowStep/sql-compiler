@@ -176,10 +176,13 @@ export const GeometryCollectionFunctionCall = seq(
 
 /**
  * https://github.com/mysql/mysql-server/blob/d9a8e2021c92f08047457b028aa8890291f7381c/sql/sql_yacc.yy#L9988
+ *
+ * @todo Testing indicates that usage is `LINESTRING(POINT(a, b), POINT(c, d), ...)`
+ * As in, two points are needed, minimally.
  */
 export const LineStringFunctionCall = seq(
     field("functionName", cannotExpect(tokenSymbol(TokenKind.LINESTRING))),
-    field("arguments", SyntaxKind.ExpressionList1_Arguments),
+    field("arguments", SyntaxKind.ExpressionList2_Arguments),
 );
 
 /**

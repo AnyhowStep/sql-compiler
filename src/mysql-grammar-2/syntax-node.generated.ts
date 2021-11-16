@@ -1648,7 +1648,7 @@ export interface LineStringFunctionCall extends MySyntaxNode {
     syntaxKind : "LineStringFunctionCall";
     fields : {
         functionName : (LINESTRING);
-        arguments : (ExpressionList1_Arguments)
+        arguments : (ExpressionList2_Arguments)
     };
 }
 

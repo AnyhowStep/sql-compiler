@@ -1,0 +1,32 @@
+-- This fails on MySQL 5.7 likely because of,
+-- https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/item_geofunc.h#L919-L924
+-- The yacc rules themselves allow any `expr` but Item_func_spatial_collection::resolve_type() throws because @a, @b is not of type GEOMETRY
+
+/*
+-- The type of @a is actually LONGBLOB and not GEOMETRY over here.
+-- The user defined variable loses the connection to its intended data type.
+SET @a = POINT(1,2);
+
+See: https://www.db-fiddle.com/f/dcZUHL74Zgks7Dg2TX2nbq/0
+*/
+SELECT LINESTRING(@a, @b);
+-----
+`!
+          (expression: LineStringFunctionCall[541, 559]
+            (functionName: LINESTRING[541, 551])
+            (arguments: ExpressionList1_Arguments[551, 559]
+              (openParenthesesToken: OpenParentheses[551, 552])
+              (item[]: UserVariableIdentifier[552, 554]
+                (atToken: At[552, 553])
+                (identifier: Identifier[553, 554])
+              )
+              (commaToken[]: Comma[554, 555])
+              (WhiteSpace[555, 556])
+              (item[]: UserVariableIdentifier[556, 558]
+                (atToken: At[556, 557])
+                (identifier: Identifier[557, 558])
+              )
+              (closeParenthesesToken: CloseParentheses[558, 559])
+            )
+          )
+!`

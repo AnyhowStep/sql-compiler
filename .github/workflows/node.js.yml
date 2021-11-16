@@ -27,6 +27,7 @@ jobs:
         path: ~/.npm
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
+    - run: sudo fallocate -l 10GB /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile && echo "$SWAP_PATH   none    swap    sw    0   0" | sudo tee /etc/fstab -a
     - run: npm install
     - run: npm run generate
     - run: npm run generate-grammar-unexpanded-content
