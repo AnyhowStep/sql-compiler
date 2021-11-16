@@ -1,9 +1,9 @@
 {
-  "coveredCount": 1563,
-  "uncoveredCount": 480,
+  "coveredCount": 1568,
+  "uncoveredCount": 475,
   "totalCount": 2043,
-  "coveredRatio": 0.7650513950073421,
-  "uncoveredRatio": 0.23494860499265785,
+  "coveredRatio": 0.767498776309349,
+  "uncoveredRatio": 0.23250122369065102,
   "uncoveredRules": [
     {
       "name": "noLineBreak$9$optional$10$repeat1$11",
@@ -218,15 +218,6 @@
       "greedySkipExpectation": false
     },
     {
-      "name": "ExpressionList_Arguments",
-      "symbols": [
-        "ExpressionList_ArgumentsImpl"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true,
-      "greedySkipExpectation": false
-    },
-    {
       "name": "ExpressionList2_Arguments_NoExpect",
       "symbols": [
         "ExpressionList_Arguments_NoExpectImpl"
@@ -298,38 +289,6 @@
       "disallowedSyntaxKinds": [
         "Identifier"
       ],
-      "greedySkipExpectation": false
-    },
-    {
-      "name": "GeometryCollectionFunctionCall$field$487",
-      "symbols": [
-        {
-          "tokenKind": "GEOMETRYCOLLECTION",
-          "canExpect": false
-        }
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true,
-      "greedySkipExpectation": false
-    },
-    {
-      "name": "GeometryCollectionFunctionCall$field$488",
-      "symbols": [
-        "ExpressionList_Arguments"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true,
-      "greedySkipExpectation": false
-    },
-    {
-      "name": "GeometryCollectionFunctionCall",
-      "symbols": [
-        "GeometryCollectionFunctionCall$field$487",
-        "extras$1",
-        "GeometryCollectionFunctionCall$field$488"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true,
       "greedySkipExpectation": false
     },
     {
@@ -519,15 +478,6 @@
         "PolygonFunctionCall$field$499",
         "extras$1",
         "PolygonFunctionCall$field$500"
-      ],
-      "precedence": 0,
-      "penalizeErrorStart": true,
-      "greedySkipExpectation": false
-    },
-    {
-      "name": "ConflictFunctionCall",
-      "symbols": [
-        "GeometryCollectionFunctionCall"
       ],
       "precedence": 0,
       "penalizeErrorStart": true,
@@ -8618,7 +8568,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 9211
+      "coverageCount": 9247
     },
     {
       "rule": {
@@ -8639,7 +8589,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 10494
+      "coverageCount": 10512
     },
     {
       "rule": {
@@ -8651,7 +8601,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 9408
+      "coverageCount": 9424
     },
     {
       "rule": {
@@ -8664,7 +8614,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1086
+      "coverageCount": 1088
     },
     {
       "rule": {
@@ -8676,7 +8626,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 9408
+      "coverageCount": 9424
     },
     {
       "rule": {
@@ -8688,7 +8638,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 18619
+      "coverageCount": 18671
     },
     {
       "rule": {
@@ -13113,7 +13063,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 3725
+      "coverageCount": 3740
     },
     {
       "rule": {
@@ -13609,7 +13559,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2907
+      "coverageCount": 2922
     },
     {
       "rule": {
@@ -14039,7 +13989,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2850
+      "coverageCount": 2865
     },
     {
       "rule": {
@@ -14442,7 +14392,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 332
+      "coverageCount": 340
     },
     {
       "rule": {
@@ -14452,7 +14402,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 77
+      "coverageCount": 82
     },
     {
       "rule": {
@@ -14464,7 +14414,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 255
+      "coverageCount": 258
     },
     {
       "rule": {
@@ -14474,7 +14424,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 100
+      "coverageCount": 101
     },
     {
       "rule": {
@@ -14491,7 +14441,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 261
+      "coverageCount": 264
     },
     {
       "rule": {
@@ -14503,7 +14453,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 261
+      "coverageCount": 264
     },
     {
       "rule": {
@@ -14517,7 +14467,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 261
+      "coverageCount": 264
     },
     {
       "rule": {
@@ -14529,7 +14479,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 155
+      "coverageCount": 157
     },
     {
       "rule": {
@@ -14543,7 +14493,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 106
+      "coverageCount": 107
     },
     {
       "rule": {
@@ -14556,7 +14506,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 155
+      "coverageCount": 157
     },
     {
       "rule": {
@@ -14570,7 +14520,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 255
+      "coverageCount": 258
     },
     {
       "rule": {
@@ -14585,7 +14535,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 332
+      "coverageCount": 340
     },
     {
       "rule": {
@@ -14600,7 +14550,19 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 332
+      "coverageCount": 340
+    },
+    {
+      "rule": {
+        "name": "ExpressionList_Arguments",
+        "symbols": [
+          "ExpressionList_ArgumentsImpl"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true,
+        "greedySkipExpectation": false
+      },
+      "coverageCount": 8
     },
     {
       "rule": {
@@ -19001,6 +18963,47 @@
     },
     {
       "rule": {
+        "name": "GeometryCollectionFunctionCall$field$487",
+        "symbols": [
+          {
+            "tokenKind": "GEOMETRYCOLLECTION",
+            "canExpect": false
+          }
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true,
+        "greedySkipExpectation": false
+      },
+      "coverageCount": 8
+    },
+    {
+      "rule": {
+        "name": "GeometryCollectionFunctionCall$field$488",
+        "symbols": [
+          "ExpressionList_Arguments"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true,
+        "greedySkipExpectation": false
+      },
+      "coverageCount": 8
+    },
+    {
+      "rule": {
+        "name": "GeometryCollectionFunctionCall",
+        "symbols": [
+          "GeometryCollectionFunctionCall$field$487",
+          "extras$1",
+          "GeometryCollectionFunctionCall$field$488"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true,
+        "greedySkipExpectation": false
+      },
+      "coverageCount": 8
+    },
+    {
+      "rule": {
         "name": "ConflictFunctionCall",
         "symbols": [
           "AsciiFunctionCall"
@@ -19229,6 +19232,18 @@
     },
     {
       "rule": {
+        "name": "ConflictFunctionCall",
+        "symbols": [
+          "GeometryCollectionFunctionCall"
+        ],
+        "precedence": 0,
+        "penalizeErrorStart": true,
+        "greedySkipExpectation": false
+      },
+      "coverageCount": 8
+    },
+    {
+      "rule": {
         "name": "MaybeUserDefinedFunctionCall$field$501",
         "symbols": [
           {
@@ -19317,7 +19332,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 210
+      "coverageCount": 218
     },
     {
       "rule": {
@@ -21613,7 +21628,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2766
+      "coverageCount": 2781
     },
     {
       "rule": {
@@ -22705,7 +22720,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2689
+      "coverageCount": 2696
     },
     {
       "rule": {
@@ -22729,7 +22744,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 671
+      "coverageCount": 679
     },
     {
       "rule": {
@@ -34886,7 +34901,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1660
+      "coverageCount": 1669
     },
     {
       "rule": {
@@ -34896,7 +34911,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1618
+      "coverageCount": 1627
     },
     {
       "rule": {
@@ -34934,7 +34949,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1660
+      "coverageCount": 1669
     },
     {
       "rule": {
@@ -34946,7 +34961,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1558
+      "coverageCount": 1567
     },
     {
       "rule": {
@@ -34956,7 +34971,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1465
+      "coverageCount": 1474
     },
     {
       "rule": {
@@ -35051,7 +35066,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1558
+      "coverageCount": 1567
     },
     {
       "rule": {
@@ -35066,7 +35081,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1558
+      "coverageCount": 1567
     },
     {
       "rule": {
@@ -35078,7 +35093,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1558
+      "coverageCount": 1567
     },
     {
       "rule": {
@@ -35092,7 +35107,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1558
+      "coverageCount": 1567
     },
     {
       "rule": {
@@ -35104,7 +35119,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1446
+      "coverageCount": 1455
     },
     {
       "rule": {
@@ -35244,7 +35259,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1992
+      "coverageCount": 2001
     },
     {
       "rule": {
@@ -35343,7 +35358,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2002
+      "coverageCount": 2011
     },
     {
       "rule": {
@@ -35367,7 +35382,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2018
+      "coverageCount": 2027
     },
     {
       "rule": {
@@ -35380,7 +35395,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2018
+      "coverageCount": 2027
     },
     {
       "rule": {
@@ -35394,7 +35409,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2018
+      "coverageCount": 2027
     },
     {
       "rule": {
@@ -35406,7 +35421,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 2023
+      "coverageCount": 2032
     },
     {
       "rule": {
@@ -35576,7 +35591,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1446
+      "coverageCount": 1455
     },
     {
       "rule": {
@@ -35588,7 +35603,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1994
+      "coverageCount": 2003
     },
     {
       "rule": {
@@ -35598,7 +35613,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1604
+      "coverageCount": 1613
     },
     {
       "rule": {
@@ -35624,7 +35639,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1994
+      "coverageCount": 2003
     },
     {
       "rule": {

@@ -1,0 +1,7 @@
+SELECT GEOMETRYCOLLECTION
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 25]
+          (expression: GEOMETRYCOLLECTION[7, 25])
+        )
+!`
