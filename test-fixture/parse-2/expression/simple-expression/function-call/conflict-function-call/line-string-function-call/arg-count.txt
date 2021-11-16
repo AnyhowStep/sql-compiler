@@ -3,7 +3,7 @@ SELECT LINESTRING(a, b)
 `!
           (expression: LineStringFunctionCall[7, 23]
             (functionName: LINESTRING[7, 17])
-            (arguments: ExpressionList1_Arguments[17, 23]
+            (arguments: ExpressionList2_Arguments[17, 23]
               (openParenthesesToken: OpenParentheses[17, 18])
               (item[]: Identifier[18, 19])
               (commaToken[]: Comma[19, 20])

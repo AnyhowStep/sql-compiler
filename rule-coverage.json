@@ -14541,7 +14541,7 @@
         ],
         "greedySkipExpectation": false
       },
-      "coverageCount": 10
+      "coverageCount": 8
     },
     {
       "rule": {
@@ -14561,7 +14561,7 @@
         ],
         "greedySkipExpectation": false
       },
-      "coverageCount": 5
+      "coverageCount": 7
     },
     {
       "rule": {
@@ -18980,7 +18980,7 @@
       "rule": {
         "name": "LineStringFunctionCall$field$490",
         "symbols": [
-          "ExpressionList1_Arguments"
+          "ExpressionList2_Arguments"
         ],
         "precedence": 0,
         "penalizeErrorStart": true,

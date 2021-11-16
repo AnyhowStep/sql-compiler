@@ -14,7 +14,7 @@ SELECT LINESTRING(@a, @b);
 `!
           (expression: LineStringFunctionCall[541, 559]
             (functionName: LINESTRING[541, 551])
-            (arguments: ExpressionList1_Arguments[551, 559]
+            (arguments: ExpressionList2_Arguments[551, 559]
               (openParenthesesToken: OpenParentheses[551, 552])
               (item[]: UserVariableIdentifier[552, 554]
                 (atToken: At[552, 553])
