@@ -8548,7 +8548,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 10525
+      "coverageCount": 10527
     },
     {
       "rule": {
@@ -8573,7 +8573,7 @@
         "penalizeErrorStart": true,
         "greedySkipExpectation": false
       },
-      "coverageCount": 1096
+      "coverageCount": 1098
     },
     {
       "rule": {
