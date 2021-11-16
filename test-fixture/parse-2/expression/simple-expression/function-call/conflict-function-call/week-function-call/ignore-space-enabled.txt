@@ -1,0 +1,26 @@
+SELECT WEEK(a)
+-----
+`!
+          (expression: WeekFunctionCall[7, 14]
+            (functionName: WEEK[7, 11])
+            (arguments: Expression1To2_Arguments[11, 14]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`
+-----
+SELECT WEEK (a)
+-----
+`!
+          (expression: WeekFunctionCall[7, 15]
+            (functionName: WEEK[7, 11])
+            (WhiteSpace[11, 12])
+            (arguments: Expression1To2_Arguments[12, 15]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`

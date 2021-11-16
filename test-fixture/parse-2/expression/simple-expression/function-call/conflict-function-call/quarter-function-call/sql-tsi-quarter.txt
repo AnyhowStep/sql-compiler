@@ -1,0 +1,12 @@
+SELECT SQL_TSI_QUARTER(a)
+-----
+`!
+          (expression: QuarterFunctionCall[7, 25]
+            (functionName: SQL_TSI_QUARTER[7, 22])
+            (arguments: Expression1_Arguments[22, 25]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (item[]: Identifier[23, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`

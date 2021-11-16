@@ -1,0 +1,13 @@
+-- SQL_TSI_MICROSECOND does not exist as a token
+SELECT SQL_TSI_MICROSECOND(a)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[56, 78]
+            (functionName: Identifier[56, 75])
+            (arguments: UserDefinedExpressionList_Arguments[75, 78]
+              (openParenthesesToken: OpenParentheses[75, 76])
+              (item[]: Identifier[76, 77])
+              (closeParenthesesToken: CloseParentheses[77, 78])
+            )
+          )
+!`

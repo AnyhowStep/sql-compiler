@@ -1,0 +1,15 @@
+SELECT QUARTER
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: QUARTER[7, 14])
+        )
+!`
+-----
+SELECT SQL_TSI_QUARTER
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: SQL_TSI_QUARTER[7, 22])
+        )
+!`

@@ -1,0 +1,7 @@
+SELECT PASSWORD
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: PASSWORD[7, 15])
+        )
+!`

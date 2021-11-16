@@ -1,0 +1,24 @@
+SELECT ROW_COUNT()
+-----
+`!
+          (expression: RowCountFunctionCall[7, 18]
+            (functionName: ROW_COUNT[7, 16])
+            (arguments: Empty_Arguments[16, 18]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT ROW_COUNT ()
+-----
+`!
+          (expression: RowCountFunctionCall[7, 19]
+            (functionName: ROW_COUNT[7, 16])
+            (WhiteSpace[16, 17])
+            (arguments: Empty_Arguments[17, 19]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`

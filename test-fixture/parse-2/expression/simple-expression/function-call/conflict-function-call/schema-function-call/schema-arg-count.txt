@@ -1,0 +1,59 @@
+SELECT SCHEMA()
+-----
+`!
+          (expression: SchemaFunctionCall[7, 15]
+            (functionName: SCHEMA[7, 13])
+            (arguments: Empty_Arguments[13, 15]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT SCHEMA(a)
+-----
+`!
+          (expression: SchemaFunctionCall[7, 16]
+            (functionName: SCHEMA[7, 13])
+            ({Expected exactly 0 item, found 1} arguments: Empty_Arguments[13, 16]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT SCHEMA(a, b)
+-----
+`!
+          (expression: SchemaFunctionCall[7, 19]
+            (functionName: SCHEMA[7, 13])
+            ({Expected exactly 0 item, found 2} arguments: Empty_Arguments[13, 19]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT SCHEMA(a, b, c)
+-----
+`!
+          (expression: SchemaFunctionCall[7, 22]
+            (functionName: SCHEMA[7, 13])
+            ({Expected exactly 0 item, found 3} arguments: Empty_Arguments[13, 22]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`

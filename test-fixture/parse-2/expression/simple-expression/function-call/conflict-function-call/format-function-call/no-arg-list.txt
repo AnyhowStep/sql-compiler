@@ -1,0 +1,7 @@
+SELECT FORMAT
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 13]
+          (expression: FORMAT[7, 13])
+        )
+!`

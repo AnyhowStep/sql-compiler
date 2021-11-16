@@ -463,6 +463,22 @@ const nonReservedKeywords = [
      * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h#L528
      */
     "PROCESS",
+
+    /**
+     * Can't actually use this token with,
+     * + 5.7.35-0ubuntu0.18.04.1
+     * + 5.7.22
+     *
+     * But it works with,
+     * + 8.0.12
+     *
+     * Token found here,
+     * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h#L282
+     *
+     * It is not found here, though, which is a way better representation of 5.7...
+     * https://github.com/mysql/mysql-server/blob/5.7/sql/lex.h
+     */
+    //"GEOMCOLLECTION",
 ];
 
 /**

@@ -1,0 +1,59 @@
+SELECT CHARSET()
+-----
+`!
+          (expression: CharSetFunctionCall[7, 16]
+            (functionName: CHARSET[7, 14])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT CHARSET(a)
+-----
+`!
+          (expression: CharSetFunctionCall[7, 17]
+            (functionName: CHARSET[7, 14])
+            (arguments: Expression1_Arguments[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT CHARSET(a, b)
+-----
+`!
+          (expression: CharSetFunctionCall[7, 20]
+            (functionName: CHARSET[7, 14])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT CHARSET(a, b, c)
+-----
+`!
+          (expression: CharSetFunctionCall[7, 23]
+            (functionName: CHARSET[7, 14])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[14, 23]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`

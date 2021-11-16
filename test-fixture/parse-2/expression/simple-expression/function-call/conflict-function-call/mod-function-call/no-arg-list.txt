@@ -1,0 +1,7 @@
+SELECT MOD
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (Expected expression: Identifier[7, 10])
+        )
+!`

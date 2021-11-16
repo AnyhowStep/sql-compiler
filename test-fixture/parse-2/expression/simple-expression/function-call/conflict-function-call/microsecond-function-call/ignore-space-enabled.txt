@@ -1,0 +1,26 @@
+SELECT MICROSECOND(a)
+-----
+`!
+          (expression: MicrosecondFunctionCall[7, 21]
+            (functionName: MICROSECOND[7, 18])
+            (arguments: Expression1_Arguments[18, 21]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT MICROSECOND (a)
+-----
+`!
+          (expression: MicrosecondFunctionCall[7, 22]
+            (functionName: MICROSECOND[7, 18])
+            (WhiteSpace[18, 19])
+            (arguments: Expression1_Arguments[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`

@@ -1,4 +1,41 @@
 import {MyToken, MySyntaxNode} from "../grammar-runtime-3";
+export interface START_OF_FUNCTION_KEYWORD extends MyToken<"START_OF_FUNCTION_KEYWORD"> {}
+export interface ADDDATE extends MyToken<"ADDDATE"> {}
+export interface BIT_AND extends MyToken<"BIT_AND"> {}
+export interface BIT_OR extends MyToken<"BIT_OR"> {}
+export interface BIT_XOR extends MyToken<"BIT_XOR"> {}
+export interface CAST extends MyToken<"CAST"> {}
+export interface COUNT extends MyToken<"COUNT"> {}
+export interface CURDATE extends MyToken<"CURDATE"> {}
+export interface CURTIME extends MyToken<"CURTIME"> {}
+export interface DATE_ADD extends MyToken<"DATE_ADD"> {}
+export interface DATE_SUB extends MyToken<"DATE_SUB"> {}
+export interface EXTRACT extends MyToken<"EXTRACT"> {}
+export interface GROUP_CONCAT extends MyToken<"GROUP_CONCAT"> {}
+export interface JSON_OBJECTAGG extends MyToken<"JSON_OBJECTAGG"> {}
+export interface JSON_ARRAYAGG extends MyToken<"JSON_ARRAYAGG"> {}
+export interface MAX extends MyToken<"MAX"> {}
+export interface MID extends MyToken<"MID"> {}
+export interface MIN extends MyToken<"MIN"> {}
+export interface NOW extends MyToken<"NOW"> {}
+export interface POSITION extends MyToken<"POSITION"> {}
+export interface SESSION_USER extends MyToken<"SESSION_USER"> {}
+export interface STD extends MyToken<"STD"> {}
+export interface STDDEV extends MyToken<"STDDEV"> {}
+export interface STDDEV_POP extends MyToken<"STDDEV_POP"> {}
+export interface STDDEV_SAMP extends MyToken<"STDDEV_SAMP"> {}
+export interface ST_COLLECT extends MyToken<"ST_COLLECT"> {}
+export interface SUBDATE extends MyToken<"SUBDATE"> {}
+export interface SUBSTR extends MyToken<"SUBSTR"> {}
+export interface SUBSTRING extends MyToken<"SUBSTRING"> {}
+export interface SUM extends MyToken<"SUM"> {}
+export interface SYSDATE extends MyToken<"SYSDATE"> {}
+export interface SYSTEM_USER extends MyToken<"SYSTEM_USER"> {}
+export interface TRIM extends MyToken<"TRIM"> {}
+export interface VARIANCE extends MyToken<"VARIANCE"> {}
+export interface VAR_POP extends MyToken<"VAR_POP"> {}
+export interface VAR_SAMP extends MyToken<"VAR_SAMP"> {}
+export interface END_OF_FUNCTION_KEYWORD extends MyToken<"END_OF_FUNCTION_KEYWORD"> {}
 export interface START_OF_RESERVED_KEYWORD extends MyToken<"START_OF_RESERVED_KEYWORD"> {}
 export interface ACCESSIBLE extends MyToken<"ACCESSIBLE"> {}
 export interface ADD extends MyToken<"ADD"> {}
@@ -624,41 +661,7 @@ export interface XA extends MyToken<"XA"> {}
 export interface XID extends MyToken<"XID"> {}
 export interface XML extends MyToken<"XML"> {}
 export interface YEAR extends MyToken<"YEAR"> {}
-export interface ADDDATE extends MyToken<"ADDDATE"> {}
-export interface BIT_AND extends MyToken<"BIT_AND"> {}
-export interface BIT_OR extends MyToken<"BIT_OR"> {}
-export interface BIT_XOR extends MyToken<"BIT_XOR"> {}
-export interface CAST extends MyToken<"CAST"> {}
-export interface COUNT extends MyToken<"COUNT"> {}
-export interface CURDATE extends MyToken<"CURDATE"> {}
-export interface CURTIME extends MyToken<"CURTIME"> {}
-export interface DATE_ADD extends MyToken<"DATE_ADD"> {}
-export interface DATE_SUB extends MyToken<"DATE_SUB"> {}
-export interface EXTRACT extends MyToken<"EXTRACT"> {}
-export interface GROUP_CONCAT extends MyToken<"GROUP_CONCAT"> {}
-export interface JSON_OBJECTAGG extends MyToken<"JSON_OBJECTAGG"> {}
-export interface JSON_ARRAYAGG extends MyToken<"JSON_ARRAYAGG"> {}
-export interface MAX extends MyToken<"MAX"> {}
-export interface MID extends MyToken<"MID"> {}
-export interface MIN extends MyToken<"MIN"> {}
-export interface NOW extends MyToken<"NOW"> {}
-export interface POSITION extends MyToken<"POSITION"> {}
-export interface SESSION_USER extends MyToken<"SESSION_USER"> {}
-export interface STD extends MyToken<"STD"> {}
-export interface STDDEV extends MyToken<"STDDEV"> {}
-export interface STDDEV_POP extends MyToken<"STDDEV_POP"> {}
-export interface STDDEV_SAMP extends MyToken<"STDDEV_SAMP"> {}
-export interface ST_COLLECT extends MyToken<"ST_COLLECT"> {}
-export interface SUBDATE extends MyToken<"SUBDATE"> {}
-export interface SUBSTR extends MyToken<"SUBSTR"> {}
-export interface SUBSTRING extends MyToken<"SUBSTRING"> {}
-export interface SUM extends MyToken<"SUM"> {}
-export interface SYSDATE extends MyToken<"SYSDATE"> {}
-export interface SYSTEM_USER extends MyToken<"SYSTEM_USER"> {}
-export interface TRIM extends MyToken<"TRIM"> {}
-export interface VARIANCE extends MyToken<"VARIANCE"> {}
-export interface VAR_POP extends MyToken<"VAR_POP"> {}
-export interface VAR_SAMP extends MyToken<"VAR_SAMP"> {}
+export interface PROCESS extends MyToken<"PROCESS"> {}
 export interface END_OF_NON_RESERVED_KEYWORD extends MyToken<"END_OF_NON_RESERVED_KEYWORD"> {}
 export interface EndOfFile extends MyToken<"EndOfFile"> {}
 export interface UnknownToken extends MyToken<"UnknownToken"> {}
@@ -721,6 +724,7 @@ export interface CloseBrace extends MyToken<"CloseBrace"> {}
 export interface DelimiterSpace extends MyToken<"DelimiterSpace"> {}
 export interface UNIQUE_KEY extends MyToken<"UNIQUE_KEY"> {}
 export interface UnderscoreCharacterSet extends MyToken<"UnderscoreCharacterSet"> {}
+export interface NOT2 extends MyToken<"NOT2"> {}
 export type CharacterDataTypeOption = CharacterDataTypeOptionAscii | CharacterDataTypeOptionUnicode | CharacterDataTypeOptionCharacterSet | CharacterDataTypeOptionByte | CharacterDataTypeOptionBinary;
 
 export interface CharacterDataTypeOptionAscii extends MySyntaxNode {
@@ -1069,7 +1073,7 @@ export interface IsNullBooleanPrimaryExpression extends MySyntaxNode {
     fields : {
         expression : (BooleanPrimaryExpression);
         isToken : (IS);
-        notToken? : (NOT);
+        notToken? : (Not);
         nullToken : (NULL)
     };
 }
@@ -1098,7 +1102,7 @@ export interface IsExpression extends MySyntaxNode {
     fields : {
         left : (BooleanPrimaryExpression);
         isToken : (IS);
-        notToken? : (NOT);
+        notToken? : (Not);
         right : (TRUE | FALSE | UNKNOWN)
     };
 }
@@ -1144,28 +1148,35 @@ export interface ParenthesizedExpression extends MySyntaxNode {
 export interface Empty_Arguments extends MySyntaxNode {
     syntaxKind : "Empty_Arguments";
     fields : {
-        openParenthesesToken : (OpenParentheses);
-        closeParenthesesToken : (CloseParentheses)
+        
     };
 }
 
 export interface ExpressionList_Arguments extends MySyntaxNode {
     syntaxKind : "ExpressionList_Arguments";
     fields : {
-        openParenthesesToken : (OpenParentheses);
-        item : (Expression)[];
-        closeParenthesesToken : (CloseParentheses);
-        commaToken : (Comma)[]
+        
+    };
+}
+
+export interface ExpressionList1_Arguments extends MySyntaxNode {
+    syntaxKind : "ExpressionList1_Arguments";
+    fields : {
+        
     };
 }
 
 export interface ExpressionList2_Arguments extends MySyntaxNode {
     syntaxKind : "ExpressionList2_Arguments";
     fields : {
-        openParenthesesToken : (OpenParentheses);
-        item : (Expression)[];
-        commaToken : (Comma)[];
-        closeParenthesesToken : (CloseParentheses)
+        
+    };
+}
+
+export interface ExpressionList2_Arguments_NoExpect extends MySyntaxNode {
+    syntaxKind : "ExpressionList2_Arguments_NoExpect";
+    fields : {
+        
     };
 }
 
@@ -1182,29 +1193,42 @@ export interface UserDefinedExpressionList_Arguments extends MySyntaxNode {
 export interface Expression1_Arguments extends MySyntaxNode {
     syntaxKind : "Expression1_Arguments";
     fields : {
-        openParenthesesToken : (OpenParentheses);
-        item : (Expression);
-        closeParenthesesToken : (CloseParentheses)
+        
     };
 }
 
 export interface Expression2_Arguments extends MySyntaxNode {
     syntaxKind : "Expression2_Arguments";
     fields : {
-        openParenthesesToken : (OpenParentheses);
-        item : (Expression)[];
-        commaToken : (Comma);
-        closeParenthesesToken : (CloseParentheses)
+        
+    };
+}
+
+export interface Expression3_Arguments extends MySyntaxNode {
+    syntaxKind : "Expression3_Arguments";
+    fields : {
+        
     };
 }
 
 export interface Expression4_Arguments extends MySyntaxNode {
     syntaxKind : "Expression4_Arguments";
     fields : {
-        openParenthesesToken : (OpenParentheses);
-        item : (Expression)[];
-        commaToken : (Comma)[];
-        closeParenthesesToken : (CloseParentheses)
+        
+    };
+}
+
+export interface Expression1To2_Arguments extends MySyntaxNode {
+    syntaxKind : "Expression1To2_Arguments";
+    fields : {
+        
+    };
+}
+
+export interface Expression2To3_Arguments extends MySyntaxNode {
+    syntaxKind : "Expression2To3_Arguments";
+    fields : {
+        
     };
 }
 
@@ -1254,14 +1278,15 @@ export interface Trim_Arguments extends MySyntaxNode {
     };
 }
 
-export interface DateAdd_Arguments extends MySyntaxNode {
-    syntaxKind : "DateAdd_Arguments";
+export interface DateAddInterval_Arguments extends MySyntaxNode {
+    syntaxKind : "DateAddInterval_Arguments";
     fields : {
         openParenthesesToken : (OpenParentheses);
         expression : (Expression);
-        commaToken : (Comma);
+        commaToken : (Comma)[];
         intervalExpression : (IntervalExpression);
-        closeParenthesesToken : (CloseParentheses)
+        closeParenthesesToken : (CloseParentheses);
+        extraItem : (Expression)[]
     };
 }
 
@@ -1272,7 +1297,9 @@ export interface Extract_Arguments extends MySyntaxNode {
         temporalUnit : (DAY | WEEK | HOUR | MINUTE | MONTH | QUARTER | SECOND | MICROSECOND | YEAR | SQL_TSI_DAY | SQL_TSI_WEEK | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_YEAR | DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_MICROSECOND | MINUTE_SECOND | SECOND_MICROSECOND | YEAR_MONTH);
         fromToken : (FROM);
         expression : (Expression);
-        closeParenthesesToken : (CloseParentheses)
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[];
+        extraItem : (Expression)[]
     };
 }
 
@@ -1281,9 +1308,10 @@ export interface GetFormat_Arguments extends MySyntaxNode {
     fields : {
         openParenthesesToken : (OpenParentheses);
         format : (DATETIME | TIMESTAMP | DATE | TIME);
-        commaToken : (Comma);
-        expression : (Expression);
-        closeParenthesesToken : (CloseParentheses)
+        commaToken : (Comma)[];
+        expression : (Identifier | Expression);
+        closeParenthesesToken : (CloseParentheses);
+        extraItem : (Expression)[]
     };
 }
 
@@ -1298,25 +1326,31 @@ export interface Position_Arguments extends MySyntaxNode {
     };
 }
 
-export interface Substring_Arguments extends MySyntaxNode {
-    syntaxKind : "Substring_Arguments";
-    fields : {
-        openParenthesesToken : (OpenParentheses);
-        str : (Expression);
-        fromToken : (FROM | Comma);
-        startPosition : (Expression);
-        forLength? : (ForLength);
-        closeParenthesesToken : (CloseParentheses)
-    };
-}
+export type Substring_Arguments = Substring_Arguments_From | Substring_Arguments_Comma;
 
 export interface ForLength extends MySyntaxNode {
     syntaxKind : "ForLength";
     fields : {
-        forToken : (FOR | Comma);
+        forToken : (FOR);
         length : (Expression)
     };
 }
+
+export interface Substring_Arguments_From extends MySyntaxNode {
+    syntaxKind : "Substring_Arguments_From";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        str : (Identifier | Expression);
+        fromToken : (FROM);
+        startPosition : (Expression);
+        forLength? : (ForLength);
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[];
+        extraItem : (Expression)[]
+    };
+}
+
+export type Substring_Arguments_Comma = Expression2To3_Arguments;
 
 export interface TimestampAdd_Arguments extends MySyntaxNode {
     syntaxKind : "TimestampAdd_Arguments";
@@ -1324,9 +1358,10 @@ export interface TimestampAdd_Arguments extends MySyntaxNode {
         openParenthesesToken : (OpenParentheses);
         temporalUnit : (DAY | WEEK | HOUR | MINUTE | MONTH | QUARTER | SECOND | MICROSECOND | YEAR | SQL_TSI_DAY | SQL_TSI_WEEK | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_YEAR);
         commaToken : (Comma)[];
-        interval : (Expression);
-        dateTime : (Expression);
-        closeParenthesesToken : (CloseParentheses)
+        interval : (Identifier | Expression);
+        dateTime : (Identifier | Expression);
+        closeParenthesesToken : (CloseParentheses);
+        extraItem : (Expression)[]
     };
 }
 
@@ -1336,16 +1371,333 @@ export interface TimestampDiff_Arguments extends MySyntaxNode {
         openParenthesesToken : (OpenParentheses);
         temporalUnit : (DAY | WEEK | HOUR | MINUTE | MONTH | QUARTER | SECOND | MICROSECOND | YEAR | SQL_TSI_DAY | SQL_TSI_WEEK | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_YEAR);
         commaToken : (Comma)[];
-        startDateTime : (Expression);
-        endDateTime : (Expression);
+        startDateTime : (Identifier | Expression);
+        endDateTime : (Identifier | Expression);
+        closeParenthesesToken : (CloseParentheses);
+        extraItem : (Expression)[]
+    };
+}
+
+export interface WeightString_Arguments extends MySyntaxNode {
+    syntaxKind : "WeightString_Arguments";
+    fields : {
+        
+    };
+}
+
+export interface WeightString_Arguments_Default extends MySyntaxNode {
+    syntaxKind : "WeightString_Arguments_Default";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        expr : (Expression);
+        levels? : (WeightString_Levels);
         closeParenthesesToken : (CloseParentheses)
     };
 }
 
+export interface WeightString_Arguments_AsChar extends MySyntaxNode {
+    syntaxKind : "WeightString_Arguments_AsChar";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        expr : (Expression);
+        asToken : (AS);
+        charToken : (Char);
+        length : (WeightStringCastLength);
+        levels? : (WeightString_Levels);
+        closeParenthesesToken : (CloseParentheses)
+    };
+}
+
+export interface WeightString_Arguments_AsBinary extends MySyntaxNode {
+    syntaxKind : "WeightString_Arguments_AsBinary";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        expr : (Expression);
+        asToken : (AS);
+        binaryToken : (BINARY);
+        length : (WeightStringCastLength);
+        closeParenthesesToken : (CloseParentheses)
+    };
+}
+
+export interface WeightString_Arguments_Undocumented extends MySyntaxNode {
+    syntaxKind : "WeightString_Arguments_Undocumented";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        expr : (Expression);
+        commaToken : (Comma)[];
+        num1 : (IntegerLiteral | HexLiteral | DecimalLiteral | RealLiteral);
+        num2 : (IntegerLiteral | HexLiteral | DecimalLiteral | RealLiteral);
+        num3 : (IntegerLiteral | HexLiteral | DecimalLiteral | RealLiteral);
+        closeParenthesesToken : (CloseParentheses);
+        extraItem : (Expression)[]
+    };
+}
+
+export interface WeightString_Levels extends MySyntaxNode {
+    syntaxKind : "WeightString_Levels";
+    fields : {
+        levelToken : (LEVEL);
+        levels : (WeightString_Level_List1 | WeightString_Level_Range)
+    };
+}
+
+export interface WeightString_Level_Flag extends MySyntaxNode {
+    syntaxKind : "WeightString_Level_Flag";
+    fields : {
+        sortOrder? : (ASC | DESC);
+        reverseToken? : (REVERSE)
+    };
+}
+
+export interface WeightString_Level_Item extends MySyntaxNode {
+    syntaxKind : "WeightString_Level_Item";
+    fields : {
+        level : (IntegerLiteral | HexLiteral);
+        flag? : (WeightString_Level_Flag)
+    };
+}
+
+export interface WeightString_Level_List1 extends MySyntaxNode {
+    syntaxKind : "WeightString_Level_List1";
+    fields : {
+        item : (WeightString_Level_Item)[];
+        commaToken : (Comma)[]
+    };
+}
+
+export interface WeightString_Level_Range extends MySyntaxNode {
+    syntaxKind : "WeightString_Level_Range";
+    fields : {
+        minLevel : (IntegerLiteral | HexLiteral);
+        dashToken : (Minus);
+        maxLevel : (IntegerLiteral | HexLiteral)
+    };
+}
+
+export interface WeightStringCastLength extends MySyntaxNode {
+    syntaxKind : "WeightStringCastLength";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        length : (IntegerLiteral | HexLiteral);
+        closeParenthesesToken : (CloseParentheses)
+    };
+}
+
+export interface AsciiFunctionCall extends MySyntaxNode {
+    syntaxKind : "AsciiFunctionCall";
+    fields : {
+        functionName : (ASCII);
+        arguments : (Expression1_Arguments)
+    };
+}
+
+export interface CharSetFunctionCall extends MySyntaxNode {
+    syntaxKind : "CharSetFunctionCall";
+    fields : {
+        functionName : (CHARSET);
+        arguments : (Expression1_Arguments)
+    };
+}
+
+export interface CoalesceFunctionCall extends MySyntaxNode {
+    syntaxKind : "CoalesceFunctionCall";
+    fields : {
+        functionName : (COALESCE);
+        arguments : (ExpressionList1_Arguments)
+    };
+}
+
+export interface CollationFunctionCall extends MySyntaxNode {
+    syntaxKind : "CollationFunctionCall";
+    fields : {
+        functionName : (COLLATION);
+        arguments : (Expression1_Arguments)
+    };
+}
+
+export interface SchemaFunctionCall extends MySyntaxNode {
+    syntaxKind : "SchemaFunctionCall";
+    fields : {
+        functionName : (SCHEMA | DATABASE);
+        arguments : (Empty_Arguments)
+    };
+}
+
+export interface IfFunctionCall extends MySyntaxNode {
+    syntaxKind : "IfFunctionCall";
+    fields : {
+        functionName : (IF);
+        arguments : (Expression3_Arguments)
+    };
+}
+
+export interface FormatFunctionCall extends MySyntaxNode {
+    syntaxKind : "FormatFunctionCall";
+    fields : {
+        functionName : (FORMAT);
+        arguments : (Expression2To3_Arguments)
+    };
+}
+
+export interface MicrosecondFunctionCall extends MySyntaxNode {
+    syntaxKind : "MicrosecondFunctionCall";
+    fields : {
+        functionName : (MICROSECOND);
+        arguments : (Expression1_Arguments)
+    };
+}
+
+export interface ModFunctionCall extends MySyntaxNode {
+    syntaxKind : "ModFunctionCall";
+    fields : {
+        functionName : (MOD);
+        arguments : (Expression2_Arguments)
+    };
+}
+
+export interface PasswordFunctionCall extends MySyntaxNode {
+    syntaxKind : "PasswordFunctionCall";
+    fields : {
+        functionName : (PASSWORD);
+        arguments : (Expression1_Arguments)
+    };
+}
+
+export interface QuarterFunctionCall extends MySyntaxNode {
+    syntaxKind : "QuarterFunctionCall";
+    fields : {
+        functionName : (QUARTER | SQL_TSI_QUARTER);
+        arguments : (Expression1_Arguments)
+    };
+}
+
+export interface RepeatFunctionCall extends MySyntaxNode {
+    syntaxKind : "RepeatFunctionCall";
+    fields : {
+        functionName : (REPEAT);
+        arguments : (Expression2_Arguments)
+    };
+}
+
+export interface ReplaceFunctionCall extends MySyntaxNode {
+    syntaxKind : "ReplaceFunctionCall";
+    fields : {
+        functionName : (REPLACE);
+        arguments : (Expression3_Arguments)
+    };
+}
+
+export interface ReverseFunctionCall extends MySyntaxNode {
+    syntaxKind : "ReverseFunctionCall";
+    fields : {
+        functionName : (REVERSE);
+        arguments : (Expression1_Arguments)
+    };
+}
+
+export interface RowCountFunctionCall extends MySyntaxNode {
+    syntaxKind : "RowCountFunctionCall";
+    fields : {
+        functionName : (ROW_COUNT);
+        arguments : (Empty_Arguments)
+    };
+}
+
+export interface TruncateFunctionCall extends MySyntaxNode {
+    syntaxKind : "TruncateFunctionCall";
+    fields : {
+        functionName : (TRUNCATE);
+        arguments : (Expression2_Arguments)
+    };
+}
+
+export interface WeekFunctionCall extends MySyntaxNode {
+    syntaxKind : "WeekFunctionCall";
+    fields : {
+        functionName : (WEEK | SQL_TSI_WEEK);
+        arguments : (Expression1To2_Arguments)
+    };
+}
+
+export interface WeightStringFunctionCall extends MySyntaxNode {
+    syntaxKind : "WeightStringFunctionCall";
+    fields : {
+        functionName : (WEIGHT_STRING);
+        arguments : (WeightString_Arguments)
+    };
+}
+
+export interface ContainsFunctionCall extends MySyntaxNode {
+    syntaxKind : "ContainsFunctionCall";
+    fields : {
+        functionName : (CONTAINS);
+        arguments : (Expression2_Arguments)
+    };
+}
+
+export interface GeometryCollectionFunctionCall extends MySyntaxNode {
+    syntaxKind : "GeometryCollectionFunctionCall";
+    fields : {
+        functionName : (GEOMETRYCOLLECTION);
+        arguments : (ExpressionList_Arguments)
+    };
+}
+
+export interface LineStringFunctionCall extends MySyntaxNode {
+    syntaxKind : "LineStringFunctionCall";
+    fields : {
+        functionName : (LINESTRING);
+        arguments : (ExpressionList1_Arguments)
+    };
+}
+
+export interface MultiLineStringFunctionCall extends MySyntaxNode {
+    syntaxKind : "MultiLineStringFunctionCall";
+    fields : {
+        functionName : (MULTILINESTRING);
+        arguments : (ExpressionList1_Arguments)
+    };
+}
+
+export interface MultiPointFunctionCall extends MySyntaxNode {
+    syntaxKind : "MultiPointFunctionCall";
+    fields : {
+        functionName : (MULTIPOINT);
+        arguments : (ExpressionList1_Arguments)
+    };
+}
+
+export interface MultiPolygonFunctionCall extends MySyntaxNode {
+    syntaxKind : "MultiPolygonFunctionCall";
+    fields : {
+        functionName : (MULTIPOLYGON);
+        arguments : (ExpressionList1_Arguments)
+    };
+}
+
+export interface PointFunctionCall extends MySyntaxNode {
+    syntaxKind : "PointFunctionCall";
+    fields : {
+        functionName : (POINT);
+        arguments : (Expression2_Arguments)
+    };
+}
+
+export interface PolygonFunctionCall extends MySyntaxNode {
+    syntaxKind : "PolygonFunctionCall";
+    fields : {
+        functionName : (POLYGON);
+        arguments : (ExpressionList1_Arguments)
+    };
+}
+
+export type ConflictFunctionCall = AsciiFunctionCall | CharSetFunctionCall | CoalesceFunctionCall | CollationFunctionCall | SchemaFunctionCall | IfFunctionCall | FormatFunctionCall | MicrosecondFunctionCall | ModFunctionCall | PasswordFunctionCall | QuarterFunctionCall | RepeatFunctionCall | ReplaceFunctionCall | ReverseFunctionCall | RowCountFunctionCall | TruncateFunctionCall | WeekFunctionCall | WeightStringFunctionCall | ContainsFunctionCall | GeometryCollectionFunctionCall | LineStringFunctionCall | MultiLineStringFunctionCall | MultiPointFunctionCall | MultiPolygonFunctionCall | PointFunctionCall | PolygonFunctionCall;
+
 export interface MaybeUserDefinedFunctionCall extends MySyntaxNode {
     syntaxKind : "MaybeUserDefinedFunctionCall";
     fields : {
-        functionName : (Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MIN_ROWS | MODE | MODIFY | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_QUARTER | SQL_TSI_WEEK | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | VARIANCE | VAR_POP | VAR_SAMP);
+        functionName : (Identifier | DoubleQuotedLiteral);
         arguments : (UserDefinedExpressionList_Arguments)
     };
 }
@@ -1360,12 +1712,12 @@ export interface QualifiedFunctionCall extends MySyntaxNode {
     };
 }
 
-export type FunctionCall = MaybeUserDefinedFunctionCall | QualifiedFunctionCall | KeywordFunctionCall | NonKeywordFunctionCall;
+export type FunctionCall = MaybeUserDefinedFunctionCall | QualifiedFunctionCall | KeywordFunctionCall | NonKeywordFunctionCall | ConflictFunctionCall;
 
 export interface CharacterFunctionCall extends MySyntaxNode {
     syntaxKind : "CharacterFunctionCall";
     fields : {
-        functionName : (Char);
+        functionName : (CHAR | CHARACTER);
         arguments : (Character_Arguments)
     };
 }
@@ -1381,8 +1733,8 @@ export interface CurrentUserFunctionCall extends MySyntaxNode {
 export interface ExtractFromDateTimeFunctionCall extends MySyntaxNode {
     syntaxKind : "ExtractFromDateTimeFunctionCall";
     fields : {
-        functionName : (DATE | DAY | HOUR | MINUTE | MONTH | SECOND | TIME | TIMESTAMP | YEAR);
-        arguments : (Expression1_Arguments | ExpressionList2_Arguments)
+        functionName : (DATE | DAY | SQL_TSI_DAY | HOUR | SQL_TSI_HOUR | MINUTE | SQL_TSI_MINUTE | MONTH | SQL_TSI_MONTH | SECOND | SQL_TSI_SECOND | TIME | YEAR | SQL_TSI_YEAR);
+        arguments : (Expression1_Arguments)
     };
 }
 
@@ -1418,23 +1770,31 @@ export interface RightFunctionCall extends MySyntaxNode {
     };
 }
 
-export interface TimestampAddTimeFunctionCall extends MySyntaxNode {
-    syntaxKind : "TimestampAddTimeFunctionCall";
+export interface TimestampFunctionCall extends MySyntaxNode {
+    syntaxKind : "TimestampFunctionCall";
     fields : {
         functionName : (TIMESTAMP);
-        arguments : (Expression2_Arguments)
+        arguments : (Expression1To2_Arguments)
+    };
+}
+
+export interface TrimFunctionCall extends MySyntaxNode {
+    syntaxKind : "TrimFunctionCall";
+    fields : {
+        functionName : (TRIM);
+        arguments : (Trim_Arguments)
     };
 }
 
 export interface UserFunctionCall extends MySyntaxNode {
     syntaxKind : "UserFunctionCall";
     fields : {
-        functionName : (USER);
+        functionName : (USER | SESSION_USER | SYSTEM_USER);
         arguments : (Empty_Arguments)
     };
 }
 
-export type KeywordFunctionCall = CharacterFunctionCall | CurrentUserFunctionCall | ExtractFromDateTimeFunctionCall | InsertFunctionCall | IntervalFunctionCall | LeftFunctionCall | RightFunctionCall | TimestampAddTimeFunctionCall | UserFunctionCall;
+export type KeywordFunctionCall = CharacterFunctionCall | CurrentUserFunctionCall | ExtractFromDateTimeFunctionCall | InsertFunctionCall | IntervalFunctionCall | LeftFunctionCall | RightFunctionCall | TimestampFunctionCall | TrimFunctionCall | UserFunctionCall;
 
 export interface AddDateFunctionCall extends MySyntaxNode {
     syntaxKind : "AddDateFunctionCall";
@@ -1463,8 +1823,8 @@ export interface CurrentTimeFunctionCall extends MySyntaxNode {
 export interface DateAddIntervalFunctionCall extends MySyntaxNode {
     syntaxKind : "DateAddIntervalFunctionCall";
     fields : {
-        functionName : (DATE_ADD | DATE_SUB);
-        arguments : (DateAdd_Arguments)
+        functionName : (DATE_ADD | DATE_SUB | ADDDATE | SUBDATE);
+        arguments : (DateAddInterval_Arguments)
     };
 }
 
@@ -1536,7 +1896,7 @@ export interface UtcTimeFunctionCall extends MySyntaxNode {
     syntaxKind : "UtcTimeFunctionCall";
     fields : {
         functionName : (UTC_TIME);
-        arguments : (DateTimePrecisionArg)
+        arguments? : (DateTimePrecisionArg)
     };
 }
 
@@ -1544,16 +1904,11 @@ export interface UtcTimestampFunctionCall extends MySyntaxNode {
     syntaxKind : "UtcTimestampFunctionCall";
     fields : {
         functionName : (UTC_TIMESTAMP);
-        arguments : (DateTimePrecisionArg)
+        arguments? : (DateTimePrecisionArg)
     };
 }
 
-export interface NonKeywordFunctionCall extends MySyntaxNode {
-    syntaxKind : "NonKeywordFunctionCall";
-    fields : {
-        
-    };
-}
+export type NonKeywordFunctionCall = AddDateFunctionCall | CurrentDateFunctionCall | CurrentTimeFunctionCall | DateAddIntervalFunctionCall | ExtractFunctionCall | GetFormatFunctionCall | Now | PositionFunctionCall | SubstringFunctionCall | SysDateFunctionCall | TimestampAddFunctionCall | TimestampDiffFunctionCall | UtcDateFunctionCall | UtcTimeFunctionCall | UtcTimestampFunctionCall;
 
 export interface UserDefinedExpression extends MySyntaxNode {
     syntaxKind : "UserDefinedExpression";
@@ -1577,12 +1932,16 @@ export interface interval extends MySyntaxNode {
     };
 }
 
+export type TemporalUnitTimeStamp = DAY | WEEK | HOUR | MINUTE | MONTH | QUARTER | SECOND | MICROSECOND | YEAR | SQL_TSI_DAY | SQL_TSI_WEEK | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_YEAR;
+
+export type TemporalUnit = DAY | WEEK | HOUR | MINUTE | MONTH | QUARTER | SECOND | MICROSECOND | YEAR | SQL_TSI_DAY | SQL_TSI_WEEK | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_YEAR | DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_MICROSECOND | MINUTE_SECOND | SECOND_MICROSECOND | YEAR_MONTH;
+
 export interface IntervalExpression extends MySyntaxNode {
     syntaxKind : "IntervalExpression";
     fields : {
         intervalToken : (INTERVAL);
         expression : (Expression);
-        temporalUnit : (DAY | WEEK | HOUR | MINUTE | MONTH | QUARTER | SECOND | MICROSECOND | YEAR | SQL_TSI_DAY | SQL_TSI_WEEK | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_YEAR | DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_MICROSECOND | MINUTE_SECOND | SECOND_MICROSECOND | YEAR_MONTH)
+        temporalUnit : (TemporalUnit)
     };
 }
 
@@ -1634,8 +1993,8 @@ export interface UnderscoreCharacterSetStringLiteral extends MySyntaxNode {
 export interface Now extends MySyntaxNode {
     syntaxKind : "Now";
     fields : {
-        nowToken : (CURRENT_TIMESTAMP | NOW | LOCALTIME | LOCALTIMESTAMP);
-        dateTimePrecisionArg? : (DateTimePrecisionArg)
+        functionName : (CURRENT_TIMESTAMP | NOW | LOCALTIME | LOCALTIMESTAMP);
+        arguments? : (DateTimePrecisionArg)
     };
 }
 
@@ -1643,8 +2002,10 @@ export interface DateTimePrecisionArg extends MySyntaxNode {
     syntaxKind : "DateTimePrecisionArg";
     fields : {
         openParenthesesToken : (OpenParentheses);
-        dateTimePrecision? : (IntegerLiteral);
-        closeParenthesesToken : (CloseParentheses)
+        dateTimePrecision? : (Expression);
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[];
+        extraItem : (Expression)[]
     };
 }
 
@@ -1654,7 +2015,7 @@ export interface InSubQueryPredicate extends MySyntaxNode {
     syntaxKind : "InSubQueryPredicate";
     fields : {
         expression : (BitExpression);
-        notToken? : (NOT);
+        notToken? : (Not);
         inToken : (IN);
         parenthesizedSelect : (ParenthesizedSelect)
     };
@@ -1664,7 +2025,7 @@ export interface InExpressionTuple1Predicate extends MySyntaxNode {
     syntaxKind : "InExpressionTuple1Predicate";
     fields : {
         expression : (BitExpression);
-        notToken? : (NOT);
+        notToken? : (Not);
         inToken : (IN);
         expressionTuple1 : (ExpressionTuple1)
     };
@@ -1674,7 +2035,7 @@ export interface BetweenPredicate extends MySyntaxNode {
     syntaxKind : "BetweenPredicate";
     fields : {
         left : (BitExpression);
-        notToken? : (NOT);
+        notToken? : (Not);
         betweenToken : (BETWEEN);
         middle : (BitExpression);
         andToken : (AND);
@@ -1696,7 +2057,7 @@ export interface LikePredicate extends MySyntaxNode {
     syntaxKind : "LikePredicate";
     fields : {
         left : (BitExpression);
-        notToken? : (NOT);
+        notToken? : (Not);
         likeToken : (LIKE);
         right : (SimpleExpression);
         escape? : (LikeEscape)
@@ -1715,7 +2076,7 @@ export interface RegExpPredicate extends MySyntaxNode {
     syntaxKind : "RegExpPredicate";
     fields : {
         left : (BitExpression);
-        notToken? : (NOT);
+        notToken? : (Not);
         regexpToken : (REGEXP);
         right : (BitExpression)
     };
@@ -1729,12 +2090,12 @@ export interface SignedLiteral extends MySyntaxNode {
     };
 }
 
-export type SimpleExpression = Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | ColumnIdentifierSimpleExpression | FunctionCall | Literal | ParamMarker | UserVariableIdentifier | UserVariableIdentifierAssignment | ScopedSystemVariableIdentifier | UnscopedSystemVariableIdentifier | Not2SimpleExpression | ParenthesizedExpressionSimpleExpression | IntervalExpressionPlus | PrefixSimpleExpression | CollateSimpleExpression | ParenthesizedSelect;
+export type SimpleExpression = Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | ColumnIdentifierSimpleExpression | FunctionCall | Literal | ParamMarker | UserVariableIdentifier | UserVariableIdentifierAssignment | ScopedSystemVariableIdentifier | UnscopedSystemVariableIdentifier | Not2SimpleExpression | ParenthesizedExpressionSimpleExpression | IntervalExpressionPlus | PrefixSimpleExpression | CollateSimpleExpression | ParenthesizedSelect;
 
 export interface Not2SimpleExpression extends MySyntaxNode {
     syntaxKind : "Not2SimpleExpression";
     fields : {
-        exclamationToken : (Exclamation);
+        exclamationToken : (Exclamation | NOT2);
         expression : (SimpleExpression)
     };
 }
@@ -1792,7 +2153,7 @@ export interface UnscopedSystemVariableIdentifier extends MySyntaxNode {
     syntaxKind : "UnscopedSystemVariableIdentifier";
     fields : {
         atToken : (At)[];
-        instanceName : (Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP);
+        instanceName : (Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE);
         dotToken? : (Dot);
         componentName? : (Ident | UnderscoreCharacterSet | ACCESSIBLE | ADD | ALL | ALTER | ANALYZE | AND | AS | ASC | ASENSITIVE | BEFORE | BETWEEN | BIGINT | BINARY | BLOB | BOTH | BY | CALL | CASCADE | CASE | CHANGE | CHAR | CHARACTER | CHECK | COLLATE | COLUMN | CONDITION | CONSTRAINT | CONTINUE | CONVERT | CREATE | CROSS | CURRENT_DATE | CURRENT_TIME | CURRENT_TIMESTAMP | CURRENT_USER | CURSOR | DATABASE | DATABASES | DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | DEC | DECIMAL | DECLARE | DEFAULT | DELAYED | DELETE | DESC | DESCRIBE | DETERMINISTIC | DISTINCT | DISTINCTROW | DIV | DOUBLE | DROP | DUAL | EACH | ELSE | ELSEIF | ENCLOSED | ESCAPED | EXISTS | EXIT | EXPLAIN | FALSE | FETCH | FLOAT | FLOAT4 | FLOAT8 | FOR | FORCE | FOREIGN | FROM | FULLTEXT | GENERATED | GET | GRANT | GROUP | HAVING | HIGH_PRIORITY | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | IF | IGNORE | IN | INDEX | INFILE | INNER | INOUT | INSENSITIVE | INSERT | INT | INT1 | INT2 | INT3 | INT4 | INT8 | INTEGER | INTERVAL | INTO | IO_AFTER_GTIDS | IO_BEFORE_GTIDS | IS | ITERATE | JOIN | KEY | KEYS | KILL | LEADING | LEAVE | LEFT | LIKE | LIMIT | LINEAR | LINES | LOAD | LOCALTIME | LOCALTIMESTAMP | LOCK | LONG | LONGBLOB | LONGTEXT | LOOP | LOW_PRIORITY | MASTER_BIND | MASTER_SSL_VERIFY_SERVER_CERT | MATCH | MAXVALUE | MEDIUMBLOB | MEDIUMINT | MEDIUMTEXT | MIDDLEINT | MINUTE_MICROSECOND | MINUTE_SECOND | MOD | MODIFIES | NATURAL | NOT | NO_WRITE_TO_BINLOG | NULL | NUMERIC | ON | OPTIMIZE | OPTIMIZER_COSTS | OPTION | OPTIONALLY | OR | ORDER | OUT | OUTER | OUTFILE | PARTITION | PRECISION | PRIMARY | PROCEDURE | PURGE | RANGE | READ | READS | READ_WRITE | REAL | REFERENCES | REGEXP | RELEASE | RENAME | REPEAT | REPLACE | REQUIRE | RESIGNAL | RESTRICT | RETURN | REVOKE | RIGHT | RLIKE | SCHEMA | SCHEMAS | SECOND_MICROSECOND | SELECT | SENSITIVE | SEPARATOR | SET | SHOW | SIGNAL | SMALLINT | SPATIAL | SPECIFIC | SQL | SQLEXCEPTION | SQLSTATE | SQLWARNING | SQL_BIG_RESULT | SQL_CALC_FOUND_ROWS | SQL_SMALL_RESULT | SSL | STARTING | STORED | STRAIGHT_JOIN | TABLE | TERMINATED | THEN | TINYBLOB | TINYINT | TINYTEXT | TO | TRAILING | TRIGGER | TRUE | UNDO | UNION | UNIQUE | UNLOCK | UNSIGNED | UPDATE | USAGE | USE | USING | UTC_DATE | UTC_TIME | UTC_TIMESTAMP | VALUES | VARBINARY | VARCHAR | VARCHARACTER | VARYING | VIRTUAL | WHEN | WHERE | WHILE | WITH | WRITE | XOR | YEAR_MONTH | ZEROFILL)
     };
@@ -1802,7 +2163,7 @@ export interface UserVariableIdentifier extends MySyntaxNode {
     syntaxKind : "UserVariableIdentifier";
     fields : {
         atToken : (At);
-        identifier? : (Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | UnderscoreCharacterSet | ACCESSIBLE | ADD | ALL | ALTER | ANALYZE | AND | AS | ASC | ASENSITIVE | BEFORE | BETWEEN | BIGINT | BINARY | BLOB | BOTH | BY | CALL | CASCADE | CASE | CHANGE | CHAR | CHARACTER | CHECK | COLLATE | COLUMN | CONDITION | CONSTRAINT | CONTINUE | CONVERT | CREATE | CROSS | CURRENT_DATE | CURRENT_TIME | CURRENT_TIMESTAMP | CURRENT_USER | CURSOR | DATABASE | DATABASES | DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | DEC | DECIMAL | DECLARE | DEFAULT | DELAYED | DELETE | DESC | DESCRIBE | DETERMINISTIC | DISTINCT | DISTINCTROW | DIV | DOUBLE | DROP | DUAL | EACH | ELSE | ELSEIF | ENCLOSED | ESCAPED | EXISTS | EXIT | EXPLAIN | FALSE | FETCH | FLOAT | FLOAT4 | FLOAT8 | FOR | FORCE | FOREIGN | FROM | FULLTEXT | GENERATED | GET | GRANT | GROUP | HAVING | HIGH_PRIORITY | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | IF | IGNORE | IN | INDEX | INFILE | INNER | INOUT | INSENSITIVE | INSERT | INT | INT1 | INT2 | INT3 | INT4 | INT8 | INTEGER | INTERVAL | INTO | IO_AFTER_GTIDS | IO_BEFORE_GTIDS | IS | ITERATE | JOIN | KEY | KEYS | KILL | LEADING | LEAVE | LEFT | LIKE | LIMIT | LINEAR | LINES | LOAD | LOCALTIME | LOCALTIMESTAMP | LOCK | LONG | LONGBLOB | LONGTEXT | LOOP | LOW_PRIORITY | MASTER_BIND | MASTER_SSL_VERIFY_SERVER_CERT | MATCH | MAXVALUE | MEDIUMBLOB | MEDIUMINT | MEDIUMTEXT | MIDDLEINT | MINUTE_MICROSECOND | MINUTE_SECOND | MOD | MODIFIES | NATURAL | NOT | NO_WRITE_TO_BINLOG | NULL | NUMERIC | ON | OPTIMIZE | OPTIMIZER_COSTS | OPTION | OPTIONALLY | OR | ORDER | OUT | OUTER | OUTFILE | PARTITION | PRECISION | PRIMARY | PROCEDURE | PURGE | RANGE | READ | READS | READ_WRITE | REAL | REFERENCES | REGEXP | RELEASE | RENAME | REPEAT | REPLACE | REQUIRE | RESIGNAL | RESTRICT | RETURN | REVOKE | RIGHT | RLIKE | SCHEMA | SCHEMAS | SECOND_MICROSECOND | SELECT | SENSITIVE | SEPARATOR | SET | SHOW | SIGNAL | SMALLINT | SPATIAL | SPECIFIC | SQL | SQLEXCEPTION | SQLSTATE | SQLWARNING | SQL_BIG_RESULT | SQL_CALC_FOUND_ROWS | SQL_SMALL_RESULT | SSL | STARTING | STORED | STRAIGHT_JOIN | TABLE | TERMINATED | THEN | TINYBLOB | TINYINT | TINYTEXT | TO | TRAILING | TRIGGER | TRUE | UNDO | UNION | UNIQUE | UNLOCK | UNSIGNED | UPDATE | USAGE | USE | USING | UTC_DATE | UTC_TIME | UTC_TIMESTAMP | VALUES | VARBINARY | VARCHAR | VARCHARACTER | VARYING | VIRTUAL | WHEN | WHERE | WHILE | WITH | WRITE | XOR | YEAR_MONTH | ZEROFILL | StringLiteral)
+        identifier? : (Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | UnderscoreCharacterSet | ACCESSIBLE | ADD | ALL | ALTER | ANALYZE | AND | AS | ASC | ASENSITIVE | BEFORE | BETWEEN | BIGINT | BINARY | BLOB | BOTH | BY | CALL | CASCADE | CASE | CHANGE | CHAR | CHARACTER | CHECK | COLLATE | COLUMN | CONDITION | CONSTRAINT | CONTINUE | CONVERT | CREATE | CROSS | CURRENT_DATE | CURRENT_TIME | CURRENT_TIMESTAMP | CURRENT_USER | CURSOR | DATABASE | DATABASES | DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | DEC | DECIMAL | DECLARE | DEFAULT | DELAYED | DELETE | DESC | DESCRIBE | DETERMINISTIC | DISTINCT | DISTINCTROW | DIV | DOUBLE | DROP | DUAL | EACH | ELSE | ELSEIF | ENCLOSED | ESCAPED | EXISTS | EXIT | EXPLAIN | FALSE | FETCH | FLOAT | FLOAT4 | FLOAT8 | FOR | FORCE | FOREIGN | FROM | FULLTEXT | GENERATED | GET | GRANT | GROUP | HAVING | HIGH_PRIORITY | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | IF | IGNORE | IN | INDEX | INFILE | INNER | INOUT | INSENSITIVE | INSERT | INT | INT1 | INT2 | INT3 | INT4 | INT8 | INTEGER | INTERVAL | INTO | IO_AFTER_GTIDS | IO_BEFORE_GTIDS | IS | ITERATE | JOIN | KEY | KEYS | KILL | LEADING | LEAVE | LEFT | LIKE | LIMIT | LINEAR | LINES | LOAD | LOCALTIME | LOCALTIMESTAMP | LOCK | LONG | LONGBLOB | LONGTEXT | LOOP | LOW_PRIORITY | MASTER_BIND | MASTER_SSL_VERIFY_SERVER_CERT | MATCH | MAXVALUE | MEDIUMBLOB | MEDIUMINT | MEDIUMTEXT | MIDDLEINT | MINUTE_MICROSECOND | MINUTE_SECOND | MOD | MODIFIES | NATURAL | NOT | NO_WRITE_TO_BINLOG | NULL | NUMERIC | ON | OPTIMIZE | OPTIMIZER_COSTS | OPTION | OPTIONALLY | OR | ORDER | OUT | OUTER | OUTFILE | PARTITION | PRECISION | PRIMARY | PROCEDURE | PURGE | RANGE | READ | READS | READ_WRITE | REAL | REFERENCES | REGEXP | RELEASE | RENAME | REPEAT | REPLACE | REQUIRE | RESIGNAL | RESTRICT | RETURN | REVOKE | RIGHT | RLIKE | SCHEMA | SCHEMAS | SECOND_MICROSECOND | SELECT | SENSITIVE | SEPARATOR | SET | SHOW | SIGNAL | SMALLINT | SPATIAL | SPECIFIC | SQL | SQLEXCEPTION | SQLSTATE | SQLWARNING | SQL_BIG_RESULT | SQL_CALC_FOUND_ROWS | SQL_SMALL_RESULT | SSL | STARTING | STORED | STRAIGHT_JOIN | TABLE | TERMINATED | THEN | TINYBLOB | TINYINT | TINYTEXT | TO | TRAILING | TRIGGER | TRUE | UNDO | UNION | UNIQUE | UNLOCK | UNSIGNED | UPDATE | USAGE | USE | USING | UTC_DATE | UTC_TIME | UTC_TIMESTAMP | VALUES | VARBINARY | VARCHAR | VARCHARACTER | VARYING | VIRTUAL | WHEN | WHERE | WHILE | WITH | WRITE | XOR | YEAR_MONTH | ZEROFILL | StringLiteral)
     };
 }
 
@@ -1832,9 +2193,9 @@ export interface ColumnIdentifier extends MySyntaxNode {
     };
 }
 
-export type Ident = Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP;
+export type Ident = Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE;
 
-export type IdentOrReserved = Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | ACCESSIBLE | ADD | ALL | ALTER | ANALYZE | AND | AS | ASC | ASENSITIVE | BEFORE | BETWEEN | BIGINT | BINARY | BLOB | BOTH | BY | CALL | CASCADE | CASE | CHANGE | CHAR | CHARACTER | CHECK | COLLATE | COLUMN | CONDITION | CONSTRAINT | CONTINUE | CONVERT | CREATE | CROSS | CURRENT_DATE | CURRENT_TIME | CURRENT_TIMESTAMP | CURRENT_USER | CURSOR | DATABASE | DATABASES | DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | DEC | DECIMAL | DECLARE | DEFAULT | DELAYED | DELETE | DESC | DESCRIBE | DETERMINISTIC | DISTINCT | DISTINCTROW | DIV | DOUBLE | DROP | DUAL | EACH | ELSE | ELSEIF | ENCLOSED | ESCAPED | EXISTS | EXIT | EXPLAIN | FALSE | FETCH | FLOAT | FLOAT4 | FLOAT8 | FOR | FORCE | FOREIGN | FROM | FULLTEXT | GENERATED | GET | GRANT | GROUP | HAVING | HIGH_PRIORITY | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | IF | IGNORE | IN | INDEX | INFILE | INNER | INOUT | INSENSITIVE | INSERT | INT | INT1 | INT2 | INT3 | INT4 | INT8 | INTEGER | INTERVAL | INTO | IO_AFTER_GTIDS | IO_BEFORE_GTIDS | IS | ITERATE | JOIN | KEY | KEYS | KILL | LEADING | LEAVE | LEFT | LIKE | LIMIT | LINEAR | LINES | LOAD | LOCALTIME | LOCALTIMESTAMP | LOCK | LONG | LONGBLOB | LONGTEXT | LOOP | LOW_PRIORITY | MASTER_BIND | MASTER_SSL_VERIFY_SERVER_CERT | MATCH | MAXVALUE | MEDIUMBLOB | MEDIUMINT | MEDIUMTEXT | MIDDLEINT | MINUTE_MICROSECOND | MINUTE_SECOND | MOD | MODIFIES | NATURAL | NOT | NO_WRITE_TO_BINLOG | NULL | NUMERIC | ON | OPTIMIZE | OPTIMIZER_COSTS | OPTION | OPTIONALLY | OR | ORDER | OUT | OUTER | OUTFILE | PARTITION | PRECISION | PRIMARY | PROCEDURE | PURGE | RANGE | READ | READS | READ_WRITE | REAL | REFERENCES | REGEXP | RELEASE | RENAME | REPEAT | REPLACE | REQUIRE | RESIGNAL | RESTRICT | RETURN | REVOKE | RIGHT | RLIKE | SCHEMA | SCHEMAS | SECOND_MICROSECOND | SELECT | SENSITIVE | SEPARATOR | SET | SHOW | SIGNAL | SMALLINT | SPATIAL | SPECIFIC | SQL | SQLEXCEPTION | SQLSTATE | SQLWARNING | SQL_BIG_RESULT | SQL_CALC_FOUND_ROWS | SQL_SMALL_RESULT | SSL | STARTING | STORED | STRAIGHT_JOIN | TABLE | TERMINATED | THEN | TINYBLOB | TINYINT | TINYTEXT | TO | TRAILING | TRIGGER | TRUE | UNDO | UNION | UNIQUE | UNLOCK | UNSIGNED | UPDATE | USAGE | USE | USING | UTC_DATE | UTC_TIME | UTC_TIMESTAMP | VALUES | VARBINARY | VARCHAR | VARCHARACTER | VARYING | VIRTUAL | WHEN | WHERE | WHILE | WITH | WRITE | XOR | YEAR_MONTH | ZEROFILL | UnderscoreCharacterSet;
+export type IdentOrReserved = Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | UnderscoreCharacterSet | ACCESSIBLE | ADD | ALL | ALTER | ANALYZE | AND | AS | ASC | ASENSITIVE | BEFORE | BETWEEN | BIGINT | BINARY | BLOB | BOTH | BY | CALL | CASCADE | CASE | CHANGE | CHAR | CHARACTER | CHECK | COLLATE | COLUMN | CONDITION | CONSTRAINT | CONTINUE | CONVERT | CREATE | CROSS | CURRENT_DATE | CURRENT_TIME | CURRENT_TIMESTAMP | CURRENT_USER | CURSOR | DATABASE | DATABASES | DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | DEC | DECIMAL | DECLARE | DEFAULT | DELAYED | DELETE | DESC | DESCRIBE | DETERMINISTIC | DISTINCT | DISTINCTROW | DIV | DOUBLE | DROP | DUAL | EACH | ELSE | ELSEIF | ENCLOSED | ESCAPED | EXISTS | EXIT | EXPLAIN | FALSE | FETCH | FLOAT | FLOAT4 | FLOAT8 | FOR | FORCE | FOREIGN | FROM | FULLTEXT | GENERATED | GET | GRANT | GROUP | HAVING | HIGH_PRIORITY | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | IF | IGNORE | IN | INDEX | INFILE | INNER | INOUT | INSENSITIVE | INSERT | INT | INT1 | INT2 | INT3 | INT4 | INT8 | INTEGER | INTERVAL | INTO | IO_AFTER_GTIDS | IO_BEFORE_GTIDS | IS | ITERATE | JOIN | KEY | KEYS | KILL | LEADING | LEAVE | LEFT | LIKE | LIMIT | LINEAR | LINES | LOAD | LOCALTIME | LOCALTIMESTAMP | LOCK | LONG | LONGBLOB | LONGTEXT | LOOP | LOW_PRIORITY | MASTER_BIND | MASTER_SSL_VERIFY_SERVER_CERT | MATCH | MAXVALUE | MEDIUMBLOB | MEDIUMINT | MEDIUMTEXT | MIDDLEINT | MINUTE_MICROSECOND | MINUTE_SECOND | MOD | MODIFIES | NATURAL | NOT | NO_WRITE_TO_BINLOG | NULL | NUMERIC | ON | OPTIMIZE | OPTIMIZER_COSTS | OPTION | OPTIONALLY | OR | ORDER | OUT | OUTER | OUTFILE | PARTITION | PRECISION | PRIMARY | PROCEDURE | PURGE | RANGE | READ | READS | READ_WRITE | REAL | REFERENCES | REGEXP | RELEASE | RENAME | REPEAT | REPLACE | REQUIRE | RESIGNAL | RESTRICT | RETURN | REVOKE | RIGHT | RLIKE | SCHEMA | SCHEMAS | SECOND_MICROSECOND | SELECT | SENSITIVE | SEPARATOR | SET | SHOW | SIGNAL | SMALLINT | SPATIAL | SPECIFIC | SQL | SQLEXCEPTION | SQLSTATE | SQLWARNING | SQL_BIG_RESULT | SQL_CALC_FOUND_ROWS | SQL_SMALL_RESULT | SSL | STARTING | STORED | STRAIGHT_JOIN | TABLE | TERMINATED | THEN | TINYBLOB | TINYINT | TINYTEXT | TO | TRAILING | TRIGGER | TRUE | UNDO | UNION | UNIQUE | UNLOCK | UNSIGNED | UPDATE | USAGE | USE | USING | UTC_DATE | UTC_TIME | UTC_TIMESTAMP | VALUES | VARBINARY | VARCHAR | VARCHARACTER | VARYING | VIRTUAL | WHEN | WHERE | WHILE | WITH | WRITE | XOR | YEAR_MONTH | ZEROFILL;
 
 export interface IdentTuple1 extends MySyntaxNode {
     syntaxKind : "IdentTuple1";
@@ -1904,7 +2265,7 @@ export interface DefaultCharacterSet extends MySyntaxNode {
     };
 }
 
-export type CharacterSetName = Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | StringLiteral | BINARY;
+export type CharacterSetName = Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | StringLiteral | BINARY;
 
 export type CharacterSetNameOrDefault = DEFAULT | CharacterSetName;
 
@@ -1926,7 +2287,7 @@ export interface CollateExplicit extends MySyntaxNode {
     };
 }
 
-export type CollationName = Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | StringLiteral;
+export type CollationName = Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | StringLiteral;
 
 export type CollationNameOrDefault = DEFAULT | CollationName;
 
@@ -1949,10 +2310,12 @@ export interface IfNotExists extends MySyntaxNode {
     syntaxKind : "IfNotExists";
     fields : {
         ifToken : (IF);
-        notToken : (NOT);
+        notToken : (Not);
         existsToken : (EXISTS)
     };
 }
+
+export type Not = NOT | NOT2;
 
 export type Schema = SCHEMA | DATABASE;
 
@@ -2022,7 +2385,7 @@ export interface ColumnDefinitionOptionNull extends MySyntaxNode {
 export interface ColumnDefinitionOptionNotNull extends MySyntaxNode {
     syntaxKind : "ColumnDefinitionOptionNotNull";
     fields : {
-        notToken : (NOT);
+        notToken : (Not);
         nullToken : (NULL)
     };
 }
@@ -2200,7 +2563,7 @@ export interface CreateTableOptionEngine extends MySyntaxNode {
     fields : {
         engineToken : (ENGINE);
         equalToken? : (Equal);
-        engine : (Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | StringLiteral)
+        engine : (Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | StringLiteral)
     };
 }
 
@@ -2605,20 +2968,13 @@ export interface PartitionCount extends MySyntaxNode {
 
 export type PartitionDefinitionOption = PartitionDefinitionOptionEngine | PartitionDefinitionOptionMaxRows | PartitionDefinitionOptionMinRows | PartitionDefinitionOptionComment | PartitionDefinitionOptionDataDirectory | PartitionDefinitionOptionIndexDirectory | PartitionDefinitionOptionTablespace | PartitionDefinitionOptionNodeGroup;
 
-export interface PreParseOption extends MySyntaxNode {
-    syntaxKind : "PreParseOption";
-    fields : {
-        
-    };
-}
-
 export interface PartitionDefinitionOptionEngine extends MySyntaxNode {
     syntaxKind : "PartitionDefinitionOptionEngine";
     fields : {
         storageToken? : (STORAGE);
         engineToken : (ENGINE);
         equalToken? : (Equal);
-        engine : (Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | StringLiteral)
+        engine : (Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | StringLiteral)
     };
 }
 
@@ -2777,7 +3133,7 @@ export interface SubPartitionDefinition extends MySyntaxNode {
     syntaxKind : "SubPartitionDefinition";
     fields : {
         subPartitionToken : (SUBPARTITION);
-        subPartitionName : (Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | StringLiteral);
+        subPartitionName : (Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | StringLiteral);
         partitionDefinitionOptionRepeat1? : (PartitionDefinitionOptionRepeat1)
     };
 }
@@ -2798,7 +3154,7 @@ export interface Alias extends MySyntaxNode {
     syntaxKind : "Alias";
     fields : {
         asToken? : (AS);
-        alias : (Identifier | DoubleQuotedLiteral | ACCOUNT | ACTION | AFTER | AGAINST | AGGREGATE | ALGORITHM | ALWAYS | ANALYSE | ANY | ASCII | AT | AUTOEXTEND_SIZE | AUTO_INCREMENT | AVG | AVG_ROW_LENGTH | BACKUP | BEGIN | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | BYTE | CACHE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CHARSET | CHECKSUM | CIPHER | CLASS_ORIGIN | CLIENT | CLOSE | COALESCE | CODE | COLLATION | COLUMNS | COLUMN_FORMAT | COLUMN_NAME | COMMENT | COMMIT | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_NAME | CONSTRAINT_SCHEMA | CONTAINS | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATE | DATETIME | DAY | DEALLOCATE | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DO | DUMPFILE | DUPLICATE | DYNAMIC | ENABLE | ENCRYPTION | END | ENDS | ENGINE | ENGINES | ENUM | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXECUTE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAST | FAULTS | FIELDS | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | FLUSH | FOLLOWS | FORMAT | FOUND | FULL | FUNCTION | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GLOBAL | GRANTS | GROUP_REPLICATION | HANDLER | HASH | HELP | HOST | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | IMPORT | INDEXES | INITIAL_SIZE | INSERT_METHOD | INSTALL | INSTANCE | INVOKER | IO | IO_THREAD | IPC | ISOLATION | ISSUER | JSON | KEY_BLOCK_SIZE | LANGUAGE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MASTER | MASTER_AUTO_POSITION | MASTER_CONNECT_RETRY | MASTER_DELAY | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_PASSWORD | MASTER_PORT | MASTER_RETRY_COUNT | MASTER_SERVER_ID | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_TLS_VERSION | MASTER_USER | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_ROWS | MAX_SIZE | MAX_STATEMENT_TIME | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODE | MODIFY | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDB | NDBCLUSTER | NEVER | NEW | NEXT | NO | NODEGROUP | NONBLOCKING | NONE | NO_WAIT | NUMBER | NVARCHAR | OFFSET | OLD_PASSWORD | ONE | ONLY | OPEN | OPTIONS | OWNER | PACK_KEYS | PAGE | PARSER | PARSE_GCOL_EXPR | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN | PLUGINS | PLUGIN_DIR | POINT | POLYGON | PORT | PRECEDES | PREPARE | PRESERVE | PREV | PRIVILEGES | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDOFILE | REDO_BUFFER_SIZE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REMOVE | REORGANIZE | REPAIR | REPEATABLE | REPLICATE_DO_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_DB | REPLICATE_IGNORE_TABLE | REPLICATE_REWRITE_DB | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATION | RESET | RESTORE | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLBACK | ROLLUP | ROTATE | ROUTINE | ROW | ROWS | ROW_COUNT | ROW_FORMAT | RTREE | SAVEPOINT | SCHEDULE | SCHEMA_NAME | SECOND | SECURITY | SERIAL | SERIALIZABLE | SERVER | SESSION | SHARE | SHUTDOWN | SIGNED | SIMPLE | SLAVE | SLOW | SNAPSHOT | SOCKET | SOME | SONAME | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_BUFFER_RESULT | SQL_CACHE | SQL_NO_CACHE | SQL_THREAD | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_WEEK | SQL_TSI_YEAR | STACKED | START | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STOP | STORAGE | STRING | SUBCLASS_ORIGIN | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLES | TABLESPACE | TABLE_CHECKSUM | TABLE_NAME | TEMPORARY | TEMPTABLE | TEXT | THAN | TIME | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TRANSACTION | TRIGGERS | TRUNCATE | TYPE | TYPES | UNCOMMITTED | UNDEFINED | UNDOFILE | UNDO_BUFFER_SIZE | UNICODE | UNINSTALL | UNKNOWN | UNTIL | UPGRADE | USER | USER_RESOURCES | USE_FRM | VALIDATION | VALUE | VARIABLES | VIEW | WAIT | WARNINGS | WEEK | WEIGHT_STRING | WITHOUT | WORK | WRAPPER | X509 | XA | XID | XML | YEAR | ADDDATE | BIT_AND | BIT_OR | BIT_XOR | CAST | COUNT | CURDATE | CURTIME | DATE_ADD | DATE_SUB | EXTRACT | GROUP_CONCAT | JSON_OBJECTAGG | JSON_ARRAYAGG | MAX | MID | MIN | NOW | POSITION | SESSION_USER | STD | STDDEV | STDDEV_POP | STDDEV_SAMP | ST_COLLECT | SUBDATE | SUBSTR | SUBSTRING | SUM | SYSDATE | SYSTEM_USER | TRIM | VARIANCE | VAR_POP | VAR_SAMP | StringLiteral)
+        alias : (Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | StringLiteral)
     };
 }
 

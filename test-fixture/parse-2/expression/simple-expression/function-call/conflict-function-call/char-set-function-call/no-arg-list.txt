@@ -1,0 +1,7 @@
+SELECT CHARSET
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: CHARSET[7, 14])
+        )
+!`

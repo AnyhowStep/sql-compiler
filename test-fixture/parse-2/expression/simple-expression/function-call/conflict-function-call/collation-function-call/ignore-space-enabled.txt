@@ -1,0 +1,26 @@
+SELECT COLLATION(a)
+-----
+`!
+          (expression: CollationFunctionCall[7, 19]
+            (functionName: COLLATION[7, 16])
+            (arguments: Expression1_Arguments[16, 19]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT COLLATION (a)
+-----
+`!
+          (expression: CollationFunctionCall[7, 20]
+            (functionName: COLLATION[7, 16])
+            (WhiteSpace[16, 17])
+            (arguments: Expression1_Arguments[17, 20]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`

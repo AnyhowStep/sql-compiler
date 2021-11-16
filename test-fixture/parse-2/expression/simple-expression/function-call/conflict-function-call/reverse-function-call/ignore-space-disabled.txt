@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT REVERSE(a)
+-----
+`!
+          (expression: ReverseFunctionCall[33, 43]
+            (functionName: REVERSE[33, 40])
+            (arguments: Expression1_Arguments[40, 43]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (item[]: Identifier[41, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT REVERSE (a)
+-----
+`!
+          (expression: ReverseFunctionCall[33, 44]
+            (functionName: REVERSE[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: Expression1_Arguments[41, 44]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: Identifier[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`

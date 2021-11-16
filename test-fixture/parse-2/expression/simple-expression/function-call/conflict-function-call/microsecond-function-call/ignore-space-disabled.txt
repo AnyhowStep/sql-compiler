@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT MICROSECOND(a)
+-----
+`!
+          (expression: MicrosecondFunctionCall[33, 47]
+            (functionName: MICROSECOND[33, 44])
+            (arguments: Expression1_Arguments[44, 47]
+              (openParenthesesToken: OpenParentheses[44, 45])
+              (item[]: Identifier[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT MICROSECOND (a)
+-----
+`!
+          (expression: MicrosecondFunctionCall[33, 48]
+            (functionName: MICROSECOND[33, 44])
+            (WhiteSpace[44, 45])
+            (arguments: Expression1_Arguments[45, 48]
+              (openParenthesesToken: OpenParentheses[45, 46])
+              (item[]: Identifier[46, 47])
+              (closeParenthesesToken: CloseParentheses[47, 48])
+            )
+          )
+!`

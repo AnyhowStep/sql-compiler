@@ -1,0 +1,7 @@
+SELECT WEEK
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (expression: WEEK[7, 11])
+        )
+!`

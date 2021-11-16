@@ -1,0 +1,32 @@
+SELECT FORMAT(a, b)
+-----
+`!
+          (expression: FormatFunctionCall[7, 19]
+            (functionName: FORMAT[7, 13])
+            (arguments: Expression2To3_Arguments[13, 19]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT FORMAT (a, b)
+-----
+`!
+          (expression: FormatFunctionCall[7, 20]
+            (functionName: FORMAT[7, 13])
+            (WhiteSpace[13, 14])
+            (arguments: Expression2To3_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`

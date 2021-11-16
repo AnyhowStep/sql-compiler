@@ -1,0 +1,32 @@
+SELECT MOD(a, b)
+-----
+`!
+          (expression: ModFunctionCall[7, 16]
+            (functionName: MOD[7, 10])
+            (arguments: Expression2_Arguments[10, 16]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: Identifier[11, 12])
+              (commaToken[]: Comma[12, 13])
+              (WhiteSpace[13, 14])
+              (item[]: Identifier[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT MOD (a, b)
+-----
+`!
+          (expression: ModFunctionCall[7, 17]
+            (functionName: MOD[7, 10])
+            (WhiteSpace[10, 11])
+            (arguments: Expression2_Arguments[11, 17]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: Identifier[12, 13])
+              (commaToken[]: Comma[13, 14])
+              (WhiteSpace[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`

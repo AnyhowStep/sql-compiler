@@ -1,0 +1,106 @@
+SELECT FORMAT()
+-----
+`!
+          (expression: FormatFunctionCall[7, 15]
+            (functionName: FORMAT[7, 13])
+            ({Expected 2 - 3 item, found 0} arguments: Expression2To3_Arguments[13, 15]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT FORMAT(a)
+-----
+`!
+          (expression: FormatFunctionCall[7, 16]
+            (functionName: FORMAT[7, 13])
+            ({Expected 2 - 3 item, found 1} arguments: Expression2To3_Arguments[13, 16]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT FORMAT(a, b)
+-----
+`!
+          (expression: FormatFunctionCall[7, 19]
+            (functionName: FORMAT[7, 13])
+            (arguments: Expression2To3_Arguments[13, 19]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT FORMAT(a, b, c)
+-----
+`!
+          (expression: FormatFunctionCall[7, 22]
+            (functionName: FORMAT[7, 13])
+            (arguments: Expression2To3_Arguments[13, 22]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT FORMAT(a, b, c, d)
+-----
+`!
+          (expression: FormatFunctionCall[7, 25]
+            (functionName: FORMAT[7, 13])
+            ({Expected 2 - 3 item, found 4} arguments: Expression2To3_Arguments[13, 25]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT FORMAT(a, b, c, d, e)
+-----
+`!
+          (expression: FormatFunctionCall[7, 28]
+            (functionName: FORMAT[7, 13])
+            ({Expected 2 - 3 item, found 5} arguments: Expression2To3_Arguments[13, 28]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
