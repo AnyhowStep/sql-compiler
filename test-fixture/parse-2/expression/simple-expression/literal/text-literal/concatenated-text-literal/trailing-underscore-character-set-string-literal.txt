@@ -1,0 +1,20 @@
+SELECT 'a' 'b' _latin1 'c'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: ConcatenatedTextLiteral[7, 14]
+            (item[]: StringLiteral[7, 10])
+            (WhiteSpace[10, 11])
+            (item[]: StringLiteral[11, 14])
+          )
+        )
+        (Expected commaToken[]: Comma[14, 14])
+        (WhiteSpace[14, 15])
+        (item[]: ExpressionSelectItem[15, 26]
+          (expression: UnderscoreCharacterSetStringLiteral[15, 26]
+            (underscoreCharacterSetToken: UnderscoreCharacterSet[15, 22])
+            (WhiteSpace[22, 23])
+            (stringLiteralToken: StringLiteral[23, 26])
+          )
+        )
+!`

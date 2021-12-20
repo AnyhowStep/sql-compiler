@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT MULTILINESTRING(a)
+-----
+`!
+          (expression: MultiLineStringFunctionCall[33, 51]
+            (functionName: MULTILINESTRING[33, 48])
+            (arguments: ExpressionList1_Arguments[48, 51]
+              (openParenthesesToken: OpenParentheses[48, 49])
+              (item[]: Identifier[49, 50])
+              (closeParenthesesToken: CloseParentheses[50, 51])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT MULTILINESTRING (a)
+-----
+`!
+          (expression: MultiLineStringFunctionCall[33, 52]
+            (functionName: MULTILINESTRING[33, 48])
+            (WhiteSpace[48, 49])
+            (arguments: ExpressionList1_Arguments[49, 52]
+              (openParenthesesToken: OpenParentheses[49, 50])
+              (item[]: Identifier[50, 51])
+              (closeParenthesesToken: CloseParentheses[51, 52])
+            )
+          )
+!`

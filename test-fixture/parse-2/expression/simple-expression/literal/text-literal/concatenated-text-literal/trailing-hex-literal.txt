@@ -1,0 +1,12 @@
+SELECT 'a' 0xa
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: StringLiteral[7, 10])
+        )
+        (Expected commaToken[]: Comma[10, 10])
+        (WhiteSpace[10, 11])
+        (item[]: ExpressionSelectItem[11, 14]
+          (expression: HexLiteral[11, 14])
+        )
+!`

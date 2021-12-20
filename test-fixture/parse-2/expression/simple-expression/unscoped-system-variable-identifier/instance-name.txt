@@ -1,0 +1,9 @@
+SELECT @@sql_mode
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 17]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 17])
+          )
+!`

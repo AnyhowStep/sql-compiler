@@ -1,0 +1,25 @@
+SELECT 'a' n'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: StringLiteral[7, 10])
+        )
+        (Expected commaToken[]: Comma[10, 10])
+        (WhiteSpace[10, 11])
+        (item[]: ExpressionSelectItem[11, 15]
+          (expression: NationalStringLiteral[11, 15])
+        )
+!`
+-----
+SELECT 'a' N'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: StringLiteral[7, 10])
+        )
+        (Expected commaToken[]: Comma[10, 10])
+        (WhiteSpace[10, 11])
+        (item[]: ExpressionSelectItem[11, 15]
+          (expression: NationalStringLiteral[11, 15])
+        )
+!`

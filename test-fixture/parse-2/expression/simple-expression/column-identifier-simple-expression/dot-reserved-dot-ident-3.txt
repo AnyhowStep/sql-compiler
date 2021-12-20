@@ -1,0 +1,70 @@
+SELECT . SELECT. A
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 18]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected WhiteSpace[16, 17])
+            (columnName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT . /**/SELECT. A
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 22]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (MultiLineComment[9, 13])
+            (tableName: SELECT[13, 19])
+            (dotToken[]: Dot[19, 20])
+            (Unexpected WhiteSpace[20, 21])
+            (columnName: Identifier[21, 22])
+          )
+!`
+-----
+SELECT . /**//**/SELECT. A
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 26]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (MultiLineComment[9, 13])
+            (MultiLineComment[13, 17])
+            (tableName: SELECT[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (Unexpected WhiteSpace[24, 25])
+            (columnName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT . SELECT. /**/A
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 22]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected WhiteSpace[16, 17])
+            (Unexpected MultiLineComment[17, 21])
+            (columnName: Identifier[21, 22])
+          )
+!`
+-----
+SELECT . SELECT. /**//**/A
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 26]
+            (dotToken[]: Dot[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (WhiteSpace[16, 17])
+            (MultiLineComment[17, 21])
+            (MultiLineComment[21, 25])
+            (columnName: Identifier[25, 26])
+          )
+!`

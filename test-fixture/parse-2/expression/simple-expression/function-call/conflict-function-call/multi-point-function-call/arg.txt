@@ -1,0 +1,35 @@
+SELECT MULTIPOINT(POINT(1, 2), POINT(3, 4))
+-----
+`!
+          (expression: MultiPointFunctionCall[7, 43]
+            (functionName: MULTIPOINT[7, 17])
+            (arguments: ExpressionList1_Arguments[17, 43]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (item[]: PointFunctionCall[18, 29]
+                (functionName: POINT[18, 23])
+                (arguments: Expression2_Arguments[23, 29]
+                  (openParenthesesToken: OpenParentheses[23, 24])
+                  (item[]: IntegerLiteral[24, 25])
+                  (commaToken[]: Comma[25, 26])
+                  (WhiteSpace[26, 27])
+                  (item[]: IntegerLiteral[27, 28])
+                  (closeParenthesesToken: CloseParentheses[28, 29])
+                )
+              )
+              (commaToken[]: Comma[29, 30])
+              (WhiteSpace[30, 31])
+              (item[]: PointFunctionCall[31, 42]
+                (functionName: POINT[31, 36])
+                (arguments: Expression2_Arguments[36, 42]
+                  (openParenthesesToken: OpenParentheses[36, 37])
+                  (item[]: IntegerLiteral[37, 38])
+                  (commaToken[]: Comma[38, 39])
+                  (WhiteSpace[39, 40])
+                  (item[]: IntegerLiteral[40, 41])
+                  (closeParenthesesToken: CloseParentheses[41, 42])
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`

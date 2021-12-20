@@ -1,0 +1,12 @@
+SELECT . SELECT. A
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 18]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected WhiteSpace[16, 17])
+            (columnName: Identifier[17, 18])
+          )
+!`

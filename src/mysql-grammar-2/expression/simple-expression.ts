@@ -1,9 +1,9 @@
-import {alias, cannotExpect, choice, field, inline, optional, precedence, seq, tokenSymbol, useCustomExtra} from "../../grammar-builder";
+import {alias, cannotExpect, choice, field, inline, optional, precedence, repeat, repeat1, repeatNoSkipIfAllError, seq, tokenSymbol, useCustomExtra, consumeUnexpected} from "../../grammar-builder";
 import {CustomExtras} from "../custom-extras";
 import {Precedence} from "../precedence";
-import {dotIdentOrReserved, identifier, identifierNoScopeKeyword, identifierOrReservedOrStringLiteral} from "../rule-util";
+import {dotIdentOrReserved, dotIdentOrReservedNoSkipErrors, identifier, identifierNoScopeKeyword, identifierOrReservedOrStringLiteral, reserved} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
-import {TokenKind} from "../token.generated";
+import {extras, TokenKind} from "../token.generated";
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9494
@@ -81,7 +81,7 @@ export const PrefixSimpleExpression = precedence(140, seq(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9500
  */
-export const CollateSimpleExpression = precedence(140, seq(
+export const CollateSimpleExpression = precedence(150, seq(
     field("expression", SyntaxKind.SimpleExpression),
     field("collateToken", cannotExpect(TokenKind.COLLATE)),
     field("collation", SyntaxKind.CollationName),
@@ -133,12 +133,62 @@ export const ColumnIdentifierSimpleExpression = choice(
         dotIdentOrReserved("columnName"),
     ),
     /**
+     * This should not used, generally
+     */
+    useCustomExtra(
+        //Don't use any extras, not even CustomExtras.noExtras
+        "",
+        seq(
+            field("schemaName", reserved),
+            repeatNoSkipIfAllError(consumeUnexpected(
+                tokenSymbol(extras[0], ...extras.slice(1)),
+                extras,
+                1
+            )),
+            dotIdentOrReservedNoSkipErrors("tableName"),
+            repeat(tokenSymbol(extras[0], ...extras.slice(1))),
+            dotIdentOrReservedNoSkipErrors("columnName"),
+        )
+    ),
+    /**
      * Deprecated.
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13014
      */
     seq(
-        dotIdentOrReserved("tableName"),
+        field("dotToken", cannotExpect(TokenKind.Dot)),
+        field("tableName", SyntaxKind.Ident),
         dotIdentOrReserved("columnName"),
+    ),
+    seq(
+        useCustomExtra(
+            CustomExtras.noExtras,
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                field("tableName", reserved),
+            )
+        ),
+        dotIdentOrReserved("columnName"),
+    ),
+    useCustomExtra(
+        //Don't use any extras, not even CustomExtras.noExtras
+        "",
+        seq(
+            field("dotToken", cannotExpect(TokenKind.Dot)),
+            repeat1(tokenSymbol(extras[0], ...extras.slice(1))),
+            field("tableName", reserved),
+            repeat(consumeUnexpected(
+                tokenSymbol(extras[0], ...extras.slice(1)),
+                extras,
+                1
+            )),
+            field("dotToken", cannotExpect(TokenKind.Dot)),
+            repeatNoSkipIfAllError(consumeUnexpected(
+                tokenSymbol(extras[0], ...extras.slice(1)),
+                extras,
+                .25
+            )),
+            field("columnName", SyntaxKind.IdentOrReserved),
+        )
     ),
 );
 

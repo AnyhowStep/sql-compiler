@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT MULTIPOLYGON(a)
+-----
+`!
+          (expression: MultiPolygonFunctionCall[33, 48]
+            (functionName: MULTIPOLYGON[33, 45])
+            (arguments: ExpressionList1_Arguments[45, 48]
+              (openParenthesesToken: OpenParentheses[45, 46])
+              (item[]: Identifier[46, 47])
+              (closeParenthesesToken: CloseParentheses[47, 48])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT MULTIPOLYGON (a)
+-----
+`!
+          (expression: MultiPolygonFunctionCall[33, 49]
+            (functionName: MULTIPOLYGON[33, 45])
+            (WhiteSpace[45, 46])
+            (arguments: ExpressionList1_Arguments[46, 49]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (item[]: Identifier[47, 48])
+              (closeParenthesesToken: CloseParentheses[48, 49])
+            )
+          )
+!`

@@ -1,0 +1,9 @@
+SELECT 'a' "b"
+-----
+`!
+          (expression: ConcatenatedTextLiteral[7, 14]
+            (item[]: StringLiteral[7, 10])
+            (WhiteSpace[10, 11])
+            (item[]: DoubleQuotedLiteral[11, 14])
+          )
+!`

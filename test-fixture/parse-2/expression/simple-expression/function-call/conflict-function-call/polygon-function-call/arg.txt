@@ -1,0 +1,18 @@
+-- https://dev.mysql.com/doc/refman/5.7/en/geometry-well-formedness-validity.html
+-- Polygons have at least one ring
+-- Polygon rings are closed (first and last points the same)
+-- Polygon rings have at least 4 points (minimum polygon is a triangle with first and last points the same)
+SELECT POLYGON(
+  LINESTRING(POINT(1,2), POINT(3,4), POINT(2,3), POINT(1,2))
+)
+-----
+`!
+          (expression: PolygonFunctionCall[293, 364]
+            (functionName: POLYGON[293, 300])
+            (arguments: ExpressionList1_Arguments[300, 364]
+!`
+`!
+              (item[]: LineStringFunctionCall[304, 362]
+                (functionName: LINESTRING[304, 314])
+                (arguments: ExpressionList2_Arguments[314, 362]
+!`

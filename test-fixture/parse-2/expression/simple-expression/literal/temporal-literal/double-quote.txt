@@ -1,0 +1,25 @@
+SELECT DATE "2020-01-01"
+-----
+`(item[]: ExpressionSelectItem[7, 24]`
+`(expression: TemporalLiteral[7, 24]`
+`(temporalToken: DATE[7, 11])`
+`(WhiteSpace[11, 12])`
+`(str: DoubleQuotedLiteral[12, 24])`
+
+-----
+SELECT TIME "01:00:00.000"
+-----
+`(item[]: ExpressionSelectItem[7, 26]`
+`(expression: TemporalLiteral[7, 26]`
+`(temporalToken: TIME[7, 11])`
+`(WhiteSpace[11, 12])`
+`(str: DoubleQuotedLiteral[12, 26])`
+
+-----
+SELECT TIMESTAMP "2020-01-01 01:00:00.000"
+-----
+`(item[]: ExpressionSelectItem[7, 42]`
+`(expression: TemporalLiteral[7, 42]`
+`(temporalToken: TIMESTAMP[7, 16])`
+`(WhiteSpace[16, 17])`
+`(str: DoubleQuotedLiteral[17, 42])`

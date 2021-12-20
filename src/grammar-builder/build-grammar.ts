@@ -44,9 +44,13 @@ export function buildToken (
                 tokenKind : rule,
                 otherTokenKinds : undefined,
                 canExpect : true,
+                consumeUnexpectedTokenKinds : undefined,
+                consumeUnexpectedCost : undefined,
                 skipExpectationCost : undefined,
                 skipExpectationAfterExtraCost : undefined,
             };
+        } else if (state.customExtrasNameMap[rule] != undefined && !rule.includes("$")) {
+            return state.customExtrasNameMap[rule];
         } else {
             return rule;
         }
@@ -78,9 +82,10 @@ export function buildToken (
             );
         }
         case "optional": {
+            const suffix = rule.noSkipIfAllError === true ? "$optional-noSkipIfAllError" : "$optional";
             return buildChoice(
                 state,
-                state.getUniqueName(ruleName + "$optional"),
+                state.getUniqueName(ruleName + suffix),
                 [
                     seq(),
                     rule.rule,
@@ -125,6 +130,7 @@ export function buildToken (
                 otherTokenKinds : rule.otherTokenKinds,
                 canExpect : rule.canExpect !== false,
                 consumeUnexpectedTokenKinds : rule.consumeUnexpectedTokenKinds,
+                consumeUnexpectedCost : rule.consumeUnexpectedCost,
                 skipExpectationCost : rule.skipExpectationCost,
                 skipExpectationAfterExtraCost : rule.skipExpectationAfterExtraCost,
             };

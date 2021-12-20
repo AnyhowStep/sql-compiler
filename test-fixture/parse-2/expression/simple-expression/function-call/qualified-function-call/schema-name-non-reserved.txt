@@ -1,0 +1,127 @@
+-- This is permitted.
+SELECT y.select()
+-----
+`!
+          (expression: QualifiedFunctionCall[29, 39]
+            (schemaName: Identifier[29, 30])
+            (dotToken: Dot[30, 31])
+            (functionName: SELECT[31, 37])
+            (arguments: ExpressionList_Arguments[37, 39]
+              (openParenthesesToken: OpenParentheses[37, 38])
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+-- This is permitted.
+SELECT y.x()
+-----
+`!
+          (expression: QualifiedFunctionCall[29, 34]
+            (schemaName: Identifier[29, 30])
+            (dotToken: Dot[30, 31])
+            (functionName: Identifier[31, 32])
+            (arguments: ExpressionList_Arguments[32, 34]
+              (openParenthesesToken: OpenParentheses[32, 33])
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+-- This is not permitted...
+SELECT y. select()
+-----
+`!
+          (expression: QualifiedFunctionCall[35, 46]
+            (schemaName: Identifier[35, 36])
+            (dotToken: Dot[36, 37])
+            (Unexpected WhiteSpace[37, 38])
+            (functionName: SELECT[38, 44])
+            (arguments: ExpressionList_Arguments[44, 46]
+              (openParenthesesToken: OpenParentheses[44, 45])
+              (closeParenthesesToken: CloseParentheses[45, 46])
+            )
+          )
+!`
+-----
+-- This is permitted.
+SELECT y. x()
+-----
+`!
+          (expression: QualifiedFunctionCall[29, 35]
+            (schemaName: Identifier[29, 30])
+            (dotToken: Dot[30, 31])
+            (WhiteSpace[31, 32])
+            (functionName: Identifier[32, 33])
+            (arguments: ExpressionList_Arguments[33, 35]
+              (openParenthesesToken: OpenParentheses[33, 34])
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`
+-----
+-- This is permitted.
+SELECT y .select()
+-----
+`!
+          (expression: QualifiedFunctionCall[29, 40]
+            (schemaName: Identifier[29, 30])
+            (WhiteSpace[30, 31])
+            (dotToken: Dot[31, 32])
+            (functionName: SELECT[32, 38])
+            (arguments: ExpressionList_Arguments[38, 40]
+              (openParenthesesToken: OpenParentheses[38, 39])
+              (closeParenthesesToken: CloseParentheses[39, 40])
+            )
+          )
+!`
+-----
+-- This is permitted.
+SELECT y .x()
+-----
+`!
+          (expression: QualifiedFunctionCall[29, 35]
+            (schemaName: Identifier[29, 30])
+            (WhiteSpace[30, 31])
+            (dotToken: Dot[31, 32])
+            (functionName: Identifier[32, 33])
+            (arguments: ExpressionList_Arguments[33, 35]
+              (openParenthesesToken: OpenParentheses[33, 34])
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`
+-----
+-- This is not permitted...
+SELECT y . select()
+-----
+`!
+          (expression: QualifiedFunctionCall[35, 47]
+            (schemaName: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (dotToken: Dot[37, 38])
+            (Unexpected WhiteSpace[38, 39])
+            (functionName: SELECT[39, 45])
+            (arguments: ExpressionList_Arguments[45, 47]
+              (openParenthesesToken: OpenParentheses[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+-- This is permitted.
+SELECT y . x()
+-----
+`!
+          (expression: QualifiedFunctionCall[29, 36]
+            (schemaName: Identifier[29, 30])
+            (WhiteSpace[30, 31])
+            (dotToken: Dot[31, 32])
+            (WhiteSpace[32, 33])
+            (functionName: Identifier[33, 34])
+            (arguments: ExpressionList_Arguments[34, 36]
+              (openParenthesesToken: OpenParentheses[34, 35])
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`

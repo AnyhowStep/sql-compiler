@@ -1,0 +1,98 @@
+SELECT POLYGON();
+-----
+`!
+          (expression: PolygonFunctionCall[7, 16]
+            (functionName: POLYGON[7, 14])
+            ({Expected at least 1 item, found 0} arguments: ExpressionList1_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+-- This should technically fail.
+-- See: test-fixture/parse-2/expression/simple-expression/function-call/conflict-function-call/line-string-function-call/illegal-non-geometric.txt
+-- for why it throws in MySQL 5.7.
+SELECT POLYGON(1);
+-----
+`!
+          (expression: PolygonFunctionCall[222, 232]
+            (functionName: POLYGON[222, 229])
+            (arguments: ExpressionList1_Arguments[229, 232]
+              (openParenthesesToken: OpenParentheses[229, 230])
+              (item[]: IntegerLiteral[230, 231])
+              (closeParenthesesToken: CloseParentheses[231, 232])
+            )
+          )
+!`
+-----
+-- May or may not fail, depending on what `a` is.
+SELECT POLYGON(a);
+-----
+`!
+          (expression: PolygonFunctionCall[57, 67]
+            (functionName: POLYGON[57, 64])
+            (arguments: ExpressionList1_Arguments[64, 67]
+              (openParenthesesToken: OpenParentheses[64, 65])
+              (item[]: Identifier[65, 66])
+              (closeParenthesesToken: CloseParentheses[66, 67])
+            )
+          )
+!`
+-----
+SELECT POLYGON(a, b);
+-----
+`!
+          (expression: PolygonFunctionCall[7, 20]
+            (functionName: POLYGON[7, 14])
+            (arguments: ExpressionList1_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT POLYGON(a, b, c);
+-----
+`!
+          (expression: PolygonFunctionCall[7, 23]
+            (functionName: POLYGON[7, 14])
+            (arguments: ExpressionList1_Arguments[14, 23]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT POLYGON(a, b, c, d);
+-----
+`!
+          (expression: PolygonFunctionCall[7, 26]
+            (functionName: POLYGON[7, 14])
+            (arguments: ExpressionList1_Arguments[14, 26]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Identifier[24, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`

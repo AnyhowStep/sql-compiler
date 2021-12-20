@@ -8,3 +8,92 @@ SELECT .A.B
             (columnName: Identifier[10, 11])
           )
 !`
+-----
+SELECT .A .B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 12]
+            (dotToken[]: Dot[7, 8])
+            (tableName: Identifier[8, 9])
+            (WhiteSpace[9, 10])
+            (dotToken[]: Dot[10, 11])
+            (columnName: Identifier[11, 12])
+          )
+!`
+-----
+SELECT . A.B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 12]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: Identifier[9, 10])
+            (dotToken[]: Dot[10, 11])
+            (columnName: Identifier[11, 12])
+          )
+!`
+-----
+SELECT . A .B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 13]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: Identifier[9, 10])
+            (WhiteSpace[10, 11])
+            (dotToken[]: Dot[11, 12])
+            (columnName: Identifier[12, 13])
+          )
+!`
+-----
+SELECT .A. B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 12]
+            (dotToken[]: Dot[7, 8])
+            (tableName: Identifier[8, 9])
+            (dotToken[]: Dot[9, 10])
+            (WhiteSpace[10, 11])
+            (columnName: Identifier[11, 12])
+          )
+!`
+-----
+SELECT .A . B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 13]
+            (dotToken[]: Dot[7, 8])
+            (tableName: Identifier[8, 9])
+            (WhiteSpace[9, 10])
+            (dotToken[]: Dot[10, 11])
+            (WhiteSpace[11, 12])
+            (columnName: Identifier[12, 13])
+          )
+!`
+-----
+SELECT . A. B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 13]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: Identifier[9, 10])
+            (dotToken[]: Dot[10, 11])
+            (WhiteSpace[11, 12])
+            (columnName: Identifier[12, 13])
+          )
+!`
+-----
+SELECT . A . B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 14]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: Identifier[9, 10])
+            (WhiteSpace[10, 11])
+            (dotToken[]: Dot[11, 12])
+            (WhiteSpace[12, 13])
+            (columnName: Identifier[13, 14])
+          )
+!`

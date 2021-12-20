@@ -1,0 +1,33 @@
+SELECT 'a''b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 13]
+          (expression: StringLiteral[7, 13])
+        )
+!`
+-----
+SELECT "a""b"
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 13]
+          (expression: DoubleQuotedLiteral[7, 13])
+        )
+!`
+-----
+SELECT 'a'"b"
+-----
+`!
+          (expression: ConcatenatedTextLiteral[7, 13]
+            (item[]: StringLiteral[7, 10])
+            (item[]: DoubleQuotedLiteral[10, 13])
+          )
+!`
+-----
+SELECT "a"'b'
+-----
+`!
+          (expression: ConcatenatedTextLiteral[7, 13]
+            (item[]: DoubleQuotedLiteral[7, 10])
+            (item[]: StringLiteral[10, 13])
+          )
+!`

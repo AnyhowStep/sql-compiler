@@ -1,0 +1,7 @@
+SELECT POINT
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 12]
+          (expression: POINT[7, 12])
+        )
+!`

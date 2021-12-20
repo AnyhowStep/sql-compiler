@@ -543,6 +543,20 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
             state.memoizedTokenKind.set(state.index, TokenKind.Identifier);
             return TokenKind.Identifier;
         } else {
+            const [peekedA, peekedB] = peekToken2(tmp);
+            if (
+                peekedA == TokenKind.Dot &&
+                !Object.prototype.hasOwnProperty.call(Extras, peekedB) &&
+                peekedB != TokenKind.StringLiteral &&
+                peekedB != TokenKind.DoubleQuotedLiteral
+            ) {
+                /**
+                 * We treat this as just an identifier.
+                 */
+                state.index = tmp.index;
+                state.memoizedTokenKind.set(state.index, TokenKind.Identifier);
+                return TokenKind.Identifier;
+            }
             state.index = tmp.index;
             state.memoizedTokenKind.set(state.index, keywordTokenKind);
             return keywordTokenKind;
@@ -689,4 +703,17 @@ export function peekToken (state : LexerState) : TokenKind {
         return tokenKind;
     }
     return TokenKind.EndOfFile;
+}
+
+export function peekToken2 (state : LexerState) : [TokenKind, TokenKind] {
+    const tmp = state.clone();
+    if (tmp.isEof(0)) {
+        return [TokenKind.EndOfFile, TokenKind.EndOfFile];
+    }
+    const tokenKindA = scan(tmp);
+    if (tmp.isEof(0)) {
+        return [tokenKindA, TokenKind.EndOfFile];
+    }
+    const tokenKindB = scan(tmp);
+    return [tokenKindA, tokenKindB];
 }

@@ -291,6 +291,7 @@ export const syntaxKinds = [
     "ExpressionList_ArgumentsImpl",
     "ExpressionList_Arguments_NoExpectImpl",
     "ExpressionList_Arguments",
+    "ExpressionList_Arguments_NoExpect",
     "ExpressionList1_Arguments",
     "ExpressionList2_Arguments",
     "ExpressionList2_Arguments_NoExpect",

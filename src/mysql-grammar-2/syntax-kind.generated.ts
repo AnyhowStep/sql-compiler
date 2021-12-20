@@ -263,6 +263,7 @@ export enum SyntaxKind {
     ExpressionList_ArgumentsImpl = "ExpressionList_ArgumentsImpl",
     ExpressionList_Arguments_NoExpectImpl = "ExpressionList_Arguments_NoExpectImpl",
     ExpressionList_Arguments = "ExpressionList_Arguments",
+    ExpressionList_Arguments_NoExpect = "ExpressionList_Arguments_NoExpect",
     ExpressionList1_Arguments = "ExpressionList1_Arguments",
     ExpressionList2_Arguments = "ExpressionList2_Arguments",
     ExpressionList2_Arguments_NoExpect = "ExpressionList2_Arguments_NoExpect",

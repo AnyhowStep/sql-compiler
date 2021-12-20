@@ -5,10 +5,10 @@
  * + Tuple    = parenthesized list
  */
 
-import {cannotExpect, choice, disallowedSyntaxKinds, field, getTokenKinds, greedySkipExpectation, optional, repeat, repeat1, Rule, seq, skipExpectationAfterExtraCost, skipExpectationCost, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
+import {cannotExpect, choice, consumeUnexpected, disallowedSyntaxKinds, field, getTokenKinds, greedySkipExpectation, optional, repeat, repeat1, repeatNoSkipIfAllError, Rule, seq, skipExpectationAfterExtraCost, skipExpectationCost, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
 import {CustomExtras} from "./custom-extras";
 import {SyntaxKind} from "./syntax-kind.generated";
-import {reservedKeywords, TokenKind} from "./token.generated";
+import {extras, reservedKeywords, TokenKind} from "./token.generated";
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13394
@@ -708,6 +708,35 @@ export function dotIdentOrReserved (
             seq(
                 field("dotToken", cannotExpect(TokenKind.Dot)),
                 //No whitespace and linebreak allowed between dot and reserved tokens
+                field(identifierName, reserved),
+            )
+        ),
+    );
+}
+
+export function dotIdentOrReservedNoSkipErrors (
+    identifierName : string
+) {
+    return choice(
+        useCustomExtra(
+            "",
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //whitespace and linebreak allowed between dot and non-reserved tokens
+                repeat(tokenSymbol(extras[0], ...extras.slice(1))),
+                field(identifierName, SyntaxKind.Ident),
+            )
+        ),
+        useCustomExtra(
+            "",
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //No whitespace and linebreak allowed between dot and reserved tokens
+                repeatNoSkipIfAllError(consumeUnexpected(
+                    tokenSymbol(extras[0], ...extras.slice(1)),
+                    extras,
+                    .25
+                )),
                 field(identifierName, reserved),
             )
         ),

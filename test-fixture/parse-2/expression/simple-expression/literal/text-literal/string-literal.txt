@@ -34,3 +34,58 @@ SELECT "b";
     (EndOfStatement[11, 11])
   )
 )
+
+-----
+SELECT 'a'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: StringLiteral[7, 10])
+        )
+!`
+-----
+SELECT 'a
+b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 12]
+          (expression: StringLiteral[7, 12])
+        )
+!`
+-----
+SELECT 'a
+b
+c'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: StringLiteral[7, 14])
+        )
+!`
+-----
+SELECT "a"
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: DoubleQuotedLiteral[7, 10])
+        )
+!`
+-----
+SELECT "a
+b"
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 12]
+          (expression: DoubleQuotedLiteral[7, 12])
+        )
+!`
+-----
+SELECT "a
+b
+c"
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: DoubleQuotedLiteral[7, 14])
+        )
+!`

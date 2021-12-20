@@ -1,6 +1,8 @@
-import {choice, field, inline, seq} from "../../../grammar-builder";
-import {dotIdentOrReserved, maybeUserDefinedFunctionCall_FunctionName} from "../../rule-util";
+import {cannotExpect, choice, field, inline, seq, useCustomExtra} from "../../../grammar-builder";
+import {CustomExtras} from "../../custom-extras";
+import {dotIdentOrReserved, maybeUserDefinedFunctionCall_FunctionName, reserved} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
+import {TokenKind} from "../../token.generated";
 
 /**
     Named parameters are allowed in a parameter list
@@ -34,10 +36,25 @@ export const MaybeUserDefinedFunctionCall = seq(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9998
  */
-export const QualifiedFunctionCall = seq(
-    field("schemaName", SyntaxKind.Ident),
-    dotIdentOrReserved("functionName"),
-    field("arguments", SyntaxKind.ExpressionList_Arguments),
+export const QualifiedFunctionCall = choice(
+    seq(
+        field("schemaName", SyntaxKind.Ident),
+        dotIdentOrReserved("functionName"),
+        field("arguments", SyntaxKind.ExpressionList_Arguments),
+    ),
+    seq(
+        useCustomExtra(
+            CustomExtras.noExtras,
+            seq(
+                field("schemaName", reserved),
+                //No whitespace and linebreak allowed between reserved and dot tokens
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //No whitespace and linebreak allowed between dot and reserved tokens
+                field("functionName", SyntaxKind.IdentOrReserved),
+            )
+        ),
+        field("arguments", SyntaxKind.ExpressionList_Arguments),
+    )
 );
 
 export const FunctionCall = inline(choice(

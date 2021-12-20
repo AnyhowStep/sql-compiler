@@ -1,0 +1,13 @@
+SELECT GEOMETRYCOLLECTION(
+  POLYGON(
+    LINESTRING(POINT(1,2), POINT(3,4), POINT(2,3), POINT(1,2))
+  ),
+  LINESTRING(POINT(1,2), POINT(3,4), POINT(2,3), POINT(1,2)),
+  POINT(1,2)
+)
+-----
+`!
+          (expression: GeometryCollectionFunctionCall[7, 182]
+            (functionName: GEOMETRYCOLLECTION[7, 25])
+            (arguments: ExpressionList_Arguments[25, 182]
+!`

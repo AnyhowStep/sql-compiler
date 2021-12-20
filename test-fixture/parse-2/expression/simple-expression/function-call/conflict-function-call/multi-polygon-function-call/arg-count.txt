@@ -1,0 +1,98 @@
+SELECT MULTIPOLYGON();
+-----
+`!
+          (expression: MultiPolygonFunctionCall[7, 21]
+            (functionName: MULTIPOLYGON[7, 19])
+            ({Expected at least 1 item, found 0} arguments: ExpressionList1_Arguments[19, 21]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+-- This should technically fail.
+-- See: test-fixture/parse-2/expression/simple-expression/function-call/conflict-function-call/line-string-function-call/illegal-non-geometric.txt
+-- for why it throws in MySQL 5.7.
+SELECT MULTIPOLYGON(1);
+-----
+`!
+          (expression: MultiPolygonFunctionCall[222, 237]
+            (functionName: MULTIPOLYGON[222, 234])
+            (arguments: ExpressionList1_Arguments[234, 237]
+              (openParenthesesToken: OpenParentheses[234, 235])
+              (item[]: IntegerLiteral[235, 236])
+              (closeParenthesesToken: CloseParentheses[236, 237])
+            )
+          )
+!`
+-----
+-- May or may not fail, depending on what `a` is.
+SELECT MULTIPOLYGON(a);
+-----
+`!
+          (expression: MultiPolygonFunctionCall[57, 72]
+            (functionName: MULTIPOLYGON[57, 69])
+            (arguments: ExpressionList1_Arguments[69, 72]
+              (openParenthesesToken: OpenParentheses[69, 70])
+              (item[]: Identifier[70, 71])
+              (closeParenthesesToken: CloseParentheses[71, 72])
+            )
+          )
+!`
+-----
+SELECT MULTIPOLYGON(a, b);
+-----
+`!
+          (expression: MultiPolygonFunctionCall[7, 25]
+            (functionName: MULTIPOLYGON[7, 19])
+            (arguments: ExpressionList1_Arguments[19, 25]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT MULTIPOLYGON(a, b, c);
+-----
+`!
+          (expression: MultiPolygonFunctionCall[7, 28]
+            (functionName: MULTIPOLYGON[7, 19])
+            (arguments: ExpressionList1_Arguments[19, 28]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT MULTIPOLYGON(a, b, c, d);
+-----
+`!
+          (expression: MultiPolygonFunctionCall[7, 31]
+            (functionName: MULTIPOLYGON[7, 19])
+            (arguments: ExpressionList1_Arguments[19, 31]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`

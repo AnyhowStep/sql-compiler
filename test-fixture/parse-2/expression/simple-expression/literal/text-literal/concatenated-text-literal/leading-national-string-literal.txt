@@ -1,0 +1,19 @@
+SELECT n'a' 'b'
+-----
+`!
+          (expression: ConcatenatedTextLiteral[7, 15]
+            (item[]: NationalStringLiteral[7, 11])
+            (WhiteSpace[11, 12])
+            (item[]: StringLiteral[12, 15])
+          )
+!`
+-----
+SELECT N'a' 'b'
+-----
+`!
+          (expression: ConcatenatedTextLiteral[7, 15]
+            (item[]: NationalStringLiteral[7, 11])
+            (WhiteSpace[11, 12])
+            (item[]: StringLiteral[12, 15])
+          )
+!`

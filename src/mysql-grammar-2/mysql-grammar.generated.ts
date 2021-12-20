@@ -265,6 +265,7 @@ export interface MySqlRuleCollection {
     ExpressionList_ArgumentsImpl : Rule|TopLevelRuleModifier,
     ExpressionList_Arguments_NoExpectImpl : Rule|TopLevelRuleModifier,
     ExpressionList_Arguments : Rule|TopLevelRuleModifier,
+    ExpressionList_Arguments_NoExpect : Rule|TopLevelRuleModifier,
     ExpressionList1_Arguments : Rule|TopLevelRuleModifier,
     ExpressionList2_Arguments : Rule|TopLevelRuleModifier,
     ExpressionList2_Arguments_NoExpect : Rule|TopLevelRuleModifier,

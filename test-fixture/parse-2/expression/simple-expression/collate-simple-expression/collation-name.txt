@@ -1,0 +1,47 @@
+SELECT x COLLATE latin1_swedish_ci;
+-----
+`!
+          (expression: CollateSimpleExpression[7, 34]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (collateToken: COLLATE[9, 16])
+            (WhiteSpace[16, 17])
+            (collation: Identifier[17, 34])
+          )
+!`
+-----
+SELECT x COLLATE `latin1_swedish_ci`;
+-----
+`!
+          (expression: CollateSimpleExpression[7, 36]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (collateToken: COLLATE[9, 16])
+            (WhiteSpace[16, 17])
+            (collation: Identifier[17, 36])
+          )
+!`
+-----
+SELECT x COLLATE "latin1_swedish_ci";
+-----
+`!
+          (expression: CollateSimpleExpression[7, 36]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (collateToken: COLLATE[9, 16])
+            (WhiteSpace[16, 17])
+            (collation: DoubleQuotedLiteral[17, 36])
+          )
+!`
+-----
+SELECT x COLLATE 'latin1_swedish_ci';
+-----
+`!
+          (expression: CollateSimpleExpression[7, 36]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (collateToken: COLLATE[9, 16])
+            (WhiteSpace[16, 17])
+            (collation: StringLiteral[17, 36])
+          )
+!`

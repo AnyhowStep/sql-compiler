@@ -1,0 +1,11 @@
+SELECT 'x' COLLATE _big5
+-----
+`!
+          (expression: CollateSimpleExpression[7, 24]
+            (expression: StringLiteral[7, 10])
+            (WhiteSpace[10, 11])
+            (collateToken: COLLATE[11, 18])
+            (WhiteSpace[18, 19])
+            (Expected collation: Identifier[19, 24])
+          )
+!`

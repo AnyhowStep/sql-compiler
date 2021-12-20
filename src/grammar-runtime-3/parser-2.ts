@@ -818,11 +818,7 @@ export function scan (
     }
 
     const accepts = acceptsToken(expect, token);
-    const consumesUnexpected = (
-        accepts ?
-        false :
-        consumesUnexpectedToken(expect, token)
-    );
+    const consumesUnexpected = consumesUnexpectedToken(expect, token);
 
     if (!accepts && !consumesUnexpected) {
         return;
@@ -851,7 +847,7 @@ export function scan (
         }),
         errorCount : (
             consumesUnexpected ?
-            state.errorCount + 1 :
+            state.errorCount + (expect.consumeUnexpectedCost ?? 1) :
             state.errorCount
         ),
 
@@ -1785,6 +1781,9 @@ function blah (
                 if (lastChild.errorKind == "Expected" && !(expect instanceof Object && "tokenKind" in expect)) {
                     throw new Error(JSON.stringify(other));
                 }
+                if (lastChild.errorKind == "Unexpected") {
+                    // console.log("wtf", lastChild, expect);
+                }
                 const nextState : MyState = {
                     rule : other.rule,
                     dot : other.dot+1,
@@ -1803,6 +1802,8 @@ function blah (
                             0 :
                             (lastChild.errorKind == "Expected" && expect instanceof Object && "skipExpectationCost" in expect) ?
                             (expect.skipExpectationCost ?? 1) :
+                            (lastChild.errorKind == "Unexpected" && expect instanceof Object && "consumeUnexpectedCost" in expect) ?
+                            (expect.consumeUnexpectedCost ?? 1) :
                             1
                         )
                     ),
@@ -1904,6 +1905,7 @@ export function getResults (
     const result = arr
         .filter(state => state.errorCount == minErrorCount);
         //.map(state => state.data);
+    // console.log("minErrorCount", minErrorCount);
     return result;
 }
 

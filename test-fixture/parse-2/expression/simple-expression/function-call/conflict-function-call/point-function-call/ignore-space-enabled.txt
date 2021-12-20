@@ -1,0 +1,32 @@
+SELECT POINT(a, b)
+-----
+`!
+          (expression: PointFunctionCall[7, 18]
+            (functionName: POINT[7, 12])
+            (arguments: Expression2_Arguments[12, 18]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (commaToken[]: Comma[14, 15])
+              (WhiteSpace[15, 16])
+              (item[]: Identifier[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT POINT (a, b)
+-----
+`!
+          (expression: PointFunctionCall[7, 19]
+            (functionName: POINT[7, 12])
+            (WhiteSpace[12, 13])
+            (arguments: Expression2_Arguments[13, 19]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: Identifier[14, 15])
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`

@@ -22,6 +22,8 @@ export const ExpressionList_Arguments_NoExpectImpl = inline(seq(
     field("closeParenthesesToken", TokenKind.CloseParentheses),
 ));
 
+export const ExpressionList_Arguments_NoExpect = SyntaxKind.ExpressionList_Arguments_NoExpectImpl;
+
 export const ExpressionList_Arguments = SyntaxKind.ExpressionList_ArgumentsImpl;
 
 export const ExpressionList1_Arguments = fieldLengthCheck(

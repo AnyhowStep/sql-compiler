@@ -1,0 +1,34 @@
+-- @@ignore_space = false
+SELECT POINT(a, b)
+-----
+`!
+          (expression: PointFunctionCall[33, 44]
+            (functionName: POINT[33, 38])
+            (arguments: Expression2_Arguments[38, 44]
+              (openParenthesesToken: OpenParentheses[38, 39])
+              (item[]: Identifier[39, 40])
+              (commaToken[]: Comma[40, 41])
+              (WhiteSpace[41, 42])
+              (item[]: Identifier[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT POINT (a, b)
+-----
+`!
+          (expression: PointFunctionCall[33, 45]
+            (functionName: POINT[33, 38])
+            (WhiteSpace[38, 39])
+            (arguments: Expression2_Arguments[39, 45]
+              (openParenthesesToken: OpenParentheses[39, 40])
+              (item[]: Identifier[40, 41])
+              (commaToken[]: Comma[41, 42])
+              (WhiteSpace[42, 43])
+              (item[]: Identifier[43, 44])
+              (closeParenthesesToken: CloseParentheses[44, 45])
+            )
+          )
+!`

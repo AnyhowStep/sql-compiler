@@ -1,0 +1,92 @@
+SELECT . SELECT .SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 23]
+            (dotToken[]: Dot[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (columnName: SELECT[17, 23])
+          )
+!`
+-----
+SELECT . SELECT /**/.SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 27]
+            (dotToken[]: Dot[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (WhiteSpace[15, 16])
+            (MultiLineComment[16, 20])
+            (dotToken[]: Dot[20, 21])
+            (columnName: SELECT[21, 27])
+          )
+!`
+-----
+SELECT . SELECT /**//**/.SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 31]
+            (dotToken[]: Dot[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (WhiteSpace[15, 16])
+            (MultiLineComment[16, 20])
+            (MultiLineComment[20, 24])
+            (dotToken[]: Dot[24, 25])
+            (columnName: SELECT[25, 31])
+          )
+!`
+-----
+SELECT . SELECT /**//**//**/.SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 35]
+            (dotToken[]: Dot[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (WhiteSpace[15, 16])
+            (MultiLineComment[16, 20])
+            (MultiLineComment[20, 24])
+            (MultiLineComment[24, 28])
+            (dotToken[]: Dot[28, 29])
+            (columnName: SELECT[29, 35])
+          )
+!`
+-----
+SELECT.SELECT.SELECT
+-- MySQL says the above is invalid...
+-- I'm too lazy to figure out what the heck is going on here.
+-- SELECT+1 is okay, though.
+-- Why are they treating dots differently?
+-- Seems like a problem with lexer...
+-----
+`!
+      (Expected selectToken: SELECT[0, 0])
+      (selectItemList1: SelectItemList1[0, 20]
+        (item[]: ExpressionSelectItem[0, 20]
+          (expression: ColumnIdentifierSimpleExpression[0, 20]
+            (schemaName: Identifier[0, 6])
+            (dotToken[]: Dot[6, 7])
+            (tableName: Identifier[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (columnName: SELECT[14, 20])
+          )
+        )
+      )
+!`
+-----
+SELECT. SELECT.SELECT
+-- This is valid MySQL...
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[6, 21]
+            (dotToken[]: Dot[6, 7])
+            (WhiteSpace[7, 8])
+            (tableName: Identifier[8, 14])
+            (dotToken[]: Dot[14, 15])
+            (columnName: SELECT[15, 21])
+          )
+!`

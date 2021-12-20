@@ -81,10 +81,30 @@ export function optional (
     };
 }
 
+export function optionalNoSkipAllErrors (
+    rule : Rule,
+) : OptionalRule {
+    if (typeof rule != "string" && rule.ruleKind == "optional") {
+        return rule;
+    }
+
+    return {
+        ruleKind : "optional",
+        rule,
+        noSkipIfAllError : true,
+    };
+}
+
 export function repeat (
     rule : Rule,
 ) : RuleObj {
     return optional(repeat1(rule));
+}
+
+export function repeatNoSkipIfAllError (
+    rule : Rule,
+) : RuleObj {
+    return optionalNoSkipAllErrors(repeat1(rule));
 }
 
 export function repeat1 (
@@ -132,6 +152,7 @@ export function tokenSymbol (
             tokenKind,
             otherTokenKinds : undefined,
             consumeUnexpectedTokenKinds : undefined,
+            consumeUnexpectedCost : undefined,
             skipExpectationCost : undefined,
             skipExpectationAfterExtraCost : undefined,
         };
@@ -141,6 +162,7 @@ export function tokenSymbol (
             tokenKind,
             otherTokenKinds,
             consumeUnexpectedTokenKinds : undefined,
+            consumeUnexpectedCost : undefined,
             skipExpectationCost : undefined,
             skipExpectationAfterExtraCost : undefined,
         };
@@ -149,7 +171,8 @@ export function tokenSymbol (
 
 export function consumeUnexpected (
     tokenSymbolRule : TokenSymbolRule,
-    consumeUnexpectedTokenKinds : string[]
+    consumeUnexpectedTokenKinds : string[],
+    consumeUnexpectedCost? : number
 ) : TokenSymbolRule {
     return {
         ...tokenSymbolRule,
@@ -161,6 +184,7 @@ export function consumeUnexpected (
             ),
             ...consumeUnexpectedTokenKinds,
         ],
+        consumeUnexpectedCost : (consumeUnexpectedCost ?? tokenSymbolRule.consumeUnexpectedCost),
     };
 }
 
@@ -390,6 +414,7 @@ export interface OneOfRule extends RuleBase {
 export interface OptionalRule extends RuleBase {
     ruleKind : "optional",
     rule : Rule,
+    noSkipIfAllError? : undefined|true,
 }
 
 export interface Repeat1Rule extends RuleBase {
@@ -413,6 +438,7 @@ export interface TokenSymbolRule extends RuleBase {
     canExpect? : false,
 
     consumeUnexpectedTokenKinds : string[] | undefined,
+    consumeUnexpectedCost : number | undefined,
 
     skipExpectationCost : number | undefined,
 

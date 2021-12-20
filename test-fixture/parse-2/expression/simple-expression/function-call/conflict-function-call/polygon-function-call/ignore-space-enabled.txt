@@ -1,0 +1,26 @@
+SELECT POLYGON(a)
+-----
+`!
+          (expression: PolygonFunctionCall[7, 17]
+            (functionName: POLYGON[7, 14])
+            (arguments: ExpressionList1_Arguments[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT POLYGON (a)
+-----
+`!
+          (expression: PolygonFunctionCall[7, 18]
+            (functionName: POLYGON[7, 14])
+            (WhiteSpace[14, 15])
+            (arguments: ExpressionList1_Arguments[15, 18]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
