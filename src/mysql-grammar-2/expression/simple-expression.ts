@@ -1,7 +1,7 @@
 import {alias, cannotExpect, choice, field, inline, optional, precedence, repeat, repeat1, repeatNoSkipIfAllError, seq, tokenSymbol, useCustomExtra, consumeUnexpected} from "../../grammar-builder";
 import {CustomExtras} from "../custom-extras";
 import {Precedence} from "../precedence";
-import {dotIdentOrReserved, dotIdentOrReservedNoSkipErrors, identifier, identifierNoScopeKeyword, identifierOrReservedOrStringLiteral, reserved} from "../rule-util";
+import {dotIdentOrReserved, dotIdentOrReservedNoSkipErrors, identifier, identifierNoScopeKeyword, identifierOrReserved, identifierOrReservedOrStringLiteral, reserved} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {extras, TokenKind} from "../token.generated";
 
@@ -145,7 +145,14 @@ export const ColumnIdentifierSimpleExpression = choice(
                 extras,
                 1
             )),
-            dotIdentOrReservedNoSkipErrors("tableName"),
+            field("dotToken", cannotExpect(TokenKind.Dot)),
+            //No whitespace and linebreak allowed between dot and reserved tokens
+            repeatNoSkipIfAllError(consumeUnexpected(
+                tokenSymbol(extras[0], ...extras.slice(1)),
+                extras,
+                .25
+            )),
+            field("tableName", identifierOrReserved),
             repeat(tokenSymbol(extras[0], ...extras.slice(1))),
             dotIdentOrReservedNoSkipErrors("columnName"),
         )
