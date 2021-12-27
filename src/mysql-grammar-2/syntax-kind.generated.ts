@@ -9,6 +9,8 @@ export enum SyntaxKind {
     BinLogStatement = "BinLogStatement",
     CreateSchemaStatement = "CreateSchemaStatement",
     CreateTableStatement = "CreateTableStatement",
+    CreateTableLikeStatement = "CreateTableLikeStatement",
+    CreateTableLikeStatement2 = "CreateTableLikeStatement2",
     SelectStatement = "SelectStatement",
     Alias = "Alias",
     Select = "Select",

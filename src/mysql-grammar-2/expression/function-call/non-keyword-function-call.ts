@@ -49,6 +49,9 @@ export const CurrentTimeFunctionCall = seq(
  */
 export const DateAddIntervalFunctionCall = seq(
     field("functionName", cannotExpect(tokenSymbol(
+        /**
+         * https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/lex.h#L832-L833
+         */
         TokenKind.DATE_ADD,
         TokenKind.DATE_SUB,
         TokenKind.ADDDATE,

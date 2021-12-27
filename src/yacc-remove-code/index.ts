@@ -68,6 +68,10 @@ function removeSemicolon (str : string) : string {
         .replace(/^;$/mg, "");
 }
 
+export function singleLineRules (str : string) : string {
+    return str.replace(/([^:])\n\s+(\w|'|%)/g, "$1 $2");
+}
+
 function inlineRules (str : string) : string {
     return str.replace(
         /\w+:.+?(?=(?=\w+:)|(?=$))/gs,
@@ -82,11 +86,15 @@ function inlineRules (str : string) : string {
     );
 }
 
-function wrapLinesWithBackticks (str : string) : string {
+export function wrapLinesWithBackticks (str : string) : string {
     return "`" + str.replace(/\n/g, "`\n`") + "`";
 }
 
-function addChecklist (str : string) : string {
+export function wrapLinesWithBlankUrls (str : string) : string {
+    return "[" + str.replace(/\n/g, "]()\n[") + "]()";
+}
+
+export function addChecklist (str : string) : string {
     return "+ [ ] " + str.replace(/\n/g, "\n+ [ ] ");
 }
 
@@ -99,7 +107,9 @@ str = removeBlankLines(str);
 str = removeSemicolon(str);
 str = removeBlankLines(str);
 str = inlineRules(str);
+str = singleLineRules(str);
 str = wrapLinesWithBackticks(str);
+str = wrapLinesWithBlankUrls(str);
 str = addChecklist(str);
 
 fs.writeFileSync(`${__dirname}/output.txt`, str, "utf8");

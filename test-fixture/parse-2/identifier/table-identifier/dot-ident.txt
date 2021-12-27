@@ -1,0 +1,52 @@
+DROP TABLE .T
+-----
+`!
+        (item[]: TableIdentifier[11, 13]
+          (dotToken: Dot[11, 12])
+          (tableName: Identifier[12, 13])
+        )
+!`
+-----
+DROP TABLE . T
+-----
+`!
+        (item[]: TableIdentifier[11, 14]
+          (dotToken: Dot[11, 12])
+          (WhiteSpace[12, 13])
+          (tableName: Identifier[13, 14])
+        )
+!`
+-----
+DROP TABLE.T
+-----
+`!
+    (statement: DropTableStatement[0, 12]
+      (dropToken: DROP[0, 4])
+      (WhiteSpace[4, 5])
+      (Expected tableToken: TABLE[5, 5])
+      (tableIdentifierList1: TableIdentifierList1[5, 12]
+        (item[]: TableIdentifier[5, 12]
+          (schemaName: Identifier[5, 10])
+          (dotToken: Dot[10, 11])
+          (tableName: Identifier[11, 12])
+        )
+      )
+    )
+!`
+-----
+DROP TABLE. T
+-----
+`!
+    (statement: DropTableStatement[0, 13]
+      (dropToken: DROP[0, 4])
+      (WhiteSpace[4, 5])
+      (tableToken: TABLE[5, 10])
+      (tableIdentifierList1: TableIdentifierList1[10, 13]
+        (item[]: TableIdentifier[10, 13]
+          (dotToken: Dot[10, 11])
+          (WhiteSpace[11, 12])
+          (tableName: Identifier[12, 13])
+        )
+      )
+    )
+!`

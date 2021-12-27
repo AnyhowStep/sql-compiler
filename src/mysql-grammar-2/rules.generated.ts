@@ -37,6 +37,7 @@ export * from "./statement/create-schema-statement/create-schema-option";
 export * from "./statement/create-schema-statement/create-schema-statement";
 export * from "./statement/create-table-definition/column-definition-option";
 export * from "./statement/create-table-definition/create-table-definition";
+export * from "./statement/create-table-statement/create-table-like-statement";
 export * from "./statement/create-table-statement/create-table-option";
 export * from "./statement/create-table-statement/create-table-statement";
 export * from "./statement/delimiter-statement/delimiter-statement";

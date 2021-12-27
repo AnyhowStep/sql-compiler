@@ -11,6 +11,8 @@ export interface MySqlRuleCollection {
     BinLogStatement : Rule|TopLevelRuleModifier,
     CreateSchemaStatement : Rule|TopLevelRuleModifier,
     CreateTableStatement : Rule|TopLevelRuleModifier,
+    CreateTableLikeStatement : Rule|TopLevelRuleModifier,
+    CreateTableLikeStatement2 : Rule|TopLevelRuleModifier,
     SelectStatement : Rule|TopLevelRuleModifier,
     Alias : Rule|TopLevelRuleModifier,
     Select : Rule|TopLevelRuleModifier,

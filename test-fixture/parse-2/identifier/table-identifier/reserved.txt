@@ -1,0 +1,7 @@
+DROP TABLE SELECT
+-----
+`!
+        (item[]: TableIdentifier[11, 17]
+          (Expected tableName: Identifier[11, 17])
+        )
+!`

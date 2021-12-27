@@ -1,0 +1,101 @@
+SELECT NOW()
+-----
+`!
+          (expression: Now[7, 12]
+            (functionName: NOW[7, 10])
+            (arguments: DateTimePrecisionArg[10, 12]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (closeParenthesesToken: CloseParentheses[11, 12])
+            )
+          )
+!`
+-----
+SELECT NOW(a)
+-----
+`!
+          (expression: Now[7, 13]
+            (functionName: NOW[7, 10])
+            (arguments: DateTimePrecisionArg[10, 13]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (Unexpected dateTimePrecision: Identifier[11, 12])
+              (closeParenthesesToken: CloseParentheses[12, 13])
+            )
+          )
+!`
+-----
+SELECT NOW(1)
+-----
+`!
+          (expression: Now[7, 13]
+            (functionName: NOW[7, 10])
+            (arguments: DateTimePrecisionArg[10, 13]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (dateTimePrecision: IntegerLiteral[11, 12])
+              (closeParenthesesToken: CloseParentheses[12, 13])
+            )
+          )
+!`
+-----
+SELECT NOW(a, b)
+-----
+`!
+          (expression: Now[7, 16]
+            (functionName: NOW[7, 10])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[10, 16]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (Unexpected dateTimePrecision: Identifier[11, 12])
+              (commaToken[]: Comma[12, 13])
+              (WhiteSpace[13, 14])
+              (extraItem[]: Identifier[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT NOW(1, b)
+-----
+`!
+          (expression: Now[7, 16]
+            (functionName: NOW[7, 10])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[10, 16]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (dateTimePrecision: IntegerLiteral[11, 12])
+              (commaToken[]: Comma[12, 13])
+              (WhiteSpace[13, 14])
+              (extraItem[]: Identifier[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT NOW(a, 2)
+-----
+`!
+          (expression: Now[7, 16]
+            (functionName: NOW[7, 10])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[10, 16]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (Unexpected dateTimePrecision: Identifier[11, 12])
+              (commaToken[]: Comma[12, 13])
+              (WhiteSpace[13, 14])
+              (extraItem[]: IntegerLiteral[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT NOW(1, 2)
+-----
+`!
+          (expression: Now[7, 16]
+            (functionName: NOW[7, 10])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[10, 16]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (dateTimePrecision: IntegerLiteral[11, 12])
+              (commaToken[]: Comma[12, 13])
+              (WhiteSpace[13, 14])
+              (extraItem[]: IntegerLiteral[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`

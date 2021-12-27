@@ -1,0 +1,107 @@
+-- @@ignore_space = false
+SELECT NOW()
+-----
+`!
+          (expression: Now[33, 38]
+            (functionName: NOW[33, 36])
+            (arguments: DateTimePrecisionArg[36, 38]
+              (openParenthesesToken: OpenParentheses[36, 37])
+              (closeParenthesesToken: CloseParentheses[37, 38])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT CURRENT_TIMESTAMP()
+-----
+`!
+          (expression: Now[33, 52]
+            (functionName: CURRENT_TIMESTAMP[33, 50])
+            (arguments: DateTimePrecisionArg[50, 52]
+              (openParenthesesToken: OpenParentheses[50, 51])
+              (closeParenthesesToken: CloseParentheses[51, 52])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT LOCALTIME()
+-----
+`!
+          (expression: Now[33, 44]
+            (functionName: LOCALTIME[33, 42])
+            (arguments: DateTimePrecisionArg[42, 44]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT LOCALTIMESTAMP()
+-----
+`!
+          (expression: Now[33, 49]
+            (functionName: LOCALTIMESTAMP[33, 47])
+            (arguments: DateTimePrecisionArg[47, 49]
+              (openParenthesesToken: OpenParentheses[47, 48])
+              (closeParenthesesToken: CloseParentheses[48, 49])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT NOW ()
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 39]
+            (functionName: Identifier[33, 36])
+            (WhiteSpace[36, 37])
+            (arguments: UserDefinedExpressionList_Arguments[37, 39]
+              (openParenthesesToken: OpenParentheses[37, 38])
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT CURRENT_TIMESTAMP ()
+-----
+`!
+          (expression: Now[33, 53]
+            (functionName: CURRENT_TIMESTAMP[33, 50])
+            (WhiteSpace[50, 51])
+            (arguments: DateTimePrecisionArg[51, 53]
+              (openParenthesesToken: OpenParentheses[51, 52])
+              (closeParenthesesToken: CloseParentheses[52, 53])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT LOCALTIME ()
+-----
+`!
+          (expression: Now[33, 45]
+            (functionName: LOCALTIME[33, 42])
+            (WhiteSpace[42, 43])
+            (arguments: DateTimePrecisionArg[43, 45]
+              (openParenthesesToken: OpenParentheses[43, 44])
+              (closeParenthesesToken: CloseParentheses[44, 45])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT LOCALTIMESTAMP ()
+-----
+`!
+          (expression: Now[33, 50]
+            (functionName: LOCALTIMESTAMP[33, 47])
+            (WhiteSpace[47, 48])
+            (arguments: DateTimePrecisionArg[48, 50]
+              (openParenthesesToken: OpenParentheses[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+!`

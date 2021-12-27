@@ -1,0 +1,23 @@
+CREATE TEMPORARY TABLE T (LIKE U)
+-----
+`!
+    (statement: CreateTableLikeStatement2[0, 33]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (temporaryToken[]: TEMPORARY[7, 16])
+      (WhiteSpace[16, 17])
+      (tableToken: TABLE[17, 22])
+!`
+-----
+CREATE TEMPORARY TEMPORARY TABLE T (LIKE U)
+-----
+`!
+    (statement: CreateTableLikeStatement2[0, 43]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (temporaryToken[]: TEMPORARY[7, 16])
+      (WhiteSpace[16, 17])
+      (temporaryToken[]: TEMPORARY[17, 26])
+      (WhiteSpace[26, 27])
+      (tableToken: TABLE[27, 32])
+!`

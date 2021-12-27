@@ -1,0 +1,101 @@
+SELECT CURRENT_TIMESTAMP()
+-----
+`!
+          (expression: Now[7, 26]
+            (functionName: CURRENT_TIMESTAMP[7, 24])
+            (arguments: DateTimePrecisionArg[24, 26]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIMESTAMP(a)
+-----
+`!
+          (expression: Now[7, 27]
+            (functionName: CURRENT_TIMESTAMP[7, 24])
+            (arguments: DateTimePrecisionArg[24, 27]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (Unexpected dateTimePrecision: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIMESTAMP(1)
+-----
+`!
+          (expression: Now[7, 27]
+            (functionName: CURRENT_TIMESTAMP[7, 24])
+            (arguments: DateTimePrecisionArg[24, 27]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (dateTimePrecision: IntegerLiteral[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIMESTAMP(a, b)
+-----
+`!
+          (expression: Now[7, 30]
+            (functionName: CURRENT_TIMESTAMP[7, 24])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[24, 30]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (Unexpected dateTimePrecision: Identifier[25, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (extraItem[]: Identifier[28, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIMESTAMP(1, b)
+-----
+`!
+          (expression: Now[7, 30]
+            (functionName: CURRENT_TIMESTAMP[7, 24])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[24, 30]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (dateTimePrecision: IntegerLiteral[25, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (extraItem[]: Identifier[28, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIMESTAMP(a, 2)
+-----
+`!
+          (expression: Now[7, 30]
+            (functionName: CURRENT_TIMESTAMP[7, 24])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[24, 30]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (Unexpected dateTimePrecision: Identifier[25, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (extraItem[]: IntegerLiteral[28, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT CURRENT_TIMESTAMP(1, 2)
+-----
+`!
+          (expression: Now[7, 30]
+            (functionName: CURRENT_TIMESTAMP[7, 24])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[24, 30]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (dateTimePrecision: IntegerLiteral[25, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (extraItem[]: IntegerLiteral[28, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`

@@ -10,6 +10,8 @@ export const syntaxKinds = [
     "BinLogStatement",
     "CreateSchemaStatement",
     "CreateTableStatement",
+    "CreateTableLikeStatement",
+    "CreateTableLikeStatement2",
     "SelectStatement",
 
     "Alias",
