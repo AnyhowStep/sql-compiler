@@ -681,6 +681,7 @@ export interface BitLiteral extends MyToken<"BitLiteral"> {}
 export interface IntegerLiteral extends MyToken<"IntegerLiteral"> {}
 export interface DecimalLiteral extends MyToken<"DecimalLiteral"> {}
 export interface RealLiteral extends MyToken<"RealLiteral"> {}
+export interface MalformedRealLiteral extends MyToken<"MalformedRealLiteral"> {}
 export interface Identifier extends MyToken<"Identifier"> {}
 export interface MacroIdentifier extends MyToken<"MacroIdentifier"> {}
 export interface DoubleQuotedLiteral extends MyToken<"DoubleQuotedLiteral"> {}
@@ -1363,12 +1364,9 @@ export interface TimestampAdd_Arguments extends MySyntaxNode {
     syntaxKind : "TimestampAdd_Arguments";
     fields : {
         openParenthesesToken : (OpenParentheses);
-        temporalUnit : (DAY | WEEK | HOUR | MINUTE | MONTH | QUARTER | SECOND | MICROSECOND | YEAR | SQL_TSI_DAY | SQL_TSI_WEEK | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_YEAR);
-        commaToken : (Comma)[];
-        interval : (Identifier | Expression);
-        dateTime : (Identifier | Expression);
+        item : (DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_MICROSECOND | MINUTE_SECOND | SECOND_MICROSECOND | YEAR_MONTH | Expression)[];
         closeParenthesesToken : (CloseParentheses);
-        extraItem : (Expression)[]
+        commaToken : (Comma)[]
     };
 }
 
@@ -1376,12 +1374,9 @@ export interface TimestampDiff_Arguments extends MySyntaxNode {
     syntaxKind : "TimestampDiff_Arguments";
     fields : {
         openParenthesesToken : (OpenParentheses);
-        temporalUnit : (DAY | WEEK | HOUR | MINUTE | MONTH | QUARTER | SECOND | MICROSECOND | YEAR | SQL_TSI_DAY | SQL_TSI_WEEK | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | SQL_TSI_QUARTER | SQL_TSI_SECOND | SQL_TSI_YEAR);
-        commaToken : (Comma)[];
-        startDateTime : (Identifier | Expression);
-        endDateTime : (Identifier | Expression);
+        item : (DAY_HOUR | DAY_MICROSECOND | DAY_MINUTE | DAY_SECOND | HOUR_MICROSECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_MICROSECOND | MINUTE_SECOND | SECOND_MICROSECOND | YEAR_MONTH | Expression)[];
         closeParenthesesToken : (CloseParentheses);
-        extraItem : (Expression)[]
+        commaToken : (Comma)[]
     };
 }
 

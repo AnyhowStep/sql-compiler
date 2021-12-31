@@ -1,0 +1,9 @@
+SELECT 0.1e-
+-----
+`!
+          (expression: BinaryBitExpression[7, 12]
+            (Unexpected left: MalformedRealLiteral[7, 11])
+            (operator: Minus[11, 12])
+            (Expected right: Identifier[12, 12])
+          )
+!`

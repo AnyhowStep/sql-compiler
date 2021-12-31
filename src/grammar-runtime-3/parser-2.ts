@@ -362,6 +362,14 @@ function allowed (
     return true;
 }
 
+function getExpectedTokenKind (allowedSyntaxKinds : string[] | undefined) : string|undefined {
+    if (allowedSyntaxKinds == undefined || allowedSyntaxKinds.length == 0) {
+        return undefined;
+    } else {
+        return allowedSyntaxKinds[0];
+    }
+}
+
 export function inlineChild (
     grammar : MyGrammar,
     parent : MySyntaxNode,
@@ -383,13 +391,24 @@ export function inlineChild (
                     //We don't include them as part of errors.
                     return c;
                 }
+
                 if (c.errorKind != undefined) {
+                    if (c.errorKind == "Expected") {
+                        const expectedTokenKind = getExpectedTokenKind(allowedSyntaxKinds);
+                        if (expectedTokenKind != undefined) {
+                            return {
+                                ...c,
+                                tokenKind : expectedTokenKind,
+                            };
+                        }
+                    }
                     return c;
                 }
                 return {
                     ...c,
                     errorKind : "Unexpected",
-                    expectedTokenKind : undefined,
+                    expectedTokenKind : getExpectedTokenKind(allowedSyntaxKinds),
+                    canInline : true,
                 };
             } else {
                 if (allowed(c.syntaxKind, allowedSyntaxKinds, disallowedSyntaxKinds)) {
@@ -439,7 +458,7 @@ export function inlineChild (
                  * @todo make this less hacky
                  */
                 if (item.errorKind == "Unexpected") {
-                    if (item.expectedTokenKind == undefined) {
+                    if (item.expectedTokenKind == undefined || item.canInline === true) {
                         return true;
                     } else {
                         return false;
@@ -449,6 +468,7 @@ export function inlineChild (
             });
             if (tmp.length == 0) {
                 if (field.quantity.required) {
+                    console.log(childChildren);
                     throw new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${childChildren.length}/${tmp.length} children; but field is required`);
                 } else {
                     newFields[childLabel] = undefined;
@@ -829,6 +849,7 @@ export function scan (
             ...token,
             errorKind : "Unexpected",
             expectedTokenKind : expect.tokenKind,
+            canInline : true,
         };
     }
 
@@ -875,7 +896,7 @@ function isAllError (state : Pick<MyState["data"], "children">) : boolean {
              *
              * @todo make this less hacky
              */
-            if (child.errorKind == "Unexpected" && child.expectedTokenKind == undefined) {
+            if (child.errorKind == "Unexpected" && (child.expectedTokenKind == undefined || child.canInline === true)) {
                 return false;
             }
         } else {
@@ -2347,6 +2368,7 @@ export function skipUnexpected (
                             errorKind : "Unexpected",
                             text : skippedToken.text,
                             expectedTokenKind : expect.tokenKind,
+                            canInline : false,
                             tokenIndex : state.tokenIndex,
                         }
                     ),
@@ -2379,6 +2401,7 @@ export function skipUnexpected (
                     errorKind : "Unexpected",
                     text : skippedToken.text,
                     expectedTokenKind : expect.tokenKind,
+                    canInline : false,
                     tokenIndex : state.tokenIndex,
                 }
             ),

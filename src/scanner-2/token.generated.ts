@@ -682,6 +682,7 @@ export enum TokenKind {
     IntegerLiteral = "IntegerLiteral",
     DecimalLiteral = "DecimalLiteral",
     RealLiteral = "RealLiteral",
+    MalformedRealLiteral = "MalformedRealLiteral",
     Identifier = "Identifier",
     MacroIdentifier = "MacroIdentifier",
     DoubleQuotedLiteral = "DoubleQuotedLiteral",

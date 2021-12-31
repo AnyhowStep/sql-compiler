@@ -330,7 +330,13 @@ export function scan (state : LexerState) : TokenKind {
                 if (tryScanNumberExponent(state)) {
                     return TokenKind.RealLiteral;
                 } else {
-                    return TokenKind.DecimalLiteral;
+                    const chE = state.peek(0);
+                    if (chE == CharacterCodes.e || chE == CharacterCodes.E) {
+                        state.advance();
+                        return TokenKind.MalformedRealLiteral;
+                    } else {
+                        return TokenKind.DecimalLiteral;
+                    }
                 }
             } else {
                 /**

@@ -6,6 +6,7 @@ export interface MyToken<TokenKindT extends string=string> {
 
     errorKind? : "Expected"|"Unexpected",
     expectedTokenKind? : string;
+    canInline? : boolean;
     skipExpectationAfterExtraCost? : number | undefined;
 
     start : number,

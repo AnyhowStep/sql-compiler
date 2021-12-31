@@ -1,0 +1,619 @@
+SELECT
+-----
+`!
+        (item[]: ExpressionSelectItem[6, 6]
+          (Expected expression: Identifier[6, 6])
+        )
+!`
+-----
+SELECT 2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: IntegerLiteral[7, 8])
+        )
+!`
+-----
+SELECT -
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: PrefixSimpleExpression[7, 8]
+            (operator: Minus[7, 8])
+            (Expected expression: Identifier[8, 8])
+          )
+        )
+!`
+-----
+SELECT -2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: PrefixSimpleExpression[7, 9]
+            (operator: Minus[7, 8])
+            (expression: IntegerLiteral[8, 9])
+          )
+        )
+!`
+-----
+SELECT e
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: Identifier[7, 8])
+        )
+!`
+-----
+SELECT e2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: Identifier[7, 9])
+        )
+!`
+-----
+SELECT e-
+-----
+`!
+          (expression: BinaryBitExpression[7, 9]
+            (left: Identifier[7, 8])
+            (operator: Minus[8, 9])
+            (Expected right: Identifier[9, 9])
+          )
+!`
+-----
+SELECT e-2
+-----
+`!
+          (expression: BinaryBitExpression[7, 10]
+            (left: Identifier[7, 8])
+            (operator: Minus[8, 9])
+            (right: IntegerLiteral[9, 10])
+          )
+!`
+-----
+SELECT 1
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: IntegerLiteral[7, 8])
+        )
+!`
+-----
+SELECT 12
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: IntegerLiteral[7, 9])
+        )
+!`
+-----
+SELECT 1-
+-----
+`!
+          (expression: BinaryBitExpression[7, 9]
+            (left: IntegerLiteral[7, 8])
+            (operator: Minus[8, 9])
+            (Expected right: Identifier[9, 9])
+          )
+!`
+-----
+SELECT 1-2
+-----
+`!
+          (expression: BinaryBitExpression[7, 10]
+            (left: IntegerLiteral[7, 8])
+            (operator: Minus[8, 9])
+            (right: IntegerLiteral[9, 10])
+          )
+!`
+-----
+SELECT 1e
+-- Yeap, 1e is a valid identifier
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: Identifier[7, 9])
+        )
+!`
+-----
+SELECT 1e2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: RealLiteral[7, 10])
+        )
+!`
+-----
+SELECT 1e-
+-----
+`!
+          (expression: BinaryBitExpression[7, 10]
+            (left: Identifier[7, 9])
+            (operator: Minus[9, 10])
+            (Expected right: Identifier[10, 10])
+          )
+!`
+-----
+SELECT 1e-2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (expression: RealLiteral[7, 11])
+        )
+!`
+-----
+SELECT .
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 8]
+          (Expected expression: Identifier[7, 8])
+        )
+!`
+-----
+SELECT .2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: DecimalLiteral[7, 9])
+        )
+!`
+-----
+SELECT .-
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: ColumnIdentifierSimpleExpression[7, 9]
+            (Expected tableName: Identifier[7, 7])
+            (dotToken[]: Dot[7, 8])
+            (Unexpected Minus[8, 9])
+            (Expected columnName: Identifier[9, 9])
+          )
+        )
+!`
+-----
+SELECT .-2
+-----
+`!
+      (Unexpected Dot[7, 8])
+      (selectItemList1: SelectItemList1[8, 10]
+        (item[]: ExpressionSelectItem[8, 10]
+          (expression: PrefixSimpleExpression[8, 10]
+            (operator: Minus[8, 9])
+            (expression: IntegerLiteral[9, 10])
+          )
+        )
+      )
+!`
+-----
+SELECT .e
+-----
+`!
+      (Unexpected Dot[7, 8])
+      (selectItemList1: SelectItemList1[8, 9]
+        (item[]: ExpressionSelectItem[8, 9]
+          (expression: Identifier[8, 9])
+        )
+      )
+!`
+-----
+SELECT .e2
+-----
+`!
+      (Unexpected Dot[7, 8])
+      (selectItemList1: SelectItemList1[8, 10]
+        (item[]: ExpressionSelectItem[8, 10]
+          (expression: Identifier[8, 10])
+        )
+      )
+!`
+-----
+SELECT .e-
+-----
+`!
+  (statement[]: TrailingStatement[0, 9]
+    (statement: Select[0, 9]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (Unexpected Dot[7, 8])
+      (selectItemList1: SelectItemList1[8, 9]
+        (item[]: ExpressionSelectItem[8, 9]
+          (expression: Identifier[8, 9])
+        )
+      )
+    )
+  )
+  (Unexpected Minus[9, 10])
+!`
+-----
+SELECT .e-2
+-----
+`!
+      (Unexpected Dot[7, 8])
+      (selectItemList1: SelectItemList1[8, 11]
+        (item[]: ExpressionSelectItem[8, 11]
+          (expression: BinaryBitExpression[8, 11]
+            (left: Identifier[8, 9])
+            (operator: Minus[9, 10])
+            (right: IntegerLiteral[10, 11])
+          )
+        )
+      )
+!`
+-----
+SELECT .1
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: DecimalLiteral[7, 9])
+        )
+!`
+-----
+SELECT .12
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: DecimalLiteral[7, 10])
+        )
+!`
+-----
+SELECT .1-
+-----
+`!
+          (expression: BinaryBitExpression[7, 10]
+            (left: DecimalLiteral[7, 9])
+            (operator: Minus[9, 10])
+            (Expected right: Identifier[10, 10])
+          )
+!`
+-----
+SELECT .1-2
+-----
+`!
+          (expression: BinaryBitExpression[7, 11]
+            (left: DecimalLiteral[7, 9])
+            (operator: Minus[9, 10])
+            (right: IntegerLiteral[10, 11])
+          )
+!`
+-----
+SELECT .1e
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (Unexpected expression: MalformedRealLiteral[7, 10])
+        )
+!`
+-----
+SELECT .1e2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (expression: RealLiteral[7, 11])
+        )
+!`
+-----
+SELECT .1e-
+-----
+`!
+          (expression: BinaryBitExpression[7, 11]
+            (Unexpected left: MalformedRealLiteral[7, 10])
+            (operator: Minus[10, 11])
+            (Expected right: Identifier[11, 11])
+          )
+!`
+-----
+SELECT .1e-2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 12]
+          (expression: RealLiteral[7, 12])
+        )
+!`
+-----
+SELECT 0
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: IntegerLiteral[7, 8])
+        )
+!`
+-----
+SELECT 02
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: IntegerLiteral[7, 9])
+        )
+!`
+-----
+SELECT 0-
+-----
+`!
+          (expression: BinaryBitExpression[7, 9]
+            (left: IntegerLiteral[7, 8])
+            (operator: Minus[8, 9])
+            (Expected right: Identifier[9, 9])
+          )
+!`
+-----
+SELECT 0-2
+-----
+`!
+          (expression: BinaryBitExpression[7, 10]
+            (left: IntegerLiteral[7, 8])
+            (operator: Minus[8, 9])
+            (right: IntegerLiteral[9, 10])
+          )
+!`
+-----
+SELECT 0e
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: Identifier[7, 9])
+        )
+!`
+-----
+SELECT 0e2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: RealLiteral[7, 10])
+        )
+!`
+-----
+SELECT 0e-
+-----
+`!
+          (expression: BinaryBitExpression[7, 10]
+            (left: Identifier[7, 9])
+            (operator: Minus[9, 10])
+            (Expected right: Identifier[10, 10])
+          )
+!`
+-----
+SELECT 0e-2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (expression: RealLiteral[7, 11])
+        )
+!`
+-----
+SELECT 01
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: IntegerLiteral[7, 9])
+        )
+!`
+-----
+SELECT 012
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: IntegerLiteral[7, 10])
+        )
+!`
+-----
+SELECT 01-
+-----
+`!
+          (expression: BinaryBitExpression[7, 10]
+            (left: IntegerLiteral[7, 9])
+            (operator: Minus[9, 10])
+            (Expected right: Identifier[10, 10])
+          )
+!`
+-----
+SELECT 01-2
+-----
+`!
+          (expression: BinaryBitExpression[7, 11]
+            (left: IntegerLiteral[7, 9])
+            (operator: Minus[9, 10])
+            (right: IntegerLiteral[10, 11])
+          )
+!`
+-----
+SELECT 01e
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: Identifier[7, 10])
+        )
+!`
+-----
+SELECT 01e2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (expression: RealLiteral[7, 11])
+        )
+!`
+-----
+SELECT 01e-
+-----
+`!
+          (expression: BinaryBitExpression[7, 11]
+            (left: Identifier[7, 10])
+            (operator: Minus[10, 11])
+            (Expected right: Identifier[11, 11])
+          )
+!`
+-----
+SELECT 01e-2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 12]
+          (expression: RealLiteral[7, 12])
+        )
+!`
+-----
+SELECT 0.
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (expression: DecimalLiteral[7, 9])
+        )
+!`
+-----
+SELECT 0.2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: DecimalLiteral[7, 10])
+        )
+!`
+-----
+SELECT 0.-
+-----
+`!
+          (expression: BinaryBitExpression[7, 10]
+            (left: DecimalLiteral[7, 9])
+            (operator: Minus[9, 10])
+            (Expected right: Identifier[10, 10])
+          )
+!`
+-----
+SELECT 0.-2
+-----
+`!
+          (expression: BinaryBitExpression[7, 11]
+            (left: DecimalLiteral[7, 9])
+            (operator: Minus[9, 10])
+            (right: IntegerLiteral[10, 11])
+          )
+!`
+-----
+SELECT 0.e
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (Unexpected expression: MalformedRealLiteral[7, 10])
+        )
+!`
+-----
+SELECT 0.e2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (expression: RealLiteral[7, 11])
+        )
+!`
+-----
+SELECT 0.e-
+-- TODO Maybe the entire `0.e-` should be considered the malformed real literal?
+-----
+`!
+          (expression: BinaryBitExpression[7, 11]
+            (Unexpected left: MalformedRealLiteral[7, 10])
+            (operator: Minus[10, 11])
+            (Expected right: Identifier[11, 11])
+          )
+!`
+-----
+SELECT 0.e-2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 12]
+          (expression: RealLiteral[7, 12])
+        )
+!`
+-----
+SELECT 0.1
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: DecimalLiteral[7, 10])
+        )
+!`
+-----
+SELECT 0.12
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (expression: DecimalLiteral[7, 11])
+        )
+!`
+-----
+SELECT 0.1-
+-----
+`!
+          (expression: BinaryBitExpression[7, 11]
+            (left: DecimalLiteral[7, 10])
+            (operator: Minus[10, 11])
+            (Expected right: Identifier[11, 11])
+          )
+!`
+-----
+SELECT 0.1-2
+-----
+`!
+          (expression: BinaryBitExpression[7, 12]
+            (left: DecimalLiteral[7, 10])
+            (operator: Minus[10, 11])
+            (right: IntegerLiteral[11, 12])
+          )
+!`
+-----
+SELECT 0.1e
+-- This is invalid. This would be okay if it was `SELECT 0.1 e` with a whitespace
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (Unexpected expression: MalformedRealLiteral[7, 11])
+        )
+!`
+-----
+SELECT 0.1e2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 12]
+          (expression: RealLiteral[7, 12])
+        )
+!`
+-----
+SELECT 0.1e-
+-- TODO Maybe the entire `0.1e-` should be considered the malformed real literal?
+-----
+`!
+          (expression: BinaryBitExpression[7, 12]
+            (Unexpected left: MalformedRealLiteral[7, 11])
+            (operator: Minus[11, 12])
+            (Expected right: Identifier[12, 12])
+          )
+!`
+-----
+SELECT 0.1e-2
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 13]
+          (expression: RealLiteral[7, 13])
+        )
+!`
+-----
+SELECT 0.1a
+-- This is okay, while 0.1e is not okay
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 11]
+          (expression: DecimalLiteral[7, 10])
+          (alias: Alias[10, 11]
+            (alias: Identifier[10, 11])
+          )
+        )
+!`
+-----
+SELECT 0.a
+-- This is okay, while 0.e is not okay
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: DecimalLiteral[7, 9])
+          (alias: Alias[9, 10]
+            (alias: Identifier[9, 10])
+          )
+        )
+!`

@@ -456,8 +456,15 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
                 state.index = tmp.index;
                 return TokenKind.RealLiteral;
             } else {
-                state.index = tmp.index;
-                return TokenKind.DecimalLiteral;
+                const chE = tmp.peek(0);
+                if (chE == CharacterCodes.e || chE == CharacterCodes.E) {
+                    tmp.advance();
+                    state.index = tmp.index;
+                    return TokenKind.MalformedRealLiteral;
+                } else {
+                    state.index = tmp.index;
+                    return TokenKind.DecimalLiteral;
+                }
             }
         } else {
             /**

@@ -3,9 +3,9 @@ SELECT . SELECT .SELECT
 `!
           (expression: ColumnIdentifierSimpleExpression[7, 23]
             (dotToken[]: Dot[7, 8])
-            (Unexpected WhiteSpace[8, 9])
+            (WhiteSpace[8, 9])
             (tableName: SELECT[9, 15])
-            (WhiteSpace[15, 16])
+            (Unexpected WhiteSpace[15, 16])
             (dotToken[]: Dot[16, 17])
             (columnName: SELECT[17, 23])
           )

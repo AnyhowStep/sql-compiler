@@ -1,5 +1,5 @@
 import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat} from "../../../grammar-builder";
-import {greedySkipExpectation} from "../../../grammar-builder/grammar";
+import {allowedSyntaxKinds, getTokenKinds, greedySkipExpectation} from "../../../grammar-builder/grammar";
 import {greedySkipExpression, itemSeparator, list, list1, parentheses, real_ulong_num, ulong_num} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
@@ -269,41 +269,42 @@ export const Substring_Arguments_Comma = inline(SyntaxKind.Expression2To3_Argume
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9810-L9814
  */
 export const TimestampAdd_Arguments = fieldLengthCheck(
-    "extraItem",
-    0,
-    0,
-    parentheses(seq(
-        field("temporalUnit", greedySkipExpectation(intervalTimeStamp)),
-        field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("interval", greedySkipExpression),
-        field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("dateTime", greedySkipExpression),
-        repeat(seq(
-            field("commaToken", itemSeparator),
-            field("extraItem", SyntaxKind.Expression),
+    "item",
+    3,
+    3,
+    parentheses(optional(seq(
+        field("item", allowedSyntaxKinds(
+            [
+                ...getTokenKinds(intervalTimeStamp),
+            ],
+            choice(
+                tokenSymbol(
+                    TokenKind.DAY_HOUR,
+                    TokenKind.DAY_MICROSECOND,
+                    TokenKind.DAY_MINUTE,
+                    TokenKind.DAY_SECOND,
+                    TokenKind.HOUR_MICROSECOND,
+                    TokenKind.HOUR_MINUTE,
+                    TokenKind.HOUR_SECOND,
+                    TokenKind.MINUTE_MICROSECOND,
+                    TokenKind.MINUTE_SECOND,
+                    TokenKind.SECOND_MICROSECOND,
+                    TokenKind.YEAR_MONTH,
+                ),
+                SyntaxKind.Expression
+            )
         )),
-    ))
+        optional(seq(
+            field("commaToken", itemSeparator),
+            list1(SyntaxKind.Expression),
+        )),
+    )))
 );
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9814
  */
-export const TimestampDiff_Arguments = fieldLengthCheck(
-    "extraItem",
-    0,
-    0,
-    parentheses(seq(
-        field("temporalUnit", greedySkipExpectation(intervalTimeStamp)),
-        field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("startDateTime", greedySkipExpression),
-        field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("endDateTime", greedySkipExpression),
-        repeat(seq(
-            field("commaToken", itemSeparator),
-            field("extraItem", SyntaxKind.Expression),
-        )),
-    ))
-);
+export const TimestampDiff_Arguments = TimestampAdd_Arguments;
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9914-L9928
