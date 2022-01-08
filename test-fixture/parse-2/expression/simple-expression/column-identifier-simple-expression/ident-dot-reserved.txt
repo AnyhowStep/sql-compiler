@@ -23,23 +23,34 @@ SELECT T.SELECT;
 -----
 SELECT T. SELECT;
 -----
-(SourceFile[0, 17]
-  (statement[]: TrailingStatement[0, 17]
-    (statement: Select[0, 16]
-      (selectToken: SELECT[0, 6])
-      (WhiteSpace[6, 7])
-      (selectItemList1: SelectItemList1[7, 16]
-        (item[]: ExpressionSelectItem[7, 16]
+`!
           (expression: ColumnIdentifierSimpleExpression[7, 16]
             (tableName: Identifier[7, 8])
             (dotToken[]: Dot[8, 9])
             (Unexpected WhiteSpace[9, 10])
             (columnName: SELECT[10, 16])
           )
-        )
-      )
-    )
-    (semiColonToken: SemiColon[16, 17])
-    (EndOfStatement[17, 17])
-  )
-)
+!`
+-----
+SELECT T .SELECT;
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 16]
+            (tableName: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (dotToken[]: Dot[9, 10])
+            (columnName: SELECT[10, 16])
+          )
+!`
+-----
+SELECT T . SELECT;
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 17]
+            (tableName: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (dotToken[]: Dot[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (columnName: SELECT[11, 17])
+          )
+!`

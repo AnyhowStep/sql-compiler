@@ -568,11 +568,12 @@ export const identifierOrStringLiteral = tokenSymbol2(
     TokenKind.StringLiteral,
 );
 
-export const identifierOrReservedOrStringLiteral = tokenSymbol2(
+export const identifierOrReservedOrStringLiteralOrHostname = tokenSymbol2(
     identifier,
     TokenKind.UnderscoreCharacterSet,
     ...reservedKeywords,
     TokenKind.StringLiteral,
+    TokenKind.Hostname,
 );
 
 /**
@@ -711,7 +712,45 @@ export function dotIdentOrReserved (
         seq(
             field("dotToken", cannotExpect(TokenKind.Dot)),
             //whitespace and linebreak allowed between dot and non-reserved tokens
-            field(identifierName, SyntaxKind.Ident),
+            field(identifierName, consumeUnexpected(
+                identifier,
+                [
+                    TokenKind.StringLiteral,
+                    TokenKind.DoubleQuotedLiteral,
+                ]
+            )),
+        ),
+        useCustomExtra(
+            CustomExtras.noExtras,
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //No whitespace and linebreak allowed between dot and reserved tokens
+                field(identifierName, reserved),
+            )
+        ),
+    );
+}
+
+//https://github.com/mysql/mysql-server/blob/beb865a960b9a8a16cf999c323e46c5b0c67f21f/sql/parse_tree_items.cc#L565
+//https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/item_func.cc#L155
+//disallow "SELECT @@global.global.variable"
+export function dotIdentOrReservedScopedSystemVariable (
+    identifierName : string
+) {
+    return choice(
+        seq(
+            field("dotToken", cannotExpect(TokenKind.Dot)),
+            //whitespace and linebreak allowed between dot and non-reserved tokens
+            field(identifierName, consumeUnexpected(
+                identifier,
+                [
+                    TokenKind.GLOBAL,
+                    TokenKind.LOCAL,
+                    TokenKind.SESSION,
+                    TokenKind.StringLiteral,
+                    TokenKind.DoubleQuotedLiteral,
+                ]
+            )),
         ),
         useCustomExtra(
             CustomExtras.noExtras,
@@ -734,7 +773,14 @@ export function dotIdentOrReservedNoSkipErrors (
                 field("dotToken", cannotExpect(TokenKind.Dot)),
                 //whitespace and linebreak allowed between dot and non-reserved tokens
                 repeat(tokenSymbol(extras[0], ...extras.slice(1))),
-                field(identifierName, SyntaxKind.Ident),
+                field(identifierName, greedySkipExpectation(consumeUnexpected(
+                    identifier,
+                    [
+                        TokenKind.StringLiteral,
+                        TokenKind.DoubleQuotedLiteral,
+                    ],
+                    .5
+                ))),
             )
         ),
         useCustomExtra(

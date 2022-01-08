@@ -1,0 +1,128 @@
+SELECT @@x.y
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 12]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 10])
+            (dotToken: Dot[10, 11])
+            (componentName: Identifier[11, 12])
+          )
+!`
+-----
+SELECT @@'x'.y
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 14]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: StringLiteral[9, 12])
+            (dotToken: Dot[12, 13])
+            (componentName: Identifier[13, 14])
+          )
+!`
+-----
+SELECT @@x.'y'
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 14]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 10])
+            (dotToken: Dot[10, 11])
+            (Unexpected componentName: StringLiteral[11, 14])
+          )
+!`
+-----
+SELECT @@'x'.'y'
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 16]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: StringLiteral[9, 12])
+            (dotToken: Dot[12, 13])
+            (Unexpected componentName: StringLiteral[13, 16])
+          )
+!`
+-----
+SELECT @@1.y
+-- https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/sql_lex.cc#L2004
+-- Weird parsing code makes this valid
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 12]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 10])
+            (dotToken: Dot[10, 11])
+            (componentName: Identifier[11, 12])
+          )
+!`
+-----
+SELECT @@global.global.variable
+-- https://github.com/mysql/mysql-server/blob/beb865a960b9a8a16cf999c323e46c5b0c67f21f/sql/parse_tree_items.cc#L565
+-- disallow "SELECT @@global.global.variable"
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 31]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected instanceName: GLOBAL[16, 22])
+            (dotToken[]: Dot[22, 23])
+            (componentName: Identifier[23, 31])
+          )
+!`
+-----
+SELECT @@global.global
+-- https://github.com/mysql/mysql-server/blob/beb865a960b9a8a16cf999c323e46c5b0c67f21f/sql/parse_tree_items.cc#L565
+-- This is allowed, however...
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 22]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: GLOBAL[16, 22])
+          )
+!`
+-----
+SELECT @@hot_cache.key_buffer_size
+-- This is valid
+-- https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 34]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 18])
+            (dotToken: Dot[18, 19])
+            (componentName: Identifier[19, 34])
+          )
+!`
+-----
+SELECT @@hot_cache.key_buffer_size.x
+-- This is NOT valid
+-- https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 18]
+          (expression: UnscopedSystemVariableIdentifier[7, 18]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 18])
+          )
+        )
+        (Expected commaToken[]: Comma[18, 18])
+        (item[]: ExpressionSelectItem[18, 36]
+          (expression: ColumnIdentifierSimpleExpression[18, 36]
+            (dotToken[]: Dot[18, 19])
+            (tableName: Identifier[19, 34])
+            (dotToken[]: Dot[34, 35])
+            (columnName: Identifier[35, 36])
+          )
+        )
+!`

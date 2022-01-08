@@ -1,7 +1,7 @@
-import {CharacterCodes, isDigit, isLineBreak, isUnquotedIdentifierCharacter} from "./character-code";
+import {CharacterCodes, isDigit, isHostnameCharacter, isLineBreak, isUnquotedIdentifierCharacter} from "./character-code";
 import {LexerState, scan} from "./scan-all";
 import {Extras, FunctionKeyword, NonReservedKeyword, ReservedKeyword, TokenKind} from "./token.generated";
-
+declare const console : any;
 /**
  * If it does not encounter a closing quote,
  * it will assume the position just before
@@ -506,10 +506,10 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
         }
     }
 
-    const memoized = state.memoizedTokenKind.get(tmp.index);
+    const memoized = state.memoizedTokens.get(state.index);
     if (memoized != undefined) {
         state.index = tmp.index;
-        return memoized;
+        return memoized.tokenKind;
     }
 
     /**
@@ -519,8 +519,8 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
      */
     const peeked = (
         state.settings.ignoreSpace ?
-        peekTokenAfterExtras(tmp) :
-        peekToken(tmp)
+        peekTokenAfterExtras(tmp, undefined) :
+        peekToken(tmp, undefined)
     );
 
     if (peeked == TokenKind.OpenParentheses) {
@@ -531,8 +531,11 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
          *
          * We check `sql_keywords_and_funcs` for keywords.
          */
+        state.memoizedTokens.set(state.index, {
+            tokenKind : keywordTokenKind,
+            end : tmp.index,
+        });
         state.index = tmp.index;
-        state.memoizedTokenKind.set(state.index, keywordTokenKind);
         return keywordTokenKind;
     } else {
         /**
@@ -546,26 +549,56 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
             /**
              * We treat this as just an identifier.
              */
+            console.log("keywordTokenKind", keywordTokenKind);
+            state.memoizedTokens.set(state.index, {
+                tokenKind : TokenKind.Identifier,
+                end : tmp.index,
+            });
             state.index = tmp.index;
-            state.memoizedTokenKind.set(state.index, TokenKind.Identifier);
             return TokenKind.Identifier;
         } else {
-            const [peekedA, peekedB] = peekToken2(tmp);
+            const [peekedA, peekedB] = peekToken2(tmp, undefined);
+            console.log("peekedA, peekedB", peekedA, peekedB);
             if (
                 peekedA == TokenKind.Dot &&
                 !Object.prototype.hasOwnProperty.call(Extras, peekedB) &&
                 peekedB != TokenKind.StringLiteral &&
                 peekedB != TokenKind.DoubleQuotedLiteral
             ) {
-                /**
-                 * We treat this as just an identifier.
-                 */
-                state.index = tmp.index;
-                state.memoizedTokenKind.set(state.index, TokenKind.Identifier);
-                return TokenKind.Identifier;
+                console.log("state.lastNonExtraTokenKind", state.lastNonExtraTokenKind, state);
+                if (state.lastNonExtraTokenKind == TokenKind.At) {
+                    /**
+                     * The previous token is an `@`.
+                     * So, we have `@SELECT`, or `@GLOBAL`.
+                     * This is not an identifier.
+                     *
+                     * As a special case, we might also have `@ SELECT`, or `@ GLOBAL`
+                     */
+                    console.log("a", state.index, keywordTokenKind);
+                    state.memoizedTokens.set(state.index, {
+                        tokenKind : keywordTokenKind,
+                        end : tmp.index,
+                    });
+                    state.index = tmp.index;
+                    return keywordTokenKind;
+                } else {
+                    /**
+                     * We treat this as just an identifier.
+                     */
+                    console.log("b", state.index, keywordTokenKind);
+                    state.memoizedTokens.set(state.index, {
+                        tokenKind : TokenKind.Identifier,
+                        end : tmp.index,
+                    });
+                    state.index = tmp.index;
+                    return TokenKind.Identifier;
+                }
             }
+            state.memoizedTokens.set(state.index, {
+                tokenKind : keywordTokenKind,
+                end : tmp.index,
+            });
             state.index = tmp.index;
-            state.memoizedTokenKind.set(state.index, keywordTokenKind);
             return keywordTokenKind;
         }
     }
@@ -691,9 +724,10 @@ export function scanOthers (state : LexerState) : TokenKind {
     return tokenKind;
 }
 
-export function peekTokenAfterExtras (state : LexerState) : TokenKind {
+export function peekTokenAfterExtras (state : LexerState, lastNonExtraTokenKind : TokenKind|undefined) : TokenKind {
     const tmp = state.clone();
     while (!tmp.isEof(0)) {
+        tmp.lastNonExtraTokenKind = lastNonExtraTokenKind;
         const tokenKind = scan(tmp);
         if (Object.prototype.hasOwnProperty.call(Extras, tokenKind)) {
             continue;
@@ -703,24 +737,82 @@ export function peekTokenAfterExtras (state : LexerState) : TokenKind {
     return TokenKind.EndOfFile;
 }
 
-export function peekToken (state : LexerState) : TokenKind {
+export function peekTokenAfterExtras2 (state : LexerState, lastNonExtraTokenKind : TokenKind|undefined) : {
+    tokenKind : TokenKind,
+    start : number,
+    end : number,
+    lexerState : LexerState,
+} {
+    const tmp = state.clone();
+    while (!tmp.isEof(0)) {
+        const start = tmp.index;
+        tmp.lastNonExtraTokenKind = lastNonExtraTokenKind;
+        const tokenKind = scan(tmp);
+        const end = tmp.index;
+        if (Object.prototype.hasOwnProperty.call(Extras, tokenKind)) {
+            continue;
+        }
+        return {
+            tokenKind,
+            start,
+            end,
+            lexerState : tmp,
+        };
+    }
+    return {
+        tokenKind : TokenKind.EndOfFile,
+        start : tmp.index,
+        end : tmp.index,
+        lexerState  :tmp,
+    };
+}
+
+export function peekToken (state : LexerState, lastNonExtraTokenKind : TokenKind|undefined) : TokenKind {
     const tmp = state.clone();
     if (!tmp.isEof(0)) {
+        tmp.lastNonExtraTokenKind = lastNonExtraTokenKind;
         const tokenKind = scan(tmp);
         return tokenKind;
     }
     return TokenKind.EndOfFile;
 }
 
-export function peekToken2 (state : LexerState) : [TokenKind, TokenKind] {
+export function peekToken2 (state : LexerState, lastNonExtraTokenKind : TokenKind|undefined) : [TokenKind, TokenKind] {
     const tmp = state.clone();
     if (tmp.isEof(0)) {
         return [TokenKind.EndOfFile, TokenKind.EndOfFile];
     }
+    tmp.lastNonExtraTokenKind = lastNonExtraTokenKind;
     const tokenKindA = scan(tmp);
     if (tmp.isEof(0)) {
         return [tokenKindA, TokenKind.EndOfFile];
     }
     const tokenKindB = scan(tmp);
     return [tokenKindA, tokenKindB];
+}
+
+/**
+ * https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/sql_lex.cc#L1982-L1985
+ */
+export function scanHostname (state : LexerState) {
+    if (!isHostnameCharacter(state.peek(0))) {
+        //state.nextZeroWidthTokenKind = TokenKind.Hostname;
+        return;
+    }
+
+    let hasDot = false;
+    const tmp = state.clone();
+    while (isHostnameCharacter(tmp.peek(0))) {
+        if (tmp.peek(0) == CharacterCodes.dot) {
+            hasDot = true;
+        }
+        tmp.advance();
+    }
+
+    if (hasDot) {
+        state.nextToken = {
+            tokenKind : TokenKind.Hostname,
+            end : tmp.index,
+        };
+    }
 }

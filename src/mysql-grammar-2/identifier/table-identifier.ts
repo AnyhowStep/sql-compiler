@@ -23,7 +23,7 @@ export const TableIdentifier = choice(
                 1
             )),
             field("dotToken", cannotExpect(TokenKind.Dot)),
-            //No whitespace and linebreak allowed between dot and reserved tokens
+            //No whitespace and linebreak allowed between dot and tableName
             repeatNoSkipIfAllError(consumeUnexpected(
                 tokenSymbol(extras[0], ...extras.slice(1)),
                 extras,

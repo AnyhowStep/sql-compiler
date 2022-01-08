@@ -48,6 +48,7 @@ export function buildToken (
                 consumeUnexpectedCost : undefined,
                 skipExpectationCost : undefined,
                 skipExpectationAfterExtraCost : undefined,
+                omitCost : undefined,
             };
         } else if (state.customExtrasNameMap[rule] != undefined && !rule.includes("$")) {
             return state.customExtrasNameMap[rule];
@@ -87,7 +88,10 @@ export function buildToken (
                 state,
                 state.getUniqueName(ruleName + suffix),
                 [
-                    seq(),
+                    {
+                        ...seq(),
+                        omitCost : rule.omitCost,
+                    },
                     rule.rule,
                 ],
                 uniqueExtrasName
@@ -133,6 +137,7 @@ export function buildToken (
                 consumeUnexpectedCost : rule.consumeUnexpectedCost,
                 skipExpectationCost : rule.skipExpectationCost,
                 skipExpectationAfterExtraCost : rule.skipExpectationAfterExtraCost,
+                omitCost : rule.omitCost,
             };
         }
         case "alias": {
@@ -180,34 +185,46 @@ export function recursivePushFront (item : OptionalRule, extras : string) : Opti
     if (isSeqRule(item.rule)) {
         const first = item.rule.rules[0];
         if (isOptionalRule(first)) {
-            return optional(seq(
-                recursivePushFront(first, extras),
-                ...item.rule.rules.slice(1),
-            ));
+            return {
+                ...item,
+                ...optional(seq(
+                    recursivePushFront(first, extras),
+                    ...item.rule.rules.slice(1),
+                )),
+            };
         }
     }
 
-    return optional(seq(
-        extras,
-        item.rule,
-    ));
+    return {
+        ...item,
+        ...optional(seq(
+            extras,
+            item.rule,
+        )),
+    };
 }
 
 export function recursivePushBack (item : OptionalRule, extras : string) : OptionalRule {
     if (isSeqRule(item.rule)) {
         const last = item.rule.rules[item.rule.rules.length-1];
         if (isOptionalRule(last)) {
-            return optional(seq(
-                ...item.rule.rules.slice(0, item.rule.rules.length-1),
-                recursivePushBack(last, extras),
-            ));
+            return {
+                ...item,
+                ...optional(seq(
+                    ...item.rule.rules.slice(0, item.rule.rules.length-1),
+                    recursivePushBack(last, extras),
+                )),
+            };
         }
     }
 
-    return optional(seq(
-        item.rule,
-        extras,
-    ));
+    return {
+        ...item,
+        ...optional(seq(
+            item.rule,
+            extras,
+        )),
+    };
 }
 
 export function buildRule (
@@ -327,6 +344,11 @@ export function buildRule (
             typeof rule == "string" ?
             false :
             rule.greedySkipExpectation === true
+        ),
+        omitCost : (
+            typeof rule == "string" ?
+            undefined :
+            rule.omitCost
         ),
     });
     return ruleName;

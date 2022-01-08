@@ -67,6 +67,7 @@ export const customTokenKinds = [
      * What a headache.
      */
     "DoubleQuotedLiteral",
+    "Hostname",
 
     /**
      * Punctuation

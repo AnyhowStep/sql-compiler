@@ -1,0 +1,11 @@
+SELECT @@GLOBAL.SELECT
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 22]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: SELECT[16, 22])
+          )
+!`

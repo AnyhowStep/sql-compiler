@@ -468,8 +468,9 @@ export function inlineChild (
             });
             if (tmp.length == 0) {
                 if (field.quantity.required) {
-                    console.log(childChildren);
-                    throw new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${childChildren.length}/${tmp.length} children; but field is required`);
+                    const err = new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${childChildren.length}/${tmp.length} children; but field is required`);
+                    err.name = "MissingRequiredFieldError";
+                    throw err;
                 } else {
                     newFields[childLabel] = undefined;
                 }
@@ -972,6 +973,10 @@ export function complete3 (
 
     let errorCount = other.errorCount + state.errorCount;
 
+    if (/\$optional\$\d+$/.test(state.rule.name) && state.data.children.length == 0 && state.rule.omitCost != undefined) {
+        errorCount += state.rule.omitCost;
+    }
+
     const lastChild = other.data.children[other.data.children.length-1];
     if (
         lastChild != undefined &&
@@ -1066,8 +1071,7 @@ export function complete3 (
 
                 return nextState;
             } catch (err) {
-                const message : string = String(err.message);
-                if (!message.includes("children; but field is required")) {
+                if (err.name != "MissingRequiredFieldError") {
                     throw err;
                 }
             }
@@ -1295,6 +1299,10 @@ export function complete2 (
 
     let errorCount = other.errorCount + state.errorCount;
 
+    if (/\$optional\$\d+$/.test(state.rule.name) && state.data.children.length == 0 && state.rule.omitCost != undefined) {
+        errorCount += state.rule.omitCost;
+    }
+
     const lastChild = other.data.children[other.data.children.length-1];
     if (
         lastChild != undefined &&
@@ -1409,30 +1417,35 @@ export function complete2 (
                 return;
             }
 
+            try {
+                const newNextData = (
+                    shouldInline ?
+                    inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) :
+                    pushChild(grammar, newOtherData, newStateData)
+                );
 
-            const newNextData = (
-                shouldInline ?
-                inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) :
-                pushChild(grammar, newOtherData, newStateData)
-            );
+                const nextState : MyState = {
+                    rule : other.rule,
+                    dot : other.dot+1,
+                    tokenIndex : state.tokenIndex,
+                    startTokenIndex : other.startTokenIndex,
 
-            const nextState : MyState = {
-                rule : other.rule,
-                dot : other.dot+1,
-                tokenIndex : state.tokenIndex,
-                startTokenIndex : other.startTokenIndex,
+                    data : newNextData,
+                    errorCount,
 
-                data : newNextData,
-                errorCount,
+                    ident : nextIdent,
 
-                ident : nextIdent,
+                    pushEdge : new Map<MyState, MyState[]>([[other, [state]]]),
+                };
 
-                pushEdge : new Map<MyState, MyState[]>([[other, [state]]]),
-            };
-
-            ++addStateComplete2;
-            addState(nextState);
-            return;
+                ++addStateComplete2;
+                addState(nextState);
+                return;
+            } catch (err) {
+                if (err.name != "MissingRequiredFieldError") {
+                    throw err;
+                }
+            }
         }
     }
 
@@ -1776,6 +1789,14 @@ function blah (
 
     if (state.pushEdge.size == 0) {
         return [state];
+    }
+
+    if (state.rule.omitCost != undefined) {
+        console.log("test2");
+    }
+
+    if (state.rule.name == "Alias") {
+        console.log("test3");
     }
 
     const result : MyState[] = [];

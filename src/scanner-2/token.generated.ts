@@ -686,6 +686,7 @@ export enum TokenKind {
     Identifier = "Identifier",
     MacroIdentifier = "MacroIdentifier",
     DoubleQuotedLiteral = "DoubleQuotedLiteral",
+    Hostname = "Hostname",
     Plus = "Plus",
     Minus = "Minus",
     Asterisk = "Asterisk",

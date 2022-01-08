@@ -1,0 +1,223 @@
+SELECT @@SELECT.x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 17]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: SELECT[9, 15])
+            (dotToken: Dot[15, 16])
+            (componentName: Identifier[16, 17])
+          )
+!`
+-----
+SELECT @@SELECT. x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 18]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: SELECT[9, 15])
+            (dotToken: Dot[15, 16])
+            (WhiteSpace[16, 17])
+            (componentName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT @@SELECT .x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 18]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: SELECT[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken: Dot[16, 17])
+            (componentName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT @@SELECT . x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 19]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: SELECT[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (componentName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT @@ SELECT.x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 18]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (dotToken: Dot[16, 17])
+            (componentName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT @@ SELECT. x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 19]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (dotToken: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (componentName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT @@ SELECT .x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 19]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken: Dot[17, 18])
+            (componentName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT @@ SELECT . x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 20]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (componentName: Identifier[19, 20])
+          )
+!`
+-----
+SELECT @ @SELECT.x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 18]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (dotToken: Dot[16, 17])
+            (componentName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT @ @SELECT. x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 19]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (dotToken: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (componentName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT @ @SELECT .x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 19]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken: Dot[17, 18])
+            (componentName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT @ @SELECT . x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 20]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (componentName: Identifier[19, 20])
+          )
+!`
+-----
+SELECT @ @ SELECT.x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 19]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (Unexpected instanceName: SELECT[11, 17])
+            (dotToken: Dot[17, 18])
+            (componentName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT @ @ SELECT. x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 20]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (Unexpected instanceName: SELECT[11, 17])
+            (dotToken: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (componentName: Identifier[19, 20])
+          )
+!`
+-----
+SELECT @ @ SELECT .x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 20]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (Unexpected instanceName: SELECT[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken: Dot[18, 19])
+            (componentName: Identifier[19, 20])
+          )
+!`
+-----
+SELECT @ @ SELECT . x
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 21]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (Unexpected instanceName: SELECT[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken: Dot[18, 19])
+            (WhiteSpace[19, 20])
+            (componentName: Identifier[20, 21])
+          )
+!`

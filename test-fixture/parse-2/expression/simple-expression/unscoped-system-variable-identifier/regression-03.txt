@@ -1,0 +1,13 @@
+SELECT @ @SELECT. SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 24]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected instanceName: SELECT[10, 16])
+            (dotToken: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (componentName: SELECT[18, 24])
+          )
+!`

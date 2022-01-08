@@ -1,0 +1,223 @@
+SELECT @@sql_mode.SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 24]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 17])
+            (dotToken: Dot[17, 18])
+            (componentName: SELECT[18, 24])
+          )
+!`
+-----
+SELECT @@sql_mode. SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 17])
+            (dotToken: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (componentName: SELECT[19, 25])
+          )
+!`
+-----
+SELECT @@sql_mode .SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 17])
+            (WhiteSpace[17, 18])
+            (dotToken: Dot[18, 19])
+            (componentName: SELECT[19, 25])
+          )
+!`
+-----
+SELECT @@sql_mode . SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (instanceName: Identifier[9, 17])
+            (WhiteSpace[17, 18])
+            (dotToken: Dot[18, 19])
+            (Unexpected WhiteSpace[19, 20])
+            (componentName: SELECT[20, 26])
+          )
+!`
+-----
+SELECT @@ sql_mode.SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (instanceName: Identifier[10, 18])
+            (dotToken: Dot[18, 19])
+            (componentName: SELECT[19, 25])
+          )
+!`
+-----
+SELECT @@ sql_mode. SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (instanceName: Identifier[10, 18])
+            (dotToken: Dot[18, 19])
+            (Unexpected WhiteSpace[19, 20])
+            (componentName: SELECT[20, 26])
+          )
+!`
+-----
+SELECT @@ sql_mode .SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (instanceName: Identifier[10, 18])
+            (WhiteSpace[18, 19])
+            (dotToken: Dot[19, 20])
+            (componentName: SELECT[20, 26])
+          )
+!`
+-----
+SELECT @@ sql_mode . SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (instanceName: Identifier[10, 18])
+            (WhiteSpace[18, 19])
+            (dotToken: Dot[19, 20])
+            (Unexpected WhiteSpace[20, 21])
+            (componentName: SELECT[21, 27])
+          )
+!`
+-----
+SELECT @ @sql_mode.SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (instanceName: Identifier[10, 18])
+            (dotToken: Dot[18, 19])
+            (componentName: SELECT[19, 25])
+          )
+!`
+-----
+SELECT @ @sql_mode. SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (instanceName: Identifier[10, 18])
+            (dotToken: Dot[18, 19])
+            (Unexpected WhiteSpace[19, 20])
+            (componentName: SELECT[20, 26])
+          )
+!`
+-----
+SELECT @ @sql_mode .SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (instanceName: Identifier[10, 18])
+            (WhiteSpace[18, 19])
+            (dotToken: Dot[19, 20])
+            (componentName: SELECT[20, 26])
+          )
+!`
+-----
+SELECT @ @sql_mode . SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (instanceName: Identifier[10, 18])
+            (WhiteSpace[18, 19])
+            (dotToken: Dot[19, 20])
+            (Unexpected WhiteSpace[20, 21])
+            (componentName: SELECT[21, 27])
+          )
+!`
+-----
+SELECT @ @ sql_mode.SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (instanceName: Identifier[11, 19])
+            (dotToken: Dot[19, 20])
+            (componentName: SELECT[20, 26])
+          )
+!`
+-----
+SELECT @ @ sql_mode. SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (instanceName: Identifier[11, 19])
+            (dotToken: Dot[19, 20])
+            (Unexpected WhiteSpace[20, 21])
+            (componentName: SELECT[21, 27])
+          )
+!`
+-----
+SELECT @ @ sql_mode .SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (instanceName: Identifier[11, 19])
+            (WhiteSpace[19, 20])
+            (dotToken: Dot[20, 21])
+            (componentName: SELECT[21, 27])
+          )
+!`
+-----
+SELECT @ @ sql_mode . SELECT
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (instanceName: Identifier[11, 19])
+            (WhiteSpace[19, 20])
+            (dotToken: Dot[20, 21])
+            (Unexpected WhiteSpace[21, 22])
+            (componentName: SELECT[22, 28])
+          )
+!`

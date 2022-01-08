@@ -160,16 +160,21 @@ SELECT .2
 !`
 -----
 SELECT .-
+-- With such garbage input, anything goes, really
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 9]
-          (expression: ColumnIdentifierSimpleExpression[7, 9]
-            (Expected tableName: Identifier[7, 7])
-            (dotToken[]: Dot[7, 8])
-            (Unexpected Minus[8, 9])
-            (Expected columnName: Identifier[9, 9])
-          )
+  (statement[]: TrailingStatement[0, 8]
+    (statement: Select[0, 8]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 8]
+        (item[]: ExpressionSelectItem[7, 8]
+          (Expected expression: Identifier[7, 8])
         )
+      )
+    )
+  )
+  (Unexpected Minus[8, 9])
 !`
 -----
 SELECT .-2

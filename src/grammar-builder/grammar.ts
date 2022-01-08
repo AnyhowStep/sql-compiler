@@ -121,7 +121,10 @@ export function field (
     rule : Rule,
 ) : RuleObj {
     if (typeof rule != "string" && rule.ruleKind == "optional") {
-        return optional(field(label, rule.rule));
+        return {
+            ...rule,
+            ...optional(field(label, rule.rule)),
+        };
     }
 
     if (typeof rule != "string" && rule.ruleKind == "repeat1") {
@@ -323,6 +326,16 @@ export function greedySkipExpectation (rule : Rule) : RuleObj {
     };
 }
 
+export function omitCost (omitCost : number, rule : Rule) : RuleObj {
+    if (typeof rule == "string") {
+        rule = tokenSymbol(rule);
+    }
+    return {
+        ...rule,
+        omitCost,
+    };
+}
+
 export function fieldLengthCheck (
     field : string,
     minLength : number,
@@ -394,6 +407,7 @@ export interface RuleBase {
     disallowedSyntaxKinds? : string[];
     fieldCheckArr? : FieldCheck[];
     greedySkipExpectation? : boolean;
+    omitCost? : number;
 }
 
 export interface SeqRule extends RuleBase {
