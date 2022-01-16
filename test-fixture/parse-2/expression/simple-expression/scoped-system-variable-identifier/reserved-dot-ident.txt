@@ -1,0 +1,1088 @@
+SELECT @@GLOBAL.SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 24]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: SELECT[16, 22])
+            (dotToken[]: Dot[22, 23])
+            (componentName: Identifier[23, 24])
+          )
+!`
+-----
+SELECT @@GLOBAL.SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: SELECT[16, 22])
+            (dotToken[]: Dot[22, 23])
+            (WhiteSpace[23, 24])
+            (componentName: Identifier[24, 25])
+          )
+!`
+-----
+SELECT @@GLOBAL.SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: SELECT[16, 22])
+            (WhiteSpace[22, 23])
+            (dotToken[]: Dot[23, 24])
+            (componentName: Identifier[24, 25])
+          )
+!`
+-----
+SELECT @@GLOBAL.SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: SELECT[16, 22])
+            (WhiteSpace[22, 23])
+            (dotToken[]: Dot[23, 24])
+            (WhiteSpace[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@GLOBAL. SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (WhiteSpace[16, 17])
+            (instanceName: Identifier[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (componentName: Identifier[24, 25])
+          )
+!`
+-----
+SELECT @@GLOBAL. SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected WhiteSpace[16, 17])
+            (instanceName: SELECT[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (WhiteSpace[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@GLOBAL. SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected WhiteSpace[16, 17])
+            (instanceName: SELECT[17, 23])
+            (WhiteSpace[23, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@GLOBAL. SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected WhiteSpace[16, 17])
+            (instanceName: SELECT[17, 23])
+            (WhiteSpace[23, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@GLOBAL .SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (componentName: Identifier[24, 25])
+          )
+!`
+-----
+SELECT @@GLOBAL .SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (WhiteSpace[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@GLOBAL .SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (WhiteSpace[23, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@GLOBAL .SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (WhiteSpace[23, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@GLOBAL . SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (instanceName: Identifier[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@GLOBAL . SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@GLOBAL . SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@GLOBAL . SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @@ GLOBAL.SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: Identifier[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (componentName: Identifier[24, 25])
+          )
+!`
+-----
+SELECT @@ GLOBAL.SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (WhiteSpace[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@ GLOBAL.SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (WhiteSpace[23, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@ GLOBAL.SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (WhiteSpace[23, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@ GLOBAL. SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (instanceName: Identifier[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@ GLOBAL. SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@ GLOBAL. SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@ GLOBAL. SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @@ GLOBAL .SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: Identifier[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @@ GLOBAL .SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@ GLOBAL .SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@ GLOBAL .SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @@ GLOBAL . SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (instanceName: Identifier[19, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @@ GLOBAL . SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @@ GLOBAL . SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (WhiteSpace[25, 26])
+            (dotToken[]: Dot[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @@ GLOBAL . SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 29]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (WhiteSpace[25, 26])
+            (dotToken[]: Dot[26, 27])
+            (WhiteSpace[27, 28])
+            (componentName: Identifier[28, 29])
+          )
+!`
+-----
+SELECT @ @GLOBAL.SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 25]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (componentName: Identifier[24, 25])
+          )
+!`
+-----
+SELECT @ @GLOBAL.SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (dotToken[]: Dot[23, 24])
+            (WhiteSpace[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @ @GLOBAL.SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (WhiteSpace[23, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @ @GLOBAL.SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (instanceName: SELECT[17, 23])
+            (WhiteSpace[23, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @GLOBAL. SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (instanceName: Identifier[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @ @GLOBAL. SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @GLOBAL. SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @GLOBAL. SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @GLOBAL .SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @ @GLOBAL .SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @GLOBAL .SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @GLOBAL .SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @GLOBAL . SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (instanceName: Identifier[19, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @GLOBAL . SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @GLOBAL . SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (WhiteSpace[25, 26])
+            (dotToken[]: Dot[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @GLOBAL . SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 29]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (scope: GLOBAL[10, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (WhiteSpace[25, 26])
+            (dotToken[]: Dot[26, 27])
+            (WhiteSpace[27, 28])
+            (componentName: Identifier[28, 29])
+          )
+!`
+-----
+SELECT @ @ GLOBAL.SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 26]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: Identifier[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (componentName: Identifier[25, 26])
+          )
+!`
+-----
+SELECT @ @ GLOBAL.SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (dotToken[]: Dot[24, 25])
+            (WhiteSpace[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @ GLOBAL.SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @ GLOBAL.SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (dotToken[]: Dot[17, 18])
+            (instanceName: SELECT[18, 24])
+            (WhiteSpace[24, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @ GLOBAL. SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (dotToken[]: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (instanceName: Identifier[19, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @ GLOBAL. SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @ GLOBAL. SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (WhiteSpace[25, 26])
+            (dotToken[]: Dot[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @ GLOBAL. SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 29]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected WhiteSpace[18, 19])
+            (instanceName: SELECT[19, 25])
+            (WhiteSpace[25, 26])
+            (dotToken[]: Dot[26, 27])
+            (WhiteSpace[27, 28])
+            (componentName: Identifier[28, 29])
+          )
+!`
+-----
+SELECT @ @ GLOBAL .SELECT.y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 27]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (instanceName: Identifier[19, 25])
+            (dotToken[]: Dot[25, 26])
+            (componentName: Identifier[26, 27])
+          )
+!`
+-----
+SELECT @ @ GLOBAL .SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (instanceName: SELECT[19, 25])
+            (dotToken[]: Dot[25, 26])
+            (WhiteSpace[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @ GLOBAL .SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (instanceName: SELECT[19, 25])
+            (WhiteSpace[25, 26])
+            (dotToken[]: Dot[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @ GLOBAL .SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 29]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (instanceName: SELECT[19, 25])
+            (WhiteSpace[25, 26])
+            (dotToken[]: Dot[26, 27])
+            (WhiteSpace[27, 28])
+            (componentName: Identifier[28, 29])
+          )
+!`
+-----
+SELECT @ @ GLOBAL . SELECT.y
+-- So confusing that either .SELECT or SELECT.y is valid
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 28]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (WhiteSpace[19, 20])
+            (instanceName: Identifier[20, 26])
+            (dotToken[]: Dot[26, 27])
+            (componentName: Identifier[27, 28])
+          )
+!`
+-----
+SELECT @ @ GLOBAL . SELECT. y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 29]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (Unexpected WhiteSpace[19, 20])
+            (instanceName: SELECT[20, 26])
+            (dotToken[]: Dot[26, 27])
+            (WhiteSpace[27, 28])
+            (componentName: Identifier[28, 29])
+          )
+!`
+-----
+SELECT @ @ GLOBAL . SELECT .y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 29]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (Unexpected WhiteSpace[19, 20])
+            (instanceName: SELECT[20, 26])
+            (WhiteSpace[26, 27])
+            (dotToken[]: Dot[27, 28])
+            (componentName: Identifier[28, 29])
+          )
+!`
+-----
+SELECT @ @ GLOBAL . SELECT . y
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 30]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (scope: GLOBAL[11, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (Unexpected WhiteSpace[19, 20])
+            (instanceName: SELECT[20, 26])
+            (WhiteSpace[26, 27])
+            (dotToken[]: Dot[27, 28])
+            (WhiteSpace[28, 29])
+            (componentName: Identifier[29, 30])
+          )
+!`

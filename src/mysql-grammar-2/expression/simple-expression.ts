@@ -258,13 +258,43 @@ export const ScopedSystemVariableIdentifier = seq(
     ),
     choice(
         //I don't know why they call it "instance"
-        dotIdentOrReserved("instanceName"),
+        choice(
+            useCustomExtra(
+                "",
+                seq(
+                    field("dotToken", cannotExpect(TokenKind.Dot)),
+                    //whitespace and linebreak allowed between dot and non-reserved tokens
+                        repeat(tokenSymbol(extras[0], ...extras.slice(1))),
+                    field("instanceName", greedySkipExpectation(consumeUnexpected(
+                        identifier,
+                        [
+                            TokenKind.StringLiteral,
+                            TokenKind.DoubleQuotedLiteral,
+                        ],
+                        .5
+                    ))),
+                )
+            ),
+            useCustomExtra(
+                "",
+                seq(
+                    field("dotToken", cannotExpect(TokenKind.Dot)),
+                    //No whitespace and linebreak allowed between dot and reserved tokens
+                    repeatNoSkipIfAllError(consumeUnexpected(
+                        tokenSymbol(extras[0], ...extras.slice(1)),
+                        extras,
+                        .25
+                    )),
+                    field("instanceName", reserved),
+                )
+            ),
+        ),
         seq(
             //I don't know why they call it "instance"
             dotIdentOrReservedScopedSystemVariable("instanceName"),
             //https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/item_func.cc#L7810
             //https://dev.mysql.com/doc/refman/8.0/en/structured-system-variables.html
-            dotIdentOrReserved("componentName"),
+            dotIdentOrReservedNoSkipErrors("componentName"),
         ),
     ),
 );

@@ -212,7 +212,7 @@ SELECT @@.2
 !`
 -----
 SELECT @@.-
--- With such garbage input, anything goes, really
+-- TODO A comment changes the parse
 -----
 `!
           (expression: BinaryBitExpression[7, 11]
@@ -225,6 +225,19 @@ SELECT @@.-
             )
             (operator: Minus[10, 11])
             (Expected right: Identifier[11, 11])
+          )
+!`
+-----
+SELECT @@.-
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 11]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Expected instanceName: Identifier[9, 9])
+            (dotToken: Dot[9, 10])
+            (Unexpected Minus[10, 11])
+            (Expected componentName: Identifier[11, 11])
           )
 !`
 -----

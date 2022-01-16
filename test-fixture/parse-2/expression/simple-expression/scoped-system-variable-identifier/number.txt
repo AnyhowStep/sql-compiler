@@ -1,140 +1,182 @@
 SELECT @@GLOBAL.
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 9]
+          (expression: ScopedSystemVariableIdentifier[7, 16]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
           )
 !`
 -----
 SELECT @@GLOBAL.2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: ScopedSystemVariableIdentifier[7, 17]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
           )
 !`
 -----
 SELECT @@GLOBAL.-
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: ScopedSystemVariableIdentifier[7, 17]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 10])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected Minus[16, 17])
+            (Expected instanceName: Identifier[17, 17])
+          )
+!`
+-----
+SELECT @@GLOBAL.-
+-- Comments change parse
+-----
+`!
+          (expression: BinaryBitExpression[7, 17]
+            (left: ScopedSystemVariableIdentifier[7, 16]
+              (atToken[]: At[7, 8])
+              (atToken[]: At[8, 9])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+            )
+            (operator: Minus[16, 17])
+            (Expected right: Identifier[17, 17])
           )
 !`
 -----
 SELECT @@GLOBAL.-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 11]
-            (left: UnscopedSystemVariableIdentifier[7, 9]
+          (expression: BinaryBitExpression[7, 18]
+            (left: ScopedSystemVariableIdentifier[7, 16]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
             )
-            (operator: Minus[9, 10])
-            (right: IntegerLiteral[10, 11])
+            (operator: Minus[16, 17])
+            (right: IntegerLiteral[17, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.e
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: ScopedSystemVariableIdentifier[7, 17]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
           )
 !`
 -----
 SELECT @@GLOBAL.e2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.e-
 -----
 `!
-          (expression: BinaryBitExpression[7, 11]
-            (left: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: BinaryBitExpression[7, 18]
+            (left: ScopedSystemVariableIdentifier[7, 17]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
             )
-            (operator: Minus[10, 11])
-            (Expected right: Identifier[11, 11])
+            (operator: Minus[17, 18])
+            (Expected right: Identifier[18, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.e-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 17]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
             )
-            (operator: Minus[10, 11])
-            (right: IntegerLiteral[11, 12])
+            (operator: Minus[17, 18])
+            (right: IntegerLiteral[18, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.1
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: ScopedSystemVariableIdentifier[7, 17]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
           )
 !`
 -----
 SELECT @@GLOBAL.12
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.1-
 -----
 `!
-          (expression: BinaryBitExpression[7, 11]
-            (left: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: BinaryBitExpression[7, 18]
+            (left: ScopedSystemVariableIdentifier[7, 17]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
             )
-            (operator: Minus[10, 11])
-            (Expected right: Identifier[11, 11])
+            (operator: Minus[17, 18])
+            (Expected right: Identifier[18, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.1-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 17]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
             )
-            (operator: Minus[10, 11])
-            (right: IntegerLiteral[11, 12])
+            (operator: Minus[17, 18])
+            (right: IntegerLiteral[18, 19])
           )
 !`
 -----
@@ -142,709 +184,832 @@ SELECT @@GLOBAL.1e
 -- Yeap, 1e is a valid identifier
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.1e2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.1e-
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 18])
             )
-            (operator: Minus[11, 12])
-            (Expected right: Identifier[12, 12])
+            (operator: Minus[18, 19])
+            (Expected right: Identifier[19, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.1e-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 18])
             )
-            (operator: Minus[11, 12])
-            (right: IntegerLiteral[12, 13])
+            (operator: Minus[18, 19])
+            (right: IntegerLiteral[19, 20])
           )
 !`
 -----
 SELECT @@GLOBAL..
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: ScopedSystemVariableIdentifier[7, 17]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
-            (dotToken: Dot[9, 10])
-            (Expected componentName: Identifier[10, 10])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (Expected componentName: Identifier[17, 17])
           )
 !`
 -----
 SELECT @@GLOBAL..2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
-            (dotToken: Dot[9, 10])
-            (componentName: Identifier[10, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (componentName: Identifier[17, 18])
           )
 !`
 -----
 SELECT @@GLOBAL..-
--- With such garbage input, anything goes, really
+-- TODO A comment changes the parse
 -----
 `!
-          (expression: BinaryBitExpression[7, 11]
-            (left: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: BinaryBitExpression[7, 18]
+            (left: ScopedSystemVariableIdentifier[7, 17]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
-              (dotToken: Dot[9, 10])
-              (Expected componentName: Identifier[10, 10])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+              (dotToken[]: Dot[16, 17])
+              (Expected componentName: Identifier[17, 17])
             )
-            (operator: Minus[10, 11])
-            (Expected right: Identifier[11, 11])
+            (operator: Minus[17, 18])
+            (Expected right: Identifier[18, 18])
+          )
+!`
+-----
+SELECT @@GLOBAL..-
+-----
+`!
+          (expression: ScopedSystemVariableIdentifier[7, 18]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected Minus[17, 18])
+            (Expected componentName: Identifier[18, 18])
           )
 !`
 -----
 SELECT @@GLOBAL..-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 17]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
-              (dotToken: Dot[9, 10])
-              (Expected componentName: Identifier[10, 10])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+              (dotToken[]: Dot[16, 17])
+              (Expected componentName: Identifier[17, 17])
             )
-            (operator: Minus[10, 11])
-            (right: IntegerLiteral[11, 12])
+            (operator: Minus[17, 18])
+            (right: IntegerLiteral[18, 19])
           )
 !`
 -----
 SELECT @@GLOBAL..e
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
-            (dotToken: Dot[9, 10])
-            (componentName: Identifier[10, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (componentName: Identifier[17, 18])
           )
 !`
 -----
 SELECT @@GLOBAL..e2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
-            (dotToken: Dot[9, 10])
-            (componentName: Identifier[10, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (componentName: Identifier[17, 19])
           )
 !`
 -----
 SELECT @@GLOBAL..e-
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
-              (dotToken: Dot[9, 10])
-              (componentName: Identifier[10, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+              (dotToken[]: Dot[16, 17])
+              (componentName: Identifier[17, 18])
             )
-            (operator: Minus[11, 12])
-            (Expected right: Identifier[12, 12])
+            (operator: Minus[18, 19])
+            (Expected right: Identifier[19, 19])
           )
 !`
 -----
 SELECT @@GLOBAL..e-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
-              (dotToken: Dot[9, 10])
-              (componentName: Identifier[10, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+              (dotToken[]: Dot[16, 17])
+              (componentName: Identifier[17, 18])
             )
-            (operator: Minus[11, 12])
-            (right: IntegerLiteral[12, 13])
+            (operator: Minus[18, 19])
+            (right: IntegerLiteral[19, 20])
           )
 !`
 -----
 SELECT @@GLOBAL..1
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
-            (dotToken: Dot[9, 10])
-            (componentName: Identifier[10, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (componentName: Identifier[17, 18])
           )
 !`
 -----
 SELECT @@GLOBAL..12
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
-            (dotToken: Dot[9, 10])
-            (componentName: Identifier[10, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (componentName: Identifier[17, 19])
           )
 !`
 -----
 SELECT @@GLOBAL..1-
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
-              (dotToken: Dot[9, 10])
-              (componentName: Identifier[10, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+              (dotToken[]: Dot[16, 17])
+              (componentName: Identifier[17, 18])
             )
-            (operator: Minus[11, 12])
-            (Expected right: Identifier[12, 12])
+            (operator: Minus[18, 19])
+            (Expected right: Identifier[19, 19])
           )
 !`
 -----
 SELECT @@GLOBAL..1-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
-              (dotToken: Dot[9, 10])
-              (componentName: Identifier[10, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+              (dotToken[]: Dot[16, 17])
+              (componentName: Identifier[17, 18])
             )
-            (operator: Minus[11, 12])
-            (right: IntegerLiteral[12, 13])
+            (operator: Minus[18, 19])
+            (right: IntegerLiteral[19, 20])
           )
 !`
 -----
 SELECT @@GLOBAL..1e
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
-            (dotToken: Dot[9, 10])
-            (componentName: Identifier[10, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (componentName: Identifier[17, 19])
           )
 !`
 -----
 SELECT @@GLOBAL..1e2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 13]
+          (expression: ScopedSystemVariableIdentifier[7, 20]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (Expected instanceName: Identifier[9, 9])
-            (dotToken: Dot[9, 10])
-            (componentName: Identifier[10, 13])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Expected instanceName: Identifier[16, 16])
+            (dotToken[]: Dot[16, 17])
+            (componentName: Identifier[17, 20])
           )
 !`
 -----
 SELECT @@GLOBAL..1e-
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 19]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
-              (dotToken: Dot[9, 10])
-              (componentName: Identifier[10, 12])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+              (dotToken[]: Dot[16, 17])
+              (componentName: Identifier[17, 19])
             )
-            (operator: Minus[12, 13])
-            (Expected right: Identifier[13, 13])
+            (operator: Minus[19, 20])
+            (Expected right: Identifier[20, 20])
           )
 !`
 -----
 SELECT @@GLOBAL..1e-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 14]
-            (left: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: BinaryBitExpression[7, 21]
+            (left: ScopedSystemVariableIdentifier[7, 19]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (Expected instanceName: Identifier[9, 9])
-              (dotToken: Dot[9, 10])
-              (componentName: Identifier[10, 12])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (Expected instanceName: Identifier[16, 16])
+              (dotToken[]: Dot[16, 17])
+              (componentName: Identifier[17, 19])
             )
-            (operator: Minus[12, 13])
-            (right: IntegerLiteral[13, 14])
+            (operator: Minus[19, 20])
+            (right: IntegerLiteral[20, 21])
           )
 !`
 -----
 SELECT @@GLOBAL.0
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: ScopedSystemVariableIdentifier[7, 17]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
           )
 !`
 -----
 SELECT @@GLOBAL.02
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.0-
 -----
 `!
-          (expression: BinaryBitExpression[7, 11]
-            (left: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: BinaryBitExpression[7, 18]
+            (left: ScopedSystemVariableIdentifier[7, 17]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
             )
-            (operator: Minus[10, 11])
-            (Expected right: Identifier[11, 11])
+            (operator: Minus[17, 18])
+            (Expected right: Identifier[18, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.0-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 10]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 17]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
             )
-            (operator: Minus[10, 11])
-            (right: IntegerLiteral[11, 12])
+            (operator: Minus[17, 18])
+            (right: IntegerLiteral[18, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.0e
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.0e2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.0e-
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 18])
             )
-            (operator: Minus[11, 12])
-            (Expected right: Identifier[12, 12])
+            (operator: Minus[18, 19])
+            (Expected right: Identifier[19, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.0e-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 18])
             )
-            (operator: Minus[11, 12])
-            (right: IntegerLiteral[12, 13])
+            (operator: Minus[18, 19])
+            (right: IntegerLiteral[19, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.01
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.012
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.01-
 -----
 `!
-          (expression: BinaryBitExpression[7, 12]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 19]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 18])
             )
-            (operator: Minus[11, 12])
-            (Expected right: Identifier[12, 12])
+            (operator: Minus[18, 19])
+            (Expected right: Identifier[19, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.01-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 18])
             )
-            (operator: Minus[11, 12])
-            (right: IntegerLiteral[12, 13])
+            (operator: Minus[18, 19])
+            (right: IntegerLiteral[19, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.01e
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.01e2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 13]
+          (expression: ScopedSystemVariableIdentifier[7, 20]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 13])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.01e-
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 19]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 12])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 19])
             )
-            (operator: Minus[12, 13])
-            (Expected right: Identifier[13, 13])
+            (operator: Minus[19, 20])
+            (Expected right: Identifier[20, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.01e-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 14]
-            (left: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: BinaryBitExpression[7, 21]
+            (left: ScopedSystemVariableIdentifier[7, 19]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 12])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 19])
             )
-            (operator: Minus[12, 13])
-            (right: IntegerLiteral[13, 14])
+            (operator: Minus[19, 20])
+            (right: IntegerLiteral[20, 21])
           )
 !`
 -----
 SELECT @@GLOBAL.0.
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: ScopedSystemVariableIdentifier[7, 18]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (Expected componentName: Identifier[11, 11])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (Expected componentName: Identifier[18, 18])
           )
 !`
 -----
 SELECT @@GLOBAL.0.2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.0.-
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (Unexpected Minus[11, 12])
-            (Expected componentName: Identifier[12, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (Unexpected Minus[18, 19])
+            (Expected componentName: Identifier[19, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.0.-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 11]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 18]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
-              (dotToken: Dot[10, 11])
-              (Expected componentName: Identifier[11, 11])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
+              (dotToken[]: Dot[17, 18])
+              (Expected componentName: Identifier[18, 18])
             )
-            (operator: Minus[11, 12])
-            (right: IntegerLiteral[12, 13])
+            (operator: Minus[18, 19])
+            (right: IntegerLiteral[19, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.0.e
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.0.e2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 13]
+          (expression: ScopedSystemVariableIdentifier[7, 20]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 13])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.0.e-
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 19]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
-              (dotToken: Dot[10, 11])
-              (componentName: Identifier[11, 12])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
+              (dotToken[]: Dot[17, 18])
+              (componentName: Identifier[18, 19])
             )
-            (operator: Minus[12, 13])
-            (Expected right: Identifier[13, 13])
+            (operator: Minus[19, 20])
+            (Expected right: Identifier[20, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.0.e-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 14]
-            (left: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: BinaryBitExpression[7, 21]
+            (left: ScopedSystemVariableIdentifier[7, 19]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
-              (dotToken: Dot[10, 11])
-              (componentName: Identifier[11, 12])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
+              (dotToken[]: Dot[17, 18])
+              (componentName: Identifier[18, 19])
             )
-            (operator: Minus[12, 13])
-            (right: IntegerLiteral[13, 14])
+            (operator: Minus[19, 20])
+            (right: IntegerLiteral[20, 21])
           )
 !`
 -----
 SELECT @@GLOBAL.0.1
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 19])
           )
 !`
 -----
 SELECT @@GLOBAL.0.12
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 13]
+          (expression: ScopedSystemVariableIdentifier[7, 20]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 13])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.0.1-
 -----
 `!
-          (expression: BinaryBitExpression[7, 13]
-            (left: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: BinaryBitExpression[7, 20]
+            (left: ScopedSystemVariableIdentifier[7, 19]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
-              (dotToken: Dot[10, 11])
-              (componentName: Identifier[11, 12])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
+              (dotToken[]: Dot[17, 18])
+              (componentName: Identifier[18, 19])
             )
-            (operator: Minus[12, 13])
-            (Expected right: Identifier[13, 13])
+            (operator: Minus[19, 20])
+            (Expected right: Identifier[20, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.0.1-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 14]
-            (left: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: BinaryBitExpression[7, 21]
+            (left: ScopedSystemVariableIdentifier[7, 19]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
-              (dotToken: Dot[10, 11])
-              (componentName: Identifier[11, 12])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
+              (dotToken[]: Dot[17, 18])
+              (componentName: Identifier[18, 19])
             )
-            (operator: Minus[12, 13])
-            (right: IntegerLiteral[13, 14])
+            (operator: Minus[19, 20])
+            (right: IntegerLiteral[20, 21])
           )
 !`
 -----
 SELECT @@GLOBAL.0.1e
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 13]
+          (expression: ScopedSystemVariableIdentifier[7, 20]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 13])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.0.1e2
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 14]
+          (expression: ScopedSystemVariableIdentifier[7, 21]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 14])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 21])
           )
 !`
 -----
 SELECT @@GLOBAL.0.1e-
 -----
 `!
-          (expression: BinaryBitExpression[7, 14]
-            (left: UnscopedSystemVariableIdentifier[7, 13]
+          (expression: BinaryBitExpression[7, 21]
+            (left: ScopedSystemVariableIdentifier[7, 20]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
-              (dotToken: Dot[10, 11])
-              (componentName: Identifier[11, 13])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
+              (dotToken[]: Dot[17, 18])
+              (componentName: Identifier[18, 20])
             )
-            (operator: Minus[13, 14])
-            (Expected right: Identifier[14, 14])
+            (operator: Minus[20, 21])
+            (Expected right: Identifier[21, 21])
           )
 !`
 -----
 SELECT @@GLOBAL.0.1e-2
 -----
 `!
-          (expression: BinaryBitExpression[7, 15]
-            (left: UnscopedSystemVariableIdentifier[7, 13]
+          (expression: BinaryBitExpression[7, 22]
+            (left: ScopedSystemVariableIdentifier[7, 20]
               (atToken[]: At[7, 8])
               (atToken[]: At[8, 9])
-              (instanceName: Identifier[9, 10])
-              (dotToken: Dot[10, 11])
-              (componentName: Identifier[11, 13])
+              (scope: GLOBAL[9, 15])
+              (dotToken[]: Dot[15, 16])
+              (instanceName: Identifier[16, 17])
+              (dotToken[]: Dot[17, 18])
+              (componentName: Identifier[18, 20])
             )
-            (operator: Minus[13, 14])
-            (right: IntegerLiteral[14, 15])
+            (operator: Minus[20, 21])
+            (right: IntegerLiteral[21, 22])
           )
 !`
 -----
 SELECT @@GLOBAL.0.1a
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 13]
+          (expression: ScopedSystemVariableIdentifier[7, 20]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 13])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 20])
           )
 !`
 -----
 SELECT @@GLOBAL.0.a
 -----
 `!
-          (expression: UnscopedSystemVariableIdentifier[7, 12]
+          (expression: ScopedSystemVariableIdentifier[7, 19]
             (atToken[]: At[7, 8])
             (atToken[]: At[8, 9])
-            (instanceName: Identifier[9, 10])
-            (dotToken: Dot[10, 11])
-            (componentName: Identifier[11, 12])
+            (scope: GLOBAL[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (instanceName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (componentName: Identifier[18, 19])
           )
 !`

@@ -794,25 +794,199 @@ export function peekToken2 (state : LexerState, lastNonExtraTokenKind : TokenKin
 /**
  * https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/sql_lex.cc#L1982-L1985
  */
-export function scanHostname (state : LexerState) {
-    if (!isHostnameCharacter(state.peek(0))) {
-        //state.nextZeroWidthTokenKind = TokenKind.Hostname;
+export function scanHostname (state : LexerState, customDelimiter : string) {
+    const peekResult = peekTokenAfterExtras2(state, TokenKind.At);
+    if (peekResult.start == peekResult.end) {
+        return;
+    }
+    if (!isHostnameCharacter(state.text.charCodeAt(peekResult.start))) {
         return;
     }
 
     let hasDot = false;
     const tmp = state.clone();
+    tmp.index = peekResult.start;
+
     while (isHostnameCharacter(tmp.peek(0))) {
         if (tmp.peek(0) == CharacterCodes.dot) {
             hasDot = true;
+        }
+        if (customDelimiter.length > 0) {
+            if (tryScanString(tmp, customDelimiter, /*overwriteIndex*/false)) {
+                break;
+            }
         }
         tmp.advance();
     }
 
     if (hasDot) {
-        state.nextToken = {
+        state.memoizedTokens.set(peekResult.start, {
             tokenKind : TokenKind.Hostname,
             end : tmp.index,
-        };
+        });
     }
+}
+
+export function scanInstanceAndComponent (state : LexerState, tmp : LexerState, tokenKind : TokenKind, start : number, end : number) : void {
+
+    if (tokenKind == TokenKind.Hostname) {
+        const substr = state.text.substring(start, end);
+        const dot = substr.indexOf(".");
+
+        if (dot < 0) {
+            state.memoizedTokens.set(start, {
+                tokenKind : TokenKind.Identifier,
+                end,
+            });
+        } else if (dot == 0) {
+            state.memoizedTokens.set(start, {
+                tokenKind : TokenKind.Dot,
+                end : start + 1,
+            });
+        } else {
+            state.memoizedTokens.set(start, {
+                tokenKind : TokenKind.Identifier,
+                end : start + dot,
+            });
+            state.memoizedTokens.set(start + dot, {
+                tokenKind : TokenKind.Dot,
+                end : start + dot + 1,
+            });
+        }
+        console.log("hostname set");
+    } else if (tokenKind == TokenKind.Identifier) {
+        console.log("tokenKind", tokenKind, state.text.substring(start, end), tmp.lastNonExtraTokenKind);
+        state.memoizedTokens.set(start, {
+            tokenKind,
+            end,
+        });
+    } else if (tokenKind == TokenKind.IntegerLiteral) {
+        state.memoizedTokens.set(start, {
+            //Pretend the integer literal is an identifier
+            tokenKind : TokenKind.Identifier,
+            end,
+        });
+    } else if (
+        tokenKind == TokenKind.DecimalLiteral ||
+        tokenKind == TokenKind.RealLiteral ||
+        tokenKind == TokenKind.MalformedRealLiteral
+    ) {
+        const substr = state.text.substring(start, end);
+        const dot = substr.indexOf(".");
+        if (dot < 0) {
+            //No dot, treat the entire thing as an identifier... If there is no +/-
+            const exponentSign = Math.max(
+                substr.indexOf("+"),
+                substr.indexOf("-")
+            );
+
+            if (exponentSign < 0) {
+                state.memoizedTokens.set(start, {
+                    //Pretend everything is an identifier
+                    tokenKind : TokenKind.Identifier,
+                    end,
+                });
+            } else {
+                state.memoizedTokens.set(start, {
+                    //Pretend everything up till exponent sign is an identifier
+                    tokenKind : TokenKind.Identifier,
+                    end : start + exponentSign,
+                });
+            }
+        } else if (dot >= 0) {
+            if (dot > 0) {
+                //We have an integer part.
+                state.memoizedTokens.set(start, {
+                    //Pretend the integer part is an identifier
+                    tokenKind : TokenKind.Identifier,
+                    end : start + dot,
+                });
+            }
+            state.memoizedTokens.set(start + dot, {
+                tokenKind : TokenKind.Dot,
+                end : start + dot + 1,
+            });
+
+            const cpy = state.clone();
+            cpy.index = start + dot + 1;
+            const unquotedIdentifier = tryScanUnquotedIdentifier(cpy, cpy.customDelimiter);
+
+            if (unquotedIdentifier != "") {
+                state.memoizedTokens.set(start + dot + 1, {
+                    tokenKind : TokenKind.Identifier,
+                    end : start + dot + 1 + unquotedIdentifier.length,
+                });
+            }
+        }
+    }
+}
+
+export function tryScanSystemVariable (state : LexerState) : boolean {
+    const peekedAfterExtras = peekTokenAfterExtras2(state, TokenKind.At);
+    if (peekedAfterExtras.tokenKind != TokenKind.At) {
+        return false;
+    }
+
+    /**
+     * We have `@@` or `@ @` (which would be some kind of syntax error we handle later).
+     *
+     * In such an event, we should treat integer literals as identifiers...
+     * And if we have a decimal literal, we should take the integer part as the identifier (unless there is no integer part).
+     * And if we have a real literal, we should take the integer part as the identifier (unless there is no integer part).
+     */
+    const tmp = peekedAfterExtras.lexerState;
+    //tmp just scanned the 'At' token.
+    //We call scan one more time to see if we get identifier, integer, decimal, or real literal
+    const start = tmp.index;
+    console.log("tmp.lastNonExtraTokenKind", tmp.lastNonExtraTokenKind);
+    const tokenKind = scan(tmp);
+    const end = tmp.index;
+    console.log("scan(tmp)", tokenKind, start, end);
+
+    if (
+        tokenKind == TokenKind.GLOBAL ||
+        tokenKind == TokenKind.LOCAL ||
+        tokenKind == TokenKind.SESSION
+    ) {
+        console.log("Scoped", tokenKind);
+        state.memoizedTokens.set(start, {
+            tokenKind,
+            end,
+        });
+
+        //https://github.com/mysql/mysql-server/blob/beb865a960b9a8a16cf999c323e46c5b0c67f21f/sql/parse_tree_items.cc#L565
+        //https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/item_func.cc#L155
+        //disallow "SELECT @@global.global.variable"
+        //Expect a dot here
+        const peekForDot = peekTokenAfterExtras2(tmp, tmp.lastNonExtraTokenKind);
+        const firstChar = state.text[peekForDot.start];
+        if (firstChar == ".") {
+            state.memoizedTokens.set(peekForDot.start, {
+                tokenKind : TokenKind.Dot,
+                end : peekForDot.start + 1,
+            });
+
+            {
+
+                const tmp = peekForDot.lexerState;
+                tmp.index = peekForDot.start + 1;
+                tmp.lastNonExtraTokenKind = TokenKind.At;
+                state.memoizedTokens.delete(tmp.index);
+                const start = tmp.index;
+                console.log("tmp.lastNonExtraTokenKind", tmp.lastNonExtraTokenKind);
+                const tokenKind = scan(tmp);
+                const end = tmp.index;
+                console.log("scan(tmp)", tokenKind, start, end);
+                scanInstanceAndComponent(state, tmp, tokenKind, start, end);
+                return true;
+
+            }
+        } else {
+            scanInstanceAndComponent(state, peekForDot.lexerState, peekForDot.tokenKind, peekForDot.start, peekForDot.end);
+            return true;
+        }
+    }
+
+    scanInstanceAndComponent(state, tmp, tokenKind, start, end);
+    return true;
 }

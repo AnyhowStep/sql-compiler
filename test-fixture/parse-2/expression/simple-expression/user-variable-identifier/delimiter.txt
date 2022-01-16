@@ -1,0 +1,74 @@
+DELIMITER $
+SELECT @$
+-----
+`!
+          (expression: UserVariableIdentifier[19, 20]
+            (atToken: At[19, 20])
+          )
+!`
+-----
+DELIMITER $
+SELECT @.$
+-----
+`!
+          (expression: UserVariableIdentifier[19, 21]
+            (atToken: At[19, 20])
+            (identifier: Hostname[20, 21])
+          )
+!`
+-----
+DELIMITER $
+SELECT @x$
+-----
+`!
+          (expression: UserVariableIdentifier[19, 21]
+            (atToken: At[19, 20])
+            (identifier: Identifier[20, 21])
+          )
+!`
+-----
+DELIMITER $
+SELECT @ $
+-----
+`!
+          (expression: UserVariableIdentifier[19, 20]
+            (atToken: At[19, 20])
+          )
+!`
+-----
+DELIMITER $
+SELECT @ .$
+-----
+`!
+          (expression: UserVariableIdentifier[19, 22]
+            (atToken: At[19, 20])
+            (Unexpected WhiteSpace[20, 21])
+            (identifier: Hostname[21, 22])
+          )
+!`
+-----
+DELIMITER $
+SELECT @ x$
+-----
+`!
+        (item[]: ExpressionSelectItem[19, 22]
+          (expression: UserVariableIdentifier[19, 20]
+            (atToken: At[19, 20])
+          )
+          (WhiteSpace[20, 21])
+          (alias: Alias[21, 22]
+            (alias: Identifier[21, 22])
+          )
+        )
+!`
+-----
+DELIMITER $
+SELECT @ x.y$
+-----
+`!
+          (expression: UserVariableIdentifier[19, 24]
+            (atToken: At[19, 20])
+            (Unexpected WhiteSpace[20, 21])
+            (identifier: Hostname[21, 24])
+          )
+!`

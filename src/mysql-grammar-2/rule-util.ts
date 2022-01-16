@@ -738,25 +738,35 @@ export function dotIdentOrReservedScopedSystemVariable (
     identifierName : string
 ) {
     return choice(
-        seq(
-            field("dotToken", cannotExpect(TokenKind.Dot)),
-            //whitespace and linebreak allowed between dot and non-reserved tokens
-            field(identifierName, consumeUnexpected(
-                identifier,
-                [
-                    TokenKind.GLOBAL,
-                    TokenKind.LOCAL,
-                    TokenKind.SESSION,
-                    TokenKind.StringLiteral,
-                    TokenKind.DoubleQuotedLiteral,
-                ]
-            )),
+        useCustomExtra(
+            "",
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //whitespace and linebreak allowed between dot and non-reserved tokens
+                    repeat(tokenSymbol(extras[0], ...extras.slice(1))),
+                field(identifierName, greedySkipExpectation(consumeUnexpected(
+                    identifier,
+                    [
+                        TokenKind.GLOBAL,
+                        TokenKind.LOCAL,
+                        TokenKind.SESSION,
+                        TokenKind.StringLiteral,
+                        TokenKind.DoubleQuotedLiteral,
+                    ],
+                    .5
+                ))),
+            )
         ),
         useCustomExtra(
-            CustomExtras.noExtras,
+            "",
             seq(
                 field("dotToken", cannotExpect(TokenKind.Dot)),
                 //No whitespace and linebreak allowed between dot and reserved tokens
+                repeatNoSkipIfAllError(consumeUnexpected(
+                    tokenSymbol(extras[0], ...extras.slice(1)),
+                    extras,
+                    .25
+                )),
                 field(identifierName, reserved),
             )
         ),
