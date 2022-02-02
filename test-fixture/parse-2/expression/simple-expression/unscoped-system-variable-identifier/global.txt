@@ -1,0 +1,43 @@
+SELECT @@GLOBAL
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 15]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: GLOBAL[9, 15])
+          )
+!`
+-----
+SELECT @@ GLOBAL
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 16]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected WhiteSpace[9, 10])
+            (Unexpected instanceName: GLOBAL[10, 16])
+          )
+!`
+-----
+SELECT @ @GLOBAL
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 16]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected instanceName: GLOBAL[10, 16])
+          )
+!`
+-----
+SELECT @ @ GLOBAL
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 17]
+            (atToken[]: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (atToken[]: At[9, 10])
+            (Unexpected WhiteSpace[10, 11])
+            (Unexpected instanceName: GLOBAL[11, 17])
+          )
+!`

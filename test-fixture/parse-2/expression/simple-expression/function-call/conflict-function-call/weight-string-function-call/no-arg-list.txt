@@ -1,0 +1,7 @@
+SELECT WEIGHT_STRING
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 20]
+          (expression: WEIGHT_STRING[7, 20])
+        )
+!`

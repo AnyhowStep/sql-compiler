@@ -1,0 +1,30 @@
+SELECT WEIGHT_STRING(a)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 23]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 23]
+              (WeightString_Arguments_Default[20, 23]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (closeParenthesesToken: CloseParentheses[22, 23])
+              )
+            )
+          )
+!`
+-----
+SELECT WEIGHT_STRING (a)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 24]
+            (functionName: WEIGHT_STRING[7, 20])
+            (WhiteSpace[20, 21])
+            (arguments: WeightString_Arguments[21, 24]
+              (WeightString_Arguments_Default[21, 24]
+                (openParenthesesToken: OpenParentheses[21, 22])
+                (expr: Identifier[22, 23])
+                (closeParenthesesToken: CloseParentheses[23, 24])
+              )
+            )
+          )
+!`

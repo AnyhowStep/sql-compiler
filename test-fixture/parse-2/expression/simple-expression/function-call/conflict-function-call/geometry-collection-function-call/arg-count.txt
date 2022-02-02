@@ -1,0 +1,59 @@
+SELECT GEOMETRYCOLLECTION()
+-----
+`!
+          (expression: GeometryCollectionFunctionCall[7, 27]
+            (functionName: GEOMETRYCOLLECTION[7, 25])
+            (arguments: ExpressionList_Arguments[25, 27]
+              (openParenthesesToken: OpenParentheses[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT GEOMETRYCOLLECTION(a)
+-----
+`!
+          (expression: GeometryCollectionFunctionCall[7, 28]
+            (functionName: GEOMETRYCOLLECTION[7, 25])
+            (arguments: ExpressionList_Arguments[25, 28]
+              (openParenthesesToken: OpenParentheses[25, 26])
+              (item[]: Identifier[26, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT GEOMETRYCOLLECTION(a, b)
+-----
+`!
+          (expression: GeometryCollectionFunctionCall[7, 31]
+            (functionName: GEOMETRYCOLLECTION[7, 25])
+            (arguments: ExpressionList_Arguments[25, 31]
+              (openParenthesesToken: OpenParentheses[25, 26])
+              (item[]: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT GEOMETRYCOLLECTION(a, b, c)
+-----
+`!
+          (expression: GeometryCollectionFunctionCall[7, 34]
+            (functionName: GEOMETRYCOLLECTION[7, 25])
+            (arguments: ExpressionList_Arguments[25, 34]
+              (openParenthesesToken: OpenParentheses[25, 26])
+              (item[]: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 30])
+              (commaToken[]: Comma[30, 31])
+              (WhiteSpace[31, 32])
+              (item[]: Identifier[32, 33])
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`

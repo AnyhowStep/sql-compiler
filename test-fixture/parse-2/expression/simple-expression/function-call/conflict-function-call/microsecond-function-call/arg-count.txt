@@ -1,0 +1,59 @@
+SELECT MICROSECOND()
+-----
+`!
+          (expression: MicrosecondFunctionCall[7, 20]
+            (functionName: MICROSECOND[7, 18])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[18, 20]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT MICROSECOND(a)
+-----
+`!
+          (expression: MicrosecondFunctionCall[7, 21]
+            (functionName: MICROSECOND[7, 18])
+            (arguments: Expression1_Arguments[18, 21]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT MICROSECOND(a, b)
+-----
+`!
+          (expression: MicrosecondFunctionCall[7, 24]
+            (functionName: MICROSECOND[7, 18])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[18, 24]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT MICROSECOND(a, b, c)
+-----
+`!
+          (expression: MicrosecondFunctionCall[7, 27]
+            (functionName: MICROSECOND[7, 18])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[18, 27]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`

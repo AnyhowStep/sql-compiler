@@ -1,0 +1,59 @@
+SELECT REVERSE()
+-----
+`!
+          (expression: ReverseFunctionCall[7, 16]
+            (functionName: REVERSE[7, 14])
+            ({Expected exactly 1 item, found 0} arguments: Expression1_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT REVERSE(a)
+-----
+`!
+          (expression: ReverseFunctionCall[7, 17]
+            (functionName: REVERSE[7, 14])
+            (arguments: Expression1_Arguments[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT REVERSE(a, b)
+-----
+`!
+          (expression: ReverseFunctionCall[7, 20]
+            (functionName: REVERSE[7, 14])
+            ({Expected exactly 1 item, found 2} arguments: Expression1_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT REVERSE(a, b, c)
+-----
+`!
+          (expression: ReverseFunctionCall[7, 23]
+            (functionName: REVERSE[7, 14])
+            ({Expected exactly 1 item, found 3} arguments: Expression1_Arguments[14, 23]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (commaToken[]: Comma[16, 17])
+              (WhiteSpace[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`

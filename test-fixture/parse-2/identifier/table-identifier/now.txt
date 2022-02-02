@@ -1,13 +1,11 @@
 -- If sql_mode contains IGNORE_SPACE, this fails.
 -- If sql_mode does not contain IGNORE_SPACE, this passes.
--- However, this should always pass parsing
--- We can let control-flow analysis find problems here
 CREATE TABLE NOW (X INT);
 
 -----
 `!
-      (tableIdentifier: TableIdentifier[221, 224]
-        (Expected tableName: Identifier[221, 224])
+      (tableIdentifier: TableIdentifier[122, 125]
+        (Expected tableName: Identifier[122, 125])
       )
 !`
 -----

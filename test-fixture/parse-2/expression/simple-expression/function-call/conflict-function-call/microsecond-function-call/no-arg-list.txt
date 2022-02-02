@@ -1,0 +1,7 @@
+SELECT MICROSECOND
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 18]
+          (expression: MICROSECOND[7, 18])
+        )
+!`

@@ -1,9 +1,9 @@
 import {MyToken} from "../grammar-runtime-3";
 import {CharacterCodes, isDigit, isWhiteSpace} from "./character-code";
 import {defaultLexerSettings, LexerSettings} from "./lexer-settings";
-import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, scanQuotedIdentifier, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent, scanSingleLineComment} from "./scan-util";
-import {TokenKind} from "./token.generated";
-
+import {scanDelimiter, scanQuotedString, scanOthers, tryScanString, tryScanUnquotedIdentifier, is0xHexLiteral, is0bBitLiteral, scanTillEndOfMultiLineComment, scanQuotedIdentifier, peekTokenAfterExtras, tryScanNumberFractionalPart, tryScanNumberExponent, scanSingleLineComment, scanHostname, tryScanSystemVariable} from "./scan-util";
+import {Extras, TokenKind} from "./token.generated";
+declare const console : any;
 export interface LexerState {
     settings : LexerSettings,
     text : string;
@@ -12,8 +12,10 @@ export interface LexerState {
     customDelimiter : string;
 
     nextZeroWidthTokenKind : TokenKind|undefined;
+    nextToken : undefined|{ tokenKind : TokenKind, end : number };
+    lastNonExtraTokenKind : TokenKind|undefined;
 
-    memoizedTokenKind : Map<number, TokenKind>;
+    memoizedTokens : Map<number, { tokenKind : TokenKind, end : number }>;
 
     peek (offset : number) : number;
     advance () : number;
@@ -29,20 +31,25 @@ export class MyLexerState implements LexerState {
     public expectCustomDelimiter : boolean;
     public customDelimiter : string;
     public nextZeroWidthTokenKind : TokenKind|undefined;
-    public memoizedTokenKind : Map<number, TokenKind>;
+    public nextToken : undefined|{ tokenKind : TokenKind, end : number };
+    public lastNonExtraTokenKind : TokenKind|undefined;
+    public memoizedTokens : Map<number, { tokenKind : TokenKind, end : number }>;
 
-    public constructor (settings : LexerSettings, text : string, memoizedTokenKind : Map<number, TokenKind> = new Map()) {
+
+    public constructor (settings : LexerSettings, text : string, memoizedTokens : Map<number, { tokenKind : TokenKind, end : number }> = new Map()) {
         this.settings = settings;
         this.text = text;
         this.index = 0;
         this.expectCustomDelimiter = false;
         this.customDelimiter = "";
         this.nextZeroWidthTokenKind = undefined;
-        this.memoizedTokenKind = memoizedTokenKind;
+        this.nextToken = undefined;
+        this.lastNonExtraTokenKind = undefined;
+        this.memoizedTokens = memoizedTokens;
     }
 
     public peek (offset : number) : number {
-        if (this.index >= this.text.length) {
+        if (this.index+offset >= this.text.length) {
             return 0;
         }
         return this.text.charCodeAt(this.index+offset);
@@ -55,13 +62,15 @@ export class MyLexerState implements LexerState {
     }
     public clone () : LexerState {
         /**
-         * We do not clone `this.memoizedTokenKind` because all clones will end up deriving the same info anyway.
+         * We do not clone `this.memoizedTokens` because all clones will end up deriving the same info anyway.
          */
-        const result = new MyLexerState(this.settings, this.text, this.memoizedTokenKind);
+        const result = new MyLexerState(this.settings, this.text, this.memoizedTokens);
         result.index = this.index;
         result.expectCustomDelimiter = this.expectCustomDelimiter;
         result.customDelimiter = this.customDelimiter;
         result.nextZeroWidthTokenKind = this.nextZeroWidthTokenKind;
+        result.nextToken = this.nextToken;
+        result.lastNonExtraTokenKind = this.lastNonExtraTokenKind;
         return result;
     }
 
@@ -95,6 +104,14 @@ export function scanAll (settings : Partial<LexerSettings>, text : string) : MyT
 }
 
 export function scan (state : LexerState) : TokenKind {
+    const tokenKind = scanImpl(state);
+    if (!Object.prototype.hasOwnProperty.call(Extras, tokenKind)) {
+        state.lastNonExtraTokenKind = tokenKind;
+    }
+    return tokenKind;
+}
+
+export function scanImpl (state : LexerState) : TokenKind {
     if (state.nextZeroWidthTokenKind != undefined) {
         /**
          * Zero-width because the start and end index
@@ -103,6 +120,21 @@ export function scan (state : LexerState) : TokenKind {
         const result = state.nextZeroWidthTokenKind;
         state.nextZeroWidthTokenKind = undefined;
         return result;
+    }
+
+    if (state.nextToken != undefined) {
+        console.log("nextToken", state.nextToken);
+        const result = state.nextToken.tokenKind;
+        state.index = state.nextToken.end;
+        state.nextToken = undefined;
+        return result;
+    }
+
+    const memoized = state.memoizedTokens.get(state.index);
+    if (memoized != undefined) {
+        console.log("memoized", memoized);
+        state.index = memoized.end;
+        return memoized.tokenKind;
     }
 
     if (state.expectCustomDelimiter) {
@@ -293,7 +325,7 @@ export function scan (state : LexerState) : TokenKind {
             return TokenKind.Equal;
         case CharacterCodes.semicolon:
             state.advance();
-            const peeked = peekTokenAfterExtras(state);
+            const peeked = peekTokenAfterExtras(state, TokenKind.SemiColon);
             if (peeked != TokenKind.CustomDelimiter) {
                 /**
                  * Setting this helps us make the grammar less ambiguous.
@@ -330,7 +362,13 @@ export function scan (state : LexerState) : TokenKind {
                 if (tryScanNumberExponent(state)) {
                     return TokenKind.RealLiteral;
                 } else {
-                    return TokenKind.DecimalLiteral;
+                    const chE = state.peek(0);
+                    if (chE == CharacterCodes.e || chE == CharacterCodes.E) {
+                        state.advance();
+                        return TokenKind.MalformedRealLiteral;
+                    } else {
+                        return TokenKind.DecimalLiteral;
+                    }
                 }
             } else {
                 /**
@@ -416,18 +454,45 @@ export function scan (state : LexerState) : TokenKind {
                 return TokenKind.Slash;
             }
         case CharacterCodes.colon:
-            if (state.peek(1) == CharacterCodes.equals) {
-                state.advance();
-                state.advance();
-                return TokenKind.ColonEqual;
-            }
+            // if (state.peek(1) == CharacterCodes.equals) {
+            //     state.advance();
+            //     state.advance();
+            //     return TokenKind.ColonEqual;
+            // }
 
             state.advance();
             return TokenKind.Colon;
 
         case CharacterCodes.at:
             state.advance();
-            return TokenKind.At;
+
+            if (tryScanSystemVariable(state)) {
+                return TokenKind.At;
+            }
+            /**
+             * https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/sql_lex.cc#L1966-L1976
+             * https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/sql_lex.cc#L1982-L1985
+             */
+            const peekedCh = state.peek(0);
+            if (
+                peekedCh == CharacterCodes.doubleQuote ||
+                peekedCh == CharacterCodes.singleQuote ||
+                peekedCh == CharacterCodes.backtick
+            ) {
+                /**
+                 * We have @", @' or @`
+                 */
+                return TokenKind.At;
+            } else {
+                if (state.lastNonExtraTokenKind == TokenKind.At) {
+                    return TokenKind.At;
+                }
+                /**
+                 * We try and parse the `LEX_HOSTNAME` which, surprisingly, can be empty...
+                 */
+                scanHostname(state, state.customDelimiter);
+                return TokenKind.At;
+            }
             // if (state.peek(1) == CharacterCodes.at) {
             //     state.advance();
             //     state.advance();

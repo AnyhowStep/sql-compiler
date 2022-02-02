@@ -1,0 +1,21 @@
+CREATE TABLE T (LIKE U)
+-----
+`!
+    (statement: CreateTableLikeStatement2[0, 23]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (tableToken: TABLE[7, 12])
+      (WhiteSpace[12, 13])
+      (tableIdentifier: TableIdentifier[13, 14]
+        (tableName: Identifier[13, 14])
+      )
+      (WhiteSpace[14, 15])
+      (openParenthesesToken: OpenParentheses[15, 16])
+      (likeToken: LIKE[16, 20])
+      (WhiteSpace[20, 21])
+      (sourceTableIdentifier: TableIdentifier[21, 22]
+        (tableName: Identifier[21, 22])
+      )
+      (closeParenthesesToken: CloseParentheses[22, 23])
+    )
+!`

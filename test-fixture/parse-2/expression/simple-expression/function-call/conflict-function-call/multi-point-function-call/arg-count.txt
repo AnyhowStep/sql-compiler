@@ -1,0 +1,98 @@
+SELECT MULTIPOINT();
+-----
+`!
+          (expression: MultiPointFunctionCall[7, 19]
+            (functionName: MULTIPOINT[7, 17])
+            ({Expected at least 1 item, found 0} arguments: ExpressionList1_Arguments[17, 19]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+-- This should technically fail.
+-- See: test-fixture/parse-2/expression/simple-expression/function-call/conflict-function-call/line-string-function-call/illegal-non-geometric.txt
+-- for why it throws in MySQL 5.7.
+SELECT MULTIPOINT(1);
+-----
+`!
+          (expression: MultiPointFunctionCall[222, 235]
+            (functionName: MULTIPOINT[222, 232])
+            (arguments: ExpressionList1_Arguments[232, 235]
+              (openParenthesesToken: OpenParentheses[232, 233])
+              (item[]: IntegerLiteral[233, 234])
+              (closeParenthesesToken: CloseParentheses[234, 235])
+            )
+          )
+!`
+-----
+-- May or may not fail, depending on what `a` is.
+SELECT MULTIPOINT(a);
+-----
+`!
+          (expression: MultiPointFunctionCall[57, 70]
+            (functionName: MULTIPOINT[57, 67])
+            (arguments: ExpressionList1_Arguments[67, 70]
+              (openParenthesesToken: OpenParentheses[67, 68])
+              (item[]: Identifier[68, 69])
+              (closeParenthesesToken: CloseParentheses[69, 70])
+            )
+          )
+!`
+-----
+SELECT MULTIPOINT(a, b);
+-----
+`!
+          (expression: MultiPointFunctionCall[7, 23]
+            (functionName: MULTIPOINT[7, 17])
+            (arguments: ExpressionList1_Arguments[17, 23]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT MULTIPOINT(a, b, c);
+-----
+`!
+          (expression: MultiPointFunctionCall[7, 26]
+            (functionName: MULTIPOINT[7, 17])
+            (arguments: ExpressionList1_Arguments[17, 26]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Identifier[24, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT MULTIPOINT(a, b, c, d);
+-----
+`!
+          (expression: MultiPointFunctionCall[7, 29]
+            (functionName: MULTIPOINT[7, 17])
+            (arguments: ExpressionList1_Arguments[17, 29]
+              (openParenthesesToken: OpenParentheses[17, 18])
+              (item[]: Identifier[18, 19])
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Identifier[21, 22])
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Identifier[24, 25])
+              (commaToken[]: Comma[25, 26])
+              (WhiteSpace[26, 27])
+              (item[]: Identifier[27, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`

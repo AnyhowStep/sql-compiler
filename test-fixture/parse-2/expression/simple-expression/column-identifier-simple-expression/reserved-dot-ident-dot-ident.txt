@@ -1,0 +1,223 @@
+SELECT SELECT.B.C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 17]
+            (schemaName: Identifier[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (tableName: Identifier[14, 15])
+            (dotToken[]: Dot[15, 16])
+            (columnName: Identifier[16, 17])
+          )
+!`
+-----
+SELECT SELECT .B.C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 18]
+            (schemaName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (tableName: Identifier[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (columnName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT SELECT. B.C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 18]
+            (schemaName: SELECT[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (Unexpected WhiteSpace[14, 15])
+            (tableName: Identifier[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (columnName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT SELECT . B.C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 19]
+            (schemaName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (Unexpected WhiteSpace[15, 16])
+            (tableName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (columnName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT SELECT.B .C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 18]
+            (schemaName: Identifier[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (tableName: Identifier[14, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (columnName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT SELECT .B .C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 19]
+            (schemaName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (tableName: Identifier[15, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (columnName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT SELECT. B .C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 19]
+            (schemaName: SELECT[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (Unexpected WhiteSpace[14, 15])
+            (tableName: Identifier[15, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (columnName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT SELECT . B .C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 20]
+            (schemaName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (Unexpected WhiteSpace[15, 16])
+            (tableName: Identifier[16, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (columnName: Identifier[19, 20])
+          )
+!`
+-----
+SELECT SELECT.B. C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 18]
+            (schemaName: Identifier[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (tableName: Identifier[14, 15])
+            (dotToken[]: Dot[15, 16])
+            (WhiteSpace[16, 17])
+            (columnName: Identifier[17, 18])
+          )
+!`
+-----
+SELECT SELECT .B. C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 19]
+            (schemaName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (tableName: Identifier[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (columnName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT SELECT. B. C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 19]
+            (schemaName: SELECT[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (Unexpected WhiteSpace[14, 15])
+            (tableName: Identifier[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (columnName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT SELECT . B. C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 20]
+            (schemaName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (Unexpected WhiteSpace[15, 16])
+            (tableName: Identifier[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (columnName: Identifier[19, 20])
+          )
+!`
+-----
+SELECT SELECT.B . C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 19]
+            (schemaName: Identifier[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (tableName: Identifier[14, 15])
+            (WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (columnName: Identifier[18, 19])
+          )
+!`
+-----
+SELECT SELECT .B . C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 20]
+            (schemaName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (tableName: Identifier[15, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (columnName: Identifier[19, 20])
+          )
+!`
+-----
+SELECT SELECT. B . C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 20]
+            (schemaName: SELECT[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (Unexpected WhiteSpace[14, 15])
+            (tableName: Identifier[15, 16])
+            (WhiteSpace[16, 17])
+            (dotToken[]: Dot[17, 18])
+            (WhiteSpace[18, 19])
+            (columnName: Identifier[19, 20])
+          )
+!`
+-----
+SELECT SELECT . B . C
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 21]
+            (schemaName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (Unexpected WhiteSpace[15, 16])
+            (tableName: Identifier[16, 17])
+            (WhiteSpace[17, 18])
+            (dotToken[]: Dot[18, 19])
+            (WhiteSpace[19, 20])
+            (columnName: Identifier[20, 21])
+          )
+!`

@@ -540,10 +540,10 @@ export class Scanner {
                     }
                 }
                 case CharacterCodes.colon: {
-                    if (this.text.charCodeAt(this.index+1) == CharacterCodes.equals) {
-                        this.index += 2;
-                        return this.tokenKind = TokenKind.ColonEqual;
-                    }
+                    // if (this.text.charCodeAt(this.index+1) == CharacterCodes.equals) {
+                    //     this.index += 2;
+                    //     return this.tokenKind = TokenKind.ColonEqual;
+                    // }
                     ++this.index;
                     return this.tokenKind = TokenKind.Colon;
                 }

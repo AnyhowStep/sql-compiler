@@ -1,0 +1,36 @@
+SELECT foo.bar(a)
+-----
+`!
+            (arguments: ExpressionList_Arguments[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+!`
+-----
+SELECT foo.bar(a AS b)
+-----
+`!
+            (arguments: ExpressionList_Arguments[14, 22]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (WhiteSpace[16, 17])
+              (Expected commaToken[]: Comma[17, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+!`
+-----
+SELECT foo.bar(a b)
+-----
+`!
+            (arguments: ExpressionList_Arguments[14, 19]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (Expected commaToken[]: Comma[16, 16])
+              (WhiteSpace[16, 17])
+              (item[]: Identifier[17, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+!`

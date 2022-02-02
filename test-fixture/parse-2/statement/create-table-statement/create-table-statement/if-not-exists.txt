@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS T (C INT)
+-----
+`!
+    (statement: CreateTableStatement[0, 36]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (tableToken: TABLE[7, 12])
+      (WhiteSpace[12, 13])
+      (ifNotExists: IfNotExists[13, 26]
+        (ifToken: IF[13, 15])
+        (WhiteSpace[15, 16])
+        (notToken: NOT[16, 19])
+        (WhiteSpace[19, 20])
+        (existsToken: EXISTS[20, 26])
+      )
+      (WhiteSpace[26, 27])
+      (tableIdentifier: TableIdentifier[27, 28]
+        (tableName: Identifier[27, 28])
+      )
+      (WhiteSpace[28, 29])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[29, 36]
+!`

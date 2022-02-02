@@ -1,0 +1,23 @@
+SELECT WEIGHT_STRING(a AS CHARACTER(999))
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 41]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 41]
+              (WeightString_Arguments_AsChar[20, 41]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (asToken: AS[23, 25])
+                (WhiteSpace[25, 26])
+                (charToken: CHARACTER[26, 35])
+                (length: WeightStringCastLength[35, 40]
+                  (openParenthesesToken: OpenParentheses[35, 36])
+                  (length: IntegerLiteral[36, 39])
+                  (closeParenthesesToken: CloseParentheses[39, 40])
+                )
+                (closeParenthesesToken: CloseParentheses[40, 41])
+              )
+            )
+          )
+!`

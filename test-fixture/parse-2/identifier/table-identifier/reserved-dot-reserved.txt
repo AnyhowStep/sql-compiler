@@ -1,0 +1,43 @@
+DROP TABLE SELECT.SELECT
+-----
+`!
+        (item[]: TableIdentifier[11, 24]
+          (schemaName: Identifier[11, 17])
+          (dotToken: Dot[17, 18])
+          (tableName: SELECT[18, 24])
+        )
+!`
+-----
+DROP TABLE SELECT .SELECT
+-----
+`!
+        (item[]: TableIdentifier[11, 25]
+          (schemaName: SELECT[11, 17])
+          (Unexpected WhiteSpace[17, 18])
+          (dotToken: Dot[18, 19])
+          (tableName: SELECT[19, 25])
+        )
+!`
+-----
+DROP TABLE SELECT. SELECT
+-----
+`!
+        (item[]: TableIdentifier[11, 25]
+          (schemaName: SELECT[11, 17])
+          (dotToken: Dot[17, 18])
+          (Unexpected WhiteSpace[18, 19])
+          (tableName: SELECT[19, 25])
+        )
+!`
+-----
+DROP TABLE SELECT . SELECT
+-----
+`!
+        (item[]: TableIdentifier[11, 26]
+          (schemaName: SELECT[11, 17])
+          (Unexpected WhiteSpace[17, 18])
+          (dotToken: Dot[18, 19])
+          (Unexpected WhiteSpace[19, 20])
+          (tableName: SELECT[20, 26])
+        )
+!`

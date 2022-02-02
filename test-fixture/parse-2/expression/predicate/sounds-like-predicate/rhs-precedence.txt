@@ -14,7 +14,10 @@ SELECT x SOUNDS LIKE @a := b
                 (identifier: Identifier[22, 23])
               )
               (WhiteSpace[23, 24])
-              (colonEqualToken: ColonEqual[24, 26])
+              (colonEqual: ColonEqual[24, 26]
+                (colonToken: Colon[24, 25])
+                (equalToken: Equal[25, 26])
+              )
               (WhiteSpace[26, 27])
               (expression: Identifier[27, 28])
             )

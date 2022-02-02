@@ -1,0 +1,40 @@
+-- @@ignore_space = false
+SELECT IF(a, b, c)
+-----
+`!
+          (expression: IfFunctionCall[33, 44]
+            (functionName: IF[33, 35])
+            (arguments: Expression3_Arguments[35, 44]
+              (openParenthesesToken: OpenParentheses[35, 36])
+              (item[]: Identifier[36, 37])
+              (commaToken[]: Comma[37, 38])
+              (WhiteSpace[38, 39])
+              (item[]: Identifier[39, 40])
+              (commaToken[]: Comma[40, 41])
+              (WhiteSpace[41, 42])
+              (item[]: Identifier[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT IF (a, b, c)
+-----
+`!
+          (expression: IfFunctionCall[33, 45]
+            (functionName: IF[33, 35])
+            (WhiteSpace[35, 36])
+            (arguments: Expression3_Arguments[36, 45]
+              (openParenthesesToken: OpenParentheses[36, 37])
+              (item[]: Identifier[37, 38])
+              (commaToken[]: Comma[38, 39])
+              (WhiteSpace[39, 40])
+              (item[]: Identifier[40, 41])
+              (commaToken[]: Comma[41, 42])
+              (WhiteSpace[42, 43])
+              (item[]: Identifier[43, 44])
+              (closeParenthesesToken: CloseParentheses[44, 45])
+            )
+          )
+!`

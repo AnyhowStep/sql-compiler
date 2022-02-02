@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT PASSWORD(a)
+-----
+`!
+          (expression: PasswordFunctionCall[33, 44]
+            (functionName: PASSWORD[33, 41])
+            (arguments: Expression1_Arguments[41, 44]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: Identifier[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT PASSWORD (a)
+-----
+`!
+          (expression: PasswordFunctionCall[33, 45]
+            (functionName: PASSWORD[33, 41])
+            (WhiteSpace[41, 42])
+            (arguments: Expression1_Arguments[42, 45]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (item[]: Identifier[43, 44])
+              (closeParenthesesToken: CloseParentheses[44, 45])
+            )
+          )
+!`

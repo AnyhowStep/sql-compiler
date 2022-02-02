@@ -1,0 +1,14 @@
+CREATE TABLE T (C INT)
+-----
+`!
+    (statement: CreateTableStatement[0, 22]
+      (createToken: CREATE[0, 6])
+      (WhiteSpace[6, 7])
+      (tableToken: TABLE[7, 12])
+      (WhiteSpace[12, 13])
+      (tableIdentifier: TableIdentifier[13, 14]
+        (tableName: Identifier[13, 14])
+      )
+      (WhiteSpace[14, 15])
+      (createTableDefinitionTuple1: CreateTableDefinitionTuple1[15, 22]
+!`

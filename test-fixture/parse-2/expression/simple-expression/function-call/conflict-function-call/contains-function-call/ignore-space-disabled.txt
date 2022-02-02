@@ -1,0 +1,34 @@
+-- @@ignore_space = false
+SELECT CONTAINS(a, b)
+-----
+`!
+          (expression: ContainsFunctionCall[33, 47]
+            (functionName: CONTAINS[33, 41])
+            (arguments: Expression2_Arguments[41, 47]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: Identifier[42, 43])
+              (commaToken[]: Comma[43, 44])
+              (WhiteSpace[44, 45])
+              (item[]: Identifier[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT CONTAINS (a, b)
+-----
+`!
+          (expression: ContainsFunctionCall[33, 48]
+            (functionName: CONTAINS[33, 41])
+            (WhiteSpace[41, 42])
+            (arguments: Expression2_Arguments[42, 48]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (item[]: Identifier[43, 44])
+              (commaToken[]: Comma[44, 45])
+              (WhiteSpace[45, 46])
+              (item[]: Identifier[46, 47])
+              (closeParenthesesToken: CloseParentheses[47, 48])
+            )
+          )
+!`

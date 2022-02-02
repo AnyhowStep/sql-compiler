@@ -1,0 +1,25 @@
+-- If sql_mode contains IGNORE_SPACE, this fails.
+-- If sql_mode does not contain IGNORE_SPACE, this passes.
+-- @@ignore_space = false
+CREATE TABLE NOW (X INT);
+
+-----
+`!
+      (tableIdentifier: TableIdentifier[148, 151]
+        (tableName: Identifier[148, 151])
+      )
+!`
+-----
+-- If sql_mode contains IGNORE_SPACE, this fails.
+-- If sql_mode does not contain IGNORE_SPACE, this fails.
+-- Because of MySQL's lexing/parsing rules, this is invalid syntactically,
+-- instead of semantically.
+-- @@ignore_space = false
+CREATE TABLE NOW(X INT);
+
+-----
+`!
+      (tableIdentifier: TableIdentifier[250, 253]
+        (Expected tableName: Identifier[250, 253])
+      )
+!`

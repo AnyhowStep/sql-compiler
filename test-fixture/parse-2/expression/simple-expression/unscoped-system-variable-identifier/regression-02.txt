@@ -1,0 +1,9 @@
+SELECT @@
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 9]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Expected instanceName: Identifier[9, 9])
+          )
+!`

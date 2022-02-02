@@ -1,0 +1,102 @@
+SELECT .SELECT.SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 21]
+            (dotToken[]: Dot[7, 8])
+            (tableName: Identifier[8, 14])
+            (dotToken[]: Dot[14, 15])
+            (columnName: SELECT[15, 21])
+          )
+!`
+-----
+SELECT .SELECT .SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 22]
+            (dotToken[]: Dot[7, 8])
+            (tableName: SELECT[8, 14])
+            (WhiteSpace[14, 15])
+            (dotToken[]: Dot[15, 16])
+            (columnName: SELECT[16, 22])
+          )
+!`
+-----
+SELECT . SELECT.SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 22]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: Identifier[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (columnName: SELECT[16, 22])
+          )
+!`
+-----
+SELECT . SELECT .SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 23]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (Unexpected WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (columnName: SELECT[17, 23])
+          )
+!`
+-----
+SELECT .SELECT. SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 22]
+            (dotToken[]: Dot[7, 8])
+            (tableName: SELECT[8, 14])
+            (dotToken[]: Dot[14, 15])
+            (Unexpected WhiteSpace[15, 16])
+            (columnName: SELECT[16, 22])
+          )
+!`
+-----
+SELECT .SELECT . SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 23]
+            (dotToken[]: Dot[7, 8])
+            (tableName: SELECT[8, 14])
+            (WhiteSpace[14, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected WhiteSpace[16, 17])
+            (columnName: SELECT[17, 23])
+          )
+!`
+-----
+SELECT . SELECT. SELECT
+-- TODO Investigate this?
+-- It should be enough to just say either of the whitespace is unexpected.
+-- No need to say both are unexpected.
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 23]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (dotToken[]: Dot[15, 16])
+            (Unexpected WhiteSpace[16, 17])
+            (columnName: SELECT[17, 23])
+          )
+!`
+-----
+SELECT . SELECT . SELECT
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 24]
+            (dotToken[]: Dot[7, 8])
+            (WhiteSpace[8, 9])
+            (tableName: SELECT[9, 15])
+            (Unexpected WhiteSpace[15, 16])
+            (dotToken[]: Dot[16, 17])
+            (Unexpected WhiteSpace[17, 18])
+            (columnName: SELECT[18, 24])
+          )
+!`

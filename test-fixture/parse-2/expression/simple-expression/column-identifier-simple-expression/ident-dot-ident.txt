@@ -7,3 +7,37 @@ SELECT A.B
             (columnName: Identifier[9, 10])
           )
 !`
+-----
+SELECT A. B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 11]
+            (tableName: Identifier[7, 8])
+            (dotToken[]: Dot[8, 9])
+            (WhiteSpace[9, 10])
+            (columnName: Identifier[10, 11])
+          )
+!`
+-----
+SELECT A .B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 11]
+            (tableName: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (dotToken[]: Dot[9, 10])
+            (columnName: Identifier[10, 11])
+          )
+!`
+-----
+SELECT A . B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 12]
+            (tableName: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (dotToken[]: Dot[9, 10])
+            (WhiteSpace[10, 11])
+            (columnName: Identifier[11, 12])
+          )
+!`

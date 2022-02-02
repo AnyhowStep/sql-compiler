@@ -1,0 +1,15 @@
+SELECT CONTAINS
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: CONTAINS[7, 15])
+        )
+!`
+-----
+SELECT MBRCONTAINS
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 18]
+          (expression: Identifier[7, 18])
+        )
+!`

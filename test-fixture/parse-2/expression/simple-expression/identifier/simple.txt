@@ -1,0 +1,23 @@
+SELECT x
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: Identifier[7, 8])
+        )
+!`
+-----
+SELECT "x"
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: DoubleQuotedLiteral[7, 10])
+        )
+!`
+-----
+SELECT `x`
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: Identifier[7, 10])
+        )
+!`

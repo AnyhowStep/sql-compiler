@@ -1,0 +1,26 @@
+-- @@ignore_space = false
+SELECT ROW_COUNT()
+-----
+`!
+          (expression: RowCountFunctionCall[33, 44]
+            (functionName: ROW_COUNT[33, 42])
+            (arguments: Empty_Arguments[42, 44]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT ROW_COUNT ()
+-----
+`!
+          (expression: RowCountFunctionCall[33, 45]
+            (functionName: ROW_COUNT[33, 42])
+            (WhiteSpace[42, 43])
+            (arguments: Empty_Arguments[43, 45]
+              (openParenthesesToken: OpenParentheses[43, 44])
+              (closeParenthesesToken: CloseParentheses[44, 45])
+            )
+          )
+!`

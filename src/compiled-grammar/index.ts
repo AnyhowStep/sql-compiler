@@ -19,6 +19,12 @@ export interface CompiledTokenSymbol {
      * This is a HACK to get JSON.stringify() output to be assignable statically.
      * @see compiled-grammar-generator
      */
+    consumeUnexpectedCost? : number | undefined;
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     * @see compiled-grammar-generator
+     */
     skipExpectationCost? : number|undefined;
     /**
      * I don't like optional properties.
@@ -26,6 +32,12 @@ export interface CompiledTokenSymbol {
      * @see compiled-grammar-generator
      */
     skipExpectationAfterExtraCost? : number|undefined;
+
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     */
+    omitCost? : number;
 }
 
 export type CompiledSymbol =
@@ -85,6 +97,12 @@ export interface CompiledRule {
     fieldCheckArr? : FieldCheck[];
 
     greedySkipExpectation : boolean;
+
+    /**
+     * I don't like optional properties.
+     * This is a HACK to get JSON.stringify() output to be assignable statically.
+     */
+    omitCost? : number;
 }
 
 export interface CompiledQuantity {

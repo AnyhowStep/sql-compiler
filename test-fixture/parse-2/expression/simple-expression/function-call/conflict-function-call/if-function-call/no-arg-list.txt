@@ -1,0 +1,7 @@
+SELECT IF
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 9]
+          (Expected expression: Identifier[7, 9])
+        )
+!`

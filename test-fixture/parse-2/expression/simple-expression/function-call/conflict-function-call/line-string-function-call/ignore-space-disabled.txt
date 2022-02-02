@@ -1,0 +1,34 @@
+-- @@ignore_space = false
+SELECT LINESTRING(a, b)
+-----
+`!
+          (expression: LineStringFunctionCall[33, 49]
+            (functionName: LINESTRING[33, 43])
+            (arguments: ExpressionList2_Arguments[43, 49]
+              (openParenthesesToken: OpenParentheses[43, 44])
+              (item[]: Identifier[44, 45])
+              (commaToken[]: Comma[45, 46])
+              (WhiteSpace[46, 47])
+              (item[]: Identifier[47, 48])
+              (closeParenthesesToken: CloseParentheses[48, 49])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT LINESTRING (a, b)
+-----
+`!
+          (expression: LineStringFunctionCall[33, 50]
+            (functionName: LINESTRING[33, 43])
+            (WhiteSpace[43, 44])
+            (arguments: ExpressionList2_Arguments[44, 50]
+              (openParenthesesToken: OpenParentheses[44, 45])
+              (item[]: Identifier[45, 46])
+              (commaToken[]: Comma[46, 47])
+              (WhiteSpace[47, 48])
+              (item[]: Identifier[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+!`

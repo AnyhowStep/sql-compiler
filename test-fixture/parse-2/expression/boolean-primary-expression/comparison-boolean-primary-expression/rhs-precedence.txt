@@ -12,7 +12,10 @@ SELECT x = @a := b
                 (identifier: Identifier[12, 13])
               )
               (WhiteSpace[13, 14])
-              (colonEqualToken: ColonEqual[14, 16])
+              (colonEqual: ColonEqual[14, 16]
+                (colonToken: Colon[14, 15])
+                (equalToken: Equal[15, 16])
+              )
               (WhiteSpace[16, 17])
               (expression: Identifier[17, 18])
             )

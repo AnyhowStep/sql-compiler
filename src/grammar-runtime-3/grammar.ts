@@ -10,6 +10,7 @@ export interface MyTokenSymbol {
     canExpect : boolean,
 
     consumeUnexpectedTokenKinds? : string[] | undefined;
+    consumeUnexpectedCost? : number | undefined;
     skipExpectationCost? : number | undefined;
     skipExpectationAfterExtraCost? : number | undefined;
 }
@@ -47,6 +48,7 @@ export interface MyRule {
     disallowedSyntaxKinds : string[] | undefined;
     fieldCheckArr : FieldCheck[] | undefined;
     greedySkipExpectation : boolean;
+    omitCost : number | undefined;
 }
 
 export interface MyGrammar {
@@ -147,6 +149,7 @@ export function loadGrammar (compiled : CompiledGrammar) : MyGrammar {
             allowedSyntaxKinds : rule.allowedSyntaxKinds,
             disallowedSyntaxKinds : rule.disallowedSyntaxKinds,
             fieldCheckArr : rule.fieldCheckArr,
+            omitCost : rule.omitCost,
         });
         ruleRunTimeId2Precedence.push(rule.precedence);
 

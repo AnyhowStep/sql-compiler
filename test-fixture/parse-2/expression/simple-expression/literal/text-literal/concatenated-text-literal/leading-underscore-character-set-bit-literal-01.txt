@@ -1,0 +1,41 @@
+SELECT _latin1 b'01', 'a' 'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 20]
+          (expression: UnderscoreCharacterSetBitLiteral[7, 20]
+            (underscoreCharacterSetToken: UnderscoreCharacterSet[7, 14])
+            (WhiteSpace[14, 15])
+            (bitLiteralToken: BitLiteral[15, 20])
+          )
+        )
+        (commaToken[]: Comma[20, 21])
+        (WhiteSpace[21, 22])
+        (item[]: ExpressionSelectItem[22, 29]
+          (expression: ConcatenatedTextLiteral[22, 29]
+            (item[]: StringLiteral[22, 25])
+            (WhiteSpace[25, 26])
+            (item[]: StringLiteral[26, 29])
+          )
+        )
+!`
+-----
+SELECT _latin1 b'01' 'a', 'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 24]
+          (expression: UnderscoreCharacterSetBitLiteral[7, 20]
+            (underscoreCharacterSetToken: UnderscoreCharacterSet[7, 14])
+            (WhiteSpace[14, 15])
+            (bitLiteralToken: BitLiteral[15, 20])
+          )
+          (WhiteSpace[20, 21])
+          (alias: Alias[21, 24]
+            (alias: StringLiteral[21, 24])
+          )
+        )
+        (commaToken[]: Comma[24, 25])
+        (WhiteSpace[25, 26])
+        (item[]: ExpressionSelectItem[26, 29]
+          (expression: StringLiteral[26, 29])
+        )
+!`

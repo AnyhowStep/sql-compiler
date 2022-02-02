@@ -1,0 +1,98 @@
+SELECT MULTILINESTRING();
+-----
+`!
+          (expression: MultiLineStringFunctionCall[7, 24]
+            (functionName: MULTILINESTRING[7, 22])
+            ({Expected at least 1 item, found 0} arguments: ExpressionList1_Arguments[22, 24]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+-- This should technically fail.
+-- See: test-fixture/parse-2/expression/simple-expression/function-call/conflict-function-call/line-string-function-call/illegal-non-geometric.txt
+-- for why it throws in MySQL 5.7.
+SELECT MULTILINESTRING(1);
+-----
+`!
+          (expression: MultiLineStringFunctionCall[222, 240]
+            (functionName: MULTILINESTRING[222, 237])
+            (arguments: ExpressionList1_Arguments[237, 240]
+              (openParenthesesToken: OpenParentheses[237, 238])
+              (item[]: IntegerLiteral[238, 239])
+              (closeParenthesesToken: CloseParentheses[239, 240])
+            )
+          )
+!`
+-----
+-- May or may not fail, depending on what `a` is.
+SELECT MULTILINESTRING(a);
+-----
+`!
+          (expression: MultiLineStringFunctionCall[57, 75]
+            (functionName: MULTILINESTRING[57, 72])
+            (arguments: ExpressionList1_Arguments[72, 75]
+              (openParenthesesToken: OpenParentheses[72, 73])
+              (item[]: Identifier[73, 74])
+              (closeParenthesesToken: CloseParentheses[74, 75])
+            )
+          )
+!`
+-----
+SELECT MULTILINESTRING(a, b);
+-----
+`!
+          (expression: MultiLineStringFunctionCall[7, 28]
+            (functionName: MULTILINESTRING[7, 22])
+            (arguments: ExpressionList1_Arguments[22, 28]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT MULTILINESTRING(a, b, c);
+-----
+`!
+          (expression: MultiLineStringFunctionCall[7, 31]
+            (functionName: MULTILINESTRING[7, 22])
+            (arguments: ExpressionList1_Arguments[22, 31]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT MULTILINESTRING(a, b, c, d);
+-----
+`!
+          (expression: MultiLineStringFunctionCall[7, 34]
+            (functionName: MULTILINESTRING[7, 22])
+            (arguments: ExpressionList1_Arguments[22, 34]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (item[]: Identifier[23, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 30])
+              (commaToken[]: Comma[30, 31])
+              (WhiteSpace[31, 32])
+              (item[]: Identifier[32, 33])
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`

@@ -1,12 +1,36 @@
-import {choice, field, seq} from "../../grammar-builder";
-import {dotIdentOrReserved, list1, tuple} from "../rule-util";
+import {cannotExpect, choice, consumeUnexpected, field, repeatNoSkipIfAllError, seq, tokenSymbol, useCustomExtra} from "../../grammar-builder";
+import {dotIdentOrReserved, identifierOrReserved, list1, reserved, tuple} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
+import {extras, TokenKind} from "../token.generated";
 
 export const TableIdentifier = choice(
     field("tableName", SyntaxKind.Ident),
     seq(
         field("schemaName", SyntaxKind.Ident),
         dotIdentOrReserved("tableName"),
+    ),
+    /**
+     * This should not used, generally
+     */
+    useCustomExtra(
+        //Don't use any extras, not even CustomExtras.noExtras
+        "",
+        seq(
+            field("schemaName", reserved),
+            repeatNoSkipIfAllError(consumeUnexpected(
+                tokenSymbol(extras[0], ...extras.slice(1)),
+                extras,
+                1
+            )),
+            field("dotToken", cannotExpect(TokenKind.Dot)),
+            //No whitespace and linebreak allowed between dot and tableName
+            repeatNoSkipIfAllError(consumeUnexpected(
+                tokenSymbol(extras[0], ...extras.slice(1)),
+                extras,
+                .25
+            )),
+            field("tableName", identifierOrReserved),
+        )
     ),
     /**
      * Deprecated.

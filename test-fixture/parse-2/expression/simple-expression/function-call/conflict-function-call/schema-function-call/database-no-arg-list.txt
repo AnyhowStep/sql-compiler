@@ -1,0 +1,7 @@
+SELECT DATABASE
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (Expected expression: Identifier[7, 15])
+        )
+!`

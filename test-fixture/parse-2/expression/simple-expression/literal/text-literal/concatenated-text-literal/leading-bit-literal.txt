@@ -1,0 +1,35 @@
+SELECT 0b1 'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 14]
+          (expression: BitLiteral[7, 10])
+          (WhiteSpace[10, 11])
+          (alias: Alias[11, 14]
+            (alias: StringLiteral[11, 14])
+          )
+        )
+!`
+-----
+SELECT b'1' 'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: BitLiteral[7, 11])
+          (WhiteSpace[11, 12])
+          (alias: Alias[12, 15]
+            (alias: StringLiteral[12, 15])
+          )
+        )
+!`
+-----
+SELECT B'1' 'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: BitLiteral[7, 11])
+          (WhiteSpace[11, 12])
+          (alias: Alias[12, 15]
+            (alias: StringLiteral[12, 15])
+          )
+        )
+!`

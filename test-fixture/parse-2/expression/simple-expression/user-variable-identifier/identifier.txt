@@ -71,3 +71,54 @@ SELECT @LOCALTIMESTAMP
             (identifier: LOCALTIMESTAMP[8, 22])
           )
 !`
+-----
+SELECT @
+-----
+`!
+          (expression: UserVariableIdentifier[7, 8]
+            (atToken: At[7, 8])
+          )
+!`
+-----
+SELECT @....$..
+-----
+`!
+          (expression: UserVariableIdentifier[7, 15]
+            (atToken: At[7, 8])
+            (identifier: Hostname[8, 15])
+          )
+!`
+-----
+SELECT @ x
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: UserVariableIdentifier[7, 8]
+            (atToken: At[7, 8])
+          )
+          (WhiteSpace[8, 9])
+          (alias: Alias[9, 10]
+            (alias: Identifier[9, 10])
+          )
+        )
+!`
+-----
+SELECT @ x.y
+-----
+`!
+          (expression: UserVariableIdentifier[7, 12]
+            (atToken: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (identifier: Hostname[9, 12])
+          )
+!`
+-----
+SELECT @ ....$..
+-----
+`!
+          (expression: UserVariableIdentifier[7, 16]
+            (atToken: At[7, 8])
+            (Unexpected WhiteSpace[8, 9])
+            (identifier: Hostname[9, 16])
+          )
+!`

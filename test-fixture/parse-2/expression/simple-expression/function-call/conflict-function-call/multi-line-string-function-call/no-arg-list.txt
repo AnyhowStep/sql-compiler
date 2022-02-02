@@ -1,0 +1,7 @@
+SELECT MULTILINESTRING
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 22]
+          (expression: MULTILINESTRING[7, 22])
+        )
+!`

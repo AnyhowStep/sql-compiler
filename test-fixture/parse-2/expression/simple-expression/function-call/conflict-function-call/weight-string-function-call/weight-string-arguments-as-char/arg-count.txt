@@ -1,0 +1,348 @@
+SELECT WEIGHT_STRING(a AS CHAR(999))
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 36]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 36]
+              (WeightString_Arguments_AsChar[20, 36]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (asToken: AS[23, 25])
+                (WhiteSpace[25, 26])
+                (charToken: CHAR[26, 30])
+                (length: WeightStringCastLength[30, 35]
+                  (openParenthesesToken: OpenParentheses[30, 31])
+                  (length: IntegerLiteral[31, 34])
+                  (closeParenthesesToken: CloseParentheses[34, 35])
+                )
+                (closeParenthesesToken: CloseParentheses[35, 36])
+              )
+            )
+          )
+!`
+-----
+-- TODO Fix this; shouldn't be _Default. Should be _AsChar
+SELECT WEIGHT_STRING(a AS CHAR(999)
+-----
+`!
+          (expression: WeightStringFunctionCall[66, 94]
+            (functionName: WEIGHT_STRING[66, 79])
+            (arguments: WeightString_Arguments[79, 94]
+              (WeightString_Arguments_Default[79, 94]
+                (openParenthesesToken: OpenParentheses[79, 80])
+                (expr: Identifier[80, 81])
+                (WhiteSpace[81, 82])
+                (levels: WeightString_Levels[82, 93]
+                  (Expected levelToken: LEVEL[82, 84])
+                  (WhiteSpace[84, 85])
+                  (Unexpected CHAR[85, 89])
+                  (Unexpected OpenParentheses[89, 90])
+                  (levels: WeightString_Level_List1[90, 93]
+                    (item[]: WeightString_Level_Item[90, 93]
+                      (level: IntegerLiteral[90, 93])
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[93, 94])
+              )
+            )
+          )
+!`
+-----
+-- TODO Fix this; shouldn't be _Default. Should be _AsChar
+SELECT WEIGHT_STRING(a AS CHAR()
+-----
+`!
+          (expression: WeightStringFunctionCall[66, 91]
+            (functionName: WEIGHT_STRING[66, 79])
+            (arguments: WeightString_Arguments[79, 91]
+              (WeightString_Arguments_Default[79, 91]
+                (openParenthesesToken: OpenParentheses[79, 80])
+                (expr: Identifier[80, 81])
+                (WhiteSpace[81, 82])
+                (Unexpected AS[82, 84])
+                (WhiteSpace[84, 85])
+                (Unexpected CHAR[85, 89])
+                (Unexpected OpenParentheses[89, 90])
+                (closeParenthesesToken: CloseParentheses[90, 91])
+              )
+            )
+          )
+!`
+-----
+-- TODO Fix this; shouldn't be _Default. Should be _AsChar
+SELECT WEIGHT_STRING(a AS CHAR)
+-----
+`!
+          (expression: WeightStringFunctionCall[66, 90]
+            (functionName: WEIGHT_STRING[66, 79])
+            (arguments: WeightString_Arguments[79, 90]
+              (WeightString_Arguments_Default[79, 90]
+                (openParenthesesToken: OpenParentheses[79, 80])
+                (expr: Identifier[80, 81])
+                (WhiteSpace[81, 82])
+                (Unexpected AS[82, 84])
+                (WhiteSpace[84, 85])
+                (Unexpected CHAR[85, 89])
+                (closeParenthesesToken: CloseParentheses[89, 90])
+              )
+            )
+          )
+!`
+-----
+SELECT WEIGHT_STRING(a AS CHAR(999) LEVEL)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 42]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 42]
+              (WeightString_Arguments_AsChar[20, 42]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (asToken: AS[23, 25])
+                (WhiteSpace[25, 26])
+                (charToken: CHAR[26, 30])
+                (length: WeightStringCastLength[30, 35]
+                  (openParenthesesToken: OpenParentheses[30, 31])
+                  (length: IntegerLiteral[31, 34])
+                  (closeParenthesesToken: CloseParentheses[34, 35])
+                )
+                (WhiteSpace[35, 36])
+                (levels: WeightString_Levels[36, 41]
+                  (levelToken: LEVEL[36, 41])
+                  (levels: WeightString_Level_List1[41, 41]
+                    (item[]: WeightString_Level_Item[41, 41]
+                      (Expected level: IntegerLiteral[41, 41])
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[41, 42])
+              )
+            )
+          )
+!`
+-----
+SELECT WEIGHT_STRING(a AS CHAR(999) LEVEL 1 - 2)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 48]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 48]
+              (WeightString_Arguments_AsChar[20, 48]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (asToken: AS[23, 25])
+                (WhiteSpace[25, 26])
+                (charToken: CHAR[26, 30])
+                (length: WeightStringCastLength[30, 35]
+                  (openParenthesesToken: OpenParentheses[30, 31])
+                  (length: IntegerLiteral[31, 34])
+                  (closeParenthesesToken: CloseParentheses[34, 35])
+                )
+                (WhiteSpace[35, 36])
+                (levels: WeightString_Levels[36, 47]
+                  (levelToken: LEVEL[36, 41])
+                  (WhiteSpace[41, 42])
+                  (levels: WeightString_Level_Range[42, 47]
+                    (minLevel: IntegerLiteral[42, 43])
+                    (WhiteSpace[43, 44])
+                    (dashToken: Minus[44, 45])
+                    (WhiteSpace[45, 46])
+                    (maxLevel: IntegerLiteral[46, 47])
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[47, 48])
+              )
+            )
+          )
+!`
+-----
+SELECT WEIGHT_STRING(a AS CHAR(999) LEVEL 1 -)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 46]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 46]
+              (WeightString_Arguments_AsChar[20, 46]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (asToken: AS[23, 25])
+                (WhiteSpace[25, 26])
+                (charToken: CHAR[26, 30])
+                (length: WeightStringCastLength[30, 35]
+                  (openParenthesesToken: OpenParentheses[30, 31])
+                  (length: IntegerLiteral[31, 34])
+                  (closeParenthesesToken: CloseParentheses[34, 35])
+                )
+                (WhiteSpace[35, 36])
+                (levels: WeightString_Levels[36, 45]
+                  (levelToken: LEVEL[36, 41])
+                  (WhiteSpace[41, 42])
+                  (levels: WeightString_Level_Range[42, 45]
+                    (minLevel: IntegerLiteral[42, 43])
+                    (WhiteSpace[43, 44])
+                    (dashToken: Minus[44, 45])
+                    (Expected maxLevel: IntegerLiteral[45, 45])
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[45, 46])
+              )
+            )
+          )
+!`
+-----
+SELECT WEIGHT_STRING(a AS CHAR(999) LEVEL 1)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 44]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 44]
+              (WeightString_Arguments_AsChar[20, 44]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (asToken: AS[23, 25])
+                (WhiteSpace[25, 26])
+                (charToken: CHAR[26, 30])
+                (length: WeightStringCastLength[30, 35]
+                  (openParenthesesToken: OpenParentheses[30, 31])
+                  (length: IntegerLiteral[31, 34])
+                  (closeParenthesesToken: CloseParentheses[34, 35])
+                )
+                (WhiteSpace[35, 36])
+                (levels: WeightString_Levels[36, 43]
+                  (levelToken: LEVEL[36, 41])
+                  (WhiteSpace[41, 42])
+                  (levels: WeightString_Level_List1[42, 43]
+                    (item[]: WeightString_Level_Item[42, 43]
+                      (level: IntegerLiteral[42, 43])
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[43, 44])
+              )
+            )
+          )
+!`
+-----
+SELECT WEIGHT_STRING(a AS CHAR(999) LEVEL 1 ASC, 2 DESC, 3 REVERSE, 4 ASC REVERSE, 5 DESC REVERSE)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 98]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 98]
+              (WeightString_Arguments_AsChar[20, 98]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (asToken: AS[23, 25])
+                (WhiteSpace[25, 26])
+                (charToken: CHAR[26, 30])
+                (length: WeightStringCastLength[30, 35]
+                  (openParenthesesToken: OpenParentheses[30, 31])
+                  (length: IntegerLiteral[31, 34])
+                  (closeParenthesesToken: CloseParentheses[34, 35])
+                )
+                (WhiteSpace[35, 36])
+                (levels: WeightString_Levels[36, 97]
+                  (levelToken: LEVEL[36, 41])
+                  (WhiteSpace[41, 42])
+                  (levels: WeightString_Level_List1[42, 97]
+                    (item[]: WeightString_Level_Item[42, 47]
+                      (level: IntegerLiteral[42, 43])
+                      (WhiteSpace[43, 44])
+                      (flag: WeightString_Level_Flag[44, 47]
+                        (sortOrder: ASC[44, 47])
+                      )
+                    )
+                    (commaToken[]: Comma[47, 48])
+                    (WhiteSpace[48, 49])
+                    (item[]: WeightString_Level_Item[49, 55]
+                      (level: IntegerLiteral[49, 50])
+                      (WhiteSpace[50, 51])
+                      (flag: WeightString_Level_Flag[51, 55]
+                        (sortOrder: DESC[51, 55])
+                      )
+                    )
+                    (commaToken[]: Comma[55, 56])
+                    (WhiteSpace[56, 57])
+                    (item[]: WeightString_Level_Item[57, 66]
+                      (level: IntegerLiteral[57, 58])
+                      (WhiteSpace[58, 59])
+                      (flag: WeightString_Level_Flag[59, 66]
+                        (reverseToken: REVERSE[59, 66])
+                      )
+                    )
+                    (commaToken[]: Comma[66, 67])
+                    (WhiteSpace[67, 68])
+                    (item[]: WeightString_Level_Item[68, 81]
+                      (level: IntegerLiteral[68, 69])
+                      (WhiteSpace[69, 70])
+                      (flag: WeightString_Level_Flag[70, 81]
+                        (sortOrder: ASC[70, 73])
+                        (WhiteSpace[73, 74])
+                        (reverseToken: REVERSE[74, 81])
+                      )
+                    )
+                    (commaToken[]: Comma[81, 82])
+                    (WhiteSpace[82, 83])
+                    (item[]: WeightString_Level_Item[83, 97]
+                      (level: IntegerLiteral[83, 84])
+                      (WhiteSpace[84, 85])
+                      (flag: WeightString_Level_Flag[85, 97]
+                        (sortOrder: DESC[85, 89])
+                        (WhiteSpace[89, 90])
+                        (reverseToken: REVERSE[90, 97])
+                      )
+                    )
+                  )
+                )
+                (closeParenthesesToken: CloseParentheses[97, 98])
+              )
+            )
+          )
+!`
+-----
+SELECT WEIGHT_STRING(a AS CHAR(999) LEVEL 1 REVERSE ASC)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 56]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments[20, 56]
+              (WeightString_Arguments_AsChar[20, 56]
+                (openParenthesesToken: OpenParentheses[20, 21])
+                (expr: Identifier[21, 22])
+                (WhiteSpace[22, 23])
+                (asToken: AS[23, 25])
+                (WhiteSpace[25, 26])
+                (charToken: CHAR[26, 30])
+                (length: WeightStringCastLength[30, 35]
+                  (openParenthesesToken: OpenParentheses[30, 31])
+                  (length: IntegerLiteral[31, 34])
+                  (closeParenthesesToken: CloseParentheses[34, 35])
+                )
+                (WhiteSpace[35, 36])
+                (levels: WeightString_Levels[36, 51]
+                  (levelToken: LEVEL[36, 41])
+                  (WhiteSpace[41, 42])
+                  (levels: WeightString_Level_List1[42, 51]
+                    (item[]: WeightString_Level_Item[42, 51]
+                      (level: IntegerLiteral[42, 43])
+                      (WhiteSpace[43, 44])
+                      (flag: WeightString_Level_Flag[44, 51]
+                        (reverseToken: REVERSE[44, 51])
+                      )
+                    )
+                  )
+                )
+                (WhiteSpace[51, 52])
+                (Unexpected ASC[52, 55])
+                (closeParenthesesToken: CloseParentheses[55, 56])
+              )
+            )
+          )
+!`

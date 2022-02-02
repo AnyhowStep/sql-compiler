@@ -1,0 +1,7 @@
+SELECT SCHEMA
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 13]
+          (Expected expression: Identifier[7, 13])
+        )
+!`

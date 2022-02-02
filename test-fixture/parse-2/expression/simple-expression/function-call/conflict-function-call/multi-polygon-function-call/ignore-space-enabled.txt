@@ -1,0 +1,26 @@
+SELECT MULTIPOLYGON(a)
+-----
+`!
+          (expression: MultiPolygonFunctionCall[7, 22]
+            (functionName: MULTIPOLYGON[7, 19])
+            (arguments: ExpressionList1_Arguments[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT MULTIPOLYGON (a)
+-----
+`!
+          (expression: MultiPolygonFunctionCall[7, 23]
+            (functionName: MULTIPOLYGON[7, 19])
+            (WhiteSpace[19, 20])
+            (arguments: ExpressionList1_Arguments[20, 23]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`

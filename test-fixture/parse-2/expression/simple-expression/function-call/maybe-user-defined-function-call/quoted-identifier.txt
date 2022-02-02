@@ -1,0 +1,23 @@
+SELECT `X`()
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 12]
+            (functionName: Identifier[7, 10])
+            (arguments: UserDefinedExpressionList_Arguments[10, 12]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (closeParenthesesToken: CloseParentheses[11, 12])
+            )
+          )
+!`
+-----
+SELECT "X"()
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 12]
+            (functionName: DoubleQuotedLiteral[7, 10])
+            (arguments: UserDefinedExpressionList_Arguments[10, 12]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (closeParenthesesToken: CloseParentheses[11, 12])
+            )
+          )
+!`

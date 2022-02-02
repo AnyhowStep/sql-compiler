@@ -1,0 +1,24 @@
+SELECT GEOMETRYCOLLECTION()
+-----
+`!
+          (expression: GeometryCollectionFunctionCall[7, 27]
+            (functionName: GEOMETRYCOLLECTION[7, 25])
+            (arguments: ExpressionList_Arguments[25, 27]
+              (openParenthesesToken: OpenParentheses[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT GEOMETRYCOLLECTION ()
+-----
+`!
+          (expression: GeometryCollectionFunctionCall[7, 28]
+            (functionName: GEOMETRYCOLLECTION[7, 25])
+            (WhiteSpace[25, 26])
+            (arguments: ExpressionList_Arguments[26, 28]
+              (openParenthesesToken: OpenParentheses[26, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`

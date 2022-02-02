@@ -1,0 +1,30 @@
+SELECT 18446744073709551615
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 27]
+          (expression: IntegerLiteral[7, 27])
+        )
+!`
+-----
+SELECT 18446744073709551616
+-- Larger than UNSIGNED BIGINT MAX
+-- We let the type system worry about this when inferring the type of this expression
+-- This should be DECIMAL(65, 30)
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 27]
+          (expression: IntegerLiteral[7, 27])
+        )
+!`
+-----
+SELECT 184467440737095516161111111111222223
+-- Larger than UNSIGNED BIGINT MAX
+-- We let the type system worry about this when inferring the type of this expression
+-- The type system should throw or make it DECIMAL but report an error flag
+-- This number has more than 35 digits
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 43]
+          (expression: IntegerLiteral[7, 43])
+        )
+!`

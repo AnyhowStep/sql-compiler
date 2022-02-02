@@ -1,0 +1,15 @@
+SELECT @@0.1e-2
+-----
+`!
+          (expression: BinaryBitExpression[7, 15]
+            (left: UnscopedSystemVariableIdentifier[7, 13]
+              (atToken[]: At[7, 8])
+              (atToken[]: At[8, 9])
+              (instanceName: Identifier[9, 10])
+              (dotToken: Dot[10, 11])
+              (componentName: Identifier[11, 13])
+            )
+            (operator: Minus[13, 14])
+            (right: IntegerLiteral[14, 15])
+          )
+!`

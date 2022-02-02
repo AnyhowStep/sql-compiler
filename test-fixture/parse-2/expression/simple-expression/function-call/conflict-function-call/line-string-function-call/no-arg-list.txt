@@ -1,0 +1,7 @@
+SELECT LINESTRING
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 17]
+          (expression: LINESTRING[7, 17])
+        )
+!`

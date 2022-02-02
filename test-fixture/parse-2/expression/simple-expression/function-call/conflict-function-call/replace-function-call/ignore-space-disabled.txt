@@ -1,0 +1,40 @@
+-- @@ignore_space = false
+SELECT REPLACE(a, b, c)
+-----
+`!
+          (expression: ReplaceFunctionCall[33, 49]
+            (functionName: REPLACE[33, 40])
+            (arguments: Expression3_Arguments[40, 49]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (item[]: Identifier[41, 42])
+              (commaToken[]: Comma[42, 43])
+              (WhiteSpace[43, 44])
+              (item[]: Identifier[44, 45])
+              (commaToken[]: Comma[45, 46])
+              (WhiteSpace[46, 47])
+              (item[]: Identifier[47, 48])
+              (closeParenthesesToken: CloseParentheses[48, 49])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT REPLACE (a, b, c)
+-----
+`!
+          (expression: ReplaceFunctionCall[33, 50]
+            (functionName: REPLACE[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: Expression3_Arguments[41, 50]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: Identifier[42, 43])
+              (commaToken[]: Comma[43, 44])
+              (WhiteSpace[44, 45])
+              (item[]: Identifier[45, 46])
+              (commaToken[]: Comma[46, 47])
+              (WhiteSpace[47, 48])
+              (item[]: Identifier[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+!`

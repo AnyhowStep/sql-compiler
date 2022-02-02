@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT MULTIPOINT(a)
+-----
+`!
+          (expression: MultiPointFunctionCall[33, 46]
+            (functionName: MULTIPOINT[33, 43])
+            (arguments: ExpressionList1_Arguments[43, 46]
+              (openParenthesesToken: OpenParentheses[43, 44])
+              (item[]: Identifier[44, 45])
+              (closeParenthesesToken: CloseParentheses[45, 46])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT MULTIPOINT (a)
+-----
+`!
+          (expression: MultiPointFunctionCall[33, 47]
+            (functionName: MULTIPOINT[33, 43])
+            (WhiteSpace[43, 44])
+            (arguments: ExpressionList1_Arguments[44, 47]
+              (openParenthesesToken: OpenParentheses[44, 45])
+              (item[]: Identifier[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`

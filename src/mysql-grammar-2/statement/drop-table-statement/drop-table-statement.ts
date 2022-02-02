@@ -1,4 +1,4 @@
-import {choice, field, optional, seq} from "../../../grammar-builder";
+import {field, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -8,7 +8,7 @@ import {TokenKind} from "../../token.generated";
 export const DropTableStatement = seq(
     field("dropToken", TokenKind.DROP),
     field("temporaryToken", optional(TokenKind.TEMPORARY)),
-    field("tableToken", choice(TokenKind.TABLE, TokenKind.TABLES)),
+    field("tableToken", tokenSymbol(TokenKind.TABLE, TokenKind.TABLES)),
     field("ifExists", optional(SyntaxKind.IfExists)),
     field("tableIdentifierList1", SyntaxKind.TableIdentifierList1),
     field("dropMode", optional(SyntaxKind.DropMode)),

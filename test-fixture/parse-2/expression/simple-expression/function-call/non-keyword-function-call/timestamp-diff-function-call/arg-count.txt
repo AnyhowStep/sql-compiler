@@ -3,33 +3,24 @@ SELECT TIMESTAMPDIFF()
 `!
           (expression: TimestampDiffFunctionCall[7, 22]
             (functionName: TIMESTAMPDIFF[7, 20])
-            (arguments: TimestampDiff_Arguments[20, 22]
+            ({Expected exactly 3 item, found 0} arguments: TimestampDiff_Arguments[20, 22]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 21])
-              (Expected commaToken[]: Comma[21, 21])
-              (Expected startDateTime: Identifier[21, 21])
-              (Expected commaToken[]: Comma[21, 21])
-              (Expected startDateTime: Identifier[21, 21])
               (closeParenthesesToken: CloseParentheses[21, 22])
             )
           )
 !`
 -----
 SELECT TIMESTAMPDIFF(a)
--- TODO Fix this output
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 20]
-          (expression: TIMESTAMPDIFF[7, 20])
-        )
-        (Expected commaToken[]: Comma[20, 20])
-        (item[]: ExpressionSelectItem[20, 23]
-          (expression: ParenthesizedExpression[20, 23]
-            (openParenthesesToken: OpenParentheses[20, 21])
-            (item: Identifier[21, 22])
-            (closeParenthesesToken: CloseParentheses[22, 23])
+          (expression: TimestampDiffFunctionCall[7, 23]
+            (functionName: TIMESTAMPDIFF[7, 20])
+            ({Expected exactly 3 item, found 1} arguments: TimestampDiff_Arguments[20, 23]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (Unexpected item[]: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
           )
-        )
 !`
 -----
 SELECT TIMESTAMPDIFF(DAY)
@@ -37,33 +28,25 @@ SELECT TIMESTAMPDIFF(DAY)
 `!
           (expression: TimestampDiffFunctionCall[7, 25]
             (functionName: TIMESTAMPDIFF[7, 20])
-            (arguments: TimestampDiff_Arguments[20, 25]
+            ({Expected exactly 3 item, found 1} arguments: TimestampDiff_Arguments[20, 25]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (temporalUnit: DAY[21, 24])
-              (Expected commaToken[]: Comma[24, 24])
-              (Expected startDateTime: Identifier[24, 24])
-              (Expected commaToken[]: Comma[24, 24])
-              (Expected startDateTime: Identifier[24, 24])
+              (item[]: DAY[21, 24])
               (closeParenthesesToken: CloseParentheses[24, 25])
             )
           )
 !`
 -----
 SELECT TIMESTAMPDIFF(DAY_HOUR)
--- TODO Fix output
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 20]
-          (expression: TIMESTAMPDIFF[7, 20])
-        )
-        (Expected commaToken[]: Comma[20, 20])
-        (item[]: ExpressionSelectItem[20, 30]
-          (expression: ParenthesizedExpression[20, 30]
-            (openParenthesesToken: OpenParentheses[20, 21])
-            (Expected item: Identifier[21, 29])
-            (closeParenthesesToken: CloseParentheses[29, 30])
+          (expression: TimestampDiffFunctionCall[7, 30]
+            (functionName: TIMESTAMPDIFF[7, 20])
+            ({Expected exactly 3 item, found 1} arguments: TimestampDiff_Arguments[20, 30]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (Unexpected item[]: DAY_HOUR[21, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
           )
-        )
 !`
 -----
 SELECT TIMESTAMPDIFF(a, b)
@@ -71,14 +54,12 @@ SELECT TIMESTAMPDIFF(a, b)
 `!
           (expression: TimestampDiffFunctionCall[7, 26]
             (functionName: TIMESTAMPDIFF[7, 20])
-            (arguments: TimestampDiff_Arguments[20, 26]
+            ({Expected exactly 3 item, found 2} arguments: TimestampDiff_Arguments[20, 26]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 21])
-              (Expected commaToken[]: Comma[21, 21])
-              (startDateTime: Identifier[21, 22])
+              (Unexpected item[]: Identifier[21, 22])
               (commaToken[]: Comma[22, 23])
               (WhiteSpace[23, 24])
-              (endDateTime: Identifier[24, 25])
+              (item[]: Identifier[24, 25])
               (closeParenthesesToken: CloseParentheses[25, 26])
             )
           )
@@ -89,14 +70,12 @@ SELECT TIMESTAMPDIFF(DAY, b)
 `!
           (expression: TimestampDiffFunctionCall[7, 28]
             (functionName: TIMESTAMPDIFF[7, 20])
-            (arguments: TimestampDiff_Arguments[20, 28]
+            ({Expected exactly 3 item, found 2} arguments: TimestampDiff_Arguments[20, 28]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (temporalUnit: DAY[21, 24])
+              (item[]: DAY[21, 24])
               (commaToken[]: Comma[24, 25])
               (WhiteSpace[25, 26])
-              (startDateTime: Identifier[26, 27])
-              (Expected commaToken[]: Comma[27, 27])
-              (Expected endDateTime: Identifier[27, 27])
+              (item[]: Identifier[26, 27])
               (closeParenthesesToken: CloseParentheses[27, 28])
             )
           )
@@ -107,14 +86,12 @@ SELECT TIMESTAMPDIFF(DAY_HOUR, b)
 `!
           (expression: TimestampDiffFunctionCall[7, 33]
             (functionName: TIMESTAMPDIFF[7, 20])
-            (arguments: TimestampDiff_Arguments[20, 33]
+            ({Expected exactly 3 item, found 2} arguments: TimestampDiff_Arguments[20, 33]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 21])
-              (Expected commaToken[]: Comma[21, 29])
-              (Expected startDateTime: Identifier[29, 29])
+              (Unexpected item[]: DAY_HOUR[21, 29])
               (commaToken[]: Comma[29, 30])
               (WhiteSpace[30, 31])
-              (endDateTime: Identifier[31, 32])
+              (item[]: Identifier[31, 32])
               (closeParenthesesToken: CloseParentheses[32, 33])
             )
           )
@@ -125,17 +102,15 @@ SELECT TIMESTAMPDIFF(a, b, c)
 `!
           (expression: TimestampDiffFunctionCall[7, 29]
             (functionName: TIMESTAMPDIFF[7, 20])
-            ({Expected exactly 0 extraItem, found 1} arguments: TimestampDiff_Arguments[20, 29]
+            (arguments: TimestampDiff_Arguments[20, 29]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 21])
-              (Expected commaToken[]: Comma[21, 21])
-              (startDateTime: Identifier[21, 22])
+              (Unexpected item[]: Identifier[21, 22])
               (commaToken[]: Comma[22, 23])
               (WhiteSpace[23, 24])
-              (endDateTime: Identifier[24, 25])
+              (item[]: Identifier[24, 25])
               (commaToken[]: Comma[25, 26])
               (WhiteSpace[26, 27])
-              (extraItem[]: Identifier[27, 28])
+              (item[]: Identifier[27, 28])
               (closeParenthesesToken: CloseParentheses[28, 29])
             )
           )
@@ -148,13 +123,13 @@ SELECT TIMESTAMPDIFF(DAY, b, c)
             (functionName: TIMESTAMPDIFF[7, 20])
             (arguments: TimestampDiff_Arguments[20, 31]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (temporalUnit: DAY[21, 24])
+              (item[]: DAY[21, 24])
               (commaToken[]: Comma[24, 25])
               (WhiteSpace[25, 26])
-              (startDateTime: Identifier[26, 27])
+              (item[]: Identifier[26, 27])
               (commaToken[]: Comma[27, 28])
               (WhiteSpace[28, 29])
-              (endDateTime: Identifier[29, 30])
+              (item[]: Identifier[29, 30])
               (closeParenthesesToken: CloseParentheses[30, 31])
             )
           )
@@ -167,13 +142,13 @@ SELECT TIMESTAMPDIFF(DAY_HOUR, b, c)
             (functionName: TIMESTAMPDIFF[7, 20])
             (arguments: TimestampDiff_Arguments[20, 36]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 29])
+              (Unexpected item[]: DAY_HOUR[21, 29])
               (commaToken[]: Comma[29, 30])
               (WhiteSpace[30, 31])
-              (startDateTime: Identifier[31, 32])
+              (item[]: Identifier[31, 32])
               (commaToken[]: Comma[32, 33])
               (WhiteSpace[33, 34])
-              (endDateTime: Identifier[34, 35])
+              (item[]: Identifier[34, 35])
               (closeParenthesesToken: CloseParentheses[35, 36])
             )
           )
@@ -184,20 +159,18 @@ SELECT TIMESTAMPDIFF(a, b, c, d)
 `!
           (expression: TimestampDiffFunctionCall[7, 32]
             (functionName: TIMESTAMPDIFF[7, 20])
-            ({Expected exactly 0 extraItem, found 2} arguments: TimestampDiff_Arguments[20, 32]
+            ({Expected exactly 3 item, found 4} arguments: TimestampDiff_Arguments[20, 32]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 21])
-              (Expected commaToken[]: Comma[21, 21])
-              (startDateTime: Identifier[21, 22])
+              (Unexpected item[]: Identifier[21, 22])
               (commaToken[]: Comma[22, 23])
               (WhiteSpace[23, 24])
-              (endDateTime: Identifier[24, 25])
+              (item[]: Identifier[24, 25])
               (commaToken[]: Comma[25, 26])
               (WhiteSpace[26, 27])
-              (extraItem[]: Identifier[27, 28])
+              (item[]: Identifier[27, 28])
               (commaToken[]: Comma[28, 29])
               (WhiteSpace[29, 30])
-              (extraItem[]: Identifier[30, 31])
+              (item[]: Identifier[30, 31])
               (closeParenthesesToken: CloseParentheses[31, 32])
             )
           )
@@ -208,18 +181,18 @@ SELECT TIMESTAMPDIFF(DAY, b, c, d)
 `!
           (expression: TimestampDiffFunctionCall[7, 34]
             (functionName: TIMESTAMPDIFF[7, 20])
-            ({Expected exactly 0 extraItem, found 1} arguments: TimestampDiff_Arguments[20, 34]
+            ({Expected exactly 3 item, found 4} arguments: TimestampDiff_Arguments[20, 34]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (temporalUnit: DAY[21, 24])
+              (item[]: DAY[21, 24])
               (commaToken[]: Comma[24, 25])
               (WhiteSpace[25, 26])
-              (startDateTime: Identifier[26, 27])
+              (item[]: Identifier[26, 27])
               (commaToken[]: Comma[27, 28])
               (WhiteSpace[28, 29])
-              (endDateTime: Identifier[29, 30])
+              (item[]: Identifier[29, 30])
               (commaToken[]: Comma[30, 31])
               (WhiteSpace[31, 32])
-              (extraItem[]: Identifier[32, 33])
+              (item[]: Identifier[32, 33])
               (closeParenthesesToken: CloseParentheses[33, 34])
             )
           )
@@ -230,18 +203,18 @@ SELECT TIMESTAMPDIFF(DAY_HOUR, b, c, d)
 `!
           (expression: TimestampDiffFunctionCall[7, 39]
             (functionName: TIMESTAMPDIFF[7, 20])
-            ({Expected exactly 0 extraItem, found 1} arguments: TimestampDiff_Arguments[20, 39]
+            ({Expected exactly 3 item, found 4} arguments: TimestampDiff_Arguments[20, 39]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 29])
+              (Unexpected item[]: DAY_HOUR[21, 29])
               (commaToken[]: Comma[29, 30])
               (WhiteSpace[30, 31])
-              (startDateTime: Identifier[31, 32])
+              (item[]: Identifier[31, 32])
               (commaToken[]: Comma[32, 33])
               (WhiteSpace[33, 34])
-              (endDateTime: Identifier[34, 35])
+              (item[]: Identifier[34, 35])
               (commaToken[]: Comma[35, 36])
               (WhiteSpace[36, 37])
-              (extraItem[]: Identifier[37, 38])
+              (item[]: Identifier[37, 38])
               (closeParenthesesToken: CloseParentheses[38, 39])
             )
           )
@@ -252,23 +225,21 @@ SELECT TIMESTAMPDIFF(a, b, c, d, e)
 `!
           (expression: TimestampDiffFunctionCall[7, 35]
             (functionName: TIMESTAMPDIFF[7, 20])
-            ({Expected exactly 0 extraItem, found 3} arguments: TimestampDiff_Arguments[20, 35]
+            ({Expected exactly 3 item, found 5} arguments: TimestampDiff_Arguments[20, 35]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 21])
-              (Expected commaToken[]: Comma[21, 21])
-              (startDateTime: Identifier[21, 22])
+              (Unexpected item[]: Identifier[21, 22])
               (commaToken[]: Comma[22, 23])
               (WhiteSpace[23, 24])
-              (endDateTime: Identifier[24, 25])
+              (item[]: Identifier[24, 25])
               (commaToken[]: Comma[25, 26])
               (WhiteSpace[26, 27])
-              (extraItem[]: Identifier[27, 28])
+              (item[]: Identifier[27, 28])
               (commaToken[]: Comma[28, 29])
               (WhiteSpace[29, 30])
-              (extraItem[]: Identifier[30, 31])
+              (item[]: Identifier[30, 31])
               (commaToken[]: Comma[31, 32])
               (WhiteSpace[32, 33])
-              (extraItem[]: Identifier[33, 34])
+              (item[]: Identifier[33, 34])
               (closeParenthesesToken: CloseParentheses[34, 35])
             )
           )
@@ -279,21 +250,21 @@ SELECT TIMESTAMPDIFF(DAY, b, c, d, e)
 `!
           (expression: TimestampDiffFunctionCall[7, 37]
             (functionName: TIMESTAMPDIFF[7, 20])
-            ({Expected exactly 0 extraItem, found 2} arguments: TimestampDiff_Arguments[20, 37]
+            ({Expected exactly 3 item, found 5} arguments: TimestampDiff_Arguments[20, 37]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (temporalUnit: DAY[21, 24])
+              (item[]: DAY[21, 24])
               (commaToken[]: Comma[24, 25])
               (WhiteSpace[25, 26])
-              (startDateTime: Identifier[26, 27])
+              (item[]: Identifier[26, 27])
               (commaToken[]: Comma[27, 28])
               (WhiteSpace[28, 29])
-              (endDateTime: Identifier[29, 30])
+              (item[]: Identifier[29, 30])
               (commaToken[]: Comma[30, 31])
               (WhiteSpace[31, 32])
-              (extraItem[]: Identifier[32, 33])
+              (item[]: Identifier[32, 33])
               (commaToken[]: Comma[33, 34])
               (WhiteSpace[34, 35])
-              (extraItem[]: Identifier[35, 36])
+              (item[]: Identifier[35, 36])
               (closeParenthesesToken: CloseParentheses[36, 37])
             )
           )
@@ -304,21 +275,21 @@ SELECT TIMESTAMPDIFF(DAY_HOUR, b, c, d, e)
 `!
           (expression: TimestampDiffFunctionCall[7, 42]
             (functionName: TIMESTAMPDIFF[7, 20])
-            ({Expected exactly 0 extraItem, found 2} arguments: TimestampDiff_Arguments[20, 42]
+            ({Expected exactly 3 item, found 5} arguments: TimestampDiff_Arguments[20, 42]
               (openParenthesesToken: OpenParentheses[20, 21])
-              (Expected temporalUnit: DAY[21, 29])
+              (Unexpected item[]: DAY_HOUR[21, 29])
               (commaToken[]: Comma[29, 30])
               (WhiteSpace[30, 31])
-              (startDateTime: Identifier[31, 32])
+              (item[]: Identifier[31, 32])
               (commaToken[]: Comma[32, 33])
               (WhiteSpace[33, 34])
-              (endDateTime: Identifier[34, 35])
+              (item[]: Identifier[34, 35])
               (commaToken[]: Comma[35, 36])
               (WhiteSpace[36, 37])
-              (extraItem[]: Identifier[37, 38])
+              (item[]: Identifier[37, 38])
               (commaToken[]: Comma[38, 39])
               (WhiteSpace[39, 40])
-              (extraItem[]: Identifier[40, 41])
+              (item[]: Identifier[40, 41])
               (closeParenthesesToken: CloseParentheses[41, 42])
             )
           )

@@ -1,0 +1,83 @@
+SELECT INTERVAL a DAY + x AND y
+-- This should be (INTERVAL + x) AND (y)
+-----
+`!
+          (expression: BinaryExpression[7, 31]
+            (left: IntervalExpressionPlus[7, 25]
+              (left: IntervalExpression[7, 21]
+                (intervalToken: INTERVAL[7, 15])
+                (WhiteSpace[15, 16])
+                (expression: Identifier[16, 17])
+                (WhiteSpace[17, 18])
+                (temporalUnit: DAY[18, 21])
+              )
+              (WhiteSpace[21, 22])
+              (operator: Plus[22, 23])
+              (WhiteSpace[23, 24])
+              (right: Identifier[24, 25])
+            )
+            (WhiteSpace[25, 26])
+            (operator: AND[26, 29])
+            (WhiteSpace[29, 30])
+            (right: Identifier[30, 31])
+          )
+!`
+-----
+SELECT INTERVAL a DAY + @b := x AND y
+-- This should be INTERVAL + (@b := (x AND y))
+-----
+`!
+          (expression: IntervalExpressionPlus[7, 37]
+            (left: IntervalExpression[7, 21]
+              (intervalToken: INTERVAL[7, 15])
+              (WhiteSpace[15, 16])
+              (expression: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (temporalUnit: DAY[18, 21])
+            )
+            (WhiteSpace[21, 22])
+            (operator: Plus[22, 23])
+            (WhiteSpace[23, 24])
+            (right: UserVariableIdentifierAssignment[24, 37]
+              (userVariableIdentifier: UserVariableIdentifier[24, 26]
+                (atToken: At[24, 25])
+                (identifier: Identifier[25, 26])
+              )
+              (WhiteSpace[26, 27])
+              (colonEqual: ColonEqual[27, 29]
+                (colonToken: Colon[27, 28])
+                (equalToken: Equal[28, 29])
+              )
+              (WhiteSpace[29, 30])
+              (expression: BinaryExpression[30, 37]
+                (left: Identifier[30, 31])
+                (WhiteSpace[31, 32])
+                (operator: AND[32, 35])
+                (WhiteSpace[35, 36])
+                (right: Identifier[36, 37])
+              )
+            )
+          )
+!`
+-----
+SELECT a << @b := x OR y
+-----
+`!
+          (expression: BinaryBitExpression[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: LessLess[9, 11])
+            (WhiteSpace[11, 12])
+            (right: UserVariableIdentifierAssignment[12, 24]
+              (userVariableIdentifier: UserVariableIdentifier[12, 14]
+                (atToken: At[12, 13])
+                (identifier: Identifier[13, 14])
+              )
+              (WhiteSpace[14, 15])
+              (colonEqual: ColonEqual[15, 17]
+                (colonToken: Colon[15, 16])
+                (equalToken: Equal[16, 17])
+              )
+              (WhiteSpace[17, 18])
+              (expression: BinaryExpression[18, 24]
+!`

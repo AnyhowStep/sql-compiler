@@ -1,0 +1,101 @@
+SELECT LOCALTIMESTAMP()
+-----
+`!
+          (expression: Now[7, 23]
+            (functionName: LOCALTIMESTAMP[7, 21])
+            (arguments: DateTimePrecisionArg[21, 23]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT LOCALTIMESTAMP(a)
+-----
+`!
+          (expression: Now[7, 24]
+            (functionName: LOCALTIMESTAMP[7, 21])
+            (arguments: DateTimePrecisionArg[21, 24]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (Unexpected dateTimePrecision: Identifier[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT LOCALTIMESTAMP(1)
+-----
+`!
+          (expression: Now[7, 24]
+            (functionName: LOCALTIMESTAMP[7, 21])
+            (arguments: DateTimePrecisionArg[21, 24]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (dateTimePrecision: IntegerLiteral[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT LOCALTIMESTAMP(a, b)
+-----
+`!
+          (expression: Now[7, 27]
+            (functionName: LOCALTIMESTAMP[7, 21])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[21, 27]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (Unexpected dateTimePrecision: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (extraItem[]: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT LOCALTIMESTAMP(1, b)
+-----
+`!
+          (expression: Now[7, 27]
+            (functionName: LOCALTIMESTAMP[7, 21])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[21, 27]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (dateTimePrecision: IntegerLiteral[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (extraItem[]: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT LOCALTIMESTAMP(a, 2)
+-----
+`!
+          (expression: Now[7, 27]
+            (functionName: LOCALTIMESTAMP[7, 21])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[21, 27]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (Unexpected dateTimePrecision: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (extraItem[]: IntegerLiteral[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT LOCALTIMESTAMP(1, 2)
+-----
+`!
+          (expression: Now[7, 27]
+            (functionName: LOCALTIMESTAMP[7, 21])
+            ({Expected exactly 0 extraItem, found 1} arguments: DateTimePrecisionArg[21, 27]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (dateTimePrecision: IntegerLiteral[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (extraItem[]: IntegerLiteral[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`

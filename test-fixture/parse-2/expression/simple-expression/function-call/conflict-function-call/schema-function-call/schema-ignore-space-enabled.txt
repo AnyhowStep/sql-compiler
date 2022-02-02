@@ -1,0 +1,24 @@
+SELECT SCHEMA()
+-----
+`!
+          (expression: SchemaFunctionCall[7, 15]
+            (functionName: SCHEMA[7, 13])
+            (arguments: Empty_Arguments[13, 15]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT SCHEMA ()
+-----
+`!
+          (expression: SchemaFunctionCall[7, 16]
+            (functionName: SCHEMA[7, 13])
+            (WhiteSpace[13, 14])
+            (arguments: Empty_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`

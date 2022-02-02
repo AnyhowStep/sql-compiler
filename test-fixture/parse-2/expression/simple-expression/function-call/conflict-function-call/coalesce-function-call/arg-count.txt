@@ -1,0 +1,59 @@
+SELECT COALESCE()
+-----
+`!
+          (expression: CoalesceFunctionCall[7, 17]
+            (functionName: COALESCE[7, 15])
+            ({Expected at least 1 item, found 0} arguments: ExpressionList1_Arguments[15, 17]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT COALESCE(a)
+-----
+`!
+          (expression: CoalesceFunctionCall[7, 18]
+            (functionName: COALESCE[7, 15])
+            (arguments: ExpressionList1_Arguments[15, 18]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT COALESCE(a, b)
+-----
+`!
+          (expression: CoalesceFunctionCall[7, 21]
+            (functionName: COALESCE[7, 15])
+            (arguments: ExpressionList1_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT COALESCE(a, b, c)
+-----
+`!
+          (expression: CoalesceFunctionCall[7, 24]
+            (functionName: COALESCE[7, 15])
+            (arguments: ExpressionList1_Arguments[15, 24]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`

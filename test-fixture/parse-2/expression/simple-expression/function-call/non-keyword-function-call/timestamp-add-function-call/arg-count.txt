@@ -3,33 +3,24 @@ SELECT TIMESTAMPADD()
 `!
           (expression: TimestampAddFunctionCall[7, 21]
             (functionName: TIMESTAMPADD[7, 19])
-            (arguments: TimestampAdd_Arguments[19, 21]
+            ({Expected exactly 3 item, found 0} arguments: TimestampAdd_Arguments[19, 21]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 20])
-              (Expected commaToken[]: Comma[20, 20])
-              (Expected interval: Identifier[20, 20])
-              (Expected commaToken[]: Comma[20, 20])
-              (Expected interval: Identifier[20, 20])
               (closeParenthesesToken: CloseParentheses[20, 21])
             )
           )
 !`
 -----
 SELECT TIMESTAMPADD(a)
--- TODO Fix this output
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 19]
-          (expression: TIMESTAMPADD[7, 19])
-        )
-        (Expected commaToken[]: Comma[19, 19])
-        (item[]: ExpressionSelectItem[19, 22]
-          (expression: ParenthesizedExpression[19, 22]
-            (openParenthesesToken: OpenParentheses[19, 20])
-            (item: Identifier[20, 21])
-            (closeParenthesesToken: CloseParentheses[21, 22])
+          (expression: TimestampAddFunctionCall[7, 22]
+            (functionName: TIMESTAMPADD[7, 19])
+            ({Expected exactly 3 item, found 1} arguments: TimestampAdd_Arguments[19, 22]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
           )
-        )
 !`
 -----
 SELECT TIMESTAMPADD(DAY)
@@ -37,33 +28,25 @@ SELECT TIMESTAMPADD(DAY)
 `!
           (expression: TimestampAddFunctionCall[7, 24]
             (functionName: TIMESTAMPADD[7, 19])
-            (arguments: TimestampAdd_Arguments[19, 24]
+            ({Expected exactly 3 item, found 1} arguments: TimestampAdd_Arguments[19, 24]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (temporalUnit: DAY[20, 23])
-              (Expected commaToken[]: Comma[23, 23])
-              (Expected interval: Identifier[23, 23])
-              (Expected commaToken[]: Comma[23, 23])
-              (Expected interval: Identifier[23, 23])
+              (item[]: DAY[20, 23])
               (closeParenthesesToken: CloseParentheses[23, 24])
             )
           )
 !`
 -----
 SELECT TIMESTAMPADD(DAY_HOUR)
--- TODO Fix output
 -----
 `!
-        (item[]: ExpressionSelectItem[7, 19]
-          (expression: TIMESTAMPADD[7, 19])
-        )
-        (Expected commaToken[]: Comma[19, 19])
-        (item[]: ExpressionSelectItem[19, 29]
-          (expression: ParenthesizedExpression[19, 29]
-            (openParenthesesToken: OpenParentheses[19, 20])
-            (Expected item: Identifier[20, 28])
-            (closeParenthesesToken: CloseParentheses[28, 29])
+          (expression: TimestampAddFunctionCall[7, 29]
+            (functionName: TIMESTAMPADD[7, 19])
+            ({Expected exactly 3 item, found 1} arguments: TimestampAdd_Arguments[19, 29]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected item[]: DAY_HOUR[20, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
           )
-        )
 !`
 -----
 SELECT TIMESTAMPADD(a, b)
@@ -71,14 +54,12 @@ SELECT TIMESTAMPADD(a, b)
 `!
           (expression: TimestampAddFunctionCall[7, 25]
             (functionName: TIMESTAMPADD[7, 19])
-            (arguments: TimestampAdd_Arguments[19, 25]
+            ({Expected exactly 3 item, found 2} arguments: TimestampAdd_Arguments[19, 25]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 20])
-              (Expected commaToken[]: Comma[20, 20])
-              (interval: Identifier[20, 21])
+              (Unexpected item[]: Identifier[20, 21])
               (commaToken[]: Comma[21, 22])
               (WhiteSpace[22, 23])
-              (dateTime: Identifier[23, 24])
+              (item[]: Identifier[23, 24])
               (closeParenthesesToken: CloseParentheses[24, 25])
             )
           )
@@ -89,14 +70,12 @@ SELECT TIMESTAMPADD(DAY, b)
 `!
           (expression: TimestampAddFunctionCall[7, 27]
             (functionName: TIMESTAMPADD[7, 19])
-            (arguments: TimestampAdd_Arguments[19, 27]
+            ({Expected exactly 3 item, found 2} arguments: TimestampAdd_Arguments[19, 27]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (temporalUnit: DAY[20, 23])
+              (item[]: DAY[20, 23])
               (commaToken[]: Comma[23, 24])
               (WhiteSpace[24, 25])
-              (interval: Identifier[25, 26])
-              (Expected commaToken[]: Comma[26, 26])
-              (Expected dateTime: Identifier[26, 26])
+              (item[]: Identifier[25, 26])
               (closeParenthesesToken: CloseParentheses[26, 27])
             )
           )
@@ -107,14 +86,12 @@ SELECT TIMESTAMPADD(DAY_HOUR, b)
 `!
           (expression: TimestampAddFunctionCall[7, 32]
             (functionName: TIMESTAMPADD[7, 19])
-            (arguments: TimestampAdd_Arguments[19, 32]
+            ({Expected exactly 3 item, found 2} arguments: TimestampAdd_Arguments[19, 32]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 20])
-              (Expected commaToken[]: Comma[20, 28])
-              (Expected interval: Identifier[28, 28])
+              (Unexpected item[]: DAY_HOUR[20, 28])
               (commaToken[]: Comma[28, 29])
               (WhiteSpace[29, 30])
-              (dateTime: Identifier[30, 31])
+              (item[]: Identifier[30, 31])
               (closeParenthesesToken: CloseParentheses[31, 32])
             )
           )
@@ -125,17 +102,15 @@ SELECT TIMESTAMPADD(a, b, c)
 `!
           (expression: TimestampAddFunctionCall[7, 28]
             (functionName: TIMESTAMPADD[7, 19])
-            ({Expected exactly 0 extraItem, found 1} arguments: TimestampAdd_Arguments[19, 28]
+            (arguments: TimestampAdd_Arguments[19, 28]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 20])
-              (Expected commaToken[]: Comma[20, 20])
-              (interval: Identifier[20, 21])
+              (Unexpected item[]: Identifier[20, 21])
               (commaToken[]: Comma[21, 22])
               (WhiteSpace[22, 23])
-              (dateTime: Identifier[23, 24])
+              (item[]: Identifier[23, 24])
               (commaToken[]: Comma[24, 25])
               (WhiteSpace[25, 26])
-              (extraItem[]: Identifier[26, 27])
+              (item[]: Identifier[26, 27])
               (closeParenthesesToken: CloseParentheses[27, 28])
             )
           )
@@ -148,13 +123,13 @@ SELECT TIMESTAMPADD(DAY, b, c)
             (functionName: TIMESTAMPADD[7, 19])
             (arguments: TimestampAdd_Arguments[19, 30]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (temporalUnit: DAY[20, 23])
+              (item[]: DAY[20, 23])
               (commaToken[]: Comma[23, 24])
               (WhiteSpace[24, 25])
-              (interval: Identifier[25, 26])
+              (item[]: Identifier[25, 26])
               (commaToken[]: Comma[26, 27])
               (WhiteSpace[27, 28])
-              (dateTime: Identifier[28, 29])
+              (item[]: Identifier[28, 29])
               (closeParenthesesToken: CloseParentheses[29, 30])
             )
           )
@@ -167,13 +142,13 @@ SELECT TIMESTAMPADD(DAY_HOUR, b, c)
             (functionName: TIMESTAMPADD[7, 19])
             (arguments: TimestampAdd_Arguments[19, 35]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 28])
+              (Unexpected item[]: DAY_HOUR[20, 28])
               (commaToken[]: Comma[28, 29])
               (WhiteSpace[29, 30])
-              (interval: Identifier[30, 31])
+              (item[]: Identifier[30, 31])
               (commaToken[]: Comma[31, 32])
               (WhiteSpace[32, 33])
-              (dateTime: Identifier[33, 34])
+              (item[]: Identifier[33, 34])
               (closeParenthesesToken: CloseParentheses[34, 35])
             )
           )
@@ -184,20 +159,18 @@ SELECT TIMESTAMPADD(a, b, c, d)
 `!
           (expression: TimestampAddFunctionCall[7, 31]
             (functionName: TIMESTAMPADD[7, 19])
-            ({Expected exactly 0 extraItem, found 2} arguments: TimestampAdd_Arguments[19, 31]
+            ({Expected exactly 3 item, found 4} arguments: TimestampAdd_Arguments[19, 31]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 20])
-              (Expected commaToken[]: Comma[20, 20])
-              (interval: Identifier[20, 21])
+              (Unexpected item[]: Identifier[20, 21])
               (commaToken[]: Comma[21, 22])
               (WhiteSpace[22, 23])
-              (dateTime: Identifier[23, 24])
+              (item[]: Identifier[23, 24])
               (commaToken[]: Comma[24, 25])
               (WhiteSpace[25, 26])
-              (extraItem[]: Identifier[26, 27])
+              (item[]: Identifier[26, 27])
               (commaToken[]: Comma[27, 28])
               (WhiteSpace[28, 29])
-              (extraItem[]: Identifier[29, 30])
+              (item[]: Identifier[29, 30])
               (closeParenthesesToken: CloseParentheses[30, 31])
             )
           )
@@ -208,18 +181,18 @@ SELECT TIMESTAMPADD(DAY, b, c, d)
 `!
           (expression: TimestampAddFunctionCall[7, 33]
             (functionName: TIMESTAMPADD[7, 19])
-            ({Expected exactly 0 extraItem, found 1} arguments: TimestampAdd_Arguments[19, 33]
+            ({Expected exactly 3 item, found 4} arguments: TimestampAdd_Arguments[19, 33]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (temporalUnit: DAY[20, 23])
+              (item[]: DAY[20, 23])
               (commaToken[]: Comma[23, 24])
               (WhiteSpace[24, 25])
-              (interval: Identifier[25, 26])
+              (item[]: Identifier[25, 26])
               (commaToken[]: Comma[26, 27])
               (WhiteSpace[27, 28])
-              (dateTime: Identifier[28, 29])
+              (item[]: Identifier[28, 29])
               (commaToken[]: Comma[29, 30])
               (WhiteSpace[30, 31])
-              (extraItem[]: Identifier[31, 32])
+              (item[]: Identifier[31, 32])
               (closeParenthesesToken: CloseParentheses[32, 33])
             )
           )
@@ -230,18 +203,18 @@ SELECT TIMESTAMPADD(DAY_HOUR, b, c, d)
 `!
           (expression: TimestampAddFunctionCall[7, 38]
             (functionName: TIMESTAMPADD[7, 19])
-            ({Expected exactly 0 extraItem, found 1} arguments: TimestampAdd_Arguments[19, 38]
+            ({Expected exactly 3 item, found 4} arguments: TimestampAdd_Arguments[19, 38]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 28])
+              (Unexpected item[]: DAY_HOUR[20, 28])
               (commaToken[]: Comma[28, 29])
               (WhiteSpace[29, 30])
-              (interval: Identifier[30, 31])
+              (item[]: Identifier[30, 31])
               (commaToken[]: Comma[31, 32])
               (WhiteSpace[32, 33])
-              (dateTime: Identifier[33, 34])
+              (item[]: Identifier[33, 34])
               (commaToken[]: Comma[34, 35])
               (WhiteSpace[35, 36])
-              (extraItem[]: Identifier[36, 37])
+              (item[]: Identifier[36, 37])
               (closeParenthesesToken: CloseParentheses[37, 38])
             )
           )
@@ -252,23 +225,21 @@ SELECT TIMESTAMPADD(a, b, c, d, e)
 `!
           (expression: TimestampAddFunctionCall[7, 34]
             (functionName: TIMESTAMPADD[7, 19])
-            ({Expected exactly 0 extraItem, found 3} arguments: TimestampAdd_Arguments[19, 34]
+            ({Expected exactly 3 item, found 5} arguments: TimestampAdd_Arguments[19, 34]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 20])
-              (Expected commaToken[]: Comma[20, 20])
-              (interval: Identifier[20, 21])
+              (Unexpected item[]: Identifier[20, 21])
               (commaToken[]: Comma[21, 22])
               (WhiteSpace[22, 23])
-              (dateTime: Identifier[23, 24])
+              (item[]: Identifier[23, 24])
               (commaToken[]: Comma[24, 25])
               (WhiteSpace[25, 26])
-              (extraItem[]: Identifier[26, 27])
+              (item[]: Identifier[26, 27])
               (commaToken[]: Comma[27, 28])
               (WhiteSpace[28, 29])
-              (extraItem[]: Identifier[29, 30])
+              (item[]: Identifier[29, 30])
               (commaToken[]: Comma[30, 31])
               (WhiteSpace[31, 32])
-              (extraItem[]: Identifier[32, 33])
+              (item[]: Identifier[32, 33])
               (closeParenthesesToken: CloseParentheses[33, 34])
             )
           )
@@ -279,21 +250,21 @@ SELECT TIMESTAMPADD(DAY, b, c, d, e)
 `!
           (expression: TimestampAddFunctionCall[7, 36]
             (functionName: TIMESTAMPADD[7, 19])
-            ({Expected exactly 0 extraItem, found 2} arguments: TimestampAdd_Arguments[19, 36]
+            ({Expected exactly 3 item, found 5} arguments: TimestampAdd_Arguments[19, 36]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (temporalUnit: DAY[20, 23])
+              (item[]: DAY[20, 23])
               (commaToken[]: Comma[23, 24])
               (WhiteSpace[24, 25])
-              (interval: Identifier[25, 26])
+              (item[]: Identifier[25, 26])
               (commaToken[]: Comma[26, 27])
               (WhiteSpace[27, 28])
-              (dateTime: Identifier[28, 29])
+              (item[]: Identifier[28, 29])
               (commaToken[]: Comma[29, 30])
               (WhiteSpace[30, 31])
-              (extraItem[]: Identifier[31, 32])
+              (item[]: Identifier[31, 32])
               (commaToken[]: Comma[32, 33])
               (WhiteSpace[33, 34])
-              (extraItem[]: Identifier[34, 35])
+              (item[]: Identifier[34, 35])
               (closeParenthesesToken: CloseParentheses[35, 36])
             )
           )
@@ -304,22 +275,76 @@ SELECT TIMESTAMPADD(DAY_HOUR, b, c, d, e)
 `!
           (expression: TimestampAddFunctionCall[7, 41]
             (functionName: TIMESTAMPADD[7, 19])
-            ({Expected exactly 0 extraItem, found 2} arguments: TimestampAdd_Arguments[19, 41]
+            ({Expected exactly 3 item, found 5} arguments: TimestampAdd_Arguments[19, 41]
               (openParenthesesToken: OpenParentheses[19, 20])
-              (Expected temporalUnit: DAY[20, 28])
+              (Unexpected item[]: DAY_HOUR[20, 28])
               (commaToken[]: Comma[28, 29])
               (WhiteSpace[29, 30])
-              (interval: Identifier[30, 31])
+              (item[]: Identifier[30, 31])
               (commaToken[]: Comma[31, 32])
               (WhiteSpace[32, 33])
-              (dateTime: Identifier[33, 34])
+              (item[]: Identifier[33, 34])
               (commaToken[]: Comma[34, 35])
               (WhiteSpace[35, 36])
-              (extraItem[]: Identifier[36, 37])
+              (item[]: Identifier[36, 37])
               (commaToken[]: Comma[37, 38])
               (WhiteSpace[38, 39])
-              (extraItem[]: Identifier[39, 40])
+              (item[]: Identifier[39, 40])
               (closeParenthesesToken: CloseParentheses[40, 41])
+            )
+          )
+!`
+-----
+SELECT TIMESTAMPADD(TABLE, b, c, d, e)
+-----
+`!
+          (expression: TimestampAddFunctionCall[7, 38]
+            (functionName: TIMESTAMPADD[7, 19])
+            ({Expected exactly 3 item, found 5} arguments: TimestampAdd_Arguments[19, 38]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Expected item[]: DAY[20, 25])
+              (commaToken[]: Comma[25, 26])
+              (WhiteSpace[26, 27])
+              (item[]: Identifier[27, 28])
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: Identifier[30, 31])
+              (commaToken[]: Comma[31, 32])
+              (WhiteSpace[32, 33])
+              (item[]: Identifier[33, 34])
+              (commaToken[]: Comma[34, 35])
+              (WhiteSpace[35, 36])
+              (item[]: Identifier[36, 37])
+              (closeParenthesesToken: CloseParentheses[37, 38])
+            )
+          )
+!`
+-----
+SELECT TIMESTAMPADD(a1+a2, b, c, d, e)
+-----
+`!
+          (expression: TimestampAddFunctionCall[7, 38]
+            (functionName: TIMESTAMPADD[7, 19])
+            ({Expected exactly 3 item, found 5} arguments: TimestampAdd_Arguments[19, 38]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected item[]: BinaryBitExpression[20, 25]
+                (left: Identifier[20, 22])
+                (operator: Plus[22, 23])
+                (right: Identifier[23, 25])
+              )
+              (commaToken[]: Comma[25, 26])
+              (WhiteSpace[26, 27])
+              (item[]: Identifier[27, 28])
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: Identifier[30, 31])
+              (commaToken[]: Comma[31, 32])
+              (WhiteSpace[32, 33])
+              (item[]: Identifier[33, 34])
+              (commaToken[]: Comma[34, 35])
+              (WhiteSpace[35, 36])
+              (item[]: Identifier[36, 37])
+              (closeParenthesesToken: CloseParentheses[37, 38])
             )
           )
 !`

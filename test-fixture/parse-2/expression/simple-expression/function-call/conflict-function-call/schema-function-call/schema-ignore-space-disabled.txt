@@ -1,0 +1,26 @@
+-- @@ignore_space = false
+SELECT SCHEMA()
+-----
+`!
+          (expression: SchemaFunctionCall[33, 41]
+            (functionName: SCHEMA[33, 39])
+            (arguments: Empty_Arguments[39, 41]
+              (openParenthesesToken: OpenParentheses[39, 40])
+              (closeParenthesesToken: CloseParentheses[40, 41])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT SCHEMA ()
+-----
+`!
+          (expression: SchemaFunctionCall[33, 42]
+            (functionName: SCHEMA[33, 39])
+            (WhiteSpace[39, 40])
+            (arguments: Empty_Arguments[40, 42]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`

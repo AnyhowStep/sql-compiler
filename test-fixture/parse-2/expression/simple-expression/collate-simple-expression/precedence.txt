@@ -1,0 +1,334 @@
+SELECT @a := b COLLATE c
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 24]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: CollateSimpleExpression[13, 24]
+!`
+-----
+SELECT a OR b COLLATE c
+-----
+`!
+          (expression: BinaryExpression[7, 23]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: OR[9, 11])
+            (WhiteSpace[11, 12])
+            (right: CollateSimpleExpression[12, 23]
+!`
+-----
+SELECT a XOR b COLLATE c
+-----
+`!
+          (expression: BinaryExpression[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: XOR[9, 12])
+            (WhiteSpace[12, 13])
+            (right: CollateSimpleExpression[13, 24]
+!`
+-----
+SELECT a AND b COLLATE c
+-----
+`!
+          (expression: BinaryExpression[7, 24]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: AND[9, 12])
+            (WhiteSpace[12, 13])
+            (right: CollateSimpleExpression[13, 24]
+!`
+-----
+SELECT NOT a COLLATE c
+-----
+`!
+          (expression: NotExpression[7, 22]
+            (notToken: NOT[7, 10])
+            (WhiteSpace[10, 11])
+            (expression: CollateSimpleExpression[11, 22]
+!`
+-----
+SELECT a BETWEEN b AND c COLLATE c
+-----
+`!
+          (expression: BetweenPredicate[7, 34]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (betweenToken: BETWEEN[9, 16])
+            (WhiteSpace[16, 17])
+            (middle: Identifier[17, 18])
+            (WhiteSpace[18, 19])
+            (andToken: AND[19, 22])
+            (WhiteSpace[22, 23])
+            (right: CollateSimpleExpression[23, 34]
+!`
+-----
+SELECT a = b COLLATE c
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (right: CollateSimpleExpression[11, 22]
+!`
+-----
+SELECT a = ANY (SELECT b) COLLATE c
+-----
+`!
+        (WhiteSpace[25, 26])
+        (Expected commaToken[]: Comma[26, 33])
+        (WhiteSpace[33, 34])
+        (item[]: ExpressionSelectItem[34, 35]
+          (expression: Identifier[34, 35])
+        )
+!`
+-----
+SELECT a IS NULL COLLATE c
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: IsNullBooleanPrimaryExpression[7, 16]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (nullToken: NULL[12, 16])
+          )
+        )
+        (WhiteSpace[16, 17])
+        (Expected commaToken[]: Comma[17, 24])
+        (WhiteSpace[24, 25])
+        (item[]: ExpressionSelectItem[25, 26]
+          (expression: Identifier[25, 26])
+        )
+!`
+-----
+SELECT a IS UNKNOWN COLLATE c
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 19]
+          (expression: IsExpression[7, 19]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (isToken: IS[9, 11])
+            (WhiteSpace[11, 12])
+            (right: UNKNOWN[12, 19])
+          )
+        )
+        (WhiteSpace[19, 20])
+        (Expected commaToken[]: Comma[20, 27])
+        (WhiteSpace[27, 28])
+        (item[]: ExpressionSelectItem[28, 29]
+          (expression: Identifier[28, 29])
+        )
+!`
+-----
+SELECT a LIKE b COLLATE c
+-----
+`!
+          (expression: LikePredicate[7, 25]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (likeToken: LIKE[9, 13])
+            (WhiteSpace[13, 14])
+            (right: CollateSimpleExpression[14, 25]
+!`
+-----
+SELECT a SOUNDS LIKE b COLLATE c
+-----
+`!
+          (expression: SoundsLikePredicate[7, 32]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (soundsToken: SOUNDS[9, 15])
+            (WhiteSpace[15, 16])
+            (likeToken: LIKE[16, 20])
+            (WhiteSpace[20, 21])
+            (right: CollateSimpleExpression[21, 32]
+!`
+-----
+SELECT a REGEXP b COLLATE c
+-----
+`!
+          (expression: RegExpPredicate[7, 27]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (regexpToken: REGEXP[9, 15])
+            (WhiteSpace[15, 16])
+            (right: CollateSimpleExpression[16, 27]
+!`
+-----
+SELECT a IN (SELECT b) COLLATE c
+-----
+`!
+        (WhiteSpace[22, 23])
+        (Expected commaToken[]: Comma[23, 30])
+        (WhiteSpace[30, 31])
+        (item[]: ExpressionSelectItem[31, 32]
+          (expression: Identifier[31, 32])
+        )
+!`
+-----
+SELECT a IN (b) COLLATE c
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: InExpressionTuple1Predicate[7, 15]
+            (expression: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (inToken: IN[9, 11])
+            (WhiteSpace[11, 12])
+            (expressionTuple1: ExpressionTuple1[12, 15]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: Identifier[13, 14])
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+        )
+        (WhiteSpace[15, 16])
+        (Expected commaToken[]: Comma[16, 23])
+        (WhiteSpace[23, 24])
+        (item[]: ExpressionSelectItem[24, 25]
+          (expression: Identifier[24, 25])
+        )
+!`
+-----
+SELECT a | b COLLATE c
+-----
+`!
+          (expression: BinaryBitExpression[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Bar[9, 10])
+            (WhiteSpace[10, 11])
+            (right: CollateSimpleExpression[11, 22]
+!`
+-----
+SELECT a & b COLLATE c
+-----
+`!
+          (expression: BinaryBitExpression[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Ampersand[9, 10])
+            (WhiteSpace[10, 11])
+            (right: CollateSimpleExpression[11, 22]
+!`
+-----
+SELECT a << b COLLATE c
+-----
+`!
+          (expression: BinaryBitExpression[7, 23]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: LessLess[9, 11])
+            (WhiteSpace[11, 12])
+            (right: CollateSimpleExpression[12, 23]
+!`
+-----
+SELECT a + b COLLATE c
+-----
+`!
+          (expression: BinaryBitExpression[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Plus[9, 10])
+            (WhiteSpace[10, 11])
+            (right: CollateSimpleExpression[11, 22]
+!`
+-----
+SELECT a * b COLLATE c
+-----
+`!
+          (expression: BinaryBitExpression[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Asterisk[9, 10])
+            (WhiteSpace[10, 11])
+            (right: CollateSimpleExpression[11, 22]
+!`
+-----
+SELECT a ^ b COLLATE c
+-----
+`!
+          (expression: BinaryBitExpression[7, 22]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Caret[9, 10])
+            (WhiteSpace[10, 11])
+            (right: CollateSimpleExpression[11, 22]
+!`
+-----
+SELECT - a COLLATE c
+-----
+`!
+          (expression: PrefixSimpleExpression[7, 20]
+            (operator: Minus[7, 8])
+            (WhiteSpace[8, 9])
+            (expression: CollateSimpleExpression[9, 20]
+!`
+-----
+SELECT ! a COLLATE c
+-----
+`!
+          (expression: Not2SimpleExpression[7, 20]
+            (exclamationToken: Exclamation[7, 8])
+            (WhiteSpace[8, 9])
+            (expression: CollateSimpleExpression[9, 20]
+!`
+-----
+SELECT BINARY a COLLATE c
+-----
+`!
+          (expression: PrefixSimpleExpression[7, 25]
+            (operator: BINARY[7, 13])
+            (WhiteSpace[13, 14])
+            (expression: CollateSimpleExpression[14, 25]
+!`
+-----
+SELECT a COLLATE utf8mb4_unicode_ci COLLATE c
+-----
+`!
+          (expression: CollateSimpleExpression[7, 45]
+            (expression: CollateSimpleExpression[7, 35]
+              (expression: Identifier[7, 8])
+              (WhiteSpace[8, 9])
+              (collateToken: COLLATE[9, 16])
+              (WhiteSpace[16, 17])
+              (collation: Identifier[17, 35])
+            )
+            (WhiteSpace[35, 36])
+            (collateToken: COLLATE[36, 43])
+            (WhiteSpace[43, 44])
+            (collation: Identifier[44, 45])
+          )
+!`
+-----
+SELECT INTERVAL a DAY + b COLLATE c
+-----
+`!
+          (expression: IntervalExpressionPlus[7, 35]
+            (left: IntervalExpression[7, 21]
+              (intervalToken: INTERVAL[7, 15])
+              (WhiteSpace[15, 16])
+              (expression: Identifier[16, 17])
+              (WhiteSpace[17, 18])
+              (temporalUnit: DAY[18, 21])
+            )
+            (WhiteSpace[21, 22])
+            (operator: Plus[22, 23])
+            (WhiteSpace[23, 24])
+            (right: CollateSimpleExpression[24, 35]
+!`

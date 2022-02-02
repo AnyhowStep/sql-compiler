@@ -1,0 +1,7 @@
+SELECT COLLATION
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: COLLATION[7, 16])
+        )
+!`

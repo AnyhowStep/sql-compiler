@@ -1,4 +1,4 @@
-import {choice, field, precedence, repeat1, seq, tokenSymbol, tokenSymbol2} from "../../grammar-builder";
+import {choice, consumeUnexpected, field, precedence, repeat1, seq, tokenSymbol, tokenSymbol2} from "../../grammar-builder";
 import {Precedence} from "../precedence";
 import {stringLiteral} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
@@ -55,10 +55,15 @@ export const ConcatenatedTextLiteral = precedence(Precedence.ConcatenatedTextLit
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12910
  */
-export const NumberLiteral = choice(
-    TokenKind.IntegerLiteral,
-    TokenKind.RealLiteral,
-    TokenKind.DecimalLiteral,
+export const NumberLiteral = consumeUnexpected(
+    tokenSymbol(
+        TokenKind.IntegerLiteral,
+        TokenKind.RealLiteral,
+        TokenKind.DecimalLiteral,
+    ),
+    [
+        TokenKind.MalformedRealLiteral
+    ]
 );
 
 /**

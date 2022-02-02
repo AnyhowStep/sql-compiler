@@ -1,0 +1,141 @@
+SELECT @x := y
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 14]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: Identifier[13, 14])
+          )
+!`
+-----
+SELECT @ := y
+-- ERROR 3061 (42000): User variable name '' is illegal
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 13]
+            (userVariableIdentifier: UserVariableIdentifier[7, 8]
+              (atToken: At[7, 8])
+              (Expected identifier: Identifier[8, 8])
+            )
+            (WhiteSpace[8, 9])
+            (colonEqual: ColonEqual[9, 11]
+              (colonToken: Colon[9, 10])
+              (equalToken: Equal[10, 11])
+            )
+            (WhiteSpace[11, 12])
+            (expression: Identifier[12, 13])
+          )
+!`
+-----
+SELECT @x : = y
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 15]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 13]
+              (colonToken: Colon[10, 11])
+              (Unexpected WhiteSpace[11, 12])
+              (equalToken: Equal[12, 13])
+            )
+            (WhiteSpace[13, 14])
+            (expression: Identifier[14, 15])
+          )
+!`
+-----
+SELECT @ : = y
+-- ERROR 3061 (42000): User variable name '' is illegal
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 14]
+            (userVariableIdentifier: UserVariableIdentifier[7, 8]
+              (atToken: At[7, 8])
+              (Expected identifier: Identifier[8, 8])
+            )
+            (WhiteSpace[8, 9])
+            (colonEqual: ColonEqual[9, 12]
+              (colonToken: Colon[9, 10])
+              (Unexpected WhiteSpace[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: Identifier[13, 14])
+          )
+!`
+-----
+SELECT @x : y
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 13]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 11]
+              (colonToken: Colon[10, 11])
+              (Expected equalToken: Equal[11, 11])
+            )
+            (WhiteSpace[11, 12])
+            (expression: Identifier[12, 13])
+          )
+!`
+-----
+SELECT @ : y
+-- ERROR 3061 (42000): User variable name '' is illegal
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 12]
+            (userVariableIdentifier: UserVariableIdentifier[7, 8]
+              (atToken: At[7, 8])
+              (Expected identifier: Identifier[8, 8])
+            )
+            (WhiteSpace[8, 9])
+            (colonEqual: ColonEqual[9, 10]
+              (colonToken: Colon[9, 10])
+              (Expected equalToken: Equal[10, 10])
+            )
+            (WhiteSpace[10, 11])
+            (expression: Identifier[11, 12])
+          )
+!`
+-----
+SELECT @x = y
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 13]
+            (left: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (operator: Equal[10, 11])
+            (WhiteSpace[11, 12])
+            (right: Identifier[12, 13])
+          )
+!`
+-----
+SELECT @ = y
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 12]
+            (left: UserVariableIdentifier[7, 8]
+              (atToken: At[7, 8])
+            )
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (right: Identifier[11, 12])
+          )
+!`

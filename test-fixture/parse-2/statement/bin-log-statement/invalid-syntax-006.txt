@@ -1,0 +1,13 @@
+BINLOG."test"
+
+-----
+(SourceFile[0, 14]
+  (statement[]: TrailingStatement[0, 13]
+    (statement: BinLogStatement[0, 13]
+      (binLogToken: BINLOG[0, 6])
+      (Unexpected Dot[6, 7])
+      (str: DoubleQuotedLiteral[7, 13])
+    )
+  )
+  (LineBreak[13, 14])
+)

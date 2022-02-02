@@ -1,0 +1,7 @@
+SELECT TRUNCATE
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: TRUNCATE[7, 15])
+        )
+!`

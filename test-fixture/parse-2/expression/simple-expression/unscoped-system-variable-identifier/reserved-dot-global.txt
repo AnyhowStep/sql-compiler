@@ -1,0 +1,25 @@
+SELECT @@SELECT.GLOBAL
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 22]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: SELECT[9, 15])
+            (dotToken: Dot[15, 16])
+            (componentName: GLOBAL[16, 22])
+          )
+!`
+-----
+SELECT @@SELECT . GLOBAL
+-----
+`!
+          (expression: UnscopedSystemVariableIdentifier[7, 24]
+            (atToken[]: At[7, 8])
+            (atToken[]: At[8, 9])
+            (Unexpected instanceName: SELECT[9, 15])
+            (WhiteSpace[15, 16])
+            (dotToken: Dot[16, 17])
+            (WhiteSpace[17, 18])
+            (componentName: GLOBAL[18, 24])
+          )
+!`

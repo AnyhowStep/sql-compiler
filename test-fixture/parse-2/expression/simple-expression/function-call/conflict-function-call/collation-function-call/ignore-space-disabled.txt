@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT COLLATION(a)
+-----
+`!
+          (expression: CollationFunctionCall[33, 45]
+            (functionName: COLLATION[33, 42])
+            (arguments: Expression1_Arguments[42, 45]
+              (openParenthesesToken: OpenParentheses[42, 43])
+              (item[]: Identifier[43, 44])
+              (closeParenthesesToken: CloseParentheses[44, 45])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT COLLATION (a)
+-----
+`!
+          (expression: CollationFunctionCall[33, 46]
+            (functionName: COLLATION[33, 42])
+            (WhiteSpace[42, 43])
+            (arguments: Expression1_Arguments[43, 46]
+              (openParenthesesToken: OpenParentheses[43, 44])
+              (item[]: Identifier[44, 45])
+              (closeParenthesesToken: CloseParentheses[45, 46])
+            )
+          )
+!`

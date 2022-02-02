@@ -5,10 +5,10 @@
  * + Tuple    = parenthesized list
  */
 
-import {cannotExpect, choice, disallowedSyntaxKinds, field, getTokenKinds, greedySkipExpectation, optional, repeat, repeat1, Rule, seq, skipExpectationAfterExtraCost, skipExpectationCost, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
+import {cannotExpect, choice, consumeUnexpected, disallowedSyntaxKinds, field, getTokenKinds, greedySkipExpectation, optional, repeat, repeat1, repeatNoSkipIfAllError, Rule, seq, skipExpectationAfterExtraCost, skipExpectationCost, tokenSymbol, tokenSymbol2, useCustomExtra} from "../grammar-builder";
 import {CustomExtras} from "./custom-extras";
 import {SyntaxKind} from "./syntax-kind.generated";
-import {reservedKeywords, TokenKind} from "./token.generated";
+import {extras, reservedKeywords, TokenKind} from "./token.generated";
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13394
@@ -568,21 +568,27 @@ export const identifierOrStringLiteral = tokenSymbol2(
     TokenKind.StringLiteral,
 );
 
-export const identifierOrReservedOrStringLiteral = tokenSymbol2(
+export const identifierOrReservedOrStringLiteralOrHostname = tokenSymbol2(
     identifier,
     TokenKind.UnderscoreCharacterSet,
     ...reservedKeywords,
     TokenKind.StringLiteral,
+    TokenKind.Hostname,
 );
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10984
  */
-export const ulong_num = tokenSymbol(
-    TokenKind.IntegerLiteral,
-    TokenKind.HexLiteral,
-    TokenKind.DecimalLiteral,
-    TokenKind.RealLiteral,
+export const ulong_num = consumeUnexpected(
+    tokenSymbol(
+        TokenKind.IntegerLiteral,
+        TokenKind.HexLiteral,
+        TokenKind.DecimalLiteral,
+        TokenKind.RealLiteral,
+    ),
+    [
+        TokenKind.MalformedRealLiteral,
+    ]
 );
 
 /**
@@ -596,10 +602,15 @@ export const real_ulong_num = tokenSymbol(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L11001
  */
-export const ulonglong_num = tokenSymbol(
-    TokenKind.IntegerLiteral,
-    TokenKind.DecimalLiteral,
-    TokenKind.RealLiteral,
+export const ulonglong_num = consumeUnexpected(
+    tokenSymbol(
+        TokenKind.IntegerLiteral,
+        TokenKind.DecimalLiteral,
+        TokenKind.RealLiteral,
+    ),
+    [
+        TokenKind.MalformedRealLiteral
+    ]
 );
 
 /**
@@ -701,13 +712,97 @@ export function dotIdentOrReserved (
         seq(
             field("dotToken", cannotExpect(TokenKind.Dot)),
             //whitespace and linebreak allowed between dot and non-reserved tokens
-            field(identifierName, SyntaxKind.Ident),
+            field(identifierName, consumeUnexpected(
+                identifier,
+                [
+                    TokenKind.StringLiteral,
+                    TokenKind.DoubleQuotedLiteral,
+                ]
+            )),
         ),
         useCustomExtra(
             CustomExtras.noExtras,
             seq(
                 field("dotToken", cannotExpect(TokenKind.Dot)),
                 //No whitespace and linebreak allowed between dot and reserved tokens
+                field(identifierName, reserved),
+            )
+        ),
+    );
+}
+
+//https://github.com/mysql/mysql-server/blob/beb865a960b9a8a16cf999c323e46c5b0c67f21f/sql/parse_tree_items.cc#L565
+//https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/item_func.cc#L155
+//disallow "SELECT @@global.global.variable"
+export function dotIdentOrReservedScopedSystemVariable (
+    identifierName : string
+) {
+    return choice(
+        useCustomExtra(
+            "",
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //whitespace and linebreak allowed between dot and non-reserved tokens
+                    repeat(tokenSymbol(extras[0], ...extras.slice(1))),
+                field(identifierName, greedySkipExpectation(consumeUnexpected(
+                    identifier,
+                    [
+                        TokenKind.GLOBAL,
+                        TokenKind.LOCAL,
+                        TokenKind.SESSION,
+                        TokenKind.StringLiteral,
+                        TokenKind.DoubleQuotedLiteral,
+                    ],
+                    .5
+                ))),
+            )
+        ),
+        useCustomExtra(
+            "",
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //No whitespace and linebreak allowed between dot and reserved tokens
+                repeatNoSkipIfAllError(consumeUnexpected(
+                    tokenSymbol(extras[0], ...extras.slice(1)),
+                    extras,
+                    .25
+                )),
+                field(identifierName, reserved),
+            )
+        ),
+    );
+}
+
+export function dotIdentOrReservedNoSkipErrors (
+    identifierName : string
+) {
+    return choice(
+        useCustomExtra(
+            "",
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //whitespace and linebreak allowed between dot and non-reserved tokens
+                repeat(tokenSymbol(extras[0], ...extras.slice(1))),
+                field(identifierName, greedySkipExpectation(consumeUnexpected(
+                    identifier,
+                    [
+                        TokenKind.StringLiteral,
+                        TokenKind.DoubleQuotedLiteral,
+                    ],
+                    .5
+                ))),
+            )
+        ),
+        useCustomExtra(
+            "",
+            seq(
+                field("dotToken", cannotExpect(TokenKind.Dot)),
+                //No whitespace and linebreak allowed between dot and reserved tokens
+                repeatNoSkipIfAllError(consumeUnexpected(
+                    tokenSymbol(extras[0], ...extras.slice(1)),
+                    extras,
+                    .25
+                )),
                 field(identifierName, reserved),
             )
         ),

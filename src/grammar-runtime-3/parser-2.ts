@@ -362,6 +362,14 @@ function allowed (
     return true;
 }
 
+function getExpectedTokenKind (allowedSyntaxKinds : string[] | undefined) : string|undefined {
+    if (allowedSyntaxKinds == undefined || allowedSyntaxKinds.length == 0) {
+        return undefined;
+    } else {
+        return allowedSyntaxKinds[0];
+    }
+}
+
 export function inlineChild (
     grammar : MyGrammar,
     parent : MySyntaxNode,
@@ -383,13 +391,24 @@ export function inlineChild (
                     //We don't include them as part of errors.
                     return c;
                 }
+
                 if (c.errorKind != undefined) {
+                    if (c.errorKind == "Expected") {
+                        const expectedTokenKind = getExpectedTokenKind(allowedSyntaxKinds);
+                        if (expectedTokenKind != undefined) {
+                            return {
+                                ...c,
+                                tokenKind : expectedTokenKind,
+                            };
+                        }
+                    }
                     return c;
                 }
                 return {
                     ...c,
                     errorKind : "Unexpected",
-                    expectedTokenKind : undefined,
+                    expectedTokenKind : getExpectedTokenKind(allowedSyntaxKinds),
+                    canInline : true,
                 };
             } else {
                 if (allowed(c.syntaxKind, allowedSyntaxKinds, disallowedSyntaxKinds)) {
@@ -439,7 +458,7 @@ export function inlineChild (
                  * @todo make this less hacky
                  */
                 if (item.errorKind == "Unexpected") {
-                    if (item.expectedTokenKind == undefined) {
+                    if (item.expectedTokenKind == undefined || item.canInline === true) {
                         return true;
                     } else {
                         return false;
@@ -449,7 +468,9 @@ export function inlineChild (
             });
             if (tmp.length == 0) {
                 if (field.quantity.required) {
-                    throw new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${childChildren.length}/${tmp.length} children; but field is required`);
+                    const err = new Error(`${parent.syntaxKind} inlining ${childLabel}:${child.syntaxKind} with ${childChildren.length}/${tmp.length} children; but field is required`);
+                    err.name = "MissingRequiredFieldError";
+                    throw err;
                 } else {
                     newFields[childLabel] = undefined;
                 }
@@ -818,11 +839,7 @@ export function scan (
     }
 
     const accepts = acceptsToken(expect, token);
-    const consumesUnexpected = (
-        accepts ?
-        false :
-        consumesUnexpectedToken(expect, token)
-    );
+    const consumesUnexpected = consumesUnexpectedToken(expect, token);
 
     if (!accepts && !consumesUnexpected) {
         return;
@@ -833,6 +850,7 @@ export function scan (
             ...token,
             errorKind : "Unexpected",
             expectedTokenKind : expect.tokenKind,
+            canInline : true,
         };
     }
 
@@ -851,7 +869,7 @@ export function scan (
         }),
         errorCount : (
             consumesUnexpected ?
-            state.errorCount + 1 :
+            state.errorCount + (expect.consumeUnexpectedCost ?? 1) :
             state.errorCount
         ),
 
@@ -879,7 +897,7 @@ function isAllError (state : Pick<MyState["data"], "children">) : boolean {
              *
              * @todo make this less hacky
              */
-            if (child.errorKind == "Unexpected" && child.expectedTokenKind == undefined) {
+            if (child.errorKind == "Unexpected" && (child.expectedTokenKind == undefined || child.canInline === true)) {
                 return false;
             }
         } else {
@@ -954,6 +972,10 @@ export function complete3 (
     const firstToken = tryGetFirstToken(stateData);
 
     let errorCount = other.errorCount + state.errorCount;
+
+    if (/\$optional\$\d+$/.test(state.rule.name) && state.data.children.length == 0 && state.rule.omitCost != undefined) {
+        errorCount += state.rule.omitCost;
+    }
 
     const lastChild = other.data.children[other.data.children.length-1];
     if (
@@ -1049,8 +1071,7 @@ export function complete3 (
 
                 return nextState;
             } catch (err) {
-                const message : string = String(err.message);
-                if (!message.includes("children; but field is required")) {
+                if (err.name != "MissingRequiredFieldError") {
                     throw err;
                 }
             }
@@ -1278,6 +1299,10 @@ export function complete2 (
 
     let errorCount = other.errorCount + state.errorCount;
 
+    if (/\$optional\$\d+$/.test(state.rule.name) && state.data.children.length == 0 && state.rule.omitCost != undefined) {
+        errorCount += state.rule.omitCost;
+    }
+
     const lastChild = other.data.children[other.data.children.length-1];
     if (
         lastChild != undefined &&
@@ -1392,30 +1417,35 @@ export function complete2 (
                 return;
             }
 
+            try {
+                const newNextData = (
+                    shouldInline ?
+                    inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) :
+                    pushChild(grammar, newOtherData, newStateData)
+                );
 
-            const newNextData = (
-                shouldInline ?
-                inlineChild(grammar, newOtherData, newStateData, state.rule.allowedSyntaxKinds, state.rule.disallowedSyntaxKinds) :
-                pushChild(grammar, newOtherData, newStateData)
-            );
+                const nextState : MyState = {
+                    rule : other.rule,
+                    dot : other.dot+1,
+                    tokenIndex : state.tokenIndex,
+                    startTokenIndex : other.startTokenIndex,
 
-            const nextState : MyState = {
-                rule : other.rule,
-                dot : other.dot+1,
-                tokenIndex : state.tokenIndex,
-                startTokenIndex : other.startTokenIndex,
+                    data : newNextData,
+                    errorCount,
 
-                data : newNextData,
-                errorCount,
+                    ident : nextIdent,
 
-                ident : nextIdent,
+                    pushEdge : new Map<MyState, MyState[]>([[other, [state]]]),
+                };
 
-                pushEdge : new Map<MyState, MyState[]>([[other, [state]]]),
-            };
-
-            ++addStateComplete2;
-            addState(nextState);
-            return;
+                ++addStateComplete2;
+                addState(nextState);
+                return;
+            } catch (err) {
+                if (err.name != "MissingRequiredFieldError") {
+                    throw err;
+                }
+            }
         }
     }
 
@@ -1697,7 +1727,7 @@ function cmpPrecedence (
         if (aPrec != bPrec) {
             if (
                 aFirst.children
-                    .some(c => "syntaxKind" in c && c.syntaxKind == bFirst.syntaxKind) ||
+                    .some(c => "syntaxKind" in c && c.syntaxKind == bFirst.syntaxKind) &&
                 bFirst.children
                     .some(c => "syntaxKind" in c && c.syntaxKind == aFirst.syntaxKind)
             ) {
@@ -1761,6 +1791,14 @@ function blah (
         return [state];
     }
 
+    if (state.rule.omitCost != undefined) {
+        console.log("test2");
+    }
+
+    if (state.rule.name == "Alias") {
+        console.log("test3");
+    }
+
     const result : MyState[] = [];
 
     const nextSet = new Set([...closed, state]);
@@ -1785,6 +1823,9 @@ function blah (
                 if (lastChild.errorKind == "Expected" && !(expect instanceof Object && "tokenKind" in expect)) {
                     throw new Error(JSON.stringify(other));
                 }
+                if (lastChild.errorKind == "Unexpected") {
+                    // console.log("wtf", lastChild, expect);
+                }
                 const nextState : MyState = {
                     rule : other.rule,
                     dot : other.dot+1,
@@ -1803,6 +1844,8 @@ function blah (
                             0 :
                             (lastChild.errorKind == "Expected" && expect instanceof Object && "skipExpectationCost" in expect) ?
                             (expect.skipExpectationCost ?? 1) :
+                            (lastChild.errorKind == "Unexpected" && expect instanceof Object && "consumeUnexpectedCost" in expect) ?
+                            (expect.consumeUnexpectedCost ?? 1) :
                             1
                         )
                     ),
@@ -1904,6 +1947,7 @@ export function getResults (
     const result = arr
         .filter(state => state.errorCount == minErrorCount);
         //.map(state => state.data);
+    // console.log("minErrorCount", minErrorCount);
     return result;
 }
 
@@ -2345,6 +2389,7 @@ export function skipUnexpected (
                             errorKind : "Unexpected",
                             text : skippedToken.text,
                             expectedTokenKind : expect.tokenKind,
+                            canInline : false,
                             tokenIndex : state.tokenIndex,
                         }
                     ),
@@ -2377,6 +2422,7 @@ export function skipUnexpected (
                     errorKind : "Unexpected",
                     text : skippedToken.text,
                     expectedTokenKind : expect.tokenKind,
+                    canInline : false,
                     tokenIndex : state.tokenIndex,
                 }
             ),

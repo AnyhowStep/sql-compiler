@@ -1,0 +1,59 @@
+SELECT MBRCONTAINS()
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 20]
+            (functionName: Identifier[7, 18])
+            (arguments: UserDefinedExpressionList_Arguments[18, 20]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT MBRCONTAINS(a)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 21]
+            (functionName: Identifier[7, 18])
+            (arguments: UserDefinedExpressionList_Arguments[18, 21]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT MBRCONTAINS(a, b)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 24]
+            (functionName: Identifier[7, 18])
+            (arguments: UserDefinedExpressionList_Arguments[18, 24]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT MBRCONTAINS(a, b, c)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[7, 27]
+            (functionName: Identifier[7, 18])
+            (arguments: UserDefinedExpressionList_Arguments[18, 27]
+              (openParenthesesToken: OpenParentheses[18, 19])
+              (item[]: Identifier[19, 20])
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 23])
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Identifier[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`

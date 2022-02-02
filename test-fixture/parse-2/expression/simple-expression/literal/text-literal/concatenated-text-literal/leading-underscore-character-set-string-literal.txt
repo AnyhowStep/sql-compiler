@@ -1,0 +1,15 @@
+SELECT _latin1 'a' 'b' 'c'
+-----
+`!
+          (expression: ConcatenatedTextLiteral[7, 26]
+            (item[]: UnderscoreCharacterSetStringLiteral[7, 18]
+              (underscoreCharacterSetToken: UnderscoreCharacterSet[7, 14])
+              (WhiteSpace[14, 15])
+              (stringLiteralToken: StringLiteral[15, 18])
+            )
+            (WhiteSpace[18, 19])
+            (item[]: StringLiteral[19, 22])
+            (WhiteSpace[22, 23])
+            (item[]: StringLiteral[23, 26])
+          )
+!`

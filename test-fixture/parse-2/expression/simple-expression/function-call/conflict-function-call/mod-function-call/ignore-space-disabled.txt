@@ -1,0 +1,34 @@
+-- @@ignore_space = false
+SELECT MOD(a, b)
+-----
+`!
+          (expression: ModFunctionCall[33, 42]
+            (functionName: MOD[33, 36])
+            (arguments: Expression2_Arguments[36, 42]
+              (openParenthesesToken: OpenParentheses[36, 37])
+              (item[]: Identifier[37, 38])
+              (commaToken[]: Comma[38, 39])
+              (WhiteSpace[39, 40])
+              (item[]: Identifier[40, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT MOD (a, b)
+-----
+`!
+          (expression: ModFunctionCall[33, 43]
+            (functionName: MOD[33, 36])
+            (WhiteSpace[36, 37])
+            (arguments: Expression2_Arguments[37, 43]
+              (openParenthesesToken: OpenParentheses[37, 38])
+              (item[]: Identifier[38, 39])
+              (commaToken[]: Comma[39, 40])
+              (WhiteSpace[40, 41])
+              (item[]: Identifier[41, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`

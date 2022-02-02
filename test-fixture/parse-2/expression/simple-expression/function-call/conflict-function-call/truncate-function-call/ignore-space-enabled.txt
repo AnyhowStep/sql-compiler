@@ -1,0 +1,32 @@
+SELECT TRUNCATE(a, b)
+-----
+`!
+          (expression: TruncateFunctionCall[7, 21]
+            (functionName: TRUNCATE[7, 15])
+            (arguments: Expression2_Arguments[15, 21]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (item[]: Identifier[16, 17])
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: Identifier[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT TRUNCATE (a, b)
+-----
+`!
+          (expression: TruncateFunctionCall[7, 22]
+            (functionName: TRUNCATE[7, 15])
+            (WhiteSpace[15, 16])
+            (arguments: Expression2_Arguments[16, 22]
+              (openParenthesesToken: OpenParentheses[16, 17])
+              (item[]: Identifier[17, 18])
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: Identifier[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`

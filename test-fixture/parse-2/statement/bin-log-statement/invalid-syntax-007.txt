@@ -1,0 +1,20 @@
+BINLOG.ATESTA
+
+-----
+(SourceFile[0, 14]
+  (statement[]: TrailingStatement[0, 13]
+    (statement: Select[0, 13]
+      (Expected selectToken: SELECT[0, 0])
+      (selectItemList1: SelectItemList1[0, 13]
+        (item[]: ExpressionSelectItem[0, 13]
+          (expression: ColumnIdentifierSimpleExpression[0, 13]
+            (tableName: Identifier[0, 6])
+            (dotToken[]: Dot[6, 7])
+            (columnName: Identifier[7, 13])
+          )
+        )
+      )
+    )
+  )
+  (LineBreak[13, 14])
+)

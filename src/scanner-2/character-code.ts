@@ -177,6 +177,36 @@ export function isDigit (ch : number) {
     return (ch >= CharacterCodes._0 && ch <= CharacterCodes._9);
 }
 
+export function isAlphanumeric (ch : number) {
+    if (isDigit(ch)) {
+        return true;
+    }
+    if (ch >= CharacterCodes.a && ch <= CharacterCodes.z) {
+        return true;
+    }
+
+    if (ch >= CharacterCodes.A && ch <= CharacterCodes.Z) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/sql_lex.cc#L1982-L1985
+ */
+export function isHostnameCharacter (ch : number) {
+    if (isAlphanumeric(ch)) {
+        return true;
+    }
+
+    return (
+        ch == CharacterCodes.dot ||
+        ch == CharacterCodes._ ||
+        ch == CharacterCodes.$
+    );
+}
+
 export function isLineBreak(ch: number): boolean {
     return (
         ch === CharacterCodes.lineFeed ||

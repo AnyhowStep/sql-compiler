@@ -1,7 +1,7 @@
-import {CharacterCodes, isDigit, isLineBreak, isUnquotedIdentifierCharacter} from "./character-code";
+import {CharacterCodes, isDigit, isHostnameCharacter, isLineBreak, isUnquotedIdentifierCharacter} from "./character-code";
 import {LexerState, scan} from "./scan-all";
 import {Extras, FunctionKeyword, NonReservedKeyword, ReservedKeyword, TokenKind} from "./token.generated";
-
+declare const console : any;
 /**
  * If it does not encounter a closing quote,
  * it will assume the position just before
@@ -456,8 +456,15 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
                 state.index = tmp.index;
                 return TokenKind.RealLiteral;
             } else {
-                state.index = tmp.index;
-                return TokenKind.DecimalLiteral;
+                const chE = tmp.peek(0);
+                if (chE == CharacterCodes.e || chE == CharacterCodes.E) {
+                    tmp.advance();
+                    state.index = tmp.index;
+                    return TokenKind.MalformedRealLiteral;
+                } else {
+                    state.index = tmp.index;
+                    return TokenKind.DecimalLiteral;
+                }
             }
         } else {
             /**
@@ -499,10 +506,10 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
         }
     }
 
-    const memoized = state.memoizedTokenKind.get(tmp.index);
+    const memoized = state.memoizedTokens.get(state.index);
     if (memoized != undefined) {
         state.index = tmp.index;
-        return memoized;
+        return memoized.tokenKind;
     }
 
     /**
@@ -512,8 +519,8 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
      */
     const peeked = (
         state.settings.ignoreSpace ?
-        peekTokenAfterExtras(tmp) :
-        peekToken(tmp)
+        peekTokenAfterExtras(tmp, undefined) :
+        peekToken(tmp, undefined)
     );
 
     if (peeked == TokenKind.OpenParentheses) {
@@ -524,8 +531,11 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
          *
          * We check `sql_keywords_and_funcs` for keywords.
          */
+        state.memoizedTokens.set(state.index, {
+            tokenKind : keywordTokenKind,
+            end : tmp.index,
+        });
         state.index = tmp.index;
-        state.memoizedTokenKind.set(state.index, keywordTokenKind);
         return keywordTokenKind;
     } else {
         /**
@@ -539,12 +549,56 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
             /**
              * We treat this as just an identifier.
              */
+            console.log("keywordTokenKind", keywordTokenKind);
+            state.memoizedTokens.set(state.index, {
+                tokenKind : TokenKind.Identifier,
+                end : tmp.index,
+            });
             state.index = tmp.index;
-            state.memoizedTokenKind.set(state.index, TokenKind.Identifier);
             return TokenKind.Identifier;
         } else {
+            const [peekedA, peekedB] = peekToken2(tmp, undefined);
+            console.log("peekedA, peekedB", peekedA, peekedB);
+            if (
+                peekedA == TokenKind.Dot &&
+                !Object.prototype.hasOwnProperty.call(Extras, peekedB) &&
+                peekedB != TokenKind.StringLiteral &&
+                peekedB != TokenKind.DoubleQuotedLiteral
+            ) {
+                console.log("state.lastNonExtraTokenKind", state.lastNonExtraTokenKind, state);
+                if (state.lastNonExtraTokenKind == TokenKind.At) {
+                    /**
+                     * The previous token is an `@`.
+                     * So, we have `@SELECT`, or `@GLOBAL`.
+                     * This is not an identifier.
+                     *
+                     * As a special case, we might also have `@ SELECT`, or `@ GLOBAL`
+                     */
+                    console.log("a", state.index, keywordTokenKind);
+                    state.memoizedTokens.set(state.index, {
+                        tokenKind : keywordTokenKind,
+                        end : tmp.index,
+                    });
+                    state.index = tmp.index;
+                    return keywordTokenKind;
+                } else {
+                    /**
+                     * We treat this as just an identifier.
+                     */
+                    console.log("b", state.index, keywordTokenKind);
+                    state.memoizedTokens.set(state.index, {
+                        tokenKind : TokenKind.Identifier,
+                        end : tmp.index,
+                    });
+                    state.index = tmp.index;
+                    return TokenKind.Identifier;
+                }
+            }
+            state.memoizedTokens.set(state.index, {
+                tokenKind : keywordTokenKind,
+                end : tmp.index,
+            });
             state.index = tmp.index;
-            state.memoizedTokenKind.set(state.index, keywordTokenKind);
             return keywordTokenKind;
         }
     }
@@ -670,9 +724,10 @@ export function scanOthers (state : LexerState) : TokenKind {
     return tokenKind;
 }
 
-export function peekTokenAfterExtras (state : LexerState) : TokenKind {
+export function peekTokenAfterExtras (state : LexerState, lastNonExtraTokenKind : TokenKind|undefined) : TokenKind {
     const tmp = state.clone();
     while (!tmp.isEof(0)) {
+        tmp.lastNonExtraTokenKind = lastNonExtraTokenKind;
         const tokenKind = scan(tmp);
         if (Object.prototype.hasOwnProperty.call(Extras, tokenKind)) {
             continue;
@@ -682,11 +737,256 @@ export function peekTokenAfterExtras (state : LexerState) : TokenKind {
     return TokenKind.EndOfFile;
 }
 
-export function peekToken (state : LexerState) : TokenKind {
+export function peekTokenAfterExtras2 (state : LexerState, lastNonExtraTokenKind : TokenKind|undefined) : {
+    tokenKind : TokenKind,
+    start : number,
+    end : number,
+    lexerState : LexerState,
+} {
+    const tmp = state.clone();
+    while (!tmp.isEof(0)) {
+        const start = tmp.index;
+        tmp.lastNonExtraTokenKind = lastNonExtraTokenKind;
+        const tokenKind = scan(tmp);
+        const end = tmp.index;
+        if (Object.prototype.hasOwnProperty.call(Extras, tokenKind)) {
+            continue;
+        }
+        return {
+            tokenKind,
+            start,
+            end,
+            lexerState : tmp,
+        };
+    }
+    return {
+        tokenKind : TokenKind.EndOfFile,
+        start : tmp.index,
+        end : tmp.index,
+        lexerState  :tmp,
+    };
+}
+
+export function peekToken (state : LexerState, lastNonExtraTokenKind : TokenKind|undefined) : TokenKind {
     const tmp = state.clone();
     if (!tmp.isEof(0)) {
+        tmp.lastNonExtraTokenKind = lastNonExtraTokenKind;
         const tokenKind = scan(tmp);
         return tokenKind;
     }
     return TokenKind.EndOfFile;
+}
+
+export function peekToken2 (state : LexerState, lastNonExtraTokenKind : TokenKind|undefined) : [TokenKind, TokenKind] {
+    const tmp = state.clone();
+    if (tmp.isEof(0)) {
+        return [TokenKind.EndOfFile, TokenKind.EndOfFile];
+    }
+    tmp.lastNonExtraTokenKind = lastNonExtraTokenKind;
+    const tokenKindA = scan(tmp);
+    if (tmp.isEof(0)) {
+        return [tokenKindA, TokenKind.EndOfFile];
+    }
+    const tokenKindB = scan(tmp);
+    return [tokenKindA, tokenKindB];
+}
+
+/**
+ * https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/sql_lex.cc#L1982-L1985
+ */
+export function scanHostname (state : LexerState, customDelimiter : string) {
+    const peekResult = peekTokenAfterExtras2(state, TokenKind.At);
+    if (peekResult.start == peekResult.end) {
+        return;
+    }
+    if (!isHostnameCharacter(state.text.charCodeAt(peekResult.start))) {
+        return;
+    }
+
+    let hasDot = false;
+    const tmp = state.clone();
+    tmp.index = peekResult.start;
+
+    while (isHostnameCharacter(tmp.peek(0))) {
+        if (tmp.peek(0) == CharacterCodes.dot) {
+            hasDot = true;
+        }
+        if (customDelimiter.length > 0) {
+            if (tryScanString(tmp, customDelimiter, /*overwriteIndex*/false)) {
+                break;
+            }
+        }
+        tmp.advance();
+    }
+
+    if (hasDot) {
+        state.memoizedTokens.set(peekResult.start, {
+            tokenKind : TokenKind.Hostname,
+            end : tmp.index,
+        });
+    }
+}
+
+export function scanInstanceAndComponent (state : LexerState, tmp : LexerState, tokenKind : TokenKind, start : number, end : number) : void {
+
+    if (tokenKind == TokenKind.Hostname) {
+        const substr = state.text.substring(start, end);
+        const dot = substr.indexOf(".");
+
+        if (dot < 0) {
+            state.memoizedTokens.set(start, {
+                tokenKind : TokenKind.Identifier,
+                end,
+            });
+        } else if (dot == 0) {
+            state.memoizedTokens.set(start, {
+                tokenKind : TokenKind.Dot,
+                end : start + 1,
+            });
+        } else {
+            state.memoizedTokens.set(start, {
+                tokenKind : TokenKind.Identifier,
+                end : start + dot,
+            });
+            state.memoizedTokens.set(start + dot, {
+                tokenKind : TokenKind.Dot,
+                end : start + dot + 1,
+            });
+        }
+        console.log("hostname set");
+    } else if (tokenKind == TokenKind.Identifier) {
+        console.log("tokenKind", tokenKind, state.text.substring(start, end), tmp.lastNonExtraTokenKind);
+        state.memoizedTokens.set(start, {
+            tokenKind,
+            end,
+        });
+    } else if (tokenKind == TokenKind.IntegerLiteral) {
+        state.memoizedTokens.set(start, {
+            //Pretend the integer literal is an identifier
+            tokenKind : TokenKind.Identifier,
+            end,
+        });
+    } else if (
+        tokenKind == TokenKind.DecimalLiteral ||
+        tokenKind == TokenKind.RealLiteral ||
+        tokenKind == TokenKind.MalformedRealLiteral
+    ) {
+        const substr = state.text.substring(start, end);
+        const dot = substr.indexOf(".");
+        if (dot < 0) {
+            //No dot, treat the entire thing as an identifier... If there is no +/-
+            const exponentSign = Math.max(
+                substr.indexOf("+"),
+                substr.indexOf("-")
+            );
+
+            if (exponentSign < 0) {
+                state.memoizedTokens.set(start, {
+                    //Pretend everything is an identifier
+                    tokenKind : TokenKind.Identifier,
+                    end,
+                });
+            } else {
+                state.memoizedTokens.set(start, {
+                    //Pretend everything up till exponent sign is an identifier
+                    tokenKind : TokenKind.Identifier,
+                    end : start + exponentSign,
+                });
+            }
+        } else if (dot >= 0) {
+            if (dot > 0) {
+                //We have an integer part.
+                state.memoizedTokens.set(start, {
+                    //Pretend the integer part is an identifier
+                    tokenKind : TokenKind.Identifier,
+                    end : start + dot,
+                });
+            }
+            state.memoizedTokens.set(start + dot, {
+                tokenKind : TokenKind.Dot,
+                end : start + dot + 1,
+            });
+
+            const cpy = state.clone();
+            cpy.index = start + dot + 1;
+            const unquotedIdentifier = tryScanUnquotedIdentifier(cpy, cpy.customDelimiter);
+
+            if (unquotedIdentifier != "") {
+                state.memoizedTokens.set(start + dot + 1, {
+                    tokenKind : TokenKind.Identifier,
+                    end : start + dot + 1 + unquotedIdentifier.length,
+                });
+            }
+        }
+    }
+}
+
+export function tryScanSystemVariable (state : LexerState) : boolean {
+    const peekedAfterExtras = peekTokenAfterExtras2(state, TokenKind.At);
+    if (peekedAfterExtras.tokenKind != TokenKind.At) {
+        return false;
+    }
+
+    /**
+     * We have `@@` or `@ @` (which would be some kind of syntax error we handle later).
+     *
+     * In such an event, we should treat integer literals as identifiers...
+     * And if we have a decimal literal, we should take the integer part as the identifier (unless there is no integer part).
+     * And if we have a real literal, we should take the integer part as the identifier (unless there is no integer part).
+     */
+    const tmp = peekedAfterExtras.lexerState;
+    //tmp just scanned the 'At' token.
+    //We call scan one more time to see if we get identifier, integer, decimal, or real literal
+    const start = tmp.index;
+    console.log("tmp.lastNonExtraTokenKind", tmp.lastNonExtraTokenKind);
+    const tokenKind = scan(tmp);
+    const end = tmp.index;
+    console.log("scan(tmp)", tokenKind, start, end);
+
+    if (
+        tokenKind == TokenKind.GLOBAL ||
+        tokenKind == TokenKind.LOCAL ||
+        tokenKind == TokenKind.SESSION
+    ) {
+        console.log("Scoped", tokenKind);
+        state.memoizedTokens.set(start, {
+            tokenKind,
+            end,
+        });
+
+        //https://github.com/mysql/mysql-server/blob/beb865a960b9a8a16cf999c323e46c5b0c67f21f/sql/parse_tree_items.cc#L565
+        //https://github.com/mysql/mysql-server/blob/3290a66c89eb1625a7058e0ef732432b6952b435/sql/item_func.cc#L155
+        //disallow "SELECT @@global.global.variable"
+        //Expect a dot here
+        const peekForDot = peekTokenAfterExtras2(tmp, tmp.lastNonExtraTokenKind);
+        const firstChar = state.text[peekForDot.start];
+        if (firstChar == ".") {
+            state.memoizedTokens.set(peekForDot.start, {
+                tokenKind : TokenKind.Dot,
+                end : peekForDot.start + 1,
+            });
+
+            {
+
+                const tmp = peekForDot.lexerState;
+                tmp.index = peekForDot.start + 1;
+                tmp.lastNonExtraTokenKind = TokenKind.At;
+                state.memoizedTokens.delete(tmp.index);
+                const start = tmp.index;
+                console.log("tmp.lastNonExtraTokenKind", tmp.lastNonExtraTokenKind);
+                const tokenKind = scan(tmp);
+                const end = tmp.index;
+                console.log("scan(tmp)", tokenKind, start, end);
+                scanInstanceAndComponent(state, tmp, tokenKind, start, end);
+                return true;
+
+            }
+        } else {
+            scanInstanceAndComponent(state, peekForDot.lexerState, peekForDot.tokenKind, peekForDot.start, peekForDot.end);
+            return true;
+        }
+    }
+
+    scanInstanceAndComponent(state, tmp, tokenKind, start, end);
+    return true;
 }

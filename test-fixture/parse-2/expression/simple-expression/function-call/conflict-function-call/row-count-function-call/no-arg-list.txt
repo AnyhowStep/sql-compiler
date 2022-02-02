@@ -1,0 +1,7 @@
+SELECT ROW_COUNT
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: ROW_COUNT[7, 16])
+        )
+!`

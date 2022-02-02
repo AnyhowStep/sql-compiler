@@ -1,0 +1,7 @@
+SELECT MULTIPOINT
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 17]
+          (expression: MULTIPOINT[7, 17])
+        )
+!`

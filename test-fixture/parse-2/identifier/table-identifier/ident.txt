@@ -1,0 +1,7 @@
+DROP TABLE T
+-----
+`!
+        (item[]: TableIdentifier[11, 12]
+          (tableName: Identifier[11, 12])
+        )
+!`

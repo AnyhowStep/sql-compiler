@@ -1,6 +1,6 @@
 import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat} from "../../../grammar-builder";
-import {greedySkipExpectation} from "../../../grammar-builder/grammar";
-import {greedySkipExpression, itemSeparator, list, list1, parentheses} from "../../rule-util";
+import {allowedSyntaxKinds, getTokenKinds, greedySkipExpectation} from "../../../grammar-builder/grammar";
+import {greedySkipExpression, itemSeparator, list, list1, parentheses, real_ulong_num, ulong_num} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 import {interval, intervalTimeStamp} from "../interval-expression";
@@ -22,7 +22,16 @@ export const ExpressionList_Arguments_NoExpectImpl = inline(seq(
     field("closeParenthesesToken", TokenKind.CloseParentheses),
 ));
 
+export const ExpressionList_Arguments_NoExpect = SyntaxKind.ExpressionList_Arguments_NoExpectImpl;
+
 export const ExpressionList_Arguments = SyntaxKind.ExpressionList_ArgumentsImpl;
+
+export const ExpressionList1_Arguments = fieldLengthCheck(
+    "item",
+    1,
+    Infinity,
+    SyntaxKind.ExpressionList_ArgumentsImpl
+);
 
 export const ExpressionList2_Arguments = fieldLengthCheck(
     "item",
@@ -55,6 +64,13 @@ export const Expression2_Arguments = fieldLengthCheck(
     "item",
     2,
     2,
+    SyntaxKind.ExpressionList_ArgumentsImpl
+);
+
+export const Expression3_Arguments = fieldLengthCheck(
+    "item",
+    3,
+    3,
     SyntaxKind.ExpressionList_ArgumentsImpl
 );
 
@@ -253,15 +269,99 @@ export const Substring_Arguments_Comma = inline(SyntaxKind.Expression2To3_Argume
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9810-L9814
  */
 export const TimestampAdd_Arguments = fieldLengthCheck(
+    "item",
+    3,
+    3,
+    parentheses(optional(seq(
+        field("item", allowedSyntaxKinds(
+            [
+                ...getTokenKinds(intervalTimeStamp),
+            ],
+            choice(
+                tokenSymbol(
+                    TokenKind.DAY_HOUR,
+                    TokenKind.DAY_MICROSECOND,
+                    TokenKind.DAY_MINUTE,
+                    TokenKind.DAY_SECOND,
+                    TokenKind.HOUR_MICROSECOND,
+                    TokenKind.HOUR_MINUTE,
+                    TokenKind.HOUR_SECOND,
+                    TokenKind.MINUTE_MICROSECOND,
+                    TokenKind.MINUTE_SECOND,
+                    TokenKind.SECOND_MICROSECOND,
+                    TokenKind.YEAR_MONTH,
+                ),
+                SyntaxKind.Expression
+            )
+        )),
+        optional(seq(
+            field("commaToken", itemSeparator),
+            list1(SyntaxKind.Expression),
+        )),
+    )))
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9814
+ */
+export const TimestampDiff_Arguments = TimestampAdd_Arguments;
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9914-L9928
+ */
+export const WeightString_Arguments = choice(
+    SyntaxKind.WeightString_Arguments_Default,
+    SyntaxKind.WeightString_Arguments_AsChar,
+    SyntaxKind.WeightString_Arguments_AsBinary,
+    SyntaxKind.WeightString_Arguments_Undocumented,
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9914
+ */
+export const WeightString_Arguments_Default = parentheses(seq(
+    field("expr", SyntaxKind.Expression),
+    field("levels", optional(SyntaxKind.WeightString_Levels)),
+));
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9918
+ */
+export const WeightString_Arguments_AsChar = parentheses(seq(
+    field("expr", SyntaxKind.Expression),
+    field("asToken", TokenKind.AS),
+    field("charToken", SyntaxKind.Char),
+    field("length", SyntaxKind.WeightStringCastLength),
+    field("levels", optional(SyntaxKind.WeightString_Levels)),
+));
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9923
+ */
+export const WeightString_Arguments_AsBinary = parentheses(seq(
+    field("expr", SyntaxKind.Expression),
+    field("asToken", TokenKind.AS),
+    field("binaryToken", TokenKind.BINARY),
+    field("length", SyntaxKind.WeightStringCastLength),
+));
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9928
+ *
+ * This syntax is undocumented...
+ */
+export const WeightString_Arguments_Undocumented =  fieldLengthCheck(
     "extraItem",
     0,
     0,
     parentheses(seq(
-        field("temporalUnit", greedySkipExpectation(intervalTimeStamp)),
-        field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("interval", greedySkipExpression),
-        field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("dateTime", greedySkipExpression),
+        field("expr", SyntaxKind.Expression),
+        field("commaToken", itemSeparator),
+        field("num1", ulong_num),
+        field("commaToken", itemSeparator),
+        field("num2", ulong_num),
+        field("commaToken", itemSeparator),
+        field("num3", ulong_num),
         repeat(seq(
             field("commaToken", itemSeparator),
             field("extraItem", SyntaxKind.Expression),
@@ -270,21 +370,57 @@ export const TimestampAdd_Arguments = fieldLengthCheck(
 );
 
 /**
- * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9814
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7218
  */
-export const TimestampDiff_Arguments = fieldLengthCheck(
-    "extraItem",
-    0,
-    0,
-    parentheses(seq(
-        field("temporalUnit", greedySkipExpectation(intervalTimeStamp)),
-        field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("startDateTime", greedySkipExpression),
-        field("commaToken", greedySkipExpectation(itemSeparator)),
-        field("endDateTime", greedySkipExpression),
-        repeat(seq(
-            field("commaToken", itemSeparator),
-            field("extraItem", SyntaxKind.Expression),
+export const WeightString_Levels = seq(
+    field("levelToken", TokenKind.LEVEL),
+    field("levels", choice(
+        SyntaxKind.WeightString_Level_List1,
+        SyntaxKind.WeightString_Level_Range,
+    )),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7176
+ */
+export const WeightString_Level_Flag = choice(
+    seq(
+        field("sortOrder", tokenSymbol(
+            TokenKind.ASC,
+            TokenKind.DESC,
         )),
-    ))
+        field("reverseToken", optional(TokenKind.REVERSE)),
+    ),
+    field("reverseToken", TokenKind.REVERSE),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7191
+ */
+export const WeightString_Level_Item = seq(
+    field("level", real_ulong_num),
+    field("flag", optional(SyntaxKind.WeightString_Level_Flag)),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7198
+ */
+export const WeightString_Level_List1 = list1(SyntaxKind.WeightString_Level_Item);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7203
+ */
+export const WeightString_Level_Range = seq(
+    field("minLevel", real_ulong_num),
+    field("dashToken", TokenKind.Minus),
+    field("maxLevel", real_ulong_num),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7155
+ */
+export const WeightStringCastLength = seq(
+    field("openParenthesesToken", TokenKind.OpenParentheses),
+    field("length", real_ulong_num),
+    field("closeParenthesesToken", TokenKind.CloseParentheses),
 );

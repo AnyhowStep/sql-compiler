@@ -12,7 +12,10 @@ SELECT x LIKE @a := b
                 (identifier: Identifier[15, 16])
               )
               (WhiteSpace[16, 17])
-              (colonEqualToken: ColonEqual[17, 19])
+              (colonEqual: ColonEqual[17, 19]
+                (colonToken: Colon[17, 18])
+                (equalToken: Equal[18, 19])
+              )
               (WhiteSpace[19, 20])
               (expression: Identifier[20, 21])
             )

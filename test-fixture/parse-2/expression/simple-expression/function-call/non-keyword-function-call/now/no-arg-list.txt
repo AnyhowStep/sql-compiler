@@ -1,0 +1,31 @@
+SELECT NOW
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: Identifier[7, 10])
+        )
+!`
+-----
+SELECT CURRENT_TIMESTAMP
+-----
+`!
+          (expression: Now[7, 24]
+            (functionName: CURRENT_TIMESTAMP[7, 24])
+          )
+!`
+-----
+SELECT LOCALTIME
+-----
+`!
+          (expression: Now[7, 16]
+            (functionName: LOCALTIME[7, 16])
+          )
+!`
+-----
+SELECT LOCALTIMESTAMP
+-----
+`!
+          (expression: Now[7, 21]
+            (functionName: LOCALTIMESTAMP[7, 21])
+          )
+!`

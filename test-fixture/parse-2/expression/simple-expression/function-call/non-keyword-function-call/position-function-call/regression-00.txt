@@ -1,0 +1,14 @@
+SELECT POSITION(IN)
+-----
+`!
+          (expression: PositionFunctionCall[7, 19]
+            (functionName: POSITION[7, 15])
+            (arguments: Position_Arguments[15, 19]
+              (openParenthesesToken: OpenParentheses[15, 16])
+              (Expected left: Identifier[16, 16])
+              (inToken: IN[16, 18])
+              (Expected right: Identifier[18, 18])
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`

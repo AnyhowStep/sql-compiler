@@ -1,0 +1,43 @@
+SELECT SELECT.B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 15]
+            (tableName: Identifier[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (columnName: Identifier[14, 15])
+          )
+!`
+-----
+SELECT SELECT. B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 16]
+            (tableName: SELECT[7, 13])
+            (dotToken[]: Dot[13, 14])
+            (Unexpected WhiteSpace[14, 15])
+            (columnName: Identifier[15, 16])
+          )
+!`
+-----
+SELECT SELECT .B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 16]
+            (tableName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (columnName: Identifier[15, 16])
+          )
+!`
+-----
+SELECT SELECT . B
+-----
+`!
+          (expression: ColumnIdentifierSimpleExpression[7, 17]
+            (tableName: SELECT[7, 13])
+            (Unexpected WhiteSpace[13, 14])
+            (dotToken[]: Dot[14, 15])
+            (Unexpected WhiteSpace[15, 16])
+            (columnName: Identifier[16, 17])
+          )
+!`

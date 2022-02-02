@@ -1,6 +1,7 @@
 SELECT a LIKE b BETWEEN c AND d
 -- This is invalid syntax
 -- https://www.db-fiddle.com/f/wZYMMUWXR3cNW4PAvjeKVB/0
+-- timeout 4000
 -----
 `!
         (item[]: ExpressionSelectItem[7, 15]

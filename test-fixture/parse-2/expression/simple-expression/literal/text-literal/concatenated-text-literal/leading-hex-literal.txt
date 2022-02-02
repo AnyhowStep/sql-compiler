@@ -1,0 +1,35 @@
+SELECT 0xaa 'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 15]
+          (expression: HexLiteral[7, 11])
+          (WhiteSpace[11, 12])
+          (alias: Alias[12, 15]
+            (alias: StringLiteral[12, 15])
+          )
+        )
+!`
+-----
+SELECT x'aa' 'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: HexLiteral[7, 12])
+          (WhiteSpace[12, 13])
+          (alias: Alias[13, 16]
+            (alias: StringLiteral[13, 16])
+          )
+        )
+!`
+-----
+SELECT X'aa' 'b'
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 16]
+          (expression: HexLiteral[7, 12])
+          (WhiteSpace[12, 13])
+          (alias: Alias[13, 16]
+            (alias: StringLiteral[13, 16])
+          )
+        )
+!`

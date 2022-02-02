@@ -1,10 +1,10 @@
-import {field, optional, seq} from "../../../grammar-builder";
+import {field, omitCost, optional, seq} from "../../../grammar-builder";
 import {identifierOrStringLiteral, list1} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
 export const Alias = seq(
-    field("asToken", optional(TokenKind.AS)),
+    field("asToken", omitCost(0.05, optional(TokenKind.AS))),
     field("alias", identifierOrStringLiteral),
 );
 

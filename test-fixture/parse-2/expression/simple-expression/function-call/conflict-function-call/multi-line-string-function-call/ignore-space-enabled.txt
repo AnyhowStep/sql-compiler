@@ -1,0 +1,26 @@
+SELECT MULTILINESTRING(a)
+-----
+`!
+          (expression: MultiLineStringFunctionCall[7, 25]
+            (functionName: MULTILINESTRING[7, 22])
+            (arguments: ExpressionList1_Arguments[22, 25]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (item[]: Identifier[23, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT MULTILINESTRING (a)
+-----
+`!
+          (expression: MultiLineStringFunctionCall[7, 26]
+            (functionName: MULTILINESTRING[7, 22])
+            (WhiteSpace[22, 23])
+            (arguments: ExpressionList1_Arguments[23, 26]
+              (openParenthesesToken: OpenParentheses[23, 24])
+              (item[]: Identifier[24, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`

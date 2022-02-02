@@ -1,0 +1,7 @@
+SELECT MULTIPOLYGON
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 19]
+          (expression: MULTIPOLYGON[7, 19])
+        )
+!`
