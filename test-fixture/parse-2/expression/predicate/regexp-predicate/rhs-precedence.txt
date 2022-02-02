@@ -12,7 +12,10 @@ SELECT x REGEXP @a := b
                 (identifier: Identifier[17, 18])
               )
               (WhiteSpace[18, 19])
-              (colonEqualToken: ColonEqual[19, 21])
+              (colonEqual: ColonEqual[19, 21]
+                (colonToken: Colon[19, 20])
+                (equalToken: Equal[20, 21])
+              )
               (WhiteSpace[21, 22])
               (expression: Identifier[22, 23])
             )

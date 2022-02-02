@@ -1,0 +1,105 @@
+SELECT x := y
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 13]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (Unexpected Colon[9, 10])
+            (operator: Equal[10, 11])
+            (WhiteSpace[11, 12])
+            (right: Identifier[12, 13])
+          )
+!`
+-----
+SELECT  := y
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[8, 12]
+            (userVariableIdentifier: UserVariableIdentifier[8, 8]
+              (Expected atToken: At[8, 8])
+              (Expected identifier: Identifier[8, 8])
+            )
+            (colonEqual: ColonEqual[8, 10]
+              (colonToken: Colon[8, 9])
+              (equalToken: Equal[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (expression: Identifier[11, 12])
+          )
+!`
+-----
+SELECT x : = y
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 14]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (Unexpected Colon[9, 10])
+            (WhiteSpace[10, 11])
+            (operator: Equal[11, 12])
+            (WhiteSpace[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT  : = y
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[8, 13]
+            (Expected left: Identifier[8, 9])
+            (WhiteSpace[9, 10])
+            (operator: Equal[10, 11])
+            (WhiteSpace[11, 12])
+            (right: Identifier[12, 13])
+          )
+!`
+-----
+SELECT x : y
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: Identifier[7, 8])
+        )
+        (WhiteSpace[8, 9])
+        (Expected commaToken[]: Comma[9, 10])
+        (WhiteSpace[10, 11])
+        (item[]: ExpressionSelectItem[11, 12]
+          (expression: Identifier[11, 12])
+        )
+!`
+-----
+SELECT  : y
+-----
+`!
+        (item[]: ExpressionSelectItem[10, 11]
+          (expression: Identifier[10, 11])
+        )
+!`
+-----
+SELECT x = y
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 12]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: Equal[9, 10])
+            (WhiteSpace[10, 11])
+            (right: Identifier[11, 12])
+          )
+!`
+-----
+SELECT  = y
+-----
+`!
+    (statement: Select[0, 11]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 8])
+      (Unexpected Equal[8, 9])
+      (WhiteSpace[9, 10])
+      (selectItemList1: SelectItemList1[10, 11]
+        (item[]: ExpressionSelectItem[10, 11]
+          (expression: Identifier[10, 11])
+        )
+      )
+    )
+!`

@@ -454,11 +454,11 @@ export function scanImpl (state : LexerState) : TokenKind {
                 return TokenKind.Slash;
             }
         case CharacterCodes.colon:
-            if (state.peek(1) == CharacterCodes.equals) {
-                state.advance();
-                state.advance();
-                return TokenKind.ColonEqual;
-            }
+            // if (state.peek(1) == CharacterCodes.equals) {
+            //     state.advance();
+            //     state.advance();
+            //     return TokenKind.ColonEqual;
+            // }
 
             state.advance();
             return TokenKind.Colon;

@@ -1,0 +1,483 @@
+SELECT @x := @a := b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 20]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: UserVariableIdentifierAssignment[13, 20]
+              (userVariableIdentifier: UserVariableIdentifier[13, 15]
+                (atToken: At[13, 14])
+                (identifier: Identifier[14, 15])
+              )
+              (WhiteSpace[15, 16])
+              (colonEqual: ColonEqual[16, 18]
+                (colonToken: Colon[16, 17])
+                (equalToken: Equal[17, 18])
+              )
+              (WhiteSpace[18, 19])
+              (expression: Identifier[19, 20])
+            )
+          )
+!`
+-----
+SELECT @x := a OR b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 19]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryExpression[13, 19]
+              (left: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (operator: OR[15, 17])
+              (WhiteSpace[17, 18])
+              (right: Identifier[18, 19])
+            )
+          )
+!`
+-----
+SELECT @x := a XOR b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 20]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryExpression[13, 20]
+              (left: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (operator: XOR[15, 18])
+              (WhiteSpace[18, 19])
+              (right: Identifier[19, 20])
+            )
+          )
+!`
+-----
+SELECT @x := a AND b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 20]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryExpression[13, 20]
+              (left: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (operator: AND[15, 18])
+              (WhiteSpace[18, 19])
+              (right: Identifier[19, 20])
+            )
+          )
+!`
+-----
+SELECT @x := NOT a
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 18]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: NotExpression[13, 18]
+              (notToken: NOT[13, 16])
+              (WhiteSpace[16, 17])
+              (expression: Identifier[17, 18])
+            )
+          )
+!`
+-----
+SELECT @x := a BETWEEN b AND c
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 30]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BetweenPredicate[13, 30]
+              (left: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (betweenToken: BETWEEN[15, 22])
+              (WhiteSpace[22, 23])
+              (middle: Identifier[23, 24])
+              (WhiteSpace[24, 25])
+              (andToken: AND[25, 28])
+              (WhiteSpace[28, 29])
+              (right: Identifier[29, 30])
+            )
+          )
+!`
+-----
+SELECT @x := a = b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 18]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: ComparisonBooleanPrimaryExpression[13, 18]
+              (left: Identifier[13, 14])
+              (WhiteSpace[14, 15])
+              (operator: Equal[15, 16])
+              (WhiteSpace[16, 17])
+              (right: Identifier[17, 18])
+            )
+          )
+!`
+-----
+SELECT @x := a = ANY (SELECT b)
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 31]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: ComparisonSubQueryBooleanPrimaryExpression[13, 31]
+!`
+-----
+SELECT @x := a IS NULL
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 22]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: IsNullBooleanPrimaryExpression[13, 22]
+!`
+-----
+SELECT @x := a IS UNKNOWN
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 25]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: IsExpression[13, 25]
+!`
+-----
+SELECT @x := a LIKE b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 21]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: LikePredicate[13, 21]
+!`
+-----
+SELECT @x := a REGEXP b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 23]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: RegExpPredicate[13, 23]
+!`
+-----
+SELECT @x := a IN (SELECT b)
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 28]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: InSubQueryPredicate[13, 28]
+!`
+-----
+SELECT @x := a IN (b)
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 21]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: InExpressionTuple1Predicate[13, 21]
+!`
+-----
+SELECT @x := a | b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 18]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryBitExpression[13, 18]
+!`
+-----
+SELECT @x := a & b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 18]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryBitExpression[13, 18]
+!`
+-----
+SELECT @x := a << b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 19]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryBitExpression[13, 19]
+!`
+-----
+SELECT @x := a + b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 18]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryBitExpression[13, 18]
+!`
+-----
+SELECT @x := a * b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 18]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryBitExpression[13, 18]
+!`
+-----
+SELECT @x := a ^ b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 18]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: BinaryBitExpression[13, 18]
+!`
+-----
+SELECT @x := - a
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 16]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: PrefixSimpleExpression[13, 16]
+              (operator: Minus[13, 14])
+!`
+-----
+SELECT @x := ! a
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 16]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: Not2SimpleExpression[13, 16]
+!`
+-----
+SELECT @x := BINARY a
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 21]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: PrefixSimpleExpression[13, 21]
+              (operator: BINARY[13, 19])
+!`
+-----
+SELECT @x := a COLLATE utf8mb4_unicode_ci
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 41]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: CollateSimpleExpression[13, 41]
+!`
+-----
+SELECT @x := INTERVAL a DAY + b
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[7, 31]
+            (userVariableIdentifier: UserVariableIdentifier[7, 9]
+              (atToken: At[7, 8])
+              (identifier: Identifier[8, 9])
+            )
+            (WhiteSpace[9, 10])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
+            (WhiteSpace[12, 13])
+            (expression: IntervalExpressionPlus[13, 31]
+!`

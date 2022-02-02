@@ -701,7 +701,6 @@ export enum TokenKind {
     PoundCloseParentheses = "PoundCloseParentheses",
     Backslash = "Backslash",
     QuestionMark = "QuestionMark",
-    ColonEqual = "ColonEqual",
     At = "At",
     Tilde = "Tilde",
     Caret = "Caret",

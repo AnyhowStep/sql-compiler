@@ -1727,7 +1727,7 @@ function cmpPrecedence (
         if (aPrec != bPrec) {
             if (
                 aFirst.children
-                    .some(c => "syntaxKind" in c && c.syntaxKind == bFirst.syntaxKind) ||
+                    .some(c => "syntaxKind" in c && c.syntaxKind == bFirst.syntaxKind) &&
                 bFirst.children
                     .some(c => "syntaxKind" in c && c.syntaxKind == aFirst.syntaxKind)
             ) {

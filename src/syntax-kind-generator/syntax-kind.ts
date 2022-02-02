@@ -352,4 +352,6 @@ export const syntaxKinds = [
     "IdentTuple2",
     "TableIdentifierTuple",
     "TableIdentifierList1",
+
+    "ColonEqual",
 ];

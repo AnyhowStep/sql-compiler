@@ -98,6 +98,7 @@ export const CollateSimpleExpression = precedence(150, seq(
  * BETWEEN = 50
  * NOT = 40
  * AND = 30
+ * OR  = 10
  */
 export const IntervalExpressionPlus = precedence(45, seq(
     field("left", SyntaxKind.IntervalExpression),
@@ -401,19 +402,22 @@ export const UserVariableIdentifier = precedence(Precedence.UserVariableIdentifi
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10156
  */
-export const UserVariableIdentifierAssignment = seq(
-    field("userVariableIdentifier", alias(
-        SyntaxKind.UserVariableIdentifier,
-        useCustomExtra(
-            CustomExtras.noExtras,
-            seq(
-                field("atToken", TokenKind.At),
-                optional(field("identifier", identifierOrReservedOrStringLiteralOrHostname)),
+export const UserVariableIdentifierAssignment = precedence(
+    5,
+    seq(
+        field("userVariableIdentifier", alias(
+            SyntaxKind.UserVariableIdentifier,
+            useCustomExtra(
+                CustomExtras.noExtras,
+                seq(
+                    field("atToken", TokenKind.At),
+                    field("identifier", greedySkipExpectation(identifierOrReservedOrStringLiteralOrHostname)),
+                )
             )
-        )
-    )),
-    field("colonEqualToken", cannotExpect(TokenKind.ColonEqual)),
-    field("expression", SyntaxKind.Expression),
+        )),
+        field("colonEqual", SyntaxKind.ColonEqual),
+        field("expression", SyntaxKind.Expression),
+    )
 );
 
 /**

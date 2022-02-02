@@ -97,6 +97,10 @@ function extend (grammar : Pick<CompiledGrammar, "ruleName2Alias">, arr : Set<st
         other = grammar.ruleName2Alias[other] ?? other;
     }
 
+    if (other == "") {
+        return false;
+    }
+
     if (typeof other == "string") {
         if (arr.has(other)) {
             return false;

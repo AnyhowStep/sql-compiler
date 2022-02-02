@@ -25,6 +25,7 @@ export * from "./identifier/table-identifier";
 export * from "./misc/char";
 export * from "./misc/character-set/character-set";
 export * from "./misc/collation/collation";
+export * from "./misc/colon-equal";
 export * from "./misc/drop-mode";
 export * from "./misc/if-exists";
 export * from "./misc/if-not-exists";

@@ -89,7 +89,6 @@ export const customTokenKinds = [
     //https://github.com/mysql/mysql-server/blob/3e90d07c3578e4da39dc1bce73559bbdf655c28c/sql/gen_lex_token.cc#L289
     "QuestionMark",
 
-    "ColonEqual",
     "At",
 
     "Tilde",

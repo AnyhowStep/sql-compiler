@@ -7,7 +7,10 @@ SELECT @a := b = ANY (SELECT x)
               (identifier: Identifier[8, 9])
             )
             (WhiteSpace[9, 10])
-            (colonEqualToken: ColonEqual[10, 12])
+            (colonEqual: ColonEqual[10, 12]
+              (colonToken: Colon[10, 11])
+              (equalToken: Equal[11, 12])
+            )
             (WhiteSpace[12, 13])
             (expression: ComparisonSubQueryBooleanPrimaryExpression[13, 31]
               (expression: Identifier[13, 14])

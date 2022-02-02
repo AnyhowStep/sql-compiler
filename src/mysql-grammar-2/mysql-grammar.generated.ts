@@ -319,7 +319,8 @@ export interface MySqlRuleCollection {
     IdentTuple1 : Rule|TopLevelRuleModifier,
     IdentTuple2 : Rule|TopLevelRuleModifier,
     TableIdentifierTuple : Rule|TopLevelRuleModifier,
-    TableIdentifierList1 : Rule|TopLevelRuleModifier
+    TableIdentifierList1 : Rule|TopLevelRuleModifier,
+    ColonEqual : Rule|TopLevelRuleModifier
 }
 export interface MySqlGrammar extends GrammarConfig {
     rules : MySqlRuleCollection;

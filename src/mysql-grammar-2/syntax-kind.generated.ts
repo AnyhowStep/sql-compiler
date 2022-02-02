@@ -317,5 +317,6 @@ export enum SyntaxKind {
     IdentTuple1 = "IdentTuple1",
     IdentTuple2 = "IdentTuple2",
     TableIdentifierTuple = "TableIdentifierTuple",
-    TableIdentifierList1 = "TableIdentifierList1"
+    TableIdentifierList1 = "TableIdentifierList1",
+    ColonEqual = "ColonEqual"
 }
