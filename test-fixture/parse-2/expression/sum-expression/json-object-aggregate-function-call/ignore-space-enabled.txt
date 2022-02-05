@@ -1,0 +1,40 @@
+SELECT JSON_OBJECTAGG(a, b)
+-----
+`!
+          (expression: JsonObjectAggregateFunctionCall[7, 27]
+            (functionName: JSON_OBJECTAGG[7, 21])
+            (arguments: JsonObjectAggregate_Arguments[21, 27]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (item[]: Aggregate_Arguments_Expression[22, 23]
+                (expression: Identifier[22, 23])
+              )
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Aggregate_Arguments_Expression[25, 26]
+                (expression: Identifier[25, 26])
+              )
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT JSON_OBJECTAGG (a, b)
+-----
+`!
+          (expression: JsonObjectAggregateFunctionCall[7, 28]
+            (functionName: JSON_OBJECTAGG[7, 21])
+            (WhiteSpace[21, 22])
+            (arguments: JsonObjectAggregate_Arguments[22, 28]
+              (openParenthesesToken: OpenParentheses[22, 23])
+              (item[]: Aggregate_Arguments_Expression[23, 24]
+                (expression: Identifier[23, 24])
+              )
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Aggregate_Arguments_Expression[26, 27]
+                (expression: Identifier[26, 27])
+              )
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`

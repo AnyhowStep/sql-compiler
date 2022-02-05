@@ -246,6 +246,7 @@ export function buildRule (
 
     const symbols : CompiledSymbol[] = [];
     let insertExtrasAfter = 0;
+    let checkStartingOptionalIndex = 0;
     const myExtras = uniqueExtrasName;
 
     //eslint-disable-next-line @typescript-eslint/prefer-for-of
@@ -254,8 +255,8 @@ export function buildRule (
 
         if (
             myExtras != undefined &&
-            i == 0 &&
-            arr.length > 1
+            i == checkStartingOptionalIndex &&
+            arr.length > i+1
         ) {
             if (typeof item == "string") {
                 //TODO?
@@ -268,19 +269,22 @@ export function buildRule (
                             //TODO?
                         } else {
                             //Put the extra inside the optional, after item.rule
-                            insertExtrasAfter = 1;
+                            insertExtrasAfter = i+1;
                             item = recursivePushBack(item, myExtras);
                         }
                     } else {
                         if (nextRule.ruleKind == "optional") {
-                            //Do nothing
+                            //Put the extra inside the optional, after item.rule
+                            checkStartingOptionalIndex = i+1;
+                            insertExtrasAfter = i+1;
+                            item = recursivePushBack(item, myExtras);
                         } else {
                             if (isSeqRule(item.rule) && item.rule.rules.length > 0 && typeof item.rule.rules[0] == "string" && state.allExtrasSubRuleNames.includes(item.rule.rules[0])) {
                                 //Already starts with extra
                                 //TODO?
                             } else {
                                 //Put the extra inside the optional, after item.rule
-                                insertExtrasAfter = 1;
+                                insertExtrasAfter = i+1;
                                 item = recursivePushBack(item, myExtras);
                             }
                         }

@@ -1,0 +1,32 @@
+-- @@ignore_space = false
+SELECT AVG(1)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[33, 39]
+            (functionName: AVG[33, 36])
+            (arguments: NumberAggregate_Arguments[36, 39]
+              (openParenthesesToken: OpenParentheses[36, 37])
+              (item[]: NumberAggregate_Arguments_Expression[37, 38]
+                (expression: IntegerLiteral[37, 38])
+              )
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT AVG (1)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[33, 40]
+            (functionName: AVG[33, 36])
+            (WhiteSpace[36, 37])
+            (arguments: NumberAggregate_Arguments[37, 40]
+              (openParenthesesToken: OpenParentheses[37, 38])
+              (item[]: NumberAggregate_Arguments_Expression[38, 39]
+                (expression: IntegerLiteral[38, 39])
+              )
+              (closeParenthesesToken: CloseParentheses[39, 40])
+            )
+          )
+!`

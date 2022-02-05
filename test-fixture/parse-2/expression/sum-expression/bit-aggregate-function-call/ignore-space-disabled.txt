@@ -1,0 +1,30 @@
+-- @@ignore_space = false
+SELECT BIT_AND(1)
+-----
+`!
+          (expression: BitAggregateFunctionCall[33, 43]
+            (functionName: BIT_AND[33, 40])
+            (arguments: Aggregate_Arguments[40, 43]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (item[]: Aggregate_Arguments_Expression[41, 42]
+                (expression: IntegerLiteral[41, 42])
+              )
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT BIT_AND (1)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 44]
+            (functionName: Identifier[33, 40])
+            (WhiteSpace[40, 41])
+            (arguments: UserDefinedExpressionList_Arguments[41, 44]
+              (openParenthesesToken: OpenParentheses[41, 42])
+              (item[]: IntegerLiteral[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`

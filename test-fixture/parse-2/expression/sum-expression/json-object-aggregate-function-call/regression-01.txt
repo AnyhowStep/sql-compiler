@@ -1,0 +1,23 @@
+SELECT JSON_OBJECTAGG(* expr, * expr)
+-----
+`!
+          (expression: JsonObjectAggregateFunctionCall[7, 37]
+            (functionName: JSON_OBJECTAGG[7, 21])
+            (arguments: JsonObjectAggregate_Arguments[21, 37]
+              (openParenthesesToken: OpenParentheses[21, 22])
+              (Unexpected Asterisk[22, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Aggregate_Arguments_Expression[24, 28]
+                (expression: Identifier[24, 28])
+              )
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (Unexpected Asterisk[30, 31])
+              (WhiteSpace[31, 32])
+              (item[]: Aggregate_Arguments_Expression[32, 36]
+                (expression: Identifier[32, 36])
+              )
+              (closeParenthesesToken: CloseParentheses[36, 37])
+            )
+          )
+!`
