@@ -1053,7 +1053,7 @@ export function complete3 (
                     pushChild(grammar, newOtherData, newStateData)
                 );
                 //Combined two errors into one
-                errorCount -= 1;
+                errorCount -= (1 - 0.0000001);
 
                 const nextState : MyState = {
                     rule : other.rule,

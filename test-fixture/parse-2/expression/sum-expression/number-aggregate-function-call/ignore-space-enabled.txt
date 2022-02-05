@@ -1,0 +1,30 @@
+SELECT AVG(1)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 13]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 13]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 12]
+                (expression: IntegerLiteral[11, 12])
+              )
+              (closeParenthesesToken: CloseParentheses[12, 13])
+            )
+          )
+!`
+-----
+SELECT AVG (1)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 14]
+            (functionName: AVG[7, 10])
+            (WhiteSpace[10, 11])
+            (arguments: NumberAggregate_Arguments[11, 14]
+              (openParenthesesToken: OpenParentheses[11, 12])
+              (item[]: NumberAggregate_Arguments_Expression[12, 13]
+                (expression: IntegerLiteral[12, 13])
+              )
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`

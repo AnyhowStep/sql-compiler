@@ -1,0 +1,325 @@
+SELECT AVG()
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 12]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 0} arguments: NumberAggregate_Arguments[10, 12]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (closeParenthesesToken: CloseParentheses[11, 12])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 20]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 20]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 19]
+                (distinctToken: DISTINCT[11, 19])
+                (Expected expression: Identifier[19, 19])
+              )
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT AVG(ALL)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 15]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 15]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 14]
+                (allToken: ALL[11, 14])
+                (Expected expression: Identifier[14, 14])
+              )
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT ALL)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 24]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 24]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 23]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (allToken: ALL[20, 23])
+                (Expected expression: Identifier[23, 23])
+              )
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT AVG(expr)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 16]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 16]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 15]
+                (expression: Identifier[11, 15])
+              )
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT expr)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 25]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 25]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 24]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (expression: Identifier[20, 24])
+              )
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT AVG(ALL expr)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 20]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 20]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 19]
+                (allToken: ALL[11, 14])
+                (WhiteSpace[14, 15])
+                (expression: Identifier[15, 19])
+              )
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT ALL expr)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 29]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 29]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 28]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (allToken: ALL[20, 23])
+                (WhiteSpace[23, 24])
+                (expression: Identifier[24, 28])
+              )
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT AVG(expr, a)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 19]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 2} arguments: NumberAggregate_Arguments[10, 19]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 15]
+                (expression: Identifier[11, 15])
+              )
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: NumberAggregate_Arguments_Expression[17, 18]
+                (expression: Identifier[17, 18])
+              )
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT expr, a)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 28]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 2} arguments: NumberAggregate_Arguments[10, 28]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 24]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (expression: Identifier[20, 24])
+              )
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: NumberAggregate_Arguments_Expression[26, 27]
+                (expression: Identifier[26, 27])
+              )
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT AVG(ALL expr, a)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 23]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 2} arguments: NumberAggregate_Arguments[10, 23]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 19]
+                (allToken: ALL[11, 14])
+                (WhiteSpace[14, 15])
+                (expression: Identifier[15, 19])
+              )
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: NumberAggregate_Arguments_Expression[21, 22]
+                (expression: Identifier[21, 22])
+              )
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT ALL expr, a)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 32]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 2} arguments: NumberAggregate_Arguments[10, 32]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 28]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (allToken: ALL[20, 23])
+                (WhiteSpace[23, 24])
+                (expression: Identifier[24, 28])
+              )
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: NumberAggregate_Arguments_Expression[30, 31]
+                (expression: Identifier[30, 31])
+              )
+              (closeParenthesesToken: CloseParentheses[31, 32])
+            )
+          )
+!`
+-----
+SELECT AVG(expr, a, b)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 22]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 3} arguments: NumberAggregate_Arguments[10, 22]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 15]
+                (expression: Identifier[11, 15])
+              )
+              (commaToken[]: Comma[15, 16])
+              (WhiteSpace[16, 17])
+              (item[]: NumberAggregate_Arguments_Expression[17, 18]
+                (expression: Identifier[17, 18])
+              )
+              (commaToken[]: Comma[18, 19])
+              (WhiteSpace[19, 20])
+              (item[]: NumberAggregate_Arguments_Expression[20, 21]
+                (expression: Identifier[20, 21])
+              )
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT expr, a, b)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 31]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 3} arguments: NumberAggregate_Arguments[10, 31]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 24]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (expression: Identifier[20, 24])
+              )
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: NumberAggregate_Arguments_Expression[26, 27]
+                (expression: Identifier[26, 27])
+              )
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (item[]: NumberAggregate_Arguments_Expression[29, 30]
+                (expression: Identifier[29, 30])
+              )
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT AVG(ALL expr, a, b)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 26]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 3} arguments: NumberAggregate_Arguments[10, 26]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 19]
+                (allToken: ALL[11, 14])
+                (WhiteSpace[14, 15])
+                (expression: Identifier[15, 19])
+              )
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: NumberAggregate_Arguments_Expression[21, 22]
+                (expression: Identifier[21, 22])
+              )
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (item[]: NumberAggregate_Arguments_Expression[24, 25]
+                (expression: Identifier[24, 25])
+              )
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT ALL expr, a, b)
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 35]
+            (functionName: AVG[7, 10])
+            ({Expected exactly 1 item, found 3} arguments: NumberAggregate_Arguments[10, 35]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 28]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (allToken: ALL[20, 23])
+                (WhiteSpace[23, 24])
+                (expression: Identifier[24, 28])
+              )
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: NumberAggregate_Arguments_Expression[30, 31]
+                (expression: Identifier[30, 31])
+              )
+              (commaToken[]: Comma[31, 32])
+              (WhiteSpace[32, 33])
+              (item[]: NumberAggregate_Arguments_Expression[33, 34]
+                (expression: Identifier[33, 34])
+              )
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`

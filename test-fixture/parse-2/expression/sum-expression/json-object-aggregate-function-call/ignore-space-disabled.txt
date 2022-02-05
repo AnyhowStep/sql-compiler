@@ -1,0 +1,38 @@
+-- @@ignore_space = false
+SELECT JSON_OBJECTAGG(a, b)
+-----
+`!
+          (expression: JsonObjectAggregateFunctionCall[33, 53]
+            (functionName: JSON_OBJECTAGG[33, 47])
+            (arguments: JsonObjectAggregate_Arguments[47, 53]
+              (openParenthesesToken: OpenParentheses[47, 48])
+              (item[]: Aggregate_Arguments_Expression[48, 49]
+                (expression: Identifier[48, 49])
+              )
+              (commaToken[]: Comma[49, 50])
+              (WhiteSpace[50, 51])
+              (item[]: Aggregate_Arguments_Expression[51, 52]
+                (expression: Identifier[51, 52])
+              )
+              (closeParenthesesToken: CloseParentheses[52, 53])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT JSON_OBJECTAGG (a, b)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 54]
+            (functionName: Identifier[33, 47])
+            (WhiteSpace[47, 48])
+            (arguments: UserDefinedExpressionList_Arguments[48, 54]
+              (openParenthesesToken: OpenParentheses[48, 49])
+              (item[]: Identifier[49, 50])
+              (commaToken[]: Comma[50, 51])
+              (WhiteSpace[51, 52])
+              (item[]: Identifier[52, 53])
+              (closeParenthesesToken: CloseParentheses[53, 54])
+            )
+          )
+!`

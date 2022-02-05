@@ -7,6 +7,7 @@ export * from "./data-type/real-precision";
 export * from "./expression/bit-expression";
 export * from "./expression/boolean-primary-expression";
 export * from "./expression/expression";
+export * from "./expression/function-call/aggregate-function-call";
 export * from "./expression/function-call/arguments";
 export * from "./expression/function-call/conflict-function-call";
 export * from "./expression/function-call/function-call";

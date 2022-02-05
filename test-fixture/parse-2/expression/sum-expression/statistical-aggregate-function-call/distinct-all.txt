@@ -1,0 +1,71 @@
+SELECT VAR_POP(expr)
+-- ALL
+-----
+`!
+          (expression: StatisticalAggregateFunctionCall[7, 20]
+            (functionName: VAR_POP[7, 14])
+            (arguments: Aggregate_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 19]
+                (expression: Identifier[15, 19])
+              )
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT VAR_POP(DISTINCT expr)
+-- DISTINCT
+-----
+`!
+          (expression: StatisticalAggregateFunctionCall[7, 29]
+            (functionName: VAR_POP[7, 14])
+            (arguments: Aggregate_Arguments[14, 29]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 28]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (expression: Identifier[24, 28])
+              )
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT VAR_POP(ALL expr)
+-- ALL
+-----
+`!
+          (expression: StatisticalAggregateFunctionCall[7, 24]
+            (functionName: VAR_POP[7, 14])
+            (arguments: Aggregate_Arguments[14, 24]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 23]
+                (allToken: ALL[15, 18])
+                (WhiteSpace[18, 19])
+                (expression: Identifier[19, 23])
+              )
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT VAR_POP(DISTINCT ALL expr)
+-- DISTINCT is not allowed
+-----
+`!
+          (expression: StatisticalAggregateFunctionCall[7, 33]
+            (functionName: VAR_POP[7, 14])
+            (arguments: Aggregate_Arguments[14, 33]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 32]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (allToken: ALL[24, 27])
+                (WhiteSpace[27, 28])
+                (expression: Identifier[28, 32])
+              )
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`

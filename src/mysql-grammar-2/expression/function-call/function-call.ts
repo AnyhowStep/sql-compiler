@@ -29,7 +29,7 @@ import {TokenKind} from "../../token.generated";
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9994
  */
 export const MaybeUserDefinedFunctionCall = seq(
-    field("functionName", maybeUserDefinedFunctionCall_FunctionName),
+    field("functionName", cannotExpect(maybeUserDefinedFunctionCall_FunctionName)),
     field("arguments", SyntaxKind.UserDefinedExpressionList_Arguments),
 );
 
@@ -63,4 +63,8 @@ export const FunctionCall = inline(choice(
     SyntaxKind.KeywordFunctionCall,
     SyntaxKind.NonKeywordFunctionCall,
     SyntaxKind.ConflictFunctionCall,
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9507
+     */
+    SyntaxKind.AggregateFunctionCall,
 ));

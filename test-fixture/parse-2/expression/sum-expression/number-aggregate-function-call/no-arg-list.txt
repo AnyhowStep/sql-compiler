@@ -1,0 +1,7 @@
+SELECT AVG
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 10]
+          (expression: AVG[7, 10])
+        )
+!`

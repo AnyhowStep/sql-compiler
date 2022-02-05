@@ -1,0 +1,347 @@
+SELECT BIT_AND()
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 16]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 0} arguments: Aggregate_Arguments[14, 16]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 24]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 24]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 23]
+                (Unexpected DISTINCT[15, 23])
+                (Expected expression: Identifier[23, 23])
+              )
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(ALL)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 19]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 19]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 18]
+                (allToken: ALL[15, 18])
+                (Expected expression: Identifier[18, 18])
+              )
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT ALL)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 28]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 28]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 27]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (allToken: ALL[24, 27])
+                (Expected expression: Identifier[27, 27])
+              )
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT ALL)
+-- TODO Fix this. If you add extra stuff, the parse is different from above.
+-- This is not the first time we have seen this.
+-- Maybe dummy token to the end of input as part of the parse?
+-- That feels very hacky but would sort of solve the problem...
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 28]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 28]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 27]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (allToken: ALL[24, 27])
+                (Expected expression: Identifier[27, 27])
+              )
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(expr)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 20]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 20]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 19]
+                (expression: Identifier[15, 19])
+              )
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT expr)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 29]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 29]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 28]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (expression: Identifier[24, 28])
+              )
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(ALL expr)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 24]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 24]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 23]
+                (allToken: ALL[15, 18])
+                (WhiteSpace[18, 19])
+                (expression: Identifier[19, 23])
+              )
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT ALL expr)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 33]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 33]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 32]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (allToken: ALL[24, 27])
+                (WhiteSpace[27, 28])
+                (expression: Identifier[28, 32])
+              )
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(expr, a)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 23]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 2} arguments: Aggregate_Arguments[14, 23]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 19]
+                (expression: Identifier[15, 19])
+              )
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 22]
+                (expression: Identifier[21, 22])
+              )
+              (closeParenthesesToken: CloseParentheses[22, 23])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT expr, a)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 32]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 2} arguments: Aggregate_Arguments[14, 32]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 28]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (expression: Identifier[24, 28])
+              )
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: Aggregate_Arguments_Expression[30, 31]
+                (expression: Identifier[30, 31])
+              )
+              (closeParenthesesToken: CloseParentheses[31, 32])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(ALL expr, a)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 27]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 2} arguments: Aggregate_Arguments[14, 27]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 23]
+                (allToken: ALL[15, 18])
+                (WhiteSpace[18, 19])
+                (expression: Identifier[19, 23])
+              )
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Aggregate_Arguments_Expression[25, 26]
+                (expression: Identifier[25, 26])
+              )
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT ALL expr, a)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 36]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 2} arguments: Aggregate_Arguments[14, 36]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 32]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (allToken: ALL[24, 27])
+                (WhiteSpace[27, 28])
+                (expression: Identifier[28, 32])
+              )
+              (commaToken[]: Comma[32, 33])
+              (WhiteSpace[33, 34])
+              (item[]: Aggregate_Arguments_Expression[34, 35]
+                (expression: Identifier[34, 35])
+              )
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(expr, a, b)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 26]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 3} arguments: Aggregate_Arguments[14, 26]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 19]
+                (expression: Identifier[15, 19])
+              )
+              (commaToken[]: Comma[19, 20])
+              (WhiteSpace[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 22]
+                (expression: Identifier[21, 22])
+              )
+              (commaToken[]: Comma[22, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Aggregate_Arguments_Expression[24, 25]
+                (expression: Identifier[24, 25])
+              )
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT expr, a, b)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 35]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 3} arguments: Aggregate_Arguments[14, 35]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 28]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (expression: Identifier[24, 28])
+              )
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: Aggregate_Arguments_Expression[30, 31]
+                (expression: Identifier[30, 31])
+              )
+              (commaToken[]: Comma[31, 32])
+              (WhiteSpace[32, 33])
+              (item[]: Aggregate_Arguments_Expression[33, 34]
+                (expression: Identifier[33, 34])
+              )
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(ALL expr, a, b)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 30]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 3} arguments: Aggregate_Arguments[14, 30]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 23]
+                (allToken: ALL[15, 18])
+                (WhiteSpace[18, 19])
+                (expression: Identifier[19, 23])
+              )
+              (commaToken[]: Comma[23, 24])
+              (WhiteSpace[24, 25])
+              (item[]: Aggregate_Arguments_Expression[25, 26]
+                (expression: Identifier[25, 26])
+              )
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (item[]: Aggregate_Arguments_Expression[28, 29]
+                (expression: Identifier[28, 29])
+              )
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT BIT_AND(DISTINCT ALL expr, a, b)
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 39]
+            (functionName: BIT_AND[7, 14])
+            ({Expected exactly 1 item, found 3} arguments: Aggregate_Arguments[14, 39]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 32]
+                (Unexpected DISTINCT[15, 23])
+                (WhiteSpace[23, 24])
+                (allToken: ALL[24, 27])
+                (WhiteSpace[27, 28])
+                (expression: Identifier[28, 32])
+              )
+              (commaToken[]: Comma[32, 33])
+              (WhiteSpace[33, 34])
+              (item[]: Aggregate_Arguments_Expression[34, 35]
+                (expression: Identifier[34, 35])
+              )
+              (commaToken[]: Comma[35, 36])
+              (WhiteSpace[36, 37])
+              (item[]: Aggregate_Arguments_Expression[37, 38]
+                (expression: Identifier[37, 38])
+              )
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`

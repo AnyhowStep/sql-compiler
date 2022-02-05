@@ -1,0 +1,79 @@
+SELECT AVG( expr )
+-- ALL
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 18]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 18]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (WhiteSpace[11, 12])
+              (item[]: NumberAggregate_Arguments_Expression[12, 16]
+                (expression: Identifier[12, 16])
+              )
+              (WhiteSpace[16, 17])
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT AVG( DISTINCT expr )
+-- DISTINCT
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 27]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 27]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (WhiteSpace[11, 12])
+              (item[]: NumberAggregate_Arguments_Expression[12, 25]
+                (distinctToken: DISTINCT[12, 20])
+                (WhiteSpace[20, 21])
+                (expression: Identifier[21, 25])
+              )
+              (WhiteSpace[25, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT AVG( ALL expr )
+-- ALL
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 22]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 22]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (WhiteSpace[11, 12])
+              (item[]: NumberAggregate_Arguments_Expression[12, 20]
+                (allToken: ALL[12, 15])
+                (WhiteSpace[15, 16])
+                (expression: Identifier[16, 20])
+              )
+              (WhiteSpace[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT AVG( DISTINCT ALL expr )
+-- DISTINCT
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 31]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 31]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (WhiteSpace[11, 12])
+              (item[]: NumberAggregate_Arguments_Expression[12, 29]
+                (distinctToken: DISTINCT[12, 20])
+                (WhiteSpace[20, 21])
+                (allToken: ALL[21, 24])
+                (WhiteSpace[24, 25])
+                (expression: Identifier[25, 29])
+              )
+              (WhiteSpace[29, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`

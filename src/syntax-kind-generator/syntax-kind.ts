@@ -289,6 +289,12 @@ export const syntaxKinds = [
     "PointFunctionCall",
     "PolygonFunctionCall",
 
+    "AggregateFunctionCall",
+    "NumberAggregateFunctionCall",
+    "BitAggregateFunctionCall",
+    "StatisticalAggregateFunctionCall",
+    "JsonObjectAggregateFunctionCall",
+
     "Empty_Arguments",
     "ExpressionList_ArgumentsImpl",
     "ExpressionList_Arguments_NoExpectImpl",
@@ -332,6 +338,12 @@ export const syntaxKinds = [
     "WeightString_Level_Range",
     "WeightString_Level_Flag",
     "WeightString_Level_Item",
+
+    "NumberAggregate_Arguments_Expression",
+    "NumberAggregate_Arguments",
+    "Aggregate_Arguments_Expression",
+    "Aggregate_Arguments",
+    "JsonObjectAggregate_Arguments",
 
     "Now",
     "DateTimePrecisionArg",

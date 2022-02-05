@@ -1,0 +1,71 @@
+SELECT AVG(expr)
+-- ALL
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 16]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 16]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 15]
+                (expression: Identifier[11, 15])
+              )
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT expr)
+-- DISTINCT
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 25]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 25]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 24]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (expression: Identifier[20, 24])
+              )
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT AVG(ALL expr)
+-- ALL
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 20]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 20]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 19]
+                (allToken: ALL[11, 14])
+                (WhiteSpace[14, 15])
+                (expression: Identifier[15, 19])
+              )
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT AVG(DISTINCT ALL expr)
+-- DISTINCT
+-----
+`!
+          (expression: NumberAggregateFunctionCall[7, 29]
+            (functionName: AVG[7, 10])
+            (arguments: NumberAggregate_Arguments[10, 29]
+              (openParenthesesToken: OpenParentheses[10, 11])
+              (item[]: NumberAggregate_Arguments_Expression[11, 28]
+                (distinctToken: DISTINCT[11, 19])
+                (WhiteSpace[19, 20])
+                (allToken: ALL[20, 23])
+                (WhiteSpace[23, 24])
+                (expression: Identifier[24, 28])
+              )
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`

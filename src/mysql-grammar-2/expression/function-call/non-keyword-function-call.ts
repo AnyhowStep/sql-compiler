@@ -2,7 +2,7 @@
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9737
  */
 
-import {cannotExpect, choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
+import {alias, cannotExpect, choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -151,7 +151,20 @@ export const NonKeywordFunctionCall = inline(choice(
     SyntaxKind.DateAddIntervalFunctionCall,
     SyntaxKind.ExtractFunctionCall,
     SyntaxKind.GetFormatFunctionCall,
-    SyntaxKind.Now,
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6993
+     *
+     * We consider this "different" from `Now` because we use `cannotExpect()` here.
+     */
+    alias(SyntaxKind.Now, seq(
+        field("functionName", cannotExpect(tokenSymbol(
+            TokenKind.CURRENT_TIMESTAMP,
+            TokenKind.NOW,
+            TokenKind.LOCALTIME,
+            TokenKind.LOCALTIMESTAMP
+        ))),
+        field("arguments", optional(SyntaxKind.DateTimePrecisionArg)),
+    )),
     SyntaxKind.PositionFunctionCall,
     SyntaxKind.SubstringFunctionCall,
     SyntaxKind.SysDateFunctionCall,

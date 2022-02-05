@@ -1146,6 +1146,40 @@ export interface ParenthesizedExpression extends MySyntaxNode {
     };
 }
 
+export type AggregateFunctionCall = NumberAggregateFunctionCall | BitAggregateFunctionCall | StatisticalAggregateFunctionCall | JsonObjectAggregateFunctionCall;
+
+export interface NumberAggregateFunctionCall extends MySyntaxNode {
+    syntaxKind : "NumberAggregateFunctionCall";
+    fields : {
+        functionName : (AVG | MIN | MAX | SUM);
+        arguments : (NumberAggregate_Arguments)
+    };
+}
+
+export interface BitAggregateFunctionCall extends MySyntaxNode {
+    syntaxKind : "BitAggregateFunctionCall";
+    fields : {
+        functionName : (BIT_AND | BIT_OR | BIT_XOR);
+        arguments : (Aggregate_Arguments)
+    };
+}
+
+export interface StatisticalAggregateFunctionCall extends MySyntaxNode {
+    syntaxKind : "StatisticalAggregateFunctionCall";
+    fields : {
+        functionName : (STD | STDDEV | STDDEV_POP | VARIANCE | VAR_POP | STDDEV_SAMP | VAR_SAMP);
+        arguments : (Aggregate_Arguments)
+    };
+}
+
+export interface JsonObjectAggregateFunctionCall extends MySyntaxNode {
+    syntaxKind : "JsonObjectAggregateFunctionCall";
+    fields : {
+        functionName : (JSON_OBJECTAGG);
+        arguments : (JsonObjectAggregate_Arguments)
+    };
+}
+
 export interface Empty_Arguments extends MySyntaxNode {
     syntaxKind : "Empty_Arguments";
     fields : {
@@ -1486,6 +1520,53 @@ export interface WeightStringCastLength extends MySyntaxNode {
     };
 }
 
+export interface Aggregate_Arguments_Expression extends MySyntaxNode {
+    syntaxKind : "Aggregate_Arguments_Expression";
+    fields : {
+        allToken? : (ALL);
+        expression : (Expression)
+    };
+}
+
+export interface NumberAggregate_Arguments_Expression extends MySyntaxNode {
+    syntaxKind : "NumberAggregate_Arguments_Expression";
+    fields : {
+        distinctToken? : (DISTINCT);
+        allToken? : (ALL);
+        expression : (Expression)
+    };
+}
+
+export interface NumberAggregate_Arguments extends MySyntaxNode {
+    syntaxKind : "NumberAggregate_Arguments";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (NumberAggregate_Arguments_Expression)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface Aggregate_Arguments extends MySyntaxNode {
+    syntaxKind : "Aggregate_Arguments";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (Aggregate_Arguments_Expression)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface JsonObjectAggregate_Arguments extends MySyntaxNode {
+    syntaxKind : "JsonObjectAggregate_Arguments";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (Aggregate_Arguments_Expression)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
 export interface AsciiFunctionCall extends MySyntaxNode {
     syntaxKind : "AsciiFunctionCall";
     fields : {
@@ -1714,7 +1795,7 @@ export interface QualifiedFunctionCall extends MySyntaxNode {
     };
 }
 
-export type FunctionCall = MaybeUserDefinedFunctionCall | QualifiedFunctionCall | KeywordFunctionCall | NonKeywordFunctionCall | ConflictFunctionCall;
+export type FunctionCall = MaybeUserDefinedFunctionCall | QualifiedFunctionCall | KeywordFunctionCall | NonKeywordFunctionCall | ConflictFunctionCall | AggregateFunctionCall;
 
 export interface CharacterFunctionCall extends MySyntaxNode {
     syntaxKind : "CharacterFunctionCall";
@@ -1912,6 +1993,14 @@ export interface UtcTimestampFunctionCall extends MySyntaxNode {
 
 export type NonKeywordFunctionCall = AddDateFunctionCall | CurrentDateFunctionCall | CurrentTimeFunctionCall | DateAddIntervalFunctionCall | ExtractFunctionCall | GetFormatFunctionCall | Now | PositionFunctionCall | SubstringFunctionCall | SysDateFunctionCall | TimestampAddFunctionCall | TimestampDiffFunctionCall | UtcDateFunctionCall | UtcTimeFunctionCall | UtcTimestampFunctionCall;
 
+export interface Now extends MySyntaxNode {
+    syntaxKind : "Now";
+    fields : {
+        functionName : (CURRENT_TIMESTAMP | NOW | LOCALTIME | LOCALTIMESTAMP);
+        arguments? : (DateTimePrecisionArg)
+    };
+}
+
 export interface UserDefinedExpression extends MySyntaxNode {
     syntaxKind : "UserDefinedExpression";
     fields : {
@@ -1989,14 +2078,6 @@ export interface UnderscoreCharacterSetStringLiteral extends MySyntaxNode {
     fields : {
         underscoreCharacterSetToken : (UnderscoreCharacterSet);
         stringLiteralToken : (StringLiteral | DoubleQuotedLiteral)
-    };
-}
-
-export interface Now extends MySyntaxNode {
-    syntaxKind : "Now";
-    fields : {
-        functionName : (CURRENT_TIMESTAMP | NOW | LOCALTIME | LOCALTIMESTAMP);
-        arguments? : (DateTimePrecisionArg)
     };
 }
 

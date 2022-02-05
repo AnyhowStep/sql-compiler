@@ -248,7 +248,7 @@ export const ScopedSystemVariableIdentifier = seq(
     useCustomExtra(
         CustomExtras.noExtras,
         seq(
-            field("atToken", TokenKind.At),
+            field("atToken", cannotExpect(TokenKind.At)),
             field("atToken", TokenKind.At),
             field("scope", tokenSymbol(
                 TokenKind.SESSION,
@@ -317,7 +317,7 @@ export const UnscopedSystemVariableIdentifier = choice(
             //Don't use any extras, not even CustomExtras.noExtras
             "",
             seq(
-                field("atToken", TokenKind.At),
+                field("atToken", cannotExpect(TokenKind.At)),
                 repeatNoSkipIfAllError(consumeUnexpected(
                     tokenSymbol(extras[0], ...extras.slice(1)),
                     extras,
@@ -354,7 +354,7 @@ export const UnscopedSystemVariableIdentifier = choice(
             //Don't use any extras, not even CustomExtras.noExtras
             "",
             seq(
-                field("atToken", TokenKind.At),
+                field("atToken", cannotExpect(TokenKind.At)),
                 repeatNoSkipIfAllError(consumeUnexpected(
                     tokenSymbol(extras[0], ...extras.slice(1)),
                     extras,
