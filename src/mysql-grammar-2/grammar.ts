@@ -20,42 +20,6 @@ export const mySqlGrammar : MySqlGrammar = {
 
     //TODO Phase out
     inline : [
-        SyntaxKind.CharacterSetNameOrDefault,
-        SyntaxKind.CollationNameOrDefault,
-        SyntaxKind.Statement,
-        SyntaxKind.Schema,
-        SyntaxKind.CharSet,
-        SyntaxKind.IdentOrReserved,
-        SyntaxKind.StatementTail,
-        SyntaxKind.Partition,
-        SyntaxKind.CreateSchemaOption,
-
-
-        SyntaxKind.Expression,
-        SyntaxKind.BooleanPrimaryExpression,
-        SyntaxKind.Predicate,
-
-        SyntaxKind.BitExpression,
-
-        SyntaxKind.SimpleExpression,
-        SyntaxKind.Literal,
-        SyntaxKind.TextLiteral,
-        SyntaxKind.NumberLiteral,
-        SyntaxKind.TextString,
-
-
-        SyntaxKind.SelectStatement,
-
-        SyntaxKind.VarChar,
-        SyntaxKind.CharacterSetName,
-        SyntaxKind.CollationName,
-
-        SyntaxKind.CreateTableDefinition,
-        SyntaxKind.ColumnDefinition,
-        SyntaxKind.DataType,
-        SyntaxKind.CharacterDataType,
-        SyntaxKind.CharacterDataTypeOption,
-        SyntaxKind.IntegerDataTypeOption,
     ],
     start : SyntaxKind.SourceFile,
     rules,

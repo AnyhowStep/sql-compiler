@@ -123,7 +123,7 @@ export function scanImpl (state : LexerState) : TokenKind {
     }
 
     if (state.nextToken != undefined) {
-        console.log("nextToken", state.nextToken);
+        //console.log("nextToken", state.nextToken);
         const result = state.nextToken.tokenKind;
         state.index = state.nextToken.end;
         state.nextToken = undefined;
@@ -132,7 +132,7 @@ export function scanImpl (state : LexerState) : TokenKind {
 
     const memoized = state.memoizedTokens.get(state.index);
     if (memoized != undefined) {
-        console.log("memoized", memoized);
+        //console.log("memoized", memoized);
         state.index = memoized.end;
         return memoized.tokenKind;
     }

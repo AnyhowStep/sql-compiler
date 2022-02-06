@@ -1,0 +1,69 @@
+SELECT COUNT(expr)
+-- ALL
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 18]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 18]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 17]
+                (expression: Identifier[13, 17])
+              )
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT expr)
+-- DISTINCT
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 27]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_Distinct[12, 27]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (distinctToken: DISTINCT[13, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT COUNT(ALL expr)
+-- ALL
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 22]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 22]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 21]
+                (allToken: ALL[13, 16])
+                (WhiteSpace[16, 17])
+                (expression: Identifier[17, 21])
+              )
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT ALL expr)
+-- DISTINCT is not allowed
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 31]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 31]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 30]
+                (Unexpected DISTINCT[13, 21])
+                (WhiteSpace[21, 22])
+                (allToken: ALL[22, 25])
+                (WhiteSpace[25, 26])
+                (expression: Identifier[26, 30])
+              )
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`

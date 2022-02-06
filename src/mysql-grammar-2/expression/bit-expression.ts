@@ -1,4 +1,4 @@
-import {alias, choice, field, seq, cannotExpect, tokenSymbol, precedence} from "../../grammar-builder";
+import {alias, choice, field, seq, cannotExpect, tokenSymbol, precedence, inline} from "../../grammar-builder";
 import {parentheses, tuple1} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
@@ -16,7 +16,7 @@ export const ParenthesizedBitExpression = parentheses(
  *
  * @todo
  */
-export const BitExpression = choice(
+export const BitExpression = inline(choice(
     SyntaxKind.SimpleExpression,
     alias("BinaryBitExpression", precedence(70, seq(
         field("left", SyntaxKind.BitExpression),
@@ -72,4 +72,4 @@ export const BitExpression = choice(
         field("operator", cannotExpect(TokenKind.Caret)),
         field("right", SyntaxKind.BitExpression),
     ))),
-);
+));

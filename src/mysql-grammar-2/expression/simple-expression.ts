@@ -10,7 +10,7 @@ import {extras, TokenKind} from "../token.generated";
  *
  * @todo
  */
-export const SimpleExpression = choice(
+export const SimpleExpression = inline(choice(
     /**
      * This `Ident` could reference column, stored procedure parameter, or some local variable.
      *
@@ -42,7 +42,7 @@ export const SimpleExpression = choice(
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9528
      */
     SyntaxKind.ParenthesizedSelect,
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9524

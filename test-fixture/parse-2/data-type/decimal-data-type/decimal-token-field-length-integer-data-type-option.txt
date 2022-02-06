@@ -28,7 +28,22 @@ CREATE TABLE T (X NUMERIC (65) ZEROFILL);
 CREATE TABLE T (X FIXED (65) SIGNED UNSIGNED ZEROFILL);
 
 -----
-`(dataType: DecimalDataType[18, 53]`
-`(decimalToken: FIXED[18, 23])`
-`(precision: FieldLength[24, 28]`
-`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[29, 53]`
+`!
+          (dataType: DecimalDataType[18, 53]
+            (decimalToken: FIXED[18, 23])
+            (WhiteSpace[23, 24])
+            (precision: FieldLength[24, 28]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (fieldLength: IntegerLiteral[25, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+            (WhiteSpace[28, 29])
+            (integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[29, 53]
+              (item[]: SIGNED[29, 35])
+              (WhiteSpace[35, 36])
+              (item[]: UNSIGNED[36, 44])
+              (WhiteSpace[44, 45])
+              (item[]: ZEROFILL[45, 53])
+            )
+          )
+!`

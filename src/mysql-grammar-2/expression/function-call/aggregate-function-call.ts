@@ -7,6 +7,8 @@ export const AggregateFunctionCall = inline(choice(
     SyntaxKind.BitAggregateFunctionCall,
     SyntaxKind.StatisticalAggregateFunctionCall,
     SyntaxKind.JsonObjectAggregateFunctionCall,
+    SyntaxKind.JsonArrayAggregateFunctionCall,
+    SyntaxKind.CountAggregateFunctionCall,
 ));
 
 /**
@@ -18,7 +20,7 @@ export const AggregateFunctionCall = inline(choice(
  * no sense inside MIN and MAX grouping functions; so MIN|MAX(DISTINCT ...)
  * is processed like an ordinary MIN | MAX()
  */
- export const NumberAggregateFunctionCall = seq(
+export const NumberAggregateFunctionCall = seq(
     field("functionName", cannotExpect(tokenSymbol(
         TokenKind.AVG,
         TokenKind.MIN,
@@ -66,7 +68,26 @@ export const StatisticalAggregateFunctionCall = seq(
     field("arguments", SyntaxKind.Aggregate_Arguments),
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10077
+ */
 export const JsonObjectAggregateFunctionCall = seq(
     field("functionName", cannotExpect(TokenKind.JSON_OBJECTAGG)),
     field("arguments", SyntaxKind.JsonObjectAggregate_Arguments),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10073
+ */
+export const JsonArrayAggregateFunctionCall = seq(
+    field("functionName", cannotExpect(TokenKind.JSON_ARRAYAGG)),
+    field("arguments", SyntaxKind.Aggregate_Arguments),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10085-L10093
+ */
+export const CountAggregateFunctionCall = seq(
+    field("functionName", cannotExpect(TokenKind.COUNT)),
+    field("arguments", SyntaxKind.CountAggregate_Arguments),
 );

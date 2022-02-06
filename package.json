@@ -18,6 +18,7 @@
     "generate-grammar-unexpanded-content": "cd ./src/unexpanded-content-grammar-generator && ts-node -P ./tsconfig.json ./generator",
     "generate-grammar-mysql": "cd ./src/mysql-grammar-generator && ts-node -P ./tsconfig.json ./generator",
     "generate-grammar-mysql-2": "(npm run scanner-generator-2) && (npm run syntax-kind-generator) && (npm run rule-export-generator) && (npm run compiled-grammar-generator) && (npm run syntax-node-generator)",
+    "compile-grammar-mysql-2": "(npm run scanner-generator-2) && (npm run syntax-kind-generator) && (npm run rule-export-generator) && (npm run compiled-grammar-generator no-shape)",
     "generate-build-test-2": "(npm run generate-grammar-mysql-2) && (npm run build) && (npm run test-2)",
     "build": "tsc -b",
     "clean": "rm -r ./dist",

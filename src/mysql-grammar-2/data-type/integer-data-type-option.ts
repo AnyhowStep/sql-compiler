@@ -1,4 +1,4 @@
-import {choice, field, repeat1} from "../../grammar-builder";
+import {field, inline, repeat1, tokenSymbol} from "../../grammar-builder";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -10,8 +10,8 @@ export const IntegerDataTypeOptionRepeat1 = repeat1(field("item", SyntaxKind.Int
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6845
  */
-export const IntegerDataTypeOption = field("token", choice(
-    TokenKind.SIGNED,
+export const IntegerDataTypeOption = inline(tokenSymbol(
     TokenKind.UNSIGNED,
+    TokenKind.SIGNED,
     TokenKind.ZEROFILL,
 ));

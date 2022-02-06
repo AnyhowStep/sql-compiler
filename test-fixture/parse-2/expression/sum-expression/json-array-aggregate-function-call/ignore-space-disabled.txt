@@ -1,0 +1,30 @@
+-- @@ignore_space = false
+SELECT JSON_ARRAYAGG(1)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[33, 49]
+            (functionName: JSON_ARRAYAGG[33, 46])
+            (arguments: Aggregate_Arguments[46, 49]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (item[]: Aggregate_Arguments_Expression[47, 48]
+                (expression: IntegerLiteral[47, 48])
+              )
+              (closeParenthesesToken: CloseParentheses[48, 49])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT JSON_ARRAYAGG (1)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 50]
+            (functionName: Identifier[33, 46])
+            (WhiteSpace[46, 47])
+            (arguments: UserDefinedExpressionList_Arguments[47, 50]
+              (openParenthesesToken: OpenParentheses[47, 48])
+              (item[]: IntegerLiteral[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+!`

@@ -35,6 +35,12 @@ CREATE TABLE T (X INTEGER ZEROFILL);
 -----
 CREATE TABLE T (X BIGINT ZEROFILL);
 -----
-`(dataType: IntegerDataType[18, 33]`
-`(integerToken: BIGINT[18, 24])`
-`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[25, 33]`
+`!
+          (dataType: IntegerDataType[18, 33]
+            (integerToken: BIGINT[18, 24])
+            (WhiteSpace[24, 25])
+            (integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[25, 33]
+              (item[]: ZEROFILL[25, 33])
+            )
+          )
+!`

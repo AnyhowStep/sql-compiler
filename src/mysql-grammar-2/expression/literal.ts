@@ -1,4 +1,4 @@
-import {choice, consumeUnexpected, field, precedence, repeat1, seq, tokenSymbol, tokenSymbol2} from "../../grammar-builder";
+import {choice, consumeUnexpected, field, inline, precedence, repeat1, seq, tokenSymbol, tokenSymbol2} from "../../grammar-builder";
 import {Precedence} from "../precedence";
 import {stringLiteral} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
@@ -7,7 +7,7 @@ import {TokenKind} from "../token.generated";
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12867
  */
-export const Literal = choice(
+export const Literal = inline(choice(
     SyntaxKind.TextLiteral,
     SyntaxKind.NumberLiteral,
     SyntaxKind.TemporalLiteral,
@@ -23,19 +23,19 @@ export const Literal = choice(
     ),
     SyntaxKind.UnderscoreCharacterSetHexLiteral,
     SyntaxKind.UnderscoreCharacterSetBitLiteral,
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12797
  */
-export const TextLiteral = choice(
+export const TextLiteral = inline(choice(
     //We want `TokenKind.StringLiteral` here.
     //We do not want `TokenKind.DoubleQuotedLiteral` in this rule.
     TokenKind.StringLiteral,
     TokenKind.NationalStringLiteral,
     SyntaxKind.UnderscoreCharacterSetStringLiteral,
     SyntaxKind.ConcatenatedTextLiteral,
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12813
@@ -55,7 +55,7 @@ export const ConcatenatedTextLiteral = precedence(Precedence.ConcatenatedTextLit
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12910
  */
-export const NumberLiteral = consumeUnexpected(
+export const NumberLiteral = inline(consumeUnexpected(
     tokenSymbol(
         TokenKind.IntegerLiteral,
         TokenKind.RealLiteral,
@@ -64,16 +64,16 @@ export const NumberLiteral = consumeUnexpected(
     [
         TokenKind.MalformedRealLiteral
     ]
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L12934
  */
 export const TemporalLiteral = precedence(Precedence.TemporalLiteral, seq(
-    field("temporalToken", choice(
+    field("temporalToken", tokenSymbol(
+        TokenKind.TIMESTAMP,
         TokenKind.DATE,
         TokenKind.TIME,
-        TokenKind.TIMESTAMP,
     )),
     field("str", stringLiteral),
 ));

@@ -1,4 +1,4 @@
-import {cannotExpect, choice, field, optional, precedence, seq, tokenSymbol} from "../../grammar-builder";
+import {cannotExpect, choice, field, inline, optional, precedence, seq, tokenSymbol} from "../../grammar-builder";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -7,12 +7,12 @@ import {TokenKind} from "../token.generated";
  *
  * @todo
  */
-export const BooleanPrimaryExpression = choice(
+export const BooleanPrimaryExpression = inline(choice(
     SyntaxKind.Predicate,
     SyntaxKind.IsNullBooleanPrimaryExpression,
     SyntaxKind.ComparisonBooleanPrimaryExpression,
     SyntaxKind.ComparisonSubQueryBooleanPrimaryExpression,
-);
+));
 
 export const IsNullBooleanPrimaryExpression = precedence(60, seq(
     field("expression", SyntaxKind.BooleanPrimaryExpression),

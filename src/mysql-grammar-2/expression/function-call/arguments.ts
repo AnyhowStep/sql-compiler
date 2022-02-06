@@ -1,5 +1,5 @@
 import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat} from "../../../grammar-builder";
-import {allowedSyntaxKinds, consumeUnexpected, getTokenKinds, greedySkipExpectation} from "../../../grammar-builder/grammar";
+import {allowedSyntaxKinds, consumeUnexpected, getTokenKinds, greedySkipExpectation, skipExpectationCost} from "../../../grammar-builder/grammar";
 import {greedySkipExpression, itemSeparator, list, list1, parentheses, real_ulong_num, ulong_num} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {reservedKeywords, TokenKind} from "../../token.generated";
@@ -309,20 +309,48 @@ export const TimestampDiff_Arguments = TimestampAdd_Arguments;
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9914-L9928
  */
-export const WeightString_Arguments = choice(
+export const WeightString_Arguments = inline(choice(
     SyntaxKind.WeightString_Arguments_Default,
     SyntaxKind.WeightString_Arguments_AsChar,
     SyntaxKind.WeightString_Arguments_AsBinary,
     SyntaxKind.WeightString_Arguments_Undocumented,
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9914
  */
-export const WeightString_Arguments_Default = parentheses(seq(
-    field("expr", SyntaxKind.Expression),
-    field("levels", optional(SyntaxKind.WeightString_Levels)),
-));
+export const WeightString_Arguments_Default =
+    choice(
+        fieldLengthCheck(
+            "extraItem",
+            0,
+            0,
+            parentheses(seq(
+                field("expr", SyntaxKind.Expression),
+                optional(seq(
+                    field("commaToken", TokenKind.Comma),
+                    field("extraItem", SyntaxKind.Expression),
+                )),
+                field("levels", SyntaxKind.WeightString_Levels),
+                optional(seq(
+                    field("commaToken", TokenKind.Comma),
+                    field("extraItem", SyntaxKind.Expression),
+                )),
+            ))
+        ),
+        fieldLengthCheck(
+            "extraItem",
+            0,
+            0,
+            parentheses(seq(
+                field("expr", SyntaxKind.Expression),
+                optional(seq(
+                    field("commaToken", skipExpectationCost(2.0, TokenKind.Comma)),
+                    field("extraItem", SyntaxKind.Expression),
+                )),
+            ))
+        ),
+    );
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9918
@@ -398,7 +426,7 @@ export const WeightString_Level_Flag = choice(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L7191
  */
 export const WeightString_Level_Item = seq(
-    field("level", real_ulong_num),
+    field("level", greedySkipExpectation(skipExpectationCost(0.5, real_ulong_num))),
     field("flag", optional(SyntaxKind.WeightString_Level_Flag)),
 );
 
@@ -452,7 +480,7 @@ export const Aggregate_Arguments_Expression = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10205
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10780
  */
- export const NumberAggregate_Arguments_Expression = seq(
+export const NumberAggregate_Arguments_Expression = seq(
     field("distinctToken", optional(TokenKind.DISTINCT)),
     /**
      * The `ALL` is redundant because it is `ALL` by default.
@@ -480,9 +508,68 @@ export const Aggregate_Arguments = fieldLengthCheck(
     parentheses(list(SyntaxKind.Aggregate_Arguments_Expression))
 );
 
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10077
+ */
 export const JsonObjectAggregate_Arguments = fieldLengthCheck(
     "item",
     2,
     2,
     parentheses(list(SyntaxKind.Aggregate_Arguments_Expression))
 );
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10085
+ */
+export const CountAggregate_Arguments_All_Expression = seq(
+    // implement a greedyUnexpect or sth here.
+    // it will skip all tokens up till ALL or Expression or sth?
+    // seems like it will be computationally expensive, though. it has to "know" when to stop
+    repeat(consumeUnexpected(
+        tokenSymbol(""),
+        [
+            //This is reserved
+            TokenKind.UnderscoreCharacterSet,
+            ...reservedKeywords.filter(tokenKind => tokenKind != TokenKind.ALL),
+        ]
+    )),
+    /**
+     * The `ALL` is redundant because it is `ALL` by default.
+     */
+    field("allToken", optional(TokenKind.ALL)),
+    field("expression", choice(
+        TokenKind.Asterisk,
+        SyntaxKind.Expression,
+    )),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10085-L10093
+ */
+export const CountAggregate_Arguments_All = fieldLengthCheck(
+    "item",
+    1,
+    1,
+    parentheses(list(SyntaxKind.CountAggregate_Arguments_All_Expression))
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10085-L10093
+ */
+export const CountAggregate_Arguments_Distinct = fieldLengthCheck(
+    "item",
+    1,
+    Infinity,
+    parentheses(seq(
+        field("distinctToken", TokenKind.DISTINCT),
+        list(SyntaxKind.Expression)
+    ))
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10085-L10093
+ */
+export const CountAggregate_Arguments = inline(choice(
+    SyntaxKind.CountAggregate_Arguments_All,
+    SyntaxKind.CountAggregate_Arguments_Distinct,
+));

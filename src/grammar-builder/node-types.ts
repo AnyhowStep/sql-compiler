@@ -92,7 +92,14 @@ export interface VariableInfo {
     hasMultiStepProduction : boolean;
 }
 
-function extend (grammar : Pick<CompiledGrammar, "ruleName2Alias">, arr : Set<string>, other : string|CompiledTokenSymbol) : boolean {
+//Maps myName-otherName -> other.otherTokenKinds.length
+const testMap = new Map<Set<string>, Map<CompiledTokenSymbol, number>>();
+
+function extend (
+    grammar : Pick<CompiledGrammar, "ruleName2Alias">,
+    set : Set<string>,
+    other : string|CompiledTokenSymbol
+) : boolean {
     if (typeof other == "string") {
         other = grammar.ruleName2Alias[other] ?? other;
     }
@@ -102,44 +109,87 @@ function extend (grammar : Pick<CompiledGrammar, "ruleName2Alias">, arr : Set<st
     }
 
     if (typeof other == "string") {
-        if (arr.has(other)) {
+        if (set.has(other)) {
             return false;
         }
 
-        arr.add(other);
+        set.add(other);
         return true;
     }
 
+    //other is a token
     if (other.otherTokenKinds == undefined) {
-        if (arr.has(other.tokenKind)) {
+        if (set.has(other.tokenKind)) {
             return false;
         }
 
-        arr.add(other.tokenKind);
+        set.add(other.tokenKind);
         return true;
     }
 
+    //other is a token with otherTokenKinds
     let didChange = false;
-    if (!arr.has(other.tokenKind)) {
-        arr.add(other.tokenKind);
+    if (!set.has(other.tokenKind)) {
+        set.add(other.tokenKind);
         didChange = true;
     }
 
+    // if (other.otherTokenKinds.length > 0) {
+    //     console.count("otherTokenKinds");
+    // } else {
+    //     console.count("otherTokenKinds zero");
+    // }
+    let myMap = testMap.get(set);
+    if (myMap == undefined) {
+        myMap = new Map<CompiledTokenSymbol, number>();
+        testMap.set(set, myMap);
+    }
+    const otherTokenKindsPrvLength = myMap.get(other);
+    if (other.otherTokenKinds.length == otherTokenKindsPrvLength) {
+        //console.count("skipping otherTokenKindsCheck");
+        //Skip about 2.8 million times as of 2022-02-05
+        return didChange;
+    }
+    myMap.set(other, other.otherTokenKinds.length);
+
     for (const item of other.otherTokenKinds) {
-        if (!arr.has(item)) {
-            arr.add(item);
-            didChange = true;
-        }
+        set.add(item);
+        didChange = true;
+        // if (!set.has(item)) {
+        //     set.add(item);
+        //     didChange = true;
+        //     console.count("added otherTokenKind");
+        // } else {
+        //     console.count(`already have otherTokenKind: ${_debugLabel} ${myName} ${otherName}`);
+        // }
     }
 
     return didChange;
 }
 
-function extend2 (grammar : Pick<CompiledGrammar, "ruleName2Alias">, arr : Set<string>, other : Set<string>) : boolean {
+//Maps myName-otherName -> other.otherTokenKinds.length
+const testMap2 = new Map<Set<string>, Map<Set<string>, number>>();
+
+function extend2 (
+    grammar : Pick<CompiledGrammar, "ruleName2Alias">,
+    set : Set<string>,
+    other : Set<string>
+) : boolean {
+    let myMap = testMap2.get(set);
+    if (myMap == undefined) {
+        myMap = new Map<Set<string>, number>();
+        testMap2.set(set, myMap);
+    }
+    const otherPrvSize = myMap.get(other);
+    if (other.size == otherPrvSize) {
+        return false;
+    }
+    myMap.set(other, other.size);
+
     let didChange = false;
 
     for (const o of other) {
-        if (extend(grammar, arr, o)) {
+        if (extend(grammar, set, o)) {
             didChange = true;
         }
     }
@@ -203,6 +253,7 @@ export function getVariableInfo (
     }
 
     while (didChange) {
+        //console.time("getVariableInfo.loop");
         didChange = false;
 
         for (let i=0; i<variables.length; ++i) {
@@ -210,8 +261,12 @@ export function getVariableInfo (
 
             //todo deep clone?
             const variableInfo = result[grammar.ruleName2Alias[variable] ?? variable];
+            const productions = byName[variable];
 
-            for (const production of byName[variable]) {
+            //eslint-disable-next-line @typescript-eslint/prefer-for-of
+            for (let productionIndex=0; productionIndex<productions.length; ++productionIndex) {
+                const production = productions[productionIndex];
+                //const productionName = variable + "$" + productionIndex;
                 const production_field_quantities : Record<string, ChildQuantity> = {};
                 const production_children_quantity = zero();
                 const production_children_without_fields_quantity = zero();
@@ -220,11 +275,16 @@ export function getVariableInfo (
                 if (production.symbols.length > 1) {
                     variableInfo.hasMultiStepProduction = true;
                 }
+                //console.log(`${i} ${variable}`);
 
                 //https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L185
-                for (const step of production.symbols) {
+                //eslint-disable-next-line @typescript-eslint/prefer-for-of
+                for (let stepIndex=0; stepIndex<production.symbols.length; ++stepIndex) {
+                    const step = production.symbols[stepIndex];
+                    //const stepName = stepIndex.toString();
                     const childSymbol = step;
                     didChange ||= extend(grammar, variableInfo.children.types, childSymbol);
+                    //console.count(`didChange: J`);
 
                     const childIsHidden = (
                         typeof childSymbol == "string" &&
@@ -252,9 +312,12 @@ export function getVariableInfo (
                             };
                             variableInfo.fields[fieldName] = fieldInfo;
                         }
+                        //const fieldInfoName = productionName + "$" + fieldName;
 
+                        //console.log(`${variable}.${fieldName} A`);
                         //https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L213
                         didChange ||= extend(grammar, fieldInfo.types, childSymbol);
+                        //console.count(`didChange: I`);
 
                         let production_field_quantity = production_field_quantities[fieldName];
                         if (production_field_quantity == undefined) {
@@ -267,8 +330,11 @@ export function getVariableInfo (
                          */
                         if (childIsHidden && typeof step == "string") {
                             const childVariableInfo = result[grammar.ruleName2Alias[step] ?? step];
+                            //const childVariableInfoName = childVariableInfo.ruleName;
 
+                            //console.log(`${variable}.${fieldName} B`);
                             didChange ||= extend2(grammar, fieldInfo.types, childVariableInfo.children.types);
+                            //console.count(`didChange: H`);
 
                             append(production_field_quantity, childVariableInfo.children.quantity);
                         } else {
@@ -282,7 +348,10 @@ export function getVariableInfo (
                             production_children_without_fields_quantity,
                             one()
                         );
+                        //console.log(`${variable}.withoutFields C`);
                         didChange ||= extend(grammar, variableInfo.childrenWithoutFields.types, childSymbol);
+                        //didChange ||= extend(grammar, variableInfo.childrenWithoutFields.types, childSymbol, "G");
+                        //console.count(`didChange: G`);
                     }
 
                     /**
@@ -290,6 +359,7 @@ export function getVariableInfo (
                      */
                     if (childIsHidden && typeof step == "string") {
                         const childVariableInfo = result[grammar.ruleName2Alias[step] ?? step];
+                        //const childVariableInfoName = childVariableInfo.ruleName;
 
                         /**
                          * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L246
@@ -314,15 +384,20 @@ export function getVariableInfo (
                                 };
                                 variableInfo.fields[fieldName] = fieldInfo;
                             }
+                            //const fieldInfoName = productionName + "$" + fieldName;
 
+                            //console.log(`${variable}.${fieldName} D`);
                             didChange ||= extend2(grammar, fieldInfo.types, childFieldInfo.types);
+                            //console.count(`didChange: F`);
                         }
 
                         /**
                          * https://github.com/tree-sitter/tree-sitter/blob/master/cli/src/generate/node_types.rs#L269
                          */
                         append(production_children_quantity, childVariableInfo.children.quantity);
+                        //console.log(`${variable} E`);
                         didChange ||= extend2(grammar, variableInfo.children.types, childVariableInfo.children.types);
+                        //console.count(`didChange: E`);
 
                         if (fieldName == undefined) {
                             const grandchildrenInfo = childVariableInfo.childrenWithoutFields;
@@ -331,11 +406,13 @@ export function getVariableInfo (
                                     production_children_without_fields_quantity,
                                     childVariableInfo.childrenWithoutFields.quantity
                                 );
+                                //console.log(`${variable} F`);
                                 didChange ||= extend2(
                                     grammar,
                                     variableInfo.childrenWithoutFields.types,
                                     childVariableInfo.childrenWithoutFields.types
                                 );
+                                //console.count(`didChange: D`);
                             }
                         }
                     }
@@ -357,6 +434,7 @@ export function getVariableInfo (
                         production_children_quantity
                     )) {
                         didChange = true;
+                        //console.count(`didChange: C`);
                     }
 
                     if (union(
@@ -364,6 +442,7 @@ export function getVariableInfo (
                         production_children_without_fields_quantity
                     )) {
                         didChange = true;
+                        //console.count(`didChange: B`);
                     }
 
                     for (const [fieldName, fieldInfo] of Object.entries(variableInfo.fields)) {
@@ -372,6 +451,7 @@ export function getVariableInfo (
                             production_field_quantities[fieldName] ?? zero()
                         )) {
                             didChange = true;
+                            //console.count(`didChange: A`);
                         }
                     }
                 }
@@ -379,6 +459,7 @@ export function getVariableInfo (
         }
 
         allInitialized = true;
+        //console.timeEnd("getVariableInfo.loop");
     }
 
     for (const variableInfo of Object.values(result)) {

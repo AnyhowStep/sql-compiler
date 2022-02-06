@@ -1,4 +1,4 @@
-import {cannotExpect, choice, field, optional, precedence, seq} from "../../grammar-builder";
+import {cannotExpect, choice, field, inline, optional, precedence, seq} from "../../grammar-builder";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -7,7 +7,7 @@ import {TokenKind} from "../token.generated";
  *
  * @todo
  */
-export const Predicate = choice(
+export const Predicate = inline(choice(
     SyntaxKind.BitExpression,
     SyntaxKind.InSubQueryPredicate,
     SyntaxKind.InExpressionTuple1Predicate,
@@ -15,7 +15,7 @@ export const Predicate = choice(
     SyntaxKind.SoundsLikePredicate,
     SyntaxKind.LikePredicate,
     SyntaxKind.RegExpPredicate,
-);
+));
 
 export const InSubQueryPredicate = precedence(60, seq(
     field("expression", SyntaxKind.BitExpression),

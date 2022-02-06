@@ -1,4 +1,4 @@
-import {choice, field, repeat1, seq} from "../../../grammar-builder";
+import {choice, field, inline, repeat1, seq} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
@@ -10,7 +10,7 @@ export const ColumnDefinitionOptionRepeat1 = repeat1(field("item", SyntaxKind.Co
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6881
  */
-export const ColumnDefinitionOption = choice(
+export const ColumnDefinitionOption = inline(choice(
     SyntaxKind.ColumnDefinitionOptionNull,
     SyntaxKind.ColumnDefinitionOptionNotNull,
     SyntaxKind.ColumnDefinitionOptionDefaultValue,
@@ -24,7 +24,7 @@ export const ColumnDefinitionOption = choice(
     SyntaxKind.ColumnDefinitionOptionCollate,
     SyntaxKind.ColumnDefinitionOptionColumnFormat,
     SyntaxKind.ColumnDefinitionOptionStorage,
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6882

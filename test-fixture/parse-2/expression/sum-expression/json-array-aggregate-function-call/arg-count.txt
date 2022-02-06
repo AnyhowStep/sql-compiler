@@ -1,0 +1,347 @@
+SELECT JSON_ARRAYAGG()
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 22]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 0} arguments: Aggregate_Arguments[20, 22]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 30]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            (arguments: Aggregate_Arguments[20, 30]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 29]
+                (Unexpected DISTINCT[21, 29])
+                (Expected expression: Identifier[29, 29])
+              )
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(ALL)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 25]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            (arguments: Aggregate_Arguments[20, 25]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 24]
+                (allToken: ALL[21, 24])
+                (Expected expression: Identifier[24, 24])
+              )
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT ALL)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 34]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            (arguments: Aggregate_Arguments[20, 34]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 33]
+                (Unexpected DISTINCT[21, 29])
+                (WhiteSpace[29, 30])
+                (allToken: ALL[30, 33])
+                (Expected expression: Identifier[33, 33])
+              )
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT ALL)
+-- TODO Fix this. If you add extra stuff, the parse is different from above.
+-- This is not the first time we have seen this.
+-- Maybe dummy token to the end of input as part of the parse?
+-- That feels very hacky but would sort of solve the problem...
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 34]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            (arguments: Aggregate_Arguments[20, 34]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 33]
+                (Unexpected DISTINCT[21, 29])
+                (WhiteSpace[29, 30])
+                (allToken: ALL[30, 33])
+                (Expected expression: Identifier[33, 33])
+              )
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(expr)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 26]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            (arguments: Aggregate_Arguments[20, 26]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 25]
+                (expression: Identifier[21, 25])
+              )
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT expr)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 35]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            (arguments: Aggregate_Arguments[20, 35]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 34]
+                (Unexpected DISTINCT[21, 29])
+                (WhiteSpace[29, 30])
+                (expression: Identifier[30, 34])
+              )
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(ALL expr)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 30]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            (arguments: Aggregate_Arguments[20, 30]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 29]
+                (allToken: ALL[21, 24])
+                (WhiteSpace[24, 25])
+                (expression: Identifier[25, 29])
+              )
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT ALL expr)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 39]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            (arguments: Aggregate_Arguments[20, 39]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 38]
+                (Unexpected DISTINCT[21, 29])
+                (WhiteSpace[29, 30])
+                (allToken: ALL[30, 33])
+                (WhiteSpace[33, 34])
+                (expression: Identifier[34, 38])
+              )
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(expr, a)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 29]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 2} arguments: Aggregate_Arguments[20, 29]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 25]
+                (expression: Identifier[21, 25])
+              )
+              (commaToken[]: Comma[25, 26])
+              (WhiteSpace[26, 27])
+              (item[]: Aggregate_Arguments_Expression[27, 28]
+                (expression: Identifier[27, 28])
+              )
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT expr, a)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 38]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 2} arguments: Aggregate_Arguments[20, 38]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 34]
+                (Unexpected DISTINCT[21, 29])
+                (WhiteSpace[29, 30])
+                (expression: Identifier[30, 34])
+              )
+              (commaToken[]: Comma[34, 35])
+              (WhiteSpace[35, 36])
+              (item[]: Aggregate_Arguments_Expression[36, 37]
+                (expression: Identifier[36, 37])
+              )
+              (closeParenthesesToken: CloseParentheses[37, 38])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(ALL expr, a)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 33]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 2} arguments: Aggregate_Arguments[20, 33]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 29]
+                (allToken: ALL[21, 24])
+                (WhiteSpace[24, 25])
+                (expression: Identifier[25, 29])
+              )
+              (commaToken[]: Comma[29, 30])
+              (WhiteSpace[30, 31])
+              (item[]: Aggregate_Arguments_Expression[31, 32]
+                (expression: Identifier[31, 32])
+              )
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT ALL expr, a)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 42]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 2} arguments: Aggregate_Arguments[20, 42]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 38]
+                (Unexpected DISTINCT[21, 29])
+                (WhiteSpace[29, 30])
+                (allToken: ALL[30, 33])
+                (WhiteSpace[33, 34])
+                (expression: Identifier[34, 38])
+              )
+              (commaToken[]: Comma[38, 39])
+              (WhiteSpace[39, 40])
+              (item[]: Aggregate_Arguments_Expression[40, 41]
+                (expression: Identifier[40, 41])
+              )
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(expr, a, b)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 32]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 3} arguments: Aggregate_Arguments[20, 32]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 25]
+                (expression: Identifier[21, 25])
+              )
+              (commaToken[]: Comma[25, 26])
+              (WhiteSpace[26, 27])
+              (item[]: Aggregate_Arguments_Expression[27, 28]
+                (expression: Identifier[27, 28])
+              )
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: Aggregate_Arguments_Expression[30, 31]
+                (expression: Identifier[30, 31])
+              )
+              (closeParenthesesToken: CloseParentheses[31, 32])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT expr, a, b)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 41]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 3} arguments: Aggregate_Arguments[20, 41]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 34]
+                (Unexpected DISTINCT[21, 29])
+                (WhiteSpace[29, 30])
+                (expression: Identifier[30, 34])
+              )
+              (commaToken[]: Comma[34, 35])
+              (WhiteSpace[35, 36])
+              (item[]: Aggregate_Arguments_Expression[36, 37]
+                (expression: Identifier[36, 37])
+              )
+              (commaToken[]: Comma[37, 38])
+              (WhiteSpace[38, 39])
+              (item[]: Aggregate_Arguments_Expression[39, 40]
+                (expression: Identifier[39, 40])
+              )
+              (closeParenthesesToken: CloseParentheses[40, 41])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(ALL expr, a, b)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 36]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 3} arguments: Aggregate_Arguments[20, 36]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 29]
+                (allToken: ALL[21, 24])
+                (WhiteSpace[24, 25])
+                (expression: Identifier[25, 29])
+              )
+              (commaToken[]: Comma[29, 30])
+              (WhiteSpace[30, 31])
+              (item[]: Aggregate_Arguments_Expression[31, 32]
+                (expression: Identifier[31, 32])
+              )
+              (commaToken[]: Comma[32, 33])
+              (WhiteSpace[33, 34])
+              (item[]: Aggregate_Arguments_Expression[34, 35]
+                (expression: Identifier[34, 35])
+              )
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`
+-----
+SELECT JSON_ARRAYAGG(DISTINCT ALL expr, a, b)
+-----
+`!
+          (expression: JsonArrayAggregateFunctionCall[7, 45]
+            (functionName: JSON_ARRAYAGG[7, 20])
+            ({Expected exactly 1 item, found 3} arguments: Aggregate_Arguments[20, 45]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Aggregate_Arguments_Expression[21, 38]
+                (Unexpected DISTINCT[21, 29])
+                (WhiteSpace[29, 30])
+                (allToken: ALL[30, 33])
+                (WhiteSpace[33, 34])
+                (expression: Identifier[34, 38])
+              )
+              (commaToken[]: Comma[38, 39])
+              (WhiteSpace[39, 40])
+              (item[]: Aggregate_Arguments_Expression[40, 41]
+                (expression: Identifier[40, 41])
+              )
+              (commaToken[]: Comma[41, 42])
+              (WhiteSpace[42, 43])
+              (item[]: Aggregate_Arguments_Expression[43, 44]
+                (expression: Identifier[43, 44])
+              )
+              (closeParenthesesToken: CloseParentheses[44, 45])
+            )
+          )
+!`

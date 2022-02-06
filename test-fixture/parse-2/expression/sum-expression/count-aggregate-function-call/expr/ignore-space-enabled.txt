@@ -1,0 +1,30 @@
+SELECT COUNT(1)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 15]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 15]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 14]
+                (expression: IntegerLiteral[13, 14])
+              )
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT COUNT (1)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 16]
+            (functionName: COUNT[7, 12])
+            (WhiteSpace[12, 13])
+            (arguments: CountAggregate_Arguments_All[13, 16]
+              (openParenthesesToken: OpenParentheses[13, 14])
+              (item[]: CountAggregate_Arguments_All_Expression[14, 15]
+                (expression: IntegerLiteral[14, 15])
+              )
+              (closeParenthesesToken: CloseParentheses[15, 16])
+            )
+          )
+!`

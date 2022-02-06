@@ -1,4 +1,4 @@
-import {alias, cannotExpect, choice, field, optional, precedence, seq, tokenSymbol} from "../../grammar-builder";
+import {alias, cannotExpect, choice, field, inline, optional, precedence, seq, tokenSymbol} from "../../grammar-builder";
 import {parentheses, tuple1} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
@@ -33,7 +33,7 @@ export const NotExpression = precedence(40, seq(
  *
  * @todo
  */
-export const Expression = choice(
+export const Expression = inline(choice(
     SyntaxKind.BooleanPrimaryExpression,
     SyntaxKind.IsExpression,
     SyntaxKind.NotExpression,
@@ -83,7 +83,7 @@ export const Expression = choice(
         ))),
         field("right", SyntaxKind.Expression),
     ))),
-);
+));
 
 export const ExpressionTuple1 = tuple1(SyntaxKind.Expression);
 

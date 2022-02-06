@@ -1,8 +1,8 @@
-import {choice, field, optional, seq} from "../../grammar-builder";
+import {choice, field, inline, optional, seq, tokenSymbol} from "../../grammar-builder";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
-export const DataType = choice(
+export const DataType = inline(choice(
     SyntaxKind.BinaryDataType,
     SyntaxKind.VarBinaryDataType,
     SyntaxKind.BitDataType,
@@ -26,7 +26,7 @@ export const DataType = choice(
     SyntaxKind.TimeDataType,
     SyntaxKind.TimestampDataType,
     SyntaxKind.YearDataType,
-);
+));
 
 /**
  * https://dev.mysql.com/doc/refman/5.7/en/char.html
@@ -72,7 +72,7 @@ export const BitDataType = seq(
  */
 export const BlobDataType = choice(
     seq(
-        field("blobToken", choice(
+        field("blobToken", tokenSymbol(
             TokenKind.TINYBLOB,
             TokenKind.MEDIUMBLOB,
             TokenKind.LONGBLOB,
@@ -95,18 +95,18 @@ export const LongVarBinaryDataType = seq(
 );
 
 export const BooleanDataType = seq(
-    field("booleanToken", choice(
+    field("booleanToken", tokenSymbol(
         TokenKind.BOOLEAN,
         TokenKind.BOOL,
     )),
 );
 
-export const CharacterDataType = choice(
+export const CharacterDataType = inline(choice(
     SyntaxKind.NCharDataType,
     SyntaxKind.CharDataType,
     SyntaxKind.NVarCharDataType,
     SyntaxKind.VarCharDataType,
-);
+));
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6520-L6527
  */
@@ -206,7 +206,7 @@ export const DateTimeDataType = seq(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6686-L6703
  */
 export const DecimalDataType = seq(
-    field("decimalToken", choice(
+    field("decimalToken", tokenSymbol(
         TokenKind.DECIMAL,
         TokenKind.DEC,
         TokenKind.NUMERIC,
@@ -277,11 +277,11 @@ export const FloatDataType = seq(
  *
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6739-L6752
  */
-export const GeometryCollectionDataType = field("geometryCollectionToken", choice(
+export const GeometryCollectionDataType = field("geometryCollectionToken", tokenSymbol(
+    TokenKind.GEOMETRYCOLLECTION,
     TokenKind.MULTIPOINT,
     TokenKind.MULTILINESTRING,
     TokenKind.MULTIPOLYGON,
-    TokenKind.GEOMETRYCOLLECTION,
 ));
 
 /**
@@ -289,11 +289,11 @@ export const GeometryCollectionDataType = field("geometryCollectionToken", choic
  *
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6739-L6752
  */
-export const GeometryDataType = field("geometryToken", choice(
+export const GeometryDataType = field("geometryToken", tokenSymbol(
+    TokenKind.GEOMETRY,
     TokenKind.POINT,
     TokenKind.LINESTRING,
     TokenKind.POLYGON,
-    TokenKind.GEOMETRY,
 ));
 
 /**
@@ -305,11 +305,11 @@ export const IntegerDataType = seq(
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6777
      */
-    field("integerToken", choice(
+    field("integerToken", tokenSymbol(
+        TokenKind.INT,
         TokenKind.TINYINT,
         TokenKind.SMALLINT,
         TokenKind.MEDIUMINT,
-        TokenKind.INT,
         TokenKind.INTEGER,
         TokenKind.BIGINT,
     )),
@@ -347,7 +347,7 @@ export const TextDataType = choice(
         /**
          * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6661-L6680
          */
-        field("textToken", choice(
+        field("textToken", tokenSymbol(
             TokenKind.TINYTEXT,
             TokenKind.MEDIUMTEXT,
             TokenKind.LONGTEXT,
