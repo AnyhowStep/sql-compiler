@@ -461,7 +461,10 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
         );
     }
 
-    for (const ruleName of Object.keys(grammar.rules)) {
+    const grammarKeys = Object.keys(grammar.rules);
+    console.log(`${grammarKeys.length} rules found`);
+    console.time("Building rules");
+    for (const ruleName of grammarKeys) {
         const ruleOrModifier = grammar.rules[ruleName];
 
         const modifier : TopLevelRuleModifier = (
@@ -517,7 +520,9 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
             }
         }
     }
+    console.timeEnd("Building rules");
 
+    console.time("Building shapes");
     const ruleName2Shape = buildRuleName2Shape(
         {
             inline : state.inline,
@@ -528,6 +533,7 @@ export function buildGrammar (grammar : Grammar) : CompiledGrammar {
         },
         isVisible
     );
+    console.timeEnd("Building shapes");
 
     return {
         tokens : grammar.tokens,

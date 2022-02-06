@@ -4,21 +4,19 @@ SELECT WEIGHT_STRING(a AS BINARY(999))
 `!
           (expression: WeightStringFunctionCall[33, 64]
             (functionName: WEIGHT_STRING[33, 46])
-            (arguments: WeightString_Arguments[46, 64]
-              (WeightString_Arguments_AsBinary[46, 64]
-                (openParenthesesToken: OpenParentheses[46, 47])
-                (expr: Identifier[47, 48])
-                (WhiteSpace[48, 49])
-                (asToken: AS[49, 51])
-                (WhiteSpace[51, 52])
-                (binaryToken: BINARY[52, 58])
-                (length: WeightStringCastLength[58, 63]
-                  (openParenthesesToken: OpenParentheses[58, 59])
-                  (length: IntegerLiteral[59, 62])
-                  (closeParenthesesToken: CloseParentheses[62, 63])
-                )
-                (closeParenthesesToken: CloseParentheses[63, 64])
+            (arguments: WeightString_Arguments_AsBinary[46, 64]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (expr: Identifier[47, 48])
+              (WhiteSpace[48, 49])
+              (asToken: AS[49, 51])
+              (WhiteSpace[51, 52])
+              (binaryToken: BINARY[52, 58])
+              (length: WeightStringCastLength[58, 63]
+                (openParenthesesToken: OpenParentheses[58, 59])
+                (length: IntegerLiteral[59, 62])
+                (closeParenthesesToken: CloseParentheses[62, 63])
               )
+              (closeParenthesesToken: CloseParentheses[63, 64])
             )
           )
 !`
@@ -30,21 +28,19 @@ SELECT WEIGHT_STRING (a AS BINARY(999))
           (expression: WeightStringFunctionCall[33, 65]
             (functionName: WEIGHT_STRING[33, 46])
             (WhiteSpace[46, 47])
-            (arguments: WeightString_Arguments[47, 65]
-              (WeightString_Arguments_AsBinary[47, 65]
-                (openParenthesesToken: OpenParentheses[47, 48])
-                (expr: Identifier[48, 49])
-                (WhiteSpace[49, 50])
-                (asToken: AS[50, 52])
-                (WhiteSpace[52, 53])
-                (binaryToken: BINARY[53, 59])
-                (length: WeightStringCastLength[59, 64]
-                  (openParenthesesToken: OpenParentheses[59, 60])
-                  (length: IntegerLiteral[60, 63])
-                  (closeParenthesesToken: CloseParentheses[63, 64])
-                )
-                (closeParenthesesToken: CloseParentheses[64, 65])
+            (arguments: WeightString_Arguments_AsBinary[47, 65]
+              (openParenthesesToken: OpenParentheses[47, 48])
+              (expr: Identifier[48, 49])
+              (WhiteSpace[49, 50])
+              (asToken: AS[50, 52])
+              (WhiteSpace[52, 53])
+              (binaryToken: BINARY[53, 59])
+              (length: WeightStringCastLength[59, 64]
+                (openParenthesesToken: OpenParentheses[59, 60])
+                (length: IntegerLiteral[60, 63])
+                (closeParenthesesToken: CloseParentheses[63, 64])
               )
+              (closeParenthesesToken: CloseParentheses[64, 65])
             )
           )
 !`

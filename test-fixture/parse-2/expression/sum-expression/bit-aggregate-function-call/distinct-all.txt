@@ -69,3 +69,23 @@ SELECT BIT_AND(DISTINCT ALL expr)
             )
           )
 !`
+-----
+SELECT BIT_AND(ALL DISTINCT expr)
+-- DISTINCT is not allowed
+-----
+`!
+          (expression: BitAggregateFunctionCall[7, 33]
+            (functionName: BIT_AND[7, 14])
+            (arguments: Aggregate_Arguments[14, 33]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Aggregate_Arguments_Expression[15, 32]
+                (allToken: ALL[15, 18])
+                (WhiteSpace[18, 19])
+                (Unexpected DISTINCT[19, 27])
+                (WhiteSpace[27, 28])
+                (expression: Identifier[28, 32])
+              )
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`

@@ -1,4 +1,4 @@
-import {choice, field, seq} from "../../grammar-builder";
+import {choice, field, seq, tokenSymbol} from "../../grammar-builder";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {TokenKind} from "../token.generated";
 
@@ -10,7 +10,10 @@ export const SignedLiteral = choice(
         field("literal", SyntaxKind.Literal),
     ),
     seq(
-        field("sign", choice(TokenKind.Plus, TokenKind.Minus)),
+        field("sign", tokenSymbol(
+            TokenKind.Minus,
+            TokenKind.Plus,
+        )),
         field("literal", SyntaxKind.NumberLiteral),
     ),
 );

@@ -18,9 +18,27 @@ CREATE TABLE T (X DOUBLE (2, 23) UNSIGNED);
 CREATE TABLE T (X DOUBLE PRECISION (2, 23) SIGNED UNSIGNED ZEROFILL);
 
 -----
-`(dataType: RealDataType[18, 67]`
-`(realToken[]: DOUBLE[18, 24])`
-`(WhiteSpace[24, 25])`
-`(realToken[]: PRECISION[25, 34])`
-`(precision: RealPrecision[35, 42]`
-`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[43, 67]`
+`!
+          (dataType: RealDataType[18, 67]
+            (realToken[]: DOUBLE[18, 24])
+            (WhiteSpace[24, 25])
+            (realToken[]: PRECISION[25, 34])
+            (WhiteSpace[34, 35])
+            (precision: RealPrecision[35, 42]
+              (openParenthesesToken: OpenParentheses[35, 36])
+              (precision: IntegerLiteral[36, 37])
+              (commaToken: Comma[37, 38])
+              (WhiteSpace[38, 39])
+              (scale: IntegerLiteral[39, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+            (WhiteSpace[42, 43])
+            (integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[43, 67]
+              (item[]: SIGNED[43, 49])
+              (WhiteSpace[49, 50])
+              (item[]: UNSIGNED[50, 58])
+              (WhiteSpace[58, 59])
+              (item[]: ZEROFILL[59, 67])
+            )
+          )
+!`

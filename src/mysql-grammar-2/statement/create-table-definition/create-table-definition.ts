@@ -1,25 +1,25 @@
-import {choice, field, optional, seq} from "../../../grammar-builder";
+import {choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {tuple1} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
 export const CreateTableDefinitionTuple1 = tuple1(SyntaxKind.CreateTableDefinition);
 
-export const CreateTableDefinition = choice(
+export const CreateTableDefinition = inline(choice(
     SyntaxKind.ColumnDefinition,
     SyntaxKind.IndexDefinition,
     SyntaxKind.CheckDefinition,
     SyntaxKind.PrimaryKeyDefinition,
     SyntaxKind.ForeignKeyDefinition,
-);
+));
 
 /**
  * @todo
  */
-export const ColumnDefinition = choice(
+export const ColumnDefinition = inline(choice(
     SyntaxKind.NonGeneratedColumnDefinition,
     SyntaxKind.GeneratedColumnDefinition,
-);
+));
 
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L6357
@@ -40,7 +40,7 @@ export const GeneratedColumnDefinition = seq(
     field("generatedAlways", optional(SyntaxKind.GeneratedAlways)),
     field("asToken", TokenKind.AS),
     field("parenthesizedExpression", SyntaxKind.ParenthesizedExpression),
-    field("storedAttribute", optional(choice(
+    field("storedAttribute", optional(tokenSymbol(
         TokenKind.VIRTUAL,
         TokenKind.STORED,
     ))),

@@ -4,12 +4,10 @@ SELECT WEIGHT_STRING(a)
 `!
           (expression: WeightStringFunctionCall[33, 49]
             (functionName: WEIGHT_STRING[33, 46])
-            (arguments: WeightString_Arguments[46, 49]
-              (WeightString_Arguments_Default[46, 49]
-                (openParenthesesToken: OpenParentheses[46, 47])
-                (expr: Identifier[47, 48])
-                (closeParenthesesToken: CloseParentheses[48, 49])
-              )
+            (arguments: WeightString_Arguments_Default[46, 49]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (expr: Identifier[47, 48])
+              (closeParenthesesToken: CloseParentheses[48, 49])
             )
           )
 !`
@@ -21,12 +19,10 @@ SELECT WEIGHT_STRING (a)
           (expression: WeightStringFunctionCall[33, 50]
             (functionName: WEIGHT_STRING[33, 46])
             (WhiteSpace[46, 47])
-            (arguments: WeightString_Arguments[47, 50]
-              (WeightString_Arguments_Default[47, 50]
-                (openParenthesesToken: OpenParentheses[47, 48])
-                (expr: Identifier[48, 49])
-                (closeParenthesesToken: CloseParentheses[49, 50])
-              )
+            (arguments: WeightString_Arguments_Default[47, 50]
+              (openParenthesesToken: OpenParentheses[47, 48])
+              (expr: Identifier[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
             )
           )
 !`

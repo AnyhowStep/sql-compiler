@@ -40,7 +40,18 @@ CREATE TABLE T (X INTEGER (10) ZEROFILL);
 -----
 CREATE TABLE T (X BIGINT (10) ZEROFILL);
 -----
-`(dataType: IntegerDataType[18, 38]`
-`(integerToken: BIGINT[18, 24])`
-`(fieldLength: FieldLength[25, 29]`
-`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[30, 38]`
+`!
+          (dataType: IntegerDataType[18, 38]
+            (integerToken: BIGINT[18, 24])
+            (WhiteSpace[24, 25])
+            (fieldLength: FieldLength[25, 29]
+              (openParenthesesToken: OpenParentheses[25, 26])
+              (fieldLength: IntegerLiteral[26, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+            (WhiteSpace[29, 30])
+            (integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[30, 38]
+              (item[]: ZEROFILL[30, 38])
+            )
+          )
+!`

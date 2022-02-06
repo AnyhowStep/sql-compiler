@@ -549,7 +549,7 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
             /**
              * We treat this as just an identifier.
              */
-            console.log("keywordTokenKind", keywordTokenKind);
+            //console.log("keywordTokenKind", keywordTokenKind);
             state.memoizedTokens.set(state.index, {
                 tokenKind : TokenKind.Identifier,
                 end : tmp.index,
@@ -558,14 +558,14 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
             return TokenKind.Identifier;
         } else {
             const [peekedA, peekedB] = peekToken2(tmp, undefined);
-            console.log("peekedA, peekedB", peekedA, peekedB);
+            //console.log("peekedA, peekedB", peekedA, peekedB);
             if (
                 peekedA == TokenKind.Dot &&
                 !Object.prototype.hasOwnProperty.call(Extras, peekedB) &&
                 peekedB != TokenKind.StringLiteral &&
                 peekedB != TokenKind.DoubleQuotedLiteral
             ) {
-                console.log("state.lastNonExtraTokenKind", state.lastNonExtraTokenKind, state);
+                //console.log("state.lastNonExtraTokenKind", state.lastNonExtraTokenKind, state);
                 if (state.lastNonExtraTokenKind == TokenKind.At) {
                     /**
                      * The previous token is an `@`.
@@ -574,7 +574,7 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
                      *
                      * As a special case, we might also have `@ SELECT`, or `@ GLOBAL`
                      */
-                    console.log("a", state.index, keywordTokenKind);
+                    //console.log("a", state.index, keywordTokenKind);
                     state.memoizedTokens.set(state.index, {
                         tokenKind : keywordTokenKind,
                         end : tmp.index,
@@ -585,7 +585,7 @@ export function tryScanIdentifierOrKeywordOrNumberLiteral (state : LexerState, c
                     /**
                      * We treat this as just an identifier.
                      */
-                    console.log("b", state.index, keywordTokenKind);
+                    //console.log("b", state.index, keywordTokenKind);
                     state.memoizedTokens.set(state.index, {
                         tokenKind : TokenKind.Identifier,
                         end : tmp.index,
@@ -827,7 +827,16 @@ export function scanHostname (state : LexerState, customDelimiter : string) {
     }
 }
 
-export function scanInstanceAndComponent (state : LexerState, tmp : LexerState, tokenKind : TokenKind, start : number, end : number) : void {
+/**
+ * @todo Delete `_tmp`
+ *
+ * @param state
+ * @param _tmp
+ * @param tokenKind
+ * @param start
+ * @param end
+ */
+export function scanInstanceAndComponent (state : LexerState, _tmp : LexerState, tokenKind : TokenKind, start : number, end : number) : void {
 
     if (tokenKind == TokenKind.Hostname) {
         const substr = state.text.substring(start, end);
@@ -853,9 +862,9 @@ export function scanInstanceAndComponent (state : LexerState, tmp : LexerState, 
                 end : start + dot + 1,
             });
         }
-        console.log("hostname set");
+        //console.log("hostname set");
     } else if (tokenKind == TokenKind.Identifier) {
-        console.log("tokenKind", tokenKind, state.text.substring(start, end), tmp.lastNonExtraTokenKind);
+        //console.log("tokenKind", tokenKind, state.text.substring(start, end), tmp.lastNonExtraTokenKind);
         state.memoizedTokens.set(start, {
             tokenKind,
             end,
@@ -938,17 +947,17 @@ export function tryScanSystemVariable (state : LexerState) : boolean {
     //tmp just scanned the 'At' token.
     //We call scan one more time to see if we get identifier, integer, decimal, or real literal
     const start = tmp.index;
-    console.log("tmp.lastNonExtraTokenKind", tmp.lastNonExtraTokenKind);
+    //console.log("tmp.lastNonExtraTokenKind", tmp.lastNonExtraTokenKind);
     const tokenKind = scan(tmp);
     const end = tmp.index;
-    console.log("scan(tmp)", tokenKind, start, end);
+    //console.log("scan(tmp)", tokenKind, start, end);
 
     if (
         tokenKind == TokenKind.GLOBAL ||
         tokenKind == TokenKind.LOCAL ||
         tokenKind == TokenKind.SESSION
     ) {
-        console.log("Scoped", tokenKind);
+        //console.log("Scoped", tokenKind);
         state.memoizedTokens.set(start, {
             tokenKind,
             end,
@@ -973,10 +982,10 @@ export function tryScanSystemVariable (state : LexerState) : boolean {
                 tmp.lastNonExtraTokenKind = TokenKind.At;
                 state.memoizedTokens.delete(tmp.index);
                 const start = tmp.index;
-                console.log("tmp.lastNonExtraTokenKind", tmp.lastNonExtraTokenKind);
+                //console.log("tmp.lastNonExtraTokenKind", tmp.lastNonExtraTokenKind);
                 const tokenKind = scan(tmp);
                 const end = tmp.index;
-                console.log("scan(tmp)", tokenKind, start, end);
+                //console.log("scan(tmp)", tokenKind, start, end);
                 scanInstanceAndComponent(state, tmp, tokenKind, start, end);
                 return true;
 

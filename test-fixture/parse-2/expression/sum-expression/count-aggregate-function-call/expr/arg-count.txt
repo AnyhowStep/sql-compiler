@@ -1,0 +1,332 @@
+SELECT COUNT()
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 14]
+            (functionName: COUNT[7, 12])
+            ({Expected exactly 1 item, found 0} arguments: CountAggregate_Arguments_All[12, 14]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (closeParenthesesToken: CloseParentheses[13, 14])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 22]
+            (functionName: COUNT[7, 12])
+            ({Expected at least 1 item, found 0} arguments: CountAggregate_Arguments_Distinct[12, 22]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (distinctToken: DISTINCT[13, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT COUNT(ALL)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 17]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 17]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 16]
+                (allToken: ALL[13, 16])
+                (Expected expression: Asterisk[16, 16])
+              )
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT ALL)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 26]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 26]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 25]
+                (Unexpected DISTINCT[13, 21])
+                (WhiteSpace[21, 22])
+                (allToken: ALL[22, 25])
+                (Expected expression: Asterisk[25, 25])
+              )
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT ALL)
+-- TODO Fix this. If you add extra stuff, the parse is different from above.
+-- This is not the first time we have seen this.
+-- Maybe dummy token to the end of input as part of the parse?
+-- That feels very hacky but would sort of solve the problem...
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 26]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 26]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 25]
+                (Unexpected DISTINCT[13, 21])
+                (WhiteSpace[21, 22])
+                (allToken: ALL[22, 25])
+                (Expected expression: Asterisk[25, 25])
+              )
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`
+-----
+SELECT COUNT(expr)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 18]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 18]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 17]
+                (expression: Identifier[13, 17])
+              )
+              (closeParenthesesToken: CloseParentheses[17, 18])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT expr)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 27]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_Distinct[12, 27]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (distinctToken: DISTINCT[13, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 26])
+              (closeParenthesesToken: CloseParentheses[26, 27])
+            )
+          )
+!`
+-----
+SELECT COUNT(ALL expr)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 22]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 22]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 21]
+                (allToken: ALL[13, 16])
+                (WhiteSpace[16, 17])
+                (expression: Identifier[17, 21])
+              )
+              (closeParenthesesToken: CloseParentheses[21, 22])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT ALL expr)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 31]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 31]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 30]
+                (Unexpected DISTINCT[13, 21])
+                (WhiteSpace[21, 22])
+                (allToken: ALL[22, 25])
+                (WhiteSpace[25, 26])
+                (expression: Identifier[26, 30])
+              )
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT COUNT(expr, a)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 21]
+            (functionName: COUNT[7, 12])
+            ({Expected exactly 1 item, found 2} arguments: CountAggregate_Arguments_All[12, 21]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 17]
+                (expression: Identifier[13, 17])
+              )
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: CountAggregate_Arguments_All_Expression[19, 20]
+                (expression: Identifier[19, 20])
+              )
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT expr, a)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 30]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_Distinct[12, 30]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (distinctToken: DISTINCT[13, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (item[]: Identifier[28, 29])
+              (closeParenthesesToken: CloseParentheses[29, 30])
+            )
+          )
+!`
+-----
+SELECT COUNT(ALL expr, a)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 25]
+            (functionName: COUNT[7, 12])
+            ({Expected exactly 1 item, found 2} arguments: CountAggregate_Arguments_All[12, 25]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 21]
+                (allToken: ALL[13, 16])
+                (WhiteSpace[16, 17])
+                (expression: Identifier[17, 21])
+              )
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: CountAggregate_Arguments_All_Expression[23, 24]
+                (expression: Identifier[23, 24])
+              )
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT ALL expr, a)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 34]
+            (functionName: COUNT[7, 12])
+            ({Expected exactly 1 item, found 2} arguments: CountAggregate_Arguments_All[12, 34]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 30]
+                (Unexpected DISTINCT[13, 21])
+                (WhiteSpace[21, 22])
+                (allToken: ALL[22, 25])
+                (WhiteSpace[25, 26])
+                (expression: Identifier[26, 30])
+              )
+              (commaToken[]: Comma[30, 31])
+              (WhiteSpace[31, 32])
+              (item[]: CountAggregate_Arguments_All_Expression[32, 33]
+                (expression: Identifier[32, 33])
+              )
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT COUNT(expr, a, b)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 24]
+            (functionName: COUNT[7, 12])
+            ({Expected exactly 1 item, found 3} arguments: CountAggregate_Arguments_All[12, 24]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 17]
+                (expression: Identifier[13, 17])
+              )
+              (commaToken[]: Comma[17, 18])
+              (WhiteSpace[18, 19])
+              (item[]: CountAggregate_Arguments_All_Expression[19, 20]
+                (expression: Identifier[19, 20])
+              )
+              (commaToken[]: Comma[20, 21])
+              (WhiteSpace[21, 22])
+              (item[]: CountAggregate_Arguments_All_Expression[22, 23]
+                (expression: Identifier[22, 23])
+              )
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT expr, a, b)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 33]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_Distinct[12, 33]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (distinctToken: DISTINCT[13, 21])
+              (WhiteSpace[21, 22])
+              (item[]: Identifier[22, 26])
+              (commaToken[]: Comma[26, 27])
+              (WhiteSpace[27, 28])
+              (item[]: Identifier[28, 29])
+              (commaToken[]: Comma[29, 30])
+              (WhiteSpace[30, 31])
+              (item[]: Identifier[31, 32])
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`
+-----
+SELECT COUNT(ALL expr, a, b)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 28]
+            (functionName: COUNT[7, 12])
+            ({Expected exactly 1 item, found 3} arguments: CountAggregate_Arguments_All[12, 28]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 21]
+                (allToken: ALL[13, 16])
+                (WhiteSpace[16, 17])
+                (expression: Identifier[17, 21])
+              )
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: CountAggregate_Arguments_All_Expression[23, 24]
+                (expression: Identifier[23, 24])
+              )
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: CountAggregate_Arguments_All_Expression[26, 27]
+                (expression: Identifier[26, 27])
+              )
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT ALL expr, a, b)
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 37]
+            (functionName: COUNT[7, 12])
+            ({Expected exactly 1 item, found 3} arguments: CountAggregate_Arguments_All[12, 37]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 30]
+                (Unexpected DISTINCT[13, 21])
+                (WhiteSpace[21, 22])
+                (allToken: ALL[22, 25])
+                (WhiteSpace[25, 26])
+                (expression: Identifier[26, 30])
+              )
+              (commaToken[]: Comma[30, 31])
+              (WhiteSpace[31, 32])
+              (item[]: CountAggregate_Arguments_All_Expression[32, 33]
+                (expression: Identifier[32, 33])
+              )
+              (commaToken[]: Comma[33, 34])
+              (WhiteSpace[34, 35])
+              (item[]: CountAggregate_Arguments_All_Expression[35, 36]
+                (expression: Identifier[35, 36])
+              )
+              (closeParenthesesToken: CloseParentheses[36, 37])
+            )
+          )
+!`

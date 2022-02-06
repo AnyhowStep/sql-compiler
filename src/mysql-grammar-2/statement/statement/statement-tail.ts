@@ -1,7 +1,7 @@
-import {choice, field, optional, seq} from "../../../grammar-builder";
+import {choice, field, inline, optional, seq} from "../../../grammar-builder";
 import {TokenKind} from "../../token.generated";
 
-export const StatementTail = seq(
+export const StatementTail = inline(seq(
     choice(
         seq(
             field("semiColonToken", TokenKind.SemiColon),
@@ -10,4 +10,4 @@ export const StatementTail = seq(
         field("customDelimiter", TokenKind.CustomDelimiter),
     ),
     TokenKind.EndOfStatement,
-);
+));

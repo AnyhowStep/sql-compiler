@@ -9,7 +9,18 @@ CREATE TABLE T (X YEAR ZEROFILL);
 CREATE TABLE T (X YEAR (6) ZEROFILL);
 
 -----
-`(dataType: YearDataType[18, 35]`
-`(yearToken: YEAR[18, 22])`
-`(fieldLength: FieldLength[23, 26]`
-`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[27, 35]`
+`!
+          (dataType: YearDataType[18, 35]
+            (yearToken: YEAR[18, 22])
+            (WhiteSpace[22, 23])
+            (fieldLength: FieldLength[23, 26]
+              (openParenthesesToken: OpenParentheses[23, 24])
+              (fieldLength: IntegerLiteral[24, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+            (WhiteSpace[26, 27])
+            (integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[27, 35]
+              (item[]: ZEROFILL[27, 35])
+            )
+          )
+!`

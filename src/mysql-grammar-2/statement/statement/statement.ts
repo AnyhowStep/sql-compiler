@@ -1,7 +1,7 @@
-import {choice} from "../../../grammar-builder";
+import {choice, inline} from "../../../grammar-builder";
 import {SyntaxKind} from "../../syntax-kind.generated";
 
-export const Statement = choice(
+export const Statement = inline(choice(
     //TODO
     SyntaxKind.BinLogStatement,
     SyntaxKind.CreateSchemaStatement,
@@ -10,4 +10,4 @@ export const Statement = choice(
     SyntaxKind.CreateTableLikeStatement2,
     SyntaxKind.DropTableStatement,
     SyntaxKind.SelectStatement,
-);
+));

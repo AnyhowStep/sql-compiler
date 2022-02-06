@@ -85,10 +85,15 @@ function getRangeStr (fieldCheck : FieldLengthCheck) {
 }
 
 function getLengthStr (value : Fields[string]) {
+    if (value == undefined) {
+        return 0;
+    }
+
     if (value instanceof Array) {
         return value.length;
     }
-    return -1;
+
+    return 1;
 }
 
 function getFieldErrorsString (node : MySyntaxNode, fieldErrors : FieldCheck[]) {

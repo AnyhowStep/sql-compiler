@@ -25,6 +25,16 @@ CREATE TABLE T (X NUMERIC ZEROFILL);
 CREATE TABLE T (X FIXED SIGNED UNSIGNED ZEROFILL);
 
 -----
-`(dataType: DecimalDataType[18, 48]`
-`(decimalToken: FIXED[18, 23])`
-`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[24, 48]`
+`!
+          (dataType: DecimalDataType[18, 48]
+            (decimalToken: FIXED[18, 23])
+            (WhiteSpace[23, 24])
+            (integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[24, 48]
+              (item[]: SIGNED[24, 30])
+              (WhiteSpace[30, 31])
+              (item[]: UNSIGNED[31, 39])
+              (WhiteSpace[39, 40])
+              (item[]: ZEROFILL[40, 48])
+            )
+          )
+!`

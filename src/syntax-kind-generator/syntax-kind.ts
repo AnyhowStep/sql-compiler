@@ -294,6 +294,8 @@ export const syntaxKinds = [
     "BitAggregateFunctionCall",
     "StatisticalAggregateFunctionCall",
     "JsonObjectAggregateFunctionCall",
+    "JsonArrayAggregateFunctionCall",
+    "CountAggregateFunctionCall",
 
     "Empty_Arguments",
     "ExpressionList_ArgumentsImpl",
@@ -344,6 +346,10 @@ export const syntaxKinds = [
     "Aggregate_Arguments_Expression",
     "Aggregate_Arguments",
     "JsonObjectAggregate_Arguments",
+    "CountAggregate_Arguments_All_Expression",
+    "CountAggregate_Arguments_All",
+    "CountAggregate_Arguments_Distinct",
+    "CountAggregate_Arguments",
 
     "Now",
     "DateTimePrecisionArg",

@@ -908,21 +908,21 @@ export interface FloatDataType extends MySyntaxNode {
 export interface GeometryCollectionDataType extends MySyntaxNode {
     syntaxKind : "GeometryCollectionDataType";
     fields : {
-        geometryCollectionToken : (MULTIPOINT | MULTILINESTRING | MULTIPOLYGON | GEOMETRYCOLLECTION)
+        geometryCollectionToken : (GEOMETRYCOLLECTION | MULTIPOINT | MULTILINESTRING | MULTIPOLYGON)
     };
 }
 
 export interface GeometryDataType extends MySyntaxNode {
     syntaxKind : "GeometryDataType";
     fields : {
-        geometryToken : (POINT | LINESTRING | POLYGON | GEOMETRY)
+        geometryToken : (GEOMETRY | POINT | LINESTRING | POLYGON)
     };
 }
 
 export interface IntegerDataType extends MySyntaxNode {
     syntaxKind : "IntegerDataType";
     fields : {
-        integerToken : (TINYINT | SMALLINT | MEDIUMINT | INT | INTEGER | BIGINT);
+        integerToken : (INT | TINYINT | SMALLINT | MEDIUMINT | INTEGER | BIGINT);
         fieldLength? : (FieldLength);
         integerDataTypeOptionRepeat1? : (IntegerDataTypeOptionRepeat1)
     };
@@ -1014,7 +1014,7 @@ export interface IntegerDataTypeOptionRepeat1 extends MySyntaxNode {
     };
 }
 
-export type IntegerDataTypeOption = SIGNED | UNSIGNED | ZEROFILL;
+export type IntegerDataTypeOption = UNSIGNED | SIGNED | ZEROFILL;
 
 export interface RealPrecision extends MySyntaxNode {
     syntaxKind : "RealPrecision";
@@ -1146,7 +1146,7 @@ export interface ParenthesizedExpression extends MySyntaxNode {
     };
 }
 
-export type AggregateFunctionCall = NumberAggregateFunctionCall | BitAggregateFunctionCall | StatisticalAggregateFunctionCall | JsonObjectAggregateFunctionCall;
+export type AggregateFunctionCall = NumberAggregateFunctionCall | BitAggregateFunctionCall | StatisticalAggregateFunctionCall | JsonObjectAggregateFunctionCall | JsonArrayAggregateFunctionCall | CountAggregateFunctionCall;
 
 export interface NumberAggregateFunctionCall extends MySyntaxNode {
     syntaxKind : "NumberAggregateFunctionCall";
@@ -1177,6 +1177,22 @@ export interface JsonObjectAggregateFunctionCall extends MySyntaxNode {
     fields : {
         functionName : (JSON_OBJECTAGG);
         arguments : (JsonObjectAggregate_Arguments)
+    };
+}
+
+export interface JsonArrayAggregateFunctionCall extends MySyntaxNode {
+    syntaxKind : "JsonArrayAggregateFunctionCall";
+    fields : {
+        functionName : (JSON_ARRAYAGG);
+        arguments : (Aggregate_Arguments)
+    };
+}
+
+export interface CountAggregateFunctionCall extends MySyntaxNode {
+    syntaxKind : "CountAggregateFunctionCall";
+    fields : {
+        functionName : (COUNT);
+        arguments : (CountAggregate_Arguments)
     };
 }
 
@@ -1414,18 +1430,15 @@ export interface TimestampDiff_Arguments extends MySyntaxNode {
     };
 }
 
-export interface WeightString_Arguments extends MySyntaxNode {
-    syntaxKind : "WeightString_Arguments";
-    fields : {
-        
-    };
-}
+export type WeightString_Arguments = WeightString_Arguments_Default | WeightString_Arguments_AsChar | WeightString_Arguments_AsBinary | WeightString_Arguments_Undocumented;
 
 export interface WeightString_Arguments_Default extends MySyntaxNode {
     syntaxKind : "WeightString_Arguments_Default";
     fields : {
         openParenthesesToken : (OpenParentheses);
         expr : (Expression);
+        commaToken : (Comma)[];
+        extraItem : (Expression)[];
         levels? : (WeightString_Levels);
         closeParenthesesToken : (CloseParentheses)
     };
@@ -1566,6 +1579,37 @@ export interface JsonObjectAggregate_Arguments extends MySyntaxNode {
         commaToken : (Comma)[]
     };
 }
+
+export interface CountAggregate_Arguments_All_Expression extends MySyntaxNode {
+    syntaxKind : "CountAggregate_Arguments_All_Expression";
+    fields : {
+        allToken? : (ALL);
+        expression : (Asterisk | Expression)
+    };
+}
+
+export interface CountAggregate_Arguments_All extends MySyntaxNode {
+    syntaxKind : "CountAggregate_Arguments_All";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        item : (CountAggregate_Arguments_All_Expression)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export interface CountAggregate_Arguments_Distinct extends MySyntaxNode {
+    syntaxKind : "CountAggregate_Arguments_Distinct";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        distinctToken : (DISTINCT);
+        item : (Expression)[];
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[]
+    };
+}
+
+export type CountAggregate_Arguments = CountAggregate_Arguments_All | CountAggregate_Arguments_Distinct;
 
 export interface AsciiFunctionCall extends MySyntaxNode {
     syntaxKind : "AsciiFunctionCall";
@@ -2052,7 +2096,7 @@ export type NumberLiteral = IntegerLiteral | RealLiteral | DecimalLiteral;
 export interface TemporalLiteral extends MySyntaxNode {
     syntaxKind : "TemporalLiteral";
     fields : {
-        temporalToken : (DATE | TIME | TIMESTAMP);
+        temporalToken : (TIMESTAMP | DATE | TIME);
         str : (StringLiteral | DoubleQuotedLiteral)
     };
 }
@@ -2169,7 +2213,7 @@ export interface SignedLiteral extends MySyntaxNode {
     syntaxKind : "SignedLiteral";
     fields : {
         literal : (Literal | NumberLiteral);
-        sign? : (Plus | Minus)
+        sign? : (Minus | Plus)
     };
 }
 
@@ -2382,12 +2426,7 @@ export interface ColonEqual extends MySyntaxNode {
     };
 }
 
-export interface DropMode extends MySyntaxNode {
-    syntaxKind : "DropMode";
-    fields : {
-        
-    };
-}
+export type DropMode = RESTRICT | CASCADE;
 
 export interface IfExists extends MySyntaxNode {
     syntaxKind : "IfExists";
@@ -2459,12 +2498,7 @@ export interface ColumnDefinitionOptionRepeat1 extends MySyntaxNode {
     };
 }
 
-export interface ColumnDefinitionOption extends MySyntaxNode {
-    syntaxKind : "ColumnDefinitionOption";
-    fields : {
-        
-    };
-}
+export type ColumnDefinitionOption = ColumnDefinitionOptionNull | ColumnDefinitionOptionNotNull | ColumnDefinitionOptionDefaultValue | ColumnDefinitionOptionOnUpdate | ColumnDefinitionOptionAutoIncrement | ColumnDefinitionOptionSerialDefaultValue | ColumnDefinitionOptionPrimaryKey | ColumnDefinitionOptionUnique | ColumnDefinitionOptionUniqueKey | ColumnDefinitionOptionComment | ColumnDefinitionOptionCollate | ColumnDefinitionOptionColumnFormat | ColumnDefinitionOptionStorage;
 
 export interface ColumnDefinitionOptionNull extends MySyntaxNode {
     syntaxKind : "ColumnDefinitionOptionNull";
@@ -2670,12 +2704,7 @@ export interface CreateTableOptionSemiList1 extends MySyntaxNode {
     };
 }
 
-export interface CreateTableOption extends MySyntaxNode {
-    syntaxKind : "CreateTableOption";
-    fields : {
-        
-    };
-}
+export type CreateTableOption = CreateTableOptionEngine | CreateTableOptionMaxRows | CreateTableOptionMinRows | CreateTableOptionAverageRowLength | CreateTableOptionPassword | CreateTableOptionComment | CreateTableOptionCompression | CreateTableOptionEncryption | CreateTableOptionAutoIncrement | CreateTableOptionPackKeys | CreateTableOptionStatsAutoRecalc | CreateTableOptionStatsPersistent | CreateTableOptionStatsSamplePages | CreateTableOptionChecksum | CreateTableOptionDelayKeyWrite | CreateTableOptionRowFormat | CreateTableOptionUnion | DefaultCharacterSet | DefaultCollate | CreateTableOptionInsertMethod | CreateTableOptionDataDirectory | CreateTableOptionIndexDirectory | CreateTableOptionTablespace | CreateTableOptionStorage | CreateTableOptionConnection | CreateTableOptionKeyBlockSize;
 
 export interface CreateTableOptionEngine extends MySyntaxNode {
     syntaxKind : "CreateTableOptionEngine";
@@ -2821,12 +2850,7 @@ export interface CreateTableOptionRowFormat extends MySyntaxNode {
     };
 }
 
-export interface RowFormat extends MySyntaxNode {
-    syntaxKind : "RowFormat";
-    fields : {
-        
-    };
-}
+export type RowFormat = DEFAULT | FIXED | DYNAMIC | COMPRESSED | REDUNDANT | COMPACT;
 
 export interface CreateTableOptionUnion extends MySyntaxNode {
     syntaxKind : "CreateTableOptionUnion";
@@ -2846,12 +2870,7 @@ export interface CreateTableOptionInsertMethod extends MySyntaxNode {
     };
 }
 
-export interface InsertMethod extends MySyntaxNode {
-    syntaxKind : "InsertMethod";
-    fields : {
-        
-    };
-}
+export type InsertMethod = NO | FIRST | LAST;
 
 export interface CreateTableOptionDataDirectory extends MySyntaxNode {
     syntaxKind : "CreateTableOptionDataDirectory";
@@ -2891,12 +2910,7 @@ export interface CreateTableOptionStorage extends MySyntaxNode {
     };
 }
 
-export interface Storage extends MySyntaxNode {
-    syntaxKind : "Storage";
-    fields : {
-        
-    };
-}
+export type Storage = DISK | MEMORY;
 
 export interface CreateTableOptionConnection extends MySyntaxNode {
     syntaxKind : "CreateTableOptionConnection";

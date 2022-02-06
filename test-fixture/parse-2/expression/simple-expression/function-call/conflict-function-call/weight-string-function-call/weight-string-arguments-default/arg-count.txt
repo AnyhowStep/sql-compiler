@@ -3,12 +3,10 @@ SELECT WEIGHT_STRING()
 `!
           (expression: WeightStringFunctionCall[7, 22]
             (functionName: WEIGHT_STRING[7, 20])
-            (arguments: WeightString_Arguments[20, 22]
-              (WeightString_Arguments_Default[20, 22]
-                (openParenthesesToken: OpenParentheses[20, 21])
-                (Expected expr: Identifier[21, 21])
-                (closeParenthesesToken: CloseParentheses[21, 22])
-              )
+            (arguments: WeightString_Arguments_Default[20, 22]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (Expected expr: Identifier[21, 21])
+              (closeParenthesesToken: CloseParentheses[21, 22])
             )
           )
 !`
@@ -18,12 +16,10 @@ SELECT WEIGHT_STRING(a)
 `!
           (expression: WeightStringFunctionCall[7, 23]
             (functionName: WEIGHT_STRING[7, 20])
-            (arguments: WeightString_Arguments[20, 23]
-              (WeightString_Arguments_Default[20, 23]
-                (openParenthesesToken: OpenParentheses[20, 21])
-                (expr: Identifier[21, 22])
-                (closeParenthesesToken: CloseParentheses[22, 23])
-              )
+            (arguments: WeightString_Arguments_Default[20, 23]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (expr: Identifier[21, 22])
+              (closeParenthesesToken: CloseParentheses[22, 23])
             )
           )
 !`
@@ -33,21 +29,19 @@ SELECT WEIGHT_STRING(a LEVEL)
 `!
           (expression: WeightStringFunctionCall[7, 29]
             (functionName: WEIGHT_STRING[7, 20])
-            (arguments: WeightString_Arguments[20, 29]
-              (WeightString_Arguments_Default[20, 29]
-                (openParenthesesToken: OpenParentheses[20, 21])
-                (expr: Identifier[21, 22])
-                (WhiteSpace[22, 23])
-                (levels: WeightString_Levels[23, 28]
-                  (levelToken: LEVEL[23, 28])
-                  (levels: WeightString_Level_List1[28, 28]
-                    (item[]: WeightString_Level_Item[28, 28]
-                      (Expected level: IntegerLiteral[28, 28])
-                    )
+            (arguments: WeightString_Arguments_Default[20, 29]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (expr: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (levels: WeightString_Levels[23, 28]
+                (levelToken: LEVEL[23, 28])
+                (levels: WeightString_Level_List1[28, 28]
+                  (item[]: WeightString_Level_Item[28, 28]
+                    (Expected level: IntegerLiteral[28, 28])
                   )
                 )
-                (closeParenthesesToken: CloseParentheses[28, 29])
               )
+              (closeParenthesesToken: CloseParentheses[28, 29])
             )
           )
 !`
@@ -57,24 +51,22 @@ SELECT WEIGHT_STRING(a LEVEL 1 - 2)
 `!
           (expression: WeightStringFunctionCall[7, 35]
             (functionName: WEIGHT_STRING[7, 20])
-            (arguments: WeightString_Arguments[20, 35]
-              (WeightString_Arguments_Default[20, 35]
-                (openParenthesesToken: OpenParentheses[20, 21])
-                (expr: Identifier[21, 22])
-                (WhiteSpace[22, 23])
-                (levels: WeightString_Levels[23, 34]
-                  (levelToken: LEVEL[23, 28])
-                  (WhiteSpace[28, 29])
-                  (levels: WeightString_Level_Range[29, 34]
-                    (minLevel: IntegerLiteral[29, 30])
-                    (WhiteSpace[30, 31])
-                    (dashToken: Minus[31, 32])
-                    (WhiteSpace[32, 33])
-                    (maxLevel: IntegerLiteral[33, 34])
-                  )
+            (arguments: WeightString_Arguments_Default[20, 35]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (expr: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (levels: WeightString_Levels[23, 34]
+                (levelToken: LEVEL[23, 28])
+                (WhiteSpace[28, 29])
+                (levels: WeightString_Level_Range[29, 34]
+                  (minLevel: IntegerLiteral[29, 30])
+                  (WhiteSpace[30, 31])
+                  (dashToken: Minus[31, 32])
+                  (WhiteSpace[32, 33])
+                  (maxLevel: IntegerLiteral[33, 34])
                 )
-                (closeParenthesesToken: CloseParentheses[34, 35])
               )
+              (closeParenthesesToken: CloseParentheses[34, 35])
             )
           )
 !`
@@ -84,23 +76,21 @@ SELECT WEIGHT_STRING(a LEVEL 1 -)
 `!
           (expression: WeightStringFunctionCall[7, 33]
             (functionName: WEIGHT_STRING[7, 20])
-            (arguments: WeightString_Arguments[20, 33]
-              (WeightString_Arguments_Default[20, 33]
-                (openParenthesesToken: OpenParentheses[20, 21])
-                (expr: Identifier[21, 22])
-                (WhiteSpace[22, 23])
-                (levels: WeightString_Levels[23, 32]
-                  (levelToken: LEVEL[23, 28])
-                  (WhiteSpace[28, 29])
-                  (levels: WeightString_Level_Range[29, 32]
-                    (minLevel: IntegerLiteral[29, 30])
-                    (WhiteSpace[30, 31])
-                    (dashToken: Minus[31, 32])
-                    (Expected maxLevel: IntegerLiteral[32, 32])
-                  )
+            (arguments: WeightString_Arguments_Default[20, 33]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (expr: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (levels: WeightString_Levels[23, 32]
+                (levelToken: LEVEL[23, 28])
+                (WhiteSpace[28, 29])
+                (levels: WeightString_Level_Range[29, 32]
+                  (minLevel: IntegerLiteral[29, 30])
+                  (WhiteSpace[30, 31])
+                  (dashToken: Minus[31, 32])
+                  (Expected maxLevel: IntegerLiteral[32, 32])
                 )
-                (closeParenthesesToken: CloseParentheses[32, 33])
               )
+              (closeParenthesesToken: CloseParentheses[32, 33])
             )
           )
 !`
@@ -110,22 +100,20 @@ SELECT WEIGHT_STRING(a LEVEL 1)
 `!
           (expression: WeightStringFunctionCall[7, 31]
             (functionName: WEIGHT_STRING[7, 20])
-            (arguments: WeightString_Arguments[20, 31]
-              (WeightString_Arguments_Default[20, 31]
-                (openParenthesesToken: OpenParentheses[20, 21])
-                (expr: Identifier[21, 22])
-                (WhiteSpace[22, 23])
-                (levels: WeightString_Levels[23, 30]
-                  (levelToken: LEVEL[23, 28])
-                  (WhiteSpace[28, 29])
-                  (levels: WeightString_Level_List1[29, 30]
-                    (item[]: WeightString_Level_Item[29, 30]
-                      (level: IntegerLiteral[29, 30])
-                    )
+            (arguments: WeightString_Arguments_Default[20, 31]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (expr: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (levels: WeightString_Levels[23, 30]
+                (levelToken: LEVEL[23, 28])
+                (WhiteSpace[28, 29])
+                (levels: WeightString_Level_List1[29, 30]
+                  (item[]: WeightString_Level_Item[29, 30]
+                    (level: IntegerLiteral[29, 30])
                   )
                 )
-                (closeParenthesesToken: CloseParentheses[30, 31])
               )
+              (closeParenthesesToken: CloseParentheses[30, 31])
             )
           )
 !`
@@ -135,66 +123,64 @@ SELECT WEIGHT_STRING(a LEVEL 1 ASC, 2 DESC, 3 REVERSE, 4 ASC REVERSE, 5 DESC REV
 `!
           (expression: WeightStringFunctionCall[7, 85]
             (functionName: WEIGHT_STRING[7, 20])
-            (arguments: WeightString_Arguments[20, 85]
-              (WeightString_Arguments_Default[20, 85]
-                (openParenthesesToken: OpenParentheses[20, 21])
-                (expr: Identifier[21, 22])
-                (WhiteSpace[22, 23])
-                (levels: WeightString_Levels[23, 84]
-                  (levelToken: LEVEL[23, 28])
-                  (WhiteSpace[28, 29])
-                  (levels: WeightString_Level_List1[29, 84]
-                    (item[]: WeightString_Level_Item[29, 34]
-                      (level: IntegerLiteral[29, 30])
-                      (WhiteSpace[30, 31])
-                      (flag: WeightString_Level_Flag[31, 34]
-                        (sortOrder: ASC[31, 34])
-                      )
+            (arguments: WeightString_Arguments_Default[20, 85]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (expr: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (levels: WeightString_Levels[23, 84]
+                (levelToken: LEVEL[23, 28])
+                (WhiteSpace[28, 29])
+                (levels: WeightString_Level_List1[29, 84]
+                  (item[]: WeightString_Level_Item[29, 34]
+                    (level: IntegerLiteral[29, 30])
+                    (WhiteSpace[30, 31])
+                    (flag: WeightString_Level_Flag[31, 34]
+                      (sortOrder: ASC[31, 34])
                     )
-                    (commaToken[]: Comma[34, 35])
-                    (WhiteSpace[35, 36])
-                    (item[]: WeightString_Level_Item[36, 42]
-                      (level: IntegerLiteral[36, 37])
-                      (WhiteSpace[37, 38])
-                      (flag: WeightString_Level_Flag[38, 42]
-                        (sortOrder: DESC[38, 42])
-                      )
+                  )
+                  (commaToken[]: Comma[34, 35])
+                  (WhiteSpace[35, 36])
+                  (item[]: WeightString_Level_Item[36, 42]
+                    (level: IntegerLiteral[36, 37])
+                    (WhiteSpace[37, 38])
+                    (flag: WeightString_Level_Flag[38, 42]
+                      (sortOrder: DESC[38, 42])
                     )
-                    (commaToken[]: Comma[42, 43])
-                    (WhiteSpace[43, 44])
-                    (item[]: WeightString_Level_Item[44, 53]
-                      (level: IntegerLiteral[44, 45])
-                      (WhiteSpace[45, 46])
-                      (flag: WeightString_Level_Flag[46, 53]
-                        (reverseToken: REVERSE[46, 53])
-                      )
+                  )
+                  (commaToken[]: Comma[42, 43])
+                  (WhiteSpace[43, 44])
+                  (item[]: WeightString_Level_Item[44, 53]
+                    (level: IntegerLiteral[44, 45])
+                    (WhiteSpace[45, 46])
+                    (flag: WeightString_Level_Flag[46, 53]
+                      (reverseToken: REVERSE[46, 53])
                     )
-                    (commaToken[]: Comma[53, 54])
-                    (WhiteSpace[54, 55])
-                    (item[]: WeightString_Level_Item[55, 68]
-                      (level: IntegerLiteral[55, 56])
-                      (WhiteSpace[56, 57])
-                      (flag: WeightString_Level_Flag[57, 68]
-                        (sortOrder: ASC[57, 60])
-                        (WhiteSpace[60, 61])
-                        (reverseToken: REVERSE[61, 68])
-                      )
+                  )
+                  (commaToken[]: Comma[53, 54])
+                  (WhiteSpace[54, 55])
+                  (item[]: WeightString_Level_Item[55, 68]
+                    (level: IntegerLiteral[55, 56])
+                    (WhiteSpace[56, 57])
+                    (flag: WeightString_Level_Flag[57, 68]
+                      (sortOrder: ASC[57, 60])
+                      (WhiteSpace[60, 61])
+                      (reverseToken: REVERSE[61, 68])
                     )
-                    (commaToken[]: Comma[68, 69])
-                    (WhiteSpace[69, 70])
-                    (item[]: WeightString_Level_Item[70, 84]
-                      (level: IntegerLiteral[70, 71])
-                      (WhiteSpace[71, 72])
-                      (flag: WeightString_Level_Flag[72, 84]
-                        (sortOrder: DESC[72, 76])
-                        (WhiteSpace[76, 77])
-                        (reverseToken: REVERSE[77, 84])
-                      )
+                  )
+                  (commaToken[]: Comma[68, 69])
+                  (WhiteSpace[69, 70])
+                  (item[]: WeightString_Level_Item[70, 84]
+                    (level: IntegerLiteral[70, 71])
+                    (WhiteSpace[71, 72])
+                    (flag: WeightString_Level_Flag[72, 84]
+                      (sortOrder: DESC[72, 76])
+                      (WhiteSpace[76, 77])
+                      (reverseToken: REVERSE[77, 84])
                     )
                   )
                 )
-                (closeParenthesesToken: CloseParentheses[84, 85])
               )
+              (closeParenthesesToken: CloseParentheses[84, 85])
             )
           )
 !`
@@ -204,28 +190,26 @@ SELECT WEIGHT_STRING(a LEVEL 1 REVERSE ASC)
 `!
           (expression: WeightStringFunctionCall[7, 43]
             (functionName: WEIGHT_STRING[7, 20])
-            (arguments: WeightString_Arguments[20, 43]
-              (WeightString_Arguments_Default[20, 43]
-                (openParenthesesToken: OpenParentheses[20, 21])
-                (expr: Identifier[21, 22])
-                (WhiteSpace[22, 23])
-                (levels: WeightString_Levels[23, 38]
-                  (levelToken: LEVEL[23, 28])
-                  (WhiteSpace[28, 29])
-                  (levels: WeightString_Level_List1[29, 38]
-                    (item[]: WeightString_Level_Item[29, 38]
-                      (level: IntegerLiteral[29, 30])
-                      (WhiteSpace[30, 31])
-                      (flag: WeightString_Level_Flag[31, 38]
-                        (reverseToken: REVERSE[31, 38])
-                      )
+            (arguments: WeightString_Arguments_Default[20, 43]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (expr: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (levels: WeightString_Levels[23, 38]
+                (levelToken: LEVEL[23, 28])
+                (WhiteSpace[28, 29])
+                (levels: WeightString_Level_List1[29, 38]
+                  (item[]: WeightString_Level_Item[29, 38]
+                    (level: IntegerLiteral[29, 30])
+                    (WhiteSpace[30, 31])
+                    (flag: WeightString_Level_Flag[31, 38]
+                      (reverseToken: REVERSE[31, 38])
                     )
                   )
                 )
-                (WhiteSpace[38, 39])
-                (Unexpected ASC[39, 42])
-                (closeParenthesesToken: CloseParentheses[42, 43])
               )
+              (WhiteSpace[38, 39])
+              (Unexpected ASC[39, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
             )
           )
 !`

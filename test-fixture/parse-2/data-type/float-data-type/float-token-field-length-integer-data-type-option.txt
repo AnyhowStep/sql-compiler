@@ -1,6 +1,17 @@
 CREATE TABLE T (X FLOAT (32) SIGNED);
 -----
-`(dataType: FloatDataType[18, 35]`
-`(floatToken: FLOAT[18, 23])`
-`(precision: FieldLength[24, 28]`
-`(integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[29, 35]`
+`!
+          (dataType: FloatDataType[18, 35]
+            (floatToken: FLOAT[18, 23])
+            (WhiteSpace[23, 24])
+            (precision: FieldLength[24, 28]
+              (openParenthesesToken: OpenParentheses[24, 25])
+              (fieldLength: IntegerLiteral[25, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+            (WhiteSpace[28, 29])
+            (integerDataTypeOptionRepeat1: IntegerDataTypeOptionRepeat1[29, 35]
+              (item[]: SIGNED[29, 35])
+            )
+          )
+!`

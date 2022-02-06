@@ -385,7 +385,7 @@ export const keywordSp = tokenSymbol(
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L13328-L13385
  */
- export const keyword = tokenSymbol2(
+export const keyword = tokenSymbol2(
     keywordSp,
     TokenKind.ACCOUNT,
     TokenKind.ASCII,
@@ -497,7 +497,7 @@ export const keywordFunctionCall_FunctionName = new Set<string>([
 /**
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9737
  */
- export const nonKeywordFunctionCall_FunctionName = new Set<string>([
+export const nonKeywordFunctionCall_FunctionName = new Set<string>([
     TokenKind.ADDDATE,
     TokenKind.CURRENT_DATE,
     TokenKind.CURDATE,

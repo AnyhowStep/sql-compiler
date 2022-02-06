@@ -1,0 +1,30 @@
+-- @@ignore_space = false
+SELECT COUNT(*)
+-----
+`!
+          (expression: CountAggregateFunctionCall[33, 41]
+            (functionName: COUNT[33, 38])
+            (arguments: CountAggregate_Arguments_All[38, 41]
+              (openParenthesesToken: OpenParentheses[38, 39])
+              (item[]: CountAggregate_Arguments_All_Expression[39, 40]
+                (expression: Asterisk[39, 40])
+              )
+              (closeParenthesesToken: CloseParentheses[40, 41])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT COUNT (*)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 42]
+            (functionName: Identifier[33, 38])
+            (WhiteSpace[38, 39])
+            (arguments: UserDefinedExpressionList_Arguments[39, 42]
+              (openParenthesesToken: OpenParentheses[39, 40])
+              (Unexpected Asterisk[40, 41])
+              (closeParenthesesToken: CloseParentheses[41, 42])
+            )
+          )
+!`

@@ -30,7 +30,7 @@ export interface ${token} extends MyToken<${JSON.stringify(token)}> {}`);
                 result.push(`
 export type ${ruleName} = ${shape.children.types.join(" | ")};
 `);
-    continue;
+                continue;
             } else {
                 continue;
             }

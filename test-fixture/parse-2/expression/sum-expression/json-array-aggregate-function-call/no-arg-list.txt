@@ -1,0 +1,7 @@
+SELECT JSON_ARRAYAGG
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 20]
+          (expression: Identifier[7, 20])
+        )
+!`

@@ -233,22 +233,31 @@ export function push (data : MySyntaxNode, token : MyToken2) : MySyntaxNode {
     //*/
 }
 
+function getFieldLength (value : Fields[string]) {
+    if (value == undefined) {
+        return 0;
+    }
+
+    if (value instanceof Array) {
+        return value.length;
+    }
+
+    return 1;
+}
 export function isValidFieldLength (
     fieldCheck : FieldLengthCheck,
     value : Fields[string]
 ) {
-    if (!(value instanceof Array)) {
-        return false;
-    }
+    const valueLength = getFieldLength(value);
 
     if (fieldCheck.minLength != undefined && isFinite(fieldCheck.minLength)) {
-        if (value.length < fieldCheck.minLength) {
+        if (valueLength < fieldCheck.minLength) {
             return false;
         }
     }
 
     if (fieldCheck.maxLength != undefined && isFinite(fieldCheck.maxLength)) {
-        if (value.length > fieldCheck.maxLength) {
+        if (valueLength > fieldCheck.maxLength) {
             return false;
         }
     }
@@ -1792,11 +1801,11 @@ function blah (
     }
 
     if (state.rule.omitCost != undefined) {
-        console.log("test2");
+        //console.log("test2");
     }
 
     if (state.rule.name == "Alias") {
-        console.log("test3");
+        //console.log("test3");
     }
 
     const result : MyState[] = [];

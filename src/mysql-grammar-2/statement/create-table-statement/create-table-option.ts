@@ -1,11 +1,11 @@
-import {choice, field, optional, seq, tokenSymbol} from "../../../grammar-builder";
+import {choice, field, inline, optional, seq, tokenSymbol} from "../../../grammar-builder";
 import {identifierOrStringLiteral, semiList1, stringLiteral, ulonglong_num, ulong_num} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {TokenKind} from "../../token.generated";
 
 export const CreateTableOptionSemiList1 = semiList1(SyntaxKind.CreateTableOption);
 
-export const CreateTableOption = choice(
+export const CreateTableOption = inline(choice(
     SyntaxKind.CreateTableOptionEngine,
     SyntaxKind.CreateTableOptionMaxRows,
     SyntaxKind.CreateTableOptionMinRows,
@@ -32,7 +32,7 @@ export const CreateTableOption = choice(
     SyntaxKind.CreateTableOptionStorage,
     SyntaxKind.CreateTableOptionConnection,
     SyntaxKind.CreateTableOptionKeyBlockSize,
-);
+));
 
 export const CreateTableOptionEngine = seq(
     field("engineToken", TokenKind.ENGINE),
@@ -153,17 +153,14 @@ export const CreateTableOptionRowFormat = seq(
     field("rowFormat", SyntaxKind.RowFormat),
 );
 
-/**
- * @todo Optimize
- */
-export const RowFormat = choice(
+export const RowFormat = inline(tokenSymbol(
     TokenKind.DEFAULT,
     TokenKind.FIXED,
     TokenKind.DYNAMIC,
     TokenKind.COMPRESSED,
     TokenKind.REDUNDANT,
     TokenKind.COMPACT,
-);
+));
 
 export const CreateTableOptionUnion = seq(
     field("unionToken", TokenKind.UNION),
@@ -177,14 +174,11 @@ export const CreateTableOptionInsertMethod = seq(
     field("insertMethod", SyntaxKind.InsertMethod),
 );
 
-/**
- * @todo Optimize
- */
-export const InsertMethod = choice(
+export const InsertMethod = inline(tokenSymbol(
     TokenKind.NO,
     TokenKind.FIRST,
     TokenKind.LAST,
-);
+));
 
 export const CreateTableOptionDataDirectory = seq(
     field("dataToken", TokenKind.DATA),
@@ -215,10 +209,10 @@ export const CreateTableOptionStorage = seq(
 /**
  * @todo Optimize
  */
-export const Storage = choice(
+export const Storage = inline(tokenSymbol(
     TokenKind.DISK,
     TokenKind.MEMORY,
-);
+));
 
 export const CreateTableOptionConnection = seq(
     field("connectionToken", TokenKind.CONNECTION),

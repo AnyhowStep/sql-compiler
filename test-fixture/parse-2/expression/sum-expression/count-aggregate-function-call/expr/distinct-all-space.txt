@@ -1,0 +1,77 @@
+SELECT COUNT( expr )
+-- ALL
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 20]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 20]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (WhiteSpace[13, 14])
+              (item[]: CountAggregate_Arguments_All_Expression[14, 18]
+                (expression: Identifier[14, 18])
+              )
+              (WhiteSpace[18, 19])
+              (closeParenthesesToken: CloseParentheses[19, 20])
+            )
+          )
+!`
+-----
+SELECT COUNT( DISTINCT expr )
+-- DISTINCT
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 29]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_Distinct[12, 29]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (WhiteSpace[13, 14])
+              (distinctToken: DISTINCT[14, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 27])
+              (WhiteSpace[27, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT COUNT( ALL expr )
+-- ALL
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 24]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 24]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (WhiteSpace[13, 14])
+              (item[]: CountAggregate_Arguments_All_Expression[14, 22]
+                (allToken: ALL[14, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 22])
+              )
+              (WhiteSpace[22, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT COUNT( DISTINCT ALL expr )
+-- DISTINCT
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 33]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 33]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (WhiteSpace[13, 14])
+              (item[]: CountAggregate_Arguments_All_Expression[14, 31]
+                (Unexpected DISTINCT[14, 22])
+                (WhiteSpace[22, 23])
+                (allToken: ALL[23, 26])
+                (WhiteSpace[26, 27])
+                (expression: Identifier[27, 31])
+              )
+              (WhiteSpace[31, 32])
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`

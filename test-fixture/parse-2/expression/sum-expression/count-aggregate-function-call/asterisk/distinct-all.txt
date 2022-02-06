@@ -1,0 +1,71 @@
+SELECT COUNT(*)
+-- ALL
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 15]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 15]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 14]
+                (expression: Asterisk[13, 14])
+              )
+              (closeParenthesesToken: CloseParentheses[14, 15])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT *)
+-- DISTINCT
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 24]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 24]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 23]
+                (Unexpected DISTINCT[13, 21])
+                (WhiteSpace[21, 22])
+                (expression: Asterisk[22, 23])
+              )
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT COUNT(ALL *)
+-- ALL
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 19]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 19]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 18]
+                (allToken: ALL[13, 16])
+                (WhiteSpace[16, 17])
+                (expression: Asterisk[17, 18])
+              )
+              (closeParenthesesToken: CloseParentheses[18, 19])
+            )
+          )
+!`
+-----
+SELECT COUNT(DISTINCT ALL *)
+-- DISTINCT is not allowed
+-----
+`!
+          (expression: CountAggregateFunctionCall[7, 28]
+            (functionName: COUNT[7, 12])
+            (arguments: CountAggregate_Arguments_All[12, 28]
+              (openParenthesesToken: OpenParentheses[12, 13])
+              (item[]: CountAggregate_Arguments_All_Expression[13, 27]
+                (Unexpected DISTINCT[13, 21])
+                (WhiteSpace[21, 22])
+                (allToken: ALL[22, 25])
+                (WhiteSpace[25, 26])
+                (expression: Asterisk[26, 27])
+              )
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
