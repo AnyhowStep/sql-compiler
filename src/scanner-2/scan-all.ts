@@ -557,6 +557,9 @@ export function scanImpl (state : LexerState) : TokenKind {
         case CharacterCodes.backtick:
             scanQuotedIdentifier(state);
             return TokenKind.Identifier;
+        case CharacterCodes.tilde:
+            state.advance();
+            return TokenKind.Tilde;
         default:
             break;
     }

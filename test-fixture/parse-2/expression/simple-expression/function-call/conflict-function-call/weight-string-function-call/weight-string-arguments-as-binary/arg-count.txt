@@ -26,22 +26,19 @@ SELECT WEIGHT_STRING(a AS BINARY(999)
 `!
           (expression: WeightStringFunctionCall[68, 98]
             (functionName: WEIGHT_STRING[68, 81])
-            (arguments: WeightString_Arguments_Default[81, 98]
+            (arguments: WeightString_Arguments_AsBinary[81, 98]
               (openParenthesesToken: OpenParentheses[81, 82])
               (expr: Identifier[82, 83])
               (WhiteSpace[83, 84])
-              (levels: WeightString_Levels[84, 97]
-                (Expected levelToken: LEVEL[84, 86])
-                (WhiteSpace[86, 87])
-                (Unexpected BINARY[87, 93])
-                (Unexpected OpenParentheses[93, 94])
-                (levels: WeightString_Level_List1[94, 97]
-                  (item[]: WeightString_Level_Item[94, 97]
-                    (level: IntegerLiteral[94, 97])
-                  )
-                )
+              (asToken: AS[84, 86])
+              (WhiteSpace[86, 87])
+              (binaryToken: BINARY[87, 93])
+              (length: WeightStringCastLength[93, 98]
+                (openParenthesesToken: OpenParentheses[93, 94])
+                (length: IntegerLiteral[94, 97])
+                (closeParenthesesToken: CloseParentheses[97, 98])
               )
-              (closeParenthesesToken: CloseParentheses[97, 98])
+              (Expected closeParenthesesToken: CloseParentheses[98, 98])
             )
           )
 !`
@@ -52,15 +49,19 @@ SELECT WEIGHT_STRING(a AS BINARY()
 `!
           (expression: WeightStringFunctionCall[68, 95]
             (functionName: WEIGHT_STRING[68, 81])
-            (arguments: WeightString_Arguments_Default[81, 95]
+            (arguments: WeightString_Arguments_AsBinary[81, 95]
               (openParenthesesToken: OpenParentheses[81, 82])
               (expr: Identifier[82, 83])
               (WhiteSpace[83, 84])
-              (Unexpected AS[84, 86])
+              (asToken: AS[84, 86])
               (WhiteSpace[86, 87])
-              (Unexpected BINARY[87, 93])
-              (Unexpected OpenParentheses[93, 94])
-              (closeParenthesesToken: CloseParentheses[94, 95])
+              (binaryToken: BINARY[87, 93])
+              (length: WeightStringCastLength[93, 95]
+                (openParenthesesToken: OpenParentheses[93, 94])
+                (Expected length: IntegerLiteral[94, 94])
+                (closeParenthesesToken: CloseParentheses[94, 95])
+              )
+              (Expected closeParenthesesToken: CloseParentheses[95, 95])
             )
           )
 !`
@@ -71,14 +72,19 @@ SELECT WEIGHT_STRING(a AS BINARY)
 `!
           (expression: WeightStringFunctionCall[68, 94]
             (functionName: WEIGHT_STRING[68, 81])
-            (arguments: WeightString_Arguments_Default[81, 94]
+            (arguments: WeightString_Arguments_AsBinary[81, 94]
               (openParenthesesToken: OpenParentheses[81, 82])
               (expr: Identifier[82, 83])
               (WhiteSpace[83, 84])
-              (Unexpected AS[84, 86])
+              (asToken: AS[84, 86])
               (WhiteSpace[86, 87])
-              (Unexpected BINARY[87, 93])
-              (closeParenthesesToken: CloseParentheses[93, 94])
+              (binaryToken: BINARY[87, 93])
+              (length: WeightStringCastLength[93, 94]
+                (Expected openParenthesesToken: OpenParentheses[93, 93])
+                (Expected length: IntegerLiteral[93, 93])
+                (closeParenthesesToken: CloseParentheses[93, 94])
+              )
+              (Expected closeParenthesesToken: CloseParentheses[94, 94])
             )
           )
 !`
@@ -118,9 +124,15 @@ SELECT WEIGHT_STRING(a AS BINARY(999) LEVEL 1)
                 (closeParenthesesToken: CloseParentheses[36, 37])
               )
               (WhiteSpace[37, 38])
-              (Unexpected LEVEL[38, 43])
-              (WhiteSpace[43, 44])
-              (Unexpected IntegerLiteral[44, 45])
+              (Unexpected levels: WeightString_Levels[38, 45]
+                (levelToken: LEVEL[38, 43])
+                (WhiteSpace[43, 44])
+                (levels: WeightString_Level_List1[44, 45]
+                  (item[]: WeightString_Level_Item[44, 45]
+                    (level: IntegerLiteral[44, 45])
+                  )
+                )
+              )
               (closeParenthesesToken: CloseParentheses[45, 46])
             )
           )

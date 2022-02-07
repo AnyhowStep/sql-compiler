@@ -1,0 +1,67 @@
+SELECT ()
+-----
+`!
+          (expression: ParenthesizedExpression[7, 9]
+            (openParenthesesToken: OpenParentheses[7, 8])
+            (Expected item: Identifier[8, 8])
+            (closeParenthesesToken: CloseParentheses[8, 9])
+          )
+!`
+-----
+SELECT (a)
+-----
+`!
+          (expression: ParenthesizedExpression[7, 10]
+            (openParenthesesToken: OpenParentheses[7, 8])
+            (item: Identifier[8, 9])
+            (closeParenthesesToken: CloseParentheses[9, 10])
+          )
+!`
+-----
+SELECT (a, b)
+-----
+`!
+          (expression: RowSimpleExpression[7, 13]
+            (openParenthesesToken: OpenParentheses[7, 8])
+            (item[]: Identifier[8, 9])
+            (commaToken[]: Comma[9, 10])
+            (WhiteSpace[10, 11])
+            (item[]: Identifier[11, 12])
+            (closeParenthesesToken: CloseParentheses[12, 13])
+          )
+!`
+-----
+SELECT (a, b, c)
+-----
+`!
+          (expression: RowSimpleExpression[7, 16]
+            (openParenthesesToken: OpenParentheses[7, 8])
+            (item[]: Identifier[8, 9])
+            (commaToken[]: Comma[9, 10])
+            (WhiteSpace[10, 11])
+            (item[]: Identifier[11, 12])
+            (commaToken[]: Comma[12, 13])
+            (WhiteSpace[13, 14])
+            (item[]: Identifier[14, 15])
+            (closeParenthesesToken: CloseParentheses[15, 16])
+          )
+!`
+-----
+SELECT (a, b, c, d)
+-----
+`!
+          (expression: RowSimpleExpression[7, 19]
+            (openParenthesesToken: OpenParentheses[7, 8])
+            (item[]: Identifier[8, 9])
+            (commaToken[]: Comma[9, 10])
+            (WhiteSpace[10, 11])
+            (item[]: Identifier[11, 12])
+            (commaToken[]: Comma[12, 13])
+            (WhiteSpace[13, 14])
+            (item[]: Identifier[14, 15])
+            (commaToken[]: Comma[15, 16])
+            (WhiteSpace[16, 17])
+            (item[]: Identifier[17, 18])
+            (closeParenthesesToken: CloseParentheses[18, 19])
+          )
+!`

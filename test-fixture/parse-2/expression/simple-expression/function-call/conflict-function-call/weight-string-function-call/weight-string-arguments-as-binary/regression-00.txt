@@ -1,0 +1,21 @@
+SELECT WEIGHT_STRING(a AS BINARY(999)
+-----
+`!
+          (expression: WeightStringFunctionCall[7, 37]
+            (functionName: WEIGHT_STRING[7, 20])
+            (arguments: WeightString_Arguments_AsBinary[20, 37]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (expr: Identifier[21, 22])
+              (WhiteSpace[22, 23])
+              (asToken: AS[23, 25])
+              (WhiteSpace[25, 26])
+              (binaryToken: BINARY[26, 32])
+              (length: WeightStringCastLength[32, 37]
+                (openParenthesesToken: OpenParentheses[32, 33])
+                (length: IntegerLiteral[33, 36])
+                (closeParenthesesToken: CloseParentheses[36, 37])
+              )
+              (Expected closeParenthesesToken: CloseParentheses[37, 37])
+            )
+          )
+!`

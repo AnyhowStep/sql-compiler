@@ -1,7 +1,7 @@
-import {alias, cannotExpect, choice, field, inline, optional, precedence, repeat, repeat1, repeatNoSkipIfAllError, seq, tokenSymbol, useCustomExtra, consumeUnexpected, getTokenKinds, greedySkipExpectation, skipExpectationCost, omitCost} from "../../grammar-builder";
+import {alias, cannotExpect, choice, field, inline, optional, precedence, repeat, repeat1, repeatNoSkipIfAllError, seq, tokenSymbol, useCustomExtra, consumeUnexpected, getTokenKinds, greedySkipExpectation, skipExpectationCost, omitCost, fieldLengthCheck} from "../../grammar-builder";
 import {CustomExtras} from "../custom-extras";
 import {Precedence} from "../precedence";
-import {dotIdentOrReserved, dotIdentOrReservedNoSkipErrors, dotIdentOrReservedScopedSystemVariable, identifier, identifierNoScopeKeyword, identifierOrReserved, identifierOrReservedOrStringLiteralOrHostname, reserved} from "../rule-util";
+import {dotIdentOrReserved, dotIdentOrReservedNoSkipErrors, dotIdentOrReservedScopedSystemVariable, identifier, identifierNoScopeKeyword, identifierOrReserved, identifierOrReservedOrStringLiteralOrHostname, list, list2, reserved} from "../rule-util";
 import {SyntaxKind} from "../syntax-kind.generated";
 import {extras, TokenKind} from "../token.generated";
 
@@ -36,6 +36,7 @@ export const SimpleExpression = inline(choice(
     SyntaxKind.ConcatSimpleExpression,
     SyntaxKind.Not2SimpleExpression,
     SyntaxKind.ParenthesizedExpressionSimpleExpression,
+    SyntaxKind.RowSimpleExpression,
     /**
      * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9582-L9583
      */
@@ -450,3 +451,27 @@ export const ConcatSimpleExpression = precedence(130, seq(
     ))),
     field("right", SyntaxKind.SimpleExpression),
 ));
+
+/**
+ * https://dev.mysql.com/doc/refman/5.7/en/row-subqueries.html
+ *
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9534-L9538
+ */
+export const RowSimpleExpression = choice(
+    seq(
+        field("openParenthesesToken", cannotExpect(TokenKind.OpenParentheses)),
+        list2(SyntaxKind.Expression),
+        field("closeParenthesesToken", TokenKind.CloseParentheses),
+    ),
+    fieldLengthCheck(
+        "item",
+        2,
+        Infinity,
+        seq(
+            field("rowToken", cannotExpect(TokenKind.ROW)),
+            field("openParenthesesToken", TokenKind.OpenParentheses),
+            list(SyntaxKind.Expression),
+            field("closeParenthesesToken", TokenKind.CloseParentheses),
+        )
+    )
+);
