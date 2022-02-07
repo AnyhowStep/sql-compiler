@@ -1,0 +1,24 @@
+-- @@pipes_as_concat = true
+SELECT a || b
+-----
+`!
+          (expression: ConcatSimpleExpression[35, 41]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: BarBar_Concat[37, 39])
+            (WhiteSpace[39, 40])
+            (right: Identifier[40, 41])
+          )
+!`
+-----
+SELECT a || b
+-----
+`!
+          (expression: BinaryExpression[7, 13]
+            (left: Identifier[7, 8])
+            (WhiteSpace[8, 9])
+            (operator: BarBar[9, 11])
+            (WhiteSpace[11, 12])
+            (right: Identifier[12, 13])
+          )
+!`

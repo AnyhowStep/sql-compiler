@@ -1,0 +1,28 @@
+-- @@ignore_space = false
+SELECT GROUP_CONCAT(expr)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[33, 51]
+            (functionName: GROUP_CONCAT[33, 45])
+            (arguments: GroupConcatAggregate_Arguments[45, 51]
+              (openParenthesesToken: OpenParentheses[45, 46])
+              (item[]: Identifier[46, 50])
+              (closeParenthesesToken: CloseParentheses[50, 51])
+            )
+          )
+!`
+-----
+-- @@ignore_space = false
+SELECT GROUP_CONCAT (expr)
+-----
+`!
+          (expression: MaybeUserDefinedFunctionCall[33, 52]
+            (functionName: Identifier[33, 45])
+            (WhiteSpace[45, 46])
+            (arguments: UserDefinedExpressionList_Arguments[46, 52]
+              (openParenthesesToken: OpenParentheses[46, 47])
+              (item[]: Identifier[47, 51])
+              (closeParenthesesToken: CloseParentheses[51, 52])
+            )
+          )
+!`

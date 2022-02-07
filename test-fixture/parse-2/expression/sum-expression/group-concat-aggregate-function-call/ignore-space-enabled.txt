@@ -1,0 +1,26 @@
+SELECT GROUP_CONCAT(expr)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 25]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 25]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT (expr)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 26]
+            (functionName: GROUP_CONCAT[7, 19])
+            (WhiteSpace[19, 20])
+            (arguments: GroupConcatAggregate_Arguments[20, 26]
+              (openParenthesesToken: OpenParentheses[20, 21])
+              (item[]: Identifier[21, 25])
+              (closeParenthesesToken: CloseParentheses[25, 26])
+            )
+          )
+!`

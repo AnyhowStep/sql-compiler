@@ -49,7 +49,7 @@ export const Expression = inline(choice(
          *
          * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_lex.cc#L881
          *
-         * @todo Implement `TokenKind.BarBar_Concat`?
+         * @see `TokenKind.BarBar_Concat`
          */
         field("operator", cannotExpect(tokenSymbol(
             TokenKind.OR,

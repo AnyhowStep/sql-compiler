@@ -1,0 +1,7 @@
+SELECT GROUP_CONCAT
+-----
+`!
+        (item[]: ExpressionSelectItem[7, 19]
+          (expression: Identifier[7, 19])
+        )
+!`

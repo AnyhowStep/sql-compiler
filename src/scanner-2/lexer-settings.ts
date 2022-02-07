@@ -11,6 +11,10 @@ export interface LexerSettings {
 
     readonly ignoreSpace : boolean,
     readonly highNotPrecedence : boolean,
+    /**
+     * https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_pipes_as_concat
+     */
+    readonly pipesAsConcat : boolean,
 }
 
 export const defaultLexerSettings : LexerSettings = {
@@ -18,4 +22,5 @@ export const defaultLexerSettings : LexerSettings = {
 
     ignoreSpace : true,
     highNotPrecedence : false,
+    pipesAsConcat : false,
 };

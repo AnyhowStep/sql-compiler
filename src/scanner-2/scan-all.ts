@@ -85,6 +85,7 @@ export function scanAll (settings : Partial<LexerSettings>, text : string) : MyT
         characterSet : settings.characterSet ?? defaultLexerSettings.characterSet,
         ignoreSpace : settings.ignoreSpace ?? defaultLexerSettings.ignoreSpace,
         highNotPrecedence : settings.highNotPrecedence ?? defaultLexerSettings.highNotPrecedence,
+        pipesAsConcat : settings.pipesAsConcat ?? defaultLexerSettings.pipesAsConcat,
     };
     const state = new MyLexerState(mySettings, text);
 
@@ -297,7 +298,11 @@ export function scanImpl (state : LexerState) : TokenKind {
             if (state.peek(1) == CharacterCodes.bar) {
                 state.advance();
                 state.advance();
-                return TokenKind.BarBar;
+                if (state.settings.pipesAsConcat) {
+                    return TokenKind.BarBar_Concat;
+                } else {
+                    return TokenKind.BarBar;
+                }
             }
 
             state.advance();

@@ -31,6 +31,7 @@ export * from "./misc/drop-mode";
 export * from "./misc/if-exists";
 export * from "./misc/if-not-exists";
 export * from "./misc/not";
+export * from "./misc/order";
 export * from "./misc/schema";
 export * from "./misc/text-string";
 export * from "./misc/var-char";

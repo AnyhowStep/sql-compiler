@@ -9,6 +9,7 @@ export const AggregateFunctionCall = inline(choice(
     SyntaxKind.JsonObjectAggregateFunctionCall,
     SyntaxKind.JsonArrayAggregateFunctionCall,
     SyntaxKind.CountAggregateFunctionCall,
+    SyntaxKind.GroupConcatAggregateFunctionCall,
 ));
 
 /**
@@ -90,4 +91,12 @@ export const JsonArrayAggregateFunctionCall = seq(
 export const CountAggregateFunctionCall = seq(
     field("functionName", cannotExpect(TokenKind.COUNT)),
     field("arguments", SyntaxKind.CountAggregate_Arguments),
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10142
+ */
+export const GroupConcatAggregateFunctionCall = seq(
+    field("functionName", cannotExpect(TokenKind.GROUP_CONCAT)),
+    field("arguments", SyntaxKind.GroupConcatAggregate_Arguments),
 );

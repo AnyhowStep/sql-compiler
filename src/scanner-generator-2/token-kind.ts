@@ -95,6 +95,10 @@ export const customTokenKinds = [
     "Caret",
     "Bar",
     "BarBar",
+    /**
+     * https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_pipes_as_concat
+     */
+    "BarBar_Concat",
     "Ampersand",
     "AmpersandAmpersand",
 
