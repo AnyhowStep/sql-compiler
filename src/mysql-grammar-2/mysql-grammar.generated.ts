@@ -199,6 +199,7 @@ export interface MySqlRuleCollection {
     CollateSimpleExpression : Rule|TopLevelRuleModifier,
     Not : Rule|TopLevelRuleModifier,
     ConcatSimpleExpression : Rule|TopLevelRuleModifier,
+    RowSimpleExpression : Rule|TopLevelRuleModifier,
     SignedLiteral : Rule|TopLevelRuleModifier,
     Literal : Rule|TopLevelRuleModifier,
     TextLiteral : Rule|TopLevelRuleModifier,

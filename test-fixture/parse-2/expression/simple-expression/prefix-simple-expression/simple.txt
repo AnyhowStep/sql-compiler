@@ -1,0 +1,17 @@
+SELECT BINARY+-~1
+-----
+`!
+          (expression: PrefixSimpleExpression[7, 17]
+            (operator: BINARY[7, 13])
+            (expression: PrefixSimpleExpression[13, 17]
+              (operator: Plus[13, 14])
+              (expression: PrefixSimpleExpression[14, 17]
+                (operator: Minus[14, 15])
+                (expression: PrefixSimpleExpression[15, 17]
+                  (operator: Tilde[15, 16])
+                  (expression: IntegerLiteral[16, 17])
+                )
+              )
+            )
+          )
+!`

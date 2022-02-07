@@ -1,5 +1,5 @@
 import {cannotExpect, choice, fieldLengthCheck, field, optional, seq, tokenSymbol, inline, repeat} from "../../../grammar-builder";
-import {allowedSyntaxKinds, consumeUnexpected, getTokenKinds, greedySkipExpectation, skipExpectationCost} from "../../../grammar-builder/grammar";
+import {allowedSyntaxKinds, consumeUnexpected, disallowedSyntaxKinds, getTokenKinds, greedySkipExpectation, skipExpectationCost} from "../../../grammar-builder/grammar";
 import {greedySkipExpression, itemSeparator, list, list1, parentheses, real_ulong_num, ulong_num} from "../../rule-util";
 import {SyntaxKind} from "../../syntax-kind.generated";
 import {reservedKeywords, TokenKind} from "../../token.generated";
@@ -371,6 +371,10 @@ export const WeightString_Arguments_AsBinary = parentheses(seq(
     field("asToken", TokenKind.AS),
     field("binaryToken", TokenKind.BINARY),
     field("length", SyntaxKind.WeightStringCastLength),
+    field("levels", optional(disallowedSyntaxKinds(
+        [SyntaxKind.WeightString_Levels],
+        SyntaxKind.WeightString_Levels
+    ))),
 ));
 
 /**
@@ -388,8 +392,8 @@ export const WeightString_Arguments_Undocumented =  fieldLengthCheck(
         field("num1", ulong_num),
         field("commaToken", itemSeparator),
         field("num2", ulong_num),
-        field("commaToken", itemSeparator),
-        field("num3", ulong_num),
+        field("commaToken", greedySkipExpectation(itemSeparator)),
+        field("num3", greedySkipExpectation(ulong_num)),
         repeat(seq(
             field("commaToken", itemSeparator),
             field("extraItem", SyntaxKind.Expression),

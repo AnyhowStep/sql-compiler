@@ -1,0 +1,71 @@
+SELECT ROW()
+-----
+`!
+          ({Expected at least 2 item, found 0} expression: RowSimpleExpression[7, 12]
+            (rowToken: ROW[7, 10])
+            (openParenthesesToken: OpenParentheses[10, 11])
+            (closeParenthesesToken: CloseParentheses[11, 12])
+          )
+!`
+-----
+SELECT ROW(a)
+-----
+`!
+          ({Expected at least 2 item, found 1} expression: RowSimpleExpression[7, 13]
+            (rowToken: ROW[7, 10])
+            (openParenthesesToken: OpenParentheses[10, 11])
+            (item[]: Identifier[11, 12])
+            (closeParenthesesToken: CloseParentheses[12, 13])
+          )
+!`
+-----
+SELECT ROW(a, b)
+-----
+`!
+          (expression: RowSimpleExpression[7, 16]
+            (rowToken: ROW[7, 10])
+            (openParenthesesToken: OpenParentheses[10, 11])
+            (item[]: Identifier[11, 12])
+            (commaToken[]: Comma[12, 13])
+            (WhiteSpace[13, 14])
+            (item[]: Identifier[14, 15])
+            (closeParenthesesToken: CloseParentheses[15, 16])
+          )
+!`
+-----
+SELECT ROW(a, b, c)
+-----
+`!
+          (expression: RowSimpleExpression[7, 19]
+            (rowToken: ROW[7, 10])
+            (openParenthesesToken: OpenParentheses[10, 11])
+            (item[]: Identifier[11, 12])
+            (commaToken[]: Comma[12, 13])
+            (WhiteSpace[13, 14])
+            (item[]: Identifier[14, 15])
+            (commaToken[]: Comma[15, 16])
+            (WhiteSpace[16, 17])
+            (item[]: Identifier[17, 18])
+            (closeParenthesesToken: CloseParentheses[18, 19])
+          )
+!`
+-----
+SELECT ROW(a, b, c, d)
+-----
+`!
+          (expression: RowSimpleExpression[7, 22]
+            (rowToken: ROW[7, 10])
+            (openParenthesesToken: OpenParentheses[10, 11])
+            (item[]: Identifier[11, 12])
+            (commaToken[]: Comma[12, 13])
+            (WhiteSpace[13, 14])
+            (item[]: Identifier[14, 15])
+            (commaToken[]: Comma[15, 16])
+            (WhiteSpace[16, 17])
+            (item[]: Identifier[17, 18])
+            (commaToken[]: Comma[18, 19])
+            (WhiteSpace[19, 20])
+            (item[]: Identifier[20, 21])
+            (closeParenthesesToken: CloseParentheses[21, 22])
+          )
+!`

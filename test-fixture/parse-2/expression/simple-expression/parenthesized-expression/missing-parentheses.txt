@@ -1,0 +1,26 @@
+SELECT (x
+-----
+`!
+          (expression: ParenthesizedExpression[7, 9]
+            (openParenthesesToken: OpenParentheses[7, 8])
+            (item: Identifier[8, 9])
+            (Expected closeParenthesesToken: CloseParentheses[9, 9])
+          )
+!`
+-----
+SELECT x)
+-----
+(SourceFile[0, 9]
+  (statement[]: TrailingStatement[0, 8]
+    (statement: Select[0, 8]
+      (selectToken: SELECT[0, 6])
+      (WhiteSpace[6, 7])
+      (selectItemList1: SelectItemList1[7, 8]
+        (item[]: ExpressionSelectItem[7, 8]
+          (expression: Identifier[7, 8])
+        )
+      )
+    )
+  )
+  (Unexpected CloseParentheses[8, 9])
+)

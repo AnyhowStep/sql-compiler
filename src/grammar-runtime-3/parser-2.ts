@@ -2767,8 +2767,12 @@ export function skipExpectation (
                 }
             }
             //At this point we do not have an extra, or we are at beginning of file
-            if (x >= 0 && acceptsToken(expect, tokens[x]) && (expect.otherTokenKinds == undefined || expect.otherTokenKinds.length == 0)) {
-                continue;
+            if (
+                x >= 0 &&
+                acceptsToken(expect, tokens[x]) &&
+                (expect.otherTokenKinds == undefined || expect.otherTokenKinds.length == 0)
+            ) {
+                //continue;
             }
         }
 

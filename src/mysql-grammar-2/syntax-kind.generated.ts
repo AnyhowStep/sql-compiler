@@ -197,6 +197,7 @@ export enum SyntaxKind {
     CollateSimpleExpression = "CollateSimpleExpression",
     Not = "Not",
     ConcatSimpleExpression = "ConcatSimpleExpression",
+    RowSimpleExpression = "RowSimpleExpression",
     SignedLiteral = "SignedLiteral",
     Literal = "Literal",
     TextLiteral = "TextLiteral",

@@ -26,22 +26,19 @@ SELECT WEIGHT_STRING(a AS CHAR(999)
 `!
           (expression: WeightStringFunctionCall[66, 94]
             (functionName: WEIGHT_STRING[66, 79])
-            (arguments: WeightString_Arguments_Default[79, 94]
+            (arguments: WeightString_Arguments_AsChar[79, 94]
               (openParenthesesToken: OpenParentheses[79, 80])
               (expr: Identifier[80, 81])
               (WhiteSpace[81, 82])
-              (levels: WeightString_Levels[82, 93]
-                (Expected levelToken: LEVEL[82, 84])
-                (WhiteSpace[84, 85])
-                (Unexpected CHAR[85, 89])
-                (Unexpected OpenParentheses[89, 90])
-                (levels: WeightString_Level_List1[90, 93]
-                  (item[]: WeightString_Level_Item[90, 93]
-                    (level: IntegerLiteral[90, 93])
-                  )
-                )
+              (asToken: AS[82, 84])
+              (WhiteSpace[84, 85])
+              (charToken: CHAR[85, 89])
+              (length: WeightStringCastLength[89, 94]
+                (openParenthesesToken: OpenParentheses[89, 90])
+                (length: IntegerLiteral[90, 93])
+                (closeParenthesesToken: CloseParentheses[93, 94])
               )
-              (closeParenthesesToken: CloseParentheses[93, 94])
+              (Expected closeParenthesesToken: CloseParentheses[94, 94])
             )
           )
 !`
@@ -52,15 +49,19 @@ SELECT WEIGHT_STRING(a AS CHAR()
 `!
           (expression: WeightStringFunctionCall[66, 91]
             (functionName: WEIGHT_STRING[66, 79])
-            (arguments: WeightString_Arguments_Default[79, 91]
+            (arguments: WeightString_Arguments_AsChar[79, 91]
               (openParenthesesToken: OpenParentheses[79, 80])
               (expr: Identifier[80, 81])
               (WhiteSpace[81, 82])
-              (Unexpected AS[82, 84])
+              (asToken: AS[82, 84])
               (WhiteSpace[84, 85])
-              (Unexpected CHAR[85, 89])
-              (Unexpected OpenParentheses[89, 90])
-              (closeParenthesesToken: CloseParentheses[90, 91])
+              (charToken: CHAR[85, 89])
+              (length: WeightStringCastLength[89, 91]
+                (openParenthesesToken: OpenParentheses[89, 90])
+                (Expected length: IntegerLiteral[90, 90])
+                (closeParenthesesToken: CloseParentheses[90, 91])
+              )
+              (Expected closeParenthesesToken: CloseParentheses[91, 91])
             )
           )
 !`
@@ -71,14 +72,19 @@ SELECT WEIGHT_STRING(a AS CHAR)
 `!
           (expression: WeightStringFunctionCall[66, 90]
             (functionName: WEIGHT_STRING[66, 79])
-            (arguments: WeightString_Arguments_Default[79, 90]
+            (arguments: WeightString_Arguments_AsChar[79, 90]
               (openParenthesesToken: OpenParentheses[79, 80])
               (expr: Identifier[80, 81])
               (WhiteSpace[81, 82])
-              (Unexpected AS[82, 84])
+              (asToken: AS[82, 84])
               (WhiteSpace[84, 85])
-              (Unexpected CHAR[85, 89])
-              (closeParenthesesToken: CloseParentheses[89, 90])
+              (charToken: CHAR[85, 89])
+              (length: WeightStringCastLength[89, 90]
+                (Expected openParenthesesToken: OpenParentheses[89, 89])
+                (Expected length: IntegerLiteral[89, 89])
+                (closeParenthesesToken: CloseParentheses[89, 90])
+              )
+              (Expected closeParenthesesToken: CloseParentheses[90, 90])
             )
           )
 !`

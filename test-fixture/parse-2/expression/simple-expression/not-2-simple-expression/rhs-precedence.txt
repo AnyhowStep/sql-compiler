@@ -1,0 +1,440 @@
+SELECT ! @a := b
+-----
+`!
+          (expression: Not2SimpleExpression[7, 16]
+            (exclamationToken: Exclamation[7, 8])
+            (WhiteSpace[8, 9])
+            (expression: UserVariableIdentifierAssignment[9, 16]
+              (userVariableIdentifier: UserVariableIdentifier[9, 11]
+                (atToken: At[9, 10])
+                (identifier: Identifier[10, 11])
+              )
+              (WhiteSpace[11, 12])
+              (colonEqual: ColonEqual[12, 14]
+                (colonToken: Colon[12, 13])
+                (equalToken: Equal[13, 14])
+              )
+              (WhiteSpace[14, 15])
+              (expression: Identifier[15, 16])
+            )
+          )
+!`
+-----
+SELECT ! a OR b
+-----
+`!
+          (expression: BinaryExpression[7, 15]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: OR[11, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+!`
+-----
+SELECT ! a XOR b
+-----
+`!
+          (expression: BinaryExpression[7, 16]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: XOR[11, 14])
+            (WhiteSpace[14, 15])
+            (right: Identifier[15, 16])
+          )
+!`
+-----
+SELECT ! a AND b
+-----
+`!
+          (expression: BinaryExpression[7, 16]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: AND[11, 14])
+            (WhiteSpace[14, 15])
+            (right: Identifier[15, 16])
+          )
+!`
+-----
+SELECT ! NOT a
+-- This is, indeed, a syntax error
+-----
+`!
+          (expression: Not2SimpleExpression[7, 14]
+            (exclamationToken: Exclamation[7, 8])
+            (WhiteSpace[8, 9])
+            (Unexpected NOT[9, 12])
+            (WhiteSpace[12, 13])
+            (expression: Identifier[13, 14])
+          )
+!`
+-----
+SELECT ! a BETWEEN b AND c
+-----
+`!
+          (expression: BetweenPredicate[7, 26]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (betweenToken: BETWEEN[11, 18])
+            (WhiteSpace[18, 19])
+            (middle: Identifier[19, 20])
+            (WhiteSpace[20, 21])
+            (andToken: AND[21, 24])
+            (WhiteSpace[24, 25])
+            (right: Identifier[25, 26])
+          )
+!`
+-----
+SELECT ! a = b
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[7, 14]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: Equal[11, 12])
+            (WhiteSpace[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT ! a = ANY (SELECT b)
+-----
+`!
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[7, 27]
+            (expression: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: Equal[11, 12])
+            (WhiteSpace[12, 13])
+            (quantifier: ANY[13, 16])
+            (WhiteSpace[16, 17])
+            (parenthesizedSelect: ParenthesizedSelect[17, 27]
+!`
+-----
+SELECT ! a IS NULL
+-----
+`!
+          (expression: IsNullBooleanPrimaryExpression[7, 18]
+            (expression: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (isToken: IS[11, 13])
+            (WhiteSpace[13, 14])
+            (nullToken: NULL[14, 18])
+          )
+!`
+-----
+SELECT ! a IS UNKNOWN
+-----
+`!
+          (expression: IsExpression[7, 21]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (isToken: IS[11, 13])
+            (WhiteSpace[13, 14])
+            (right: UNKNOWN[14, 21])
+          )
+!`
+-----
+SELECT ! a LIKE b
+-----
+`!
+          (expression: LikePredicate[7, 17]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (likeToken: LIKE[11, 15])
+            (WhiteSpace[15, 16])
+            (right: Identifier[16, 17])
+          )
+!`
+-----
+SELECT ! a REGEXP b
+-----
+`!
+          (expression: RegExpPredicate[7, 19]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (regexpToken: REGEXP[11, 17])
+            (WhiteSpace[17, 18])
+            (right: Identifier[18, 19])
+          )
+!`
+-----
+SELECT ! a IN (SELECT b)
+-----
+`!
+          (expression: InSubQueryPredicate[7, 24]
+            (expression: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (inToken: IN[11, 13])
+            (WhiteSpace[13, 14])
+            (parenthesizedSelect: ParenthesizedSelect[14, 24]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item: Select[15, 23]
+                (selectToken: SELECT[15, 21])
+                (WhiteSpace[21, 22])
+                (selectItemList1: SelectItemList1[22, 23]
+                  (item[]: ExpressionSelectItem[22, 23]
+                    (expression: Identifier[22, 23])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT ! a IN (b)
+-----
+`!
+          (expression: InExpressionTuple1Predicate[7, 17]
+            (expression: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (inToken: IN[11, 13])
+            (WhiteSpace[13, 14])
+            (expressionTuple1: ExpressionTuple1[14, 17]
+              (openParenthesesToken: OpenParentheses[14, 15])
+              (item[]: Identifier[15, 16])
+              (closeParenthesesToken: CloseParentheses[16, 17])
+            )
+          )
+!`
+-----
+SELECT ! a | b
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: Bar[11, 12])
+            (WhiteSpace[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT ! a & b
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: Ampersand[11, 12])
+            (WhiteSpace[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT ! a << b
+-----
+`!
+          (expression: BinaryBitExpression[7, 15]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: LessLess[11, 13])
+            (WhiteSpace[13, 14])
+            (right: Identifier[14, 15])
+          )
+!`
+-----
+SELECT ! a + b
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: Plus[11, 12])
+            (WhiteSpace[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT ! a * b
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: Asterisk[11, 12])
+            (WhiteSpace[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT ! a ^ b
+-----
+`!
+          (expression: BinaryBitExpression[7, 14]
+            (left: Not2SimpleExpression[7, 10]
+              (exclamationToken: Exclamation[7, 8])
+              (WhiteSpace[8, 9])
+              (expression: Identifier[9, 10])
+            )
+            (WhiteSpace[10, 11])
+            (operator: Caret[11, 12])
+            (WhiteSpace[12, 13])
+            (right: Identifier[13, 14])
+          )
+!`
+-----
+SELECT ! - a
+-----
+`!
+          (expression: Not2SimpleExpression[7, 12]
+            (exclamationToken: Exclamation[7, 8])
+            (WhiteSpace[8, 9])
+            (expression: PrefixSimpleExpression[9, 12]
+              (operator: Minus[9, 10])
+              (WhiteSpace[10, 11])
+              (expression: Identifier[11, 12])
+            )
+          )
+!`
+-----
+SELECT ! ! a
+-----
+`!
+          (expression: Not2SimpleExpression[7, 12]
+            (exclamationToken: Exclamation[7, 8])
+            (WhiteSpace[8, 9])
+            (expression: Not2SimpleExpression[9, 12]
+              (exclamationToken: Exclamation[9, 10])
+              (WhiteSpace[10, 11])
+              (expression: Identifier[11, 12])
+            )
+          )
+!`
+-----
+SELECT ! BINARY a
+-----
+`!
+          (expression: Not2SimpleExpression[7, 17]
+            (exclamationToken: Exclamation[7, 8])
+            (WhiteSpace[8, 9])
+            (expression: PrefixSimpleExpression[9, 17]
+              (operator: BINARY[9, 15])
+              (WhiteSpace[15, 16])
+              (expression: Identifier[16, 17])
+            )
+          )
+!`
+-----
+SELECT ! a COLLATE utf8mb4_unicode_ci
+-----
+`!
+          (expression: Not2SimpleExpression[7, 37]
+            (exclamationToken: Exclamation[7, 8])
+            (WhiteSpace[8, 9])
+            (expression: CollateSimpleExpression[9, 37]
+              (expression: Identifier[9, 10])
+              (WhiteSpace[10, 11])
+              (collateToken: COLLATE[11, 18])
+              (WhiteSpace[18, 19])
+              (collation: Identifier[19, 37])
+            )
+          )
+!`
+-----
+SELECT ! INTERVAL a DAY + b
+-----
+`!
+          (expression: Not2SimpleExpression[7, 27]
+            (exclamationToken: Exclamation[7, 8])
+            (WhiteSpace[8, 9])
+            (expression: IntervalExpressionPlus[9, 27]
+              (left: IntervalExpression[9, 23]
+                (intervalToken: INTERVAL[9, 17])
+                (WhiteSpace[17, 18])
+                (expression: Identifier[18, 19])
+                (WhiteSpace[19, 20])
+                (temporalUnit: DAY[20, 23])
+              )
+              (WhiteSpace[23, 24])
+              (operator: Plus[24, 25])
+              (WhiteSpace[25, 26])
+              (right: Identifier[26, 27])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT ! a || b
+-----
+`!
+          (expression: ConcatSimpleExpression[35, 43]
+            (left: Not2SimpleExpression[35, 38]
+              (exclamationToken: Exclamation[35, 36])
+              (WhiteSpace[36, 37])
+              (expression: Identifier[37, 38])
+            )
+            (WhiteSpace[38, 39])
+            (operator: BarBar_Concat[39, 41])
+            (WhiteSpace[41, 42])
+            (right: Identifier[42, 43])
+          )
+!`

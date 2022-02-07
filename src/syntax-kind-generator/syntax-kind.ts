@@ -220,6 +220,7 @@ export const syntaxKinds = [
     "CollateSimpleExpression",
     "Not",
     "ConcatSimpleExpression",
+    "RowSimpleExpression",
 
     "SignedLiteral",
     "Literal",
