@@ -219,6 +219,7 @@ export const syntaxKinds = [
     "PrefixSimpleExpression",
     "CollateSimpleExpression",
     "Not",
+    "ConcatSimpleExpression",
 
     "SignedLiteral",
     "Literal",
@@ -296,6 +297,7 @@ export const syntaxKinds = [
     "JsonObjectAggregateFunctionCall",
     "JsonArrayAggregateFunctionCall",
     "CountAggregateFunctionCall",
+    "GroupConcatAggregateFunctionCall",
 
     "Empty_Arguments",
     "ExpressionList_ArgumentsImpl",
@@ -341,6 +343,10 @@ export const syntaxKinds = [
     "WeightString_Level_Flag",
     "WeightString_Level_Item",
 
+    "OrderExpression",
+    "OrderExpressionList1",
+    "OrderByClause",
+
     "NumberAggregate_Arguments_Expression",
     "NumberAggregate_Arguments",
     "Aggregate_Arguments_Expression",
@@ -350,6 +356,8 @@ export const syntaxKinds = [
     "CountAggregate_Arguments_All",
     "CountAggregate_Arguments_Distinct",
     "CountAggregate_Arguments",
+    "GroupConcatAggregate_Arguments",
+    "GroupConcatAggregate_Separator",
 
     "Now",
     "DateTimePrecisionArg",

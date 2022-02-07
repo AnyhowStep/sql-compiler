@@ -1,0 +1,547 @@
+-- @@pipes_as_concat = true
+SELECT @a := b || x
+-----
+`!
+          (expression: UserVariableIdentifierAssignment[35, 47]
+            (userVariableIdentifier: UserVariableIdentifier[35, 37]
+              (atToken: At[35, 36])
+              (identifier: Identifier[36, 37])
+            )
+            (WhiteSpace[37, 38])
+            (colonEqual: ColonEqual[38, 40]
+              (colonToken: Colon[38, 39])
+              (equalToken: Equal[39, 40])
+            )
+            (WhiteSpace[40, 41])
+            (expression: ConcatSimpleExpression[41, 47]
+              (left: Identifier[41, 42])
+              (WhiteSpace[42, 43])
+              (operator: BarBar_Concat[43, 45])
+              (WhiteSpace[45, 46])
+              (right: Identifier[46, 47])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a OR b || x
+-----
+`!
+          (expression: BinaryExpression[35, 46]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: OR[37, 39])
+            (WhiteSpace[39, 40])
+            (right: ConcatSimpleExpression[40, 46]
+              (left: Identifier[40, 41])
+              (WhiteSpace[41, 42])
+              (operator: BarBar_Concat[42, 44])
+              (WhiteSpace[44, 45])
+              (right: Identifier[45, 46])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a XOR b || x
+-----
+`!
+          (expression: BinaryExpression[35, 47]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: XOR[37, 40])
+            (WhiteSpace[40, 41])
+            (right: ConcatSimpleExpression[41, 47]
+              (left: Identifier[41, 42])
+              (WhiteSpace[42, 43])
+              (operator: BarBar_Concat[43, 45])
+              (WhiteSpace[45, 46])
+              (right: Identifier[46, 47])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a AND b || x
+-----
+`!
+          (expression: BinaryExpression[35, 47]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: AND[37, 40])
+            (WhiteSpace[40, 41])
+            (right: ConcatSimpleExpression[41, 47]
+              (left: Identifier[41, 42])
+              (WhiteSpace[42, 43])
+              (operator: BarBar_Concat[43, 45])
+              (WhiteSpace[45, 46])
+              (right: Identifier[46, 47])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT NOT a || x
+-- This is actually correct, BarBar_Concat has higher priority than NOT
+-----
+`!
+          (expression: NotExpression[35, 45]
+            (notToken: NOT[35, 38])
+            (WhiteSpace[38, 39])
+            (expression: ConcatSimpleExpression[39, 45]
+              (left: Identifier[39, 40])
+              (WhiteSpace[40, 41])
+              (operator: BarBar_Concat[41, 43])
+              (WhiteSpace[43, 44])
+              (right: Identifier[44, 45])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a BETWEEN b AND c || x
+-----
+`!
+          (expression: BetweenPredicate[35, 57]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (betweenToken: BETWEEN[37, 44])
+            (WhiteSpace[44, 45])
+            (middle: Identifier[45, 46])
+            (WhiteSpace[46, 47])
+            (andToken: AND[47, 50])
+            (WhiteSpace[50, 51])
+            (right: ConcatSimpleExpression[51, 57]
+              (left: Identifier[51, 52])
+              (WhiteSpace[52, 53])
+              (operator: BarBar_Concat[53, 55])
+              (WhiteSpace[55, 56])
+              (right: Identifier[56, 57])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a = b || x
+-----
+`!
+          (expression: ComparisonBooleanPrimaryExpression[35, 45]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: Equal[37, 38])
+            (WhiteSpace[38, 39])
+            (right: ConcatSimpleExpression[39, 45]
+              (left: Identifier[39, 40])
+              (WhiteSpace[40, 41])
+              (operator: BarBar_Concat[41, 43])
+              (WhiteSpace[43, 44])
+              (right: Identifier[44, 45])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a = ANY (SELECT b) || x
+-- This is, indeed, invalid syntax
+-----
+`!
+        (item[]: ExpressionSelectItem[35, 53]
+          (expression: ComparisonSubQueryBooleanPrimaryExpression[35, 53]
+            (expression: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: Equal[37, 38])
+            (WhiteSpace[38, 39])
+            (quantifier: ANY[39, 42])
+            (WhiteSpace[42, 43])
+            (parenthesizedSelect: ParenthesizedSelect[43, 53]
+              (openParenthesesToken: OpenParentheses[43, 44])
+              (item: Select[44, 52]
+                (selectToken: SELECT[44, 50])
+                (WhiteSpace[50, 51])
+                (selectItemList1: SelectItemList1[51, 52]
+                  (item[]: ExpressionSelectItem[51, 52]
+                    (expression: Identifier[51, 52])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[52, 53])
+            )
+          )
+        )
+        (WhiteSpace[53, 54])
+        (Expected commaToken[]: Comma[54, 56])
+        (WhiteSpace[56, 57])
+        (item[]: ExpressionSelectItem[57, 58]
+          (expression: Identifier[57, 58])
+        )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a IS NULL || x
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[35, 44]
+          (expression: IsNullBooleanPrimaryExpression[35, 44]
+            (expression: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (isToken: IS[37, 39])
+            (WhiteSpace[39, 40])
+            (nullToken: NULL[40, 44])
+          )
+        )
+        (WhiteSpace[44, 45])
+        (Expected commaToken[]: Comma[45, 47])
+        (WhiteSpace[47, 48])
+        (item[]: ExpressionSelectItem[48, 49]
+          (expression: Identifier[48, 49])
+        )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a IS UNKNOWN || x
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[35, 47]
+          (expression: IsExpression[35, 47]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (isToken: IS[37, 39])
+            (WhiteSpace[39, 40])
+            (right: UNKNOWN[40, 47])
+          )
+        )
+        (WhiteSpace[47, 48])
+        (Expected commaToken[]: Comma[48, 50])
+        (WhiteSpace[50, 51])
+        (item[]: ExpressionSelectItem[51, 52]
+          (expression: Identifier[51, 52])
+        )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a LIKE b || x
+-----
+`!
+          (expression: LikePredicate[35, 48]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (likeToken: LIKE[37, 41])
+            (WhiteSpace[41, 42])
+            (right: ConcatSimpleExpression[42, 48]
+              (left: Identifier[42, 43])
+              (WhiteSpace[43, 44])
+              (operator: BarBar_Concat[44, 46])
+              (WhiteSpace[46, 47])
+              (right: Identifier[47, 48])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a REGEXP b || x
+-----
+`!
+          (expression: RegExpPredicate[35, 50]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (regexpToken: REGEXP[37, 43])
+            (WhiteSpace[43, 44])
+            (right: ConcatSimpleExpression[44, 50]
+              (left: Identifier[44, 45])
+              (WhiteSpace[45, 46])
+              (operator: BarBar_Concat[46, 48])
+              (WhiteSpace[48, 49])
+              (right: Identifier[49, 50])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a IN (SELECT b) || x
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[35, 50]
+          (expression: InSubQueryPredicate[35, 50]
+            (expression: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (inToken: IN[37, 39])
+            (WhiteSpace[39, 40])
+            (parenthesizedSelect: ParenthesizedSelect[40, 50]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (item: Select[41, 49]
+                (selectToken: SELECT[41, 47])
+                (WhiteSpace[47, 48])
+                (selectItemList1: SelectItemList1[48, 49]
+                  (item[]: ExpressionSelectItem[48, 49]
+                    (expression: Identifier[48, 49])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+        )
+        (WhiteSpace[50, 51])
+        (Expected commaToken[]: Comma[51, 53])
+        (WhiteSpace[53, 54])
+        (item[]: ExpressionSelectItem[54, 55]
+          (expression: Identifier[54, 55])
+        )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a IN (b) || x
+-- This is, indeed, a syntax error
+-----
+`!
+        (item[]: ExpressionSelectItem[35, 43]
+          (expression: InExpressionTuple1Predicate[35, 43]
+            (expression: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (inToken: IN[37, 39])
+            (WhiteSpace[39, 40])
+            (expressionTuple1: ExpressionTuple1[40, 43]
+              (openParenthesesToken: OpenParentheses[40, 41])
+              (item[]: Identifier[41, 42])
+              (closeParenthesesToken: CloseParentheses[42, 43])
+            )
+          )
+        )
+        (WhiteSpace[43, 44])
+        (Expected commaToken[]: Comma[44, 46])
+        (WhiteSpace[46, 47])
+        (item[]: ExpressionSelectItem[47, 48]
+          (expression: Identifier[47, 48])
+        )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a | b || x
+-----
+`!
+          (expression: BinaryBitExpression[35, 45]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: Bar[37, 38])
+            (WhiteSpace[38, 39])
+            (right: ConcatSimpleExpression[39, 45]
+              (left: Identifier[39, 40])
+              (WhiteSpace[40, 41])
+              (operator: BarBar_Concat[41, 43])
+              (WhiteSpace[43, 44])
+              (right: Identifier[44, 45])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a & b || x
+-----
+`!
+          (expression: BinaryBitExpression[35, 45]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: Ampersand[37, 38])
+            (WhiteSpace[38, 39])
+            (right: ConcatSimpleExpression[39, 45]
+              (left: Identifier[39, 40])
+              (WhiteSpace[40, 41])
+              (operator: BarBar_Concat[41, 43])
+              (WhiteSpace[43, 44])
+              (right: Identifier[44, 45])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a << b || x
+-----
+`!
+          (expression: BinaryBitExpression[35, 46]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: LessLess[37, 39])
+            (WhiteSpace[39, 40])
+            (right: ConcatSimpleExpression[40, 46]
+              (left: Identifier[40, 41])
+              (WhiteSpace[41, 42])
+              (operator: BarBar_Concat[42, 44])
+              (WhiteSpace[44, 45])
+              (right: Identifier[45, 46])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a + b || x
+-----
+`!
+          (expression: BinaryBitExpression[35, 45]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: Plus[37, 38])
+            (WhiteSpace[38, 39])
+            (right: ConcatSimpleExpression[39, 45]
+              (left: Identifier[39, 40])
+              (WhiteSpace[40, 41])
+              (operator: BarBar_Concat[41, 43])
+              (WhiteSpace[43, 44])
+              (right: Identifier[44, 45])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a * b || x
+-----
+`!
+          (expression: BinaryBitExpression[35, 45]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: Asterisk[37, 38])
+            (WhiteSpace[38, 39])
+            (right: ConcatSimpleExpression[39, 45]
+              (left: Identifier[39, 40])
+              (WhiteSpace[40, 41])
+              (operator: BarBar_Concat[41, 43])
+              (WhiteSpace[43, 44])
+              (right: Identifier[44, 45])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a ^ b || x
+-----
+`!
+          (expression: BinaryBitExpression[35, 45]
+            (left: Identifier[35, 36])
+            (WhiteSpace[36, 37])
+            (operator: Caret[37, 38])
+            (WhiteSpace[38, 39])
+            (right: ConcatSimpleExpression[39, 45]
+              (left: Identifier[39, 40])
+              (WhiteSpace[40, 41])
+              (operator: BarBar_Concat[41, 43])
+              (WhiteSpace[43, 44])
+              (right: Identifier[44, 45])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT - a || x
+-----
+`!
+          (expression: ConcatSimpleExpression[35, 43]
+            (left: PrefixSimpleExpression[35, 38]
+              (operator: Minus[35, 36])
+              (WhiteSpace[36, 37])
+              (expression: Identifier[37, 38])
+            )
+            (WhiteSpace[38, 39])
+            (operator: BarBar_Concat[39, 41])
+            (WhiteSpace[41, 42])
+            (right: Identifier[42, 43])
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT ! a || x
+-----
+`!
+          (expression: ConcatSimpleExpression[35, 43]
+            (left: Not2SimpleExpression[35, 38]
+              (exclamationToken: Exclamation[35, 36])
+              (WhiteSpace[36, 37])
+              (expression: Identifier[37, 38])
+            )
+            (WhiteSpace[38, 39])
+            (operator: BarBar_Concat[39, 41])
+            (WhiteSpace[41, 42])
+            (right: Identifier[42, 43])
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT BINARY a || x
+-----
+`!
+          (expression: ConcatSimpleExpression[35, 48]
+            (left: PrefixSimpleExpression[35, 43]
+              (operator: BINARY[35, 41])
+              (WhiteSpace[41, 42])
+              (expression: Identifier[42, 43])
+            )
+            (WhiteSpace[43, 44])
+            (operator: BarBar_Concat[44, 46])
+            (WhiteSpace[46, 47])
+            (right: Identifier[47, 48])
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a COLLATE utf8mb4_unicode_ci || x
+-----
+`!
+          (expression: ConcatSimpleExpression[35, 68]
+            (left: CollateSimpleExpression[35, 63]
+              (expression: Identifier[35, 36])
+              (WhiteSpace[36, 37])
+              (collateToken: COLLATE[37, 44])
+              (WhiteSpace[44, 45])
+              (collation: Identifier[45, 63])
+            )
+            (WhiteSpace[63, 64])
+            (operator: BarBar_Concat[64, 66])
+            (WhiteSpace[66, 67])
+            (right: Identifier[67, 68])
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT INTERVAL a DAY + b || x
+-----
+`!
+          (expression: IntervalExpressionPlus[35, 58]
+            (left: IntervalExpression[35, 49]
+              (intervalToken: INTERVAL[35, 43])
+              (WhiteSpace[43, 44])
+              (expression: Identifier[44, 45])
+              (WhiteSpace[45, 46])
+              (temporalUnit: DAY[46, 49])
+            )
+            (WhiteSpace[49, 50])
+            (operator: Plus[50, 51])
+            (WhiteSpace[51, 52])
+            (right: ConcatSimpleExpression[52, 58]
+              (left: Identifier[52, 53])
+              (WhiteSpace[53, 54])
+              (operator: BarBar_Concat[54, 56])
+              (WhiteSpace[56, 57])
+              (right: Identifier[57, 58])
+            )
+          )
+!`
+-----
+-- @@pipes_as_concat = true
+SELECT a || b || x
+-----
+`!
+          (expression: ConcatSimpleExpression[35, 46]
+            (left: ConcatSimpleExpression[35, 41]
+              (left: Identifier[35, 36])
+              (WhiteSpace[36, 37])
+              (operator: BarBar_Concat[37, 39])
+              (WhiteSpace[39, 40])
+              (right: Identifier[40, 41])
+            )
+            (WhiteSpace[41, 42])
+            (operator: BarBar_Concat[42, 44])
+            (WhiteSpace[44, 45])
+            (right: Identifier[45, 46])
+          )
+!`

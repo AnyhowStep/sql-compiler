@@ -30,6 +30,10 @@ export const SimpleExpression = inline(choice(
     SyntaxKind.UserVariableIdentifierAssignment,
     SyntaxKind.ScopedSystemVariableIdentifier,
     SyntaxKind.UnscopedSystemVariableIdentifier,
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9508
+     */
+    SyntaxKind.ConcatSimpleExpression,
     SyntaxKind.Not2SimpleExpression,
     SyntaxKind.ParenthesizedExpressionSimpleExpression,
     /**
@@ -428,3 +432,21 @@ export const UserVariableIdentifierAssignment = precedence(
  * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9505
  */
 export const ParamMarker = field("questionMarkToken", TokenKind.QuestionMark);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9508
+ */
+export const ConcatSimpleExpression = precedence(130, seq(
+    field("left", SyntaxKind.SimpleExpression),
+    /**
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L9459
+     *
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/lex.h#L690
+     *
+     * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_lex.cc#L881
+     */
+    field("operator", cannotExpect(tokenSymbol(
+        TokenKind.BarBar_Concat,
+    ))),
+    field("right", SyntaxKind.SimpleExpression),
+));

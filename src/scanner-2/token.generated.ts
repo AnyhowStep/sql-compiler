@@ -706,6 +706,7 @@ export enum TokenKind {
     Caret = "Caret",
     Bar = "Bar",
     BarBar = "BarBar",
+    BarBar_Concat = "BarBar_Concat",
     Ampersand = "Ampersand",
     AmpersandAmpersand = "AmpersandAmpersand",
     Exclamation = "Exclamation",

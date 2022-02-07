@@ -1,0 +1,284 @@
+SELECT GROUP_CONCAT()
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 21]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected at least 1 item, found 0} arguments: GroupConcatAggregate_Arguments[19, 21]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (closeParenthesesToken: CloseParentheses[20, 21])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 29]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected at least 1 item, found 0} arguments: GroupConcatAggregate_Arguments[19, 29]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(ALL)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 24]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected at least 1 item, found 0} arguments: GroupConcatAggregate_Arguments[19, 24]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected ALL[20, 23])
+              (closeParenthesesToken: CloseParentheses[23, 24])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT ALL)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 33]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected at least 1 item, found 0} arguments: GroupConcatAggregate_Arguments[19, 33]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (WhiteSpace[28, 29])
+              (Unexpected ALL[29, 32])
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT ALL)
+-- Comment at the end
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 33]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected at least 1 item, found 0} arguments: GroupConcatAggregate_Arguments[19, 33]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (WhiteSpace[28, 29])
+              (Unexpected ALL[29, 32])
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(expr)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 25]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 25]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 24])
+              (closeParenthesesToken: CloseParentheses[24, 25])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT expr)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 34]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 34]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 33])
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(ALL expr)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 29]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 29]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected ALL[20, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Identifier[24, 28])
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT ALL expr)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 38]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 38]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (WhiteSpace[28, 29])
+              (Unexpected ALL[29, 32])
+              (WhiteSpace[32, 33])
+              (item[]: Identifier[33, 37])
+              (closeParenthesesToken: CloseParentheses[37, 38])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(expr, a)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 28]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 28]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (closeParenthesesToken: CloseParentheses[27, 28])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT expr, a)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 37]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 37]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 33])
+              (commaToken[]: Comma[33, 34])
+              (WhiteSpace[34, 35])
+              (item[]: Identifier[35, 36])
+              (closeParenthesesToken: CloseParentheses[36, 37])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(ALL expr, a)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 32]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 32]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected ALL[20, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Identifier[24, 28])
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: Identifier[30, 31])
+              (closeParenthesesToken: CloseParentheses[31, 32])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT ALL expr, a)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 41]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 41]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (WhiteSpace[28, 29])
+              (Unexpected ALL[29, 32])
+              (WhiteSpace[32, 33])
+              (item[]: Identifier[33, 37])
+              (commaToken[]: Comma[37, 38])
+              (WhiteSpace[38, 39])
+              (item[]: Identifier[39, 40])
+              (closeParenthesesToken: CloseParentheses[40, 41])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(expr, a, b)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 31]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 31]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 24])
+              (commaToken[]: Comma[24, 25])
+              (WhiteSpace[25, 26])
+              (item[]: Identifier[26, 27])
+              (commaToken[]: Comma[27, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 30])
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT expr, a, b)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 40]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 40]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (WhiteSpace[28, 29])
+              (item[]: Identifier[29, 33])
+              (commaToken[]: Comma[33, 34])
+              (WhiteSpace[34, 35])
+              (item[]: Identifier[35, 36])
+              (commaToken[]: Comma[36, 37])
+              (WhiteSpace[37, 38])
+              (item[]: Identifier[38, 39])
+              (closeParenthesesToken: CloseParentheses[39, 40])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(ALL expr, a, b)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 35]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 35]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (Unexpected ALL[20, 23])
+              (WhiteSpace[23, 24])
+              (item[]: Identifier[24, 28])
+              (commaToken[]: Comma[28, 29])
+              (WhiteSpace[29, 30])
+              (item[]: Identifier[30, 31])
+              (commaToken[]: Comma[31, 32])
+              (WhiteSpace[32, 33])
+              (item[]: Identifier[33, 34])
+              (closeParenthesesToken: CloseParentheses[34, 35])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(DISTINCT ALL expr, a, b)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 44]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 44]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (distinctToken: DISTINCT[20, 28])
+              (WhiteSpace[28, 29])
+              (Unexpected ALL[29, 32])
+              (WhiteSpace[32, 33])
+              (item[]: Identifier[33, 37])
+              (commaToken[]: Comma[37, 38])
+              (WhiteSpace[38, 39])
+              (item[]: Identifier[39, 40])
+              (commaToken[]: Comma[40, 41])
+              (WhiteSpace[41, 42])
+              (item[]: Identifier[42, 43])
+              (closeParenthesesToken: CloseParentheses[43, 44])
+            )
+          )
+!`

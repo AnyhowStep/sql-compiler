@@ -705,6 +705,7 @@ export interface Tilde extends MyToken<"Tilde"> {}
 export interface Caret extends MyToken<"Caret"> {}
 export interface Bar extends MyToken<"Bar"> {}
 export interface BarBar extends MyToken<"BarBar"> {}
+export interface BarBar_Concat extends MyToken<"BarBar_Concat"> {}
 export interface Ampersand extends MyToken<"Ampersand"> {}
 export interface AmpersandAmpersand extends MyToken<"AmpersandAmpersand"> {}
 export interface Exclamation extends MyToken<"Exclamation"> {}
@@ -1146,7 +1147,7 @@ export interface ParenthesizedExpression extends MySyntaxNode {
     };
 }
 
-export type AggregateFunctionCall = NumberAggregateFunctionCall | BitAggregateFunctionCall | StatisticalAggregateFunctionCall | JsonObjectAggregateFunctionCall | JsonArrayAggregateFunctionCall | CountAggregateFunctionCall;
+export type AggregateFunctionCall = NumberAggregateFunctionCall | BitAggregateFunctionCall | StatisticalAggregateFunctionCall | JsonObjectAggregateFunctionCall | JsonArrayAggregateFunctionCall | CountAggregateFunctionCall | GroupConcatAggregateFunctionCall;
 
 export interface NumberAggregateFunctionCall extends MySyntaxNode {
     syntaxKind : "NumberAggregateFunctionCall";
@@ -1193,6 +1194,14 @@ export interface CountAggregateFunctionCall extends MySyntaxNode {
     fields : {
         functionName : (COUNT);
         arguments : (CountAggregate_Arguments)
+    };
+}
+
+export interface GroupConcatAggregateFunctionCall extends MySyntaxNode {
+    syntaxKind : "GroupConcatAggregateFunctionCall";
+    fields : {
+        functionName : (GROUP_CONCAT);
+        arguments : (GroupConcatAggregate_Arguments)
     };
 }
 
@@ -1610,6 +1619,28 @@ export interface CountAggregate_Arguments_Distinct extends MySyntaxNode {
 }
 
 export type CountAggregate_Arguments = CountAggregate_Arguments_All | CountAggregate_Arguments_Distinct;
+
+export interface GroupConcatAggregate_Arguments extends MySyntaxNode {
+    syntaxKind : "GroupConcatAggregate_Arguments";
+    fields : {
+        openParenthesesToken : (OpenParentheses);
+        distinctToken? : (DISTINCT);
+        item : (Expression)[];
+        orderByClause? : (OrderByClause);
+        separator? : (GroupConcatAggregate_Separator);
+        closeParenthesesToken : (CloseParentheses);
+        commaToken : (Comma)[];
+        extraItem : (Expression)[]
+    };
+}
+
+export interface GroupConcatAggregate_Separator extends MySyntaxNode {
+    syntaxKind : "GroupConcatAggregate_Separator";
+    fields : {
+        separatorToken : (SEPARATOR);
+        textString : (TextString)
+    };
+}
 
 export interface AsciiFunctionCall extends MySyntaxNode {
     syntaxKind : "AsciiFunctionCall";
@@ -2217,7 +2248,7 @@ export interface SignedLiteral extends MySyntaxNode {
     };
 }
 
-export type SimpleExpression = Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | ColumnIdentifierSimpleExpression | FunctionCall | Literal | ParamMarker | UserVariableIdentifier | UserVariableIdentifierAssignment | ScopedSystemVariableIdentifier | UnscopedSystemVariableIdentifier | Not2SimpleExpression | ParenthesizedExpressionSimpleExpression | IntervalExpressionPlus | PrefixSimpleExpression | CollateSimpleExpression | ParenthesizedSelect;
+export type SimpleExpression = Identifier | DoubleQuotedLiteral | ACTION | ADDDATE | AFTER | AGAINST | AGGREGATE | ALGORITHM | ANALYSE | ANY | AT | AUTO_INCREMENT | AUTOEXTEND_SIZE | AVG_ROW_LENGTH | AVG | BINLOG | BIT | BLOCK | BOOL | BOOLEAN | BTREE | CASCADED | CATALOG_NAME | CHAIN | CHANGED | CHANNEL | CIPHER | CLIENT | CLASS_ORIGIN | COALESCE | CODE | COLLATION | COLUMN_NAME | COLUMN_FORMAT | COLUMNS | COMMITTED | COMPACT | COMPLETION | COMPRESSED | COMPRESSION | ENCRYPTION | CONCURRENT | CONNECTION | CONSISTENT | CONSTRAINT_CATALOG | CONSTRAINT_SCHEMA | CONSTRAINT_NAME | CONTEXT | CPU | CUBE | CURRENT | CURSOR_NAME | DATA | DATAFILE | DATETIME | DATE | DAY | DEFAULT_AUTH | DEFINER | DELAY_KEY_WRITE | DES_KEY_FILE | DIAGNOSTICS | DIRECTORY | DISABLE | DISCARD | DISK | DUMPFILE | DUPLICATE | DYNAMIC | ENDS | ENUM | ENGINE | ENGINES | ERROR | ERRORS | ESCAPE | EVENT | EVENTS | EVERY | EXCHANGE | EXPANSION | EXPIRE | EXPORT | EXTENDED | EXTENT_SIZE | FAULTS | FAST | FOUND | ENABLE | FULL | FILE | FILE_BLOCK_SIZE | FILTER | FIRST | FIXED | GENERAL | GEOMETRY | GEOMETRYCOLLECTION | GET_FORMAT | GRANTS | GLOBAL | HASH | HOSTS | HOUR | IDENTIFIED | IGNORE_SERVER_IDS | INVOKER | IMPORT | INDEXES | INITIAL_SIZE | INSTANCE | IO | IPC | ISOLATION | ISSUER | INSERT_METHOD | JSON | KEY_BLOCK_SIZE | LAST | LEAVES | LESS | LEVEL | LINESTRING | LIST | LOCAL | LOCKS | LOGFILE | LOGS | MAX_ROWS | MASTER | MASTER_HEARTBEAT_PERIOD | MASTER_HOST | MASTER_PORT | MASTER_LOG_FILE | MASTER_LOG_POS | MASTER_USER | MASTER_PASSWORD | MASTER_SERVER_ID | MASTER_CONNECT_RETRY | MASTER_RETRY_COUNT | MASTER_DELAY | MASTER_SSL | MASTER_SSL_CA | MASTER_SSL_CAPATH | MASTER_TLS_VERSION | MASTER_SSL_CERT | MASTER_SSL_CIPHER | MASTER_SSL_CRL | MASTER_SSL_CRLPATH | MASTER_SSL_KEY | MASTER_AUTO_POSITION | MAX_CONNECTIONS_PER_HOUR | MAX_QUERIES_PER_HOUR | MAX_SIZE | MAX_UPDATES_PER_HOUR | MAX_USER_CONNECTIONS | MEDIUM | MEMORY | MERGE | MESSAGE_TEXT | MICROSECOND | MIGRATE | MINUTE | MIN_ROWS | MODIFY | MODE | MONTH | MULTILINESTRING | MULTIPOINT | MULTIPOLYGON | MUTEX | MYSQL_ERRNO | NAME | NAMES | NATIONAL | NCHAR | NDBCLUSTER | NEVER | NEXT | NEW | NO_WAIT | NODEGROUP | NONE | NUMBER | NVARCHAR | OFFSET | ONE | ONLY | PACK_KEYS | PAGE | PARTIAL | PARTITIONING | PARTITIONS | PASSWORD | PHASE | PLUGIN_DIR | PLUGIN | PLUGINS | POINT | POLYGON | PRESERVE | PREV | PRIVILEGES | PROCESS | PROCESSLIST | PROFILE | PROFILES | PROXY | QUARTER | QUERY | QUICK | READ_ONLY | REBUILD | RECOVER | REDO_BUFFER_SIZE | REDOFILE | REDUNDANT | RELAY | RELAYLOG | RELAY_LOG_FILE | RELAY_LOG_POS | RELAY_THREAD | RELOAD | REORGANIZE | REPEATABLE | REPLICATION | REPLICATE_DO_DB | REPLICATE_IGNORE_DB | REPLICATE_DO_TABLE | REPLICATE_IGNORE_TABLE | REPLICATE_WILD_DO_TABLE | REPLICATE_WILD_IGNORE_TABLE | REPLICATE_REWRITE_DB | USER_RESOURCES | RESUME | RETURNED_SQLSTATE | RETURNS | REVERSE | ROLLUP | ROTATE | ROUTINE | ROWS | ROW_COUNT | ROW_FORMAT | ROW | RTREE | SCHEDULE | SCHEMA_NAME | SECOND | SERIAL | SERIALIZABLE | SESSION | SIMPLE | SHARE | SLOW | SNAPSHOT | SOUNDS | SOURCE | SQL_AFTER_GTIDS | SQL_AFTER_MTS_GAPS | SQL_BEFORE_GTIDS | SQL_CACHE | SQL_BUFFER_RESULT | SQL_NO_CACHE | SQL_THREAD | STACKED | STARTS | STATS_AUTO_RECALC | STATS_PERSISTENT | STATS_SAMPLE_PAGES | STATUS | STORAGE | STRING | SUBCLASS_ORIGIN | SUBDATE | SUBJECT | SUBPARTITION | SUBPARTITIONS | SUPER | SUSPEND | SWAPS | SWITCHES | TABLE_NAME | TABLES | TABLE_CHECKSUM | TABLESPACE | TEMPORARY | TEMPTABLE | TEXT | THAN | TRANSACTION | TRIGGERS | TIMESTAMP | TIMESTAMPADD | TIMESTAMPDIFF | TIME | TYPES | TYPE | FUNCTION | UNCOMMITTED | UNDEFINED | UNDO_BUFFER_SIZE | UNDOFILE | UNKNOWN | UNTIL | USER | USE_FRM | VALIDATION | VARIABLES | VIEW | VALUE | WARNINGS | WAIT | WEEK | WITHOUT | WORK | WEIGHT_STRING | X509 | XID | XML | YEAR | SOME | FIELDS | SQL_TSI_DAY | SQL_TSI_HOUR | SQL_TSI_MINUTE | SQL_TSI_MONTH | NDB | SQL_TSI_QUARTER | IO_THREAD | SQL_TSI_SECOND | SESSION_USER | SYSTEM_USER | SQL_TSI_WEEK | SQL_TSI_YEAR | MAX_STATEMENT_TIME | NONBLOCKING | OLD_PASSWORD | ACCOUNT | ASCII | ALWAYS | BACKUP | BEGIN | BYTE | CACHE | CHARSET | CHECKSUM | CLOSE | COMMENT | COMMIT | CONTAINS | DEALLOCATE | DO | END | EXECUTE | FLUSH | FOLLOWS | FORMAT | GROUP_REPLICATION | HANDLER | HELP | HOST | INSTALL | LANGUAGE | NO | OPEN | OPTIONS | OWNER | PARSER | PARSE_GCOL_EXPR | PORT | PRECEDES | PREPARE | REMOVE | REPAIR | RESET | RESTORE | ROLLBACK | SAVEPOINT | SECURITY | SERVER | SHUTDOWN | SIGNED | SOCKET | SLAVE | SONAME | START | STOP | TRUNCATE | UNICODE | UNINSTALL | WRAPPER | XA | UPGRADE | ColumnIdentifierSimpleExpression | FunctionCall | Literal | ParamMarker | UserVariableIdentifier | UserVariableIdentifierAssignment | ScopedSystemVariableIdentifier | UnscopedSystemVariableIdentifier | ConcatSimpleExpression | Not2SimpleExpression | ParenthesizedExpressionSimpleExpression | IntervalExpressionPlus | PrefixSimpleExpression | CollateSimpleExpression | ParenthesizedSelect;
 
 export interface Not2SimpleExpression extends MySyntaxNode {
     syntaxKind : "Not2SimpleExpression";
@@ -2307,6 +2338,15 @@ export interface ParamMarker extends MySyntaxNode {
     syntaxKind : "ParamMarker";
     fields : {
         questionMarkToken : (QuestionMark)
+    };
+}
+
+export interface ConcatSimpleExpression extends MySyntaxNode {
+    syntaxKind : "ConcatSimpleExpression";
+    fields : {
+        left : (SimpleExpression);
+        operator : (BarBar_Concat);
+        right : (SimpleExpression)
     };
 }
 
@@ -2446,6 +2486,31 @@ export interface IfNotExists extends MySyntaxNode {
 }
 
 export type Not = NOT | NOT2;
+
+export interface OrderExpression extends MySyntaxNode {
+    syntaxKind : "OrderExpression";
+    fields : {
+        expression : (Expression);
+        sortOrder? : (ASC | DESC)
+    };
+}
+
+export interface OrderExpressionList1 extends MySyntaxNode {
+    syntaxKind : "OrderExpressionList1";
+    fields : {
+        item : (OrderExpression)[];
+        commaToken : (Comma)[]
+    };
+}
+
+export interface OrderByClause extends MySyntaxNode {
+    syntaxKind : "OrderByClause";
+    fields : {
+        orderToken : (ORDER);
+        byToken : (BY);
+        orderExpressionList1 : (OrderExpressionList1)
+    };
+}
 
 export type Schema = SCHEMA | DATABASE;
 

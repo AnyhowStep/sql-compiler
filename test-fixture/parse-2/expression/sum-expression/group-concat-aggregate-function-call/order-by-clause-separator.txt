@@ -1,0 +1,123 @@
+SELECT GROUP_CONCAT(a ORDER BY x SEPARATOR 's')
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 47]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 47]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (orderByClause: OrderByClause[22, 32]
+                (orderToken: ORDER[22, 27])
+                (WhiteSpace[27, 28])
+                (byToken: BY[28, 30])
+                (WhiteSpace[30, 31])
+                (orderExpressionList1: OrderExpressionList1[31, 32]
+                  (item[]: OrderExpression[31, 32]
+                    (expression: Identifier[31, 32])
+                  )
+                )
+              )
+              (WhiteSpace[32, 33])
+              (separator: GroupConcatAggregate_Separator[33, 46]
+                (separatorToken: SEPARATOR[33, 42])
+                (WhiteSpace[42, 43])
+                (textString: StringLiteral[43, 46])
+              )
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a ORDER BY x SEPARATOR 's', t)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 50]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected exactly 0 extraItem, found 1} arguments: GroupConcatAggregate_Arguments[19, 50]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (orderByClause: OrderByClause[22, 32]
+                (orderToken: ORDER[22, 27])
+                (WhiteSpace[27, 28])
+                (byToken: BY[28, 30])
+                (WhiteSpace[30, 31])
+                (orderExpressionList1: OrderExpressionList1[31, 32]
+                  (item[]: OrderExpression[31, 32]
+                    (expression: Identifier[31, 32])
+                  )
+                )
+              )
+              (WhiteSpace[32, 33])
+              (separator: GroupConcatAggregate_Separator[33, 46]
+                (separatorToken: SEPARATOR[33, 42])
+                (WhiteSpace[42, 43])
+                (textString: StringLiteral[43, 46])
+              )
+              (commaToken[]: Comma[46, 47])
+              (WhiteSpace[47, 48])
+              (extraItem[]: Identifier[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a SEPARATOR 's' ORDER BY x)
+-- TODO Uhh, how do we even handle this?
+-- Is this parse what we want?
+-- How much do we want to mangle the grammar?
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 47]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected exactly 0 extraItem, found 1} arguments: GroupConcatAggregate_Arguments[19, 47]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (separator: GroupConcatAggregate_Separator[22, 35]
+                (separatorToken: SEPARATOR[22, 31])
+                (WhiteSpace[31, 32])
+                (textString: StringLiteral[32, 35])
+              )
+              (WhiteSpace[35, 36])
+              (Unexpected ORDER[36, 41])
+              (WhiteSpace[41, 42])
+              (Expected commaToken[]: Comma[42, 44])
+              (WhiteSpace[44, 45])
+              (extraItem[]: Identifier[45, 46])
+              (closeParenthesesToken: CloseParentheses[46, 47])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a SEPARATOR 's', t ORDER BY x)
+-- TODO Uhh, how do we even handle this?
+-- Is this parse what we want?
+-- How much do we want to mangle the grammar?
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 50]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected exactly 0 extraItem, found 2} arguments: GroupConcatAggregate_Arguments[19, 50]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (separator: GroupConcatAggregate_Separator[22, 35]
+                (separatorToken: SEPARATOR[22, 31])
+                (WhiteSpace[31, 32])
+                (textString: StringLiteral[32, 35])
+              )
+              (commaToken[]: Comma[35, 36])
+              (WhiteSpace[36, 37])
+              (extraItem[]: Identifier[37, 38])
+              (WhiteSpace[38, 39])
+              (Unexpected ORDER[39, 44])
+              (WhiteSpace[44, 45])
+              (Expected commaToken[]: Comma[45, 47])
+              (WhiteSpace[47, 48])
+              (extraItem[]: Identifier[48, 49])
+              (closeParenthesesToken: CloseParentheses[49, 50])
+            )
+          )
+!`

@@ -148,6 +148,13 @@ export function scanSingleLineComment (state : LexerState) {
             highNotPrecedence : highNotPrecedenceMatch[1].toLowerCase() == "true",
         };
     }
+    const pipesAsConcatMatch = /.*@@pipes_as_concat\s*=\s*(\w+)/.exec(commentText);
+    if (pipesAsConcatMatch != undefined) {
+        state.settings = {
+            ...state.settings,
+            pipesAsConcat : pipesAsConcatMatch[1].toLowerCase() == "true",
+        };
+    }
 }
 
 export function tryScanString (state : LexerState, str : string, overwriteIndex = true) {

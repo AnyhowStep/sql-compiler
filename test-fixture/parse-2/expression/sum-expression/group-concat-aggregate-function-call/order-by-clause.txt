@@ -1,0 +1,278 @@
+SELECT GROUP_CONCAT(ORDER BY)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 29]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected at least 1 item, found 0} arguments: GroupConcatAggregate_Arguments[19, 29]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (orderByClause: OrderByClause[20, 28]
+                (orderToken: ORDER[20, 25])
+                (WhiteSpace[25, 26])
+                (byToken: BY[26, 28])
+                (orderExpressionList1: OrderExpressionList1[28, 28]
+                  (item[]: OrderExpression[28, 28]
+                    (Expected expression: Identifier[28, 28])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[28, 29])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a ORDER BY)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 31]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 31]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (orderByClause: OrderByClause[22, 30]
+                (orderToken: ORDER[22, 27])
+                (WhiteSpace[27, 28])
+                (byToken: BY[28, 30])
+                (orderExpressionList1: OrderExpressionList1[30, 30]
+                  (item[]: OrderExpression[30, 30]
+                    (Expected expression: Identifier[30, 30])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a, b ORDER BY)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 34]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 34]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (WhiteSpace[24, 25])
+              (orderByClause: OrderByClause[25, 33]
+                (orderToken: ORDER[25, 30])
+                (WhiteSpace[30, 31])
+                (byToken: BY[31, 33])
+                (orderExpressionList1: OrderExpressionList1[33, 33]
+                  (item[]: OrderExpression[33, 33]
+                    (Expected expression: Identifier[33, 33])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(ORDER BY x)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 31]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected at least 1 item, found 0} arguments: GroupConcatAggregate_Arguments[19, 31]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (orderByClause: OrderByClause[20, 30]
+                (orderToken: ORDER[20, 25])
+                (WhiteSpace[25, 26])
+                (byToken: BY[26, 28])
+                (WhiteSpace[28, 29])
+                (orderExpressionList1: OrderExpressionList1[29, 30]
+                  (item[]: OrderExpression[29, 30]
+                    (expression: Identifier[29, 30])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[30, 31])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a ORDER BY x)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 33]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 33]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (orderByClause: OrderByClause[22, 32]
+                (orderToken: ORDER[22, 27])
+                (WhiteSpace[27, 28])
+                (byToken: BY[28, 30])
+                (WhiteSpace[30, 31])
+                (orderExpressionList1: OrderExpressionList1[31, 32]
+                  (item[]: OrderExpression[31, 32]
+                    (expression: Identifier[31, 32])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[32, 33])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a, b ORDER BY x)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 36]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 36]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (WhiteSpace[24, 25])
+              (orderByClause: OrderByClause[25, 35]
+                (orderToken: ORDER[25, 30])
+                (WhiteSpace[30, 31])
+                (byToken: BY[31, 33])
+                (WhiteSpace[33, 34])
+                (orderExpressionList1: OrderExpressionList1[34, 35]
+                  (item[]: OrderExpression[34, 35]
+                    (expression: Identifier[34, 35])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(ORDER BY x, y)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 34]
+            (functionName: GROUP_CONCAT[7, 19])
+            ({Expected at least 1 item, found 0} arguments: GroupConcatAggregate_Arguments[19, 34]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (orderByClause: OrderByClause[20, 33]
+                (orderToken: ORDER[20, 25])
+                (WhiteSpace[25, 26])
+                (byToken: BY[26, 28])
+                (WhiteSpace[28, 29])
+                (orderExpressionList1: OrderExpressionList1[29, 33]
+                  (item[]: OrderExpression[29, 30]
+                    (expression: Identifier[29, 30])
+                  )
+                  (commaToken[]: Comma[30, 31])
+                  (WhiteSpace[31, 32])
+                  (item[]: OrderExpression[32, 33]
+                    (expression: Identifier[32, 33])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[33, 34])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a ORDER BY x, y)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 36]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 36]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (orderByClause: OrderByClause[22, 35]
+                (orderToken: ORDER[22, 27])
+                (WhiteSpace[27, 28])
+                (byToken: BY[28, 30])
+                (WhiteSpace[30, 31])
+                (orderExpressionList1: OrderExpressionList1[31, 35]
+                  (item[]: OrderExpression[31, 32]
+                    (expression: Identifier[31, 32])
+                  )
+                  (commaToken[]: Comma[32, 33])
+                  (WhiteSpace[33, 34])
+                  (item[]: OrderExpression[34, 35]
+                    (expression: Identifier[34, 35])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[35, 36])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a, b ORDER BY x, y)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 39]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 39]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (commaToken[]: Comma[21, 22])
+              (WhiteSpace[22, 23])
+              (item[]: Identifier[23, 24])
+              (WhiteSpace[24, 25])
+              (orderByClause: OrderByClause[25, 38]
+                (orderToken: ORDER[25, 30])
+                (WhiteSpace[30, 31])
+                (byToken: BY[31, 33])
+                (WhiteSpace[33, 34])
+                (orderExpressionList1: OrderExpressionList1[34, 38]
+                  (item[]: OrderExpression[34, 35]
+                    (expression: Identifier[34, 35])
+                  )
+                  (commaToken[]: Comma[35, 36])
+                  (WhiteSpace[36, 37])
+                  (item[]: OrderExpression[37, 38]
+                    (expression: Identifier[37, 38])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[38, 39])
+            )
+          )
+!`
+-----
+SELECT GROUP_CONCAT(a ORDER BY x, y ASC, z DESC)
+-----
+`!
+          (expression: GroupConcatAggregateFunctionCall[7, 48]
+            (functionName: GROUP_CONCAT[7, 19])
+            (arguments: GroupConcatAggregate_Arguments[19, 48]
+              (openParenthesesToken: OpenParentheses[19, 20])
+              (item[]: Identifier[20, 21])
+              (WhiteSpace[21, 22])
+              (orderByClause: OrderByClause[22, 47]
+                (orderToken: ORDER[22, 27])
+                (WhiteSpace[27, 28])
+                (byToken: BY[28, 30])
+                (WhiteSpace[30, 31])
+                (orderExpressionList1: OrderExpressionList1[31, 47]
+                  (item[]: OrderExpression[31, 32]
+                    (expression: Identifier[31, 32])
+                  )
+                  (commaToken[]: Comma[32, 33])
+                  (WhiteSpace[33, 34])
+                  (item[]: OrderExpression[34, 39]
+                    (expression: Identifier[34, 35])
+                    (WhiteSpace[35, 36])
+                    (sortOrder: ASC[36, 39])
+                  )
+                  (commaToken[]: Comma[39, 40])
+                  (WhiteSpace[40, 41])
+                  (item[]: OrderExpression[41, 47]
+                    (expression: Identifier[41, 42])
+                    (WhiteSpace[42, 43])
+                    (sortOrder: DESC[43, 47])
+                  )
+                )
+              )
+              (closeParenthesesToken: CloseParentheses[47, 48])
+            )
+          )
+!`

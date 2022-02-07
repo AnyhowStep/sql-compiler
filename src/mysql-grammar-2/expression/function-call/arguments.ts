@@ -573,3 +573,38 @@ export const CountAggregate_Arguments = inline(choice(
     SyntaxKind.CountAggregate_Arguments_All,
     SyntaxKind.CountAggregate_Arguments_Distinct,
 ));
+
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10142-L10144
+ */
+export const GroupConcatAggregate_Arguments = fieldLengthCheck(
+    "extraItem",
+    0,
+    0,
+    fieldLengthCheck(
+        "item",
+        1,
+        Infinity,
+        parentheses(seq(
+            field("distinctToken", optional(TokenKind.DISTINCT)),
+            list(SyntaxKind.Expression),
+            field("orderByClause", optional(SyntaxKind.OrderByClause)),
+            optional(seq(
+                field("separator", SyntaxKind.GroupConcatAggregate_Separator),
+                repeat(seq(
+                    field("commaToken", itemSeparator),
+                    field("extraItem", SyntaxKind.Expression),
+                )),
+            )),
+        ))
+    )
+);
+
+/**
+ * https://github.com/mysql/mysql-server/blob/5c8c085ba96d30d697d0baa54d67b102c232116b/sql/sql_yacc.yy#L10175
+ */
+export const GroupConcatAggregate_Separator = seq(
+    field("separatorToken", TokenKind.SEPARATOR),
+    field("textString", SyntaxKind.TextString),
+);
